@@ -23,10 +23,10 @@ def generate_meta_json():
     for icon_name in icon_names:
         meta = read_meta_for(icon_name)
         if meta is None:
-            print(f"Missing meta for {icon_name}")
+            print(f"Missing metadata for {icon_name}")
             continue
         fullMeta[icon_name] = meta
-    with open(ROOT_DIR / "meta.json", 'w', encoding='UTF-8') as f:
+    with open(ROOT_DIR / "metadata.json", 'w', encoding='UTF-8') as f:
         json.dump(fullMeta, f, indent=4)
         
 if (__name__ == "__main__"):
