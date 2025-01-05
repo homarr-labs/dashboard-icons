@@ -48,6 +48,8 @@ jobs:
       - name: Extract icon name
         id: extract_icon_name
         run: echo "ICON_NAME=$(python scripts/print_icon_name.py ${{ env.ICON_TYPE }})" >> "$GITHUB_OUTPUT"
+        env:
+          INPUT_ISSUE_FORM: ${{ steps.parse_issue_form.outputs.ISSUE_FORM }}
       - name: Commit changes
         run: |
           git config --global user.email "193821040+dashboard-icons-manager[bot]@users.noreply.github.com"
