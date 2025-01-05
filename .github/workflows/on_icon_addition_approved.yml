@@ -66,4 +66,4 @@ jobs:
           title: "feat(icons): add ${{steps.extract_icon_name.outputs.ICON_NAME}}"
           delete-branch: true
           body: |
-            This PR adds the icon ${{steps.extract_icon_name.outputs.ICON_NAME}} added in #${{github.event.issue.id}} to the project.
+            This PR adds the icon ${{steps.extract_icon_name.outputs.ICON_NAME}} added in #${{github.event.issue.number}} to the project.
