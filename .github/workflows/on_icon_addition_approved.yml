@@ -49,12 +49,12 @@ jobs:
         id: extract_icon_name
         run: echo "ICON_NAME=$(python scripts/print_icon_name.py ${{ env.ICON_TYPE }})" >> "$GITHUB_OUTPUT"
       - name: Commit changes
-        run: \
+        run: |
           git config --global user.email "193821040+dashboard-icons-manager[bot]@users.noreply.github.com"
           git config --global user.name "Dashboard Icons Manager"
           git add .
           git commit -m "feat(icons): add ${{ steps.extract_icon_name.outputs.ICON_NAME }}"
-      
+
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v7
         with:
@@ -65,4 +65,3 @@ jobs:
           delete-branch: true
           body: |
             This PR adds the icon ${{steps.extract_icon_name.outputs.ICON_NAME}} added in #${{github.event.issue.id}} to the project.
-
