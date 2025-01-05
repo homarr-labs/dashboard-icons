@@ -76,7 +76,7 @@ def iconFactory(type: str, issue_form: str):
         return MonochromeIcon(json.loads(issue_form))
     raise ValueError(f"Invalid icon type: '{type}'")
 
-def mapFrom(input: dict, label: str) -> str | None:
+def mapFrom(input: dict, label: str) -> str:
         return input.get(label, None)
 
 def mapFromRequired(input: dict, label: str) -> str:
