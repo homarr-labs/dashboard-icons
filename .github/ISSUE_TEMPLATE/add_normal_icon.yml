@@ -1,0 +1,66 @@
+name: "Add normal icon"
+description: Use this template to add a new icon to the project. Normal icons work for both light and dark themes.
+title: "feat(icons): add [NAME]"
+labels: ["normal-icon"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Hello and thank you for contributing to the project! Please fill out the following information to add a new icon to the project.
+        Once you've submitted the issue, sombody from the team will review it, before adding a label which automatically creates a pull request with the other filetypes.
+        If you submit a PNG icon, please note, that the SVG can not be generated from it.
+  - type: input
+    attributes:
+      label: Icon name
+      description: The name has to be unique and should be kebab-case.
+      placeholder: e.g. "icon-name"
+  - type: textarea
+    attributes:
+      label: Paste icon
+      description: |
+        Please paste the icon here. It will automatically upload it to github.
+  - type: dropdown
+    attributes:
+      label: Icon type
+      options:
+        - SVG
+        - PNG
+  - type: dropdown
+    attributes:
+      label: Categories
+      multiple: true
+      options:
+        - Animal
+        - Cloud
+        - Communication
+        - Design
+        - Development
+        - E-Commerce
+        - Education
+        - File
+        - Finance
+        - Food
+        - Gaming
+        - Hardware
+        - Health
+        - Location
+        - Logistics
+        - Media
+        - Music
+        - Nature
+        - News
+        - Organization
+        - Search
+        - Security
+        - SocialMedia
+        - Streaming
+        - Travel
+        - Video
+  - type: input
+    attributes:
+      label: Aliases
+      description: A comma separated list of aliases
+      placeholder: e.g. "icon-alias, icon-alias-2"
+  - type: textarea
+    attributes:
+      label: Additional information

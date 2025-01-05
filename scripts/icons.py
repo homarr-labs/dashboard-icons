@@ -43,8 +43,8 @@ class NormalIcon(Icon):
 class MonochromeIcon(Icon):
     def __init__(self, input: dict):
         super().__init__(input)
-        self.lightIcon = mapUrlFromMarkdownImage(input, "Paste light icon")
-        self.darkIcon = mapUrlFromMarkdownImage(input, "Paste dark icon")
+        self.lightIcon = mapUrlFromMarkdownImage(input, "Paste light mode icon")
+        self.darkIcon = mapUrlFromMarkdownImage(input, "Paste dark mode icon")
     
     def to_colors(self) -> dict:
         return {
