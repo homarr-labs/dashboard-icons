@@ -30,3 +30,6 @@ Temporary Items
 ### macOS Patch ###
 # iCloud generated files
 *.icloud
+
+# python files
+__pycache__/

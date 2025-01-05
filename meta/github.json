@@ -1,0 +1,16 @@
+{
+  "base": "svg",
+  "aliases": [],
+  "categories": [],
+  "update": {
+    "timestamp": "2022-10-03T09:35:40Z",
+    "author": {
+      "id": 15933,
+      "name": "fabricionaweb"
+    }
+  },
+  "colors": {
+    "dark": "github",
+    "light": "github-light"
+  }
+}

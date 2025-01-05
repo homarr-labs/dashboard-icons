@@ -1,0 +1,16 @@
+{
+  "base": "svg",
+  "aliases": [],
+  "categories": [],
+  "update": {
+    "timestamp": "2024-01-01T11:07:38Z",
+    "author": {
+      "id": 76069640,
+      "name": "Tinyblargon"
+    }
+  },
+  "colors": {
+    "dark": "volumio",
+    "light": "volumio-light"
+  }
+}

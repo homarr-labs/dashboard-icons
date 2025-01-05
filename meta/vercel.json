@@ -1,0 +1,16 @@
+{
+  "base": "svg",
+  "aliases": [],
+  "categories": [],
+  "update": {
+    "timestamp": "2023-04-14T17:37:05Z",
+    "author": {
+      "id": 4167222,
+      "name": "Roundaround"
+    }
+  },
+  "colors": {
+    "dark": "vercel",
+    "light": "vercel-light"
+  }
+}

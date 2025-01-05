@@ -1,0 +1,16 @@
+{
+  "base": "svg",
+  "aliases": [],
+  "categories": [],
+  "update": {
+    "timestamp": "2024-10-13T18:37:13Z",
+    "author": {
+      "id": 858858,
+      "name": "Bubka"
+    }
+  },
+  "colors": {
+    "dark": "2fauth",
+    "light": "2fauth-light"
+  }
+}

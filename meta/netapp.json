@@ -1,0 +1,16 @@
+{
+  "base": "svg",
+  "aliases": [],
+  "categories": [],
+  "update": {
+    "timestamp": "2024-10-13T18:39:11Z",
+    "author": {
+      "id": 182035,
+      "name": "ybizeul"
+    }
+  },
+  "colors": {
+    "dark": "netapp",
+    "light": "netapp-light"
+  }
+}

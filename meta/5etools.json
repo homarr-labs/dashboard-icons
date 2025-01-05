@@ -1,0 +1,16 @@
+{
+  "base": "svg",
+  "aliases": [],
+  "categories": [],
+  "update": {
+    "timestamp": "2024-10-20T18:46:29Z",
+    "author": {
+      "id": 71191962,
+      "name": "walkxcode"
+    }
+  },
+  "colors": {
+    "dark": "5etools-dark",
+    "light": "5etools"
+  }
+}

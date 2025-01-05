@@ -1,0 +1,67 @@
+name: "[Icon] Icon addition approved"
+on:
+  issues:
+    types: [labeled]
+
+jobs:
+  add-icon:
+    runs-on: ubuntu-latest
+    # This condition ensures the job only runs when the 'approved' label is added and the issue title starts with 'feat(icons): add '
+    if: |
+      contains(github.event.issue.labels.*.name, 'approved') && 
+      startsWith(github.event.issue.title, 'feat(icons): add ')
+    env:
+      ICON_TYPE: ${{ contains(github.event.issue.labels.*.name, 'normal-icon') && 'normal' || 'monochrome' }}
+    steps:
+      #- name: Obtain token
+      #  id: obtainToken
+      #  uses: tibdex/github-app-token@v2
+      #  with:
+      #    private_key: $ {{ secrets.DASHBOARD_ICONS_MANAGER_APP_PRIVATE_KEY }}
+      #    app_id: $ {{ vars.DASHBOARD_ICONS_MANAGER_APP_ID }}
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      #  env:
+      #    GITHUB_TOKEN: $ {{ steps.obtainToken.outputs.token }}
+      - name: Set Up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.9"
+      - name: Install Dependencies
+        run: |
+          pip install cairosvg pillow requests
+      - name: Parse issue form
+        id: parse_issue_form
+        run: echo "ISSUE_FORM=$(python scripts/parse_issue_form.py)" >> "$GITHUB_OUTPUT"
+        env:
+          INPUT_ISSUE_BODY: ${{ github.event.issue.body }}
+      - name: Create metadata file
+        run: python scripts/create_metadata_file.py ${{ env.ICON_TYPE }}
+        env:
+          INPUT_ISSUE_FORM: ${{ steps.parse_issue_form.outputs.ISSUE_FORM }}
+          INPUT_ISSUE_AUTHOR_ID: ${{ github.event.issue.user.id }}
+          INPUT_ISSUE_AUTHOR_LOGIN: ${{ github.event.issue.user.login }}
+      - name: Generate icons
+        run: python scripts/generate_icons.py ${{ env.ICON_TYPE }}
+        env:
+          INPUT_ISSUE_FORM: ${{ steps.parse_issue_form.outputs.ISSUE_FORM }}
+      - name: Extract icon name
+        id: extract_icon_name
+        run: echo "ICON_NAME=$(python scripts/print_icon_name.py ${{ env.ICON_TYPE }})" >> "$GITHUB_OUTPUT"
+      - name: Commit changes
+        run: |
+          git config --global user.email "193821040+dashboard-icons-manager[bot]@users.noreply.github.com"
+          git config --global user.name "Dashboard Icons Manager"
+          git add .
+          git commit -m "feat(icons): add ${{ steps.extract_icon_name.outputs.ICON_NAME }}"
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v7
+        with:
+          token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          branch: icons/add-${{steps.extract_icon_name.outputs.ICON_NAME}}
+          base: main
+          title: "feat(icons): add ${{steps.extract_icon_name.outputs.ICON_NAME}}"
+          delete-branch: true
+          body: |
+            This PR adds the icon ${{steps.extract_icon_name.outputs.ICON_NAME}} added in #${{github.event.issue.id}} to the project.

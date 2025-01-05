@@ -1,0 +1,16 @@
+{
+  "base": "svg",
+  "aliases": [],
+  "categories": [],
+  "update": {
+    "timestamp": "2023-05-20T19:04:00Z",
+    "author": {
+      "id": 2432100,
+      "name": "lyneld"
+    }
+  },
+  "colors": {
+    "dark": "twingate",
+    "light": "twingate-light"
+  }
+}
