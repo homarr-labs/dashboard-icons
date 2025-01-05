@@ -38,7 +38,7 @@ def convert_svg_to_png(svg_path: Path) -> bytes:
 def save_image_as_webp(image_path: Path, webp_path: Path):
     """Convert an image (PNG or other) to WEBP."""
     try:
-        image = Image.open(image_path).convert("RGBA").tobytes("WEBP")
+        image = Image.open(image_path).convert("RGBA")
         image.save(webp_path, format='WEBP')
 
     except Exception as e:
