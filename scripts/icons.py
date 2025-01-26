@@ -89,10 +89,17 @@ class MonochromeIcon(Icon):
         self.darkIcon = darkIcon
     
     def to_colors(self) -> dict:
-        return {
-            "light": f"{self.name}",
-            "dark": f"{self.name}-dark"
-        }
+        try:
+            metadata = load_metadata(self.name)
+            return {
+                "light": f"{metadata['colors']['light']}",
+                "dark": f"{metadata['colors']['dark']}"
+            }
+        except:
+            return {
+                "light": f"{self.name}",
+                "dark": f"{self.name}-dark"
+            }
 
     def to_metadata(self, author: dict) -> dict:
         metadata = super().to_metadata(author)
