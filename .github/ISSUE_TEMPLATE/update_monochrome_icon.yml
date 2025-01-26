@@ -1,6 +1,6 @@
-name: "Add light & dark icon"
-description: Use this template to add a new icon to the project. Monochrome icons need both light and dark versions.
-title: "feat(icons): add [NAME]"
+name: "Update light & dark icon"
+description: Use this template to update an existing icon. Monochrome icons need both light and dark versions.
+title: "feat(icons): update [NAME]"
 labels: ["monochrome-icon"]
 body:
   - type: markdown
