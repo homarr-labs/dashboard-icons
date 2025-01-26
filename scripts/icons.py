@@ -2,6 +2,9 @@ import re
 from common import convert_to_kebab_case
 from datetime import datetime
 import json
+from enum import Enum
+
+from scripts.metadata import load_metadata
 
 class IconConvertion:
     def __init__(self, name: str, source: str):
@@ -9,11 +12,11 @@ class IconConvertion:
         self.source = source
 
 class Icon:
-    def __init__(self, input: dict):
-        self.name = convert_to_kebab_case(mapFromRequired(input, "Icon name"))
-        self.type = mapFileTypeFrom(input, "Icon type")
-        self.categories = mapListFrom(input, "Categories")
-        self.aliases = mapListFrom(input, "Aliases")
+    def __init__(self, name: str, type: str, categories: list, aliases: list):
+        self.name = name
+        self.type = type
+        self.categories = categories
+        self.aliases = aliases
 
     def to_metadata(self, author: dict) -> dict:
         return {
@@ -31,24 +34,63 @@ class Icon:
     
 
 class NormalIcon(Icon):
-    def __init__(self, input: dict):
-        super().__init__(input)
-        self.icon = mapUrlFromMarkdownImage(input, "Paste icon")
+    def __init__(self, icon: str, name: str, type: str, categories: list, aliases: list):
+        super().__init__(name, type, categories, aliases)
+        self.icon = icon
 
     def convertions(self) -> list[IconConvertion]:
         return [
             IconConvertion(self.name, self.icon)
         ]
+    
+    def from_addition_issue_form(input: dict):
+        return NormalIcon(
+            mapUrlFromMarkdownImage(input, "Paste icon"),
+            convert_to_kebab_case(mapFromRequired(input, "Icon name")),
+            mapFileTypeFrom(input, "Icon type"),
+            mapListFrom(input, "Categories"),
+            mapListFrom(input, "Aliases")
+        )
+    
+    def from_update_issue_form(input: dict):
+        try:
+            name = convert_to_kebab_case(mapFromRequired(input, "Icon name"))
+            metadata = load_metadata(name)
+
+            
+            return NormalIcon(
+                mapUrlFromMarkdownImage(input, "Paste icon"),
+                mapFromRequired(input, "Icon name"),
+                mapFileTypeFrom(input, "Icon type"),
+                metadata["categories"],
+                metadata["aliases"]
+            )
+        except Exception as exeption:
+            raise ValueError(f"Icon '{name}' does not exist", exeption)
+        
+    def from_metadata_update_issue_form(input: dict):
+        name = convert_to_kebab_case(mapFromRequired(input, "Icon name"))
+        metadata = load_metadata(name)
+        
+        return NormalIcon(
+            None,
+            name,
+            metadata["base"],
+            mapListFrom(input, "Categories"),
+            mapListFrom(input, "Aliases")
+        )
+
+    
 
 class MonochromeIcon(Icon):
-    def __init__(self, input: dict):
-        super().__init__(input)
-        self.lightIcon = mapUrlFromMarkdownImage(input, "Paste light mode icon")
-        self.darkIcon = mapUrlFromMarkdownImage(input, "Paste dark mode icon")
+    def __init__(self, lightIcon: str, darkIcon: str, name: str, type: str, categories: list, aliases: list):
+        super().__init__(name, type, categories, aliases)
+        self.lightIcon = lightIcon
+        self.darkIcon = darkIcon
     
     def to_colors(self) -> dict:
         return {
-            "light": self.name,
+            "light": f"{self.name}",
             "dark": f"{self.name}-dark"
         }
 
@@ -63,17 +105,84 @@ class MonochromeIcon(Icon):
             IconConvertion(colorNames["light"], self.lightIcon),
             IconConvertion(colorNames["dark"], self.darkIcon),
         ]
+    
+    def from_addition_issue_form(input: dict):
+        return MonochromeIcon(
+            mapUrlFromMarkdownImage(input, "Paste light mode icon"),
+            mapUrlFromMarkdownImage(input, "Paste dark mode icon"),
+            convert_to_kebab_case(mapFromRequired(input, "Icon name")),
+            mapFileTypeFrom(input, "Icon type"),
+            mapListFrom(input, "Categories"),
+            mapListFrom(input, "Aliases")
+        )
+    
+    def from_update_issue_form(input: dict):
+        try:
+            name = convert_to_kebab_case(mapFromRequired(input, "Icon name"))
+            metadata = load_metadata(name)
+            
+            return MonochromeIcon(
+                mapUrlFromMarkdownImage(input, "Paste light mode icon"),
+                mapUrlFromMarkdownImage(input, "Paste dark mode icon"),
+                mapFromRequired(input, "Icon name"),
+                mapFileTypeFrom(input, "Icon type"),
+                metadata["categories"],
+                metadata["aliases"]
+            )
+        except Exception as exeption:
+            raise ValueError(f"Icon '{name}' does not exist", exeption)
+        
+    def from_metadata_update_issue_form(input: dict):
+        name = convert_to_kebab_case(mapFromRequired(input, "Icon name"))
+        metadata = load_metadata(name)
+        
+        return MonochromeIcon(
+            None,
+            None,
+            name,
+            metadata["base"],
+            mapListFrom(input, "Categories"),
+            mapListFrom(input, "Aliases")
+        )
 
 def checkType(type: str):
     if type not in ["normal", "monochrome"]:
         raise ValueError(f"Invalid icon type: '{type}'")
     return type
 
-def iconFactory(type: str, issue_form: str):
+def checkAction(action: str):
+    if action == "addition":
+        return IssueFormType.ADDITION
+    elif action == "update":
+        return IssueFormType.UPDATE
+    elif action == "metadata_update":
+        return IssueFormType.METADATA_UPDATE
+    raise ValueError(f"Invalid action: '{action}'")
+
+class IssueFormType(Enum):
+    ADDITION = "addition"
+    UPDATE = "update"
+    METADATA_UPDATE = "metadata_update"
+
+def iconFactory(type: str, issue_form: str, issue_form_type: IssueFormType):
     if type == "normal":
-        return NormalIcon(json.loads(issue_form))
+        if (issue_form_type == IssueFormType.ADDITION):
+            return NormalIcon.from_addition_issue_form(json.loads(issue_form))
+        elif (issue_form_type == IssueFormType.UPDATE):
+            return NormalIcon.from_update_issue_form(json.loads(issue_form))
+        elif (issue_form_type == IssueFormType.METADATA_UPDATE):
+            return NormalIcon.from_metadata_update_issue_form(json.loads(issue_form))
+        else:
+            raise ValueError(f"Invalid issue form type: '{issue_form_type}'")
     elif type == "monochrome":
-        return MonochromeIcon(json.loads(issue_form))
+        if (issue_form_type == IssueFormType.ADDITION):
+            return MonochromeIcon.from_addition_issue_form(json.loads(issue_form))
+        elif (issue_form_type == IssueFormType.UPDATE):
+            return MonochromeIcon.from_update_issue_form(json.loads(issue_form))
+        elif (issue_form_type == IssueFormType.METADATA_UPDATE):
+            return MonochromeIcon.from_metadata_update_issue_form(json.loads(issue_form))
+        else:
+            raise ValueError(f"Invalid issue form type: '{issue_form_type}'")
     raise ValueError(f"Invalid icon type: '{type}'")
 
 def mapFrom(input: dict, label: str) -> str:

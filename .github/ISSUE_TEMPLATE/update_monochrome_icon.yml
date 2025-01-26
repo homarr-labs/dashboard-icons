@@ -1,0 +1,33 @@
+name: "Add light & dark icon"
+description: Use this template to add a new icon to the project. Monochrome icons need both light and dark versions.
+title: "feat(icons): add [NAME]"
+labels: ["monochrome-icon"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Hello and thank you for contributing to the project! Please fill out the following informations to update an existing icon in the project.
+  - type: input
+    attributes:
+      label: Icon name
+      description: The name has to be unique and should be kebab-case.
+      placeholder: e.g. "icon-name"
+  - type: textarea
+    attributes:
+      label: Paste light mode icon
+      description: |
+        Please paste the icon here. It will automatically upload it to github. This icon should be visible on a light background.
+  - type: textarea
+    attributes:
+      label: Paste dark mode icon
+      description: |
+        Please paste the icon here. It will automatically upload it to github. This icon should be visible on a dark background.
+  - type: dropdown
+    attributes:
+      label: Icon type
+      options:
+        - SVG
+        - PNG
+  - type: textarea
+    attributes:
+      label: Additional information

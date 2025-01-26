@@ -1,0 +1,28 @@
+name: "Update normal icon"
+description: Use this template to update an existing icon. Normal icons work for both light and dark themes.
+title: "feat(icons): update [NAME]"
+labels: ["normal-icon"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Hello and thank you for contributing to the project! Please fill out the following informations to update an existing icon in the project.
+  - type: input
+    attributes:
+      label: Icon name
+      description: The name has to match the existing icon name.
+      placeholder: e.g. "icon-name"
+  - type: textarea
+    attributes:
+      label: Paste icon
+      description: |
+        Please paste the icon here. It will automatically upload it to github.
+  - type: dropdown
+    attributes:
+      label: Icon type
+      options:
+        - SVG
+        - PNG
+  - type: textarea
+    attributes:
+      label: Additional information

@@ -1,4 +1,4 @@
-from icons import iconFactory, checkType
+from icons import IssueFormType, checkAction, iconFactory, checkType
 import os
 import sys
 from pathlib import Path
@@ -45,8 +45,8 @@ def save_image_as_webp(image_path: Path, webp_path: Path):
         print(f"Failed to convert {image_path} to WEBP: {e}")
         raise e
 
-def main(type: str, issue_form: str):
-    icon = iconFactory(type, issue_form)
+def main(type: str, action: IssueFormType, issue_form: str):
+    icon = iconFactory(type, issue_form, action)
     convertions = icon.convertions()
 
     for convertion in convertions:
@@ -76,7 +76,9 @@ def main(type: str, issue_form: str):
 
 if (__name__ == "__main__"):
     type = checkType(sys.argv[1])
+    action = checkAction(sys.argv[2])
     main(
         type,
+        action,
         os.getenv(ISSUE_FORM_ENV_VAR)
     )

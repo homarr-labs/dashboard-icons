@@ -1,15 +1,15 @@
-name: "[Icon] Icon addition approved"
+name: "[Icon] Icon update approved"
 on:
   issues:
     types: [labeled]
 
 jobs:
-  add-icon:
+  update-icon:
     runs-on: ubuntu-latest
-    # This condition ensures the job only runs when the 'approved' label is added and the issue title starts with 'feat(icons): add '
+    # This condition ensures the job only runs when the 'approved' label is updated and the issue title starts with 'feat(icons): update '
     if: |
       contains(github.event.issue.labels.*.name, 'approved') && 
-      startsWith(github.event.issue.title, 'feat(icons): add ')
+      startsWith(github.event.issue.title, 'feat(icons): update ')
     env:
       ICON_TYPE: ${{ contains(github.event.issue.labels.*.name, 'normal-icon') && 'normal' || 'monochrome' }}
     steps:
@@ -35,19 +35,19 @@ jobs:
         run: echo "ISSUE_FORM=$(python scripts/parse_issue_form.py)" >> "$GITHUB_OUTPUT"
         env:
           INPUT_ISSUE_BODY: ${{ github.event.issue.body }}
-      - name: Create metadata file
-        run: python scripts/generate_metadata_file.py ${{ env.ICON_TYPE }} addition
+      - name: Update metadata file
+        run: python scripts/generate_metadata_file.py ${{ env.ICON_TYPE }} update
         env:
           INPUT_ISSUE_FORM: ${{ steps.parse_issue_form.outputs.ISSUE_FORM }}
           INPUT_ISSUE_AUTHOR_ID: ${{ github.event.issue.user.id }}
           INPUT_ISSUE_AUTHOR_LOGIN: ${{ github.event.issue.user.login }}
       - name: Generate icons
-        run: python scripts/generate_icons.py ${{ env.ICON_TYPE }} addition
+        run: python scripts/generate_icons.py ${{ env.ICON_TYPE }} update
         env:
           INPUT_ISSUE_FORM: ${{ steps.parse_issue_form.outputs.ISSUE_FORM }}
       - name: Extract icon name
         id: extract_icon_name
-        run: echo "ICON_NAME=$(python scripts/print_icon_name.py ${{ env.ICON_TYPE }} addition)" >> "$GITHUB_OUTPUT"
+        run: echo "ICON_NAME=$(python scripts/print_icon_name.py ${{ env.ICON_TYPE }} update)" >> "$GITHUB_OUTPUT"
         env:
           INPUT_ISSUE_FORM: ${{ steps.parse_issue_form.outputs.ISSUE_FORM }}
       - name: Commit changes
@@ -55,15 +55,15 @@ jobs:
           git config --global user.email "193821040+dashboard-icons-manager[bot]@users.noreply.github.com"
           git config --global user.name "Dashboard Icons Manager"
           git add .
-          git commit -m "feat(icons): add ${{ steps.extract_icon_name.outputs.ICON_NAME }}"
+          git commit -m "feat(icons): update ${{ steps.extract_icon_name.outputs.ICON_NAME }}"
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v7
         with:
           token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-          branch: icons/add-${{steps.extract_icon_name.outputs.ICON_NAME}}
+          branch: icons/update-${{steps.extract_icon_name.outputs.ICON_NAME}}
           base: main
-          title: "feat(icons): add ${{steps.extract_icon_name.outputs.ICON_NAME}}"
+          title: "feat(icons): update ${{steps.extract_icon_name.outputs.ICON_NAME}}"
           delete-branch: true
           body: |
-            This PR adds the icon ${{steps.extract_icon_name.outputs.ICON_NAME}} added in #${{github.event.issue.number}} to the project.
+            This PR updates the icon ${{steps.extract_icon_name.outputs.ICON_NAME}} like requested in #${{github.event.issue.number}} to the project.
