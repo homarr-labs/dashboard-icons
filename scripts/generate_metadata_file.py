@@ -4,7 +4,7 @@ import sys
 from icons import IssueFormType, checkAction, iconFactory, checkType
 from pathlib import Path
 
-from scripts.metadata import load_metadata
+from metadata import load_metadata
 
 
 
