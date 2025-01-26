@@ -69,9 +69,8 @@ def main(type: str, action: IssueFormType, issue_form: str):
             print(f"Downloaded PNG: {png_path}")
             
 
-        if not webp_path.exists():
-            save_image_as_webp(png_path, webp_path)
-            print(f"Converted WEBP: {webp_path}")
+        save_image_as_webp(png_path, webp_path)
+        print(f"Converted WEBP: {webp_path}")
 
 
 if (__name__ == "__main__"):

@@ -12,7 +12,7 @@ ISSUE_FORM_ENV_VAR = "INPUT_ISSUE_FORM"
 AUTHOR_ID_ENV_VAR = "INPUT_ISSUE_AUTHOR_ID"
 AUTHOR_LOGIN_ENV_VAR = "INPUT_ISSUE_AUTHOR_LOGIN"
 
-ROOT_DIR = Path(__file__).resolve().parent
+ROOT_DIR = Path(__file__).resolve().parent.parent
 META_DIR = ROOT_DIR / "meta"
 
 # Ensure the output folders exist
