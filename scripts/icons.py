@@ -4,7 +4,7 @@ from datetime import datetime
 import json
 from enum import Enum
 
-from scripts.metadata import load_metadata
+from metadata import load_metadata
 
 class IconConvertion:
     def __init__(self, name: str, source: str):
