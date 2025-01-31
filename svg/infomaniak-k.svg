@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="300px" height="300px" viewBox="0 0 300 300" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>logo-k</title>
+    <g id="logo-k" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="infomaniak-avatar">
+            <rect id="Rectangle" fill="#0098FF" fill-rule="nonzero" x="0" y="0" width="300" height="300" rx="30"></rect>
+            <polygon id="k" fill="#FFFFFF" points="64 250.8 126.4 250.8 126.4 210 149.178194 188.036564 181.6 250.8 250.6 250.8 189.749559 149.181938 247 94.7986784 172 94.7986784 126.4 146.398678 126.4 0 64 0"></polygon>
+        </g>
+    </g>
+</svg>
