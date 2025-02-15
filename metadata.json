@@ -7579,6 +7579,18 @@
             }
         }
     },
+    "donetick": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2025-02-15T18:04:26.452553",
+            "author": {
+                "id": 63781622,
+                "login": "Meierschlumpf"
+            }
+        }
+    },
     "gimp": {
         "base": "svg",
         "aliases": [],
