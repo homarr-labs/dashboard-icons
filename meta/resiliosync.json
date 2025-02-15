@@ -3,14 +3,10 @@
   "aliases": [],
   "categories": [],
   "update": {
-    "timestamp": "2024-10-20T17:24:03Z",
+    "timestamp": "2025-02-15T17:13:37.459709",
     "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+      "id": 63781622,
+      "login": "Meierschlumpf"
     }
-  },
-  "colors": {
-    "dark": "resiliosync",
-    "light": "resiliosync-light"
   }
 }
