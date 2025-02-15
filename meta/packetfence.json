@@ -1,0 +1,16 @@
+{
+  "base": "svg",
+  "aliases": [],
+  "categories": [],
+  "update": {
+    "timestamp": "2025-02-15T17:40:42.756801",
+    "author": {
+      "id": 63781622,
+      "login": "Meierschlumpf"
+    }
+  },
+  "colors": {
+    "light": "packetfence",
+    "dark": "packetfence-dark"
+  }
+}
