@@ -31,5 +31,5 @@ Temporary Items
 # iCloud generated files
 *.icloud
 
-# python files
+# Python
 __pycache__/

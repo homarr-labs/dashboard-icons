@@ -1,0 +1,31 @@
+<svg xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" version="1.1" id="svg22" sodipodi:docname="namecheap-resized.svg" inkscape:version="1.4 (e7c3feb1, 2024-10-09)" viewBox="-0.02 0 84.05 46.59">
+  <sodipodi:namedview id="namedview22" pagecolor="#ffffff" bordercolor="#000000" borderopacity="0.25" inkscape:showpageshadow="2" inkscape:pageopacity="0.0" inkscape:pagecheckerboard="0" inkscape:deskcolor="#d1d1d1" inkscape:zoom="4.0930233" inkscape:cx="128.87784" inkscape:cy="23.332386" inkscape:window-width="2224" inkscape:window-height="1290" inkscape:window-x="554" inkscape:window-y="25" inkscape:window-maximized="0" inkscape:current-layer="svg22"/>
+  <defs id="defs9">
+    <linearGradient id="a" x1="59.990002" y1="44.16" x2="80.010002" y2="1.23" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#d4202c" id="stop1"/>
+      <stop offset="0.1" stop-color="#dc3d29" stop-opacity="0.79" id="stop2"/>
+      <stop offset="0.2" stop-color="#e45926" stop-opacity="0.58" id="stop3"/>
+      <stop offset="0.32" stop-color="#ea7123" stop-opacity="0.4" id="stop4"/>
+      <stop offset="0.43" stop-color="#f08521" stop-opacity="0.25" id="stop5"/>
+      <stop offset="0.55" stop-color="#f4941f" stop-opacity="0.14" id="stop6"/>
+      <stop offset="0.68" stop-color="#f79f1e" stop-opacity="0.06" id="stop7"/>
+      <stop offset="0.82" stop-color="#f8a51d" stop-opacity="0.02" id="stop8"/>
+      <stop offset="1" stop-color="#f9a71d" stop-opacity="0" id="stop9"/>
+    </linearGradient>
+    <linearGradient id="b" x1="1777.48" y1="1048.76" x2="1797.5" y2="1005.83" gradientTransform="rotate(180,901.25,525.945)" xlink:href="#a"/>
+    <linearGradient inkscape:collect="always" xlink:href="#a" id="linearGradient22" gradientUnits="userSpaceOnUse" x1="59.990002" y1="44.16" x2="80.010002" y2="1.23" gradientTransform="translate(-1,-0.71)"/>
+  </defs>
+  <title id="title9">cn-logo</title>
+  <path d="M 76.17,0 A 7.87,7.87 0 0 0 69.29,4.05 L 69.13,4.38 63,16.54 l -7.8,15.37 5.11,10.07 0.28,0.55 A 8,8 0 0 0 64,45.76 8.05,8.05 0 0 0 67.41,42.53 L 67.69,41.98 83,11.77 83.37,11.04 a 7.86,7.86 0 0 0 -7.19,-11 z" fill="#ff5100" id="path9"/>
+  <path d="m 28.85,14.63 -5.1,-10 -0.28,-0.55 a 7.89,7.89 0 0 0 -3.4,-3.22 7.92,7.92 0 0 0 -3.4,3.21 L 16.38,4.63 1.05,34.81 0.68,35.53 a 7.86,7.86 0 0 0 14.06,7 l 0.17,-0.32 6.17,-12.16 7.79,-15.36 z" fill="#ff5100" id="path10"/>
+  <path d="m 76.15,0 a 7.86,7.86 0 0 0 -6.87,4.05 l -0.17,0.33 -6.17,12.16 -7.81,15.37 5.12,10.07 0.28,0.55 a 7.94,7.94 0 0 0 3.41,3.23 7.94,7.94 0 0 0 3.41,-3.23 L 67.64,41.98 83,11.77 83.36,11.04 a 7.86,7.86 0 0 0 -7.19,-11 z" fill="url(#a)" id="path11" style="fill:url(#linearGradient22)"/>
+  <path d="m 7.86,46.58 a 7.86,7.86 0 0 0 6.87,-4 L 14.9,42.25 21.08,30.09 28.88,14.72 23.77,4.6 23.49,4.05 A 8,8 0 0 0 20.07,0.82 8,8 0 0 0 16.66,4.05 L 16.38,4.6 1,34.81 0.63,35.54 a 7.86,7.86 0 0 0 7.19,11 z" fill="url(#b)" id="path12" style="fill:url(#b)"/>
+  <path d="m 28.85,14.63 -5.1,-10 -0.28,-0.55 a 7.94,7.94 0 0 0 -3.41,-3.23 8.31,8.31 0 0 1 1.49,-0.56 8.16,8.16 0 0 1 2,-0.25 h 10.68 a 7.92,7.92 0 0 1 6.86,4 l 0.28,0.55 13.81,27.36 5.09,10 0.28,0.55 A 8,8 0 0 0 64,45.76 8.05,8.05 0 0 1 60.53,46.57 H 49.79 a 7.91,7.91 0 0 1 -6.85,-4 l -0.29,-0.55 z" fill="#ff8c44" id="path13"/>
+  <metadata id="metadata22">
+    <rdf:RDF>
+      <cc:Work rdf:about="">
+        <dc:title>cn-logo</dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+</svg>

@@ -1,1 +1,56 @@
-<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" viewBox="0 0 512 512"><path d="M489.4 226.7 278.6 16c-12.5-12.5-32.8-12.5-45.3 0L22.6 226.7C10.2 239.2 0 263.8 0 281.3v192c0 17.6 14.4 32 32 32h125.9V186.8c0-7.1 5.7-12.8 12.8-12.8h170.7c7.1 0 12.8 5.7 12.8 12.8V238c0 7.1-5.7 12.8-12.8 12.8H234.7v25.6h106.7c7.1 0 12.8 5.7 12.8 12.8v51.2c0 7.1-5.7 12.8-12.8 12.8H234.7v25.6h106.7c7.1 0 12.8 5.7 12.8 12.8v51.2c0 7.1-5.7 12.8-12.8 12.8H221.9c-7.1 0-12.8-5.7-12.8-12.8s5.7-12.8 12.8-12.8h106.7v-25.6H221.9c-7.1 0-12.8-5.7-12.8-12.8v-51.2c0-7.1 5.7-12.8 12.8-12.8h106.7V302H221.9c-7.1 0-12.8-5.7-12.8-12.8V238c0-7.1 5.7-12.8 12.8-12.8h106.7v-25.6H183.5v305.8H480c17.6 0 32-14.4 32-32v-192c0-17.6-10.2-42.3-22.6-54.7" style="fill:#1d2126"/></svg>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="240"
+   height="240"
+   fill="none"
+   viewBox="0 0 240 240"
+   version="1.1"
+   id="svg2"
+   sodipodi:docname="esphome2.svg"
+   inkscape:version="1.3.2 (091e20ef0f, 2023-11-25, custom)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="3.441253"
+     inkscape:cx="60.007212"
+     inkscape:cy="153.43249"
+     inkscape:window-width="2560"
+     inkscape:window-height="1372"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg2" />
+  <path
+     fill="#18bcf2"
+     d="m 320,299 c 0,8.25 -6.75,15 -15,15 H 95 c -8.25,0 -15,-6.75 -15,-15 v -90 c 0,-8.25 4.7812,-19.782 10.6125,-25.613 L 189.387,84.5934 c 5.832,-5.8312 15.376,-5.8312 21.207,0 l 98.793,98.7936 C 315.219,189.218 320,200.75 320,209 Z"
+     id="path1"
+     transform="translate(-80,-74.22)" />
+  <path
+     fill="#f2f4f9"
+     d="m 239.994,158.656 h -80.007 c -3.318,0 -6,2.681 -6,6 V 314 h 12 V 170.656 h 68.007 v 12 h -50.007 c -3.318,0 -6,2.681 -6,6 v 24 c 0,3.319 2.682,6 6,6 h 50.007 v 12 h -50.007 c -3.318,0 -6,2.681 -6,6 v 24 c 0,3.319 2.682,6 6,6 h 50.007 v 12 h -50.007 c -3.318,0 -6,2.681 -6,6 0,3.319 2.682,6 6,6 h 56.007 c 3.318,0 6,-2.681 6,-6 v -24 c 0,-3.319 -2.682,-6 -6,-6 h -50.007 v -12 h 50.007 c 3.318,0 6,-2.681 6,-6 v -24 c 0,-3.319 -2.682,-6 -6,-6 h -50.007 v -12 h 50.007 c 3.318,0 6,-2.681 6,-6 v -24 c 0,-3.319 -2.682,-6 -6,-6 z"
+     id="path2"
+     transform="translate(-80,-74.22)" />
+  <defs
+     id="defs2">
+    <clipPath
+       id="clip0_2_140">
+      <rect
+         width="400"
+         height="400"
+         fill="#ffffff"
+         id="rect2"
+         x="0"
+         y="0" />
+    </clipPath>
+  </defs>
+</svg>

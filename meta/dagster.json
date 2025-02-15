@@ -1,0 +1,16 @@
+{
+  "base": "svg",
+  "aliases": [],
+  "categories": [],
+  "update": {
+    "timestamp": "2025-02-07T08:48:00Z",
+    "author": {
+      "id": 29390136,
+      "name": "josmarcristello"
+    }
+  },
+  "colors": {
+    "dark": "dagster-dark",
+    "light": "dagster-light"
+  }
+}

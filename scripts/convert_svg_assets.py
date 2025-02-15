@@ -20,13 +20,13 @@ failed_files = []
 converted_pngs = 0
 converted_webps = 0
 total_icons = 0
+png_only_icons = []  # List to store PNG-only icons
 
 def file_size_readable(size_bytes):
     """Convert bytes to a human-readable format."""
     for unit in ['B', 'KB', 'MB', 'GB']:
         if size_bytes < 1024:
             return f"{size_bytes:.2f} {unit}"
-            #size_bytes /= 1024
         size_bytes /= 1024
     return f"{size_bytes:.2f} TB"
 
@@ -154,6 +154,9 @@ if __name__ == "__main__":
 
             valid_basenames.add(png_path.stem)
 
+            # Add the PNG-only icon to the list
+            png_only_icons.append(png_path.stem)
+
             # Set path for WEBP
             webp_path = WEBP_DIR / f"{png_path.stem}.webp"
 
@@ -161,7 +164,6 @@ if __name__ == "__main__":
             convert_image_to_webp(png_path, webp_path)
 
     # Clean up unused files in PNG and WEBP directories
-    # Only remove files that don't have corresponding SVG or PNG files
     removed_pngs = clean_up_files(PNG_DIR, valid_basenames.union({p.stem for p in SVG_DIR.glob("*.svg")}))
     removed_webps = clean_up_files(WEBP_DIR, valid_basenames)
 
@@ -177,3 +179,11 @@ if __name__ == "__main__":
         print("\nThe following files failed to convert:")
         for file in failed_files:
             print(file)
+
+    # Output PNG-only icons
+    if png_only_icons:
+        print("\nPNG-only icons (no SVG available):")
+        for icon in png_only_icons:
+            print(f"- {icon}")
+    else:
+        print("\nNo PNG-only icons found.")

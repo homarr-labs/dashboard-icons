@@ -17,8 +17,8 @@ def generate_table_row(icon_name, formats):
 
     # Prepare the links for each format if they exist
     webp_link = f'<a href="https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/webp/{icon_name}.webp">WebP</a>' if formats['webp'] else 'WebP'
-    png_link = f'<a href="https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/webp/{icon_name}.png">PNG</a>' if formats['png'] else 'PNG'
-    svg_link = f'<a href="https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/webp/{icon_name}.svg">SVG</a>' if formats['svg'] else 'SVG'
+    png_link = f'<a href="https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/{icon_name}.png">PNG</a>' if formats['png'] else 'PNG'
+    svg_link = f'<a href="https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/{icon_name}.svg">SVG</a>' if formats['svg'] else 'SVG'
 
     # Combine checkmarks and links (or just name if not available)
     webp_info = f'{webp_check} {webp_link}' if formats['webp'] else f'{webp_check} {webp_link}'

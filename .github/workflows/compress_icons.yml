@@ -28,10 +28,10 @@ jobs:
           echo "Compressing PNGs..."
           find png/ -iname "*.png" -print0 | xargs -0 -P 4 -I{} zopflipng -y {} {}
 
-      - name: Compress SVG Files
-        run: |
-          echo "Compressing SVGs..."
-          svgo -f svg/
+      #- name: Compress SVG Files
+      #  run: |
+      #    echo "Compressing SVGs..."
+      #    svgo -f svg/
 
       - name: Compress WEBP Files
         run: |
