@@ -62,6 +62,32 @@ Thank you for your interest in contributing to the icon repository! To ensure sm
 
 ## Contribution Process
 
+### Adding an icon
+
+To add an icon to the repository, follow these steps:
+
+1. **Create issue**: Create an issue from one of the add [templates](https://github.com/homarr-labs/dashboard-icons/issues/new/choose):
+   - **Light & dark icon**: Use this template to request a new icon with both light and dark versions.
+   - **Normal icon**: Use this template to request a new icon with a single version.
+2. **Fill out the template**: Provide the requested information in the template. You can upload the icons directly to the issue.
+3. **Wait for approval**: Wait for the issue to be approved by a maintainer. If any changes are needed, they will be requested in the issue.
+4. **Maintainer approves & merges**: Once the issue is approved, a pull request with all the necessary changes will be created and merged by a maintainer.
+
+### Updating an icon
+
+To update an icon in the repository, follow these steps:
+
+1. **Create issue**: Create an issue from the update [template](https://github.com/homarr-labs/dashboard-icons/issues/new/choose).
+   - **Light & dark icon**: Use this template to request a new icon with both light and dark versions.
+   - **Normal icon**: Use this template to request a new icon with a single version.
+2. **Fill out the template**: Provide the requested information in the template. You can upload the icons directly to the issue.
+3. **Wait for approval**: Wait for the issue to be approved by a maintainer. If any changes are needed, they will be requested in the issue.
+4. **Maintainer approves & merges**: Once the issue is approved, a pull request with all the necessary changes will be created and merged by a maintainer.
+
+### Change metadata / any other change
+
+To change the metadata of an existing icon or any other change, follow these steps:
+
 1. **Fork the Repository**: Create a fork of this repository on your GitHub account.
 2. **Clone the Repository**: Clone your forked repository to your local machine.
 3. **Add Your Icons**: Place your SVG icon(s) into the appropriate directory, following the specifications above.
