@@ -4119,6 +4119,18 @@
             }
         }
     },
+    "cobalt": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2025-02-15T18:08:52.221842",
+            "author": {
+                "id": 63781622,
+                "login": "Meierschlumpf"
+            }
+        }
+    },
     "part-db": {
         "base": "svg",
         "aliases": [],
