@@ -1,12 +1,12 @@
 {
-  "base": "png",
+  "base": "svg",
   "aliases": [],
   "categories": [],
   "update": {
-    "timestamp": "2022-09-18T14:13:48Z",
+    "timestamp": "2025-02-15T15:56:20.935726",
     "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+      "id": 63781622,
+      "login": "Meierschlumpf"
     }
   }
 }
