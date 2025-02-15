@@ -64,3 +64,5 @@ body:
   - type: textarea
     attributes:
       label: Additional information
+      description: |
+        Add additional informations like a link to the application.

@@ -31,3 +31,5 @@ body:
   - type: textarea
     attributes:
       label: Additional information
+      description: |
+        Add additional informations like, the reason for the update, or what has been changed.
