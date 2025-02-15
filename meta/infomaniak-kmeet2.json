@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "Infomaniak-kmeet-dark",
-    "light": "Infomaniak-kmeet-light"
+    "dark": "infomaniak-kmeet-dark",
+    "light": "infomaniak-kmeet-light"
   }
 }
