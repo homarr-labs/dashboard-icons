@@ -13,16 +13,16 @@ jobs:
     env:
       ICON_TYPE: ${{ contains(github.event.issue.labels.*.name, 'normal-icon') && 'normal' || 'monochrome' }}
     steps:
-      #- name: Obtain token
-      #  id: obtainToken
-      #  uses: tibdex/github-app-token@v2
-      #  with:
-      #    private_key: $ {{ secrets.DASHBOARD_ICONS_MANAGER_APP_PRIVATE_KEY }}
-      #    app_id: $ {{ vars.DASHBOARD_ICONS_MANAGER_APP_ID }}
+      - name: Obtain token
+        id: obtainToken
+        uses: tibdex/github-app-token@v2
+        with:
+          private_key: ${{ secrets.DASHBOARD_ICONS_MANAGER_APP_PRIVATE_KEY }}
+          app_id: ${{ vars.DASHBOARD_ICONS_MANAGER_APP_ID }}
       - name: Checkout repository
         uses: actions/checkout@v4
-      #  env:
-      #    GITHUB_TOKEN: $ {{ steps.obtainToken.outputs.token }}
+        env:
+          GITHUB_TOKEN: ${{ steps.obtainToken.outputs.token }}
       - name: Set Up Python
         uses: actions/setup-python@v4
         with:
@@ -60,7 +60,7 @@ jobs:
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v7
         with:
-          token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          token: ${{ steps.obtainToken.outputs.token }}
           branch: icons/add-${{steps.extract_icon_name.outputs.ICON_NAME}}
           base: main
           title: "feat(icons): add ${{steps.extract_icon_name.outputs.ICON_NAME}}"
