@@ -7911,6 +7911,18 @@
             }
         }
     },
+    "dia": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2025-02-15T17:33:37.178531",
+            "author": {
+                "id": 63781622,
+                "login": "Meierschlumpf"
+            }
+        }
+    },
     "ntop": {
         "base": "png",
         "aliases": [],
