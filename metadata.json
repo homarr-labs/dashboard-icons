@@ -16431,6 +16431,22 @@
             }
         }
     },
+    "packetfence-full": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2025-02-15T17:44:04.170433",
+            "author": {
+                "id": 63781622,
+                "login": "Meierschlumpf"
+            }
+        },
+        "colors": {
+            "light": "packetfence-full",
+            "dark": "packetfence-full-dark"
+        }
+    },
     "airsonic": {
         "base": "svg",
         "aliases": [],
