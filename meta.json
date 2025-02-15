@@ -3035,6 +3035,22 @@
             }
         }
     },
+    "dagster": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2025-02-07T08:48:00Z",
+            "author": {
+                "id": 29390136,
+                "name": "josmarcristello"
+            }
+        },
+        "colors": {
+            "dark": "dagster-dark",
+            "light": "dagster-light"
+        }
+    },
     "dalibo": {
         "base": "svg",
         "aliases": [],
@@ -7159,6 +7175,66 @@
             }
         }
     },
+    "infomaniak-k": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2025-02-07T08:47:33Z",
+            "author": {
+                "id": 129796456,
+                "name": "beppeilgommista"
+            }
+        }
+    },
+    "infomaniak-kdrive": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2025-02-07T08:47:33Z",
+            "author": {
+                "id": 129796456,
+                "name": "beppeilgommista"
+            }
+        },
+        "colors": {
+            "dark": "infomaniak-kdrive-dark",
+            "light": "infomaniak-kdrive-light"
+        }
+    },
+    "Infomaniak-kmeet": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2025-02-07T08:47:33Z",
+            "author": {
+                "id": 129796456,
+                "name": "beppeilgommista"
+            }
+        },
+        "colors": {
+            "dark": "Infomaniak-kmeet-dark",
+            "light": "Infomaniak-kmeet-light"
+        }
+    },
+    "infomaniak-swisstransfer": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2025-02-07T08:47:33Z",
+            "author": {
+                "id": 129796456,
+                "name": "beppeilgommista"
+            }
+        },
+        "colors": {
+            "dark": "infomaniak-swisstransfer-dark",
+            "light": "infomaniak-swisstransfer-light"
+        }
+    },
     "inoreader": {
         "base": "svg",
         "aliases": [],
@@ -9927,6 +10003,18 @@
             }
         }
     },
+    "namecheap": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2025-02-08T12:04:03Z",
+            "author": {
+                "id": 105029,
+                "name": "sunpech"
+            }
+        }
+    },
     "nasa": {
         "base": "svg",
         "aliases": [],
@@ -11879,6 +11967,38 @@
             }
         }
     },
+    "perplexity-book": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2025-02-07T08:49:00Z",
+            "author": {
+                "id": 120187197,
+                "name": "janmile"
+            }
+        },
+        "colors": {
+            "dark": "perplexity-book-dark",
+            "light": "perplexity-book-light"
+        }
+    },
+    "perplexity": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2025-02-07T08:49:00Z",
+            "author": {
+                "id": 120187197,
+                "name": "janmile"
+            }
+        },
+        "colors": {
+            "dark": "perplexity-dark",
+            "light": "perplexity-light"
+        }
+    },
     "pfsense": {
         "base": "svg",
         "aliases": [],
@@ -13592,10 +13712,10 @@
         "aliases": [],
         "categories": [],
         "update": {
-            "timestamp": "2023-04-25T12:56:16Z",
+            "timestamp": "2025-02-07T08:48:16Z",
             "author": {
-                "id": 71191962,
-                "name": "walkxcode"
+                "id": 34356590,
+                "name": "zurdi15"
             }
         }
     },
