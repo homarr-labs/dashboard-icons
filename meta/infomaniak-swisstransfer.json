@@ -1,0 +1,16 @@
+{
+  "base": "svg",
+  "aliases": [],
+  "categories": [],
+  "update": {
+    "timestamp": "2025-02-07T08:47:33Z",
+    "author": {
+      "id": 129796456,
+      "name": "beppeilgommista"
+    }
+  },
+  "colors": {
+    "dark": "infomaniak-swisstransfer-dark",
+    "light": "infomaniak-swisstransfer-light"
+  }
+}
