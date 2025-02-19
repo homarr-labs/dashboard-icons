@@ -20083,6 +20083,20 @@
             }
         }
     },
+    "deepseek": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "Development"
+        ],
+        "update": {
+            "timestamp": "2025-02-19T19:09:36.077662",
+            "author": {
+                "id": 24987877,
+                "login": "thelooter"
+            }
+        }
+    },
     "recalbox": {
         "base": "svg",
         "aliases": [],
