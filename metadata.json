@@ -12479,6 +12479,24 @@
             "light": "zipline-light"
         }
     },
+    "binner": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "Logistics"
+        ],
+        "update": {
+            "timestamp": "2025-02-20T20:15:26.048635",
+            "author": {
+                "id": 52473614,
+                "login": "eaglesemanation"
+            }
+        },
+        "colors": {
+            "light": "binner",
+            "dark": "binner-dark"
+        }
+    },
     "librespeed": {
         "base": "svg",
         "aliases": [],
