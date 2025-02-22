@@ -20833,6 +20833,20 @@
             }
         }
     },
+    "upvote-rss": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "News"
+        ],
+        "update": {
+            "timestamp": "2025-02-22T22:29:19.459565",
+            "author": {
+                "id": 1363911,
+                "login": "ruudschouten"
+            }
+        }
+    },
     "beaver-habit-tracker": {
         "base": "svg",
         "aliases": [],
