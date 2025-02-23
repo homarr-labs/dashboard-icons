@@ -4640,17 +4640,19 @@
     "scrutiny": {
         "base": "svg",
         "aliases": [],
-        "categories": [],
+        "categories": [
+            "Hardware"
+        ],
         "update": {
-            "timestamp": "2024-10-20T17:24:03Z",
+            "timestamp": "2025-02-23T11:54:15.607665",
             "author": {
-                "id": 71191962,
-                "name": "walkxcode"
+                "id": 20797438,
+                "login": "Benny-Git"
             }
         },
         "colors": {
-            "dark": "scrutiny",
-            "light": "scrutiny-light"
+            "light": "scrutiny-light",
+            "dark": "scrutiny"
         }
     },
     "mikrotik": {
