@@ -1,0 +1,16 @@
+{
+  "base": "svg",
+  "aliases": [],
+  "categories": [
+    "Cloud",
+    "Hardware",
+    "Development"
+  ],
+  "update": {
+    "timestamp": "2025-02-27T21:03:19.030832",
+    "author": {
+      "id": 42997116,
+      "login": "mcsrobert"
+    }
+  }
+}
