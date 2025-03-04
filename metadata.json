@@ -17785,6 +17785,18 @@
             }
         }
     },
+    "cessna": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2025-03-04T20:45:49.888512",
+            "author": {
+                "id": 3800285,
+                "login": "14traits"
+            }
+        }
+    },
     "google-earth": {
         "base": "svg",
         "aliases": [],
