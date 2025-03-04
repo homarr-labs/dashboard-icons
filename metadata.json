@@ -2585,6 +2585,24 @@
             }
         }
     },
+    "foreflight": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "Travel"
+        ],
+        "update": {
+            "timestamp": "2025-03-04T20:53:34.252777",
+            "author": {
+                "id": 3800285,
+                "login": "14traits"
+            }
+        },
+        "colors": {
+            "light": "foreflight",
+            "dark": "foreflight-dark"
+        }
+    },
     "seelf": {
         "base": "svg",
         "aliases": [],
