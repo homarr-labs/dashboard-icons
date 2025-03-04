@@ -15995,6 +15995,18 @@
             }
         }
     },
+    "Manyfold": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2025-03-04T18:33:45.490529",
+            "author": {
+                "id": 59868436,
+                "login": "101br03k"
+            }
+        }
+    },
     "strapi": {
         "base": "svg",
         "aliases": [],
