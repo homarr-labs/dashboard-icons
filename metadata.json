@@ -3715,6 +3715,20 @@
             }
         }
     },
+    "oauth2-proxy": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "Security"
+        ],
+        "update": {
+            "timestamp": "2025-03-17T15:39:00.007266",
+            "author": {
+                "id": 5345489,
+                "login": "savely-krasovsky"
+            }
+        }
+    },
     "unifi": {
         "base": "svg",
         "aliases": [],
