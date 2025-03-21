@@ -4573,6 +4573,27 @@
             }
         }
     },
+    "cobalt": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "SocialMedia",
+            "File",
+            "Cloud",
+            "Video"
+        ],
+        "update": {
+            "timestamp": "2025-03-21T20:19:04.169259",
+            "author": {
+                "id": 32749673,
+                "login": "ben-pearce"
+            }
+        },
+        "colors": {
+            "light": "cobalt",
+            "dark": "cobalt-dark"
+        }
+    },
     "honda-jet": {
         "base": "svg",
         "aliases": [],
