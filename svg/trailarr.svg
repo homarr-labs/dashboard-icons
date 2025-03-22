@@ -1,0 +1,25 @@
+<svg width="512" height="512" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 512 512">
+  <!-- First Row -->
+  <path d="M0 90 H60 A15 15 0 0 1 90 90 H180 L105 16 H40 A40 40 0 0 0 0 56 Z" fill="#d9e7ec" />
+  <path d="M60 90 A15 15 0 0 1 90 90 Z" fill="#005fe4" />
+  <path d="M180 90 H300 L225 16 H105 Z" fill="#005fe4" />
+  <path d="M300 90 H420 L345 16 H225 Z" fill="#d9e7ec" />
+  <path d="M420 90 H512 V56 A40 40 0 0 0 472 16 H345 Z" fill="#005fe4" />
+
+  <!-- Second Row -->
+  <path d="M0 90 H60 A15 15 0 0 0 90 90 H180 L105 166 H0 Z" fill="#b6c4cf" />
+  <path d="M60 90 A15 15 0 0 0 90 90 Z" fill="#0040a0" />
+  <path d="M180 90 H300 L225 166 H105 Z" fill="#0040a0" />
+  <path d="M300 90 H420 L345 166 H225 Z" fill="#b6c4cf" />
+  <path d="M420 90 H512 V166 H345 Z" fill="#0040a0" />
+
+  <!-- Bottom Row -->
+  <path d="M0 166 H256 V496 H40 A40 40 0 0 1 0 456 Z" fill="#ff631a" />
+  <path d="M512 166 H256 V496 H472 A40 40 0 0 0 512 456 Z" fill="#f03800" />
+
+  <!-- Center Rectangle -->
+  <path d="M256 256 H100 A15 15 0 0 0 100 286 H150 V346 H100 A15 15 0 0 0 100 376 H256 V346 H180
+     V286 H256 V256 Z" fill="#005fe4" />
+  <path d="M256 256 H412 A15 15 0 0 1 412 286 H366 V346 H412 A15 15 0 0 1 412 376 H256 V346 H332
+     V286 H256 V256 Z" fill="#0040a0" />
+</svg>

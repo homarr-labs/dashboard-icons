@@ -15432,6 +15432,18 @@
             }
         }
     },
+    "trailarr": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2025-03-22T08:21:22.725136",
+            "author": {
+                "id": 644810,
+                "login": "guido1981"
+            }
+        }
+    },
     "tasmocompiler": {
         "base": "svg",
         "aliases": [],
