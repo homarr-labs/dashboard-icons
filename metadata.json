@@ -19963,15 +19963,19 @@
         }
     },
     "falcon-player": {
-        "base": "png",
+        "base": "svg",
         "aliases": [],
         "categories": [],
         "update": {
-            "timestamp": "2025-01-07T17:54:03Z",
+            "timestamp": "2025-03-22T08:17:29.635510",
             "author": {
-                "id": 71191962,
-                "name": "walkxcode"
+                "id": 3451990,
+                "login": "joero4"
             }
+        },
+        "colors": {
+            "light": "falcon-player",
+            "dark": "falcon-player-dark"
         }
     },
     "synology-drive": {
