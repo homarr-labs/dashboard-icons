@@ -4465,6 +4465,18 @@
             }
         }
     },
+    "xiaomi-global": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2025-03-24T19:31:15.329045",
+            "author": {
+                "id": 48109134,
+                "login": "jdcool00"
+            }
+        }
+    },
     "homarr": {
         "base": "svg",
         "aliases": [],
