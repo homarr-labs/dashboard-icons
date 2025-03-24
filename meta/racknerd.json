@@ -1,0 +1,20 @@
+{
+  "base": "png",
+  "aliases": [
+    "rack-nerd"
+  ],
+  "categories": [
+    "Cloud"
+  ],
+  "update": {
+    "timestamp": "2025-03-24T20:14:56.142597",
+    "author": {
+      "id": 340023,
+      "login": "axilleas"
+    }
+  },
+  "colors": {
+    "light": "racknerd",
+    "dark": "racknerd-dark"
+  }
+}
