@@ -20240,6 +20240,20 @@
             }
         }
     },
+    "trmnl": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "Hardware"
+        ],
+        "update": {
+            "timestamp": "2025-03-24T19:23:09.037589",
+            "author": {
+                "id": 48109134,
+                "login": "jdcool00"
+            }
+        }
+    },
     "tvheadend": {
         "base": "svg",
         "aliases": [],
