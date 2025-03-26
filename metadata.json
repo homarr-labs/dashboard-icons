@@ -5918,6 +5918,20 @@
             }
         }
     },
+    "scrcpy": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "Development"
+        ],
+        "update": {
+            "timestamp": "2025-03-26T21:09:30.463729",
+            "author": {
+                "id": 48109134,
+                "login": "jdcool00"
+            }
+        }
+    },
     "hugging-face": {
         "base": "svg",
         "aliases": [],
