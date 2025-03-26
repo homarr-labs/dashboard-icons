@@ -1757,6 +1757,24 @@
             }
         }
     },
+    "prime-video-alt": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "Streaming"
+        ],
+        "update": {
+            "timestamp": "2025-03-26T21:06:09.823741",
+            "author": {
+                "id": 48109134,
+                "login": "jdcool00"
+            }
+        },
+        "colors": {
+            "light": "prime-video-alt",
+            "dark": "prime-video-alt-dark"
+        }
+    },
     "gatus": {
         "base": "svg",
         "aliases": [],
