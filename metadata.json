@@ -925,6 +925,22 @@
             }
         }
     },
+    "kubecraft": {
+        "base": "png",
+        "aliases": [
+            "kube-craft"
+        ],
+        "categories": [
+            "Organization"
+        ],
+        "update": {
+            "timestamp": "2025-03-31T19:22:27.794388",
+            "author": {
+                "id": 28745927,
+                "login": "pedrotchang"
+            }
+        }
+    },
     "apache-cassandra": {
         "base": "svg",
         "aliases": [],
