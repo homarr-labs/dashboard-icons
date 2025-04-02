@@ -6602,6 +6602,20 @@
             }
         }
     },
+    "profilarr": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "Media"
+        ],
+        "update": {
+            "timestamp": "2025-04-02T16:11:24.001900",
+            "author": {
+                "id": 23315858,
+                "login": "stathiskef"
+            }
+        }
+    },
     "vouchervault": {
         "base": "svg",
         "aliases": [],
