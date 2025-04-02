@@ -2371,6 +2371,20 @@
             }
         }
     },
+    "double-commander": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "Organization"
+        ],
+        "update": {
+            "timestamp": "2025-04-02T16:15:44.587958",
+            "author": {
+                "id": 139772086,
+                "login": "lokas88"
+            }
+        }
+    },
     "truenas": {
         "base": "svg",
         "aliases": [],
