@@ -7964,6 +7964,18 @@
             }
         }
     },
+    "quickshare": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2025-04-02T16:05:19.623415",
+            "author": {
+                "id": 48109134,
+                "login": "jdcool00"
+            }
+        }
+    },
     "filezilla": {
         "base": "svg",
         "aliases": [],
