@@ -801,6 +801,20 @@
             }
         }
     },
+    "pluralsight": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "Education"
+        ],
+        "update": {
+            "timestamp": "2025-04-06T16:45:32.125339",
+            "author": {
+                "id": 63781622,
+                "login": "Meierschlumpf"
+            }
+        }
+    },
     "netcam-studio": {
         "base": "png",
         "aliases": [],
