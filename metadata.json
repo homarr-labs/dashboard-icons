@@ -3203,6 +3203,24 @@
             }
         }
     },
+    "reposilite": {
+        "base": "png",
+        "aliases": [],
+        "categories": [
+            "Development"
+        ],
+        "update": {
+            "timestamp": "2025-04-06T09:07:59.093807",
+            "author": {
+                "id": 27736357,
+                "login": "ornelasf1"
+            }
+        },
+        "colors": {
+            "light": "reposilite",
+            "dark": "reposilite-dark"
+        }
+    },
     "morphos": {
         "base": "svg",
         "aliases": [],
