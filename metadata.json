@@ -10880,6 +10880,22 @@
             }
         }
     },
+    "habitica": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2025-04-06T10:14:16.544219",
+            "author": {
+                "id": 63781622,
+                "login": "Meierschlumpf"
+            }
+        },
+        "colors": {
+            "light": "habitica",
+            "dark": "habitica-dark"
+        }
+    },
     "n8n": {
         "base": "svg",
         "aliases": [],
