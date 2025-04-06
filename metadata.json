@@ -4115,6 +4115,18 @@
             }
         }
     },
+    "truecommand": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2025-04-06T11:44:16.033293",
+            "author": {
+                "id": 63781622,
+                "login": "Meierschlumpf"
+            }
+        }
+    },
     "workadventure": {
         "base": "png",
         "aliases": [],
