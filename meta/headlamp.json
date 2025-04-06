@@ -1,0 +1,18 @@
+{
+  "base": "svg",
+  "aliases": [],
+  "categories": [
+    "Cloud"
+  ],
+  "update": {
+    "timestamp": "2025-04-06T09:29:21.505335",
+    "author": {
+      "id": 7255425,
+      "login": "geberl"
+    }
+  },
+  "colors": {
+    "light": "headlamp",
+    "dark": "headlamp-dark"
+  }
+}
