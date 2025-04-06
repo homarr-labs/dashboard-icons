@@ -14578,6 +14578,24 @@
             "light": "scrutiny-light"
         }
     },
+    "reposilite-light": {
+        "base": "png",
+        "aliases": [],
+        "categories": [
+            "Development"
+        ],
+        "update": {
+            "timestamp": "2025-04-06T09:04:24.140124",
+            "author": {
+                "id": 27736357,
+                "login": "ornelasf1"
+            }
+        },
+        "colors": {
+            "light": "reposilite-light",
+            "dark": "reposilite-light-dark"
+        }
+    },
     "raritan": {
         "base": "png",
         "aliases": [],
