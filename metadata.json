@@ -10702,6 +10702,18 @@
             }
         }
     },
+    "name-silo": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2025-04-06T16:41:10.423962",
+            "author": {
+                "id": 63781622,
+                "login": "Meierschlumpf"
+            }
+        }
+    },
     "counter-strike-2": {
         "base": "png",
         "aliases": [],
