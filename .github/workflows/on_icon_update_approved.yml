@@ -28,10 +28,12 @@ jobs:
         with:
           python-version: "3.11"
       - name: Install Dependencies
+        # lfs is needed as tree.xml has size > 100mb
         run: |
           pip install cairosvg pillow requests
           sudo apt-get update
           sudo apt-get install -y zopfli webp
+          git lfs install
       - name: Parse issue form
         id: parse_issue_form
         run: echo "ISSUE_FORM=$(python scripts/parse_issue_form.py)" >> "$GITHUB_OUTPUT"
