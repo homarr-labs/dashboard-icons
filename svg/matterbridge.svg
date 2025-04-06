@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 296.2 296.2">
+    <defs>
+        <linearGradient id="lg1" x1="16.6" y1="16.6" x2="279.6" y2="279.6" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stop-color="#00b48d" />
+            <stop offset=".1" stop-color="#3faa77" />
+            <stop offset=".3" stop-color="#234148" />
+            <stop offset=".7" stop-color="#203b44" />
+            <stop offset=".9" stop-color="#ad2e6e" />
+            <stop offset="1" stop-color="#c81b74" />
+        </linearGradient>
+        <linearGradient id="lg2" x1="31.1" y1="31.1" x2="265.1" y2="265.1" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stop-color="#00b48d" />
+            <stop offset=".2" stop-color="#285251" />
+            <stop offset=".4" stop-color="#234148" />
+            <stop offset=".8" stop-color="#203b44" />
+            <stop offset=".9" stop-color="#a8316c" />
+            <stop offset="1" stop-color="#c81b74" />
+        </linearGradient>
+        <linearGradient id="lg3" x1="116.2" y1="143.9" x2="139.8" y2="143.9"
+            gradientUnits="userSpaceOnUse">
+            <stop offset="0" stop-color="#8bc751" />
+            <stop offset="1" stop-color="#0db14b" />
+        </linearGradient>
+        <linearGradient id="lg4" x1="136.1" y1="100.8" x2="159.6" y2="100.8"
+            xlink:href="#lg3" />
+        <linearGradient id="lg5" x1="155.3" y1="143.9" x2="178.9" y2="143.9"
+            xlink:href="#lg3" />
+        <linearGradient id="lg6" x1="46.8" y1="25.7" x2="89.6" y2="74.8" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stop-color="#b1d34a" />
+            <stop offset="1" stop-color="#50b848" />
+        </linearGradient>
+    </defs>
+        <rect width="296.2" height="296.2" rx="56.7" ry="56.7" style="fill:url(#lg1)" />
+        <rect x="16.3" y="16.3" width="263.6" height="263.6" rx="50.5" ry="50.5" style="fill:url(#lg2)" />
+        <circle cx="128" cy="143.9" r="11.8" style="fill:url(#lg3)" />
+        <circle cx="147.8" cy="100.8" r="11.8" style="fill:url(#lg4)" />
+        <path
+            d="m244.6 114.5.4-.5L160 33a17 17 0 0 0-24.7-.5l-86.4 83.3a15 15 0 0 0 9.2 26.9h19.3v-4.7l-13.7-12.7v-.1l83.7-80.8 84.2 81-13.9 12.8v4.5h19.5a15 15 0 0 0 7.4-28.1Z"
+            style="fill:url(#lg3)" />
+        <circle cx="167.1" cy="143.9" r="11.8" style="fill:url(#lg5)" />
+        <path fill="#fff" d="M219 89.3V35.5a10.5 10.5 0 1 0-21 0v33.7l21 20Z" />
+        <path
+            d="M91.4 73.3H83a37 37 0 0 0-14.5-28.4L65 50.2c.1 0 12.6 9 11.7 25.4-5.3-.4-11.2-1.9-16.3-5.3-11.8-7.8-16-23.7-11.9-46 8.7 1.5 34 7 43 22.8 4.1 7.3 4.1 16.1 0 26.2Z"
+            style="fill:url(#lg6)" />
+        <path
+            d="M65.9 80a49.6 49.6 0 0 0 17.8 2.2l16.6-16c1.6-8.3.5-15.7-3.3-22.4C84.6 22 47.8 17.5 46.2 17.4l-3-.4-.6 3c-3.8 18.4-5.9 50.6 23.2 60ZM48.4 24.4c8.7 1.5 34 7 43 22.8 4.1 7.3 4.1 16.1 0 26.2H83a37 37 0 0 0-14.5-28.4l-3.7 5.3c.1 0 12.6 9 11.7 25.4-5.3-.4-11.2-1.9-16.3-5.3-11.9-7.8-16-23.7-11.9-46Z"
+            fill="#1e5857" />
+        <path fill="#fff"
+            d="M250.5 90.5a17.4 17.4 0 1 1 0-34.8 17.4 17.4 0 0 1 0 34.8Zm0-22.7a5.4 5.4 0 0 0 0 10.7 5.3 5.3 0 0 0 0-10.7ZM258.8 148.2a15.9 15.9 0 0 0-9.6 28.5c-.8 4.2-5.4 4.6-5.4 4.6h-26v-43l13.6-13-1.8-2-82.2-79-81.2 78.3-2.5 2.6 13.7 13v42.9H53a21.5 21.5 0 1 0 11.7 15h12.6v18.8c0 7.8 6.4 14.1 14.1 14.1h29.3v14.8H64a10.6 10.6 0 0 0-17.7 8 10.6 10.6 0 0 0 17.6 8h157.6a16.3 16.3 0 1 0 0-16h-84.8V229h66.8c7.8 0 14.2-6.3 14.2-14.1v-19.2h27.6c14.3 0 17.8-12.8 18.5-16.6a15.9 15.9 0 0 0-5-30.9ZM43.7 210.8a10.3 10.3 0 1 1 0-20.6 10.3 10.3 0 0 1 0 20.6Zm192 36a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm-77-34.8h-22v-34h22v34Zm8.4-79.8c2.7 0 5.2 1 7.2 2.5v-10.4L188 137s2.6 1.3 4.6 1.3h6.7v68c0 3.2-2.6 5.7-5.7 5.7h-19v-34h1.4a7.5 7.5 0 0 0 0-15H120a7.5 7.5 0 0 0 0 15h.7v34h-19.3a5.7 5.7 0 0 1-5.7-5.6v-68.1h6.7c2 0 4.6-1.3 4.6-1.3l13.7-12.7v10.4a11.7 11.7 0 0 1 16 1.6v-13a14.9 14.9 0 0 0-25-10.8s-.1.2-.1.2l-.5.5-6.9 7H92.5l55-53.2 55.1 53.2h-11.8l-7-7c0-.2-.2-.3-.4-.5l-.2-.2a14.8 14.8 0 0 0-25 10.9v12.9c2.2-2.5 5.3-4.1 8.9-4.1Zm91.7 36.7a4.9 4.9 0 1 1 0-9.7 4.9 4.9 0 0 1 0 9.7Z" />
+</svg>
