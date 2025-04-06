@@ -14070,6 +14070,18 @@
             }
         }
     },
+    "adobe": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2025-04-06T16:32:41.752755",
+            "author": {
+                "id": 63781622,
+                "login": "Meierschlumpf"
+            }
+        }
+    },
     "sickbeard": {
         "base": "svg",
         "aliases": [],
