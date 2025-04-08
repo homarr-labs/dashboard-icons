@@ -10648,6 +10648,20 @@
             }
         }
     },
+    "no-ip": {
+        "base": "png",
+        "aliases": [],
+        "categories": [
+            "Cloud"
+        ],
+        "update": {
+            "timestamp": "2025-04-08T17:07:48.435042",
+            "author": {
+                "id": 49533775,
+                "login": "csev1755"
+            }
+        }
+    },
     "checkmk": {
         "base": "svg",
         "aliases": [],
