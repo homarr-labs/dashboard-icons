@@ -1,16 +1,16 @@
 {
-  "base": "png",
+  "base": "svg",
   "aliases": [],
   "categories": [],
   "update": {
-    "timestamp": "2025-01-07T17:54:03Z",
+    "timestamp": "2025-04-08T16:31:49.112782",
     "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+      "id": 89823371,
+      "login": "0xSolanaceae"
     }
   },
   "colors": {
-    "dark": "pikvm",
-    "light": "pikvm-light"
+    "light": "pikvm-light",
+    "dark": "pikvm"
   }
 }
