@@ -1131,6 +1131,18 @@
             }
         }
     },
+    "nu-nl": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2025-04-08T16:51:47.581779",
+            "author": {
+                "id": 644810,
+                "login": "guido1981"
+            }
+        }
+    },
     "tautulli": {
         "base": "svg",
         "aliases": [],
