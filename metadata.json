@@ -23527,6 +23527,20 @@
             }
         }
     },
+    "zenarmor": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "Security"
+        ],
+        "update": {
+            "timestamp": "2025-04-08T17:05:04.010213",
+            "author": {
+                "id": 49533775,
+                "login": "csev1755"
+            }
+        }
+    },
     "rss-translator": {
         "base": "svg",
         "aliases": [],
