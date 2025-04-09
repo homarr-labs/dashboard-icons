@@ -2977,6 +2977,20 @@
             }
         }
     },
+    "retrom": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "Gaming"
+        ],
+        "update": {
+            "timestamp": "2025-04-09T12:11:10.533446",
+            "author": {
+                "id": 150545,
+                "login": "ajgon"
+            }
+        }
+    },
     "ultimate-guitar": {
         "base": "svg",
         "aliases": [],
