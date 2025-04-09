@@ -5858,6 +5858,20 @@
             }
         }
     },
+    "wd-mycloud": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "Cloud"
+        ],
+        "update": {
+            "timestamp": "2025-04-09T12:25:42.292198",
+            "author": {
+                "id": 48109134,
+                "login": "jdcool00"
+            }
+        }
+    },
     "hashicorp-vault": {
         "base": "svg",
         "aliases": [],
