@@ -8270,6 +8270,20 @@
             }
         }
     },
+    "western-digital": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "Hardware"
+        ],
+        "update": {
+            "timestamp": "2025-04-09T12:28:38.676920",
+            "author": {
+                "id": 48109134,
+                "login": "jdcool00"
+            }
+        }
+    },
     "bible-gateway": {
         "base": "png",
         "aliases": [],
