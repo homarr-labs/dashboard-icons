@@ -3595,6 +3595,20 @@
             }
         }
     },
+    "fluent-reader": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "News"
+        ],
+        "update": {
+            "timestamp": "2025-04-09T12:06:00.578312",
+            "author": {
+                "id": 48109134,
+                "login": "jdcool00"
+            }
+        }
+    },
     "rocky-linux": {
         "base": "svg",
         "aliases": [],
