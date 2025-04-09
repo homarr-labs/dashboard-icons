@@ -21943,6 +21943,20 @@
             }
         }
     },
+    "mazanoke": {
+        "base": "png",
+        "aliases": [],
+        "categories": [
+            "File"
+        ],
+        "update": {
+            "timestamp": "2025-04-09T12:14:21.469284",
+            "author": {
+                "id": 21150078,
+                "login": "rrajra"
+            }
+        }
+    },
     "flogo": {
         "base": "png",
         "aliases": [],
