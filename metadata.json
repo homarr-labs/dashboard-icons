@@ -7816,6 +7816,20 @@
             }
         }
     },
+    "free-dns": {
+        "base": "png",
+        "aliases": [],
+        "categories": [
+            "Cloud"
+        ],
+        "update": {
+            "timestamp": "2025-04-09T11:36:31.419542",
+            "author": {
+                "id": 49533775,
+                "login": "csev1755"
+            }
+        }
+    },
     "opensprinkler": {
         "base": "png",
         "aliases": [],
