@@ -5,20 +5,27 @@ import posthog from "posthog-js"
 import { PostHogProvider as PHProvider, usePostHog } from "posthog-js/react"
 import { Suspense, useEffect } from "react"
 
+const posthogKey = process.env.NEXT_PUBLIC_POSTHOG_KEY
+const posthogHost = process.env.NEXT_PUBLIC_POSTHOG_HOST || "https://eu.i.posthog.com"
+
+if (typeof window !== "undefined" && posthogKey) {
+	posthog.init(posthogKey, {
+		ui_host: "https://eu.posthog.com",
+		api_host: posthogHost,
+		capture_pageview: false, // We capture pageviews manually
+		capture_pageleave: true, // Enable pageleave capture
+		loaded(posthogInstance) {
+			// @ts-expect-error
+			window.posthog = posthogInstance
+		},
+	})
+}
+
 export function PostHogProvider({ children }: { children: React.ReactNode }) {
-	useEffect(() => {
-		// biome-ignore lint/style/noNonNullAssertion: It's there trust me bro
-		posthog.init(process.env.NEXT_PUBLIC_POSTHOG_KEY!, {
-			ui_host: "https://eu.posthog.com",
-			api_host: process.env.NEXT_PUBLIC_POSTHOG_HOST || "https://eu.i.posthog.com",
-			capture_pageview: false, // We capture pageviews manually
-			capture_pageleave: true, // Enable pageleave capture
-			loaded(posthogInstance) {
-				// @ts-expect-error
-				window.posthog = posthogInstance
-			},
-		})
-	}, [])
+	// Render children without PostHog if the key is missing
+	if (!posthogKey) {
+		return <>{children}</>
+	}
 
 	return (
 		<PHProvider client={posthog}>
