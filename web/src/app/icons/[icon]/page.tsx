@@ -1,8 +1,8 @@
+import { IconDetails } from "@/components/icon-details"
 import { BASE_URL } from "@/constants"
 import { getAllIcons, getAuthorData } from "@/lib/api"
 import type { Metadata, ResolvingMetadata } from "next"
 import { notFound } from "next/navigation"
-import { IconDetails } from "./components/icon-details"
 
 export async function generateStaticParams() {
   const iconsData = await getAllIcons()
