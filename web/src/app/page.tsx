@@ -11,19 +11,10 @@ async function getFeaturedIcons() {
 	const file = await fs.readFile(`${process.cwd()}/../metadata.json`, "utf8")
 	const data = JSON.parse(file)
 
-	// Get 6 random icons
-	const icons = Object.keys(data)
-	const featuredIcons = []
-
-	for (let i = 0; i < 6; i++) {
-		const randomIndex = Math.floor(Math.random() * icons.length)
-		const iconName = icons[randomIndex]
-		featuredIcons.push({
-			name: iconName,
-			data: data[iconName],
-		})
-		icons.splice(randomIndex, 1)
-	}
+	const featuredIcons = ["homarr", "sonarr", "radarr", "lidarr", "qbittorrent"].map((iconName) => ({
+		name: iconName,
+		data: data[iconName],
+	}))
 
 	return featuredIcons
 }
@@ -53,9 +44,7 @@ export default async function Home() {
 							/>
 						</div>
 						<Button asChild className="rounded-l-none">
-							<Link href="/icons">
-								Search
-							</Link>
+							<Link href="/icons">Search</Link>
 						</Button>
 					</div>
 
@@ -63,7 +52,7 @@ export default async function Home() {
 						{featuredIcons.map((icon) => (
 							<Link
 								key={icon.name}
-								href={`/icon/${icon.name}`}
+								href={`/icons/${icon.name}`}
 								className="relative h-12 w-12 rounded-md hover:scale-110 transition-transform"
 							>
 								<Image

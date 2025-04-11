@@ -2,27 +2,6 @@ import type { Metadata } from "next"
 import { promises as fs } from "node:fs"
 import { IconSearch } from "./components"
 
-type IconData = {
-	base: string
-	aliases: string[]
-	categories: string[]
-	update: {
-		timestamp: string
-		author: {
-			id: number
-			name: string
-		}
-	}
-	colors?: {
-		dark?: string
-		light?: string
-	}
-}
-
-type IconsData = {
-	[key: string]: IconData
-}
-
 export const metadata: Metadata = {
 	title: "Browse Icons | Dashboard Icons",
 	description: "Search and browse through our collection of beautiful dashboard icons",
@@ -35,7 +14,7 @@ export const revalidate = 86400
 export default async function IconsPage() {
 	// Read the metadata.json file at build time
 	const file = await fs.readFile(`${process.cwd()}/../metadata.json`, "utf8")
-	const iconsData = JSON.parse(file) as IconsData
+	const iconsData = JSON.parse(file) as IconFile
 	
 	// Convert to array format for easier rendering
 	const icons = Object.entries(iconsData).map(([name, data]) => ({

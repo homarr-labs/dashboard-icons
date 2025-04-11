@@ -1,3 +1,4 @@
+import { ThemeSwitcher } from "@/components/theme-switcher"
 import { REPO_PATH } from "@/constants"
 import { Github } from "lucide-react"
 import type { Metadata } from "next"
@@ -42,9 +43,14 @@ export default function RootLayout({
 								</nav>
 							</div>
 							<div className="flex items-center gap-4">
-								<a href={REPO_PATH} target="_blank" rel="noreferrer" className="text-sm font-medium transition-colors hover:text-primary">
+								<Link
+									href={REPO_PATH}
+									target="_blank"
+									className="text-sm font-medium transition-colors hover:text-primary"
+								>
 									<Github className="h-5 w-5" />
-								</a>
+								</Link>
+								<ThemeSwitcher />
 							</div>
 						</div>
 					</header>

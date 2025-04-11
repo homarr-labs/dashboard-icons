@@ -7,26 +7,9 @@ import Image from "next/image"
 import Link from "next/link"
 import { useState } from "react"
 
-type IconData = {
-	base: string
-	aliases: string[]
-	categories: string[]
-	update: {
-		timestamp: string
-		author: {
-			id: number
-			name: string
-		}
-	}
-	colors?: {
-		dark?: string
-		light?: string
-	}
-}
-
 type IconWithName = {
 	name: string
-	data: IconData
+	data: Icon
 }
 
 type IconSearchProps = {
