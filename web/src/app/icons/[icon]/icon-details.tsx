@@ -11,11 +11,19 @@ import { toast } from "sonner"
 
 type IconDetailsProps = {
 	icon: string
-	iconData: any
-	authorData: any
+	iconData: Icon
+	authorData: {
+		name?: string
+		login: string
+		avatar_url: string
+		html_url: string
+	}
 }
 
 export function IconDetails({ icon, iconData, authorData }: IconDetailsProps) {
+	// Use the author login if they don't have a name
+	const authorName = authorData.name || authorData.login
+	const iconColorVariants = iconData.colors
 	return (
 		<div className="p-8">
 			<div className="max-w-4xl mx-auto">
@@ -36,13 +44,12 @@ export function IconDetails({ icon, iconData, authorData }: IconDetailsProps) {
 							<div className="flex items-center gap-4">
 								<Avatar>
 									<AvatarImage src={authorData.avatar_url} alt={authorData.name} />
-									<AvatarFallback>{authorData.name.slice(0, 2)}</AvatarFallback>
+									<AvatarFallback>{authorName.slice(0, 2)}</AvatarFallback>
 								</Avatar>
 								<div>
 									<Link href={authorData.html_url} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
-										{authorData.name}
+										{authorName}
 									</Link>
-									<p className="text-muted-foreground">{authorData.bio || "No bio available"}</p>
 								</div>
 							</div>
 						</CardContent>
@@ -101,22 +108,22 @@ export function IconDetails({ icon, iconData, authorData }: IconDetailsProps) {
 									}
 								})()
 
-								const renderVariant = (format: string, variant: string) => {
-									const url = `${BASE_URL}/${format}/${variant}.${format}`
-									const githubUrl = `${REPO_PATH}/tree/main/${format}/${variant}.${format}`
+								const renderVariant = (format: string, icon: string, theme: "light" | "dark") => {
+									const url = `${BASE_URL}/${format}/${iconColorVariants?.[theme] || icon}.${format}`
+									const githubUrl = `${REPO_PATH}/tree/main/${format}/${icon}.${format}`
 									return (
-										<div key={`${format}-${variant}`} className="flex flex-col items-center">
+										<div key={`${format}-${icon}`} className="flex flex-col items-center">
 											<Button
 												variant="ghost"
 												className="relative w-24 h-24 mb-2 p-0"
 												onClick={() => {
 													navigator.clipboard.writeText(url)
 													toast.success("URL copied", {
-														description: `The icon URL for ${variant} in ${format.toUpperCase()} format has been copied to your clipboard`,
+														description: `The icon URL for ${icon} in ${format} format has been copied to your clipboard`,
 													})
 												}}
 											>
-												<Image src={url} alt={`${variant} in ${format.toUpperCase()} format`} fill className="object-contain" />
+												<Image src={url} alt={`${icon} in ${format} format`} fill className="object-contain" />
 											</Button>
 											<p className="text-sm text-muted-foreground">{format.toUpperCase()}</p>
 											<div className="flex gap-2 mt-2">
@@ -149,19 +156,17 @@ export function IconDetails({ icon, iconData, authorData }: IconDetailsProps) {
 
 								return (
 									<div className="space-y-8">
-										{!iconData.colors?.dark ? (
+										{!iconData.colors ? (
 											<div className="grid grid-cols-3 gap-4">{availableFormats.map((format) => renderVariant(format, icon))}</div>
 										) : (
 											<>
 												<div>
 													<h3 className="text-lg font-semibold mb-4">Light Theme</h3>
-													<div className="grid grid-cols-3 gap-4">{availableFormats.map((format) => renderVariant(format, icon))}</div>
+													<div className="grid grid-cols-3 gap-4 uppercase">{availableFormats.map((format) => renderVariant(format, icon, "light"))}</div>
 												</div>
 												<div>
 													<h3 className="text-lg font-semibold mb-4">Dark Theme</h3>
-													<div className="grid grid-cols-3 gap-4">
-														{availableFormats.map((format) => renderVariant(format, `${icon}-dark`))}
-													</div>
+													<div className="grid grid-cols-3 gap-4 uppercase">{availableFormats.map((format) => renderVariant(format, icon, "dark"))}</div>
 												</div>
 											</>
 										)}
