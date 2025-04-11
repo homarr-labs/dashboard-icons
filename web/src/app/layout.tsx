@@ -1,4 +1,5 @@
 import { Header } from "@/components/header"
+import { LicenseNotice } from "@/components/license-notice"
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import { Toaster } from "sonner"
@@ -28,6 +29,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
 						<Header />
 						<main>{children}</main>
 						<Toaster />
+						<LicenseNotice />
 					</ThemeProvider>
 				</PostHogProvider>
 			</body>
