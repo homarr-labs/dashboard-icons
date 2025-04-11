@@ -7,53 +7,74 @@ import type { IconSearchProps } from "@/types/icons"
 import { Search } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
-import { useState } from "react"
+import { usePathname, useRouter } from "next/navigation"
+import { useCallback, useEffect, useRef, useState } from "react"
 
 export function IconSearch({ icons, initialQuery = "" }: IconSearchProps) {
+	const router = useRouter()
+	const pathname = usePathname()
 	const [searchQuery, setSearchQuery] = useState(initialQuery)
+	const timeoutRef = useRef<NodeJS.Timeout | null>(null)
 	const [filteredIcons, setFilteredIcons] = useState(() => {
-		// Apply initial filtering if initialQuery exists
 		if (!initialQuery.trim()) return icons
 
 		const q = initialQuery.toLowerCase()
 		return icons.filter(({ name, data }) => {
-			// Check if the name contains the query
 			if (name.toLowerCase().includes(q)) return true
-
-			// Check if any aliases contains the query
 			if (data.aliases.some((alias) => alias.toLowerCase().includes(q))) return true
-
-			// Check if any category contains the query
 			if (data.categories.some((category) => category.toLowerCase().includes(q))) return true
 
 			return false
 		})
 	})
+	const filterIcons = useCallback(
+		(query: string) => {
+			if (!query.trim()) {
+				return icons
+			}
 
-	const handleSearch = (query: string) => {
-		setSearchQuery(query)
+			const q = query.toLowerCase()
+			return icons.filter(({ name, data }) => {
+				if (name.toLowerCase().includes(q)) return true
+				if (data.aliases.some((alias) => alias.toLowerCase().includes(q))) return true
+				if (data.categories.some((category) => category.toLowerCase().includes(q))) return true
 
-		if (!query.trim()) {
-			setFilteredIcons(icons)
-			return
+				return false
+			})
+		},
+		[icons],
+	)
+	const updateResults = useCallback(
+		(query: string) => {
+			setFilteredIcons(filterIcons(query))
+			const params = new URLSearchParams()
+			if (query) params.set("q", query)
+
+			const newUrl = query ? `${pathname}?${params.toString()}` : pathname
+
+			router.push(newUrl, { scroll: false })
+		},
+		[filterIcons, pathname, router],
+	)
+	const handleSearch = useCallback(
+		(query: string) => {
+			setSearchQuery(query)
+			if (timeoutRef.current) {
+				clearTimeout(timeoutRef.current)
+			}
+			timeoutRef.current = setTimeout(() => {
+				updateResults(query)
+			}, 100)
+		},
+		[updateResults],
+	)
+	useEffect(() => {
+		return () => {
+			if (timeoutRef.current) {
+				clearTimeout(timeoutRef.current)
+			}
 		}
-
-		const q = query.toLowerCase()
-		const filtered = icons.filter(({ name, data }) => {
-			// Check if the name contains the query
-			if (name.toLowerCase().includes(q)) return true
-
-			// Check if any aliases contains the query
-			if (data.aliases.some((alias) => alias.toLowerCase().includes(q))) return true
-
-			// Check if any category contains the query
-			if (data.categories.some((category) => category.toLowerCase().includes(q))) return true
-
-			return false
-		})
-
-		setFilteredIcons(filtered)
-	}
+	}, [])
 
 	return (
 		<>

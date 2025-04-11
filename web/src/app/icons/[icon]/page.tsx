@@ -3,6 +3,23 @@ import { BASE_URL } from "@/constants"
 import { getAllIcons, getAuthorData } from "@/lib/api"
 import type { Metadata, ResolvingMetadata } from "next"
 
+// Define Icon type to match the IconDetails component's expectations
+type Icon = {
+	base: string
+	categories: string[]
+	aliases: string[]
+	update: {
+		timestamp: string
+		author: {
+			id: string
+		}
+	}
+	colors?: {
+		light?: string
+		dark?: string
+	}
+}
+
 export async function generateStaticParams() {
 	const iconsData = await getAllIcons()
 	console.log(`Found ${Object.keys(iconsData).length} icons`)
@@ -58,7 +75,19 @@ export async function generateMetadata({ params, searchParams }: Props, parent: 
 export default async function IconPage({ params }: { params: Promise<{ icon: string }> }) {
 	const { icon } = await params
 	const iconsData = await getAllIcons()
-	const iconData = iconsData[icon]
-	const authorData = await getAuthorData(iconData.update.author.id)
+	const originalIconData = iconsData[icon]
+	
+	// Convert the original data to match the expected Icon type
+	const iconData: Icon = {
+		...originalIconData,
+		update: {
+			...originalIconData.update,
+			author: {
+				id: String(originalIconData.update.author.id)
+			}
+		}
+	}
+	
+	const authorData = await getAuthorData(originalIconData.update.author.id)
 	return <IconDetails icon={icon} iconData={iconData} authorData={authorData} />
 }

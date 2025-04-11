@@ -1,5 +1,5 @@
-import type { IconFile, IconWithName } from "@/types"
 import { promises as fs } from "node:fs"
+import type { IconFile, IconWithName } from "@/types"
 
 /**
  * Fetches all icon data from the metadata.json file
@@ -7,6 +7,11 @@ import { promises as fs } from "node:fs"
 export async function getAllIcons(): Promise<IconFile> {
 	const file = await fs.readFile(`${process.cwd()}/../metadata.json`, "utf8")
 	return JSON.parse(file) as IconFile
+}
+
+export const getIconsWithoutData = async (): Promise<string[]> => {
+	const iconsData = await getAllIcons()
+	return Object.keys(iconsData)
 }
 
 /**

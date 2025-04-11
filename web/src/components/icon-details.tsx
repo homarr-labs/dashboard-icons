@@ -17,7 +17,7 @@ type Icon = {
 	categories: string[]
 	aliases: string[]
 	update: {
-		timestamp: number
+		timestamp: string
 		author: {
 			id: string
 		}
@@ -154,7 +154,12 @@ export function IconDetails({ icon, iconData, authorData }: IconDetailsProps) {
 
 						<Tooltip>
 							<TooltipTrigger asChild>
-								<Button variant="outline" size="icon" className="h-8 w-8 cursor-pointer" onClick={() => handleCopy(url, `btn-${variantKey}`)}>
+								<Button
+									variant="outline"
+									size="icon"
+									className="h-8 w-8 cursor-pointer"
+									onClick={() => handleCopy(url, `btn-${variantKey}`)}
+								>
 									{copiedVariants[`btn-${variantKey}`] ? <Check className="w-4 h-4 text-green-500" /> : <Copy className="w-4 h-4" />}
 								</Button>
 							</TooltipTrigger>
@@ -309,7 +314,7 @@ export function IconDetails({ icon, iconData, authorData }: IconDetailsProps) {
 								<div className="space-y-3">
 									<h3 className="text-sm font-semibold text-muted-foreground">Base Format</h3>
 									<div className="flex items-center gap-2">
-										<span className="w-3 h-3 rounded-full bg-primary/80"></span>
+										<span className="w-3 h-3 rounded-full bg-primary/80" />
 										<div className="px-3 py-1.5 bg-muted rounded-md text-sm font-medium">{iconData.base.toUpperCase()}</div>
 									</div>
 								</div>
@@ -331,7 +336,7 @@ export function IconDetails({ icon, iconData, authorData }: IconDetailsProps) {
 										<div className="space-y-2">
 											{Object.entries(iconData.colors).map(([theme, variant]) => (
 												<div key={theme} className="flex items-center gap-2">
-													<span className="w-3 h-3 rounded-full bg-primary/80"></span>
+													<span className="w-3 h-3 rounded-full bg-primary/80" />
 													<span className="capitalize font-medium text-sm">{theme}:</span>
 													<code className="bg-muted px-2 py-0.5 rounded text-xs">{variant}</code>
 												</div>

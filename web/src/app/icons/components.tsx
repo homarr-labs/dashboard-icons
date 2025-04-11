@@ -2,6 +2,7 @@
 
 import { Input } from "@/components/ui/input"
 import { BASE_URL } from "@/constants"
+import type { Icon } from "@/types/icons"
 import { Search } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
@@ -21,8 +22,8 @@ export function IconSearch({ icons, initialQuery = "" }: IconSearchProps) {
 	const [searchQuery, setSearchQuery] = useState(initialQuery)
 	const [filteredIcons, setFilteredIcons] = useState<IconWithName[]>(() => {
 		// Apply initial filtering if initialQuery exists
-		if (!initialQuery.trim()) return icons;
-		
+		if (!initialQuery.trim()) return icons
+
 		const q = initialQuery.toLowerCase()
 		return icons.filter(({ name, data }) => {
 			// Check if the name contains the query
@@ -35,7 +36,7 @@ export function IconSearch({ icons, initialQuery = "" }: IconSearchProps) {
 			if (data.categories.some((category) => category.toLowerCase().includes(q))) return true
 
 			return false
-		});
+		})
 	})
 
 	const handleSearch = (query: string) => {
