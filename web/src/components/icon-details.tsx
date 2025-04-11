@@ -20,7 +20,7 @@ export type IconDetailsProps = {
 }
 
 export function IconDetails({ icon, iconData, authorData }: IconDetailsProps) {
-	const authorName = authorData.name || authorData.login
+	const authorName = authorData.name || authorData.login || ""
 	const iconColorVariants = iconData.colors
 	const formattedDate = new Date(iconData.update.timestamp).toLocaleDateString("en-GB", {
 		day: "numeric",
@@ -191,7 +191,7 @@ export function IconDetails({ icon, iconData, authorData }: IconDetailsProps) {
 												<p className="text-sm font-medium">By:</p>
 												<Avatar className="h-5 w-5 border">
 													<AvatarImage src={authorData.avatar_url} alt={authorName} />
-													<AvatarFallback>{authorName.slice(0, 2).toUpperCase()}</AvatarFallback>
+													<AvatarFallback>{authorName ? authorName.slice(0, 2).toUpperCase() : "??"}</AvatarFallback>
 												</Avatar>
 												<Link
 													href={authorData.html_url}
