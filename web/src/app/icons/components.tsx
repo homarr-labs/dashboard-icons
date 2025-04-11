@@ -2,21 +2,11 @@
 
 import { Input } from "@/components/ui/input"
 import { BASE_URL } from "@/constants"
-import type { Icon } from "@/types/icons"
+import type { IconSearchProps, IconWithName } from "@/types/icons"
 import { Search } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 import { useState } from "react"
-
-type IconWithName = {
-	name: string
-	data: Icon
-}
-
-type IconSearchProps = {
-	icons: IconWithName[]
-	initialQuery?: string
-}
 
 export function IconSearch({ icons, initialQuery = "" }: IconSearchProps) {
 	const [searchQuery, setSearchQuery] = useState(initialQuery)

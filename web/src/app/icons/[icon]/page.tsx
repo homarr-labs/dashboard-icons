@@ -1,22 +1,8 @@
 import { IconDetails } from "@/components/icon-details"
 import { BASE_URL } from "@/constants"
 import { getAllIcons, getAuthorData } from "@/lib/api"
+import type { Icon } from "@/types/icons"
 import type { Metadata, ResolvingMetadata } from "next"
-type Icon = {
-	base: string
-	categories: string[]
-	aliases: string[]
-	update: {
-		timestamp: string
-		author: {
-			id: string
-		}
-	}
-	colors?: {
-		light?: string
-		dark?: string
-	}
-}
 
 export async function generateStaticParams() {
 	const iconsData = await getAllIcons()
@@ -41,26 +27,27 @@ export async function generateMetadata({ params, searchParams }: Props, parent: 
 	}
 	const previousImages = (await parent).openGraph?.images || []
 	const authorData = await getAuthorData(iconsData[icon].update.author.id)
+	const authorName = authorData.name || authorData.login
 
 	console.debug(
-		`Generated metadata for ${icon} by ${authorData.name} (${authorData.html_url}) updated at ${new Date(iconsData[icon].update.timestamp).toLocaleString()}`,
+		`Generated metadata for ${icon} by ${authorName} (${authorData.html_url}) updated at ${new Date(iconsData[icon].update.timestamp).toLocaleString()}`,
 	)
 
 	return {
 		title: `${icon} icon · DashboardIcons`,
-		description: `Download and use the ${icon} icon from DashboardIcons, updated at ${new Date(iconsData[icon].update.timestamp).toLocaleString()} by ${authorData.name}`,
+		description: `Download and use the ${icon} icon from DashboardIcons, updated at ${new Date(iconsData[icon].update.timestamp).toLocaleString()} by ${authorName}`,
 		authors: [
 			{
 				name: "homarr",
 				url: "https://homarr.dev",
 			},
 			{
-				name: authorData.name,
+				name: authorName,
 				url: authorData.html_url,
 			},
 		],
 		openGraph: {
-			images: [`${BASE_URL}/${iconsData[icon].base}/${icon}.${iconsData[icon].base}`, ...previousImages],
+			images: [`${BASE_URL}/png/${icon}.png`, ...previousImages],
 		},
 	}
 }
@@ -74,7 +61,7 @@ export default async function IconPage({ params }: { params: Promise<{ icon: str
 		update: {
 			...originalIconData.update,
 			author: {
-				id: String(originalIconData.update.author.id),
+				id: originalIconData.update.author.id,
 			},
 		},
 	}

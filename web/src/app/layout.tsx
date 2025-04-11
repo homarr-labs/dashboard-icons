@@ -13,6 +13,9 @@ const inter = Inter({
 export const metadata: Metadata = {
 	title: "Dashboard icons",
 	description: "Currated icons for your dashboard",
+	icons: {
+		icon: "/favicon.ico",
+	},
 }
 
 export default function RootLayout({

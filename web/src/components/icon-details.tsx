@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { BASE_URL, REPO_PATH } from "@/constants"
+import type { AuthorData, Icon } from "@/types/icons"
 import { motion } from "framer-motion"
 import { Check, Copy, Download, Github } from "lucide-react"
 import Image from "next/image"
@@ -12,31 +13,10 @@ import Link from "next/link"
 import { useState } from "react"
 import { toast } from "sonner"
 
-type Icon = {
-	base: string
-	categories: string[]
-	aliases: string[]
-	update: {
-		timestamp: string
-		author: {
-			id: string
-		}
-	}
-	colors?: {
-		light?: string
-		dark?: string
-	}
-}
-
-type IconDetailsProps = {
+export type IconDetailsProps = {
 	icon: string
 	iconData: Icon
-	authorData: {
-		name?: string
-		login: string
-		avatar_url: string
-		html_url: string
-	}
+	authorData: AuthorData
 }
 
 export function IconDetails({ icon, iconData, authorData }: IconDetailsProps) {

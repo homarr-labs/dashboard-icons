@@ -1,6 +1,6 @@
 export type IconAuthor = {
 	id: number
-	name: string
+	name?: string
 }
 
 export type IconUpdate = {
@@ -9,12 +9,12 @@ export type IconUpdate = {
 }
 
 export type IconColors = {
-	dark: string
-	light: string
+	dark?: string
+	light?: string
 }
 
 export type Icon = {
-	base: "svg" | "png" | "webp"
+	base: string | "svg" | "png" | "webp"
 	aliases: string[]
 	categories: string[]
 	update: IconUpdate
@@ -35,13 +35,9 @@ export type IconSearchProps = {
 	initialQuery?: string
 }
 
-export type IconDetailsProps = {
-	icon: string
-	iconData: Icon
-	authorData: {
-		name?: string
-		login: string
-		avatar_url: string
-		html_url: string
-	}
+export type AuthorData = {
+	name?: string
+	login: string
+	avatar_url: string
+	html_url: string
 }

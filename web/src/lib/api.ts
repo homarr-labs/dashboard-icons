@@ -1,11 +1,11 @@
-import type { IconFile, IconWithName } from "@/types"
+import type { IconFile, IconWithName } from "@/types/icons"
 
 /**
  * Fetches all icon data from the metadata.json file
  */
 export async function getAllIcons(): Promise<IconFile> {
 	const file = await fetch("https://raw.githubusercontent.com/homarr-labs/dashboard-icons/refs/heads/main/metadata.json")
-	return await file.json() as IconFile
+	return (await file.json()) as IconFile
 }
 
 export const getIconsWithoutData = async (): Promise<string[]> => {

@@ -2,11 +2,7 @@ import type { NextConfig } from "next"
 
 const nextConfig: NextConfig = {
 	images: {
-		remotePatterns: [
-			{
-				hostname: "cdn.jsdelivr.net",
-			},
-		],
+		unoptimized: true,
 	},
 	output: "export",
 }
