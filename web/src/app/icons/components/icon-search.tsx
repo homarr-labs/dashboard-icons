@@ -7,16 +7,18 @@ import type { IconSearchProps } from "@/types/icons"
 import { Search } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
-import { usePathname, useRouter } from "next/navigation"
+import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import { useCallback, useEffect, useRef, useState } from "react"
 
-export function IconSearch({ icons, initialQuery = "" }: IconSearchProps) {
+export function IconSearch({ icons }: IconSearchProps) {
+	const searchParams = useSearchParams()
+	const initialQuery = searchParams.get("q")
 	const router = useRouter()
 	const pathname = usePathname()
-	const [searchQuery, setSearchQuery] = useState(initialQuery)
+	const [searchQuery, setSearchQuery] = useState(initialQuery ?? "")
 	const timeoutRef = useRef<NodeJS.Timeout | null>(null)
 	const [filteredIcons, setFilteredIcons] = useState(() => {
-		if (!initialQuery.trim()) return icons
+		if (!initialQuery?.trim()) return icons
 
 		const q = initialQuery.toLowerCase()
 		return icons.filter(({ name, data }) => {
@@ -75,6 +77,8 @@ export function IconSearch({ icons, initialQuery = "" }: IconSearchProps) {
 			}
 		}
 	}, [])
+
+	if (!searchParams) return null
 
 	return (
 		<>

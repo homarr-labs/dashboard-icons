@@ -48,6 +48,8 @@
 		"motion": "^12.6.5",
 		"next": "15.3.0",
 		"next-themes": "^0.4.6",
+		"posthog-js": "^1.235.6",
+		"posthog-node": "^4.11.3",
 		"react": "^19.1.0",
 		"react-day-picker": "8.10.1",
 		"react-dom": "^19.1.0",
@@ -71,6 +73,9 @@
 	},
 	"packageManager": "pnpm@10.8.0",
 	"pnpm": {
-		"onlyBuiltDependencies": ["@biomejs/biome", "sharp"]
+		"onlyBuiltDependencies": [
+			"@biomejs/biome",
+			"sharp"
+		]
 	}
 }

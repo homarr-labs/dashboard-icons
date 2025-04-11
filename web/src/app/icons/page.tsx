@@ -8,15 +8,8 @@ export const metadata: Metadata = {
 }
 
 export const dynamic = "force-static"
-
-export default async function IconsPage({
-	searchParams,
-}: {
-	searchParams: Promise<{ q?: string }>
-}) {
+export default async function IconsPage() {
 	const icons = await getIconsArray()
-	const { q } = await searchParams
-
 	return (
 		<div className="py-8">
 			<div className="space-y-4 mb-8 mx-auto max-w-[80vw]">
@@ -27,7 +20,7 @@ export default async function IconsPage({
 					</div>
 				</div>
 
-				<IconSearch icons={icons} initialQuery={q} />
+				<IconSearch icons={icons} />
 			</div>
 		</div>
 	)
