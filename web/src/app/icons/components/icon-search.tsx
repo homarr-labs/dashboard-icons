@@ -104,6 +104,7 @@ export function IconSearch({ icons }: IconSearchProps) {
 				<div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-4 mt-8">
 					{filteredIcons.map(({ name, data }) => (
 						<Link
+							prefetch={false}
 							key={name}
 							href={`/icons/${name}`}
 							className="group flex flex-col items-center p-3 sm:p-4 rounded-lg border border-border hover:border-primary hover:bg-accent transition-colors"
