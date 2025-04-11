@@ -69,7 +69,11 @@
 		"tailwindcss": "^4.1.3",
 		"typescript": "^5.8.3"
 	},
+	"packageManager": "pnpm@10.8.0",
 	"pnpm": {
-		"onlyBuiltDependencies": ["@biomejs/biome", "sharp"]
+		"onlyBuiltDependencies": [
+			"@biomejs/biome",
+			"sharp"
+		]
 	}
 }
