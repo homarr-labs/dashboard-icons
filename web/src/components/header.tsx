@@ -11,7 +11,7 @@ export async function Header() {
 			<div className="px-4 md:px-12 flex items-center justify-between h-16">
 				<div className="flex items-center gap-2 md:gap-6">
 					<Link href="/" className="text-lg md:text-xl font-bold">
-						Dashboard-icons
+						Dashboard Icons
 					</Link>
 					<HeaderNav />
 				</div>

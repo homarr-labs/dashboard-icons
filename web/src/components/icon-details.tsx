@@ -236,11 +236,11 @@ export function IconDetails({ icon, iconData, authorData }: IconDetailsProps) {
 					</Card>
 				</div>
 
-				{/* Middle Column: Icon Variants */}
+				{/* Middle Column: Icon variants */}
 				<div className="lg:col-span-2">
 					<Card className="h-full">
 						<CardHeader>
-							<CardTitle>Icon Variants</CardTitle>
+							<CardTitle>Icon variants</CardTitle>
 							<CardDescription>Click on any icon to copy its URL to your clipboard</CardDescription>
 						</CardHeader>
 						<CardContent>
@@ -253,7 +253,7 @@ export function IconDetails({ icon, iconData, authorData }: IconDetailsProps) {
 									<div>
 										<h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
 											<span className="inline-block w-3 h-3 rounded-full bg-primary" />
-											Light Theme
+											Light theme
 										</h3>
 										<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
 											{availableFormats.map((format) => renderVariant(format, icon, "light"))}
@@ -262,7 +262,7 @@ export function IconDetails({ icon, iconData, authorData }: IconDetailsProps) {
 									<div>
 										<h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
 											<span className="inline-block w-3 h-3 rounded-full bg-primary" />
-											Dark Theme
+											Dark theme
 										</h3>
 										<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
 											{availableFormats.map((format) => renderVariant(format, icon, "dark"))}
@@ -274,16 +274,16 @@ export function IconDetails({ icon, iconData, authorData }: IconDetailsProps) {
 					</Card>
 				</div>
 
-				{/* Right Column: Technical Details */}
+				{/* Right Column: Technical details */}
 				<div className="lg:col-span-1">
 					<Card className="h-full">
 						<CardHeader>
-							<CardTitle>Technical Details</CardTitle>
+							<CardTitle>Technical details</CardTitle>
 						</CardHeader>
 						<CardContent>
 							<div className="space-y-6">
 								<div className="space-y-3">
-									<h3 className="text-sm font-semibold text-muted-foreground">Base Format</h3>
+									<h3 className="text-sm font-semibold text-muted-foreground">Base format</h3>
 									<div className="flex items-center gap-2">
 										<span className="w-3 h-3 rounded-full bg-primary/80" />
 										<div className="px-3 py-1.5 bg-muted rounded-md text-sm font-medium">{iconData.base.toUpperCase()}</div>
@@ -291,7 +291,7 @@ export function IconDetails({ icon, iconData, authorData }: IconDetailsProps) {
 								</div>
 
 								<div className="space-y-3">
-									<h3 className="text-sm font-semibold text-muted-foreground">Available Formats</h3>
+									<h3 className="text-sm font-semibold text-muted-foreground">Available formats</h3>
 									<div className="flex flex-wrap gap-2">
 										{availableFormats.map((format) => (
 											<div key={format} className="px-3 py-1.5 bg-muted rounded-md text-xs font-medium">
@@ -303,7 +303,7 @@ export function IconDetails({ icon, iconData, authorData }: IconDetailsProps) {
 
 								{iconData.colors && (
 									<div className="space-y-3">
-										<h3 className="text-sm font-semibold text-muted-foreground">Color Variants</h3>
+										<h3 className="text-sm font-semibold text-muted-foreground">Color variants</h3>
 										<div className="space-y-2">
 											{Object.entries(iconData.colors).map(([theme, variant]) => (
 												<div key={theme} className="flex items-center gap-2">

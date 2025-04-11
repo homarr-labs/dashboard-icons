@@ -174,7 +174,7 @@ export function HeroSection({ totalIcons }: { totalIcons: number }) {
 							<span className="bg-clip-text text-transparent bg-gradient-to-b from-foreground to-foreground/80">The best source for</span>
 							<br />
 							<span className={cn("bg-clip-text text-transparent bg-gradient-to-r from-indigo-300 via-foreground/90 to-rose-300")}>
-								dashboard icons
+								dashboard icons.
 							</span>
 						</h1>
 					</motion.div>
@@ -206,7 +206,7 @@ export function HeroSection({ totalIcons }: { totalIcons: number }) {
 						<div className="flex gap-4">
 							<Button variant="default" className="rounded-lg" size="lg" asChild>
 								<Link href="/icons" className="flex items-center">
-									browse all icons
+									Browse all icons
 								</Link>
 							</Button>
 							<Button variant="outline" size="lg" className="gap-2" asChild>
