@@ -1,17 +1,21 @@
 > [!WARNING]
-> The repository has been migrated from `walkxcode` to `homarr-labs`, because I do not have the capacity/time to keep maintaining it. The Homarr team will take over all management and maintenance, whilst keeping all functionality for you, the user, the same. The project will always be usable outside of Homarr itself and breaking changes will not be made. ^Bjorn
+> The repository has been migrated from `walkxcode` to `homarr-labs` as I no longer have the capacity to maintain it. The Homarr team will now handle management and maintenance, ensuring that functionality remains unchanged. The project will always be usable outside of Homarr and no breaking changes will be introduced.  
+> ― *Bjorn*
 >
-> The license and guidelines have changed, so please review them. If you want to help with maintenance, reach out to [homarr-labs@proton.me](mailto:homarr-labs@proton.me).
+> The license and guidelines have been updated, so please review them. To help with maintenance, contact us at [homarr-labs@proton.me](mailto:homarr-labs@proton.me).
 
 [![jsDelivr hits (GitHub)](https://img.shields.io/jsdelivr/gh/hy/homarr-labs/dashboard-icons?style=flat-square&color=%23A020F0)](https://www.jsdelivr.com/package/gh/homarr-labs/dashboard-icons)
 [![jsDelivr hits (GitHub)](https://img.shields.io/jsdelivr/gh/hy/walkxcode/dashboard-icons?style=flat-square&color=%23A020F0)](https://www.jsdelivr.com/package/gh/walkxcode/dashboard-icons)
 
+[https://icons.homarr.dev](https://icons.homarr.dev)
+
 ## Dashboard Icons
 
-The best source for dashboard icons.<br />
-[**View icons →**](ICONS.md)
+Your definitive source for dashboard icons.  
+[**View icons →**](https://icons.homarr.dev)
 
 ## Table of Contents
+
 - [Dashboard Icons](#dashboard-icons)
 - [Table of Contents](#table-of-contents)
 - [Icon Requests](#icon-requests)
@@ -19,19 +23,19 @@ The best source for dashboard icons.<br />
 - [Usage and Details](#usage-and-details)
   - [Direct Links](#direct-links)
     - [Base URL](#base-url)
-    - [Name](#name)
+    - [Icon Name](#icon-name)
     - [Formats](#formats)
-  - [Dark/Light Versions](#darklight-versions)
+  - [Dark/Light Variants](#darklight-variants)
   - [Downloading Icons](#downloading-icons)
 - [Disclaimer](#disclaimer)
 
 ## Icon Requests
 
-If you're looking to add a new icon, please read the [Contribution Guidelines](CONTRIBUTING.md). Afterwards, submit a Pull Request or open an issue.
+If you’d like to add a new icon, please review our [Contribution Guidelines](CONTRIBUTING.md) and then submit a request using [our issue templates](https://github.com/homarr-labs/dashboard-icons/issues/new/choose).
 
 ## Supported Dashboards
 
-Several dashboards offer seamless integration with Dashboard Icons. Here are some of the most popular options:
+Dashboard Icons integrate seamlessly with several popular dashboards, including:
 
 - [Homarr](https://github.com/ajnart/homarr)
 - [Homepage](https://github.com/gethomepage/homepage)
@@ -41,76 +45,72 @@ Several dashboards offer seamless integration with Dashboard Icons. Here are som
 
 ### Direct Links
 
-Icons can be used directly from either GitHub or jsDelivr (recommended). Links consist of three components, each described below:
+You can use icons directly from GitHub or through the lightning-fast jsDelivr CDN. The structure of a direct link is as follows:
 
-- **Base URL**
-- **Name**
-- **Format**
+```
+https://<Base URL>/<Format>/<Name>.<Format>
+```
 
-A complete link will look like this:
+For example, the WEBP version of the Nextcloud Calendar icon is available at:
 
-    https://<Base URL>/<Format>/<Name>.<Format>
-
-For example, the icon URL for the WEBP version of Nextcloud Calendar would be:
-
-    https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/webp/nextcloud-calendar.webp
+```
+https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/webp/nextcloud-calendar.webp
+```
 
 #### Base URL
 
-We recommend using jsDelivr, a free and fast CDN:
+We recommend using jsDelivr:
 
 - `https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons`
 
-Alternatively, you can use direct links to the repository:
+Alternatively, you can reference the repository directly:
 
 - `https://raw.githubusercontent.com/homarr-labs/dashboard-icons/refs/heads/main`
 
-#### Name
+#### Icon Name
 
-Icons are named using kebab case (lowercase words separated by hyphens). For example, "Nextcloud Calendar" becomes `nextcloud-calendar`.
+Icons follow kebab-case formatting (all lowercase words separated by hyphens). For example, "Nextcloud Calendar" becomes `nextcloud-calendar`.
 
 #### Formats
 
-Icons are available in the following formats:
+Icons are available in these formats:
 
 - SVG
 - PNG
 - WEBP
 
-All icons are generated from the SVG file as the base.
+*All icons are generated from the base SVG file. For more details, see the [Contribution Guidelines](CONTRIBUTING.md).*
 
-*Read more about the specifics and standards of icons in the [Contribution Guidelines](CONTRIBUTING.md).*
+### Dark/Light Variants
 
-### Dark/Light Versions
+Some icons may have very light or dark colors, which might reduce visibility on certain backgrounds. In such cases, a `-light` or `-dark` suffix is appended—for instance, "2fauth" becomes `2fauth-light`.
 
-In some cases, an icon might have very light or dark colors, making it hard to see on certain backgrounds. In this situation, a `-light` or `-dark` version will be added to the end of the icon's name, with colors adjusted accordingly.
-
-For example, "2fauth" becomes `2fauth-light`.
-
-*Read more about the specifics and standards of icons in the [Contribution Guidelines](CONTRIBUTING.md).*
+*More specifics are available in the [Contribution Guidelines](CONTRIBUTING.md).*
 
 ### Downloading Icons
 
-To download icons from the [icons page](ICONS.md), simply Right-click the icon link and select "Save link as".
+1. **Browse & Download:**  
+   Visit [https://icons.homarr.dev](https://icons.homarr.dev) to easily view and download icons.
 
-**Warning**: Visiting the icons page will load every icon in the repository. This may result in:
+2. **Using the Browser:**  
+   On the icons page ([ICONS.md](ICONS.md)), right-click any icon link and select "Save link as".  
+   **Note:** Loading the icons page displays every icon in the repository, which may lead to high data usage, slow performance, or even browser crashes on less powerful devices. For faster access, use the direct links or download icons individually.
 
-- High data usage.
-- System slowdowns.
-- Browser crashes on some devices.
+3. **Using the Terminal:**  
+   Download icons via `curl` or `wget` by using the following structure:
 
-If you prefer not to load all icons at once, consider using the direct links or downloading icons individually.
+   ```bash
+   curl -O https://<Base URL>/<Format>/<Name>.<Format>
+   ```
+   
+   or
 
-To download icons using the terminal, use `curl` or `wget`. Refer to [Direct Links](#direct-links) for details on the link structure.
-
-    curl -O https://<Base URL>/<Format>/<Name>.<Format>
-
-or
-
-    wget https://<Base URL>/<Format>/<Name>.<Format>
+   ```bash
+   wget https://<Base URL>/<Format>/<Name>.<Format>
+   ```
 
 ## Disclaimer
 
-Unless otherwise indicated, all images and assets in this repository, including product names, trademarks, and registered trademarks, are the property of their respective owners. These images and assets are used for identification purposes only, and their use does not imply endorsement.
+Unless stated otherwise, all images and assets in this repository—including product names, trademarks, and registered trademarks—belong to their respective owners and are used solely for identification purposes. Their inclusion does not imply endorsement.
 
-Read the [LICENSE](LICENSE) for more information about the project itself. For questions or concerns, contact us at [homarr-labs@proton.me](mailto:homarr-labs@proton.me).
+For more details, please review the [LICENSE](LICENSE). If you have any questions or concerns, contact us at [homarr-labs@proton.me](mailto:homarr-labs@proton.me).
