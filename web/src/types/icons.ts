@@ -36,6 +36,7 @@ export type IconSearchProps = {
 }
 
 export type AuthorData = {
+	id: number
 	name?: string
 	login: string
 	avatar_url: string
