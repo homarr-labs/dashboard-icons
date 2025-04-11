@@ -49,23 +49,6 @@ export function IconDetails({ icon, iconData, authorData }: IconDetailsProps) {
 		year: "numeric",
 	})
 
-	// Calculate time difference
-	const getTimeAgo = (timestamp: number) => {
-		const now = new Date().getTime()
-		const diff = now - timestamp
-
-		const days = Math.floor(diff / (1000 * 60 * 60 * 24))
-		if (days < 30) return `${days} days ago`
-
-		const months = Math.floor(days / 30)
-		if (months < 12) return `${months} month${months > 1 ? "s" : ""} ago`
-
-		const years = Math.floor(months / 12)
-		return `${years} year${years > 1 ? "s" : ""} ago`
-	}
-
-	const timeAgo = getTimeAgo(iconData.update.timestamp)
-
 	// Determine available formats based on base format
 	const getAvailableFormats = () => {
 		switch (iconData.base) {
@@ -125,7 +108,6 @@ export function IconDetails({ icon, iconData, authorData }: IconDetailsProps) {
 							>
 								<div className="absolute inset-0 border-2 border-transparent group-hover:border-primary/20 rounded-md z-10 transition-colors" />
 
-								{/* Overlay for copy feedback */}
 								<motion.div
 									className="absolute inset-0 bg-primary/10 flex items-center justify-center z-20 rounded-md"
 									initial={{ opacity: 0 }}
@@ -142,7 +124,7 @@ export function IconDetails({ icon, iconData, authorData }: IconDetailsProps) {
 								</motion.div>
 
 								<Image
-									src={url || "/placeholder.svg"}
+									src={url}
 									alt={`${iconName} in ${format} format${theme ? ` (${theme} theme)` : ""}`}
 									fill
 									className="object-contain p-2"
@@ -160,9 +142,9 @@ export function IconDetails({ icon, iconData, authorData }: IconDetailsProps) {
 						<Tooltip>
 							<TooltipTrigger asChild>
 								<Button variant="outline" size="icon" className="h-8 w-8" asChild>
-									<Link href={url} download>
+									<a href={url} download={`${iconName}.${format}`}>
 										<Download className="w-4 h-4" />
-									</Link>
+									</a>
 								</Button>
 							</TooltipTrigger>
 							<TooltipContent>
@@ -172,7 +154,7 @@ export function IconDetails({ icon, iconData, authorData }: IconDetailsProps) {
 
 						<Tooltip>
 							<TooltipTrigger asChild>
-								<Button variant="outline" size="icon" className="h-8 w-8" onClick={() => handleCopy(url, `btn-${variantKey}`)}>
+								<Button variant="outline" size="icon" className="h-8 w-8 cursor-pointer" onClick={() => handleCopy(url, `btn-${variantKey}`)}>
 									{copiedVariants[`btn-${variantKey}`] ? <Check className="w-4 h-4 text-green-500" /> : <Copy className="w-4 h-4" />}
 								</Button>
 							</TooltipTrigger>
@@ -200,89 +182,75 @@ export function IconDetails({ icon, iconData, authorData }: IconDetailsProps) {
 	}
 
 	return (
-		<div className="min-h-screen bg-background">
-			<div className="max-w-5xl mx-auto px-4 py-8 md:py-12">
-				{/* Hero section */}
-				<div className="flex flex-col md:flex-row items-center md:items-start gap-6 mb-10 bg-card rounded-xl p-6 border shadow-sm">
-					<div className="relative w-24 h-24 md:w-32 md:h-32 bg-background rounded-xl overflow-hidden border flex items-center justify-center p-2">
-						<Image
-							src={`${BASE_URL}/${iconData.base}/${icon}.${iconData.base}`}
-							width={96}
-							height={96}
-							alt={icon}
-							className="w-full h-full object-contain"
-						/>
-					</div>
-					<div className="flex-1 text-center md:text-left">
-						<h1 className="text-3xl md:text-4xl font-bold capitalize mb-2">{icon}</h1>
-
-						<div className="flex flex-col gap-2 text-muted-foreground">
-							<div className="flex flex-col md:flex-row md:items-center gap-1 md:gap-2">
-								<p className="font-medium">Updated on</p>
-								<p>{formattedDate}</p>
-								<span className="hidden md:inline">•</span>
-								<p>{timeAgo}</p>
-							</div>
-
-							<div className="flex items-center gap-2 justify-center md:justify-start">
-								<p className="font-medium">Updated by</p>
-								<div className="flex items-center gap-2">
-									<Avatar className="h-5 w-5 border">
-										<AvatarImage src={authorData.avatar_url} alt={authorName} />
-										<AvatarFallback>{authorName.slice(0, 2).toUpperCase()}</AvatarFallback>
-									</Avatar>
-									<Link href={authorData.html_url} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
-										{authorName}
-									</Link>
+		<div className="container mx-auto px-4 py-8">
+			<div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+				{/* Left Column: Icon Info and Author */}
+				<div className="lg:col-span-1">
+					<Card className="h-full">
+						<CardHeader className="pb-4">
+							<div className="flex flex-col items-center">
+								<div className="relative w-32 h-32 bg-background rounded-xl overflow-hidden border flex items-center justify-center p-3 mb-4">
+									<Image
+										src={`${BASE_URL}/${iconData.base}/${icon}.${iconData.base}`}
+										width={96}
+										height={96}
+										alt={icon}
+										className="w-full h-full object-contain"
+									/>
 								</div>
+								<CardTitle className="text-2xl font-bold capitalize text-center mb-2">{icon}</CardTitle>
 							</div>
-						</div>
-
-						<div className="flex flex-wrap gap-2 mt-4 justify-center md:justify-start">
-							{iconData.categories &&
-								iconData.categories.length > 0 &&
-								iconData.categories.map((category) => (
-									<span key={category} className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold">
-										{category}
-									</span>
-								))}
-						</div>
-					</div>
-				</div>
-
-				<div className="grid gap-6">
-					{/* Icon details card */}
-					<Card>
-						<CardHeader>
-							<CardTitle>Icon Details</CardTitle>
 						</CardHeader>
 						<CardContent>
-							<div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-								<div className="space-y-1">
-									<p className="text-sm text-muted-foreground">Format</p>
-									<p className="font-medium">{iconData.base.toUpperCase()}</p>
+							<div className="space-y-6">
+								<div className="space-y-3">
+									<div className="space-y-2">
+										<div className="flex items-center gap-2">
+											<p className="text-sm">
+												<span className="font-medium">Updated on:</span> {formattedDate}
+											</p>
+										</div>
+										<div className="flex items-center gap-2">
+											<div className="flex items-center gap-2">
+												<p className="text-sm font-medium">By:</p>
+												<Avatar className="h-5 w-5 border">
+													<AvatarImage src={authorData.avatar_url} alt={authorName} />
+													<AvatarFallback>{authorName.slice(0, 2).toUpperCase()}</AvatarFallback>
+												</Avatar>
+												<Link
+													href={authorData.html_url}
+													target="_blank"
+													rel="noopener noreferrer"
+													className="text-primary hover:underline text-sm"
+												>
+													{authorName}
+												</Link>
+											</div>
+										</div>
+									</div>
 								</div>
-								<div className="space-y-1">
-									<p className="text-sm text-muted-foreground">Categories</p>
-									<p className="font-medium">
-										{iconData.categories && iconData.categories.length > 0 ? iconData.categories.join(", ") : "No categories"}
-									</p>
-								</div>
-								<div className="space-y-1">
-									<p className="text-sm text-muted-foreground">Aliases</p>
-									<p className="font-medium">
-										{iconData.aliases && iconData.aliases.length > 0 ? iconData.aliases.join(", ") : "No aliases"}
-									</p>
-								</div>
-								{iconData.colors && (
-									<div className="space-y-1">
-										<p className="text-sm text-muted-foreground">Color Variants</p>
-										<div className="font-medium">
-											{Object.entries(iconData.colors).map(([theme, variant], index) => (
-												<div key={theme} className="flex items-center gap-2">
-													<span className="capitalize">{theme}:</span>
-													<code className="bg-muted px-1 py-0.5 rounded text-sm">{variant}</code>
-												</div>
+
+								{iconData.categories && iconData.categories.length > 0 && (
+									<div className="space-y-3">
+										<h3 className="text-sm font-semibold text-muted-foreground">Categories</h3>
+										<div className="flex flex-wrap gap-2">
+											{iconData.categories.map((category) => (
+												<span key={category} className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold">
+													{category}
+												</span>
+											))}
+										</div>
+									</div>
+								)}
+
+								{iconData.aliases && iconData.aliases.length > 0 && (
+									<div className="space-y-3">
+										<h3 className="text-sm font-semibold text-muted-foreground">Aliases</h3>
+										<div className="flex flex-wrap gap-1">
+											{iconData.aliases.map((alias) => (
+												<span key={alias} className="inline-flex items-center rounded-full bg-muted px-2.5 py-0.5 text-xs">
+													{alias}
+												</span>
 											))}
 										</div>
 									</div>
@@ -292,9 +260,9 @@ export function IconDetails({ icon, iconData, authorData }: IconDetailsProps) {
 					</Card>
 				</div>
 
-				{/* Icon variants section */}
-				<div className="mt-8">
-					<Card>
+				{/* Middle Column: Icon Variants */}
+				<div className="lg:col-span-2">
+					<Card className="h-full">
 						<CardHeader>
 							<CardTitle>Icon Variants</CardTitle>
 							<CardDescription>Click on any icon to copy its URL to your clipboard</CardDescription>
@@ -326,6 +294,66 @@ export function IconDetails({ icon, iconData, authorData }: IconDetailsProps) {
 									</div>
 								</div>
 							)}
+						</CardContent>
+					</Card>
+				</div>
+
+				{/* Right Column: Technical Details */}
+				<div className="lg:col-span-1">
+					<Card className="h-full">
+						<CardHeader>
+							<CardTitle>Technical Details</CardTitle>
+						</CardHeader>
+						<CardContent>
+							<div className="space-y-6">
+								<div className="space-y-3">
+									<h3 className="text-sm font-semibold text-muted-foreground">Base Format</h3>
+									<div className="flex items-center gap-2">
+										<span className="w-3 h-3 rounded-full bg-primary/80"></span>
+										<div className="px-3 py-1.5 bg-muted rounded-md text-sm font-medium">{iconData.base.toUpperCase()}</div>
+									</div>
+								</div>
+
+								<div className="space-y-3">
+									<h3 className="text-sm font-semibold text-muted-foreground">Available Formats</h3>
+									<div className="flex flex-wrap gap-2">
+										{availableFormats.map((format) => (
+											<div key={format} className="px-3 py-1.5 bg-muted rounded-md text-xs font-medium">
+												{format.toUpperCase()}
+											</div>
+										))}
+									</div>
+								</div>
+
+								{iconData.colors && (
+									<div className="space-y-3">
+										<h3 className="text-sm font-semibold text-muted-foreground">Color Variants</h3>
+										<div className="space-y-2">
+											{Object.entries(iconData.colors).map(([theme, variant]) => (
+												<div key={theme} className="flex items-center gap-2">
+													<span className="w-3 h-3 rounded-full bg-primary/80"></span>
+													<span className="capitalize font-medium text-sm">{theme}:</span>
+													<code className="bg-muted px-2 py-0.5 rounded text-xs">{variant}</code>
+												</div>
+											))}
+										</div>
+									</div>
+								)}
+
+								<div className="space-y-3">
+									<h3 className="text-sm font-semibold text-muted-foreground">Source</h3>
+									<Button variant="outline" className="w-full" asChild>
+										<Link
+											href={`${REPO_PATH}/tree/main/${iconData.base}/${icon}.${iconData.base}`}
+											target="_blank"
+											rel="noopener noreferrer"
+										>
+											<Github className="w-4 h-4 mr-2" />
+											View on GitHub
+										</Link>
+									</Button>
+								</div>
+							</div>
 						</CardContent>
 					</Card>
 				</div>

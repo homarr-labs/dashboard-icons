@@ -31,7 +31,7 @@ function ElegantShape({
 	width = 400,
 	height = 100,
 	rotate = 0,
-	gradient = "from-white/[0.08]",
+	gradient = "from-background/[0.1]",
 }: {
 	className?: string
 	delay?: number
@@ -108,7 +108,7 @@ export function HeroSection({ totalIcons }: { totalIcons: number }) {
 	}
 
 	return (
-		<div className="relative min-h-screen w-full flex items-center justify-center overflow-hidden bg-background">
+		<div className="relative pt-40 w-full flex items-center justify-center overflow-hidden bg-background">
 			<div className="absolute inset-0 bg-gradient-to-br from-indigo-500/[0.05] via-transparent to-rose-500/[0.05] blur-3xl" />
 
 			<div className="absolute inset-0 overflow-hidden">
@@ -159,17 +159,13 @@ export function HeroSection({ totalIcons }: { totalIcons: number }) {
 			</div>
 
 			<div className="relative z-10 container mx-auto px-4 md:px-6">
-				<div className="max-w-4xl mx-auto text-center">
-					<Link href="https://github.com/homarr-labs" target="_blank" rel="noopener noreferrer">
-						<motion.div
-							custom={0}
-							variants={fadeUpVariants}
-							initial="hidden"
-							animate="visible"
-							className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.03] border border-white/[0.08] mb-8 md:mb-12"
-						>
-							<Circle className="h-2 w-2 fill-rose-500/80" />
-							<span className="text-sm text-foreground/60 tracking-wide">by homarr-labs</span>
+				<div className="max-w-4xl mx-auto text-center flex flex-col gap-4">
+					<Link prefetch href="https://github.com/homarr-labs" target="_blank" rel="noopener noreferrer" className="mx-auto">
+						<motion.div variants={fadeUpVariants} custom={0} initial="hidden" animate="visible">
+							<Card className="p-2 flex flex-row items-center gap-2 hover:scale-105 transition-all duration-300">
+								<Circle className="h-2 w-2 fill-rose-500/80" />
+								<span className="text-sm text-foreground/60 tracking-wide">by homarr-labs</span>
+							</Card>
 						</motion.div>
 					</Link>
 
@@ -208,15 +204,15 @@ export function HeroSection({ totalIcons }: { totalIcons: number }) {
 							<Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-muted-foreground" />
 						</form>
 						<div className="flex gap-4">
-							<Button variant="default" size="lg" asChild>
+							<Button variant="default" className="rounded-lg" size="lg" asChild>
 								<Link href="/icons" className="flex items-center">
-									Browse All {totalIcons} Icons
+									browse all icons
 								</Link>
 							</Button>
 							<Button variant="outline" size="lg" className="gap-2" asChild>
 								<Link href="https://github.com/homarr-labs/dashboard-icons" target="_blank" rel="noopener noreferrer">
-									<Github className="h-4 w-4" />
 									GitHub
+									<Github className="h-4 w-4" />
 								</Link>
 							</Button>
 						</div>

@@ -1,6 +1,8 @@
-import { GridBackground } from "@/components/grid-background"
+import { Button } from "@/components/ui/button"
 import { getIconsArray } from "@/lib/api"
+import { PlusCircle } from "lucide-react"
 import type { Metadata } from "next"
+import Link from "next/link"
 import { IconSearch } from "./components/icon-search"
 
 export const metadata: Metadata = {
@@ -20,25 +22,16 @@ export default async function IconsPage({
 	const { q } = await searchParams
 
 	return (
-		<div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 text-white relative overflow-hidden">
-			{/* Grid background with radial gradient */}
-			<GridBackground />
-
-			{/* Subtle glow effects */}
-			<div className="absolute top-1/4 -left-20 w-72 h-72 bg-purple-500 rounded-full mix-blend-multiply filter blur-[128px] opacity-20" />
-			<div className="absolute bottom-1/4 -right-20 w-72 h-72 bg-blue-500 rounded-full mix-blend-multiply filter blur-[128px] opacity-20" />
-
-			<div className="container relative z-10 py-12 mx-auto px-4 sm:px-6">
-				<div className="space-y-6 mb-12 max-w-3xl mx-auto text-center">
-					<div className="animate-fade-in-up">
-						<h1 className="text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-600">Browse Icons</h1>
-						<p className="text-xl mt-4 text-blue-100">
-							Search through our collection of <span className="font-bold text-purple-300">{icons.length}</span> beautiful icons.
-						</p>
+		<div className="py-8">
+			<div className="space-y-4 mb-8 mx-auto max-w-[80vw]">
+				<div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+					<div>
+						<h1 className="text-3xl font-bold">Browse Icons</h1>
+						<p className="text-muted-foreground">Search through our collection of {icons.length} beautiful icons.</p>
 					</div>
-
-					<IconSearch icons={icons} initialQuery={q} />
 				</div>
+
+				<IconSearch icons={icons} initialQuery={q} />
 			</div>
 		</div>
 	)

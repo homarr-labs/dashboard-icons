@@ -1,8 +1,9 @@
 "use client"
 
+import { IconSubmissionContent } from "@/components/icon-submission-form"
 import { Input } from "@/components/ui/input"
 import { BASE_URL } from "@/constants"
-import { IconSearchProps } from "@/types"
+import type { IconSearchProps } from "@/types/icons"
 import { Search } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
@@ -12,8 +13,8 @@ export function IconSearch({ icons, initialQuery = "" }: IconSearchProps) {
 	const [searchQuery, setSearchQuery] = useState(initialQuery)
 	const [filteredIcons, setFilteredIcons] = useState(() => {
 		// Apply initial filtering if initialQuery exists
-		if (!initialQuery.trim()) return icons;
-		
+		if (!initialQuery.trim()) return icons
+
 		const q = initialQuery.toLowerCase()
 		return icons.filter(({ name, data }) => {
 			// Check if the name contains the query
@@ -26,7 +27,7 @@ export function IconSearch({ icons, initialQuery = "" }: IconSearchProps) {
 			if (data.categories.some((category) => category.toLowerCase().includes(q))) return true
 
 			return false
-		});
+		})
 	})
 
 	const handleSearch = (query: string) => {
@@ -68,9 +69,11 @@ export function IconSearch({ icons, initialQuery = "" }: IconSearchProps) {
 			</div>
 
 			{filteredIcons.length === 0 ? (
-				<div className="text-center py-12">
-					<h2 className="text-xl font-semibold">No icons found</h2>
-					<p className="text-muted-foreground mt-2">Try a different search term.</p>
+				<div className="flex flex-col gap-8 py-12 max-w-2xl mx-auto">
+					<div className="text-center">
+						<h2 className="text-5xl font-semibold">We don't have this one...yet!</h2>
+					</div>
+					<IconSubmissionContent />
 				</div>
 			) : (
 				<div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-4 mt-8">
@@ -95,4 +98,4 @@ export function IconSearch({ icons, initialQuery = "" }: IconSearchProps) {
 			)}
 		</>
 	)
-} 
+}
