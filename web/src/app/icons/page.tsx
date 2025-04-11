@@ -7,6 +7,8 @@ export const metadata: Metadata = {
 	description: "Search and browse through our collection of beautiful dashboard icons",
 }
 
+export const dynamic = "force-static"
+
 export default async function IconsPage({
 	searchParams,
 }: {
