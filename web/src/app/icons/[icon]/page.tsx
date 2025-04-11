@@ -2,8 +2,6 @@ import { IconDetails } from "@/components/icon-details"
 import { BASE_URL } from "@/constants"
 import { getAllIcons, getAuthorData } from "@/lib/api"
 import type { Metadata, ResolvingMetadata } from "next"
-
-// Define Icon type to match the IconDetails component's expectations
 type Icon = {
 	base: string
 	categories: string[]
@@ -34,18 +32,13 @@ type Props = {
 }
 
 export async function generateMetadata({ params, searchParams }: Props, parent: ResolvingMetadata): Promise<Metadata> {
-	// read route params
 	const { icon } = await params
 	const iconsData = await getAllIcons()
-
-	// Check if icon exists
 	if (!iconsData[icon]) {
 		return {
 			title: "Icon Not Found",
 		}
 	}
-
-	// optionally access and extend (rather than replace) parent metadata
 	const previousImages = (await parent).openGraph?.images || []
 	const authorData = await getAuthorData(iconsData[icon].update.author.id)
 
@@ -76,18 +69,16 @@ export default async function IconPage({ params }: { params: Promise<{ icon: str
 	const { icon } = await params
 	const iconsData = await getAllIcons()
 	const originalIconData = iconsData[icon]
-	
-	// Convert the original data to match the expected Icon type
 	const iconData: Icon = {
 		...originalIconData,
 		update: {
 			...originalIconData.update,
 			author: {
-				id: String(originalIconData.update.author.id)
-			}
-		}
+				id: String(originalIconData.update.author.id),
+			},
+		},
 	}
-	
+
 	const authorData = await getAuthorData(originalIconData.update.author.id)
 	return <IconDetails icon={icon} iconData={iconData} authorData={authorData} />
 }

@@ -21,18 +21,12 @@ type IconSearchProps = {
 export function IconSearch({ icons, initialQuery = "" }: IconSearchProps) {
 	const [searchQuery, setSearchQuery] = useState(initialQuery)
 	const [filteredIcons, setFilteredIcons] = useState<IconWithName[]>(() => {
-		// Apply initial filtering if initialQuery exists
 		if (!initialQuery.trim()) return icons
 
 		const q = initialQuery.toLowerCase()
 		return icons.filter(({ name, data }) => {
-			// Check if the name contains the query
 			if (name.toLowerCase().includes(q)) return true
-
-			// Check if any aliases contains the query
 			if (data.aliases.some((alias) => alias.toLowerCase().includes(q))) return true
-
-			// Check if any category contains the query
 			if (data.categories.some((category) => category.toLowerCase().includes(q))) return true
 
 			return false
@@ -49,13 +43,8 @@ export function IconSearch({ icons, initialQuery = "" }: IconSearchProps) {
 
 		const q = query.toLowerCase()
 		const filtered = icons.filter(({ name, data }) => {
-			// Check if the name contains the query
 			if (name.toLowerCase().includes(q)) return true
-
-			// Check if any aliases contains the query
 			if (data.aliases.some((alias) => alias.toLowerCase().includes(q))) return true
-
-			// Check if any category contains the query
 			if (data.categories.some((category) => category.toLowerCase().includes(q))) return true
 
 			return false

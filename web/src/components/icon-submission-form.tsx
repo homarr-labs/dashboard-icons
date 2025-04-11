@@ -40,8 +40,6 @@ export const ISSUE_TEMPLATES = [
 		url: `${REPO_PATH}/issues/new?template=BLANK_ISSUE`,
 	},
 ]
-
-// The form component that can be used independently
 export function IconSubmissionContent({ onClose }: { onClose?: () => void }) {
 	return (
 		<div className="flex flex-col gap-4">
@@ -65,8 +63,6 @@ export function IconSubmissionContent({ onClose }: { onClose?: () => void }) {
 		</div>
 	)
 }
-
-// The dialog component that integrates the form
 export function IconSubmissionForm() {
 	const [open, setOpen] = useState(false)
 

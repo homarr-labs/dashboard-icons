@@ -40,7 +40,6 @@ type IconDetailsProps = {
 }
 
 export function IconDetails({ icon, iconData, authorData }: IconDetailsProps) {
-	// Use the author login if they don't have a name
 	const authorName = authorData.name || authorData.login
 	const iconColorVariants = iconData.colors
 	const formattedDate = new Date(iconData.update.timestamp).toLocaleDateString("en-GB", {
@@ -48,8 +47,6 @@ export function IconDetails({ icon, iconData, authorData }: IconDetailsProps) {
 		month: "long",
 		year: "numeric",
 	})
-
-	// Determine available formats based on base format
 	const getAvailableFormats = () => {
 		switch (iconData.base) {
 			case "svg":
@@ -62,20 +59,14 @@ export function IconDetails({ icon, iconData, authorData }: IconDetailsProps) {
 	}
 
 	const availableFormats = getAvailableFormats()
-
-	// Track copied state for each variant
 	const [copiedVariants, setCopiedVariants] = useState<Record<string, boolean>>({})
 
 	const handleCopy = (url: string, variantKey: string) => {
 		navigator.clipboard.writeText(url)
-
-		// Set this specific variant as copied
 		setCopiedVariants((prev) => ({
 			...prev,
 			[variantKey]: true,
 		}))
-
-		// Reset after animation completes
 		setTimeout(() => {
 			setCopiedVariants((prev) => ({
 				...prev,

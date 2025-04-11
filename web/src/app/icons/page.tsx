@@ -1,8 +1,5 @@
-import { Button } from "@/components/ui/button"
 import { getIconsArray } from "@/lib/api"
-import { PlusCircle } from "lucide-react"
 import type { Metadata } from "next"
-import Link from "next/link"
 import { IconSearch } from "./components/icon-search"
 
 export const metadata: Metadata = {
@@ -15,10 +12,7 @@ export default async function IconsPage({
 }: {
 	searchParams: Promise<{ q?: string }>
 }) {
-	// Get all icons as an array, sorted by name
 	const icons = await getIconsArray()
-
-	// Get the search query from URL params
 	const { q } = await searchParams
 
 	return (

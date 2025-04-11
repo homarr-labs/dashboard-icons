@@ -6,8 +6,6 @@ import { usePathname } from "next/navigation"
 
 export function HeaderNav() {
 	const pathname = usePathname()
-
-	// Check if current path is icons or starts with icons/
 	const isIconsActive = pathname === "/icons" || pathname.startsWith("/icons/")
 
 	return (
