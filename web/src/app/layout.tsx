@@ -25,7 +25,7 @@ export default function RootLayout({
 			<body className={`${inter.variable} antialiased bg-background`}>
 				<ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
 					<Header />
-					<main className="container py-6">{children}</main>
+					<main>{children}</main>
 					<Toaster />
 				</ThemeProvider>
 			</body>

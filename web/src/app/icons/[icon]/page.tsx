@@ -1,79 +1,91 @@
 import { BASE_URL } from "@/constants"
+import { getAllIcons, getAuthorData } from "@/lib/api"
 import type { Metadata, ResolvingMetadata } from "next"
 import { notFound } from "next/navigation"
-import { promises as fs } from "node:fs"
-import { IconDetails } from "./icon-details"
+import { IconDetails } from "./components/icon-details"
 
 export async function generateStaticParams() {
-	// https://vercel.com/guides/loading-static-file-nextjs-api-route
-	const file = await fs.readFile(`${process.cwd()}/../metadata.json`, "utf8")
-	const data = JSON.parse(file)
-	console.log(`Found ${Object.keys(data).length} icons`)
-	return Object.keys(data).map((icon) => ({
-		icon,
-	}))
+  const iconsData = await getAllIcons()
+  console.log(`Found ${Object.keys(iconsData).length} icons`)
+  return Object.keys(iconsData).map((icon) => ({
+    icon,
+  }))
 }
 
 type Props = {
-	params: Promise<{ icon: string }>
-	searchParams: Promise<{ [key: string]: string | string[] | undefined }>
+  params: Promise<{ icon: string }>
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
 }
 
 export async function generateMetadata({ params, searchParams }: Props, parent: ResolvingMetadata): Promise<Metadata> {
-	// read route params
-	const { icon } = await params
-	const file = await fs.readFile(`${process.cwd()}/../metadata.json`, "utf8")
-	const data = JSON.parse(file) as IconFile
+  // read route params
+  const { icon } = await params
+  const iconsData = await getAllIcons()
 
-	// optionally access and extend (rather than replace) parent metadata
-	const previousImages = (await parent).openGraph?.images || []
-	const author = await fetch(`https://api.github.com/user/${data[icon].update.author.id}`, {
-		headers: {
-			Authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
-		},
-	})
-	const authorData = await author.json()
-	console.debug(
-		`Generated metadata for ${icon} by ${authorData.name} (${authorData.html_url}) updated at ${new Date(data[icon].update.timestamp).toLocaleString()}`,
-	)
-	return {
-		title: `${icon} icon · DashboardIcons`,
-		description: `Download and use the ${icon} icon from DashboardIcons, updated at ${new Date(data[icon].update.timestamp).toLocaleString()} by ${authorData.name}`,
-		authors: [
-			{
-				name: "homarr",
-				url: "https://homarr.dev",
-			},
-			{
-				name: authorData.name,
-				url: authorData.html_url,
-			},
-		],
-		openGraph: {
-			images: [`${BASE_URL}/${data[icon].base}/${icon}.${data[icon].base}`, ...previousImages],
-		},
-	}
+  // Check if icon exists
+  if (!iconsData[icon]) {
+    return {
+      title: "Icon Not Found",
+    }
+  }
+
+  // optionally access and extend (rather than replace) parent metadata
+  const previousImages = (await parent).openGraph?.images || []
+  const authorData = await getAuthorData(iconsData[icon].update.author.id)
+
+  console.debug(
+    `Generated metadata for ${icon} by ${authorData.name} (${authorData.html_url}) updated at ${new Date(iconsData[icon].update.timestamp).toLocaleString()}`,
+  )
+
+  return {
+    title: `${icon} icon · DashboardIcons`,
+    description: `Download and use the ${icon} icon from DashboardIcons, updated at ${new Date(iconsData[icon].update.timestamp).toLocaleString()} by ${authorData.name}`,
+    authors: [
+      {
+        name: "homarr",
+        url: "https://homarr.dev",
+      },
+      {
+        name: authorData.name,
+        url: authorData.html_url,
+      },
+    ],
+    openGraph: {
+      images: [`${BASE_URL}/${iconsData[icon].base}/${icon}.${iconsData[icon].base}`, ...previousImages],
+    },
+  }
 }
 
 export default async function IconPage({ params }: { params: Promise<{ icon: string }> }) {
-	const { icon } = await params
-	const file = await fs.readFile(`${process.cwd()}/../metadata.json`, "utf8")
-	const data = JSON.parse(file) as IconFile
-	const iconData = data[icon]
-	if (!iconData) {
-		notFound()
-	}
-	// --header "Authorization: Bearer YOUR-TOKEN" \
-	console.log(`Found icon ${icon} with author ${iconData.update.author.id}`)
-	const author = await fetch(`https://api.github.com/user/${iconData.update.author.id}`, {
-		headers: {
-			Authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
-		},
-	})
+  const { icon } = await params
+  const iconsData = await getAllIcons()
+  const iconData = iconsData[icon]
 
-	const authorData = await author.json()
-	if (!icon) {
-		notFound()
-	}
-	return <IconDetails icon={icon} iconData={iconData} authorData={authorData} />
+  if (!iconData) {
+    notFound()
+  }
+
+  try {
+    const authorData = await getAuthorData(iconData.update.author.id)
+
+    return (
+      <>
+        <IconDetails icon={icon} iconData={iconData} authorData={authorData} />
+      </>
+    )
+  } catch (error) {
+    console.error(`Error fetching author data for ${icon}:`, error)
+    // Provide a fallback author data object
+    const fallbackAuthor = {
+      login: iconData.update.author.id,
+      avatar_url: `https://github.com/${iconData.update.author.id}.png`,
+      html_url: `https://github.com/${iconData.update.author.id}`,
+    }
+
+    return (
+      <>
+        <IconDetails icon={icon} iconData={iconData} authorData={fallbackAuthor} />
+      </>
+    )
+  }
 }

@@ -4,6 +4,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { BASE_URL, REPO_PATH } from "@/constants"
+import type { Icon } from "@/types/icons"
 import { Copy, Download, Github } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
@@ -31,7 +32,7 @@ export function IconDetails({ icon, iconData, authorData }: IconDetailsProps) {
 					<Image src={`${BASE_URL}/${iconData.base}/${icon}.${iconData.base}`} width={64} height={64} alt={icon} className="w-16 h-16" />
 					<div>
 						<h1 className="text-3xl font-bold capitalize">{icon}</h1>
-						<p className="text-gray-600">Updated {new Date(iconData.update.timestamp).toLocaleDateString()}</p>
+						<p className="text-gray-600">Updated {new Date(iconData.update.timestamp).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })} (3 months ago)</p>
 					</div>
 				</div>
 
