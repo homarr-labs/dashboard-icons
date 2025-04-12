@@ -1,21 +1,12 @@
-"use client"
-
 import { Button } from "@/components/ui/button"
 import { AlertTriangle, ArrowLeft } from "lucide-react"
 import Link from "next/link"
-import { useEffect } from "react"
 
-export default function IconError({
+export default function NotFound({
 	error,
-	reset,
 }: {
 	error: Error & { digest?: string }
-	reset: () => void
 }) {
-	useEffect(() => {
-		console.error(error)
-	}, [error])
-
 	return (
 		<div className="py-16 flex items-center justify-center">
 			<div className="text-center space-y-6 max-w-md">
@@ -24,6 +15,9 @@ export default function IconError({
 				</div>
 				<h1 className="text-2xl font-bold">Icon not found</h1>
 				<p className="text-muted-foreground">The icon you are looking for could not be found or there was an error loading it.</p>
+				<p className="text-muted-foreground">
+					If you believe this is an error, please contact the maintainers of the repository.
+				</p>
 				<div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
 					<Button asChild>
 						<Link href="/icons">

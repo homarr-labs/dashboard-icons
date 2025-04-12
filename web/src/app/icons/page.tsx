@@ -8,6 +8,7 @@ export const metadata: Metadata = {
 }
 
 export const dynamic = "force-static"
+
 export default async function IconsPage() {
 	const icons = await getIconsArray()
 	return (

@@ -1,9 +1,10 @@
 import { IconDetails } from "@/components/icon-details"
 import { BASE_URL } from "@/constants"
 import { getAllIcons, getAuthorData } from "@/lib/api"
-import type { Icon } from "@/types/icons"
 import type { Metadata, ResolvingMetadata } from "next"
 import { notFound } from "next/navigation"
+
+export const dynamicParams = false
 
 export async function generateStaticParams() {
 	const iconsData = await getAllIcons()
@@ -11,6 +12,8 @@ export async function generateStaticParams() {
 		icon,
 	}))
 }
+
+export const dynamic = "force-static"
 
 type Props = {
 	params: Promise<{ icon: string }>
@@ -21,17 +24,20 @@ export async function generateMetadata({ params, searchParams }: Props, parent: 
 	const { icon } = await params
 	const iconsData = await getAllIcons()
 	if (!iconsData[icon]) {
-		return {
-			title: "Icon Not Found",
-		}
+		notFound()
 	}
 	const previousImages = (await parent).openGraph?.images || []
 	const authorData = await getAuthorData(iconsData[icon].update.author.id)
-	const authorName = authorData.name || authorData.login || ""
+	const authorName = authorData.name || authorData.login
+
+	console.debug(
+		`Generated metadata for ${icon} by ${authorName} (${authorData.html_url}) updated at ${new Date(iconsData[icon].update.timestamp).toLocaleString()}`,
+	)
+
 
 	return {
 		title: `${icon} icon · DashboardIcons`,
-		description: `Download and use the ${icon} icon from DashboardIcons, updated at ${new Date(iconsData[icon].update.timestamp).toLocaleString()} by ${authorName}`,
+		description: `Download and use the ${icon} icon from DashboardIcons`,
 		authors: [
 			{
 				name: "homarr",
