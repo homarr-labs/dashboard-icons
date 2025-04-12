@@ -5,6 +5,7 @@ import Link from "next/link"
 import { X } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Button } from "@/components/ui/button"
+import { REPO_PATH } from "@/constants"
 
 const LOCAL_STORAGE_KEY = "licenseNoticeDismissed"
 
@@ -41,7 +42,7 @@ export function LicenseNotice() {
 					</p>
 					<p>
 						Read the{" "}
-						<Link href="https://github.com/homarr-labs/dashboard-icons/blob/main/LICENSE" className="underline hover:text-foreground" target="_blank" rel="noopener noreferrer">
+						<Link href={`${REPO_PATH}/blob/main/LICENSE`} className="underline hover:text-foreground" target="_blank" rel="noopener noreferrer">
 							LICENSE
 						</Link>{" "}
 						or{" "}
