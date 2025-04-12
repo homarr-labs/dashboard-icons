@@ -4,6 +4,10 @@ import { REPO_PATH } from "@/constants"
 import { Github } from "lucide-react"
 import Link from "next/link"
 import { HeaderNav } from "./header-nav"
+import { getAllIcons } from "@/lib/api"
+import { CommandMenu } from "./command-menu"
+
+const icons = await getAllIcons()
 
 export async function Header() {
 	return (
@@ -16,6 +20,7 @@ export async function Header() {
 					<HeaderNav />
 				</div>
 				<div className="flex items-center gap-2 md:gap-4">
+					<CommandMenu icons={Object.keys(icons)} />
 					<IconSubmissionForm />
 					<Link href={REPO_PATH} target="_blank" className="text-sm font-medium transition-colors hover:text-primary">
 						<Github className="h-5 w-5" />
