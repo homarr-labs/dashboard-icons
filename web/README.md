@@ -15,7 +15,7 @@ A web application to browse, search, and download icons from the [Dashboard Icon
 ## Tech Stack
 
 - **Next.js 15** - React framework with App Router
-- **TypeScript v4** - Type-safe JavaScript
+- **TypeScript v5** - Type-safe JavaScript
 - **Tailwind CSS** - Utility-first CSS framework
 - **Shadcn UI** - Reusable components built with Radix UI and Tailwind
 
