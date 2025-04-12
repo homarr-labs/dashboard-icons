@@ -15,9 +15,7 @@ export default function NotFound({
 				</div>
 				<h1 className="text-2xl font-bold">Icon not found</h1>
 				<p className="text-muted-foreground">The icon you are looking for could not be found or there was an error loading it.</p>
-				<p className="text-muted-foreground">
-					If you believe this is an error, please contact the maintainers of the repository.
-				</p>
+				<p className="text-muted-foreground">If you believe this is an error, please contact the maintainers of the repository.</p>
 				<div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
 					<Button asChild>
 						<Link href="/icons">

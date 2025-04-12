@@ -1,11 +1,11 @@
 import { IconSubmissionForm } from "@/components/icon-submission-form"
 import { ThemeSwitcher } from "@/components/theme-switcher"
 import { REPO_PATH } from "@/constants"
+import { getAllIcons } from "@/lib/api"
 import { Github } from "lucide-react"
 import Link from "next/link"
-import { HeaderNav } from "./header-nav"
-import { getAllIcons } from "@/lib/api"
 import { CommandMenu } from "./command-menu"
+import { HeaderNav } from "./header-nav"
 
 const icons = await getAllIcons()
 

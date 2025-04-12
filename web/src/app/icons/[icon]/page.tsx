@@ -34,7 +34,6 @@ export async function generateMetadata({ params, searchParams }: Props, parent: 
 		`Generated metadata for ${icon} by ${authorName} (${authorData.html_url}) updated at ${new Date(iconsData[icon].update.timestamp).toLocaleString()}`,
 	)
 
-
 	return {
 		title: `${icon} icon · DashboardIcons`,
 		description: `Download and use the ${icon} icon from DashboardIcons`,
