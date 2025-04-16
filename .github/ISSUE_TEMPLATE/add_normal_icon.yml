@@ -30,32 +30,26 @@ body:
       label: Categories
       multiple: true
       options:
-        - Animal
-        - Cloud
-        - Communication
-        - Design
-        - Development
-        - E-Commerce
-        - Education
-        - File
-        - Finance
-        - Food
-        - Gaming
-        - Hardware
-        - Health
-        - Location
-        - Logistics
-        - Media
-        - Music
-        - Nature
-        - News
-        - Organization
-        - Search
-        - Security
-        - SocialMedia
-        - Streaming
-        - Travel
-        - Video
+        - Operating-Systems
+        - Web-Browsers
+        - Cloud-Computing-Platforms
+        - Databases-&-Data-Management
+        - Media-Streaming-&-Servers
+        - Password-Management
+        - System-&-Network-Monitoring
+        - Version-Control-&-Development-Platforms
+        - Home-Automation-&-Smart-Home
+        - Download-Clients-&-Tools
+        - VPN-&-Network-Security
+        - Social-Media-&-Networking
+        - Productivity-&-Office-Suites
+        - File-Sharing-&-Synchronization
+        - Search-Engines-&-Web-Crawlers
+        - Design-&-Graphics-Software
+        - Utilities-&-System-Administration-Tools
+        - Networking-&-Infrastructure
+        - Note-taking-&-Knowledge-Management
+        - AI-&-LLMs
   - type: input
     attributes:
       label: Aliases
