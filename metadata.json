@@ -2620,6 +2620,23 @@
             }
         }
     },
+    "uncomplicated-alert-receiver": {
+        "base": "svg",
+        "aliases": [
+            "uncomplicated-alert-receiver",
+            "uar"
+        ],
+        "categories": [
+            "Cloud"
+        ],
+        "update": {
+            "timestamp": "2025-04-16T19:36:26.864720",
+            "author": {
+                "id": 2025715,
+                "login": "jamesread"
+            }
+        }
+    },
     "dd-wrt": {
         "base": "png",
         "aliases": [
