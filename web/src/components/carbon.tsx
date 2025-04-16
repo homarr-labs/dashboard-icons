@@ -3,6 +3,9 @@ import React from "react"
 export function Carbon() {
 	// biome-ignore lint/style/noNonNullAssertion: <explanation>
 	const ref = React.useRef<HTMLDivElement>(null!)
+	if (process.env.NODE_ENV === "development") {
+		return null
+	}
 
 	React.useEffect(() => {
 		const serve = "CW7IP27L"
