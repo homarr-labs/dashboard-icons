@@ -1,10 +1,11 @@
+import { METADATA_URL } from "@/constants"
 import type { IconFile, IconWithName } from "@/types/icons"
 /**
  * Fetches all icon data from the metadata.json file
  */
 
 export async function getAllIcons(): Promise<IconFile> {
-	const file = await fetch("https://raw.githubusercontent.com/homarr-labs/dashboard-icons/refs/heads/main/metadata.json")
+	const file = await fetch(METADATA_URL)
 	return (await file.json()) as IconFile
 }
 

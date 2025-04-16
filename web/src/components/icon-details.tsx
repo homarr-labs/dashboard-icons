@@ -12,6 +12,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { useState } from "react"
 import { toast } from "sonner"
+import { Carbon } from "./carbon"
 
 export type IconDetailsProps = {
 	icon: string
@@ -331,6 +332,7 @@ export function IconDetails({ icon, iconData, authorData }: IconDetailsProps) {
 								</div>
 							</div>
 						</CardContent>
+						<Carbon />
 					</Card>
 				</div>
 			</div>
