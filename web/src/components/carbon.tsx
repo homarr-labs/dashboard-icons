@@ -1,18 +1,18 @@
-import React from "react";
+import React from "react"
 
 export function Carbon() {
 	// biome-ignore lint/style/noNonNullAssertion: <explanation>
-	const ref = React.useRef<HTMLDivElement>(null!);
+	const ref = React.useRef<HTMLDivElement>(null!)
 
 	React.useEffect(() => {
-		const serve = "CW7IP27L";
-		const placement = "homarrdev";
-		ref.current.innerHTML = "";
-		const s = document.createElement("script");
-		s.id = "_carbonads_js";
-		s.src = `//cdn.carbonads.com/carbon.js?serve=${serve}&placement=${placement}`;
-		ref.current.appendChild(s);
-	}, []);
+		const serve = "CW7IP27L"
+		const placement = "homarrdev"
+		ref.current.innerHTML = ""
+		const s = document.createElement("script")
+		s.id = "_carbonads_js"
+		s.src = `//cdn.carbonads.com/carbon.js?serve=${serve}&placement=${placement}`
+		ref.current.appendChild(s)
+	}, [])
 
 	return (
 		<>
@@ -80,5 +80,5 @@ export function Carbon() {
 				<div ref={ref} className="carbon-outer" />
 			</div>
 		</>
-	);
+	)
 }

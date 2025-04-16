@@ -171,7 +171,9 @@ export function HeroSection({ totalIcons }: { totalIcons: number }) {
 
 					<motion.div custom={1} variants={fadeUpVariants} initial="hidden" animate="visible">
 						<h1 className="text-4xl sm:text-6xl md:text-7xl font-bold mb-6 md:mb-8 tracking-tight">
-							<span className="bg-clip-text text-transparent bg-gradient-to-b from-foreground to-foreground/80">Your definitive source for</span>
+							<span className="bg-clip-text text-transparent bg-gradient-to-b from-foreground to-foreground/80">
+								Your definitive source for
+							</span>
 							<br />
 							<span className={cn("bg-clip-text text-transparent bg-gradient-to-r from-indigo-300 via-foreground/90 to-rose-300")}>
 								dashboard icons.

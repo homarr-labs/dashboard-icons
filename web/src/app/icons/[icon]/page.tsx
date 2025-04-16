@@ -29,14 +29,17 @@ export async function generateMetadata({ params, searchParams }: Props, parent: 
 	const previousImages = (await parent).openGraph?.images || []
 	const authorData = await getAuthorData(iconsData[icon].update.author.id)
 	const authorName = authorData.name || authorData.login
+	const updateDate = new Date(iconsData[icon].update.timestamp)
 
-	console.debug(
-		`Generated metadata for ${icon} by ${authorName} (${authorData.html_url}) updated at ${new Date(iconsData[icon].update.timestamp).toLocaleString()}`,
-	)
+	console.debug(`Generated metadata for ${icon} by ${authorName} (${authorData.html_url}) updated at ${updateDate.toLocaleString()}`)
+
+	const iconImageUrl = `${BASE_URL}/png/${icon}.png`
+	const pageUrl = `${BASE_URL}/icons/${icon}`
 
 	return {
-		title: `${icon} icon · DashboardIcons`,
-		description: `Download and use the ${icon} icon from DashboardIcons`,
+		title: `${icon} icon · Dashboard Icons`,
+		description: `Download and use the ${icon} icon from Dashboard Icons for your applications`,
+		keywords: [`${icon} icon`, "dashboard icon", "free icon", "open source icon", "application icon"],
 		authors: [
 			{
 				name: "homarr",
@@ -48,7 +51,33 @@ export async function generateMetadata({ params, searchParams }: Props, parent: 
 			},
 		],
 		openGraph: {
-			images: [`${BASE_URL}/png/${icon}.png`, ...previousImages],
+			title: `${icon} icon · Dashboard Icons`,
+			description: `Download and use the ${icon} icon from Dashboard Icons for your applications`,
+			type: "article",
+			url: pageUrl,
+			images: [
+				{
+					url: iconImageUrl,
+					width: 512,
+					height: 512,
+					alt: `${icon} icon`,
+					type: "image/png",
+				},
+				...previousImages,
+			],
+			authors: [authorName, "homarr"],
+			publishedTime: updateDate.toISOString(),
+			modifiedTime: updateDate.toISOString(),
+		},
+		twitter: {
+			card: "summary_large_image",
+			title: `${icon} icon · Dashboard Icons`,
+			description: `Download and use the ${icon} icon from Dashboard Icons for your applications`,
+			images: [iconImageUrl],
+			creator: "@ajnavocado",
+		},
+		alternates: {
+			canonical: pageUrl,
 		},
 	}
 }
