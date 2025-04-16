@@ -1,0 +1,16 @@
+{
+  "base": "svg",
+  "aliases": [],
+  "categories": [],
+  "update": {
+    "timestamp": "2025-04-16T19:29:02.303176",
+    "author": {
+      "id": 144215270,
+      "login": "SamDc73"
+    }
+  },
+  "colors": {
+    "light": "karakeep",
+    "dark": "karakeep-dark"
+  }
+}
