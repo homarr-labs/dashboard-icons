@@ -32,24 +32,35 @@ body:
       options:
         - Operating-Systems
         - Web-Browsers
-        - Cloud-Computing-Platforms
-        - Databases-&-Data-Management
-        - Media-Streaming-&-Servers
-        - Password-Management
-        - System-&-Network-Monitoring
-        - Version-Control-&-Development-Platforms
-        - Home-Automation-&-Smart-Home
-        - Download-Clients-&-Tools
-        - VPN-&-Network-Security
-        - Social-Media-&-Networking
-        - Productivity-&-Office-Suites
-        - File-Sharing-&-Synchronization
-        - Search-Engines-&-Web-Crawlers
-        - Design-&-Graphics-Software
-        - Utilities-&-System-Administration-Tools
-        - Networking-&-Infrastructure
-        - Note-taking-&-Knowledge-Management
-        - AI-&-LLMs
+        - Cloud-Computing
+        - Databases
+        - Media-Servers
+        - Password-Managers
+        - Monitoring-Tools
+        - Version-Control-Systems
+        - Home-Automation
+        - Download-Managers
+        - VPN
+        - Social-Media
+        - Office-Suites
+        - File-Sharing-&-Sync
+        - Search-Engines
+        - Graphics-Editors
+        - Containerization-&-Orchestration
+        - Networking-Tools
+        - Note-taking-Apps
+        - AI-&-LLM-Platforms
+        - Music-Streaming
+        - Video-Streaming
+        - Linux-Distributions
+        - Gaming-Platforms
+        - E-commerce-Platforms
+        - Finance-&-Banking
+        - Email-Providers
+        - Smart-Home
+        - Server-Panels
+        - Programming-Languages
+        - Developper-Tools
   - type: input
     attributes:
       label: Aliases
