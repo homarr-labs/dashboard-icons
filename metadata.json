@@ -4643,6 +4643,18 @@
             }
         }
     },
+    "enhance": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2025-04-17T03:58:25.087694",
+            "author": {
+                "id": 71474145,
+                "login": "tonywangA"
+            }
+        }
+    },
     "swift": {
         "base": "svg",
         "aliases": [],
