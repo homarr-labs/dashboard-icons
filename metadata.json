@@ -20837,6 +20837,20 @@
             }
         }
     },
+    "vodafone": {
+        "base": "svg",
+        "aliases": [
+            "vodacom"
+        ],
+        "categories": [],
+        "update": {
+            "timestamp": "2025-04-17T02:17:53.090028",
+            "author": {
+                "id": 86736063,
+                "login": "JonasJoKuJonas"
+            }
+        }
+    },
     "dia": {
         "base": "svg",
         "aliases": [],
