@@ -19437,6 +19437,21 @@
             "light": "archiveteam-warrior-light"
         }
     },
+    "otter-wiki": {
+        "base": "png",
+        "aliases": [
+            "otterwiki",
+            "otter-wiki"
+        ],
+        "categories": [],
+        "update": {
+            "timestamp": "2025-04-18T15:03:14.792662",
+            "author": {
+                "id": 60289989,
+                "login": "anandv96"
+            }
+        }
+    },
     "aws-ecs": {
         "base": "svg",
         "aliases": [],
