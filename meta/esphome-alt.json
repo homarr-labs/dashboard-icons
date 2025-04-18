@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "esphome-alt",
-    "light": "esphome-alt-light"
+    "dark": "esphome-alt-light",
+    "light": "esphome-alt"
   }
 }

@@ -15,7 +15,7 @@
     }
   },
   "colors": {
-    "dark": "miniflux",
-    "light": "miniflux-light"
+    "dark": "miniflux-light",
+    "light": "miniflux"
   }
 }

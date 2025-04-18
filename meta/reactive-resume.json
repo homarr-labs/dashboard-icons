@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "reactive-resume",
-    "light": "reactive-resume-light"
+    "dark": "reactive-resume-light",
+    "light": "reactive-resume"
   }
 }

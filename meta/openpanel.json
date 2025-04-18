@@ -14,7 +14,7 @@
     }
   },
   "colors": {
-    "dark": "openpanel",
-    "light": "openpanel-light"
+    "dark": "openpanel-light",
+    "light": "openpanel"
   }
 }

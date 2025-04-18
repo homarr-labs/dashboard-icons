@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "phorge",
-    "light": "phorge-light"
+    "dark": "phorge-light",
+    "light": "phorge"
   }
 }

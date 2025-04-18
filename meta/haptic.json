@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "haptic",
-    "light": "haptic-light"
+    "dark": "haptic-light",
+    "light": "haptic"
   }
 }

@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "teamcity",
-    "light": "teamcity-light"
+    "dark": "teamcity-light",
+    "light": "teamcity"
   }
 }

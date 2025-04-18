@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "notesnook",
-    "light": "notesnook-light"
+    "dark": "notesnook-light",
+    "light": "notesnook"
   }
 }

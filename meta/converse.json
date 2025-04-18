@@ -16,7 +16,7 @@
     }
   },
   "colors": {
-    "dark": "converse",
-    "light": "converse-light"
+    "dark": "converse-light",
+    "light": "converse"
   }
 }

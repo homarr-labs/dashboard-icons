@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "penpot",
-    "light": "penpot-light"
+    "dark": "penpot-light",
+    "light": "penpot"
   }
 }

@@ -16,7 +16,7 @@
     }
   },
   "colors": {
-    "dark": "deno",
-    "light": "deno-light"
+    "dark": "deno-light",
+    "light": "deno"
   }
 }

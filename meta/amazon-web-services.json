@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "amazon-web-services",
-    "light": "amazon-web-services-light"
+    "dark": "amazon-web-services-light",
+    "light": "amazon-web-services"
   }
 }

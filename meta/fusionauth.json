@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "light": "fusionauth-light",
-    "dark": "fusionauth"
+    "light": "fusionauth",
+    "dark": "fusionauth-light"
   }
 }

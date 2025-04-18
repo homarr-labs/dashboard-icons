@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "microsoft-sql-server",
-    "light": "microsoft-sql-server-light"
+    "dark": "microsoft-sql-server-light",
+    "light": "microsoft-sql-server"
   }
 }

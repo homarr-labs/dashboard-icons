@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "cockpit",
-    "light": "cockpit-light"
+    "dark": "cockpit-light",
+    "light": "cockpit"
   }
 }

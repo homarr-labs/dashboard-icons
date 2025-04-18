@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "flightradar24",
-    "light": "flightradar24-light"
+    "dark": "flightradar24-light",
+    "light": "flightradar24"
   }
 }

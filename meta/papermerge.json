@@ -16,7 +16,7 @@
     }
   },
   "colors": {
-    "dark": "papermerge",
-    "light": "papermerge-light"
+    "dark": "papermerge-light",
+    "light": "papermerge"
   }
 }

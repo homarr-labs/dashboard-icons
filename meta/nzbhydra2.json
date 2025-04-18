@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "nzbhydra2",
-    "light": "nzbhydra2-light"
+    "dark": "nzbhydra2-light",
+    "light": "nzbhydra2"
   }
 }

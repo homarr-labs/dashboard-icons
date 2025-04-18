@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "edgeos",
-    "light": "edgeos-light"
+    "dark": "edgeos-light",
+    "light": "edgeos"
   }
 }

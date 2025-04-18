@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "music-assistant",
-    "light": "music-assistant-light"
+    "dark": "music-assistant-light",
+    "light": "music-assistant"
   }
 }

@@ -15,7 +15,7 @@
     }
   },
   "colors": {
-    "dark": "openai",
-    "light": "openai-light"
+    "dark": "openai-light",
+    "light": "openai"
   }
 }

@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "biblioreads",
-    "light": "biblioreads-light"
+    "dark": "biblioreads-light",
+    "light": "biblioreads"
   }
 }

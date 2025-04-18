@@ -15,7 +15,7 @@
     }
   },
   "colors": {
-    "dark": "booklogr",
-    "light": "booklogr-light"
+    "dark": "booklogr-light",
+    "light": "booklogr"
   }
 }

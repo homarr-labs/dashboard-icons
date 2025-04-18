@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "browserless",
-    "light": "browserless-light"
+    "dark": "browserless-light",
+    "light": "browserless"
   }
 }

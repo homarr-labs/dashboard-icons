@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "windows-95",
-    "light": "windows-95-light"
+    "dark": "windows-95-light",
+    "light": "windows-95"
   }
 }

@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "neko",
-    "light": "neko-light"
+    "dark": "neko-light",
+    "light": "neko"
   }
 }

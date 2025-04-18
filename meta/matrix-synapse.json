@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "matrix-synapse",
-    "light": "matrix-synapse-light"
+    "dark": "matrix-synapse-light",
+    "light": "matrix-synapse"
   }
 }

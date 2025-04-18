@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "rimgo",
-    "light": "rimgo-light"
+    "dark": "rimgo-light",
+    "light": "rimgo"
   }
 }

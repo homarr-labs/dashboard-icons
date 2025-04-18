@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "cal-com",
-    "light": "cal-com-light"
+    "dark": "cal-com-light",
+    "light": "cal-com"
   }
 }

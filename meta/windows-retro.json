@@ -15,7 +15,7 @@
     }
   },
   "colors": {
-    "dark": "windows-retro",
-    "light": "windows-retro-light"
+    "dark": "windows-retro-light",
+    "light": "windows-retro"
   }
 }

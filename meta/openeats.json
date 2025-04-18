@@ -15,7 +15,7 @@
     }
   },
   "colors": {
-    "dark": "openeats",
-    "light": "openeats-light"
+    "dark": "openeats-light",
+    "light": "openeats"
   }
 }

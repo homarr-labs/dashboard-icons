@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "myheats",
-    "light": "myheats-light"
+    "dark": "myheats-light",
+    "light": "myheats"
   }
 }

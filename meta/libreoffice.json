@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "libreoffice",
-    "light": "libreoffice-light"
+    "dark": "libreoffice-light",
+    "light": "libreoffice"
   }
 }

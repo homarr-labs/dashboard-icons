@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "feedlynx",
-    "light": "feedlynx-light"
+    "dark": "feedlynx-light",
+    "light": "feedlynx"
   }
 }

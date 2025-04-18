@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "servarr",
-    "light": "servarr-light"
+    "dark": "servarr-light",
+    "light": "servarr"
   }
 }

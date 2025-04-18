@@ -16,7 +16,7 @@
     }
   },
   "colors": {
-    "dark": "zipline",
-    "light": "zipline-light"
+    "dark": "zipline-light",
+    "light": "zipline"
   }
 }

@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "i2p",
-    "light": "i2p-light"
+    "dark": "i2p-light",
+    "light": "i2p"
   }
 }

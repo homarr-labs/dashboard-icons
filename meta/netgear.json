@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "netgear",
-    "light": "netgear-light"
+    "dark": "netgear-light",
+    "light": "netgear"
   }
 }

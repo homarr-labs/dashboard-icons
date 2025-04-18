@@ -15,7 +15,7 @@
     }
   },
   "colors": {
-    "dark": "hatsh",
-    "light": "hatsh-light"
+    "dark": "hatsh-light",
+    "light": "hatsh"
   }
 }

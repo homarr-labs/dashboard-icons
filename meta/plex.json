@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "plex",
-    "light": "plex-light"
+    "dark": "plex-light",
+    "light": "plex"
   }
 }

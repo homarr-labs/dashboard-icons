@@ -15,7 +15,7 @@
     }
   },
   "colors": {
-    "dark": "oxker",
-    "light": "oxker-light"
+    "dark": "oxker-light",
+    "light": "oxker"
   }
 }

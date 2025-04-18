@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "hoarder",
-    "light": "hoarder-light"
+    "dark": "hoarder-light",
+    "light": "hoarder"
   }
 }

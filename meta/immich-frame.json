@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "immich-frame",
-    "light": "immich-frame-light"
+    "dark": "immich-frame-light",
+    "light": "immich-frame"
   }
 }

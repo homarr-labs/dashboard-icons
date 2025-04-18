@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "fast-com",
-    "light": "fast-com-light"
+    "dark": "fast-com-light",
+    "light": "fast-com"
   }
 }

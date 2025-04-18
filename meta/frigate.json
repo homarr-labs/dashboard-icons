@@ -15,7 +15,7 @@
     }
   },
   "colors": {
-    "dark": "frigate",
-    "light": "frigate-light"
+    "dark": "frigate-light",
+    "light": "frigate"
   }
 }

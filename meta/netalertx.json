@@ -16,7 +16,7 @@
     }
   },
   "colors": {
-    "dark": "netalertx",
-    "light": "netalertx-light"
+    "dark": "netalertx-light",
+    "light": "netalertx"
   }
 }

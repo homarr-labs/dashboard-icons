@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "selfhosted",
-    "light": "selfhosted-light"
+    "dark": "selfhosted-light",
+    "light": "selfhosted"
   }
 }

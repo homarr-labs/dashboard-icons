@@ -15,7 +15,7 @@
     }
   },
   "colors": {
-    "light": "open-webui-light",
-    "dark": "open-webui"
+    "light": "open-webui",
+    "dark": "open-webui-light"
   }
 }

@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "libreddit",
-    "light": "libreddit-light"
+    "dark": "libreddit-light",
+    "light": "libreddit"
   }
 }

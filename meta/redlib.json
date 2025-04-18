@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "redlib",
-    "light": "redlib-light"
+    "dark": "redlib-light",
+    "light": "redlib"
   }
 }

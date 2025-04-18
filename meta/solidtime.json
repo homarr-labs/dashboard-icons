@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "solidtime",
-    "light": "solidtime-light"
+    "dark": "solidtime-light",
+    "light": "solidtime"
   }
 }

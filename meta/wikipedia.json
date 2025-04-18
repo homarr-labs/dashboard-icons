@@ -15,7 +15,7 @@
     }
   },
   "colors": {
-    "dark": "wikipedia",
-    "light": "wikipedia-light"
+    "dark": "wikipedia-light",
+    "light": "wikipedia"
   }
 }

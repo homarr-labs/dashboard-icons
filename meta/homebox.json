@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "homebox",
-    "light": "homebox-light"
+    "dark": "homebox-light",
+    "light": "homebox"
   }
 }

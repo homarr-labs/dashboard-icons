@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "dillinger",
-    "light": "dillinger-light"
+    "dark": "dillinger-light",
+    "light": "dillinger"
   }
 }

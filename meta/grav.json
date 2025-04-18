@@ -15,7 +15,7 @@
     }
   },
   "colors": {
-    "dark": "grav",
-    "light": "grav-light"
+    "dark": "grav-light",
+    "light": "grav"
   }
 }

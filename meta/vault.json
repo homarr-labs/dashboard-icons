@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "vault",
-    "light": "vault-light"
+    "dark": "vault-light",
+    "light": "vault"
   }
 }

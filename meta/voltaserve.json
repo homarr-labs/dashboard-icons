@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "voltaserve",
-    "light": "voltaserve-light"
+    "dark": "voltaserve-light",
+    "light": "voltaserve"
   }
 }

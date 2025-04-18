@@ -15,7 +15,7 @@
     }
   },
   "colors": {
-    "dark": "umami",
-    "light": "umami-light"
+    "dark": "umami-light",
+    "light": "umami"
   }
 }

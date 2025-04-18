@@ -12,7 +12,7 @@
     }
   },
   "colors": {
-    "dark": "pioneer",
-    "light": "pioneer-light"
+    "dark": "pioneer-light",
+    "light": "pioneer"
   }
 }

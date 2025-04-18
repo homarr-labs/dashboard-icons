@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "automad",
-    "light": "automad-light"
+    "dark": "automad-light",
+    "light": "automad"
   }
 }

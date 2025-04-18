@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "koillection",
-    "light": "koillection-light"
+    "dark": "koillection-light",
+    "light": "koillection"
   }
 }

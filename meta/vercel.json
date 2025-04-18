@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "vercel",
-    "light": "vercel-light"
+    "dark": "vercel-light",
+    "light": "vercel"
   }
 }

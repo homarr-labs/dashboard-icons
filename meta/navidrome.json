@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "navidrome",
-    "light": "navidrome-light"
+    "dark": "navidrome-light",
+    "light": "navidrome"
   }
 }

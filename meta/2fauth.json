@@ -15,7 +15,7 @@
     }
   },
   "colors": {
-    "dark": "2fauth",
-    "light": "2fauth-light"
+    "dark": "2fauth-light",
+    "light": "2fauth"
   }
 }

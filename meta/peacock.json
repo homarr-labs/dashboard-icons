@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "peacock",
-    "light": "peacock-light"
+    "dark": "peacock-light",
+    "light": "peacock"
   }
 }

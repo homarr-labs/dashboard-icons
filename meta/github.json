@@ -16,7 +16,7 @@
     }
   },
   "colors": {
-    "dark": "github",
-    "light": "github-light"
+    "dark": "github-light",
+    "light": "github"
   }
 }

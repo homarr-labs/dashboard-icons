@@ -16,7 +16,7 @@
     }
   },
   "colors": {
-    "dark": "wakatime",
-    "light": "wakatime-light"
+    "dark": "wakatime-light",
+    "light": "wakatime"
   }
 }

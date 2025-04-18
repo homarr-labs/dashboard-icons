@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "openemr",
-    "light": "openemr-light"
+    "dark": "openemr-light",
+    "light": "openemr"
   }
 }

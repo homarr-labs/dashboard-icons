@@ -15,7 +15,7 @@
     }
   },
   "colors": {
-    "dark": "backrest",
-    "light": "backrest-light"
+    "dark": "backrest-light",
+    "light": "backrest"
   }
 }

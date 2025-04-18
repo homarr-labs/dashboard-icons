@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "apache-tomcat",
-    "light": "apache-tomcat-light"
+    "dark": "apache-tomcat-light",
+    "light": "apache-tomcat"
   }
 }

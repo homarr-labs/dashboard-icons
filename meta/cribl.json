@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "cribl",
-    "light": "cribl-light"
+    "dark": "cribl-light",
+    "light": "cribl"
   }
 }

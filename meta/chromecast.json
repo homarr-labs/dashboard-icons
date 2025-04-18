@@ -13,7 +13,7 @@
     }
   },
   "colors": {
-    "dark": "chromecast",
-    "light": "chromecast-light"
+    "dark": "chromecast-light",
+    "light": "chromecast"
   }
 }

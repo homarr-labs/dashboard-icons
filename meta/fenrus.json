@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "light": "fenrus-light",
-    "dark": "fenrus"
+    "light": "fenrus",
+    "dark": "fenrus-light"
   }
 }

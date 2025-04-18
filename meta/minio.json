@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "minio",
-    "light": "minio-light"
+    "dark": "minio-light",
+    "light": "minio"
   }
 }

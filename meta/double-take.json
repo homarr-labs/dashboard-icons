@@ -16,7 +16,7 @@
     }
   },
   "colors": {
-    "dark": "double-take-dark",
-    "light": "double-take"
+    "dark": "double-take",
+    "light": "double-take-dark"
   }
 }

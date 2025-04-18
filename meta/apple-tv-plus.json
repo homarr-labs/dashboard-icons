@@ -15,7 +15,7 @@
     }
   },
   "colors": {
-    "dark": "apple-tv-plus",
-    "light": "apple-tv-plus-light"
+    "dark": "apple-tv-plus-light",
+    "light": "apple-tv-plus"
   }
 }

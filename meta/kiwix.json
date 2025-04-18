@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "kiwix",
-    "light": "kiwix-light"
+    "dark": "kiwix-light",
+    "light": "kiwix"
   }
 }

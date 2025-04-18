@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "atuin",
-    "light": "atuin-light"
+    "dark": "atuin-light",
+    "light": "atuin"
   }
 }

@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "writefreely",
-    "light": "writefreely-light"
+    "dark": "writefreely-light",
+    "light": "writefreely"
   }
 }

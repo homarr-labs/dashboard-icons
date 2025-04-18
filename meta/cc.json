@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "cc",
-    "light": "cc-light"
+    "dark": "cc-light",
+    "light": "cc"
   }
 }

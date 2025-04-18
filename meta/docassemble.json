@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "docassemble",
-    "light": "docassemble-light"
+    "dark": "docassemble-light",
+    "light": "docassemble"
   }
 }

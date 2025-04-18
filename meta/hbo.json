@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "hbo",
-    "light": "hbo-light"
+    "dark": "hbo-light",
+    "light": "hbo"
   }
 }

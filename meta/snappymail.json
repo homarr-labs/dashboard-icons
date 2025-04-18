@@ -16,7 +16,7 @@
     }
   },
   "colors": {
-    "dark": "snappymail",
-    "light": "snappymail-light"
+    "dark": "snappymail-light",
+    "light": "snappymail"
   }
 }

@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "aws",
-    "light": "aws-light"
+    "dark": "aws-light",
+    "light": "aws"
   }
 }

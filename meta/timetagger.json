@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "timetagger",
-    "light": "timetagger-light"
+    "dark": "timetagger-light",
+    "light": "timetagger"
   }
 }

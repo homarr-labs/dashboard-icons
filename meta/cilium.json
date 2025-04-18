@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "cilium",
-    "light": "cilium-light"
+    "dark": "cilium-light",
+    "light": "cilium"
   }
 }

@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "coder",
-    "light": "coder-light"
+    "dark": "coder-light",
+    "light": "coder"
   }
 }

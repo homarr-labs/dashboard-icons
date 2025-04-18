@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "icinga-full",
-    "light": "icinga-full-light"
+    "dark": "icinga-full-light",
+    "light": "icinga-full"
   }
 }

@@ -16,7 +16,7 @@
     }
   },
   "colors": {
-    "dark": "easy-gate",
-    "light": "easy-gate-light"
+    "dark": "easy-gate-light",
+    "light": "easy-gate"
   }
 }

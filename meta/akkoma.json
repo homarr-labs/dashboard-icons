@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "akkoma",
-    "light": "akkoma-light"
+    "dark": "akkoma-light",
+    "light": "akkoma"
   }
 }

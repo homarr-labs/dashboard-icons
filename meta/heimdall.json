@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "heimdall",
-    "light": "heimdall-light"
+    "dark": "heimdall-light",
+    "light": "heimdall"
   }
 }

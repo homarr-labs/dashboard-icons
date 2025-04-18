@@ -16,7 +16,7 @@
     }
   },
   "colors": {
-    "dark": "guacamole",
-    "light": "guacamole-light"
+    "dark": "guacamole-light",
+    "light": "guacamole"
   }
 }

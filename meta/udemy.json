@@ -15,7 +15,7 @@
     }
   },
   "colors": {
-    "dark": "udemy",
-    "light": "udemy-light"
+    "dark": "udemy-light",
+    "light": "udemy"
   }
 }

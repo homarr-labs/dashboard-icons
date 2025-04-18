@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "pocket-id",
-    "light": "pocket-id-light"
+    "dark": "pocket-id-light",
+    "light": "pocket-id"
   }
 }

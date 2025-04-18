@@ -16,7 +16,7 @@
     }
   },
   "colors": {
-    "dark": "amd",
-    "light": "amd-light"
+    "dark": "amd-light",
+    "light": "amd"
   }
 }

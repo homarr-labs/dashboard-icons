@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "yamtrack",
-    "light": "yamtrack-light"
+    "dark": "yamtrack-light",
+    "light": "yamtrack"
   }
 }

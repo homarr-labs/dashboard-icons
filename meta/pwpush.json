@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "pwpush",
-    "light": "pwpush-light"
+    "dark": "pwpush-light",
+    "light": "pwpush"
   }
 }

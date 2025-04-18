@@ -16,7 +16,7 @@
     }
   },
   "colors": {
-    "dark": "revolt",
-    "light": "revolt-light"
+    "dark": "revolt-light",
+    "light": "revolt"
   }
 }

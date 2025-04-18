@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "olivetin",
-    "light": "olivetin-light"
+    "dark": "olivetin-light",
+    "light": "olivetin"
   }
 }

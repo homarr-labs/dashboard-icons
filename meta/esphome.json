@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "esphome",
-    "light": "esphome-light"
+    "dark": "esphome-light",
+    "light": "esphome"
   }
 }

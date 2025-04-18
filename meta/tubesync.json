@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "tubesync",
-    "light": "tubesync-light"
+    "dark": "tubesync-light",
+    "light": "tubesync"
   }
 }

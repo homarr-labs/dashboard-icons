@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "enclosed",
-    "light": "enclosed-light"
+    "dark": "enclosed-light",
+    "light": "enclosed"
   }
 }

@@ -16,7 +16,7 @@
     }
   },
   "colors": {
-    "dark": "goaccess",
-    "light": "goaccess-light"
+    "dark": "goaccess-light",
+    "light": "goaccess"
   }
 }

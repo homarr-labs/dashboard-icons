@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "raritan",
-    "light": "raritan-light"
+    "dark": "raritan-light",
+    "light": "raritan"
   }
 }

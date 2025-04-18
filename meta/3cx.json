@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "3cx",
-    "light": "3cx-light"
+    "dark": "3cx-light",
+    "light": "3cx"
   }
 }

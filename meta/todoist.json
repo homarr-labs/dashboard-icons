@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "todoist-dark",
-    "light": "todoist"
+    "dark": "todoist",
+    "light": "todoist-dark"
   }
 }

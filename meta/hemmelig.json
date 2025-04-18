@@ -16,7 +16,7 @@
     }
   },
   "colors": {
-    "dark": "hemmelig",
-    "light": "hemmelig-light"
+    "dark": "hemmelig-light",
+    "light": "hemmelig"
   }
 }

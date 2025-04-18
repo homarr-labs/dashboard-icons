@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "matrix",
-    "light": "matrix-light"
+    "dark": "matrix-light",
+    "light": "matrix"
   }
 }

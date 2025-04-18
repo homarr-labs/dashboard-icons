@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "podfetch",
-    "light": "podfetch-light"
+    "dark": "podfetch-light",
+    "light": "podfetch"
   }
 }

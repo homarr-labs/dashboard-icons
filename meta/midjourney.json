@@ -16,7 +16,7 @@
     }
   },
   "colors": {
-    "dark": "midjourney",
-    "light": "midjourney-light"
+    "dark": "midjourney-light",
+    "light": "midjourney"
   }
 }

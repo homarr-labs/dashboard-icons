@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "netapp",
-    "light": "netapp-light"
+    "dark": "netapp-light",
+    "light": "netapp"
   }
 }

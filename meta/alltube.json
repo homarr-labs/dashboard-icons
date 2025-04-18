@@ -14,7 +14,7 @@
     }
   },
   "colors": {
-    "dark": "alltube",
-    "light": "alltube-light"
+    "dark": "alltube-light",
+    "light": "alltube"
   }
 }

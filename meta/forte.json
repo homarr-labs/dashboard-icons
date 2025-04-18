@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "forte",
-    "light": "forte-light"
+    "dark": "forte-light",
+    "light": "forte"
   }
 }

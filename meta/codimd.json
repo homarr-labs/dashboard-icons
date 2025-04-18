@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "codimd",
-    "light": "codimd-light"
+    "dark": "codimd-light",
+    "light": "codimd"
   }
 }

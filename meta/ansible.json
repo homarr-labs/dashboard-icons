@@ -15,7 +15,7 @@
     }
   },
   "colors": {
-    "dark": "ansible",
-    "light": "ansible-light"
+    "dark": "ansible-light",
+    "light": "ansible"
   }
 }

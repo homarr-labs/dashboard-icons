@@ -12,7 +12,7 @@
     }
   },
   "colors": {
-    "dark": "hollo",
-    "light": "hollo-light"
+    "dark": "hollo-light",
+    "light": "hollo"
   }
 }

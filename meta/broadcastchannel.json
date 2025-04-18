@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "broadcastchannel",
-    "light": "broadcastchannel-light"
+    "dark": "broadcastchannel-light",
+    "light": "broadcastchannel"
   }
 }

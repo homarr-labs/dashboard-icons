@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "victoriametrics",
-    "light": "victoriametrics-light"
+    "dark": "victoriametrics-light",
+    "light": "victoriametrics"
   }
 }

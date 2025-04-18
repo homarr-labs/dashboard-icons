@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "pingdom",
-    "light": "pingdom-light"
+    "dark": "pingdom-light",
+    "light": "pingdom"
   }
 }

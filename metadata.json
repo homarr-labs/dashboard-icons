@@ -81,8 +81,8 @@
             }
         },
         "colors": {
-            "dark": "frigate",
-            "light": "frigate-light"
+            "dark": "frigate-light",
+            "light": "frigate"
         }
     },
     "tar1090": {
@@ -116,8 +116,8 @@
             }
         },
         "colors": {
-            "dark": "mayan-edms",
-            "light": "mayan-edms-light"
+            "dark": "mayan-edms-light",
+            "light": "mayan-edms"
         }
     },
     "php": {
@@ -269,8 +269,8 @@
             }
         },
         "colors": {
-            "dark": "invoice-ninja",
-            "light": "invoice-ninja-light"
+            "dark": "invoice-ninja-light",
+            "light": "invoice-ninja"
         }
     },
     "swarmpit": {
@@ -482,8 +482,8 @@
             }
         },
         "colors": {
-            "dark": "hollo",
-            "light": "hollo-light"
+            "dark": "hollo-light",
+            "light": "hollo"
         }
     },
     "synology-webstation": {
@@ -538,8 +538,8 @@
             }
         },
         "colors": {
-            "light": "yuno-host-light",
-            "dark": "yuno-host"
+            "light": "yuno-host",
+            "dark": "yuno-host-light"
         }
     },
     "google-assistant": {
@@ -623,8 +623,8 @@
             }
         },
         "colors": {
-            "dark": "zitadel",
-            "light": "zitadel-light"
+            "dark": "zitadel-light",
+            "light": "zitadel"
         }
     },
     "qinglong": {
@@ -658,8 +658,8 @@
             }
         },
         "colors": {
-            "dark": "android-auto-dark",
-            "light": "android-auto"
+            "dark": "android-auto",
+            "light": "android-auto-dark"
         }
     },
     "sympa": {
@@ -693,8 +693,8 @@
             }
         },
         "colors": {
-            "dark": "dub",
-            "light": "dub-light"
+            "dark": "dub-light",
+            "light": "dub"
         }
     },
     "docking-station": {
@@ -729,8 +729,8 @@
             }
         },
         "colors": {
-            "dark": "infomaniak-kdrive-dark",
-            "light": "infomaniak-kdrive-light"
+            "dark": "infomaniak-kdrive-light",
+            "light": "infomaniak-kdrive-dark"
         }
     },
     "canonical": {
@@ -767,8 +767,8 @@
             }
         },
         "colors": {
-            "dark": "backrest",
-            "light": "backrest-light"
+            "dark": "backrest-light",
+            "light": "backrest"
         }
     },
     "raneto": {
@@ -822,8 +822,8 @@
             }
         },
         "colors": {
-            "dark": "patreon",
-            "light": "patreon-light"
+            "dark": "patreon-light",
+            "light": "patreon"
         }
     },
     "embraer": {
@@ -1298,8 +1298,8 @@
             }
         },
         "colors": {
-            "dark": "pioneer",
-            "light": "pioneer-light"
+            "dark": "pioneer-light",
+            "light": "pioneer"
         }
     },
     "openpanel": {
@@ -1318,8 +1318,8 @@
             }
         },
         "colors": {
-            "dark": "openpanel",
-            "light": "openpanel-light"
+            "dark": "openpanel-light",
+            "light": "openpanel"
         }
     },
     "pingvin-share": {
@@ -1392,8 +1392,8 @@
             }
         },
         "colors": {
-            "dark": "shell-tips",
-            "light": "shell-tips-light"
+            "dark": "shell-tips-light",
+            "light": "shell-tips"
         }
     },
     "codeberg": {
@@ -1651,8 +1651,8 @@
             }
         },
         "colors": {
-            "dark": "chromecast",
-            "light": "chromecast-light"
+            "dark": "chromecast-light",
+            "light": "chromecast"
         }
     },
     "cinny": {
@@ -1672,8 +1672,8 @@
             }
         },
         "colors": {
-            "dark": "cinny",
-            "light": "cinny-light"
+            "dark": "cinny-light",
+            "light": "cinny"
         }
     },
     "openvpn": {
@@ -1729,8 +1729,8 @@
             }
         },
         "colors": {
-            "dark": "alltube",
-            "light": "alltube-light"
+            "dark": "alltube-light",
+            "light": "alltube"
         }
     },
     "homebridge": {
@@ -1819,8 +1819,8 @@
             }
         },
         "colors": {
-            "dark": "wikipedia",
-            "light": "wikipedia-light"
+            "dark": "wikipedia-light",
+            "light": "wikipedia"
         }
     },
     "gameyfin": {
@@ -1840,8 +1840,8 @@
             }
         },
         "colors": {
-            "dark": "gameyfin",
-            "light": "gameyfin-light"
+            "dark": "gameyfin-light",
+            "light": "gameyfin"
         }
     },
     "seafile": {
@@ -2098,8 +2098,8 @@
             }
         },
         "colors": {
-            "dark": "codestats",
-            "light": "codestats-light"
+            "dark": "codestats-light",
+            "light": "codestats"
         }
     },
     "microbin": {
@@ -2136,8 +2136,8 @@
             }
         },
         "colors": {
-            "dark": "plex-meta-manager",
-            "light": "plex-meta-manager-light"
+            "dark": "plex-meta-manager-light",
+            "light": "plex-meta-manager"
         }
     },
     "firefox": {
@@ -2228,8 +2228,8 @@
             }
         },
         "colors": {
-            "dark": "beaver-habit-tracker",
-            "light": "beaver-habit-tracker-light"
+            "dark": "beaver-habit-tracker-light",
+            "light": "beaver-habit-tracker"
         }
     },
     "nomie": {
@@ -2284,8 +2284,8 @@
             }
         },
         "colors": {
-            "dark": "onedev",
-            "light": "onedev-light"
+            "dark": "onedev-light",
+            "light": "onedev"
         }
     },
     "diskover": {
@@ -2476,8 +2476,8 @@
             }
         },
         "colors": {
-            "dark": "astuto",
-            "light": "astuto-light"
+            "dark": "astuto-light",
+            "light": "astuto"
         }
     },
     "zipcaptions": {
@@ -2565,8 +2565,8 @@
             }
         },
         "colors": {
-            "dark": "zyxel-networks",
-            "light": "zyxel-networks-light"
+            "dark": "zyxel-networks-light",
+            "light": "zyxel-networks"
         }
     },
     "screenconnect": {
@@ -2655,8 +2655,8 @@
             }
         },
         "colors": {
-            "dark": "dd-wrt",
-            "light": "dd-wrt-light"
+            "dark": "dd-wrt-light",
+            "light": "dd-wrt"
         }
     },
     "pfsense": {
@@ -2679,8 +2679,8 @@
             }
         },
         "colors": {
-            "dark": "pfsense",
-            "light": "pfsense-light"
+            "dark": "pfsense-light",
+            "light": "pfsense"
         }
     },
     "printer": {
@@ -2908,8 +2908,8 @@
             }
         },
         "colors": {
-            "dark": "selfh-st",
-            "light": "selfh-st-light"
+            "dark": "selfh-st-light",
+            "light": "selfh-st"
         }
     },
     "pi-alert": {
@@ -3014,8 +3014,8 @@
             }
         },
         "colors": {
-            "dark": "ami-alt",
-            "light": "ami-alt-light"
+            "dark": "ami-alt-light",
+            "light": "ami-alt"
         }
     },
     "owntracks": {
@@ -3507,8 +3507,8 @@
             }
         },
         "colors": {
-            "dark": "prime-video",
-            "light": "prime-video-light"
+            "dark": "prime-video-light",
+            "light": "prime-video"
         }
     },
     "vikunja": {
@@ -3563,8 +3563,8 @@
             }
         },
         "colors": {
-            "dark": "hemmelig",
-            "light": "hemmelig-light"
+            "dark": "hemmelig-light",
+            "light": "hemmelig"
         }
     },
     "bitwarden": {
@@ -3796,8 +3796,8 @@
             }
         },
         "colors": {
-            "dark": "passwordpusher",
-            "light": "passwordpusher-light"
+            "dark": "passwordpusher-light",
+            "light": "passwordpusher"
         }
     },
     "teslamate": {
@@ -3817,8 +3817,8 @@
             }
         },
         "colors": {
-            "dark": "teslamate",
-            "light": "teslamate-light"
+            "dark": "teslamate-light",
+            "light": "teslamate"
         }
     },
     "argo-cd": {
@@ -3856,8 +3856,8 @@
             }
         },
         "colors": {
-            "dark": "oxker",
-            "light": "oxker-light"
+            "dark": "oxker-light",
+            "light": "oxker"
         }
     },
     "goaccess": {
@@ -3878,8 +3878,8 @@
             }
         },
         "colors": {
-            "dark": "goaccess",
-            "light": "goaccess-light"
+            "dark": "goaccess-light",
+            "light": "goaccess"
         }
     },
     "obico": {
@@ -3917,8 +3917,8 @@
             }
         },
         "colors": {
-            "dark": "netbox-full-dark",
-            "light": "netbox-full"
+            "dark": "netbox-full",
+            "light": "netbox-full-dark"
         }
     },
     "duo": {
@@ -4141,8 +4141,8 @@
             }
         },
         "colors": {
-            "dark": "ultimate-guitar",
-            "light": "ultimate-guitar-light"
+            "dark": "ultimate-guitar-light",
+            "light": "ultimate-guitar"
         }
     },
     "2fauth": {
@@ -4162,8 +4162,8 @@
             }
         },
         "colors": {
-            "dark": "2fauth",
-            "light": "2fauth-light"
+            "dark": "2fauth-light",
+            "light": "2fauth"
         }
     },
     "logto": {
@@ -4302,8 +4302,8 @@
             }
         },
         "colors": {
-            "dark": "infomaniak-swisstransfer-dark",
-            "light": "infomaniak-swisstransfer-light"
+            "dark": "infomaniak-swisstransfer-light",
+            "light": "infomaniak-swisstransfer-dark"
         }
     },
     "synology": {
@@ -4395,8 +4395,8 @@
             }
         },
         "colors": {
-            "dark": "proxmox",
-            "light": "proxmox-light"
+            "dark": "proxmox-light",
+            "light": "proxmox"
         }
     },
     "wikijs-alt": {
@@ -4433,8 +4433,8 @@
             }
         },
         "colors": {
-            "dark": "ansible",
-            "light": "ansible-light"
+            "dark": "ansible-light",
+            "light": "ansible"
         }
     },
     "ferdium": {
@@ -4772,8 +4772,8 @@
             }
         },
         "colors": {
-            "dark": "locals",
-            "light": "locals-light"
+            "dark": "locals-light",
+            "light": "locals"
         }
     },
     "observo-ai": {
@@ -4915,8 +4915,8 @@
             }
         },
         "colors": {
-            "dark": "emq",
-            "light": "emq-light"
+            "dark": "emq-light",
+            "light": "emq"
         }
     },
     "rstudioserver": {
@@ -5160,8 +5160,8 @@
             }
         },
         "colors": {
-            "dark": "volumio",
-            "light": "volumio-light"
+            "dark": "volumio-light",
+            "light": "volumio"
         }
     },
     "camera-ui": {
@@ -5249,8 +5249,8 @@
             }
         },
         "colors": {
-            "dark": "greenbone",
-            "light": "greenbone-light"
+            "dark": "greenbone-light",
+            "light": "greenbone"
         }
     },
     "mariadb": {
@@ -5394,8 +5394,8 @@
             }
         },
         "colors": {
-            "dark": "fios",
-            "light": "fios-light"
+            "dark": "fios-light",
+            "light": "fios"
         }
     },
     "simplex-chat": {
@@ -5483,8 +5483,8 @@
             }
         },
         "colors": {
-            "dark": "slash",
-            "light": "slash-light"
+            "dark": "slash-light",
+            "light": "slash"
         }
     },
     "znc": {
@@ -5516,8 +5516,8 @@
             }
         },
         "colors": {
-            "dark": "plex-alt",
-            "light": "plex-alt-light"
+            "dark": "plex-alt-light",
+            "light": "plex-alt"
         }
     },
     "focalboard": {
@@ -5569,8 +5569,8 @@
             }
         },
         "colors": {
-            "light": "open-webui-light",
-            "dark": "open-webui"
+            "light": "open-webui",
+            "dark": "open-webui-light"
         }
     },
     "crater-invoice": {
@@ -6047,8 +6047,8 @@
             }
         },
         "colors": {
-            "dark": "cloud9",
-            "light": "cloud9-light"
+            "dark": "cloud9-light",
+            "light": "cloud9"
         }
     },
     "tdarr": {
@@ -6172,8 +6172,8 @@
             }
         },
         "colors": {
-            "dark": "openeats",
-            "light": "openeats-light"
+            "dark": "openeats-light",
+            "light": "openeats"
         }
     },
     "jamstack": {
@@ -6228,8 +6228,8 @@
             }
         },
         "colors": {
-            "dark": "web-check-dark",
-            "light": "web-check"
+            "dark": "web-check",
+            "light": "web-check-dark"
         }
     },
     "kerberos": {
@@ -6391,8 +6391,8 @@
             }
         },
         "colors": {
-            "dark": "posthog",
-            "light": "posthog-light"
+            "dark": "posthog-light",
+            "light": "posthog"
         }
     },
     "kook": {
@@ -6661,8 +6661,8 @@
             }
         },
         "colors": {
-            "dark": "ryot",
-            "light": "ryot-light"
+            "dark": "ryot-light",
+            "light": "ryot"
         }
     },
     "budgetbee": {
@@ -6683,8 +6683,8 @@
             }
         },
         "colors": {
-            "dark": "budgetbee",
-            "light": "budgetbee-light"
+            "dark": "budgetbee-light",
+            "light": "budgetbee"
         }
     },
     "google-wallet": {
@@ -6809,8 +6809,8 @@
             }
         },
         "colors": {
-            "dark": "rhasspy-dark",
-            "light": "rhasspy"
+            "dark": "rhasspy",
+            "light": "rhasspy-dark"
         }
     },
     "grimoire": {
@@ -6937,8 +6937,8 @@
             }
         },
         "colors": {
-            "dark": "commento",
-            "light": "commento-light"
+            "dark": "commento-light",
+            "light": "commento"
         }
     },
     "yarr": {
@@ -6958,8 +6958,8 @@
             }
         },
         "colors": {
-            "dark": "yarr",
-            "light": "yarr-light"
+            "dark": "yarr-light",
+            "light": "yarr"
         }
     },
     "windows-xp": {
@@ -7050,8 +7050,8 @@
             }
         },
         "colors": {
-            "dark": "easy-gate",
-            "light": "easy-gate-light"
+            "dark": "easy-gate-light",
+            "light": "easy-gate"
         }
     },
     "surveymonkey": {
@@ -7123,8 +7123,8 @@
             }
         },
         "colors": {
-            "dark": "turbopack",
-            "light": "turbopack-light"
+            "dark": "turbopack-light",
+            "light": "turbopack"
         }
     },
     "chrome-dev": {
@@ -7256,8 +7256,8 @@
             }
         },
         "colors": {
-            "dark": "github",
-            "light": "github-light"
+            "dark": "github-light",
+            "light": "github"
         }
     },
     "octoprint": {
@@ -7436,8 +7436,8 @@
             }
         },
         "colors": {
-            "dark": "netalertx",
-            "light": "netalertx-light"
+            "dark": "netalertx-light",
+            "light": "netalertx"
         }
     },
     "edge": {
@@ -7510,8 +7510,8 @@
             }
         },
         "colors": {
-            "dark": "midjourney",
-            "light": "midjourney-light"
+            "dark": "midjourney-light",
+            "light": "midjourney"
         }
     },
     "google-street-view": {
@@ -8016,8 +8016,8 @@
             }
         },
         "colors": {
-            "dark": "amd",
-            "light": "amd-light"
+            "dark": "amd-light",
+            "light": "amd"
         }
     },
     "rust": {
@@ -8073,8 +8073,8 @@
             }
         },
         "colors": {
-            "dark": "mikrotik",
-            "light": "mikrotik-light"
+            "dark": "mikrotik-light",
+            "light": "mikrotik"
         }
     },
     "beef": {
@@ -8093,8 +8093,8 @@
             }
         },
         "colors": {
-            "dark": "beef",
-            "light": "beef-light"
+            "dark": "beef-light",
+            "light": "beef"
         }
     },
     "musicbrainz": {
@@ -8293,8 +8293,8 @@
             }
         },
         "colors": {
-            "dark": "wallabag",
-            "light": "wallabag-light"
+            "dark": "wallabag-light",
+            "light": "wallabag"
         }
     },
     "deno": {
@@ -8315,8 +8315,8 @@
             }
         },
         "colors": {
-            "dark": "deno",
-            "light": "deno-light"
+            "dark": "deno-light",
+            "light": "deno"
         }
     },
     "youtube": {
@@ -8596,8 +8596,8 @@
             }
         },
         "colors": {
-            "dark": "grav",
-            "light": "grav-light"
+            "dark": "grav-light",
+            "light": "grav"
         }
     },
     "csharp": {
@@ -8635,8 +8635,8 @@
             }
         },
         "colors": {
-            "dark": "amazon",
-            "light": "amazon-light"
+            "dark": "amazon-light",
+            "light": "amazon"
         }
     },
     "deluge": {
@@ -8690,8 +8690,8 @@
             }
         },
         "colors": {
-            "dark": "opengist",
-            "light": "opengist-light"
+            "dark": "opengist-light",
+            "light": "opengist"
         }
     },
     "plex-rewind": {
@@ -8728,8 +8728,8 @@
             }
         },
         "colors": {
-            "dark": "booklogr",
-            "light": "booklogr-light"
+            "dark": "booklogr-light",
+            "light": "booklogr"
         }
     },
     "synology-office": {
@@ -8907,8 +8907,8 @@
             }
         },
         "colors": {
-            "dark": "guacamole",
-            "light": "guacamole-light"
+            "dark": "guacamole-light",
+            "light": "guacamole"
         }
     },
     "zammad": {
@@ -9053,8 +9053,8 @@
             }
         },
         "colors": {
-            "dark": "misskey",
-            "light": "misskey-light"
+            "dark": "misskey-light",
+            "light": "misskey"
         }
     },
     "apple-music": {
@@ -9163,8 +9163,8 @@
             }
         },
         "colors": {
-            "dark": "double-take-dark",
-            "light": "double-take"
+            "dark": "double-take",
+            "light": "double-take-dark"
         }
     },
     "mediathekview": {
@@ -9237,8 +9237,8 @@
             }
         },
         "colors": {
-            "dark": "miniflux",
-            "light": "miniflux-light"
+            "dark": "miniflux-light",
+            "light": "miniflux"
         }
     },
     "papermerge": {
@@ -9259,8 +9259,8 @@
             }
         },
         "colors": {
-            "dark": "papermerge",
-            "light": "papermerge-light"
+            "dark": "papermerge-light",
+            "light": "papermerge"
         }
     },
     "zipline": {
@@ -9281,8 +9281,8 @@
             }
         },
         "colors": {
-            "dark": "zipline",
-            "light": "zipline-light"
+            "dark": "zipline-light",
+            "light": "zipline"
         }
     },
     "lidarr": {
@@ -9532,8 +9532,8 @@
             }
         },
         "colors": {
-            "dark": "openai",
-            "light": "openai-light"
+            "dark": "openai-light",
+            "light": "openai"
         }
     },
     "microsoft-excel": {
@@ -9660,8 +9660,8 @@
             }
         },
         "colors": {
-            "dark": "funkwhale",
-            "light": "funkwhale-light"
+            "dark": "funkwhale-light",
+            "light": "funkwhale"
         }
     },
     "gerbera": {
@@ -9734,8 +9734,8 @@
             }
         },
         "colors": {
-            "dark": "moodist-dark",
-            "light": "moodist"
+            "dark": "moodist",
+            "light": "moodist-dark"
         }
     },
     "rsshub": {
@@ -9774,8 +9774,8 @@
             }
         },
         "colors": {
-            "dark": "snappymail",
-            "light": "snappymail-light"
+            "dark": "snappymail-light",
+            "light": "snappymail"
         }
     },
     "overleaf": {
@@ -9847,8 +9847,8 @@
             }
         },
         "colors": {
-            "dark": "hatsh",
-            "light": "hatsh-light"
+            "dark": "hatsh-light",
+            "light": "hatsh"
         }
     },
     "tux": {
@@ -9903,8 +9903,8 @@
             }
         },
         "colors": {
-            "dark": "shell",
-            "light": "shell-light"
+            "dark": "shell-light",
+            "light": "shell"
         }
     },
     "cloudflare-zero-trust": {
@@ -10048,8 +10048,8 @@
             }
         },
         "colors": {
-            "dark": "apple-tv-plus",
-            "light": "apple-tv-plus-light"
+            "dark": "apple-tv-plus-light",
+            "light": "apple-tv-plus"
         }
     },
     "channels-dvr": {
@@ -10424,8 +10424,8 @@
             }
         },
         "colors": {
-            "dark": "revolt",
-            "light": "revolt-light"
+            "dark": "revolt-light",
+            "light": "revolt"
         }
     },
     "phanpy": {
@@ -10530,8 +10530,8 @@
             }
         },
         "colors": {
-            "dark": "umami",
-            "light": "umami-light"
+            "dark": "umami-light",
+            "light": "umami"
         }
     },
     "multi-scrobbler": {
@@ -10568,8 +10568,8 @@
             }
         },
         "colors": {
-            "dark": "udemy",
-            "light": "udemy-light"
+            "dark": "udemy-light",
+            "light": "udemy"
         }
     },
     "updog": {
@@ -10625,8 +10625,8 @@
             }
         },
         "colors": {
-            "dark": "converse",
-            "light": "converse-light"
+            "dark": "converse-light",
+            "light": "converse"
         }
     },
     "davical": {
@@ -10923,8 +10923,8 @@
             }
         },
         "colors": {
-            "dark": "windows-retro",
-            "light": "windows-retro-light"
+            "dark": "windows-retro-light",
+            "light": "windows-retro"
         }
     },
     "brewpi": {
@@ -10962,8 +10962,8 @@
             }
         },
         "colors": {
-            "dark": "wakatime",
-            "light": "wakatime-light"
+            "dark": "wakatime-light",
+            "light": "wakatime"
         }
     },
     "mysql": {
@@ -11076,8 +11076,8 @@
             }
         },
         "colors": {
-            "dark": "readthedocs",
-            "light": "readthedocs-light"
+            "dark": "readthedocs-light",
+            "light": "readthedocs"
         }
     },
     "invoiceninja": {
@@ -11092,8 +11092,8 @@
             }
         },
         "colors": {
-            "dark": "invoiceninja",
-            "light": "invoiceninja-light"
+            "dark": "invoiceninja-light",
+            "light": "invoiceninja"
         }
     },
     "kinto": {
@@ -11228,8 +11228,8 @@
             }
         },
         "colors": {
-            "dark": "glance",
-            "light": "glance-light"
+            "dark": "glance-light",
+            "light": "glance"
         }
     },
     "postgresql": {
@@ -11368,8 +11368,8 @@
             }
         },
         "colors": {
-            "dark": "devtooly",
-            "light": "devtooly-light"
+            "dark": "devtooly-light",
+            "light": "devtooly"
         }
     },
     "changedetection": {
@@ -11408,8 +11408,8 @@
             }
         },
         "colors": {
-            "dark": "todoist-dark",
-            "light": "todoist"
+            "dark": "todoist",
+            "light": "todoist-dark"
         }
     },
     "tolgee": {
@@ -11526,8 +11526,8 @@
             }
         },
         "colors": {
-            "dark": "timemachines",
-            "light": "timemachines-light"
+            "dark": "timemachines-light",
+            "light": "timemachines"
         }
     },
     "handbrake": {
@@ -11554,8 +11554,8 @@
             }
         },
         "colors": {
-            "dark": "olivetin",
-            "light": "olivetin-light"
+            "dark": "olivetin-light",
+            "light": "olivetin"
         }
     },
     "pushover": {
@@ -11632,8 +11632,8 @@
             }
         },
         "colors": {
-            "dark": "icinga",
-            "light": "icinga-light"
+            "dark": "icinga-light",
+            "light": "icinga"
         }
     },
     "endless": {
@@ -11648,8 +11648,8 @@
             }
         },
         "colors": {
-            "dark": "endless",
-            "light": "endless-light"
+            "dark": "endless-light",
+            "light": "endless"
         }
     },
     "teamspeak": {
@@ -11700,8 +11700,8 @@
             }
         },
         "colors": {
-            "dark": "netbox-dark",
-            "light": "netbox"
+            "dark": "netbox",
+            "light": "netbox-dark"
         }
     },
     "quetre": {
@@ -11812,8 +11812,8 @@
             }
         },
         "colors": {
-            "dark": "rimgo",
-            "light": "rimgo-light"
+            "dark": "rimgo-light",
+            "light": "rimgo"
         }
     },
     "ara-records-ansible": {
@@ -11876,8 +11876,8 @@
             }
         },
         "colors": {
-            "dark": "watcharr",
-            "light": "watcharr-light"
+            "dark": "watcharr-light",
+            "light": "watcharr"
         }
     },
     "lastpass": {
@@ -11930,8 +11930,8 @@
             }
         },
         "colors": {
-            "dark": "pwpush",
-            "light": "pwpush-light"
+            "dark": "pwpush-light",
+            "light": "pwpush"
         }
     },
     "webtorrent": {
@@ -12108,8 +12108,8 @@
             }
         },
         "colors": {
-            "dark": "docassemble",
-            "light": "docassemble-light"
+            "dark": "docassemble-light",
+            "light": "docassemble"
         }
     },
     "haproxy": {
@@ -12136,8 +12136,8 @@
             }
         },
         "colors": {
-            "dark": "nightscout",
-            "light": "nightscout-light"
+            "dark": "nightscout-light",
+            "light": "nightscout"
         }
     },
     "hashicorp-packer": {
@@ -12284,8 +12284,8 @@
             }
         },
         "colors": {
-            "dark": "raspberry-pi",
-            "light": "raspberry-pi-light"
+            "dark": "raspberry-pi-light",
+            "light": "raspberry-pi"
         }
     },
     "docsify": {
@@ -12396,8 +12396,8 @@
             }
         },
         "colors": {
-            "dark": "lancommander",
-            "light": "lancommander-light"
+            "dark": "lancommander-light",
+            "light": "lancommander"
         }
     },
     "roundcube": {
@@ -12424,8 +12424,8 @@
             }
         },
         "colors": {
-            "dark": "phoneinfoga",
-            "light": "phoneinfoga-light"
+            "dark": "phoneinfoga-light",
+            "light": "phoneinfoga"
         }
     },
     "yahoo-mail": {
@@ -12512,8 +12512,8 @@
             }
         },
         "colors": {
-            "dark": "papermark",
-            "light": "papermark-light"
+            "dark": "papermark-light",
+            "light": "papermark"
         }
     },
     "chatgpt": {
@@ -12636,8 +12636,8 @@
             }
         },
         "colors": {
-            "dark": "wotdle",
-            "light": "wotdle-light"
+            "dark": "wotdle-light",
+            "light": "wotdle"
         }
     },
     "dell": {
@@ -12772,8 +12772,8 @@
             }
         },
         "colors": {
-            "dark": "cockpit",
-            "light": "cockpit-light"
+            "dark": "cockpit-light",
+            "light": "cockpit"
         }
     },
     "nextcloud-tasks": {
@@ -12888,8 +12888,8 @@
             }
         },
         "colors": {
-            "light": "karakeep",
-            "dark": "karakeep-dark"
+            "light": "karakeep-dark",
+            "dark": "karakeep"
         }
     },
     "upsnap": {
@@ -13004,8 +13004,8 @@
             }
         },
         "colors": {
-            "dark": "it-tools",
-            "light": "it-tools-light"
+            "dark": "it-tools-light",
+            "light": "it-tools"
         }
     },
     "scanservjs": {
@@ -13274,8 +13274,8 @@
             }
         },
         "colors": {
-            "dark": "viseron",
-            "light": "viseron-light"
+            "dark": "viseron-light",
+            "light": "viseron"
         }
     },
     "jetkvm-full": {
@@ -13302,8 +13302,8 @@
             }
         },
         "colors": {
-            "dark": "sonarr-dark",
-            "light": "sonarr"
+            "dark": "sonarr",
+            "light": "sonarr-dark"
         }
     },
     "cpanel": {
@@ -13354,8 +13354,8 @@
             }
         },
         "colors": {
-            "dark": "enclosed",
-            "light": "enclosed-light"
+            "dark": "enclosed-light",
+            "light": "enclosed"
         }
     },
     "rclone": {
@@ -13394,8 +13394,8 @@
             }
         },
         "colors": {
-            "dark": "infomaniak-kmeet-dark",
-            "light": "infomaniak-kmeet-light"
+            "dark": "infomaniak-kmeet-light",
+            "light": "infomaniak-kmeet-dark"
         }
     },
     "azure-container-service": {
@@ -13470,8 +13470,8 @@
             }
         },
         "colors": {
-            "dark": "selfhosted",
-            "light": "selfhosted-light"
+            "dark": "selfhosted-light",
+            "light": "selfhosted"
         }
     },
     "fladder": {
@@ -13526,8 +13526,8 @@
             }
         },
         "colors": {
-            "dark": "eleventy",
-            "light": "eleventy-light"
+            "dark": "eleventy-light",
+            "light": "eleventy"
         }
     },
     "linkwarden": {
@@ -13674,8 +13674,8 @@
             }
         },
         "colors": {
-            "dark": "oculus",
-            "light": "oculus-light"
+            "dark": "oculus-light",
+            "light": "oculus"
         }
     },
     "cloudstream": {
@@ -13704,8 +13704,8 @@
             }
         },
         "colors": {
-            "dark": "odysee-full-dark",
-            "light": "odysee-full-light"
+            "dark": "odysee-full-light",
+            "light": "odysee-full-dark"
         }
     },
     "piped": {
@@ -13756,8 +13756,8 @@
             }
         },
         "colors": {
-            "dark": "meshping",
-            "light": "meshping-light"
+            "dark": "meshping-light",
+            "light": "meshping"
         }
     },
     "nxlog": {
@@ -13870,8 +13870,8 @@
             }
         },
         "colors": {
-            "dark": "openchangelog",
-            "light": "openchangelog-light"
+            "dark": "openchangelog-light",
+            "light": "openchangelog"
         }
     },
     "libreddit": {
@@ -13886,8 +13886,8 @@
             }
         },
         "colors": {
-            "dark": "libreddit",
-            "light": "libreddit-light"
+            "dark": "libreddit-light",
+            "light": "libreddit"
         }
     },
     "google-compute-engine": {
@@ -13992,8 +13992,8 @@
             }
         },
         "colors": {
-            "dark": "nextjs",
-            "light": "nextjs-light"
+            "dark": "nextjs-light",
+            "light": "nextjs"
         }
     },
     "triliumnext": {
@@ -14044,8 +14044,8 @@
             }
         },
         "colors": {
-            "dark": "symmetricom",
-            "light": "symmetricom-light"
+            "dark": "symmetricom-light",
+            "light": "symmetricom"
         }
     },
     "google-tv": {
@@ -14274,8 +14274,8 @@
             }
         },
         "colors": {
-            "dark": "synclounge",
-            "light": "synclounge-light"
+            "dark": "synclounge-light",
+            "light": "synclounge"
         }
     },
     "shellngn": {
@@ -14378,8 +14378,8 @@
             }
         },
         "colors": {
-            "dark": "1password-dark",
-            "light": "1password"
+            "dark": "1password",
+            "light": "1password-dark"
         }
     },
     "browsh": {
@@ -14482,8 +14482,8 @@
             }
         },
         "colors": {
-            "dark": "feedlynx",
-            "light": "feedlynx-light"
+            "dark": "feedlynx-light",
+            "light": "feedlynx"
         }
     },
     "truenas-core": {
@@ -14522,8 +14522,8 @@
             }
         },
         "colors": {
-            "dark": "cal-com",
-            "light": "cal-com-light"
+            "dark": "cal-com-light",
+            "light": "cal-com"
         }
     },
     "wger": {
@@ -14610,8 +14610,8 @@
             }
         },
         "colors": {
-            "dark": "immich-frame",
-            "light": "immich-frame-light"
+            "dark": "immich-frame-light",
+            "light": "immich-frame"
         }
     },
     "plexripper": {
@@ -14638,8 +14638,8 @@
             }
         },
         "colors": {
-            "dark": "wg-gen-web",
-            "light": "wg-gen-web-light"
+            "dark": "wg-gen-web-light",
+            "light": "wg-gen-web"
         }
     },
     "microsoft-office": {
@@ -14681,8 +14681,8 @@
             }
         },
         "colors": {
-            "dark": "i2p",
-            "light": "i2p-light"
+            "dark": "i2p-light",
+            "light": "i2p"
         }
     },
     "bitbucket": {
@@ -14745,8 +14745,8 @@
             }
         },
         "colors": {
-            "dark": "cockpit-cms",
-            "light": "cockpit-cms-light"
+            "dark": "cockpit-cms-light",
+            "light": "cockpit-cms"
         }
     },
     "ferdi": {
@@ -14857,8 +14857,8 @@
             }
         },
         "colors": {
-            "dark": "timetagger",
-            "light": "timetagger-light"
+            "dark": "timetagger-light",
+            "light": "timetagger"
         }
     },
     "whats-up-docker": {
@@ -14873,8 +14873,8 @@
             }
         },
         "colors": {
-            "dark": "whats-up-docker",
-            "light": "whats-up-docker-light"
+            "dark": "whats-up-docker-light",
+            "light": "whats-up-docker"
         }
     },
     "youtube-dl": {
@@ -15121,8 +15121,8 @@
             }
         },
         "colors": {
-            "dark": "twingate",
-            "light": "twingate-light"
+            "dark": "twingate-light",
+            "light": "twingate"
         }
     },
     "fermentrack": {
@@ -15149,8 +15149,8 @@
             }
         },
         "colors": {
-            "dark": "monica",
-            "light": "monica-light"
+            "dark": "monica-light",
+            "light": "monica"
         }
     },
     "auracast": {
@@ -15409,8 +15409,8 @@
             }
         },
         "colors": {
-            "dark": "pdfding",
-            "light": "pdfding-light"
+            "dark": "pdfding-light",
+            "light": "pdfding"
         }
     },
     "ddclient": {
@@ -15437,8 +15437,8 @@
             }
         },
         "colors": {
-            "dark": "navidrome",
-            "light": "navidrome-light"
+            "dark": "navidrome-light",
+            "light": "navidrome"
         }
     },
     "jellystat": {
@@ -15801,8 +15801,8 @@
             }
         },
         "colors": {
-            "dark": "photonix",
-            "light": "photonix-light"
+            "dark": "photonix-light",
+            "light": "photonix"
         }
     },
     "ezbookkeeping": {
@@ -15989,8 +15989,8 @@
             }
         },
         "colors": {
-            "dark": "nocobase",
-            "light": "nocobase-light"
+            "dark": "nocobase-light",
+            "light": "nocobase"
         }
     },
     "microsoft-365": {
@@ -16017,8 +16017,8 @@
             }
         },
         "colors": {
-            "dark": "pastatool",
-            "light": "pastatool-light"
+            "dark": "pastatool-light",
+            "light": "pastatool"
         }
     },
     "apache-solr": {
@@ -16061,8 +16061,8 @@
             }
         },
         "colors": {
-            "dark": "html",
-            "light": "html-light"
+            "dark": "html-light",
+            "light": "html"
         }
     },
     "whisparr": {
@@ -16101,8 +16101,8 @@
             }
         },
         "colors": {
-            "dark": "hbo",
-            "light": "hbo-light"
+            "dark": "hbo-light",
+            "light": "hbo"
         }
     },
     "epic-games": {
@@ -16117,8 +16117,8 @@
             }
         },
         "colors": {
-            "dark": "epic-games",
-            "light": "epic-games-light"
+            "dark": "epic-games-light",
+            "light": "epic-games"
         }
     },
     "runonflux": {
@@ -16245,8 +16245,8 @@
             }
         },
         "colors": {
-            "dark": "lyrion-dark",
-            "light": "lyrion"
+            "dark": "lyrion",
+            "light": "lyrion-dark"
         }
     },
     "cc": {
@@ -16261,8 +16261,8 @@
             }
         },
         "colors": {
-            "dark": "cc",
-            "light": "cc-light"
+            "dark": "cc-light",
+            "light": "cc"
         }
     },
     "tvdb": {
@@ -16289,8 +16289,8 @@
             }
         },
         "colors": {
-            "dark": "feedbin",
-            "light": "feedbin-light"
+            "dark": "feedbin-light",
+            "light": "feedbin"
         }
     },
     "avm-fritzbox": {
@@ -16345,8 +16345,8 @@
             }
         },
         "colors": {
-            "dark": "flightradar24",
-            "light": "flightradar24-light"
+            "dark": "flightradar24-light",
+            "light": "flightradar24"
         }
     },
     "foldingathome": {
@@ -16373,8 +16373,8 @@
             }
         },
         "colors": {
-            "dark": "oscarr",
-            "light": "oscarr-light"
+            "dark": "oscarr-light",
+            "light": "oscarr"
         }
     },
     "alertmanager": {
@@ -16437,8 +16437,8 @@
             }
         },
         "colors": {
-            "dark": "vercel",
-            "light": "vercel-light"
+            "dark": "vercel-light",
+            "light": "vercel"
         }
     },
     "alma-linux": {
@@ -16465,8 +16465,8 @@
             }
         },
         "colors": {
-            "dark": "apache-tomcat",
-            "light": "apache-tomcat-light"
+            "dark": "apache-tomcat-light",
+            "light": "apache-tomcat"
         }
     },
     "petio": {
@@ -16541,8 +16541,8 @@
             }
         },
         "colors": {
-            "light": "pikvm-light",
-            "dark": "pikvm"
+            "light": "pikvm",
+            "dark": "pikvm-light"
         }
     },
     "ubiquiti-unifi": {
@@ -16569,8 +16569,8 @@
             }
         },
         "colors": {
-            "dark": "docker-mailserver",
-            "light": "docker-mailserver-light"
+            "dark": "docker-mailserver-light",
+            "light": "docker-mailserver"
         }
     },
     "artifacthub": {
@@ -16597,8 +16597,8 @@
             }
         },
         "colors": {
-            "dark": "redlib",
-            "light": "redlib-light"
+            "dark": "redlib-light",
+            "light": "redlib"
         }
     },
     "telekom": {
@@ -16625,8 +16625,8 @@
             }
         },
         "colors": {
-            "dark": "runson",
-            "light": "runson-light"
+            "dark": "runson-light",
+            "light": "runson"
         }
     },
     "kasm-workspaces": {
@@ -16653,8 +16653,8 @@
             }
         },
         "colors": {
-            "dark": "writefreely",
-            "light": "writefreely-light"
+            "dark": "writefreely-light",
+            "light": "writefreely"
         }
     },
     "tenda": {
@@ -16809,8 +16809,8 @@
             }
         },
         "colors": {
-            "dark": "esphome",
-            "light": "esphome-light"
+            "dark": "esphome-light",
+            "light": "esphome"
         }
     },
     "docuseal": {
@@ -16837,8 +16837,8 @@
             }
         },
         "colors": {
-            "dark": "tianji",
-            "light": "tianji-light"
+            "dark": "tianji-light",
+            "light": "tianji"
         }
     },
     "google-finance": {
@@ -16951,8 +16951,8 @@
             }
         },
         "colors": {
-            "dark": "moodle",
-            "light": "moodle-light"
+            "dark": "moodle-light",
+            "light": "moodle"
         }
     },
     "kapacitor": {
@@ -17003,8 +17003,8 @@
             }
         },
         "colors": {
-            "dark": "sabnzbd",
-            "light": "sabnzbd-light"
+            "dark": "sabnzbd-light",
+            "light": "sabnzbd"
         }
     },
     "homey": {
@@ -17163,8 +17163,8 @@
             }
         },
         "colors": {
-            "dark": "threads",
-            "light": "threads-light"
+            "dark": "threads-light",
+            "light": "threads"
         }
     },
     "netlify": {
@@ -17203,8 +17203,8 @@
             }
         },
         "colors": {
-            "dark": "lynx",
-            "light": "lynx-light"
+            "dark": "lynx-light",
+            "light": "lynx"
         }
     },
     "peanut": {
@@ -17219,8 +17219,8 @@
             }
         },
         "colors": {
-            "dark": "peanut",
-            "light": "peanut-light"
+            "dark": "peanut-light",
+            "light": "peanut"
         }
     },
     "wanikani": {
@@ -17287,8 +17287,8 @@
             }
         },
         "colors": {
-            "dark": "wanderer",
-            "light": "wanderer-light"
+            "dark": "wanderer-light",
+            "light": "wanderer"
         }
     },
     "docker-amvd": {
@@ -17439,8 +17439,8 @@
             }
         },
         "colors": {
-            "dark": "minio",
-            "light": "minio-light"
+            "dark": "minio-light",
+            "light": "minio"
         }
     },
     "grocy": {
@@ -17599,8 +17599,8 @@
             }
         },
         "colors": {
-            "dark": "secureai-tools",
-            "light": "secureai-tools-light"
+            "dark": "secureai-tools-light",
+            "light": "secureai-tools"
         }
     },
     "kodi": {
@@ -17723,8 +17723,8 @@
             }
         },
         "colors": {
-            "dark": "penpot",
-            "light": "penpot-light"
+            "dark": "penpot-light",
+            "light": "penpot"
         }
     },
     "blogger": {
@@ -17775,8 +17775,8 @@
             }
         },
         "colors": {
-            "dark": "cardigann",
-            "light": "cardigann-light"
+            "dark": "cardigann-light",
+            "light": "cardigann"
         }
     },
     "confluence": {
@@ -17827,8 +17827,8 @@
             }
         },
         "colors": {
-            "dark": "edgeos",
-            "light": "edgeos-light"
+            "dark": "edgeos-light",
+            "light": "edgeos"
         }
     },
     "sentry": {
@@ -17843,8 +17843,8 @@
             }
         },
         "colors": {
-            "dark": "sentry",
-            "light": "sentry-light"
+            "dark": "sentry-light",
+            "light": "sentry"
         }
     },
     "digital-ocean": {
@@ -17871,8 +17871,8 @@
             }
         },
         "colors": {
-            "dark": "homebox",
-            "light": "homebox-light"
+            "dark": "homebox-light",
+            "light": "homebox"
         }
     },
     "windows-7": {
@@ -18023,8 +18023,8 @@
             }
         },
         "colors": {
-            "dark": "picsur",
-            "light": "picsur-light"
+            "dark": "picsur-light",
+            "light": "picsur"
         }
     },
     "appflowy": {
@@ -18079,8 +18079,8 @@
             }
         },
         "colors": {
-            "dark": "raritan",
-            "light": "raritan-light"
+            "dark": "raritan-light",
+            "light": "raritan"
         }
     },
     "directadmin": {
@@ -18179,8 +18179,8 @@
             }
         },
         "colors": {
-            "dark": "browserless",
-            "light": "browserless-light"
+            "dark": "browserless-light",
+            "light": "browserless"
         }
     },
     "hashicorp-boundary": {
@@ -18423,8 +18423,8 @@
             }
         },
         "colors": {
-            "dark": "phoscon",
-            "light": "phoscon-light"
+            "dark": "phoscon-light",
+            "light": "phoscon"
         }
     },
     "wakapi": {
@@ -18451,8 +18451,8 @@
             }
         },
         "colors": {
-            "dark": "slink",
-            "light": "slink-light"
+            "dark": "slink-light",
+            "light": "slink"
         }
     },
     "listmonk": {
@@ -18611,8 +18611,8 @@
             }
         },
         "colors": {
-            "dark": "anything-llm",
-            "light": "anything-llm-light"
+            "dark": "anything-llm-light",
+            "light": "anything-llm"
         }
     },
     "heimdall": {
@@ -18627,8 +18627,8 @@
             }
         },
         "colors": {
-            "dark": "heimdall",
-            "light": "heimdall-light"
+            "dark": "heimdall-light",
+            "light": "heimdall"
         }
     },
     "z-wave-js-ui": {
@@ -18679,8 +18679,8 @@
             }
         },
         "colors": {
-            "dark": "tiktok",
-            "light": "tiktok-light"
+            "dark": "tiktok-light",
+            "light": "tiktok"
         }
     },
     "5etools": {
@@ -18795,8 +18795,8 @@
             }
         },
         "colors": {
-            "dark": "notesnook",
-            "light": "notesnook-light"
+            "dark": "notesnook-light",
+            "light": "notesnook"
         }
     },
     "racknerd": {
@@ -18999,8 +18999,8 @@
             }
         },
         "colors": {
-            "dark": "tailscale",
-            "light": "tailscale-light"
+            "dark": "tailscale-light",
+            "light": "tailscale"
         }
     },
     "elastic-beats": {
@@ -19027,8 +19027,8 @@
             }
         },
         "colors": {
-            "dark": "medusa",
-            "light": "medusa-light"
+            "dark": "medusa-light",
+            "light": "medusa"
         }
     },
     "readarr": {
@@ -19091,8 +19091,8 @@
             }
         },
         "colors": {
-            "dark": "memories",
-            "light": "memories-light"
+            "dark": "memories-light",
+            "light": "memories"
         }
     },
     "fontawesome": {
@@ -19227,8 +19227,8 @@
             }
         },
         "colors": {
-            "dark": "glances",
-            "light": "glances-light"
+            "dark": "glances-light",
+            "light": "glances"
         }
     },
     "nextcloud-social": {
@@ -19279,8 +19279,8 @@
             }
         },
         "colors": {
-            "dark": "notion",
-            "light": "notion-light"
+            "dark": "notion-light",
+            "light": "notion"
         }
     },
     "pyload": {
@@ -19433,8 +19433,8 @@
             }
         },
         "colors": {
-            "dark": "archiveteam-warrior",
-            "light": "archiveteam-warrior-light"
+            "dark": "archiveteam-warrior-light",
+            "light": "archiveteam-warrior"
         }
     },
     "aws-ecs": {
@@ -19549,8 +19549,8 @@
             }
         },
         "colors": {
-            "dark": "atuin",
-            "light": "atuin-light"
+            "dark": "atuin-light",
+            "light": "atuin"
         }
     },
     "dillinger": {
@@ -19565,8 +19565,8 @@
             }
         },
         "colors": {
-            "dark": "dillinger",
-            "light": "dillinger-light"
+            "dark": "dillinger-light",
+            "light": "dillinger"
         }
     },
     "sonarqube": {
@@ -19749,8 +19749,8 @@
             }
         },
         "colors": {
-            "dark": "zyxel-communications",
-            "light": "zyxel-communications-light"
+            "dark": "zyxel-communications-light",
+            "light": "zyxel-communications"
         }
     },
     "rport": {
@@ -19897,8 +19897,8 @@
             }
         },
         "colors": {
-            "dark": "tubesync",
-            "light": "tubesync-light"
+            "dark": "tubesync-light",
+            "light": "tubesync"
         }
     },
     "homepage": {
@@ -19973,8 +19973,8 @@
             }
         },
         "colors": {
-            "dark": "mailchimp",
-            "light": "mailchimp-light"
+            "dark": "mailchimp-light",
+            "light": "mailchimp"
         }
     },
     "sickgear": {
@@ -20001,8 +20001,8 @@
             }
         },
         "colors": {
-            "dark": "3cx",
-            "light": "3cx-light"
+            "dark": "3cx-light",
+            "light": "3cx"
         }
     },
     "matomo": {
@@ -20077,8 +20077,8 @@
             }
         },
         "colors": {
-            "dark": "thunderhub",
-            "light": "thunderhub-light"
+            "dark": "thunderhub-light",
+            "light": "thunderhub"
         }
     },
     "alpine-linux": {
@@ -20189,8 +20189,8 @@
             }
         },
         "colors": {
-            "dark": "planka-dark",
-            "light": "planka"
+            "dark": "planka",
+            "light": "planka-dark"
         }
     },
     "kanidm": {
@@ -20217,8 +20217,8 @@
             }
         },
         "colors": {
-            "dark": "akkoma",
-            "light": "akkoma-light"
+            "dark": "akkoma-light",
+            "light": "akkoma"
         }
     },
     "grist": {
@@ -20245,8 +20245,8 @@
             }
         },
         "colors": {
-            "dark": "neko",
-            "light": "neko-light"
+            "dark": "neko-light",
+            "light": "neko"
         }
     },
     "python": {
@@ -20325,8 +20325,8 @@
             }
         },
         "colors": {
-            "dark": "pocket-id",
-            "light": "pocket-id-light"
+            "dark": "pocket-id-light",
+            "light": "pocket-id"
         }
     },
     "kick": {
@@ -20341,8 +20341,8 @@
             }
         },
         "colors": {
-            "dark": "kick",
-            "light": "kick-light"
+            "dark": "kick-light",
+            "light": "kick"
         }
     },
     "css": {
@@ -20357,8 +20357,8 @@
             }
         },
         "colors": {
-            "dark": "css",
-            "light": "css-light"
+            "dark": "css-light",
+            "light": "css"
         }
     },
     "unifi-controller": {
@@ -20385,8 +20385,8 @@
             }
         },
         "colors": {
-            "dark": "tasmota",
-            "light": "tasmota-light"
+            "dark": "tasmota-light",
+            "light": "tasmota"
         }
     },
     "metabase": {
@@ -20501,8 +20501,8 @@
             }
         },
         "colors": {
-            "dark": "ovirt",
-            "light": "ovirt-light"
+            "dark": "ovirt-light",
+            "light": "ovirt"
         }
     },
     "syncthing": {
@@ -20655,8 +20655,8 @@
             }
         },
         "colors": {
-            "dark": "hammond",
-            "light": "hammond-light"
+            "dark": "hammond-light",
+            "light": "hammond"
         }
     },
     "collabora-online": {
@@ -20771,8 +20771,8 @@
             }
         },
         "colors": {
-            "dark": "dim",
-            "light": "dim-light"
+            "dark": "dim-light",
+            "light": "dim"
         }
     },
     "mojeek": {
@@ -20823,8 +20823,8 @@
             }
         },
         "colors": {
-            "dark": "broadcastchannel",
-            "light": "broadcastchannel-light"
+            "dark": "broadcastchannel-light",
+            "light": "broadcastchannel"
         }
     },
     "snapcast": {
@@ -20937,8 +20937,8 @@
             }
         },
         "colors": {
-            "dark": "plex",
-            "light": "plex-light"
+            "dark": "plex-light",
+            "light": "plex"
         }
     },
     "hyperpipe": {
@@ -20953,8 +20953,8 @@
             }
         },
         "colors": {
-            "dark": "hyperpipe",
-            "light": "hyperpipe-light"
+            "dark": "hyperpipe-light",
+            "light": "hyperpipe"
         }
     },
     "donetick": {
@@ -20981,8 +20981,8 @@
             }
         },
         "colors": {
-            "dark": "feedbase",
-            "light": "feedbase-light"
+            "dark": "feedbase-light",
+            "light": "feedbase"
         }
     },
     "fedora-alt": {
@@ -21045,8 +21045,8 @@
             }
         },
         "colors": {
-            "dark": "peacock",
-            "light": "peacock-light"
+            "dark": "peacock-light",
+            "light": "peacock"
         }
     },
     "kiwix": {
@@ -21061,8 +21061,8 @@
             }
         },
         "colors": {
-            "dark": "kiwix",
-            "light": "kiwix-light"
+            "dark": "kiwix-light",
+            "light": "kiwix"
         }
     },
     "casaos": {
@@ -21185,8 +21185,8 @@
             }
         },
         "colors": {
-            "dark": "vault",
-            "light": "vault-light"
+            "dark": "vault-light",
+            "light": "vault"
         }
     },
     "clash": {
@@ -21225,8 +21225,8 @@
             }
         },
         "colors": {
-            "dark": "denon",
-            "light": "denon-light"
+            "dark": "denon-light",
+            "light": "denon"
         }
     },
     "zendesk": {
@@ -21277,8 +21277,8 @@
             }
         },
         "colors": {
-            "dark": "x",
-            "light": "x-light"
+            "dark": "x-light",
+            "light": "x"
         }
     },
     "yacd-blue": {
@@ -21357,8 +21357,8 @@
             }
         },
         "colors": {
-            "dark": "voltaserve",
-            "light": "voltaserve-light"
+            "dark": "voltaserve-light",
+            "light": "voltaserve"
         }
     },
     "terraform": {
@@ -21457,8 +21457,8 @@
             }
         },
         "colors": {
-            "dark": "hoarder",
-            "light": "hoarder-light"
+            "dark": "hoarder-light",
+            "light": "hoarder"
         }
     },
     "google-messages": {
@@ -21485,8 +21485,8 @@
             }
         },
         "colors": {
-            "dark": "theia",
-            "light": "theia-light"
+            "dark": "theia-light",
+            "light": "theia"
         }
     },
     "linuxgsm": {
@@ -21549,8 +21549,8 @@
             }
         },
         "colors": {
-            "dark": "podfetch",
-            "light": "podfetch-light"
+            "dark": "podfetch-light",
+            "light": "podfetch"
         }
     },
     "ntop": {
@@ -21577,8 +21577,8 @@
             }
         },
         "colors": {
-            "dark": "kanboard",
-            "light": "kanboard-light"
+            "dark": "kanboard-light",
+            "light": "kanboard"
         }
     },
     "flarum": {
@@ -21653,8 +21653,8 @@
             }
         },
         "colors": {
-            "dark": "ghost",
-            "light": "ghost-light"
+            "dark": "ghost-light",
+            "light": "ghost"
         }
     },
     "gonic": {
@@ -21693,8 +21693,8 @@
             }
         },
         "colors": {
-            "dark": "fast-com",
-            "light": "fast-com-light"
+            "dark": "fast-com-light",
+            "light": "fast-com"
         }
     },
     "soulseek": {
@@ -21833,8 +21833,8 @@
             }
         },
         "colors": {
-            "dark": "ownphotos",
-            "light": "ownphotos-light"
+            "dark": "ownphotos-light",
+            "light": "ownphotos"
         }
     },
     "victoriametrics": {
@@ -21849,8 +21849,8 @@
             }
         },
         "colors": {
-            "dark": "victoriametrics",
-            "light": "victoriametrics-light"
+            "dark": "victoriametrics-light",
+            "light": "victoriametrics"
         }
     },
     "librum": {
@@ -22011,8 +22011,8 @@
             }
         },
         "colors": {
-            "dark": "synapse",
-            "light": "synapse-light"
+            "dark": "synapse-light",
+            "light": "synapse"
         }
     },
     "mailgun": {
@@ -22063,8 +22063,8 @@
             }
         },
         "colors": {
-            "dark": "jackett",
-            "light": "jackett-light"
+            "dark": "jackett-light",
+            "light": "jackett"
         }
     },
     "vmware-vcenter": {
@@ -22127,8 +22127,8 @@
             }
         },
         "colors": {
-            "dark": "music-assistant",
-            "light": "music-assistant-light"
+            "dark": "music-assistant-light",
+            "light": "music-assistant"
         }
     },
     "tasmoadmin": {
@@ -22227,8 +22227,8 @@
             }
         },
         "colors": {
-            "dark": "affine",
-            "light": "affine-light"
+            "dark": "affine-light",
+            "light": "affine"
         }
     },
     "vuplus": {
@@ -22255,8 +22255,8 @@
             }
         },
         "colors": {
-            "dark": "forte",
-            "light": "forte-light"
+            "dark": "forte-light",
+            "light": "forte"
         }
     },
     "mediux": {
@@ -22487,8 +22487,8 @@
             }
         },
         "colors": {
-            "dark": "solidtime",
-            "light": "solidtime-light"
+            "dark": "solidtime-light",
+            "light": "solidtime"
         }
     },
     "duplicati": {
@@ -22611,8 +22611,8 @@
             }
         },
         "colors": {
-            "dark": "servarr",
-            "light": "servarr-light"
+            "dark": "servarr-light",
+            "light": "servarr"
         }
     },
     "i2pd": {
@@ -22831,8 +22831,8 @@
             }
         },
         "colors": {
-            "dark": "esphome-alt",
-            "light": "esphome-alt-light"
+            "dark": "esphome-alt-light",
+            "light": "esphome-alt"
         }
     },
     "nextcloud-tables": {
@@ -23171,8 +23171,8 @@
             }
         },
         "colors": {
-            "dark": "typemill",
-            "light": "typemill-light"
+            "dark": "typemill-light",
+            "light": "typemill"
         }
     },
     "matterbridge": {
@@ -23433,8 +23433,8 @@
             }
         },
         "colors": {
-            "light": "fusionauth-light",
-            "dark": "fusionauth"
+            "light": "fusionauth",
+            "dark": "fusionauth-light"
         }
     },
     "netgear": {
@@ -23449,8 +23449,8 @@
             }
         },
         "colors": {
-            "dark": "netgear",
-            "light": "netgear-light"
+            "dark": "netgear-light",
+            "light": "netgear"
         }
     },
     "evcc": {
@@ -23549,8 +23549,8 @@
             }
         },
         "colors": {
-            "dark": "arris",
-            "light": "arris-light"
+            "dark": "arris-light",
+            "light": "arris"
         }
     },
     "oneuptime": {
@@ -23565,8 +23565,8 @@
             }
         },
         "colors": {
-            "dark": "oneuptime",
-            "light": "oneuptime-light"
+            "dark": "oneuptime-light",
+            "light": "oneuptime"
         }
     },
     "komga": {
@@ -23679,8 +23679,8 @@
             }
         },
         "colors": {
-            "dark": "haptic",
-            "light": "haptic-light"
+            "dark": "haptic-light",
+            "light": "haptic"
         }
     },
     "lemmy": {
@@ -23695,8 +23695,8 @@
             }
         },
         "colors": {
-            "dark": "lemmy",
-            "light": "lemmy-light"
+            "dark": "lemmy-light",
+            "light": "lemmy"
         }
     },
     "grandstream": {
@@ -23723,8 +23723,8 @@
             }
         },
         "colors": {
-            "dark": "coder",
-            "light": "coder-light"
+            "dark": "coder-light",
+            "light": "coder"
         }
     },
     "matter": {
@@ -23739,8 +23739,8 @@
             }
         },
         "colors": {
-            "dark": "matter",
-            "light": "matter-light"
+            "dark": "matter-light",
+            "light": "matter"
         }
     },
     "rompya": {
@@ -23833,8 +23833,8 @@
             }
         },
         "colors": {
-            "dark": "wolfi",
-            "light": "wolfi-light"
+            "dark": "wolfi-light",
+            "light": "wolfi"
         }
     },
     "yourls": {
@@ -23921,8 +23921,8 @@
             }
         },
         "colors": {
-            "dark": "matrix",
-            "light": "matrix-light"
+            "dark": "matrix-light",
+            "light": "matrix"
         }
     },
     "searx": {
@@ -24083,8 +24083,8 @@
             }
         },
         "colors": {
-            "dark": "teamcity",
-            "light": "teamcity-light"
+            "dark": "teamcity-light",
+            "light": "teamcity"
         }
     },
     "kleinanzeigen": {
@@ -24429,8 +24429,8 @@
             }
         },
         "colors": {
-            "dark": "matrix-synapse",
-            "light": "matrix-synapse-light"
+            "dark": "matrix-synapse-light",
+            "light": "matrix-synapse"
         }
     },
     "bar-assistant": {
@@ -24469,8 +24469,8 @@
             }
         },
         "colors": {
-            "dark": "medium-dark",
-            "light": "medium-light"
+            "dark": "medium-light",
+            "light": "medium-dark"
         }
     },
     "librenms": {
@@ -24497,8 +24497,8 @@
             }
         },
         "colors": {
-            "dark": "discourse",
-            "light": "discourse-light"
+            "dark": "discourse-light",
+            "light": "discourse"
         }
     },
     "balena-cloud": {
@@ -24539,8 +24539,8 @@
             }
         },
         "colors": {
-            "dark": "yamtrack",
-            "light": "yamtrack-light"
+            "dark": "yamtrack-light",
+            "light": "yamtrack"
         }
     },
     "qutebrowser": {
@@ -24627,8 +24627,8 @@
             }
         },
         "colors": {
-            "dark": "logitech",
-            "light": "logitech-light"
+            "dark": "logitech-light",
+            "light": "logitech"
         }
     },
     "airtable": {
@@ -24667,8 +24667,8 @@
             }
         },
         "colors": {
-            "dark": "codimd",
-            "light": "codimd-light"
+            "dark": "codimd-light",
+            "light": "codimd"
         }
     },
     "tube-archivist": {
@@ -24683,8 +24683,8 @@
             }
         },
         "colors": {
-            "dark": "tube-archivist",
-            "light": "tube-archivist-light"
+            "dark": "tube-archivist-light",
+            "light": "tube-archivist"
         }
     },
     "openaudible": {
@@ -24773,8 +24773,8 @@
             }
         },
         "colors": {
-            "dark": "biblioreads",
-            "light": "biblioreads-light"
+            "dark": "biblioreads-light",
+            "light": "biblioreads"
         }
     },
     "ombi": {
@@ -24985,8 +24985,8 @@
             }
         },
         "colors": {
-            "dark": "outline",
-            "light": "outline-light"
+            "dark": "outline-light",
+            "light": "outline"
         }
     },
     "chromium": {
@@ -25089,8 +25089,8 @@
             }
         },
         "colors": {
-            "dark": "tiddlywiki",
-            "light": "tiddlywiki-light"
+            "dark": "tiddlywiki-light",
+            "light": "tiddlywiki"
         }
     },
     "headscale": {
@@ -25153,8 +25153,8 @@
             }
         },
         "colors": {
-            "dark": "riverside-fm",
-            "light": "riverside-fm-light"
+            "dark": "riverside-fm-light",
+            "light": "riverside-fm"
         }
     },
     "nodejs": {
@@ -25193,8 +25193,8 @@
             }
         },
         "colors": {
-            "dark": "koillection",
-            "light": "koillection-light"
+            "dark": "koillection-light",
+            "light": "koillection"
         }
     },
     "amazon-web-services": {
@@ -25209,8 +25209,8 @@
             }
         },
         "colors": {
-            "dark": "amazon-web-services",
-            "light": "amazon-web-services-light"
+            "dark": "amazon-web-services-light",
+            "light": "amazon-web-services"
         }
     },
     "saltcorn": {
@@ -25311,8 +25311,8 @@
             }
         },
         "colors": {
-            "dark": "microsoft-sql-server",
-            "light": "microsoft-sql-server-light"
+            "dark": "microsoft-sql-server-light",
+            "light": "microsoft-sql-server"
         }
     },
     "nextcloud-deck": {
@@ -25387,8 +25387,8 @@
             }
         },
         "colors": {
-            "dark": "icinga-full",
-            "light": "icinga-full-light"
+            "dark": "icinga-full-light",
+            "light": "icinga-full"
         }
     },
     "borgmatic": {
@@ -25403,8 +25403,8 @@
             }
         },
         "colors": {
-            "dark": "borgmatic",
-            "light": "borgmatic-light"
+            "dark": "borgmatic-light",
+            "light": "borgmatic"
         }
     },
     "team-viewer": {
@@ -25551,8 +25551,8 @@
             }
         },
         "colors": {
-            "dark": "cups",
-            "light": "cups-light"
+            "dark": "cups-light",
+            "light": "cups"
         }
     },
     "appwrite": {
@@ -25591,8 +25591,8 @@
             }
         },
         "colors": {
-            "dark": "nzbhydra2",
-            "light": "nzbhydra2-light"
+            "dark": "nzbhydra2-light",
+            "light": "nzbhydra2"
         }
     },
     "unifi-protect": {
@@ -25715,8 +25715,8 @@
             }
         },
         "colors": {
-            "dark": "jwt-io",
-            "light": "jwt-io-light"
+            "dark": "jwt-io-light",
+            "light": "jwt-io"
         }
     },
     "sophos": {
@@ -25771,8 +25771,8 @@
             }
         },
         "colors": {
-            "dark": "payload",
-            "light": "payload-light"
+            "dark": "payload-light",
+            "light": "payload"
         }
     },
     "algo": {
@@ -25835,8 +25835,8 @@
             }
         },
         "colors": {
-            "dark": "aws",
-            "light": "aws-light"
+            "dark": "aws-light",
+            "light": "aws"
         }
     },
     "cilium": {
@@ -25851,8 +25851,8 @@
             }
         },
         "colors": {
-            "dark": "cilium",
-            "light": "cilium-light"
+            "dark": "cilium-light",
+            "light": "cilium"
         }
     },
     "requestly": {
@@ -26039,8 +26039,8 @@
             }
         },
         "colors": {
-            "dark": "part-db",
-            "light": "part-db-light"
+            "dark": "part-db-light",
+            "light": "part-db"
         }
     },
     "reactive-resume": {
@@ -26055,8 +26055,8 @@
             }
         },
         "colors": {
-            "dark": "reactive-resume",
-            "light": "reactive-resume-light"
+            "dark": "reactive-resume-light",
+            "light": "reactive-resume"
         }
     },
     "umbrel": {
@@ -26083,8 +26083,8 @@
             }
         },
         "colors": {
-            "dark": "mobotix",
-            "light": "mobotix-light"
+            "dark": "mobotix-light",
+            "light": "mobotix"
         }
     },
     "theodinproject": {
@@ -26123,8 +26123,8 @@
             }
         },
         "colors": {
-            "dark": "openemr",
-            "light": "openemr-light"
+            "dark": "openemr-light",
+            "light": "openemr"
         }
     },
     "opera-neon": {
@@ -26211,8 +26211,8 @@
             }
         },
         "colors": {
-            "dark": "libreoffice",
-            "light": "libreoffice-light"
+            "dark": "libreoffice-light",
+            "light": "libreoffice"
         }
     },
     "kaizoku": {
@@ -26387,8 +26387,8 @@
             }
         },
         "colors": {
-            "dark": "automad",
-            "light": "automad-light"
+            "dark": "automad-light",
+            "light": "automad"
         }
     },
     "schneider": {
@@ -26439,8 +26439,8 @@
             }
         },
         "colors": {
-            "dark": "myheats",
-            "light": "myheats-light"
+            "dark": "myheats-light",
+            "light": "myheats"
         }
     },
     "windows-95": {
@@ -26455,8 +26455,8 @@
             }
         },
         "colors": {
-            "dark": "windows-95",
-            "light": "windows-95-light"
+            "dark": "windows-95-light",
+            "light": "windows-95"
         }
     },
     "pgbackweb": {
@@ -26471,8 +26471,8 @@
             }
         },
         "colors": {
-            "dark": "pgbackweb-dark",
-            "light": "pgbackweb-light"
+            "dark": "pgbackweb-light",
+            "light": "pgbackweb-dark"
         }
     },
     "chiefonboarding": {
@@ -26535,8 +26535,8 @@
             }
         },
         "colors": {
-            "dark": "pingdom",
-            "light": "pingdom-light"
+            "dark": "pingdom-light",
+            "light": "pingdom"
         }
     },
     "netapp": {
@@ -26551,8 +26551,8 @@
             }
         },
         "colors": {
-            "dark": "netapp",
-            "light": "netapp-light"
+            "dark": "netapp-light",
+            "light": "netapp"
         }
     },
     "taskcafe": {
@@ -26579,8 +26579,8 @@
             }
         },
         "colors": {
-            "dark": "pwndrop",
-            "light": "pwndrop-light"
+            "dark": "pwndrop-light",
+            "light": "pwndrop"
         }
     },
     "wbo": {
@@ -26753,8 +26753,8 @@
             }
         },
         "colors": {
-            "dark": "vaultwarden",
-            "light": "vaultwarden-light"
+            "dark": "vaultwarden-light",
+            "light": "vaultwarden"
         }
     },
     "dokuwiki": {
@@ -26853,8 +26853,8 @@
             }
         },
         "colors": {
-            "dark": "phorge",
-            "light": "phorge-light"
+            "dark": "phorge-light",
+            "light": "phorge"
         }
     },
     "ward": {
@@ -26979,8 +26979,8 @@
             }
         },
         "colors": {
-            "light": "fenrus-light",
-            "dark": "fenrus"
+            "light": "fenrus",
+            "dark": "fenrus-light"
         }
     },
     "cribl": {
@@ -26995,8 +26995,8 @@
             }
         },
         "colors": {
-            "dark": "cribl",
-            "light": "cribl-light"
+            "dark": "cribl-light",
+            "light": "cribl"
         }
     },
     "deployarr": {

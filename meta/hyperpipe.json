@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "hyperpipe",
-    "light": "hyperpipe-light"
+    "dark": "hyperpipe-light",
+    "light": "hyperpipe"
   }
 }

@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "oculus",
-    "light": "oculus-light"
+    "dark": "oculus-light",
+    "light": "oculus"
   }
 }

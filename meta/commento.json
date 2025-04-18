@@ -16,7 +16,7 @@
     }
   },
   "colors": {
-    "dark": "commento",
-    "light": "commento-light"
+    "dark": "commento-light",
+    "light": "commento"
   }
 }

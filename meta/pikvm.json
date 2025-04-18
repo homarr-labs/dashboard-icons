@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "light": "pikvm-light",
-    "dark": "pikvm"
+    "light": "pikvm",
+    "dark": "pikvm-light"
   }
 }

@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "feedbin",
-    "light": "feedbin-light"
+    "dark": "feedbin-light",
+    "light": "feedbin"
   }
 }

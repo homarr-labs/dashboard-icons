@@ -16,7 +16,7 @@
     }
   },
   "colors": {
-    "dark": "cloud9",
-    "light": "cloud9-light"
+    "dark": "cloud9-light",
+    "light": "cloud9"
   }
 }

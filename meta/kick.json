@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "kick",
-    "light": "kick-light"
+    "dark": "kick-light",
+    "light": "kick"
   }
 }

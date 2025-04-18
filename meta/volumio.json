@@ -16,7 +16,7 @@
     }
   },
   "colors": {
-    "dark": "volumio",
-    "light": "volumio-light"
+    "dark": "volumio-light",
+    "light": "volumio"
   }
 }

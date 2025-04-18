@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "raspberry-pi",
-    "light": "raspberry-pi-light"
+    "dark": "raspberry-pi-light",
+    "light": "raspberry-pi"
   }
 }

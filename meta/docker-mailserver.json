@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "docker-mailserver",
-    "light": "docker-mailserver-light"
+    "dark": "docker-mailserver-light",
+    "light": "docker-mailserver"
   }
 }

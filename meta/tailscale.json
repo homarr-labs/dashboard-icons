@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "tailscale",
-    "light": "tailscale-light"
+    "dark": "tailscale-light",
+    "light": "tailscale"
   }
 }

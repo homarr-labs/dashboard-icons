@@ -15,7 +15,7 @@
     }
   },
   "colors": {
-    "dark": "turbopack",
-    "light": "turbopack-light"
+    "dark": "turbopack-light",
+    "light": "turbopack"
   }
 }

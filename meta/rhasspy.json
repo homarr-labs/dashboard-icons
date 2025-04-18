@@ -16,7 +16,7 @@
     }
   },
   "colors": {
-    "dark": "rhasspy-dark",
-    "light": "rhasspy"
+    "dark": "rhasspy",
+    "light": "rhasspy-dark"
   }
 }

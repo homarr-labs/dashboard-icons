@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "threads",
-    "light": "threads-light"
+    "dark": "threads-light",
+    "light": "threads"
   }
 }

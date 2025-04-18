@@ -16,7 +16,7 @@
     }
   },
   "colors": {
-    "dark": "wallabag",
-    "light": "wallabag-light"
+    "dark": "wallabag-light",
+    "light": "wallabag"
   }
 }

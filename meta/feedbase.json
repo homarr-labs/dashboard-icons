@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "feedbase",
-    "light": "feedbase-light"
+    "dark": "feedbase-light",
+    "light": "feedbase"
   }
 }

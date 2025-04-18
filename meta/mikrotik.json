@@ -16,7 +16,7 @@
     }
   },
   "colors": {
-    "dark": "mikrotik",
-    "light": "mikrotik-light"
+    "dark": "mikrotik-light",
+    "light": "mikrotik"
   }
 }
