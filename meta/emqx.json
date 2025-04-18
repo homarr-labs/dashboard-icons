@@ -1,7 +1,13 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "mqtt-server",
+    "iot-broker"
+  ],
+  "categories": [
+    "Networking-Tools",
+    "Home-Automation"
+  ],
   "update": {
     "timestamp": "2022-10-17T10:12:46Z",
     "author": {

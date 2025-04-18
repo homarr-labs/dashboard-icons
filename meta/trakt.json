@@ -1,7 +1,12 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "Media Tracking"
+  ],
+  "categories": [
+    "Media-Servers",
+    "Social-Media"
+  ],
   "update": {
     "timestamp": "2025-04-06T10:49:45.530344",
     "author": {

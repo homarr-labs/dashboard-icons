@@ -1,7 +1,13 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "photo-display",
+    "digital-photo-frame"
+  ],
+  "categories": [
+    "Home-Automation",
+    "Media-Servers"
+  ],
   "update": {
     "timestamp": "2024-10-20T17:24:03Z",
     "author": {

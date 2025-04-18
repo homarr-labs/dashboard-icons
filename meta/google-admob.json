@@ -1,7 +1,13 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "mobile-ads",
+    "app-monetization"
+  ],
+  "categories": [
+    "Developper-Tools",
+    "E-commerce-Platforms"
+  ],
   "update": {
     "timestamp": "2023-04-13T13:56:18Z",
     "author": {

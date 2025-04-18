@@ -1,8 +1,13 @@
 {
   "base": "svg",
-  "aliases": [],
+  "aliases": [
+    "plex-stats",
+    "jellyfin-stats"
+  ],
   "categories": [
-    "Media"
+    "Media",
+    "Monitoring-Tools",
+    "Media-Servers"
   ],
   "update": {
     "timestamp": "2025-04-02T16:11:24.001900",

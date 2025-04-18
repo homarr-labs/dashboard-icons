@@ -1,8 +1,12 @@
 {
   "base": "svg",
-  "aliases": [],
+  "aliases": [
+    "online-database-editor",
+    "database-gui"
+  ],
   "categories": [
-    "Development"
+    "Development",
+    "Databases"
   ],
   "update": {
     "timestamp": "2025-03-28T17:04:46.969601",

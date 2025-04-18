@@ -1,7 +1,12 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "windows-classic-theme",
+    "windows-95-theme"
+  ],
+  "categories": [
+    "Operating-Systems"
+  ],
   "update": {
     "timestamp": "2024-10-20T17:24:03Z",
     "author": {

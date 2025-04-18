@@ -1,7 +1,13 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "switch-console",
+    "video-game-system"
+  ],
+  "categories": [
+    "Gaming-Platforms",
+    "Hardware"
+  ],
   "update": {
     "timestamp": "2024-10-20T17:24:03Z",
     "author": {

@@ -1,7 +1,13 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "continuous-integration",
+    "build-server"
+  ],
+  "categories": [
+    "Developper-Tools",
+    "Version-Control-Systems"
+  ],
   "update": {
     "timestamp": "2023-04-13T13:56:18Z",
     "author": {

@@ -1,7 +1,13 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "kubernetes-storage",
+    "cloud-native-storage"
+  ],
+  "categories": [
+    "Containerization-&-Orchestration",
+    "Cloud-Computing"
+  ],
   "update": {
     "timestamp": "2023-04-13T13:56:18Z",
     "author": {

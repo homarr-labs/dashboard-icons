@@ -1,7 +1,12 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "Messaging App"
+  ],
+  "categories": [
+    "Social-Media",
+    "Security"
+  ],
   "update": {
     "timestamp": "2023-09-16T20:31:13Z",
     "author": {

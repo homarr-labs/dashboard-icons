@@ -1,7 +1,12 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "youtube-privacy-frontend",
+    "privacy-youtube"
+  ],
+  "categories": [
+    "Video-Streaming"
+  ],
   "update": {
     "timestamp": "2023-04-13T13:56:18Z",
     "author": {

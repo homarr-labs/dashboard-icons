@@ -1,7 +1,12 @@
 {
   "base": "svg",
   "aliases": [],
-  "categories": [],
+  "categories": [
+    "Hardware",
+    "Smart-Home",
+    "File-Sharing-&-Sync",
+    "Media-Servers"
+  ],
   "update": {
     "timestamp": "2024-10-20T17:24:03Z",
     "author": {

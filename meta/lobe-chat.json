@@ -1,12 +1,17 @@
 {
-  "base": "png",
-  "aliases": [],
-  "categories": [],
+  "base": "svg",
+  "aliases": [
+    "lobe-ai",
+    "chatgpt-ui"
+  ],
+  "categories": [
+    "AI-&-LLM-Platforms"
+  ],
   "update": {
-    "timestamp": "2025-01-07T17:54:03Z",
+    "timestamp": "2025-04-17T16:52:42.903330",
     "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+      "id": 65860997,
+      "login": "xiaopeng-ye"
     }
   }
 }

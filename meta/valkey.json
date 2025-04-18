@@ -1,7 +1,12 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "redis-compatible",
+    "in-memory-database"
+  ],
+  "categories": [
+    "Databases"
+  ],
   "update": {
     "timestamp": "2024-10-20T17:24:03Z",
     "author": {

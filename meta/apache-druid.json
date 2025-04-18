@@ -1,7 +1,12 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "realtime-database",
+    "analytics-database"
+  ],
+  "categories": [
+    "Databases"
+  ],
   "update": {
     "timestamp": "2023-04-13T13:56:18Z",
     "author": {

@@ -1,7 +1,12 @@
 {
   "base": "png",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "Docker Monitor"
+  ],
+  "categories": [
+    "Containerization-&-Orchestration",
+    "Monitoring-Tools"
+  ],
   "update": {
     "timestamp": "2025-04-01T15:03:47.782282",
     "author": {

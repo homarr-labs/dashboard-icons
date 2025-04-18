@@ -1,7 +1,12 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "nextcloud-feed-reader",
+    "feed-aggregator"
+  ],
+  "categories": [
+    "News"
+  ],
   "update": {
     "timestamp": "2023-09-16T20:31:13Z",
     "author": {

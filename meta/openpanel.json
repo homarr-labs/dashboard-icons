@@ -1,7 +1,11 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "Server Control Panel"
+  ],
+  "categories": [
+    "Server-Panels"
+  ],
   "update": {
     "timestamp": "2024-10-20T17:24:03Z",
     "author": {

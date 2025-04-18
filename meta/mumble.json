@@ -1,7 +1,12 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "Voice Chat"
+  ],
+  "categories": [
+    "Communication",
+    "Gaming-Platforms"
+  ],
   "update": {
     "timestamp": "2024-10-20T17:24:03Z",
     "author": {

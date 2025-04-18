@@ -1,7 +1,13 @@
 {
   "base": "png",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "virtual-machine-manager",
+    "vm-platform"
+  ],
+  "categories": [
+    "Server-Panels",
+    "Operating-Systems"
+  ],
   "update": {
     "timestamp": "2025-03-21T20:15:39.716246",
     "author": {

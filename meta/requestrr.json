@@ -1,7 +1,12 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "plex-requests",
+    "jellyfin-requests"
+  ],
+  "categories": [
+    "Media-Servers"
+  ],
   "update": {
     "timestamp": "2023-04-13T13:56:18Z",
     "author": {

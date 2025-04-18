@@ -1,7 +1,12 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "Link Shortener"
+  ],
+  "categories": [
+    "Web-Browsers",
+    "Networking-Tools"
+  ],
   "update": {
     "timestamp": "2024-10-20T17:24:03Z",
     "author": {

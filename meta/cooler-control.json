@@ -1,8 +1,11 @@
 {
   "base": "svg",
-  "aliases": [],
+  "aliases": [
+    "Fan Control"
+  ],
   "categories": [
-    "Hardware"
+    "Hardware",
+    "Monitoring-Tools"
   ],
   "update": {
     "timestamp": "2025-04-09T12:21:43.314393",

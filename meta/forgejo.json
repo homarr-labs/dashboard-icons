@@ -1,7 +1,13 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "gitea-fork",
+    "code-repository"
+  ],
+  "categories": [
+    "Version-Control-Systems",
+    "Developper-Tools"
+  ],
   "update": {
     "timestamp": "2023-01-05T14:11:25Z",
     "author": {

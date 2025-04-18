@@ -1,7 +1,12 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "flat-file-cms",
+    "content-management-system"
+  ],
+  "categories": [
+    "Developper-Tools"
+  ],
   "update": {
     "timestamp": "2024-10-20T17:24:03Z",
     "author": {

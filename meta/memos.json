@@ -1,7 +1,11 @@
 {
   "base": "png",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "Note-taking"
+  ],
+  "categories": [
+    "Note-taking-Apps"
+  ],
   "update": {
     "timestamp": "2025-01-07T17:54:03Z",
     "author": {

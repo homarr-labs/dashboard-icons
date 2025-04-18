@@ -1,9 +1,13 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "Recipe Manager"
+  ],
+  "categories": [
+    "Home-Automation"
+  ],
   "update": {
-    "timestamp": "2022-08-16T17:22:56Z",
+    "timestamp": "2022-08-16T17:22:56",
     "author": {
       "id": 71191962,
       "name": "walkxcode"

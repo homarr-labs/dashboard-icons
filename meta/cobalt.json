@@ -1,11 +1,15 @@
 {
   "base": "svg",
-  "aliases": [],
+  "aliases": [
+    "youtube-downloader",
+    "video-downloader"
+  ],
   "categories": [
-    "SocialMedia",
+    "Social-Media",
     "File",
     "Cloud",
-    "Video"
+    "Video",
+    "Download-Managers"
   ],
   "update": {
     "timestamp": "2025-03-21T20:19:04.169259",

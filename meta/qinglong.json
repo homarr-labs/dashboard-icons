@@ -1,7 +1,12 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "Automation Platform"
+  ],
+  "categories": [
+    "Home-Automation",
+    "Developper-Tools"
+  ],
   "update": {
     "timestamp": "2023-04-13T13:56:18Z",
     "author": {

@@ -1,7 +1,12 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "firefox-beta-channel",
+    "beta-browser"
+  ],
+  "categories": [
+    "Web-Browsers"
+  ],
   "update": {
     "timestamp": "2022-08-16T17:22:56Z",
     "author": {

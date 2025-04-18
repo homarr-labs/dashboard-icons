@@ -1,7 +1,12 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "usenet-client",
+    "nzb-downloader"
+  ],
+  "categories": [
+    "Download-Managers"
+  ],
   "update": {
     "timestamp": "2025-02-07T19:50:23Z",
     "author": {

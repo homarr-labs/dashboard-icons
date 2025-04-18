@@ -1,7 +1,12 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "online-courses",
+    "e-learning-platform"
+  ],
+  "categories": [
+    "Education"
+  ],
   "update": {
     "timestamp": "2024-10-20T17:24:03Z",
     "author": {

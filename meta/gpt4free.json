@@ -1,7 +1,12 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "free-chatgpt",
+    "unlimited-ai-chat"
+  ],
+  "categories": [
+    "AI-&-LLM-Platforms"
+  ],
   "update": {
     "timestamp": "2024-10-13T18:43:46Z",
     "author": {

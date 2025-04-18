@@ -1,7 +1,12 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "Document Indexer"
+  ],
+  "categories": [
+    "Office-Suites",
+    "File-Sharing-&-Sync"
+  ],
   "update": {
     "timestamp": "2023-04-13T13:56:18Z",
     "author": {

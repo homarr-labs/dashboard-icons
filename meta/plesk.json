@@ -1,7 +1,12 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "hosting-control-panel",
+    "website-management"
+  ],
+  "categories": [
+    "Server-Panels"
+  ],
   "update": {
     "timestamp": "2023-04-13T13:56:18Z",
     "author": {

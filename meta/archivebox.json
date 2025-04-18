@@ -1,7 +1,12 @@
 {
   "base": "png",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "web-archiver",
+    "site-scraper"
+  ],
+  "categories": [
+    "Developper-Tools"
+  ],
   "update": {
     "timestamp": "2024-10-20T19:32:46Z",
     "author": {

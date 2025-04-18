@@ -1,7 +1,10 @@
 {
   "base": "svg",
   "aliases": [],
-  "categories": [],
+  "categories": [
+    "Operating-Systems",
+    "Linux-Distributions"
+  ],
   "update": {
     "timestamp": "2024-10-20T17:24:03Z",
     "author": {

@@ -1,7 +1,13 @@
 {
   "base": "png",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "kde-file-manager",
+    "linux-file-explorer"
+  ],
+  "categories": [
+    "File-Sharing-&-Sync",
+    "Developper-Tools"
+  ],
   "update": {
     "timestamp": "2025-01-07T17:54:03Z",
     "author": {

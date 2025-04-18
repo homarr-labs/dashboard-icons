@@ -1,7 +1,12 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "automation-platform",
+    "workflow-engine"
+  ],
+  "categories": [
+    "Developper-Tools"
+  ],
   "update": {
     "timestamp": "2024-02-11T23:43:52Z",
     "author": {

@@ -1,7 +1,13 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "media-processing",
+    "video-automation"
+  ],
+  "categories": [
+    "Media-Servers",
+    "Developper-Tools"
+  ],
   "update": {
     "timestamp": "2023-04-13T13:56:18Z",
     "author": {

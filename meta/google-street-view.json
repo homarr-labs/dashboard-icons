@@ -1,7 +1,12 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "street-view",
+    "map-imagery"
+  ],
+  "categories": [
+    "Search-Engines"
+  ],
   "update": {
     "timestamp": "2023-04-13T13:56:18Z",
     "author": {

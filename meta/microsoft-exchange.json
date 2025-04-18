@@ -1,7 +1,13 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "Email Server"
+  ],
+  "categories": [
+    "Email-Providers",
+    "Server-Panels",
+    "Office-Suites"
+  ],
   "update": {
     "timestamp": "2024-10-13T18:28:15Z",
     "author": {

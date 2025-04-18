@@ -1,9 +1,15 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "crypto-platform",
+    "decentralized-apps"
+  ],
+  "categories": [
+    "Developper-Tools",
+    "Finance-&-Banking"
+  ],
   "update": {
-    "timestamp": "2023-04-13T20:27:58Z",
+    "timestamp": "2023-04-13T20:27:58",
     "author": {
       "id": 71191962,
       "name": "walkxcode"

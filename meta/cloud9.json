@@ -1,7 +1,13 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "aws-cloud9",
+    "online-ide"
+  ],
+  "categories": [
+    "Developper-Tools",
+    "Cloud-Computing"
+  ],
   "update": {
     "timestamp": "2024-10-20T17:24:03Z",
     "author": {

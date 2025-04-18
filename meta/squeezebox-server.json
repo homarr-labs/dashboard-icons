@@ -1,7 +1,13 @@
 {
   "base": "png",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "upnp-server",
+    "audio-streaming-server"
+  ],
+  "categories": [
+    "Media-Servers",
+    "Music-Streaming"
+  ],
   "update": {
     "timestamp": "2025-01-07T17:54:03Z",
     "author": {

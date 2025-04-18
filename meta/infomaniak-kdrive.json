@@ -1,7 +1,13 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "Cloud Drive",
+    "Kdrive"
+  ],
+  "categories": [
+    "Cloud-Computing",
+    "File-Sharing-&-Sync"
+  ],
   "update": {
     "timestamp": "2025-02-07T08:47:33Z",
     "author": {

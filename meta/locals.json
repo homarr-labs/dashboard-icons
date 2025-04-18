@@ -1,7 +1,13 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "Local Services Dashboard"
+  ],
+  "categories": [
+    "Home-Automation",
+    "Monitoring-Tools",
+    "Web-Browsers"
+  ],
   "update": {
     "timestamp": "2024-10-18T22:02:58Z",
     "author": {

@@ -1,8 +1,11 @@
 {
   "base": "svg",
-  "aliases": [],
+  "aliases": [
+    "RSS Reader"
+  ],
   "categories": [
-    "News"
+    "News",
+    "Web-Browsers"
   ],
   "update": {
     "timestamp": "2025-04-09T12:06:00.578312",

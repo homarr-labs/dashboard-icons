@@ -1,7 +1,13 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "Secrets Manager"
+  ],
+  "categories": [
+    "Password-Managers",
+    "Security",
+    "Developper-Tools"
+  ],
   "update": {
     "timestamp": "2025-01-05T22:18:03Z",
     "author": {

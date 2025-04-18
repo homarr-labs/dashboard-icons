@@ -1,7 +1,13 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "music-database",
+    "audio-metadata"
+  ],
+  "categories": [
+    "Databases",
+    "Music-Streaming"
+  ],
   "update": {
     "timestamp": "2023-04-13T13:56:18Z",
     "author": {

@@ -1,7 +1,13 @@
 {
   "base": "png",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "security-camera-company",
+    "video-surveillance"
+  ],
+  "categories": [
+    "Smart-Home",
+    "Hardware"
+  ],
   "update": {
     "timestamp": "2025-01-07T17:54:03Z",
     "author": {

@@ -1,7 +1,13 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "git-hosting",
+    "code-repository"
+  ],
+  "categories": [
+    "Version-Control-Systems",
+    "Developper-Tools"
+  ],
   "update": {
     "timestamp": "2022-10-03T09:35:40Z",
     "author": {

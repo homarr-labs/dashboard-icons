@@ -1,7 +1,12 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "Disk Usage Analyzer"
+  ],
+  "categories": [
+    "File-Sharing-&-Sync",
+    "Monitoring-Tools"
+  ],
   "update": {
     "timestamp": "2023-02-26T00:39:22Z",
     "author": {

@@ -1,7 +1,12 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "printer-server",
+    "cups-alternative"
+  ],
+  "categories": [
+    "Home-Automation"
+  ],
   "update": {
     "timestamp": "2024-01-01T11:13:31Z",
     "author": {

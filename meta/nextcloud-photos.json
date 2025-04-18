@@ -1,7 +1,13 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "Photo Album"
+  ],
+  "categories": [
+    "Media-Servers",
+    "File-Sharing-&-Sync",
+    "Office-Suites"
+  ],
   "update": {
     "timestamp": "2023-09-16T20:31:13Z",
     "author": {

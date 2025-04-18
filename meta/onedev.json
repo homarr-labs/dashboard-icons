@@ -1,7 +1,13 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "DevOps Platform"
+  ],
+  "categories": [
+    "Developper-Tools",
+    "DevOps",
+    "Version-Control-Systems"
+  ],
   "update": {
     "timestamp": "2024-10-20T17:24:03Z",
     "author": {

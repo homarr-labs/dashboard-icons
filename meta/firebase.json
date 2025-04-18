@@ -1,7 +1,12 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "Backend as a Service"
+  ],
+  "categories": [
+    "Cloud-Computing",
+    "Developper-Tools"
+  ],
   "update": {
     "timestamp": "2023-09-11T09:55:09Z",
     "author": {

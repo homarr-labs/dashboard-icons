@@ -1,7 +1,12 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "online-auction",
+    "shopping-website"
+  ],
+  "categories": [
+    "E-commerce-Platforms"
+  ],
   "update": {
     "timestamp": "2023-04-13T13:56:18Z",
     "author": {

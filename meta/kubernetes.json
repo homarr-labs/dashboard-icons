@@ -1,7 +1,13 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "K8s"
+  ],
+  "categories": [
+    "Containerization-&-Orchestration",
+    "Developper-Tools",
+    "Cloud-Computing"
+  ],
   "update": {
     "timestamp": "2022-08-16T17:22:56Z",
     "author": {

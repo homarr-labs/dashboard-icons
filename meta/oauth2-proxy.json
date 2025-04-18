@@ -1,8 +1,12 @@
 {
   "base": "svg",
-  "aliases": [],
+  "aliases": [
+    "Authentication Proxy"
+  ],
   "categories": [
-    "Security"
+    "Security",
+    "Networking-Tools",
+    "Developper-Tools"
   ],
   "update": {
     "timestamp": "2025-03-17T15:39:00.007266",

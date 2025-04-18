@@ -1,7 +1,12 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "restaurant-app",
+    "food-ordering-app"
+  ],
+  "categories": [
+    "Home-Automation"
+  ],
   "update": {
     "timestamp": "2024-10-20T17:24:03Z",
     "author": {

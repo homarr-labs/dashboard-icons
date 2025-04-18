@@ -1,7 +1,13 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "dutch-tech-news",
+    "hardware-reviews"
+  ],
+  "categories": [
+    "News",
+    "Technology-News"
+  ],
   "update": {
     "timestamp": "2025-04-08T16:38:19.694022",
     "author": {

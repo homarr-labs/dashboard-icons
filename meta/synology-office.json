@@ -1,7 +1,12 @@
 {
   "base": "png",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "online-office",
+    "document-editor"
+  ],
+  "categories": [
+    "Office-Suites"
+  ],
   "update": {
     "timestamp": "2025-01-07T17:54:03Z",
     "author": {

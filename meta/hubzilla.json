@@ -1,7 +1,12 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "federated-social-network",
+    "decentralized-social-media"
+  ],
+  "categories": [
+    "Social-Media"
+  ],
   "update": {
     "timestamp": "2024-10-20T17:24:03Z",
     "author": {

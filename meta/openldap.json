@@ -1,7 +1,12 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "LDAP Server"
+  ],
+  "categories": [
+    "Networking-Tools",
+    "Server-Panels"
+  ],
   "update": {
     "timestamp": "2024-10-20T17:24:03Z",
     "author": {

@@ -1,7 +1,12 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "finamp-music-player",
+    "android-music-player"
+  ],
+  "categories": [
+    "Music-Streaming"
+  ],
   "update": {
     "timestamp": "2024-10-13T20:39:18Z",
     "author": {

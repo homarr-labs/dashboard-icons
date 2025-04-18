@@ -1,7 +1,12 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "Container Management"
+  ],
+  "categories": [
+    "Containerization-&-Orchestration",
+    "Developper-Tools"
+  ],
   "update": {
     "timestamp": "2024-10-20T17:24:03Z",
     "author": {

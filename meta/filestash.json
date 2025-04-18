@@ -1,7 +1,12 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "Web File Manager"
+  ],
+  "categories": [
+    "File-Sharing-&-Sync",
+    "Web-Browsers"
+  ],
   "update": {
     "timestamp": "2024-10-20T17:24:03Z",
     "author": {

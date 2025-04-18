@@ -1,7 +1,12 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "Automation Tool"
+  ],
+  "categories": [
+    "Developper-Tools",
+    "DevOps"
+  ],
   "update": {
     "timestamp": "2024-10-20T17:24:03Z",
     "author": {

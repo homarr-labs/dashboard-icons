@@ -1,7 +1,13 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "custom-router-firmware",
+    "linux-based-router"
+  ],
+  "categories": [
+    "Networking-Tools",
+    "Operating-Systems"
+  ],
   "update": {
     "timestamp": "2022-09-09T10:03:51Z",
     "author": {

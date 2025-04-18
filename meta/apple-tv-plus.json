@@ -1,7 +1,12 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "apple-tv",
+    "streaming-service"
+  ],
+  "categories": [
+    "Video-Streaming"
+  ],
   "update": {
     "timestamp": "2024-10-20T17:24:03Z",
     "author": {

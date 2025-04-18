@@ -1,7 +1,12 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "Media Server"
+  ],
+  "categories": [
+    "Media-Servers",
+    "Home-Automation"
+  ],
   "update": {
     "timestamp": "2024-10-20T17:24:03Z",
     "author": {

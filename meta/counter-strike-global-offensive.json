@@ -1,7 +1,12 @@
 {
   "base": "png",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "csgo",
+    "fps-game"
+  ],
+  "categories": [
+    "Gaming-Platforms"
+  ],
   "update": {
     "timestamp": "2025-01-07T17:54:03Z",
     "author": {

@@ -1,7 +1,12 @@
 {
   "base": "png",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "Chat Protocol"
+  ],
+  "categories": [
+    "Communication",
+    "Networking-Tools"
+  ],
   "update": {
     "timestamp": "2025-01-07T17:54:03Z",
     "author": {

@@ -1,7 +1,12 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "ide",
+    "text-editor"
+  ],
+  "categories": [
+    "Developper-Tools"
+  ],
   "update": {
     "timestamp": "2025-02-21T11:58:52.385242",
     "author": {

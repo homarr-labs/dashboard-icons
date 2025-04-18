@@ -1,7 +1,13 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "online-form-creator",
+    "survey-builder"
+  ],
+  "categories": [
+    "Office-Suites",
+    "Developper-Tools"
+  ],
   "update": {
     "timestamp": "2024-10-20T17:24:03Z",
     "author": {

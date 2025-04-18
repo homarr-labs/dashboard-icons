@@ -1,7 +1,13 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "Google Workspace Admin"
+  ],
+  "categories": [
+    "Office-Suites",
+    "Cloud-Computing",
+    "Server-Panels"
+  ],
   "update": {
     "timestamp": "2023-04-14T18:55:51Z",
     "author": {

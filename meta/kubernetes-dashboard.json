@@ -1,7 +1,13 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "k8s-dashboard",
+    "container-management-ui"
+  ],
+  "categories": [
+    "Containerization-&-Orchestration",
+    "Server-Panels"
+  ],
   "update": {
     "timestamp": "2023-04-13T13:56:18Z",
     "author": {

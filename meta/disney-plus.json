@@ -1,7 +1,9 @@
 {
   "base": "svg",
   "aliases": [],
-  "categories": [],
+  "categories": [
+    "Video-Streaming"
+  ],
   "update": {
     "timestamp": "2024-01-01T11:17:37Z",
     "author": {

@@ -1,10 +1,15 @@
 {
   "base": "svg",
-  "aliases": [],
+  "aliases": [
+    "kubernetes-load-balancer",
+    "service-lb"
+  ],
   "categories": [
     "Cloud",
     "Hardware",
-    "Development"
+    "Development",
+    "Containerization-&-Orchestration",
+    "Networking-Tools"
   ],
   "update": {
     "timestamp": "2025-02-27T21:03:19.030832",

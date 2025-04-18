@@ -1,7 +1,12 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "llama-ui",
+    "ollama-webui"
+  ],
+  "categories": [
+    "AI-&-LLM-Platforms"
+  ],
   "update": {
     "timestamp": "2025-03-17T15:46:47.424214",
     "author": {

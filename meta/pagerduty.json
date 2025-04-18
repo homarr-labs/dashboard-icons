@@ -1,7 +1,12 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "incident-alerting",
+    "on-call-management"
+  ],
+  "categories": [
+    "Monitoring-Tools"
+  ],
   "update": {
     "timestamp": "2022-08-16T17:22:56Z",
     "author": {

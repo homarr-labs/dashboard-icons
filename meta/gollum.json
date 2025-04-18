@@ -1,7 +1,12 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "Wiki"
+  ],
+  "categories": [
+    "Note-taking-Apps",
+    "Developper-Tools"
+  ],
   "update": {
     "timestamp": "2024-06-01T17:38:50Z",
     "author": {

@@ -1,7 +1,11 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "AI Chatbot"
+  ],
+  "categories": [
+    "AI-&-LLM-Platforms"
+  ],
   "update": {
     "timestamp": "2024-01-29T22:26:51Z",
     "author": {

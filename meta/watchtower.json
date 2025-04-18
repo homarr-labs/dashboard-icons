@@ -1,7 +1,13 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "Container Updater"
+  ],
+  "categories": [
+    "Containerization-&-Orchestration",
+    "Developper-Tools",
+    "DevOps"
+  ],
   "update": {
     "timestamp": "2025-04-06T11:33:05.840470",
     "author": {

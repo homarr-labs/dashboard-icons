@@ -1,7 +1,12 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "Collaborative Editor"
+  ],
+  "categories": [
+    "Office-Suites",
+    "Web-Browsers"
+  ],
   "update": {
     "timestamp": "2024-06-01T18:14:57Z",
     "author": {

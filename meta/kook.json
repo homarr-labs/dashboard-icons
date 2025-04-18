@@ -1,7 +1,13 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "voice-chat-platform",
+    "community-platform"
+  ],
+  "categories": [
+    "Social-Media",
+    "Communication"
+  ],
   "update": {
     "timestamp": "2025-01-05T02:20:49Z",
     "author": {

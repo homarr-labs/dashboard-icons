@@ -1,7 +1,11 @@
 {
   "base": "png",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "Budgeting App"
+  ],
+  "categories": [
+    "Finance-&-Banking"
+  ],
   "update": {
     "timestamp": "2025-01-07T17:54:03Z",
     "author": {

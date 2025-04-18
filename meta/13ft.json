@@ -1,7 +1,12 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "paywall-remover",
+    "article-unblocker"
+  ],
+  "categories": [
+    "Web-Browsers"
+  ],
   "update": {
     "timestamp": "2024-10-13T18:25:47Z",
     "author": {

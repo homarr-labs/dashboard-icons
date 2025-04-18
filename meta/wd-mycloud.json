@@ -1,8 +1,12 @@
 {
   "base": "svg",
-  "aliases": [],
+  "aliases": [
+    "network-attached-storage",
+    "personal-cloud"
+  ],
   "categories": [
-    "Cloud"
+    "Cloud",
+    "File-Sharing-&-Sync"
   ],
   "update": {
     "timestamp": "2025-04-09T12:25:42.292198",

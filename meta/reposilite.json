@@ -1,8 +1,11 @@
 {
   "base": "png",
-  "aliases": [],
+  "aliases": [
+    "Maven Repository"
+  ],
   "categories": [
-    "Development"
+    "Developper-Tools",
+    "DevOps"
   ],
   "update": {
     "timestamp": "2025-04-06T09:07:59.093807",

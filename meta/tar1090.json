@@ -1,7 +1,9 @@
 {
   "base": "png",
   "aliases": [],
-  "categories": [],
+  "categories": [
+    "Monitoring-Tools"
+  ],
   "update": {
     "timestamp": "2024-10-20T18:50:18Z",
     "author": {

@@ -1,7 +1,13 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "Container Manager"
+  ],
+  "categories": [
+    "Containerization-&-Orchestration",
+    "Developper-Tools",
+    "Server-Panels"
+  ],
   "update": {
     "timestamp": "2025-01-05T19:39:40Z",
     "author": {

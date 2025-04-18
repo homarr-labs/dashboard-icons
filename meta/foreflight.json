@@ -1,6 +1,8 @@
 {
   "base": "svg",
-  "aliases": [],
+  "aliases": [
+    "Flight Planning"
+  ],
   "categories": [
     "Travel"
   ],

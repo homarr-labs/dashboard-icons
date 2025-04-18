@@ -1,7 +1,12 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "Task Management"
+  ],
+  "categories": [
+    "Office-Suites",
+    "Note-taking-Apps"
+  ],
   "update": {
     "timestamp": "2024-02-11T23:46:36Z",
     "author": {

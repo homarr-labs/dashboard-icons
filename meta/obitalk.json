@@ -1,7 +1,10 @@
 {
   "base": "png",
   "aliases": [],
-  "categories": [],
+  "categories": [
+    "Networking-Tools",
+    "Communication"
+  ],
   "update": {
     "timestamp": "2025-01-07T17:54:03Z",
     "author": {

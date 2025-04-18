@@ -1,8 +1,11 @@
 {
   "base": "svg",
-  "aliases": [],
+  "aliases": [
+    "File Manager"
+  ],
   "categories": [
-    "Organization"
+    "File-Sharing-&-Sync",
+    "Office-Suites"
   ],
   "update": {
     "timestamp": "2025-04-02T16:15:44.587958",

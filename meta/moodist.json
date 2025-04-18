@@ -1,7 +1,12 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "music-app",
+    "android-music-player"
+  ],
+  "categories": [
+    "Music-Streaming"
+  ],
   "update": {
     "timestamp": "2024-10-20T17:31:05Z",
     "author": {

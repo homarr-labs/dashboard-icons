@@ -1,7 +1,13 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "supabase-io",
+    "firebase-alternative"
+  ],
+  "categories": [
+    "Cloud-Computing",
+    "Developper-Tools"
+  ],
   "update": {
     "timestamp": "2024-10-20T17:24:03Z",
     "author": {

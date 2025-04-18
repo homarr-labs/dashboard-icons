@@ -1,7 +1,12 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "File Uploader"
+  ],
+  "categories": [
+    "File-Sharing-&-Sync",
+    "Developper-Tools"
+  ],
   "update": {
     "timestamp": "2025-01-05T01:06:46Z",
     "author": {

@@ -1,7 +1,13 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "Network Management"
+  ],
+  "categories": [
+    "Networking-Tools",
+    "Developper-Tools",
+    "Monitoring-Tools"
+  ],
   "update": {
     "timestamp": "2025-01-06T02:12:00Z",
     "author": {

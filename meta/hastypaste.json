@@ -1,7 +1,12 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "code-sharing",
+    "text-paste-service"
+  ],
+  "categories": [
+    "Developper-Tools"
+  ],
   "update": {
     "timestamp": "2023-08-10T08:28:08Z",
     "author": {

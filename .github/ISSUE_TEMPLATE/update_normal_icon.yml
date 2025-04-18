@@ -8,6 +8,7 @@ body:
       value: |
         Hello and thank you for contributing to the project! Please fill out the following informations to update an existing icon in the project.
   - type: input
+    id: iconName
     attributes:
       label: Icon name
       description: The name has to match the existing icon name.

@@ -1,7 +1,13 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "container-monitor",
+    "docker-stats"
+  ],
+  "categories": [
+    "Monitoring-Tools",
+    "Containerization-&-Orchestration"
+  ],
   "update": {
     "timestamp": "2024-10-20T17:24:03Z",
     "author": {

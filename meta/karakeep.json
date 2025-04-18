@@ -1,0 +1,16 @@
+{
+  "base": "svg",
+  "aliases": [],
+  "categories": [],
+  "update": {
+    "timestamp": "2025-04-17T01:26:48.483638",
+    "author": {
+      "id": 71191962,
+      "login": "lammersbjorn"
+    }
+  },
+  "colors": {
+    "light": "karakeep",
+    "dark": "karakeep-dark"
+  }
+}

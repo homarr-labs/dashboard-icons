@@ -1,7 +1,11 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "Book Social Network"
+  ],
+  "categories": [
+    "Social-Media"
+  ],
   "update": {
     "timestamp": "2023-04-24T11:18:46Z",
     "author": {

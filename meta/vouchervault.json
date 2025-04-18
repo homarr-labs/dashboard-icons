@@ -1,7 +1,13 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "coupon-manager",
+    "discount-tracker"
+  ],
+  "categories": [
+    "E-commerce-Platforms",
+    "Finance-&-Banking"
+  ],
   "update": {
     "timestamp": "2025-01-07T19:12:28Z",
     "author": {

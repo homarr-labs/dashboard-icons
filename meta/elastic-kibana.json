@@ -1,9 +1,15 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "dashboarding-tool",
+    "log-analyzer"
+  ],
+  "categories": [
+    "Monitoring-Tools",
+    "Developper-Tools"
+  ],
   "update": {
-    "timestamp": "2023-04-13T20:27:58Z",
+    "timestamp": "2023-04-13T20:27:58",
     "author": {
       "id": 71191962,
       "name": "walkxcode"

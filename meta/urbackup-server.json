@@ -1,7 +1,12 @@
 {
   "base": "png",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "Backup Server"
+  ],
+  "categories": [
+    "File-Sharing-&-Sync",
+    "Server-Panels"
+  ],
   "update": {
     "timestamp": "2025-01-07T17:54:03Z",
     "author": {

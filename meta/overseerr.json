@@ -1,7 +1,12 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "Media Request"
+  ],
+  "categories": [
+    "Media-Servers",
+    "Home-Automation"
+  ],
   "update": {
     "timestamp": "2022-08-16T17:22:56Z",
     "author": {

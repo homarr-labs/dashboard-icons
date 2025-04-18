@@ -1,7 +1,12 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "Print Service"
+  ],
+  "categories": [
+    "Office-Suites",
+    "Cloud-Computing"
+  ],
   "update": {
     "timestamp": "2023-04-13T13:56:18Z",
     "author": {

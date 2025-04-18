@@ -1,7 +1,12 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "online-rss-reader",
+    "feed-aggregator"
+  ],
+  "categories": [
+    "News"
+  ],
   "update": {
     "timestamp": "2024-10-20T17:24:03Z",
     "author": {

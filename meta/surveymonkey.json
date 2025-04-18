@@ -1,7 +1,12 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "online-survey",
+    "questionnaire-tool"
+  ],
+  "categories": [
+    "Office-Suites"
+  ],
   "update": {
     "timestamp": "2024-10-20T17:24:03Z",
     "author": {

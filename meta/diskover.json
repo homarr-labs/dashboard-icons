@@ -1,7 +1,12 @@
 {
   "base": "png",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "Disk Usage Analyzer"
+  ],
+  "categories": [
+    "Monitoring-Tools",
+    "File-Sharing-&-Sync"
+  ],
   "update": {
     "timestamp": "2025-01-07T17:54:03Z",
     "author": {

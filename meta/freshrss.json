@@ -1,7 +1,13 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "RSS Reader",
+    "Feed Reader"
+  ],
+  "categories": [
+    "Web-Browsers",
+    "News"
+  ],
   "update": {
     "timestamp": "2022-08-16T17:22:56Z",
     "author": {

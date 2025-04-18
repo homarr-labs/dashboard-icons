@@ -1,7 +1,12 @@
 {
   "base": "png",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "Domain Registrar"
+  ],
+  "categories": [
+    "Networking-Tools",
+    "Web-Browsers"
+  ],
   "update": {
     "timestamp": "2025-01-07T17:54:03Z",
     "author": {

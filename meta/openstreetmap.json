@@ -1,7 +1,12 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "OSM"
+  ],
+  "categories": [
+    "Web-Browsers",
+    "Networking-Tools"
+  ],
   "update": {
     "timestamp": "2023-04-13T13:56:18Z",
     "author": {

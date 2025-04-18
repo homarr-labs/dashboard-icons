@@ -1,7 +1,13 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "centos-linux",
+    "enterprise-linux"
+  ],
+  "categories": [
+    "Linux-Distributions",
+    "Operating-Systems"
+  ],
   "update": {
     "timestamp": "2023-04-13T13:56:18Z",
     "author": {

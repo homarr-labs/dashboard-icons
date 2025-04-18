@@ -1,7 +1,12 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "Workspace Streaming"
+  ],
+  "categories": [
+    "Developper-Tools",
+    "Cloud-Computing"
+  ],
   "update": {
     "timestamp": "2023-04-13T13:56:18Z",
     "author": {

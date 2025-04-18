@@ -1,7 +1,12 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "german-tv-replay",
+    "public-broadcasting-archive"
+  ],
+  "categories": [
+    "Video-Streaming"
+  ],
   "update": {
     "timestamp": "2022-11-05T12:18:24Z",
     "author": {

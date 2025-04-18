@@ -1,7 +1,13 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "command-line",
+    "shell-interface"
+  ],
+  "categories": [
+    "Developper-Tools",
+    "Operating-Systems"
+  ],
   "update": {
     "timestamp": "2023-04-13T13:56:18Z",
     "author": {

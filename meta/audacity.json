@@ -1,7 +1,12 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "audio-editing-software",
+    "sound-editor"
+  ],
+  "categories": [
+    "Graphics-Editors"
+  ],
   "update": {
     "timestamp": "2023-04-13T13:56:18Z",
     "author": {

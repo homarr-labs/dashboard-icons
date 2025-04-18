@@ -1,7 +1,12 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "Inventory Management"
+  ],
+  "categories": [
+    "Office-Suites",
+    "E-commerce-Platforms"
+  ],
   "update": {
     "timestamp": "2023-04-13T13:56:18Z",
     "author": {

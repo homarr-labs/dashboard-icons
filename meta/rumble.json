@@ -1,7 +1,12 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "youtube-alternative",
+    "video-sharing-site"
+  ],
+  "categories": [
+    "Video-Streaming"
+  ],
   "update": {
     "timestamp": "2023-09-30T23:45:37Z",
     "author": {

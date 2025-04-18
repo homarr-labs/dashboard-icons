@@ -1,7 +1,12 @@
 {
   "base": "png",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "steam-idler",
+    "game-farmer"
+  ],
+  "categories": [
+    "Gaming-Platforms"
+  ],
   "update": {
     "timestamp": "2024-10-20T19:32:46Z",
     "author": {

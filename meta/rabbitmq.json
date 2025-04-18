@@ -1,7 +1,12 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "Message Broker"
+  ],
+  "categories": [
+    "Developper-Tools",
+    "Networking-Tools"
+  ],
   "update": {
     "timestamp": "2023-04-13T13:56:18Z",
     "author": {

@@ -1,8 +1,12 @@
 {
   "base": "svg",
-  "aliases": [],
+  "aliases": [
+    "aircraft-manufacturer",
+    "private-jet"
+  ],
   "categories": [
-    "Travel"
+    "Travel",
+    "Organization"
   ],
   "update": {
     "timestamp": "2025-03-04T20:41:12.562252",

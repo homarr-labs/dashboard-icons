@@ -1,7 +1,12 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "mobile-wallet",
+    "payment-app"
+  ],
+  "categories": [
+    "Finance-&-Banking"
+  ],
   "update": {
     "timestamp": "2023-04-13T13:56:18Z",
     "author": {

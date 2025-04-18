@@ -1,7 +1,11 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "Operating System"
+  ],
+  "categories": [
+    "Operating-Systems"
+  ],
   "update": {
     "timestamp": "2024-10-20T17:24:03Z",
     "author": {

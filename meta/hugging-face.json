@@ -1,7 +1,13 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "machine-learning-platform",
+    "nlp-library"
+  ],
+  "categories": [
+    "AI-&-LLM-Platforms",
+    "Developper-Tools"
+  ],
   "update": {
     "timestamp": "2023-04-16T22:04:08Z",
     "author": {

@@ -1,7 +1,12 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "Static Site Generator"
+  ],
+  "categories": [
+    "Developper-Tools",
+    "Web-Browsers"
+  ],
   "update": {
     "timestamp": "2023-04-13T20:27:58Z",
     "author": {

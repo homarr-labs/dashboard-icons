@@ -1,7 +1,13 @@
 {
   "base": "png",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "network-monitoring-tool",
+    "infrastructure-monitoring"
+  ],
+  "categories": [
+    "Monitoring-Tools",
+    "Networking-Tools"
+  ],
   "update": {
     "timestamp": "2025-01-07T17:54:03Z",
     "author": {

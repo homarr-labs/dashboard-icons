@@ -1,7 +1,11 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "Music Streaming"
+  ],
+  "categories": [
+    "Music-Streaming"
+  ],
   "update": {
     "timestamp": "2025-01-05T15:59:13Z",
     "author": {

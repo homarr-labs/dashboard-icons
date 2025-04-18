@@ -1,7 +1,13 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "ai-chatbot",
+    "productivity-assistant"
+  ],
+  "categories": [
+    "AI-&-LLM-Platforms",
+    "Office-Suites"
+  ],
   "update": {
     "timestamp": "2024-10-13T18:22:38Z",
     "author": {

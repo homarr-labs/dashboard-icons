@@ -1,7 +1,12 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "Service Discovery"
+  ],
+  "categories": [
+    "Networking-Tools",
+    "Developper-Tools"
+  ],
   "update": {
     "timestamp": "2024-01-01T11:20:28Z",
     "author": {

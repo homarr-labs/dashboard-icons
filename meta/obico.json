@@ -1,7 +1,12 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "3D Printing Monitor"
+  ],
+  "categories": [
+    "Hardware",
+    "Home-Automation"
+  ],
   "update": {
     "timestamp": "2022-09-26T20:02:39Z",
     "author": {

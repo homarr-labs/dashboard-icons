@@ -1,7 +1,12 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "NAC"
+  ],
+  "categories": [
+    "Networking-Tools",
+    "Security"
+  ],
   "update": {
     "timestamp": "2025-02-15T17:40:42.756801",
     "author": {

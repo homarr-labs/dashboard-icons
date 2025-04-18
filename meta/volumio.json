@@ -1,7 +1,13 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "Music Player OS"
+  ],
+  "categories": [
+    "Operating-Systems",
+    "Media-Servers",
+    "Linux-Distributions"
+  ],
   "update": {
     "timestamp": "2024-01-01T11:07:38Z",
     "author": {

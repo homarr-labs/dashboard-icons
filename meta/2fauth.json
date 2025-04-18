@@ -1,7 +1,12 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "2FA Authenticator"
+  ],
+  "categories": [
+    "Password-Managers",
+    "Security"
+  ],
   "update": {
     "timestamp": "2024-10-13T18:37:13Z",
     "author": {

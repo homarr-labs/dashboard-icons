@@ -1,7 +1,11 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "File Sharing"
+  ],
+  "categories": [
+    "File-Sharing-&-Sync"
+  ],
   "update": {
     "timestamp": "2024-10-20T17:24:03Z",
     "author": {

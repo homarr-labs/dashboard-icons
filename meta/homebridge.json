@@ -1,7 +1,12 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "Smart Home Bridge"
+  ],
+  "categories": [
+    "Home-Automation",
+    "Smart-Home"
+  ],
   "update": {
     "timestamp": "2022-08-16T17:22:56Z",
     "author": {

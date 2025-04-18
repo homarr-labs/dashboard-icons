@@ -1,7 +1,12 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "Video Conferencing"
+  ],
+  "categories": [
+    "Communication",
+    "Office-Suites"
+  ],
   "update": {
     "timestamp": "2024-01-28T15:27:56Z",
     "author": {

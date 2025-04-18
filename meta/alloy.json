@@ -1,7 +1,13 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "no-code-platform",
+    "app-builder"
+  ],
+  "categories": [
+    "Developper-Tools",
+    "Cloud-Computing"
+  ],
   "update": {
     "timestamp": "2024-06-01T17:32:11Z",
     "author": {

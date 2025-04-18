@@ -1,7 +1,12 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "Genealogy Software"
+  ],
+  "categories": [
+    "Office-Suites",
+    "Personal"
+  ],
   "update": {
     "timestamp": "2023-09-16T20:34:06Z",
     "author": {

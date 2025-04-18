@@ -1,7 +1,13 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "matrix-chat-client",
+    "element-client"
+  ],
+  "categories": [
+    "Networking-Tools",
+    "Communication"
+  ],
   "update": {
     "timestamp": "2023-04-13T13:56:18Z",
     "author": {

@@ -1,7 +1,12 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "business-card-ocr",
+    "contact-scanner"
+  ],
+  "categories": [
+    "Office-Suites"
+  ],
   "update": {
     "timestamp": "2024-06-01T17:44:56Z",
     "author": {

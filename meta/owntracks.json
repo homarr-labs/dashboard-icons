@@ -1,7 +1,12 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "Location Tracking"
+  ],
+  "categories": [
+    "Monitoring-Tools",
+    "Smart-Home"
+  ],
   "update": {
     "timestamp": "2024-03-21T01:19:05Z",
     "author": {

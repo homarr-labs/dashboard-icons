@@ -1,7 +1,13 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "continuous-integration",
+    "build-pipeline"
+  ],
+  "categories": [
+    "Developper-Tools",
+    "Version-Control-Systems"
+  ],
   "update": {
     "timestamp": "2022-08-16T17:22:56Z",
     "author": {

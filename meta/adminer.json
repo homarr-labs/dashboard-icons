@@ -1,7 +1,12 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "Database Management"
+  ],
+  "categories": [
+    "Databases",
+    "Developper-Tools"
+  ],
   "update": {
     "timestamp": "2022-08-16T17:22:56Z",
     "author": {

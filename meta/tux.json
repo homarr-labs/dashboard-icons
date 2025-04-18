@@ -1,7 +1,12 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "linux-penguin",
+    "os-mascot"
+  ],
+  "categories": [
+    "Operating-Systems"
+  ],
   "update": {
     "timestamp": "2023-04-13T13:56:18Z",
     "author": {

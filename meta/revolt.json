@@ -1,7 +1,13 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "discord-alternative",
+    "voice-chat-app"
+  ],
+  "categories": [
+    "Networking-Tools",
+    "Communication"
+  ],
   "update": {
     "timestamp": "2024-10-20T17:24:03Z",
     "author": {

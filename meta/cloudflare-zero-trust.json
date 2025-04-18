@@ -1,7 +1,14 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "zero-trust-network",
+    "secure-access-service"
+  ],
+  "categories": [
+    "Security",
+    "Cloud-Computing",
+    "Networking-Tools"
+  ],
   "update": {
     "timestamp": "2023-04-13T13:56:18Z",
     "author": {

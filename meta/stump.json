@@ -1,7 +1,12 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "comic-book-reader",
+    "cbr-server"
+  ],
+  "categories": [
+    "Media-Servers"
+  ],
   "update": {
     "timestamp": "2024-10-13T18:42:14Z",
     "author": {

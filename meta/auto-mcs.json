@@ -1,8 +1,12 @@
 {
   "base": "png",
-  "aliases": [],
+  "aliases": [
+    "minecraft-server-script",
+    "game-server-automation"
+  ],
   "categories": [
-    "Gaming"
+    "Gaming-Platforms",
+    "Home-Automation"
   ],
   "update": {
     "timestamp": "2025-03-24T19:26:25.573313",

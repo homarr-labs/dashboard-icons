@@ -1,7 +1,13 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "Server OS"
+  ],
+  "categories": [
+    "Operating-Systems",
+    "Server-Panels",
+    "Linux-Distributions"
+  ],
   "update": {
     "timestamp": "2024-10-20T17:24:03Z",
     "author": {

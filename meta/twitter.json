@@ -1,7 +1,12 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "x-platform",
+    "microblogging"
+  ],
+  "categories": [
+    "Social-Media"
+  ],
   "update": {
     "timestamp": "2023-04-13T13:56:18Z",
     "author": {

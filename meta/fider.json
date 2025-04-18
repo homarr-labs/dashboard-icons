@@ -1,7 +1,13 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "feature-requests",
+    "idea-voting"
+  ],
+  "categories": [
+    "Developper-Tools",
+    "Office-Suites"
+  ],
   "update": {
     "timestamp": "2024-10-20T17:24:03Z",
     "author": {

@@ -1,7 +1,11 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "nextcloud-skin"
+  ],
+  "categories": [
+    "File-Sharing-&-Sync"
+  ],
   "update": {
     "timestamp": "2023-09-16T20:31:13Z",
     "author": {

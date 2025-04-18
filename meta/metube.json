@@ -1,7 +1,12 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "youtube-dl-gui",
+    "video-downloader"
+  ],
+  "categories": [
+    "Download-Managers"
+  ],
   "update": {
     "timestamp": "2023-04-13T13:56:18Z",
     "author": {

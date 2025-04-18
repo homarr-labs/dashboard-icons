@@ -1,8 +1,12 @@
 {
   "base": "svg",
-  "aliases": [],
+  "aliases": [
+    "android-screen-mirroring",
+    "phone-screen-on-pc"
+  ],
   "categories": [
-    "Development"
+    "Developper-Tools",
+    "Hardware"
   ],
   "update": {
     "timestamp": "2025-03-26T21:09:30.463729",

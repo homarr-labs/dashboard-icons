@@ -1,7 +1,14 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "NAS OS"
+  ],
+  "categories": [
+    "Operating-Systems",
+    "File-Sharing-&-Sync",
+    "Media-Servers",
+    "Linux-Distributions"
+  ],
   "update": {
     "timestamp": "2023-04-13T13:56:18Z",
     "author": {

@@ -1,7 +1,13 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "ddns-provider",
+    "dynamic-ip-service"
+  ],
+  "categories": [
+    "Networking-Tools",
+    "Cloud-Computing"
+  ],
   "update": {
     "timestamp": "2024-10-20T17:24:03Z",
     "author": {

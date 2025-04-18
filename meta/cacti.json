@@ -1,7 +1,13 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "network-graphing",
+    "performance-monitoring"
+  ],
+  "categories": [
+    "Monitoring-Tools",
+    "Networking-Tools"
+  ],
   "update": {
     "timestamp": "2023-04-13T13:56:18Z",
     "author": {

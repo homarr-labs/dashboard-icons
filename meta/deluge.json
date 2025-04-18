@@ -1,7 +1,12 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "bittorrent-client",
+    "torrenting-app"
+  ],
+  "categories": [
+    "Download-Managers"
+  ],
   "update": {
     "timestamp": "2023-04-13T13:56:18Z",
     "author": {

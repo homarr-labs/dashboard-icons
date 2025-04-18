@@ -1,7 +1,12 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "Docker Swarm UI"
+  ],
+  "categories": [
+    "Containerization-&-Orchestration",
+    "Monitoring-Tools"
+  ],
   "update": {
     "timestamp": "2023-07-05T16:00:19Z",
     "author": {

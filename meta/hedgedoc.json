@@ -1,7 +1,13 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "online-markdown-editor",
+    "realtime-markdown"
+  ],
+  "categories": [
+    "Office-Suites",
+    "Note-taking-Apps"
+  ],
   "update": {
     "timestamp": "2024-03-21T01:12:11Z",
     "author": {

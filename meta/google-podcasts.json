@@ -1,7 +1,12 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "Podcast Player"
+  ],
+  "categories": [
+    "Media-Servers",
+    "Music-Streaming"
+  ],
   "update": {
     "timestamp": "2023-04-13T13:56:18Z",
     "author": {

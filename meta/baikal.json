@@ -1,7 +1,12 @@
 {
   "base": "png",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "CalDAV Server"
+  ],
+  "categories": [
+    "Server-Panels",
+    "File-Sharing-&-Sync"
+  ],
   "update": {
     "timestamp": "2025-01-07T17:54:03Z",
     "author": {

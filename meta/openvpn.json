@@ -1,7 +1,11 @@
 {
   "base": "svg",
   "aliases": [],
-  "categories": [],
+  "categories": [
+    "VPN",
+    "Networking-Tools",
+    "Security"
+  ],
   "update": {
     "timestamp": "2023-04-13T13:56:18Z",
     "author": {

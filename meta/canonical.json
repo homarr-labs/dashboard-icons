@@ -1,7 +1,12 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "Ubuntu Company"
+  ],
+  "categories": [
+    "Operating-Systems",
+    "Linux-Distributions"
+  ],
   "update": {
     "timestamp": "2023-04-13T20:27:58Z",
     "author": {

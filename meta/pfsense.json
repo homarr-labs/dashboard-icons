@@ -1,7 +1,15 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "Firewall",
+    "Router OS"
+  ],
+  "categories": [
+    "Operating-Systems",
+    "Networking-Tools",
+    "Security",
+    "Linux-Distributions"
+  ],
   "update": {
     "timestamp": "2024-10-20T17:24:03Z",
     "author": {

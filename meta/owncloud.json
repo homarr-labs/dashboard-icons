@@ -1,7 +1,13 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "Cloud Storage"
+  ],
+  "categories": [
+    "Cloud-Computing",
+    "File-Sharing-&-Sync",
+    "Office-Suites"
+  ],
   "update": {
     "timestamp": "2023-04-13T13:56:18Z",
     "author": {

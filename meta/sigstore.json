@@ -1,7 +1,13 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "digital-signatures",
+    "software-verification"
+  ],
+  "categories": [
+    "Security",
+    "Developper-Tools"
+  ],
   "update": {
     "timestamp": "2024-03-21T00:59:33Z",
     "author": {

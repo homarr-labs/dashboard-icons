@@ -1,7 +1,12 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "Soulseek Client"
+  ],
+  "categories": [
+    "File-Sharing-&-Sync",
+    "Download-Managers"
+  ],
   "update": {
     "timestamp": "2024-03-21T00:49:46Z",
     "author": {

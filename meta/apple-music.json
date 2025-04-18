@@ -1,7 +1,12 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "itunes-music",
+    "apple-music-service"
+  ],
+  "categories": [
+    "Music-Streaming"
+  ],
   "update": {
     "timestamp": "2024-10-20T17:24:03Z",
     "author": {

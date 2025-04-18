@@ -1,7 +1,12 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "large-file-transfer",
+    "client-portal"
+  ],
+  "categories": [
+    "File-Sharing-&-Sync"
+  ],
   "update": {
     "timestamp": "2023-04-13T13:56:18Z",
     "author": {

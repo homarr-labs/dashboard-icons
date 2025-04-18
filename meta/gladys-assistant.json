@@ -1,7 +1,13 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "voice-controlled-home",
+    "smart-home-platform"
+  ],
+  "categories": [
+    "Smart-Home",
+    "Home-Automation"
+  ],
   "update": {
     "timestamp": "2023-04-13T13:56:18Z",
     "author": {

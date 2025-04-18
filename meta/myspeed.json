@@ -1,7 +1,13 @@
 {
   "base": "svg",
-  "aliases": [],
-  "categories": [],
+  "aliases": [
+    "Speed Test"
+  ],
+  "categories": [
+    "Networking-Tools",
+    "Monitoring-Tools",
+    "Web-Browsers"
+  ],
   "update": {
     "timestamp": "2024-10-13T18:38:41Z",
     "author": {
