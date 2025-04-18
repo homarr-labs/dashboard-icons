@@ -1,30 +1,42 @@
-## Code of Conduct
+# Code of Conduct
 
-We are committed to creating a welcoming and harassment-free environment for everyone who contributes to our icon repository. This includes people of all genders, gender identities, sexual orientations, disabilities, appearances, body sizes, races, ages, religions, and nationalities.
+## Our Commitment
 
-### Communication
+We are committed to maintaining a welcoming and inclusive environment for everyone who contributes to our icon collection. This includes people of all backgrounds, identities, and experiences.
 
-All communication should be appropriate for a professional audience, respectful, constructive, and considerate of people from different backgrounds. Please aim to create a positive and inclusive atmosphere.
+## Expected Behavior
 
-### Prohibited Behavior
+- Be respectful and constructive in all communications
+- Focus on what's best for the community
+- Show empathy towards other community members
+- Be open to different viewpoints and experiences
 
-We do not tolerate harassment, intimidation, discrimination, or any other inappropriate conduct, whether in communication or behavior. Prohibited actions include:
+## Unacceptable Behavior
 
-- The use of sexual language or imagery
-- Deliberate intimidation or stalking
-- Unwelcome sexual attention or harassment
-- Inappropriate physical contact
-- Disruptions during events or conversations
-- Discrimination of any kind
+The following behaviors are unacceptable:
 
-### Reporting
+- Harassment, discrimination, or intimidation
+- Offensive comments related to personal characteristics
+- Unwelcome sexual attention or advances
+- Disruptive behavior in community spaces
+- Any other conduct that could reasonably be considered inappropriate
 
-If you witness or experience behavior that violates this code of conduct, please report it immediately to [homarr-labs@proton.me](mailto:homarr-labs@proton.me). All reports will be reviewed confidentially and promptly, and appropriate actions will be taken.
+## Reporting
 
-### Consequences
+If you experience or witness behavior that violates this code:
 
-Anyone violating this code of conduct may face consequences, such as warnings, removal from the repository, or a ban from future participation. We take violations seriously to ensure a safe and welcoming environment for everyone.
+1. Contact us at [homarr-labs@proton.me](mailto:homarr-labs@proton.me)
+2. Provide as much detail as possible about the incident
+3. All reports will be reviewed confidentially
 
-### Acknowledgment
+## Enforcement
 
-By contributing to this repository, you agree to adhere to this code of conduct. Thank you for helping us create an inclusive and supportive environment for all contributors.
+Violations of this code may result in:
+
+- Warning
+- Temporary suspension
+- Permanent ban from the community
+
+## Attribution
+
+This Code of Conduct is adapted from the [Contributor Covenant](https://www.contributor-covenant.org/), version 2.0.

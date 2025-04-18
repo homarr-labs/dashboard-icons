@@ -77,14 +77,9 @@ jobs:
         with:
           python-version: "3.9"
 
-      - name: Generate ICONS.md
-        run: python scripts/generate_icons_page.py
-
       - name: Commit and Push Changes
         run: |
           git config --global user.email "homarr-labs@proton.me"
           git config --global user.name "Dashboard Icons Bot"
-          git add ICONS.md
-          git commit -m "ci(github-actions): generate ICONS.md" || exit 0
           git pull --rebase origin ${{ github.ref_name }}
           git push origin HEAD:${{ github.ref_name }}

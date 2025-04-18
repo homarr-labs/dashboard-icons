@@ -46,11 +46,11 @@ export function IconSearch({ icons, initialQuery = "" }: IconSearchProps) {
 	return (
 		<>
 			<div className="relative w-full max-w-md">
-				<Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+				<Search className="absolute left-2.5 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground transition-all duration-300" />
 				<Input
 					type="search"
 					placeholder="Search icons by name, aliases, or categories..."
-					className="w-full pl-8"
+					className="w-full pl-8 transition-all duration-300 text-sm md:text-base"
 					value={searchQuery}
 					onChange={(e) => handleSearch(e.target.value)}
 				/>

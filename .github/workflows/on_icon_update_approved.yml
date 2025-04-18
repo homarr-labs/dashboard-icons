@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     # This condition ensures the job only runs when the 'approved' label is updated and the issue title starts with 'feat(icons): update '
     if: |
-      contains(github.event.issue.labels.*.name, 'approved') && 
+      contains(github.event.issue.labels.*.name, 'approved') &&
       startsWith(github.event.issue.title, 'feat(icons): update ')
     env:
       ICON_TYPE: ${{ contains(github.event.issue.labels.*.name, 'normal-icon') && 'normal' || 'monochrome' }}
@@ -49,8 +49,6 @@ jobs:
           INPUT_ISSUE_FORM: ${{ steps.parse_issue_form.outputs.ISSUE_FORM }}
       - name: Generate File Tree
         run: python scripts/generate_file_tree.py svg png webp
-      - name: Generate ICONS.md
-        run: python scripts/generate_icons_page.py
       - name: Generate full metadata file
         run: python scripts/generate_metadata.py
       - name: Extract icon name

@@ -79,7 +79,7 @@ export function Carbon() {
 					}
 				`}
 			</style>
-			<div className="bg-background shadow-xl flex flex-col m-4 space-y-2 rounded-l-lg">
+			<div className=" shadow-xl flex flex-col m-4 space-y-2 rounded-l-lg">
 				<div ref={ref} className="carbon-outer" />
 			</div>
 		</>
