@@ -15,7 +15,7 @@
     }
   },
   "colors": {
-    "dark": "patreon",
-    "light": "patreon-light"
+    "dark": "patreon-light",
+    "light": "patreon"
   }
 }

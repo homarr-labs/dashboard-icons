@@ -15,7 +15,7 @@
     }
   },
   "colors": {
-    "dark": "slash",
-    "light": "slash-light"
+    "dark": "slash-light",
+    "light": "slash"
   }
 }

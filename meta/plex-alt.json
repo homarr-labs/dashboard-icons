@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "plex-alt",
-    "light": "plex-alt-light"
+    "dark": "plex-alt-light",
+    "light": "plex-alt"
   }
 }

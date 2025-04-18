@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "papermark",
-    "light": "papermark-light"
+    "dark": "papermark-light",
+    "light": "papermark"
   }
 }

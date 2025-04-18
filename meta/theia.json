@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "theia",
-    "light": "theia-light"
+    "dark": "theia-light",
+    "light": "theia"
   }
 }

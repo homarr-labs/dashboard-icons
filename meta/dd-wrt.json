@@ -16,7 +16,7 @@
     }
   },
   "colors": {
-    "dark": "dd-wrt",
-    "light": "dd-wrt-light"
+    "dark": "dd-wrt-light",
+    "light": "dd-wrt"
   }
 }

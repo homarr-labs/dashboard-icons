@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "pdfding",
-    "light": "pdfding-light"
+    "dark": "pdfding-light",
+    "light": "pdfding"
   }
 }

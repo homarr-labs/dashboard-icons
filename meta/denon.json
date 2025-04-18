@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "denon",
-    "light": "denon-light"
+    "dark": "denon-light",
+    "light": "denon"
   }
 }

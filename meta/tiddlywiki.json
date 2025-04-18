@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "tiddlywiki",
-    "light": "tiddlywiki-light"
+    "dark": "tiddlywiki-light",
+    "light": "tiddlywiki"
   }
 }

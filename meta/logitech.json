@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "logitech",
-    "light": "logitech-light"
+    "dark": "logitech-light",
+    "light": "logitech"
   }
 }

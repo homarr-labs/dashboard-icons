@@ -15,7 +15,7 @@
     }
   },
   "colors": {
-    "dark": "zitadel",
-    "light": "zitadel-light"
+    "dark": "zitadel-light",
+    "light": "zitadel"
   }
 }

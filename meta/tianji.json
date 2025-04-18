@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "tianji",
-    "light": "tianji-light"
+    "dark": "tianji-light",
+    "light": "tianji"
   }
 }

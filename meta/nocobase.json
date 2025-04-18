@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "nocobase",
-    "light": "nocobase-light"
+    "dark": "nocobase-light",
+    "light": "nocobase"
   }
 }

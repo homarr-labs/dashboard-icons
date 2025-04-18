@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "sabnzbd",
-    "light": "sabnzbd-light"
+    "dark": "sabnzbd-light",
+    "light": "sabnzbd"
   }
 }

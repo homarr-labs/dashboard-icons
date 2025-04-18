@@ -12,7 +12,7 @@
     }
   },
   "colors": {
-    "dark": "android-auto-dark",
-    "light": "android-auto"
+    "dark": "android-auto",
+    "light": "android-auto-dark"
   }
 }

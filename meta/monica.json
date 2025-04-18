@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "monica",
-    "light": "monica-light"
+    "dark": "monica-light",
+    "light": "monica"
   }
 }

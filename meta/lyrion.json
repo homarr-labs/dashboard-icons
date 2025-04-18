@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "lyrion-dark",
-    "light": "lyrion"
+    "dark": "lyrion",
+    "light": "lyrion-dark"
   }
 }

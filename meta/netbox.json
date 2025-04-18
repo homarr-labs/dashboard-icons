@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "netbox-dark",
-    "light": "netbox"
+    "dark": "netbox",
+    "light": "netbox-dark"
   }
 }

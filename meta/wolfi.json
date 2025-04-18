@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "wolfi",
-    "light": "wolfi-light"
+    "dark": "wolfi-light",
+    "light": "wolfi"
   }
 }

@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "hammond",
-    "light": "hammond-light"
+    "dark": "hammond-light",
+    "light": "hammond"
   }
 }

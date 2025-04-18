@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "riverside-fm",
-    "light": "riverside-fm-light"
+    "dark": "riverside-fm-light",
+    "light": "riverside-fm"
   }
 }

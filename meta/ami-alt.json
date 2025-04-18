@@ -15,7 +15,7 @@
     }
   },
   "colors": {
-    "dark": "ami-alt",
-    "light": "ami-alt-light"
+    "dark": "ami-alt-light",
+    "light": "ami-alt"
   }
 }

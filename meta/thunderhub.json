@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "thunderhub",
-    "light": "thunderhub-light"
+    "dark": "thunderhub-light",
+    "light": "thunderhub"
   }
 }

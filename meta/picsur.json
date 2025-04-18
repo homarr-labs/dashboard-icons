@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "picsur",
-    "light": "picsur-light"
+    "dark": "picsur-light",
+    "light": "picsur"
   }
 }

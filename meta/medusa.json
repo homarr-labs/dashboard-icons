@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "medusa",
-    "light": "medusa-light"
+    "dark": "medusa-light",
+    "light": "medusa"
   }
 }

@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "vaultwarden",
-    "light": "vaultwarden-light"
+    "dark": "vaultwarden-light",
+    "light": "vaultwarden"
   }
 }

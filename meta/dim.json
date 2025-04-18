@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "dim",
-    "light": "dim-light"
+    "dark": "dim-light",
+    "light": "dim"
   }
 }

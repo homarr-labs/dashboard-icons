@@ -15,7 +15,7 @@
     }
   },
   "colors": {
-    "dark": "amazon",
-    "light": "amazon-light"
+    "dark": "amazon-light",
+    "light": "amazon"
   }
 }

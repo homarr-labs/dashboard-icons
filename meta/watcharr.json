@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "watcharr",
-    "light": "watcharr-light"
+    "dark": "watcharr-light",
+    "light": "watcharr"
   }
 }

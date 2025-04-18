@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "kanboard",
-    "light": "kanboard-light"
+    "dark": "kanboard-light",
+    "light": "kanboard"
   }
 }

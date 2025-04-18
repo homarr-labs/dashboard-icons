@@ -15,7 +15,7 @@
     }
   },
   "colors": {
-    "dark": "fios",
-    "light": "fios-light"
+    "dark": "fios-light",
+    "light": "fios"
   }
 }

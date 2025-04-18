@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "mailchimp",
-    "light": "mailchimp-light"
+    "dark": "mailchimp-light",
+    "light": "mailchimp"
   }
 }

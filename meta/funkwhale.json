@@ -16,7 +16,7 @@
     }
   },
   "colors": {
-    "dark": "funkwhale",
-    "light": "funkwhale-light"
+    "dark": "funkwhale-light",
+    "light": "funkwhale"
   }
 }

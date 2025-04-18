@@ -16,7 +16,7 @@
     }
   },
   "colors": {
-    "dark": "budgetbee",
-    "light": "budgetbee-light"
+    "dark": "budgetbee-light",
+    "light": "budgetbee"
   }
 }

@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "runson",
-    "light": "runson-light"
+    "dark": "runson-light",
+    "light": "runson"
   }
 }

@@ -15,7 +15,7 @@
     }
   },
   "colors": {
-    "dark": "ultimate-guitar",
-    "light": "ultimate-guitar-light"
+    "dark": "ultimate-guitar-light",
+    "light": "ultimate-guitar"
   }
 }

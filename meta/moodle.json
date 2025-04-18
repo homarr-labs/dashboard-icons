@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "moodle",
-    "light": "moodle-light"
+    "dark": "moodle-light",
+    "light": "moodle"
   }
 }

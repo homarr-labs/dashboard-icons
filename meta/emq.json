@@ -16,7 +16,7 @@
     }
   },
   "colors": {
-    "dark": "emq",
-    "light": "emq-light"
+    "dark": "emq-light",
+    "light": "emq"
   }
 }

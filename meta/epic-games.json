@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "epic-games",
-    "light": "epic-games-light"
+    "dark": "epic-games-light",
+    "light": "epic-games"
   }
 }

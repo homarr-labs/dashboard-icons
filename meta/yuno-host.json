@@ -16,7 +16,7 @@
     }
   },
   "colors": {
-    "light": "yuno-host-light",
-    "dark": "yuno-host"
+    "light": "yuno-host",
+    "dark": "yuno-host-light"
   }
 }

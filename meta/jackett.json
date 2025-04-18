@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "jackett",
-    "light": "jackett-light"
+    "dark": "jackett-light",
+    "light": "jackett"
   }
 }

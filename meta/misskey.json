@@ -15,7 +15,7 @@
     }
   },
   "colors": {
-    "dark": "misskey",
-    "light": "misskey-light"
+    "dark": "misskey-light",
+    "light": "misskey"
   }
 }

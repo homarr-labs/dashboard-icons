@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "endless",
-    "light": "endless-light"
+    "dark": "endless-light",
+    "light": "endless"
   }
 }

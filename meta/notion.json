@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "notion",
-    "light": "notion-light"
+    "dark": "notion-light",
+    "light": "notion"
   }
 }

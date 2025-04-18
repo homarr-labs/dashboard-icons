@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "readthedocs",
-    "light": "readthedocs-light"
+    "dark": "readthedocs-light",
+    "light": "readthedocs"
   }
 }

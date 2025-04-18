@@ -16,7 +16,7 @@
     }
   },
   "colors": {
-    "dark": "locals",
-    "light": "locals-light"
+    "dark": "locals-light",
+    "light": "locals"
   }
 }

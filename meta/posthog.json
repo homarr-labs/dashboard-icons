@@ -16,7 +16,7 @@
     }
   },
   "colors": {
-    "dark": "posthog",
-    "light": "posthog-light"
+    "dark": "posthog-light",
+    "light": "posthog"
   }
 }

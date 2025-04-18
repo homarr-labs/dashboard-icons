@@ -16,7 +16,7 @@
     }
   },
   "colors": {
-    "dark": "netbox-full-dark",
-    "light": "netbox-full"
+    "dark": "netbox-full",
+    "light": "netbox-full-dark"
   }
 }

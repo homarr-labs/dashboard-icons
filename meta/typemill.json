@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "typemill",
-    "light": "typemill-light"
+    "dark": "typemill-light",
+    "light": "typemill"
   }
 }

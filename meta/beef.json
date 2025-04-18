@@ -14,7 +14,7 @@
     }
   },
   "colors": {
-    "dark": "beef",
-    "light": "beef-light"
+    "dark": "beef-light",
+    "light": "beef"
   }
 }

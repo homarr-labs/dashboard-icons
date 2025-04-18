@@ -13,7 +13,7 @@
     }
   },
   "colors": {
-    "dark": "invoice-ninja",
-    "light": "invoice-ninja-light"
+    "dark": "invoice-ninja-light",
+    "light": "invoice-ninja"
   }
 }

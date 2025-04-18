@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "meshping",
-    "light": "meshping-light"
+    "dark": "meshping-light",
+    "light": "meshping"
   }
 }

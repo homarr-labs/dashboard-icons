@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "lynx",
-    "light": "lynx-light"
+    "dark": "lynx-light",
+    "light": "lynx"
   }
 }

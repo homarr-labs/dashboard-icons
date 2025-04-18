@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "it-tools",
-    "light": "it-tools-light"
+    "dark": "it-tools-light",
+    "light": "it-tools"
   }
 }

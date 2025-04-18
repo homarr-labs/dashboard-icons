@@ -16,7 +16,7 @@
     }
   },
   "colors": {
-    "dark": "web-check-dark",
-    "light": "web-check"
+    "dark": "web-check",
+    "light": "web-check-dark"
   }
 }

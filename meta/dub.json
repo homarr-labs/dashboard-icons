@@ -12,7 +12,7 @@
     }
   },
   "colors": {
-    "dark": "dub",
-    "light": "dub-light"
+    "dark": "dub-light",
+    "light": "dub"
   }
 }

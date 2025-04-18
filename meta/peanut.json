@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "peanut",
-    "light": "peanut-light"
+    "dark": "peanut-light",
+    "light": "peanut"
   }
 }

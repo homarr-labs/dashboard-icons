@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "sonarr-dark",
-    "light": "sonarr"
+    "dark": "sonarr",
+    "light": "sonarr-dark"
   }
 }

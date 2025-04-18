@@ -15,7 +15,7 @@
     }
   },
   "colors": {
-    "dark": "astuto",
-    "light": "astuto-light"
+    "dark": "astuto-light",
+    "light": "astuto"
   }
 }

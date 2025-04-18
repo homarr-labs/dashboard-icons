@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "cups",
-    "light": "cups-light"
+    "dark": "cups-light",
+    "light": "cups"
   }
 }

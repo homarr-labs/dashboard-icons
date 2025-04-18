@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "part-db",
-    "light": "part-db-light"
+    "dark": "part-db-light",
+    "light": "part-db"
   }
 }

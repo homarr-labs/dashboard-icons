@@ -15,7 +15,7 @@
     }
   },
   "colors": {
-    "dark": "teslamate",
-    "light": "teslamate-light"
+    "dark": "teslamate-light",
+    "light": "teslamate"
   }
 }

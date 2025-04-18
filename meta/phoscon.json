@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "phoscon",
-    "light": "phoscon-light"
+    "dark": "phoscon-light",
+    "light": "phoscon"
   }
 }

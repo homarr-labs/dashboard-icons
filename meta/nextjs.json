@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "nextjs",
-    "light": "nextjs-light"
+    "dark": "nextjs-light",
+    "light": "nextjs"
   }
 }

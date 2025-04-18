@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "oscarr",
-    "light": "oscarr-light"
+    "dark": "oscarr-light",
+    "light": "oscarr"
   }
 }

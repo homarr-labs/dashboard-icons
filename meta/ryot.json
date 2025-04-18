@@ -15,7 +15,7 @@
     }
   },
   "colors": {
-    "dark": "ryot",
-    "light": "ryot-light"
+    "dark": "ryot-light",
+    "light": "ryot"
   }
 }

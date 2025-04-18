@@ -15,7 +15,7 @@
     }
   },
   "colors": {
-    "dark": "codestats",
-    "light": "codestats-light"
+    "dark": "codestats-light",
+    "light": "codestats"
   }
 }

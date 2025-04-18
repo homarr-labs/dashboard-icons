@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "tasmota",
-    "light": "tasmota-light"
+    "dark": "tasmota-light",
+    "light": "tasmota"
   }
 }

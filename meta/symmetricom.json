@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "symmetricom",
-    "light": "symmetricom-light"
+    "dark": "symmetricom-light",
+    "light": "symmetricom"
   }
 }

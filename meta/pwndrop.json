@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "pwndrop",
-    "light": "pwndrop-light"
+    "dark": "pwndrop-light",
+    "light": "pwndrop"
   }
 }

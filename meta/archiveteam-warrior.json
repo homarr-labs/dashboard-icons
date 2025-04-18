@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "archiveteam-warrior",
-    "light": "archiveteam-warrior-light"
+    "dark": "archiveteam-warrior-light",
+    "light": "archiveteam-warrior"
   }
 }

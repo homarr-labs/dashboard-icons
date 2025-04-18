@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "sentry",
-    "light": "sentry-light"
+    "dark": "sentry-light",
+    "light": "sentry"
   }
 }

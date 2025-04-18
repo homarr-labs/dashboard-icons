@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "pgbackweb-dark",
-    "light": "pgbackweb-light"
+    "dark": "pgbackweb-light",
+    "light": "pgbackweb-dark"
   }
 }

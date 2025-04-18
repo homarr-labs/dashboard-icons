@@ -15,7 +15,7 @@
     }
   },
   "colors": {
-    "dark": "gameyfin",
-    "light": "gameyfin-light"
+    "dark": "gameyfin-light",
+    "light": "gameyfin"
   }
 }

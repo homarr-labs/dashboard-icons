@@ -12,7 +12,7 @@
     }
   },
   "colors": {
-    "dark": "prime-video",
-    "light": "prime-video-light"
+    "dark": "prime-video-light",
+    "light": "prime-video"
   }
 }

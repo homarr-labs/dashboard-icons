@@ -15,7 +15,7 @@
     }
   },
   "colors": {
-    "dark": "cinny",
-    "light": "cinny-light"
+    "dark": "cinny-light",
+    "light": "cinny"
   }
 }

@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "nightscout",
-    "light": "nightscout-light"
+    "dark": "nightscout-light",
+    "light": "nightscout"
   }
 }

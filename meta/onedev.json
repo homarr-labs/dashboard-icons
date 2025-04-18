@@ -16,7 +16,7 @@
     }
   },
   "colors": {
-    "dark": "onedev",
-    "light": "onedev-light"
+    "dark": "onedev-light",
+    "light": "onedev"
   }
 }

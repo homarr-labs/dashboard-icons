@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "oneuptime",
-    "light": "oneuptime-light"
+    "dark": "oneuptime-light",
+    "light": "oneuptime"
   }
 }

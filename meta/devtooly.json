@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "devtooly",
-    "light": "devtooly-light"
+    "dark": "devtooly-light",
+    "light": "devtooly"
   }
 }

@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "photonix",
-    "light": "photonix-light"
+    "dark": "photonix-light",
+    "light": "photonix"
   }
 }

@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "light": "karakeep",
-    "dark": "karakeep-dark"
+    "light": "karakeep-dark",
+    "dark": "karakeep"
   }
 }

@@ -16,7 +16,7 @@
     }
   },
   "colors": {
-    "dark": "proxmox",
-    "light": "proxmox-light"
+    "dark": "proxmox-light",
+    "light": "proxmox"
   }
 }

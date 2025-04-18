@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "synclounge",
-    "light": "synclounge-light"
+    "dark": "synclounge-light",
+    "light": "synclounge"
   }
 }

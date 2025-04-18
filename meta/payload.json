@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "payload",
-    "light": "payload-light"
+    "dark": "payload-light",
+    "light": "payload"
   }
 }

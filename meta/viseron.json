@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "viseron",
-    "light": "viseron-light"
+    "dark": "viseron-light",
+    "light": "viseron"
   }
 }

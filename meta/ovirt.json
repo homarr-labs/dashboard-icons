@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "ovirt",
-    "light": "ovirt-light"
+    "dark": "ovirt-light",
+    "light": "ovirt"
   }
 }

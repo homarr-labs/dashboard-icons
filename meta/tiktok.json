@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "tiktok",
-    "light": "tiktok-light"
+    "dark": "tiktok-light",
+    "light": "tiktok"
   }
 }

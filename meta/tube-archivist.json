@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "tube-archivist",
-    "light": "tube-archivist-light"
+    "dark": "tube-archivist-light",
+    "light": "tube-archivist"
   }
 }

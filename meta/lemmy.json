@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "lemmy",
-    "light": "lemmy-light"
+    "dark": "lemmy-light",
+    "light": "lemmy"
   }
 }

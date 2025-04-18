@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "outline",
-    "light": "outline-light"
+    "dark": "outline-light",
+    "light": "outline"
   }
 }

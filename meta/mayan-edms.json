@@ -15,7 +15,7 @@
     }
   },
   "colors": {
-    "dark": "mayan-edms",
-    "light": "mayan-edms-light"
+    "dark": "mayan-edms-light",
+    "light": "mayan-edms"
   }
 }

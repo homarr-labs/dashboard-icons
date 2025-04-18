@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "secureai-tools",
-    "light": "secureai-tools-light"
+    "dark": "secureai-tools-light",
+    "light": "secureai-tools"
   }
 }

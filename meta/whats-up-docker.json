@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "whats-up-docker",
-    "light": "whats-up-docker-light"
+    "dark": "whats-up-docker-light",
+    "light": "whats-up-docker"
   }
 }

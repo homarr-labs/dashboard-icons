@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "timemachines",
-    "light": "timemachines-light"
+    "dark": "timemachines-light",
+    "light": "timemachines"
   }
 }

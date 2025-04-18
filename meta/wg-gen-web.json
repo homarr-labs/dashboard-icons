@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "wg-gen-web",
-    "light": "wg-gen-web-light"
+    "dark": "wg-gen-web-light",
+    "light": "wg-gen-web"
   }
 }

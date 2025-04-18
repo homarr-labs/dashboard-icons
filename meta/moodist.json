@@ -15,7 +15,7 @@
     }
   },
   "colors": {
-    "dark": "moodist-dark",
-    "light": "moodist"
+    "dark": "moodist",
+    "light": "moodist-dark"
   }
 }

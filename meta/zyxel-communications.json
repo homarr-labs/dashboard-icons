@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "zyxel-communications",
-    "light": "zyxel-communications-light"
+    "dark": "zyxel-communications-light",
+    "light": "zyxel-communications"
   }
 }

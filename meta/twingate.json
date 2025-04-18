@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "twingate",
-    "light": "twingate-light"
+    "dark": "twingate-light",
+    "light": "twingate"
   }
 }

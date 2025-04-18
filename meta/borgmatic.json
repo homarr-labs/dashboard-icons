@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "borgmatic",
-    "light": "borgmatic-light"
+    "dark": "borgmatic-light",
+    "light": "borgmatic"
   }
 }

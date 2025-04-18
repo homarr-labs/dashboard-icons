@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "invoiceninja",
-    "light": "invoiceninja-light"
+    "dark": "invoiceninja-light",
+    "light": "invoiceninja"
   }
 }

@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "memories",
-    "light": "memories-light"
+    "dark": "memories-light",
+    "light": "memories"
   }
 }

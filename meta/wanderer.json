@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "wanderer",
-    "light": "wanderer-light"
+    "dark": "wanderer-light",
+    "light": "wanderer"
   }
 }

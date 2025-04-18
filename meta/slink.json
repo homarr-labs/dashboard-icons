@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "slink",
-    "light": "slink-light"
+    "dark": "slink-light",
+    "light": "slink"
   }
 }

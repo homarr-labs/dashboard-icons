@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "mobotix",
-    "light": "mobotix-light"
+    "dark": "mobotix-light",
+    "light": "mobotix"
   }
 }

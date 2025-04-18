@@ -16,7 +16,7 @@
     }
   },
   "colors": {
-    "dark": "shell",
-    "light": "shell-light"
+    "dark": "shell-light",
+    "light": "shell"
   }
 }

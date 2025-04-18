@@ -15,7 +15,7 @@
     }
   },
   "colors": {
-    "dark": "beaver-habit-tracker",
-    "light": "beaver-habit-tracker-light"
+    "dark": "beaver-habit-tracker-light",
+    "light": "beaver-habit-tracker"
   }
 }

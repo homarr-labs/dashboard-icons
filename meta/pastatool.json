@@ -10,7 +10,7 @@
     }
   },
   "colors": {
-    "dark": "pastatool",
-    "light": "pastatool-light"
+    "dark": "pastatool-light",
+    "light": "pastatool"
   }
 }

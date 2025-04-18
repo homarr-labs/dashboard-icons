@@ -15,7 +15,7 @@
     }
   },
   "colors": {
-    "dark": "plex-meta-manager",
-    "light": "plex-meta-manager-light"
+    "dark": "plex-meta-manager-light",
+    "light": "plex-meta-manager"
   }
 }

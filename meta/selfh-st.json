@@ -15,7 +15,7 @@
     }
   },
   "colors": {
-    "dark": "selfh-st",
-    "light": "selfh-st-light"
+    "dark": "selfh-st-light",
+    "light": "selfh-st"
   }
 }
