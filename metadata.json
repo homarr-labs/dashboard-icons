@@ -5919,6 +5919,20 @@
             }
         }
     },
+    "alexa": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "Media"
+        ],
+        "update": {
+            "timestamp": "2025-04-18T08:34:26.627973",
+            "author": {
+                "id": 2432100,
+                "login": "lyneld"
+            }
+        }
+    },
     "uptime-kuma": {
         "base": "svg",
         "aliases": [
