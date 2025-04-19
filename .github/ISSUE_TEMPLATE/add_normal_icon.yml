@@ -61,6 +61,7 @@ body:
         - Server-Panels
         - Programming-Languages
         - Developper-Tools
+        - Companies
   - type: input
     attributes:
       label: Aliases
