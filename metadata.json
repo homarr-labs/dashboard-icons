@@ -3,8 +3,7 @@
         "base": "svg",
         "aliases": [],
         "categories": [
-            "Password-Managers",
-            "Security"
+            "Password-Managers"
         ],
         "update": {
             "timestamp": "2023-10-30T09:21:07Z",
@@ -19,7 +18,7 @@
         "aliases": [],
         "categories": [
             "Networking-Tools",
-            "Developper-Tools"
+            "VPN"
         ],
         "update": {
             "timestamp": "2025-01-07T17:54:03Z",
@@ -45,10 +44,12 @@
     },
     "openstreetmap": {
         "base": "svg",
-        "aliases": [],
+        "aliases": [
+            "OSM"
+        ],
         "categories": [
             "Web-Browsers",
-            "Networking-Tools"
+            "Developper-Tools"
         ],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
@@ -93,7 +94,9 @@
     },
     "mayan-edms": {
         "base": "svg",
-        "aliases": [],
+        "aliases": [
+            "Mayan"
+        ],
         "categories": [
             "Office-Suites",
             "File-Sharing-&-Sync"
@@ -133,8 +136,7 @@
         "base": "png",
         "aliases": [],
         "categories": [
-            "Media-Servers",
-            "Home-Automation"
+            "Media-Servers"
         ],
         "update": {
             "timestamp": "2025-01-07T17:54:03Z",
@@ -146,10 +148,11 @@
     },
     "private-internet-access": {
         "base": "svg",
-        "aliases": [],
+        "aliases": [
+            "PIA"
+        ],
         "categories": [
-            "VPN",
-            "Security"
+            "VPN"
         ],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
@@ -163,8 +166,7 @@
         "base": "png",
         "aliases": [],
         "categories": [
-            "Networking-Tools",
-            "Smart-Home"
+            "Networking-Tools"
         ],
         "update": {
             "timestamp": "2025-01-07T17:54:03Z",
@@ -193,8 +195,7 @@
         "base": "svg",
         "aliases": [],
         "categories": [
-            "Web-Browsers",
-            "News"
+            "Web-Browsers"
         ],
         "update": {
             "timestamp": "2022-08-16T17:22:56Z",
@@ -208,7 +209,8 @@
         "base": "png",
         "aliases": [],
         "categories": [
-            "Home-Automation"
+            "Home-Automation",
+            "Smart-Home"
         ],
         "update": {
             "timestamp": "2025-01-07T17:54:03Z",
@@ -222,8 +224,7 @@
         "base": "png",
         "aliases": [],
         "categories": [
-            "Monitoring-Tools",
-            "Security"
+            "Monitoring-Tools"
         ],
         "update": {
             "timestamp": "2025-01-07T17:54:03Z",
@@ -271,8 +272,7 @@
         "base": "svg",
         "aliases": [],
         "categories": [
-            "Social-Media",
-            "Security"
+            "Social-Media"
         ],
         "update": {
             "timestamp": "2023-09-16T20:31:13Z",
@@ -286,7 +286,8 @@
         "base": "svg",
         "aliases": [],
         "categories": [
-            "Developper-Tools"
+            "Developper-Tools",
+            "Social-Media"
         ],
         "update": {
             "timestamp": "2024-01-01T19:31:33Z",
@@ -315,8 +316,7 @@
         "base": "png",
         "aliases": [],
         "categories": [
-            "Networking-Tools",
-            "Communication"
+            "Networking-Tools"
         ],
         "update": {
             "timestamp": "2025-01-07T17:54:03Z",
@@ -330,8 +330,7 @@
         "base": "svg",
         "aliases": [],
         "categories": [
-            "Password-Managers",
-            "Security"
+            "Password-Managers"
         ],
         "update": {
             "timestamp": "2022-08-16T17:22:56Z",
@@ -372,7 +371,9 @@
     },
     "ads-b-exchange": {
         "base": "png",
-        "aliases": [],
+        "aliases": [
+            "ADSBx"
+        ],
         "categories": [
             "Monitoring-Tools"
         ],
@@ -403,7 +404,8 @@
         "base": "svg",
         "aliases": [],
         "categories": [
-            "Monitoring-Tools"
+            "Monitoring-Tools",
+            "Time-Tracking"
         ],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
@@ -417,9 +419,9 @@
         "base": "svg",
         "aliases": [],
         "categories": [
-            "Web-Browsers",
-            "Server-Panels",
-            "Networking-Tools"
+            "Web-Servers",
+            "Networking-Tools",
+            "Developper-Tools"
         ],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
@@ -451,7 +453,7 @@
         "base": "png",
         "aliases": [],
         "categories": [
-            "Web-Browsers",
+            "Web-Servers",
             "Server-Panels"
         ],
         "update": {
@@ -479,7 +481,9 @@
     },
     "yuno-host": {
         "base": "svg",
-        "aliases": [],
+        "aliases": [
+            "YunoHost"
+        ],
         "categories": [
             "Operating-Systems",
             "Server-Panels",
@@ -559,7 +563,6 @@
         "base": "svg",
         "aliases": [],
         "categories": [
-            "Security",
             "Developper-Tools"
         ],
         "update": {
@@ -611,8 +614,7 @@
         "base": "png",
         "aliases": [],
         "categories": [
-            "Email-Providers",
-            "Communication"
+            "Email-Providers"
         ],
         "update": {
             "timestamp": "2025-01-07T17:54:03Z",
@@ -643,9 +645,7 @@
     "docking-station": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Hardware"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -724,10 +724,15 @@
     },
     "office-365": {
         "base": "svg",
-        "aliases": [],
+        "aliases": [
+            "O365",
+            "M365",
+            "Microsoft 365"
+        ],
         "categories": [
             "Office-Suites",
-            "Cloud-Computing"
+            "Cloud-Computing",
+            "Email-Providers"
         ],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
@@ -742,7 +747,8 @@
         "aliases": [],
         "categories": [
             "Social-Media",
-            "E-commerce-Platforms"
+            "E-commerce-Platforms",
+            "Finance-&-Banking"
         ],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
@@ -759,9 +765,7 @@
     "embraer": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Travel"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2025-03-04T20:48:19.664648",
             "author": {
@@ -793,7 +797,8 @@
         "aliases": [],
         "categories": [
             "Home-Automation",
-            "Web-Browsers"
+            "Web-Browsers",
+            "Server-Panels"
         ],
         "update": {
             "timestamp": "2025-01-07T17:54:03Z",
@@ -819,10 +824,13 @@
     },
     "nginx-proxy-manager": {
         "base": "svg",
-        "aliases": [],
+        "aliases": [
+            "NPM"
+        ],
         "categories": [
             "Networking-Tools",
-            "Server-Panels"
+            "Server-Panels",
+            "Web-Servers"
         ],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
@@ -896,8 +904,8 @@
         "base": "svg",
         "aliases": [],
         "categories": [
-            "Communication",
-            "Gaming-Platforms"
+            "Gaming-Platforms",
+            "Social-Media"
         ],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
@@ -960,8 +968,7 @@
         "base": "svg",
         "aliases": [],
         "categories": [
-            "Networking-Tools",
-            "Communication"
+            "Networking-Tools"
         ],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
@@ -975,7 +982,6 @@
         "base": "svg",
         "aliases": [],
         "categories": [
-            "Education",
             "Developper-Tools"
         ],
         "update": {
@@ -1053,7 +1059,6 @@
         "base": "svg",
         "aliases": [],
         "categories": [
-            "Security",
             "Networking-Tools"
         ],
         "update": {
@@ -1112,8 +1117,7 @@
         "aliases": [],
         "categories": [
             "VPN",
-            "Networking-Tools",
-            "Security"
+            "Networking-Tools"
         ],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
@@ -1142,7 +1146,8 @@
         "base": "png",
         "aliases": [],
         "categories": [
-            "Containerization-&-Orchestration"
+            "Containerization-&-Orchestration",
+            "Gaming-Platforms"
         ],
         "update": {
             "timestamp": "2025-03-31T19:22:27.794388",
@@ -1154,7 +1159,9 @@
     },
     "apache-cassandra": {
         "base": "svg",
-        "aliases": [],
+        "aliases": [
+            "Cassandra"
+        ],
         "categories": [
             "Databases"
         ],
@@ -1169,9 +1176,7 @@
     "pioneer": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Hardware"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -1321,8 +1326,7 @@
         "base": "png",
         "aliases": [],
         "categories": [
-            "Networking-Tools",
-            "Hardware"
+            "Networking-Tools"
         ],
         "update": {
             "timestamp": "2025-01-07T17:54:03Z",
@@ -1365,7 +1369,6 @@
         "base": "svg",
         "aliases": [],
         "categories": [
-            "News",
             "Web-Browsers"
         ],
         "update": {
@@ -1455,7 +1458,8 @@
         "aliases": [],
         "categories": [
             "File-Sharing-&-Sync",
-            "Cloud-Computing"
+            "Cloud-Computing",
+            "Media-Servers"
         ],
         "update": {
             "timestamp": "2025-01-07T17:54:03Z",
@@ -1485,7 +1489,8 @@
         "aliases": [],
         "categories": [
             "Media-Servers",
-            "Smart-Home"
+            "Smart-Home",
+            "Video-Streaming"
         ],
         "update": {
             "timestamp": "2025-01-07T17:54:03Z",
@@ -1503,7 +1508,6 @@
         "base": "svg",
         "aliases": [],
         "categories": [
-            "Communication",
             "Social-Media"
         ],
         "update": {
@@ -1523,8 +1527,7 @@
         "aliases": [],
         "categories": [
             "VPN",
-            "Networking-Tools",
-            "Security"
+            "Networking-Tools"
         ],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
@@ -1557,7 +1560,8 @@
         "base": "png",
         "aliases": [],
         "categories": [
-            "Download-Managers"
+            "Download-Managers",
+            "Video-Streaming"
         ],
         "update": {
             "timestamp": "2024-10-20T19:32:46Z",
@@ -1603,7 +1607,9 @@
     },
     "kubernetes": {
         "base": "svg",
-        "aliases": [],
+        "aliases": [
+            "K8s"
+        ],
         "categories": [
             "Containerization-&-Orchestration",
             "Developper-Tools",
@@ -1636,8 +1642,7 @@
         "base": "svg",
         "aliases": [],
         "categories": [
-            "Web-Browsers",
-            "Education"
+            "Web-Browsers"
         ],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
@@ -1689,8 +1694,7 @@
         "base": "svg",
         "aliases": [],
         "categories": [
-            "Developper-Tools",
-            "DevOps"
+            "Developper-Tools"
         ],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
@@ -1719,7 +1723,6 @@
         "base": "svg",
         "aliases": [],
         "categories": [
-            "Security",
             "Monitoring-Tools"
         ],
         "update": {
@@ -1795,7 +1798,8 @@
         "aliases": [],
         "categories": [
             "Monitoring-Tools",
-            "Developper-Tools"
+            "Developper-Tools",
+            "Search-Engines"
         ],
         "update": {
             "timestamp": "2025-01-07T17:54:03Z",
@@ -1916,7 +1920,9 @@
     },
     "plex-meta-manager": {
         "base": "png",
-        "aliases": [],
+        "aliases": [
+            "PMM"
+        ],
         "categories": [
             "Media-Servers",
             "Home-Automation"
@@ -1985,8 +1991,7 @@
         "base": "svg",
         "aliases": [],
         "categories": [
-            "Developper-Tools",
-            "DevOps"
+            "Developper-Tools"
         ],
         "update": {
             "timestamp": "2024-06-01T17:47:14Z",
@@ -2050,7 +2055,6 @@
         "aliases": [],
         "categories": [
             "Developper-Tools",
-            "DevOps",
             "Version-Control-Systems"
         ],
         "update": {
@@ -2099,8 +2103,7 @@
         "base": "png",
         "aliases": [],
         "categories": [
-            "Developper-Tools",
-            "DevOps"
+            "Developper-Tools"
         ],
         "update": {
             "timestamp": "2025-01-07T17:54:03Z",
@@ -2157,7 +2160,9 @@
     },
     "openldap": {
         "base": "svg",
-        "aliases": [],
+        "aliases": [
+            "LDAP"
+        ],
         "categories": [
             "Networking-Tools",
             "Server-Panels"
@@ -2187,7 +2192,9 @@
     },
     "prime-video-alt": {
         "base": "svg",
-        "aliases": [],
+        "aliases": [
+            "Prime Video"
+        ],
         "categories": [
             "Video-Streaming"
         ],
@@ -2254,7 +2261,9 @@
     },
     "microsoft-exchange": {
         "base": "svg",
-        "aliases": [],
+        "aliases": [
+            "Exchange"
+        ],
         "categories": [
             "Email-Providers",
             "Server-Panels",
@@ -2299,10 +2308,11 @@
     },
     "zyxel-networks": {
         "base": "svg",
-        "aliases": [],
+        "aliases": [
+            "Zyxel"
+        ],
         "categories": [
-            "Networking-Tools",
-            "Hardware"
+            "Networking-Tools"
         ],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
@@ -2350,8 +2360,7 @@
         "base": "svg",
         "aliases": [],
         "categories": [
-            "Networking-Tools",
-            "Hardware"
+            "Networking-Tools"
         ],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
@@ -2365,7 +2374,8 @@
         "base": "svg",
         "aliases": [],
         "categories": [
-            "Cloud"
+            "Monitoring-Tools",
+            "Developper-Tools"
         ],
         "update": {
             "timestamp": "2025-04-16T19:36:26.864720",
@@ -2401,7 +2411,6 @@
         "categories": [
             "Operating-Systems",
             "Networking-Tools",
-            "Security",
             "Linux-Distributions"
         ],
         "update": {
@@ -2419,9 +2428,7 @@
     "printer": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Hardware"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -2448,7 +2455,9 @@
     },
     "microsoft-bing": {
         "base": "svg",
-        "aliases": [],
+        "aliases": [
+            "Bing"
+        ],
         "categories": [
             "Search-Engines",
             "Web-Browsers"
@@ -2511,8 +2520,7 @@
         "aliases": [],
         "categories": [
             "Version-Control-Systems",
-            "Developper-Tools",
-            "DevOps"
+            "Developper-Tools"
         ],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
@@ -2625,7 +2633,6 @@
         "aliases": [],
         "categories": [
             "Monitoring-Tools",
-            "Security",
             "Networking-Tools"
         ],
         "update": {
@@ -2655,7 +2662,6 @@
         "base": "svg",
         "aliases": [],
         "categories": [
-            "Security",
             "Developper-Tools",
             "Version-Control-Systems"
         ],
@@ -2672,7 +2678,8 @@
         "aliases": [],
         "categories": [
             "Developper-Tools",
-            "Cloud-Computing"
+            "Cloud-Computing",
+            "Web-Browsers"
         ],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
@@ -2687,7 +2694,8 @@
         "aliases": [],
         "categories": [
             "Developper-Tools",
-            "Web-Browsers"
+            "Web-Browsers",
+            "Smart-Home"
         ],
         "update": {
             "timestamp": "2025-01-07T17:54:03Z",
@@ -2701,8 +2709,7 @@
         "base": "png",
         "aliases": [],
         "categories": [
-            "Networking-Tools",
-            "Communication"
+            "Networking-Tools"
         ],
         "update": {
             "timestamp": "2024-10-20T19:32:46Z",
@@ -2810,8 +2817,7 @@
         "aliases": [],
         "categories": [
             "VPN",
-            "Networking-Tools",
-            "Security"
+            "Networking-Tools"
         ],
         "update": {
             "timestamp": "2024-02-14T14:55:14Z",
@@ -2825,8 +2831,7 @@
         "base": "png",
         "aliases": [],
         "categories": [
-            "Home-Automation",
-            "Personal"
+            "Home-Automation"
         ],
         "update": {
             "timestamp": "2025-01-07T17:54:03Z",
@@ -2929,7 +2934,9 @@
         "aliases": [],
         "categories": [
             "Finance-&-Banking",
-            "Office-Suites"
+            "Office-Suites",
+            "Cloud-Computing",
+            "File-Sharing-&-Sync"
         ],
         "update": {
             "timestamp": "2023-09-16T20:31:13Z",
@@ -19662,10 +19669,7 @@
     "meshtastic": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Networking-Tools",
-            "Hardware"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-18T21:20:46Z",
             "author": {
@@ -19677,11 +19681,7 @@
     "tubesync": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Video-Streaming",
-            "Media-Servers",
-            "Download-Managers"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -19697,10 +19697,7 @@
     "homepage": {
         "base": "png",
         "aliases": [],
-        "categories": [
-            "Web-Browsers",
-            "Server-Panels"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2025-01-07T17:54:03Z",
             "author": {
@@ -19712,10 +19709,7 @@
     "palo-alto": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Networking-Tools",
-            "Security"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-04-02T21:30:14Z",
             "author": {
@@ -19727,9 +19721,7 @@
     "google-fonts": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Graphics-Editors"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -19741,9 +19733,7 @@
     "invisioncommunity": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Social-Media"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -19767,10 +19757,7 @@
     "mailchimp": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Email-Providers",
-            "E-commerce-Platforms"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -19786,10 +19773,7 @@
     "sickgear": {
         "base": "png",
         "aliases": [],
-        "categories": [
-            "Media-Servers",
-            "Download-Managers"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2025-01-07T17:54:03Z",
             "author": {
@@ -19801,9 +19785,7 @@
     "3cx": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Networking-Tools"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T18:33:11Z",
             "author": {
@@ -19819,9 +19801,7 @@
     "matomo": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Monitoring-Tools"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -19833,10 +19813,7 @@
     "odoo": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Office-Suites",
-            "E-commerce-Platforms"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-08-10T08:28:08Z",
             "author": {
@@ -19848,9 +19825,7 @@
     "carrefour": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "E-commerce-Platforms"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -19862,9 +19837,7 @@
     "logseq": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Note-taking-Apps"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -19876,10 +19849,7 @@
     "talos": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Linux-Distributions",
-            "Operating-Systems"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-06-01T17:45:38Z",
             "author": {
@@ -19891,9 +19861,7 @@
     "thunderhub": {
         "base": "png",
         "aliases": [],
-        "categories": [
-            "Finance-&-Banking"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2025-01-07T17:54:03Z",
             "author": {
@@ -19908,13 +19876,8 @@
     },
     "alpine-linux": {
         "base": "svg",
-        "aliases": [
-            "Alpine"
-        ],
-        "categories": [
-            "Linux-Distributions",
-            "Operating-Systems"
-        ],
+        "aliases": [],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -19938,9 +19901,7 @@
     "safari": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Web-Browsers"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -19952,10 +19913,7 @@
     "barcodebuddy": {
         "base": "png",
         "aliases": [],
-        "categories": [
-            "Hardware",
-            "Monitoring-Tools"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2025-01-07T17:54:03Z",
             "author": {
@@ -19967,10 +19925,7 @@
     "borg": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "File-Sharing-&-Sync",
-            "Cloud-Computing"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-15T19:13:46Z",
             "author": {
@@ -19982,9 +19937,7 @@
     "skylink-fibernet": {
         "base": "png",
         "aliases": [],
-        "categories": [
-            "Networking-Tools"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2025-01-07T17:54:03Z",
             "author": {
@@ -19996,10 +19949,7 @@
     "recalbox": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Gaming-Platforms",
-            "Operating-Systems"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -20011,9 +19961,7 @@
     "supermicro": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Hardware"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -20025,9 +19973,7 @@
     "planka": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Office-Suites"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -20043,10 +19989,7 @@
     "kanidm": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Security",
-            "Developper-Tools"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -20058,9 +20001,7 @@
     "akkoma": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Social-Media"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -20076,10 +20017,7 @@
     "grist": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Office-Suites",
-            "Databases"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -20091,10 +20029,7 @@
     "neko": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Developper-Tools",
-            "Web-Browsers"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -20110,10 +20045,7 @@
     "python": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Programming-Languages",
-            "Developper-Tools"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -20125,10 +20057,7 @@
     "bazarr": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Media-Servers",
-            "Download-Managers"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -20144,10 +20073,7 @@
     "fulcio": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Security",
-            "Developper-Tools"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-03-21T00:59:33Z",
             "author": {
@@ -20158,12 +20084,8 @@
     },
     "microsoft-powerpoint": {
         "base": "svg",
-        "aliases": [
-            "PowerPoint"
-        ],
-        "categories": [
-            "Office-Suites"
-        ],
+        "aliases": [],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -20174,12 +20096,8 @@
     },
     "linuxserver-io": {
         "base": "svg",
-        "aliases": [
-            "LSIO"
-        ],
-        "categories": [
-            "Containerization-&-Orchestration"
-        ],
+        "aliases": [],
+        "categories": [],
         "update": {
             "timestamp": "2023-01-09T22:22:12Z",
             "author": {
@@ -20207,10 +20125,7 @@
     "kick": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Video-Streaming",
-            "Social-Media"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -20226,10 +20141,7 @@
     "css": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Programming-Languages",
-            "Developper-Tools"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -20245,10 +20157,7 @@
     "unifi-controller": {
         "base": "png",
         "aliases": [],
-        "categories": [
-            "Networking-Tools",
-            "Server-Panels"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2025-01-07T17:54:03Z",
             "author": {
@@ -20260,10 +20169,7 @@
     "tasmota": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Smart-Home",
-            "Home-Automation"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -20279,10 +20185,7 @@
     "metabase": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Databases",
-            "Monitoring-Tools"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -20294,10 +20197,7 @@
     "microsoft": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Operating-Systems",
-            "Office-Suites"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T20:27:58Z",
             "author": {
@@ -20309,9 +20209,7 @@
     "pairdrop": {
         "base": "png",
         "aliases": [],
-        "categories": [
-            "File-Sharing-&-Sync"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2025-01-07T17:54:03Z",
             "author": {
@@ -20323,9 +20221,7 @@
     "firefox-lite": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Web-Browsers"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2022-08-16T17:22:56Z",
             "author": {
@@ -20349,9 +20245,7 @@
     "shoko-server": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Media-Servers"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -20363,10 +20257,7 @@
     "librespeed": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Networking-Tools",
-            "Monitoring-Tools"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -20382,9 +20273,7 @@
     "kimai": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Office-Suites"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -20396,10 +20285,7 @@
     "ovirt": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Cloud-Computing",
-            "Containerization-&-Orchestration"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -20415,9 +20301,7 @@
     "syncthing": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "File-Sharing-&-Sync"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -20447,9 +20331,7 @@
     "infoblox": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Networking-Tools"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -20461,9 +20343,7 @@
     "partkeepr": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Hardware"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -20475,9 +20355,7 @@
     "synology-file-station": {
         "base": "png",
         "aliases": [],
-        "categories": [
-            "File-Sharing-&-Sync"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2025-01-07T17:54:03Z",
             "author": {
@@ -20489,10 +20367,7 @@
     "proton-calendar": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Email-Providers",
-            "Office-Suites"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -20504,9 +20379,7 @@
     "helium-token": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Finance-&-Banking"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -20518,10 +20391,7 @@
     "diyhue": {
         "base": "png",
         "aliases": [],
-        "categories": [
-            "Smart-Home",
-            "Home-Automation"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2025-01-07T17:54:03Z",
             "author": {
@@ -20533,10 +20403,7 @@
     "ariang": {
         "base": "png",
         "aliases": [],
-        "categories": [
-            "Download-Managers",
-            "Networking-Tools"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T19:32:46Z",
             "author": {
@@ -20548,9 +20415,7 @@
     "telegram": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Social-Media"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2022-12-07T15:02:08Z",
             "author": {
@@ -20561,12 +20426,8 @@
     },
     "the-pirate-bay": {
         "base": "svg",
-        "aliases": [
-            "TPB"
-        ],
-        "categories": [
-            "Download-Managers"
-        ],
+        "aliases": [],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -20594,10 +20455,7 @@
     "collabora-online": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Office-Suites",
-            "Cloud-Computing"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-02-11T23:48:06Z",
             "author": {
@@ -20608,13 +20466,8 @@
     },
     "cpp": {
         "base": "svg",
-        "aliases": [
-            "C++"
-        ],
-        "categories": [
-            "Programming-Languages",
-            "Developper-Tools"
-        ],
+        "aliases": [],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -20626,10 +20479,7 @@
     "hdhomerun": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Media-Servers",
-            "Video-Streaming"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -20645,9 +20495,7 @@
     "unmanic": {
         "base": "png",
         "aliases": [],
-        "categories": [
-            "Media-Servers"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2025-01-07T17:54:03Z",
             "author": {
@@ -20659,9 +20507,7 @@
     "gamevault": {
         "base": "png",
         "aliases": [],
-        "categories": [
-            "Gaming-Platforms"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2025-01-07T17:54:03Z",
             "author": {
@@ -20673,10 +20519,7 @@
     "sogo": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Email-Providers",
-            "Office-Suites"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -20688,9 +20531,7 @@
     "harbor": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Containerization-&-Orchestration"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2022-08-16T17:22:56Z",
             "author": {
@@ -20702,10 +20543,7 @@
     "immich": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Media-Servers",
-            "Graphics-Editors"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-03-21T21:59:39Z",
             "author": {
@@ -20733,9 +20571,7 @@
     "mojeek": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Search-Engines"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -20747,9 +20583,7 @@
     "nautical-backup": {
         "base": "png",
         "aliases": [],
-        "categories": [
-            "File-Sharing-&-Sync"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2025-01-07T17:54:03Z",
             "author": {
@@ -20761,10 +20595,7 @@
     "hostinger": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Server-Panels",
-            "Cloud-Computing"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-04-02T22:02:03Z",
             "author": {
@@ -20776,10 +20607,7 @@
     "broadcastchannel": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Web-Browsers",
-            "Developper-Tools"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -20795,9 +20623,7 @@
     "snapcast": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Music-Streaming"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-18T21:26:01Z",
             "author": {
@@ -20808,14 +20634,8 @@
     },
     "hashicorp-terraform": {
         "base": "svg",
-        "aliases": [
-            "Terraform"
-        ],
-        "categories": [
-            "Cloud-Computing",
-            "Containerization-&-Orchestration",
-            "Developper-Tools"
-        ],
+        "aliases": [],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -20827,9 +20647,7 @@
     "verizon": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Networking-Tools"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -20841,10 +20659,7 @@
     "findroid": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Media-Servers",
-            "Video-Streaming"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-13T20:39:18Z",
             "author": {
@@ -20856,9 +20671,7 @@
     "vodafone": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Networking-Tools"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2025-04-17T02:17:53.090028",
             "author": {
@@ -20870,9 +20683,7 @@
     "dia": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Graphics-Editors"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2025-02-15T17:33:37.178531",
             "author": {
@@ -20883,14 +20694,8 @@
     },
     "hashicorp-vagrant": {
         "base": "svg",
-        "aliases": [
-            "Vagrant"
-        ],
-        "categories": [
-            "Cloud-Computing",
-            "Containerization-&-Orchestration",
-            "Developper-Tools"
-        ],
+        "aliases": [],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -20902,10 +20707,7 @@
     "untangle": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Networking-Tools",
-            "Security"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -20917,11 +20719,7 @@
     "plex": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Media-Servers",
-            "Video-Streaming",
-            "Music-Streaming"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -20953,9 +20751,7 @@
     "donetick": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Office-Suites"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2025-02-15T18:04:26.452553",
             "author": {
@@ -20967,9 +20763,7 @@
     "feedbase": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Web-Browsers"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -20985,10 +20779,7 @@
     "fedora-alt": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Linux-Distributions",
-            "Operating-Systems"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -21000,9 +20791,7 @@
     "google-calendar": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Office-Suites"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -21014,10 +20803,7 @@
     "firewalla": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Networking-Tools",
-            "Security"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2022-09-26T20:00:37Z",
             "author": {
@@ -21029,9 +20815,7 @@
     "unbound": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Networking-Tools"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-13T19:16:48Z",
             "author": {
@@ -21043,9 +20827,7 @@
     "peacock": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Video-Streaming"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -21061,9 +20843,7 @@
     "kiwix": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Web-Browsers"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -21079,10 +20859,7 @@
     "casaos": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Operating-Systems",
-            "Server-Panels"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-08-10T08:28:08Z",
             "author": {
@@ -21094,9 +20871,7 @@
     "technitium": {
         "base": "png",
         "aliases": [],
-        "categories": [
-            "Networking-Tools"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2025-01-07T17:54:03Z",
             "author": {
@@ -21108,9 +20883,7 @@
     "avg": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Security"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T19:32:46Z",
             "author": {
@@ -21122,9 +20895,7 @@
     "webtrees": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Social-Media"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -21136,9 +20907,7 @@
     "origin": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Gaming-Platforms"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-07-24T10:36:44Z",
             "author": {
@@ -21150,9 +20919,7 @@
     "ocular": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Monitoring-Tools"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2025-01-05T16:19:49Z",
             "author": {
@@ -21164,9 +20931,7 @@
     "nitter": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Social-Media"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -21190,10 +20955,7 @@
     "grype": {
         "base": "png",
         "aliases": [],
-        "categories": [
-            "Security",
-            "Developper-Tools"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2025-01-07T17:54:03Z",
             "author": {
@@ -21205,10 +20967,7 @@
     "vault": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Password-Managers",
-            "Security"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -21224,9 +20983,7 @@
     "clash": {
         "base": "png",
         "aliases": [],
-        "categories": [
-            "Networking-Tools"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2025-01-07T17:54:03Z",
             "author": {
@@ -21238,10 +20995,7 @@
     "gluetun": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "VPN",
-            "Networking-Tools"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-14T10:07:25Z",
             "author": {
@@ -21253,10 +21007,7 @@
     "denon": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Hardware",
-            "Music-Streaming"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -21272,9 +21023,7 @@
     "zendesk": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Office-Suites"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -21286,10 +21035,7 @@
     "unimus": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Networking-Tools",
-            "Monitoring-Tools"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-01-02T00:01:42Z",
             "author": {
@@ -21312,12 +21058,8 @@
     },
     "x": {
         "base": "svg",
-        "aliases": [
-            "Twitter"
-        ],
-        "categories": [
-            "Social-Media"
-        ],
+        "aliases": [],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -21333,9 +21075,7 @@
     "yacd-blue": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Networking-Tools"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2025-02-15T15:24:00.692958",
             "author": {
@@ -21347,10 +21087,7 @@
     "freedombox": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Server-Panels",
-            "Operating-Systems"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -21362,10 +21099,7 @@
     "shlink": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Web-Browsers",
-            "Developper-Tools"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -21377,10 +21111,7 @@
     "librephotos": {
         "base": "png",
         "aliases": [],
-        "categories": [
-            "Media-Servers",
-            "Graphics-Editors"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2025-01-07T17:54:03Z",
             "author": {
@@ -21396,10 +21127,7 @@
     "radarr": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Media-Servers",
-            "Download-Managers"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2022-08-16T17:22:56Z",
             "author": {
@@ -21427,11 +21155,7 @@
     "terraform": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Cloud-Computing",
-            "Containerization-&-Orchestration",
-            "Developper-Tools"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -21443,10 +21167,7 @@
     "godaddy": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Server-Panels",
-            "Web-Browsers"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-13T18:44:10Z",
             "author": {
@@ -21458,10 +21179,7 @@
     "premiumize": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Download-Managers",
-            "Cloud-Computing"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2025-01-05T03:48:30Z",
             "author": {
@@ -21472,12 +21190,8 @@
     },
     "ubiquiti": {
         "base": "svg",
-        "aliases": [
-            "Unifi"
-        ],
-        "categories": [
-            "Networking-Tools"
-        ],
+        "aliases": [],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -21489,10 +21203,7 @@
     "kotlin": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Programming-Languages",
-            "Developper-Tools"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -21504,10 +21215,7 @@
     "sqlitebrowser": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Databases",
-            "Developper-Tools"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -21519,10 +21227,7 @@
     "maintainerr": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Media-Servers",
-            "Monitoring-Tools"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2025-04-03T21:25:36.176609",
             "author": {
@@ -21550,9 +21255,7 @@
     "google-messages": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Social-Media"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -21564,10 +21267,7 @@
     "theia": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Developper-Tools",
-            "Programming-Languages"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -21582,13 +21282,8 @@
     },
     "linuxgsm": {
         "base": "svg",
-        "aliases": [
-            "LinuxGSM"
-        ],
-        "categories": [
-            "Gaming-Platforms",
-            "Server-Panels"
-        ],
+        "aliases": [],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -21600,10 +21295,7 @@
     "booksonic": {
         "base": "png",
         "aliases": [],
-        "categories": [
-            "Media-Servers",
-            "Music-Streaming"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2025-01-07T17:54:03Z",
             "author": {
@@ -21615,10 +21307,7 @@
     "flame": {
         "base": "png",
         "aliases": [],
-        "categories": [
-            "Web-Browsers",
-            "Server-Panels"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2025-01-07T17:54:03Z",
             "author": {
@@ -21630,9 +21319,7 @@
     "gaps": {
         "base": "png",
         "aliases": [],
-        "categories": [
-            "Media-Servers"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2025-01-07T17:54:03Z",
             "author": {
@@ -21644,10 +21331,7 @@
     "podfetch": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Music-Streaming",
-            "Media-Servers"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -21663,10 +21347,7 @@
     "ntop": {
         "base": "png",
         "aliases": [],
-        "categories": [
-            "Monitoring-Tools",
-            "Networking-Tools"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2025-01-07T17:54:03Z",
             "author": {
@@ -21678,9 +21359,7 @@
     "kanboard": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Office-Suites"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -21696,9 +21375,7 @@
     "flarum": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Social-Media"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-04-02T21:30:14Z",
             "author": {
@@ -21710,9 +21387,7 @@
     "shoko": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Media-Servers"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2022-08-16T17:22:56Z",
             "author": {
@@ -21736,10 +21411,7 @@
     "google-earth": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Web-Browsers",
-            "Graphics-Editors"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -21750,14 +21422,8 @@
     },
     "flux-cd": {
         "base": "svg",
-        "aliases": [
-            "Flux"
-        ],
-        "categories": [
-            "Developper-Tools",
-            "Containerization-&-Orchestration",
-            "Version-Control-Systems"
-        ],
+        "aliases": [],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T20:27:58Z",
             "author": {
@@ -21769,10 +21435,7 @@
     "ghost": {
         "base": "png",
         "aliases": [],
-        "categories": [
-            "Web-Browsers",
-            "Social-Media"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2025-01-07T17:54:03Z",
             "author": {
@@ -21788,10 +21451,7 @@
     "gonic": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Media-Servers",
-            "Music-Streaming"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2025-02-19T19:00:02.704244",
             "author": {
@@ -21803,9 +21463,7 @@
     "statping": {
         "base": "png",
         "aliases": [],
-        "categories": [
-            "Monitoring-Tools"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2025-01-07T17:54:03Z",
             "author": {
@@ -21816,13 +21474,8 @@
     },
     "fast-com": {
         "base": "svg",
-        "aliases": [
-            "Fast.com"
-        ],
-        "categories": [
-            "Networking-Tools",
-            "Monitoring-Tools"
-        ],
+        "aliases": [],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -21838,10 +21491,7 @@
     "soulseek": {
         "base": "png",
         "aliases": [],
-        "categories": [
-            "File-Sharing-&-Sync",
-            "Music-Streaming"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2025-01-07T17:54:03Z",
             "author": {
@@ -21853,10 +21503,7 @@
     "cert-warden": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Security",
-            "Networking-Tools"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -21872,10 +21519,7 @@
     "storj": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Cloud-Computing",
-            "File-Sharing-&-Sync"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -21887,9 +21531,7 @@
     "firefox-nightly": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Web-Browsers"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2022-08-16T17:22:56Z",
             "author": {
@@ -21913,9 +21555,7 @@
     "mailfence": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Email-Providers"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-09-11T09:44:27Z",
             "author": {
@@ -21927,9 +21567,7 @@
     "erste": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Finance-&-Banking"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -21940,12 +21578,8 @@
     },
     "xmr": {
         "base": "svg",
-        "aliases": [
-            "Monero"
-        ],
-        "categories": [
-            "Finance-&-Banking"
-        ],
+        "aliases": [],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -21957,10 +21591,7 @@
     "pterodactyl": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Server-Panels",
-            "Gaming-Platforms"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -21972,9 +21603,7 @@
     "filepizza": {
         "base": "png",
         "aliases": [],
-        "categories": [
-            "File-Sharing-&-Sync"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2025-01-07T17:54:03Z",
             "author": {
@@ -21986,10 +21615,7 @@
     "ownphotos": {
         "base": "png",
         "aliases": [],
-        "categories": [
-            "Media-Servers",
-            "Graphics-Editors"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2025-01-07T17:54:03Z",
             "author": {
@@ -22005,10 +21631,7 @@
     "victoriametrics": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Monitoring-Tools",
-            "Databases"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -22024,9 +21647,7 @@
     "librum": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Media-Servers"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -22037,12 +21658,8 @@
     },
     "lsio": {
         "base": "png",
-        "aliases": [
-            "LinuxServer.io"
-        ],
-        "categories": [
-            "Containerization-&-Orchestration"
-        ],
+        "aliases": [],
+        "categories": [],
         "update": {
             "timestamp": "2025-01-07T17:54:03Z",
             "author": {
@@ -22054,10 +21671,7 @@
     "ipcamtalk": {
         "base": "png",
         "aliases": [],
-        "categories": [
-            "Social-Media",
-            "Monitoring-Tools"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2025-01-07T17:54:03Z",
             "author": {
@@ -22069,9 +21683,7 @@
     "paypal": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Finance-&-Banking"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-01-23T10:55:09Z",
             "author": {
@@ -22083,10 +21695,7 @@
     "apprise": {
         "base": "png",
         "aliases": [],
-        "categories": [
-            "Monitoring-Tools",
-            "Social-Media"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T19:32:46Z",
             "author": {
@@ -22098,9 +21707,7 @@
     "jio": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Networking-Tools"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -22112,10 +21719,7 @@
     "pikapods": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Cloud-Computing",
-            "Server-Panels"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -22127,10 +21731,7 @@
     "dockge": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Containerization-&-Orchestration",
-            "Server-Panels"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -22142,9 +21743,7 @@
     "neo4j": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Databases"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-01-28T15:30:35Z",
             "author": {
@@ -22157,8 +21756,7 @@
         "base": "svg",
         "aliases": [],
         "categories": [
-            "Communication",
-            "Networking-Tools"
+            "Communication"
         ],
         "update": {
             "timestamp": "2025-03-26T21:41:51.229884",
@@ -22171,10 +21769,7 @@
     "discord": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Social-Media",
-            "Gaming-Platforms"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -22186,9 +21781,7 @@
     "sendinblue": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Email-Providers"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -22200,9 +21793,7 @@
     "synapse": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Social-Media"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -22218,9 +21809,7 @@
     "mailgun": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Email-Providers"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -22232,10 +21821,7 @@
     "lua": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Programming-Languages",
-            "Developper-Tools"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -22247,9 +21833,7 @@
     "startpage": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Search-Engines"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -22261,9 +21845,7 @@
     "jackett": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Download-Managers"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -22278,14 +21860,8 @@
     },
     "vmware-vcenter": {
         "base": "png",
-        "aliases": [
-            "vCenter"
-        ],
-        "categories": [
-            "Cloud-Computing",
-            "Containerization-&-Orchestration",
-            "Server-Panels"
-        ],
+        "aliases": [],
+        "categories": [],
         "update": {
             "timestamp": "2025-01-07T17:54:03Z",
             "author": {
@@ -22297,10 +21873,7 @@
     "nextcloud-ncdownloader": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "File-Sharing-&-Sync",
-            "Download-Managers"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-09-16T20:31:13Z",
             "author": {
@@ -22311,13 +21884,8 @@
     },
     "tpdb": {
         "base": "svg",
-        "aliases": [
-            "The Poster Database"
-        ],
-        "categories": [
-            "Media-Servers",
-            "Databases"
-        ],
+        "aliases": [],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -22329,10 +21897,7 @@
     "crafty-controller": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Gaming-Platforms",
-            "Server-Panels"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-01-01T11:06:00Z",
             "author": {
@@ -22344,11 +21909,7 @@
     "music-assistant": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Music-Streaming",
-            "Media-Servers",
-            "Smart-Home"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -22364,10 +21925,7 @@
     "tasmoadmin": {
         "base": "png",
         "aliases": [],
-        "categories": [
-            "Smart-Home",
-            "Home-Automation"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2025-01-07T17:54:03Z",
             "author": {
@@ -22379,9 +21937,7 @@
     "rundeck": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Developper-Tools"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -22393,9 +21949,7 @@
     "sphinx": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Developper-Tools"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -22406,13 +21960,8 @@
     },
     "apache-subversion": {
         "base": "svg",
-        "aliases": [
-            "SVN"
-        ],
-        "categories": [
-            "Version-Control-Systems",
-            "Developper-Tools"
-        ],
+        "aliases": [],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -22424,10 +21973,7 @@
     "watchyourlan": {
         "base": "png",
         "aliases": [],
-        "categories": [
-            "Monitoring-Tools",
-            "Networking-Tools"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2025-01-07T17:54:03Z",
             "author": {
@@ -22439,9 +21985,7 @@
     "documenso": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Office-Suites"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -22453,9 +21997,7 @@
     "send": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "File-Sharing-&-Sync"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-13T18:43:07Z",
             "author": {
@@ -22467,10 +22009,7 @@
     "affine": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Note-taking-Apps",
-            "Office-Suites"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -22486,10 +22025,7 @@
     "vuplus": {
         "base": "png",
         "aliases": [],
-        "categories": [
-            "Media-Servers",
-            "Video-Streaming"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2025-01-07T17:54:03Z",
             "author": {
@@ -22529,9 +22065,7 @@
     "docker-amd": {
         "base": "png",
         "aliases": [],
-        "categories": [
-            "Containerization-&-Orchestration"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2025-01-07T17:54:03Z",
             "author": {
@@ -22543,10 +22077,7 @@
     "omnivore": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Note-taking-Apps",
-            "Web-Browsers"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -22558,9 +22089,7 @@
     "voron": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Hardware"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -22572,10 +22101,7 @@
     "nextcloud": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "File-Sharing-&-Sync",
-            "Cloud-Computing"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2022-08-16T17:22:56Z",
             "author": {
@@ -22587,9 +22113,7 @@
     "flat-notes": {
         "base": "png",
         "aliases": [],
-        "categories": [
-            "Note-taking-Apps"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2025-01-07T17:54:03Z",
             "author": {
@@ -22601,9 +22125,7 @@
     "gotosocial": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Social-Media"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -22615,9 +22137,7 @@
     "cross-seed": {
         "base": "png",
         "aliases": [],
-        "categories": [
-            "Download-Managers"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2025-01-07T17:54:03Z",
             "author": {
@@ -22629,9 +22149,7 @@
     "yaade": {
         "base": "png",
         "aliases": [],
-        "categories": [
-            "Developper-Tools"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2025-01-07T17:54:03Z",
             "author": {
@@ -22643,9 +22161,7 @@
     "neocities": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Web-Browsers"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -22669,9 +22185,7 @@
     "hilook": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Monitoring-Tools"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-03-21T00:11:22Z",
             "author": {
@@ -22683,9 +22197,7 @@
     "huawei": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Networking-Tools"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -22697,10 +22209,7 @@
     "piwigo": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Media-Servers",
-            "Graphics-Editors"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -22712,10 +22221,7 @@
     "watchyourports": {
         "base": "png",
         "aliases": [],
-        "categories": [
-            "Monitoring-Tools",
-            "Networking-Tools"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2025-03-31T19:49:28.267448",
             "author": {
@@ -22727,9 +22233,7 @@
     "hydra": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Download-Managers"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -22740,12 +22244,8 @@
     },
     "ynab": {
         "base": "svg",
-        "aliases": [
-            "You Need A Budget"
-        ],
-        "categories": [
-            "Finance-&-Banking"
-        ],
+        "aliases": [],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -22757,9 +22257,7 @@
     "silverbullet": {
         "base": "png",
         "aliases": [],
-        "categories": [
-            "Note-taking-Apps"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2025-01-07T17:54:03Z",
             "author": {
@@ -22787,9 +22285,7 @@
     "duplicati": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "File-Sharing-&-Sync"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2022-08-16T17:22:56Z",
             "author": {
@@ -22801,9 +22297,7 @@
     "plane": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Developper-Tools"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -22814,12 +22308,8 @@
     },
     "microsoft-word": {
         "base": "svg",
-        "aliases": [
-            "Word"
-        ],
-        "categories": [
-            "Office-Suites"
-        ],
+        "aliases": [],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -22831,10 +22321,7 @@
     "valetudo": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Smart-Home",
-            "Home-Automation"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -22846,10 +22333,7 @@
     "authman": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Developper-Tools",
-            "Security"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -22861,10 +22345,7 @@
     "quant-ux": {
         "base": "png",
         "aliases": [],
-        "categories": [
-            "Developper-Tools",
-            "Graphics-Editors"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2025-01-07T17:54:03Z",
             "author": {
@@ -22875,12 +22356,8 @@
     },
     "apache-airflow": {
         "base": "svg",
-        "aliases": [
-            "Airflow"
-        ],
-        "categories": [
-            "Developper-Tools"
-        ],
+        "aliases": [],
+        "categories": [],
         "update": {
             "timestamp": "2024-04-05T08:15:52Z",
             "author": {
@@ -22892,9 +22369,7 @@
     "ymarks": {
         "base": "png",
         "aliases": [],
-        "categories": [
-            "Web-Browsers"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2025-01-07T17:54:03Z",
             "author": {
@@ -22906,10 +22381,7 @@
     "evebox": {
         "base": "png",
         "aliases": [],
-        "categories": [
-            "Monitoring-Tools",
-            "Security"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2025-01-07T17:54:03Z",
             "author": {
@@ -22921,10 +22393,7 @@
     "servarr": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Media-Servers",
-            "Download-Managers"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -22940,10 +22409,7 @@
     "i2pd": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "VPN",
-            "Networking-Tools"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-10-30T09:19:34Z",
             "author": {
@@ -22955,10 +22421,7 @@
     "elasticsearch": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Databases",
-            "Search-Engines"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -22970,9 +22433,7 @@
     "jdownloader": {
         "base": "png",
         "aliases": [],
-        "categories": [
-            "Download-Managers"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2025-01-07T17:54:03Z",
             "author": {
@@ -22984,9 +22445,7 @@
     "palemoon": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Web-Browsers"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -22998,10 +22457,7 @@
     "headphones": {
         "base": "png",
         "aliases": [],
-        "categories": [
-            "Music-Streaming",
-            "Media-Servers"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2025-01-07T17:54:03Z",
             "author": {
@@ -23013,9 +22469,7 @@
     "mercusys": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Networking-Tools"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -23026,13 +22480,8 @@
     },
     "apache-cloudstack": {
         "base": "svg",
-        "aliases": [
-            "CloudStack"
-        ],
-        "categories": [
-            "Cloud-Computing",
-            "Containerization-&-Orchestration"
-        ],
+        "aliases": [],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T19:32:46Z",
             "author": {
@@ -23044,9 +22493,7 @@
     "audiobookshelf": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Media-Servers"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2022-08-16T17:22:56Z",
             "author": {
@@ -23058,9 +22505,7 @@
     "brave": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Web-Browsers"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T20:27:58Z",
             "author": {
@@ -23071,13 +22516,8 @@
     },
     "godaddy-alt": {
         "base": "svg",
-        "aliases": [
-            "GoDaddy"
-        ],
-        "categories": [
-            "Server-Panels",
-            "Web-Browsers"
-        ],
+        "aliases": [],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-13T18:44:10Z",
             "author": {
@@ -23089,9 +22529,7 @@
     "tangerine-ui": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Developper-Tools"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -23103,10 +22541,7 @@
     "yahoo": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Search-Engines",
-            "Email-Providers"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -23118,9 +22553,7 @@
     "nut": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Monitoring-Tools"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-03-21T00:28:06Z",
             "author": {
@@ -23132,10 +22565,7 @@
     "apc": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Monitoring-Tools",
-            "Hardware"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -23147,10 +22577,7 @@
     "loki": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Monitoring-Tools",
-            "Developper-Tools"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -23162,10 +22589,7 @@
     "synology-document-viewer": {
         "base": "png",
         "aliases": [],
-        "categories": [
-            "Office-Suites",
-            "File-Sharing-&-Sync"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2025-01-07T17:54:03Z",
             "author": {
@@ -23177,10 +22601,7 @@
     "pigallery2": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Media-Servers",
-            "Graphics-Editors"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -23191,13 +22612,8 @@
     },
     "esphome-alt": {
         "base": "svg",
-        "aliases": [
-            "ESP Home"
-        ],
-        "categories": [
-            "Home-Automation",
-            "Smart-Home"
-        ],
+        "aliases": [],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -23213,10 +22629,7 @@
     "nextcloud-tables": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Office-Suites",
-            "File-Sharing-&-Sync"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -23228,9 +22641,7 @@
     "omada": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Networking-Tools"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2022-08-16T17:22:56Z",
             "author": {
@@ -23241,13 +22652,8 @@
     },
     "wikijs": {
         "base": "svg",
-        "aliases": [
-            "Wiki.js"
-        ],
-        "categories": [
-            "Note-taking-Apps",
-            "Developper-Tools"
-        ],
+        "aliases": [],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -23259,10 +22665,7 @@
     "mautic": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Developper-Tools",
-            "E-commerce-Platforms"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -23274,10 +22677,7 @@
     "grafana": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Monitoring-Tools",
-            "Developper-Tools"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2022-08-16T17:22:56Z",
             "author": {
@@ -23289,10 +22689,7 @@
     "misp": {
         "base": "png",
         "aliases": [],
-        "categories": [
-            "Security",
-            "Monitoring-Tools"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2025-01-07T17:54:03Z",
             "author": {
@@ -23304,9 +22701,7 @@
     "trudesk": {
         "base": "png",
         "aliases": [],
-        "categories": [
-            "Developper-Tools"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2025-01-07T17:54:03Z",
             "author": {
@@ -23342,10 +22737,7 @@
     "airvpn": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "VPN",
-            "Networking-Tools"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-06-23T17:25:39Z",
             "author": {
@@ -23369,10 +22761,7 @@
     "kopia": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "File-Sharing-&-Sync",
-            "Cloud-Computing"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -23383,13 +22772,8 @@
     },
     "ilo": {
         "base": "svg",
-        "aliases": [
-            "Integrated Lights Out"
-        ],
-        "categories": [
-            "Server-Panels",
-            "Monitoring-Tools"
-        ],
+        "aliases": [],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -23400,12 +22784,8 @@
     },
     "keenetic-alt": {
         "base": "svg",
-        "aliases": [
-            "Keenetic"
-        ],
-        "categories": [
-            "Networking-Tools"
-        ],
+        "aliases": [],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -23417,9 +22797,7 @@
     "shopify": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "E-commerce-Platforms"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -23430,14 +22808,8 @@
     },
     "visual-studio-code": {
         "base": "svg",
-        "aliases": [
-            "VSCode",
-            "VS Code"
-        ],
-        "categories": [
-            "Developper-Tools",
-            "Programming-Languages"
-        ],
+        "aliases": [],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -23449,9 +22821,7 @@
     "betanin": {
         "base": "png",
         "aliases": [],
-        "categories": [
-            "Media-Servers"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2025-01-07T17:54:03Z",
             "author": {
@@ -23475,10 +22845,7 @@
     "google-alerts": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Monitoring-Tools",
-            "Search-Engines"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -23490,10 +22857,7 @@
     "netboot": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Networking-Tools",
-            "Operating-Systems"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -23505,10 +22869,7 @@
     "slskd": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "File-Sharing-&-Sync",
-            "Music-Streaming"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-06-01T17:39:29Z",
             "author": {
@@ -23520,10 +22881,7 @@
     "tvp-vod": {
         "base": "png",
         "aliases": [],
-        "categories": [
-            "Video-Streaming",
-            "Media-Servers"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2025-01-07T17:54:03Z",
             "author": {
@@ -23535,9 +22893,7 @@
     "jetkvm": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Server-Panels"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2025-04-06T11:06:41.575712",
             "author": {
@@ -23549,10 +22905,7 @@
     "drone": {
         "base": "png",
         "aliases": [],
-        "categories": [
-            "Developper-Tools",
-            "Version-Control-Systems"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2025-01-07T17:54:03Z",
             "author": {
@@ -23564,10 +22917,7 @@
     "stb-proxy": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Networking-Tools",
-            "Video-Streaming"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-04-05T08:22:18Z",
             "author": {
@@ -23579,10 +22929,7 @@
     "cloudpanel": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Server-Panels",
-            "Cloud-Computing"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-05-20T17:08:42Z",
             "author": {
@@ -23593,13 +22940,8 @@
     },
     "netgear-orbi": {
         "base": "png",
-        "aliases": [
-            "Orbi"
-        ],
-        "categories": [
-            "Networking-Tools",
-            "Smart-Home"
-        ],
+        "aliases": [],
+        "categories": [],
         "update": {
             "timestamp": "2025-01-07T17:54:03Z",
             "author": {
@@ -23611,10 +22953,7 @@
     "typemill": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Developper-Tools",
-            "Note-taking-Apps"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -23631,8 +22970,7 @@
         "base": "svg",
         "aliases": [],
         "categories": [
-            "Hardware",
-            "Social-Media"
+            "Hardware"
         ],
         "update": {
             "timestamp": "2025-04-06T09:47:02.594957",
@@ -23645,10 +22983,7 @@
     "lark": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Office-Suites",
-            "Social-Media"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-14T18:55:51Z",
             "author": {
@@ -23660,10 +22995,7 @@
     "plexrequests": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Media-Servers",
-            "Video-Streaming"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -23679,9 +23011,7 @@
     "virgin-media": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Networking-Tools"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -23693,10 +23023,7 @@
     "freescout": {
         "base": "png",
         "aliases": [],
-        "categories": [
-            "Email-Providers",
-            "Office-Suites"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2025-01-07T17:54:03Z",
             "author": {
@@ -23708,10 +23035,7 @@
     "freenom": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Networking-Tools",
-            "Web-Browsers"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -23723,9 +23047,7 @@
     "bluewallet": {
         "base": "png",
         "aliases": [],
-        "categories": [
-            "Finance-&-Banking"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2025-01-07T17:54:03Z",
             "author": {
@@ -23737,9 +23059,7 @@
     "voilib": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Media-Servers"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -23751,9 +23071,7 @@
     "statping-ng": {
         "base": "png",
         "aliases": [],
-        "categories": [
-            "Monitoring-Tools"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2025-01-07T17:54:03Z",
             "author": {
@@ -23764,13 +23082,8 @@
     },
     "fly-io": {
         "base": "svg",
-        "aliases": [
-            "Fly"
-        ],
-        "categories": [
-            "Cloud-Computing",
-            "Containerization-&-Orchestration"
-        ],
+        "aliases": [],
+        "categories": [],
         "update": {
             "timestamp": "2023-07-24T10:35:03Z",
             "author": {
@@ -23782,9 +23095,7 @@
     "arm": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Hardware"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -23796,9 +23107,7 @@
     "ghostfolio": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Finance-&-Banking"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -23810,9 +23119,7 @@
     "synology-mail-station": {
         "base": "png",
         "aliases": [],
-        "categories": [
-            "Email-Providers"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2025-01-07T17:54:03Z",
             "author": {
@@ -23824,10 +23131,7 @@
     "nomad": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Containerization-&-Orchestration",
-            "Cloud-Computing"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2022-12-14T12:21:43Z",
             "author": {
@@ -23839,9 +23143,7 @@
     "lnbits": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Finance-&-Banking"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2022-08-16T17:22:56Z",
             "author": {
@@ -23853,10 +23155,7 @@
     "fedora": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Linux-Distributions",
-            "Operating-Systems"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2025-04-06T09:12:58.982278",
             "author": {
@@ -23868,10 +23167,7 @@
     "meshcentral": {
         "base": "png",
         "aliases": [],
-        "categories": [
-            "Networking-Tools",
-            "Monitoring-Tools"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2025-01-07T17:54:03Z",
             "author": {
@@ -23883,10 +23179,7 @@
     "jaeger": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Monitoring-Tools",
-            "Developper-Tools"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -23898,10 +23191,7 @@
     "brillcam": {
         "base": "png",
         "aliases": [],
-        "categories": [
-            "Monitoring-Tools",
-            "Smart-Home"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2025-01-07T17:54:03Z",
             "author": {
@@ -23913,9 +23203,7 @@
     "xbox": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Gaming-Platforms"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -23927,10 +23215,7 @@
     "fusionauth": {
         "base": "png",
         "aliases": [],
-        "categories": [
-            "Developper-Tools",
-            "Security"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2025-01-07T17:54:03Z",
             "author": {
@@ -23946,9 +23231,7 @@
     "netgear": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Networking-Tools"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -23964,10 +23247,7 @@
     "evcc": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Smart-Home",
-            "Home-Automation"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -23979,9 +23259,7 @@
     "fusionpbx": {
         "base": "png",
         "aliases": [],
-        "categories": [
-            "Networking-Tools"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2025-01-07T17:54:03Z",
             "author": {
@@ -23993,10 +23271,7 @@
     "shelly": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Smart-Home",
-            "Home-Automation"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -24008,10 +23283,7 @@
     "wled": {
         "base": "png",
         "aliases": [],
-        "categories": [
-            "Smart-Home",
-            "Home-Automation"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2025-01-07T17:54:03Z",
             "author": {
@@ -24022,12 +23294,8 @@
     },
     "rocket-chat": {
         "base": "svg",
-        "aliases": [
-            "RocketChat"
-        ],
-        "categories": [
-            "Social-Media"
-        ],
+        "aliases": [],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -24038,13 +23306,8 @@
     },
     "go": {
         "base": "svg",
-        "aliases": [
-            "Golang"
-        ],
-        "categories": [
-            "Programming-Languages",
-            "Developper-Tools"
-        ],
+        "aliases": [],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -24056,10 +23319,7 @@
     "speedtest-tracker": {
         "base": "png",
         "aliases": [],
-        "categories": [
-            "Monitoring-Tools",
-            "Networking-Tools"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2025-01-07T17:54:03Z",
             "author": {
@@ -24071,9 +23331,7 @@
     "arris": {
         "base": "png",
         "aliases": [],
-        "categories": [
-            "Networking-Tools"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2025-01-07T17:54:03Z",
             "author": {
@@ -24089,9 +23347,7 @@
     "oneuptime": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Monitoring-Tools"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -24107,9 +23363,7 @@
     "komga": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Media-Servers"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -24121,9 +23375,7 @@
     "actual-budget": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Finance-&-Banking"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -24135,10 +23387,7 @@
     "podify": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Media-Servers",
-            "Music-Streaming"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -24174,10 +23423,7 @@
     "dart": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Programming-Languages",
-            "Developper-Tools"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -24190,9 +23436,7 @@
         "base": "svg",
         "aliases": [],
         "categories": [
-            "Development",
-            "Developper-Tools",
-            "Version-Control-Systems"
+            "Development"
         ],
         "update": {
             "timestamp": "2025-03-31T19:44:10.818175",
@@ -24205,9 +23449,7 @@
     "mempool": {
         "base": "png",
         "aliases": [],
-        "categories": [
-            "Finance-&-Banking"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2025-01-07T17:54:03Z",
             "author": {
@@ -24235,9 +23477,7 @@
     "lemmy": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Social-Media"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -24253,9 +23493,7 @@
     "grandstream": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Networking-Tools"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-07-05T16:00:07Z",
             "author": {
@@ -24267,10 +23505,7 @@
     "coder": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Developper-Tools",
-            "Programming-Languages"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -24286,10 +23521,7 @@
     "matter": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Smart-Home",
-            "Home-Automation"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2025-01-05T22:05:40Z",
             "author": {
@@ -24318,9 +23550,7 @@
         "base": "svg",
         "aliases": [],
         "categories": [
-            "Streaming",
-            "Video-Streaming",
-            "Media-Servers"
+            "Streaming"
         ],
         "update": {
             "timestamp": "2025-04-17T17:01:04.793098",
@@ -24332,9 +23562,7 @@
     },
     "falcon-player": {
         "base": "svg",
-        "aliases": [
-            "FPP"
-        ],
+        "aliases": [],
         "categories": [],
         "update": {
             "timestamp": "2025-03-22T08:17:29.635510",
@@ -24351,9 +23579,7 @@
     "synology-drive": {
         "base": "png",
         "aliases": [],
-        "categories": [
-            "File-Sharing-&-Sync"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2025-01-07T17:54:03Z",
             "author": {
@@ -24365,9 +23591,7 @@
     "perlite": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Note-taking-Apps"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-04-02T21:52:42Z",
             "author": {
@@ -24379,10 +23603,7 @@
     "wireguard": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "VPN",
-            "Networking-Tools"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2022-09-09T09:57:08Z",
             "author": {
@@ -24394,10 +23615,7 @@
     "wolfi": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Linux-Distributions",
-            "Operating-Systems"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -24412,13 +23630,8 @@
     },
     "yourls": {
         "base": "svg",
-        "aliases": [
-            "Your URL Shortener"
-        ],
-        "categories": [
-            "Web-Browsers",
-            "Developper-Tools"
-        ],
+        "aliases": [],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -24430,10 +23643,7 @@
     "google-one": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Cloud-Computing",
-            "File-Sharing-&-Sync"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -24445,9 +23655,7 @@
     "rallly": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Office-Suites"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-03-21T01:22:25Z",
             "author": {
@@ -24459,10 +23667,7 @@
     "asrock-rack": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Hardware",
-            "Server-Panels"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T19:32:46Z",
             "author": {
@@ -24474,9 +23679,7 @@
     "flood": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Download-Managers"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -24487,13 +23690,8 @@
     },
     "microsoft-onenote": {
         "base": "svg",
-        "aliases": [
-            "OneNote"
-        ],
-        "categories": [
-            "Office-Suites",
-            "Note-taking-Apps"
-        ],
+        "aliases": [],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -24505,9 +23703,7 @@
     "matrix": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Social-Media"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -24523,9 +23719,7 @@
     "searx": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Search-Engines"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -24537,9 +23731,7 @@
     "mailcow": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Email-Providers"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -24551,10 +23743,7 @@
     "vidzy": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Video-Streaming",
-            "Media-Servers"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -24566,9 +23755,7 @@
     "wifiman": {
         "base": "png",
         "aliases": [],
-        "categories": [
-            "Networking-Tools"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2025-01-07T17:54:03Z",
             "author": {
@@ -24580,10 +23767,7 @@
     "hikvision": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Monitoring-Tools",
-            "Smart-Home"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -24595,10 +23779,7 @@
     "ionos": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Cloud-Computing",
-            "Server-Panels"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -24610,9 +23791,7 @@
     "filebrowser": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "File-Sharing-&-Sync"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2022-08-16T17:22:56Z",
             "author": {
@@ -24624,10 +23803,7 @@
     "littlelink-custom": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Social-Media",
-            "Web-Browsers"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-02-14T22:52:49Z",
             "author": {
@@ -24640,8 +23816,7 @@
         "base": "svg",
         "aliases": [],
         "categories": [
-            "Hardware",
-            "Developper-Tools"
+            "Hardware"
         ],
         "update": {
             "timestamp": "2025-03-24T19:23:09.037589",
@@ -24654,10 +23829,7 @@
     "tvheadend": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Media-Servers",
-            "Video-Streaming"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -24669,9 +23841,7 @@
     "lunasea": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Media-Servers"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -24682,12 +23852,8 @@
     },
     "at-t": {
         "base": "svg",
-        "aliases": [
-            "AT&T"
-        ],
-        "categories": [
-            "Networking-Tools"
-        ],
+        "aliases": [],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-14T09:48:29Z",
             "author": {
@@ -24699,10 +23865,7 @@
     "teamcity": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Developper-Tools",
-            "Version-Control-Systems"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -24719,8 +23882,7 @@
         "base": "svg",
         "aliases": [],
         "categories": [
-            "E-Commerce",
-            "E-commerce-Platforms"
+            "E-Commerce"
         ],
         "update": {
             "timestamp": "2025-02-22T12:38:27.186287",
@@ -24733,9 +23895,7 @@
     "woocommerce": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "E-commerce-Platforms"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -24747,9 +23907,7 @@
     "rainloop": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Email-Providers"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -24761,9 +23919,7 @@
     "modrinth": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Gaming-Platforms"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-03-07T23:37:13Z",
             "author": {
@@ -24787,10 +23943,7 @@
     "shaarli": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Note-taking-Apps",
-            "Social-Media"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -24802,10 +23955,7 @@
     "icloud": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Cloud-Computing",
-            "File-Sharing-&-Sync"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2025-01-05T04:01:59Z",
             "author": {
@@ -24817,9 +23967,7 @@
     "maybe": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Finance-&-Banking"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -24830,13 +23978,8 @@
     },
     "playstation": {
         "base": "svg",
-        "aliases": [
-            "PS",
-            "Sony PlayStation"
-        ],
-        "categories": [
-            "Gaming-Platforms"
-        ],
+        "aliases": [],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -24848,10 +23991,7 @@
     "netatmo": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Smart-Home",
-            "Home-Automation"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-02-11T23:44:59Z",
             "author": {
@@ -24863,10 +24003,7 @@
     "boundary": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Security",
-            "Networking-Tools"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T20:27:58Z",
             "author": {
@@ -24878,9 +24015,7 @@
     "bluetooth": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Networking-Tools"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -24892,9 +24027,7 @@
     "poly": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Graphics-Editors"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -24906,10 +24039,7 @@
     "nextcloud-calendar": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Office-Suites",
-            "File-Sharing-&-Sync"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-09-16T20:31:13Z",
             "author": {
@@ -24921,9 +24051,7 @@
     "autobrr": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Download-Managers"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2022-09-09T10:03:42Z",
             "author": {
@@ -24935,10 +24063,7 @@
     "directus": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Developper-Tools",
-            "Databases"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -24950,10 +24075,7 @@
     "filecloud": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Cloud-Computing",
-            "File-Sharing-&-Sync"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-09-30T23:45:37Z",
             "author": {
@@ -24965,10 +24087,7 @@
     "putty": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Developper-Tools",
-            "Networking-Tools"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -24980,10 +24099,7 @@
     "photoview": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Media-Servers",
-            "Graphics-Editors"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2022-08-16T17:22:56Z",
             "author": {
@@ -24995,10 +24111,7 @@
     "openstack": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Cloud-Computing",
-            "Containerization-&-Orchestration"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-05-06T13:23:46Z",
             "author": {
@@ -25010,9 +24123,7 @@
     "google-classroom": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Office-Suites"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -25024,9 +24135,7 @@
     "synology-pdfviewer": {
         "base": "png",
         "aliases": [],
-        "categories": [
-            "Office-Suites"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2025-01-07T17:54:03Z",
             "author": {
@@ -25050,10 +24159,7 @@
     "mullvad-browser": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Web-Browsers",
-            "VPN"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-01-28T15:00:08Z",
             "author": {
@@ -25065,9 +24171,7 @@
     "mixpost": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Social-Media"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -25079,10 +24183,7 @@
     "perplexity": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "AI-&-LLM-Platforms",
-            "Search-Engines"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2025-02-07T08:49:00Z",
             "author": {
@@ -25098,9 +24199,7 @@
     "touitomamout": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Social-Media"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -25111,12 +24210,8 @@
     },
     "matrix-synapse": {
         "base": "svg",
-        "aliases": [
-            "Synapse"
-        ],
-        "categories": [
-            "Social-Media"
-        ],
+        "aliases": [],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -25143,13 +24238,8 @@
     },
     "pia": {
         "base": "svg",
-        "aliases": [
-            "Private Internet Access"
-        ],
-        "categories": [
-            "VPN",
-            "Networking-Tools"
-        ],
+        "aliases": [],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -25161,9 +24251,7 @@
     "medium": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Social-Media"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2025-01-26T15:26:18Z",
             "author": {
@@ -25179,10 +24267,7 @@
     "librenms": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Monitoring-Tools",
-            "Networking-Tools"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -25194,9 +24279,7 @@
     "discourse": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Social-Media"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -25211,13 +24294,9 @@
     },
     "balena-cloud": {
         "base": "svg",
-        "aliases": [
-            "Balena"
-        ],
+        "aliases": [],
         "categories": [
-            "Cloud",
-            "Cloud-Computing",
-            "Containerization-&-Orchestration"
+            "Cloud"
         ],
         "update": {
             "timestamp": "2025-04-17T16:57:40.799513",
@@ -25230,9 +24309,7 @@
     "heyform": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Office-Suites"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -25244,9 +24321,7 @@
     "yamtrack": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Monitoring-Tools"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -25262,9 +24337,7 @@
     "qutebrowser": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Web-Browsers"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -25276,9 +24349,7 @@
     "youtube-kids": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Video-Streaming"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -25301,13 +24372,8 @@
     },
     "manjaro-linux": {
         "base": "svg",
-        "aliases": [
-            "Manjaro"
-        ],
-        "categories": [
-            "Linux-Distributions",
-            "Operating-Systems"
-        ],
+        "aliases": [],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -25319,10 +24385,7 @@
     "unraid": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Operating-Systems",
-            "Server-Panels"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2022-09-09T09:57:29Z",
             "author": {
@@ -25334,9 +24397,7 @@
     "xpipe": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Developper-Tools"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -25348,9 +24409,7 @@
     "logitech": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Hardware"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -25366,10 +24425,7 @@
     "airtable": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Office-Suites",
-            "Databases"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -25381,10 +24437,7 @@
     "app-store": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Operating-Systems",
-            "E-commerce-Platforms"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-18T21:26:41Z",
             "author": {
@@ -25395,13 +24448,8 @@
     },
     "codimd": {
         "base": "png",
-        "aliases": [
-            "CodiMD"
-        ],
-        "categories": [
-            "Note-taking-Apps",
-            "Office-Suites"
-        ],
+        "aliases": [],
+        "categories": [],
         "update": {
             "timestamp": "2025-01-07T17:54:03Z",
             "author": {
@@ -25417,11 +24465,7 @@
     "tube-archivist": {
         "base": "png",
         "aliases": [],
-        "categories": [
-            "Video-Streaming",
-            "Media-Servers",
-            "Download-Managers"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2025-01-07T17:54:03Z",
             "author": {
@@ -25438,9 +24482,7 @@
         "base": "png",
         "aliases": [],
         "categories": [
-            "Streaming",
-            "Music-Streaming",
-            "Media-Servers"
+            "Streaming"
         ],
         "update": {
             "timestamp": "2025-04-17T17:09:27.822795",
@@ -25452,13 +24494,8 @@
     },
     "arch-linux": {
         "base": "svg",
-        "aliases": [
-            "Arch"
-        ],
-        "categories": [
-            "Linux-Distributions",
-            "Operating-Systems"
-        ],
+        "aliases": [],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -25470,9 +24507,7 @@
     "leantime": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Office-Suites"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -25484,10 +24519,7 @@
     "fronius": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Smart-Home",
-            "Monitoring-Tools"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -25499,9 +24531,7 @@
     "thunderbird": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Email-Providers"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-02-17T18:01:02Z",
             "author": {
@@ -25513,10 +24543,7 @@
     "yunohost": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Operating-Systems",
-            "Server-Panels"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -25528,9 +24555,7 @@
     "biblioreads": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Media-Servers"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -25546,9 +24571,7 @@
     "ombi": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Media-Servers"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-01-28T14:46:30Z",
             "author": {
@@ -25560,9 +24583,7 @@
     "google-fi": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Networking-Tools"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -25574,10 +24595,7 @@
     "pelican-panel": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Gaming-Platforms",
-            "Server-Panels"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -25589,9 +24607,7 @@
     "lidl": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "E-commerce-Platforms"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -25603,10 +24619,7 @@
     "undb": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Databases",
-            "Office-Suites"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -25618,9 +24631,7 @@
     "whodb": {
         "base": "png",
         "aliases": [],
-        "categories": [
-            "Developper-Tools"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2025-01-07T17:54:03Z",
             "author": {
@@ -25632,10 +24643,7 @@
     "mcmyadmin": {
         "base": "png",
         "aliases": [],
-        "categories": [
-            "Gaming-Platforms",
-            "Server-Panels"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2025-01-07T17:54:03Z",
             "author": {
@@ -25647,10 +24655,7 @@
     "authentik": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Security",
-            "Password-Managers"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2022-08-16T17:22:56Z",
             "author": {
@@ -25662,10 +24667,7 @@
     "freenas": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Operating-Systems",
-            "File-Sharing-&-Sync"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -25676,12 +24678,8 @@
     },
     "proton-mail": {
         "base": "svg",
-        "aliases": [
-            "ProtonMail"
-        ],
-        "categories": [
-            "Email-Providers"
-        ],
+        "aliases": [],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -25693,10 +24691,7 @@
     "cura": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Graphics-Editors",
-            "Hardware"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -25708,9 +24703,7 @@
     "themepark": {
         "base": "png",
         "aliases": [],
-        "categories": [
-            "Developper-Tools"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2025-01-07T17:54:03Z",
             "author": {
@@ -25721,13 +24714,8 @@
     },
     "javascript": {
         "base": "svg",
-        "aliases": [
-            "JS"
-        ],
-        "categories": [
-            "Programming-Languages",
-            "Developper-Tools"
-        ],
+        "aliases": [],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -25743,10 +24731,7 @@
     "oracle": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Databases",
-            "Cloud-Computing"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -25758,11 +24743,7 @@
     "nextcloudpi": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "File-Sharing-&-Sync",
-            "Cloud-Computing",
-            "Operating-Systems"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -25774,9 +24755,7 @@
     "google-translate": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "AI-&-LLM-Platforms"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -25788,9 +24767,7 @@
     "outline": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Note-taking-Apps"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -25806,9 +24783,7 @@
     "chromium": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Web-Browsers"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2022-08-16T17:22:56Z",
             "author": {
@@ -25820,9 +24795,7 @@
     "pocket-casts": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Music-Streaming"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -25838,9 +24811,7 @@
     "ipboard": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Social-Media"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -25852,9 +24823,7 @@
     "restreamer": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Video-Streaming"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -25866,10 +24835,7 @@
     "graylog": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Monitoring-Tools",
-            "Developper-Tools"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -25881,10 +24847,7 @@
     "wetty": {
         "base": "png",
         "aliases": [],
-        "categories": [
-            "Developper-Tools",
-            "Web-Browsers"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2025-01-07T17:54:03Z",
             "author": {
@@ -25895,13 +24858,8 @@
     },
     "mullvad-vpn": {
         "base": "svg",
-        "aliases": [
-            "Mullvad"
-        ],
-        "categories": [
-            "VPN",
-            "Networking-Tools"
-        ],
+        "aliases": [],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -25913,9 +24871,7 @@
     "tiddlywiki": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Note-taking-Apps"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -25931,10 +24887,7 @@
     "headscale": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "VPN",
-            "Networking-Tools"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -25946,10 +24899,7 @@
     "dashy": {
         "base": "png",
         "aliases": [],
-        "categories": [
-            "Web-Browsers",
-            "Server-Panels"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2025-01-07T17:54:03Z",
             "author": {
@@ -25961,9 +24911,7 @@
     "freebox-pop": {
         "base": "png",
         "aliases": [],
-        "categories": [
-            "Networking-Tools"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2025-01-07T17:54:03Z",
             "author": {
@@ -25975,10 +24923,7 @@
     "sinusbot": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Music-Streaming",
-            "Social-Media"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -25990,10 +24935,7 @@
     "riverside-fm": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Music-Streaming",
-            "Video-Streaming"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -26008,13 +24950,8 @@
     },
     "nodejs": {
         "base": "svg",
-        "aliases": [
-            "Node.js"
-        ],
-        "categories": [
-            "Programming-Languages",
-            "Developper-Tools"
-        ],
+        "aliases": [],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -26026,11 +24963,7 @@
     "teleport": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Security",
-            "Networking-Tools",
-            "Developper-Tools"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -26042,9 +24975,7 @@
     "koillection": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Media-Servers"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -26059,12 +24990,8 @@
     },
     "amazon-web-services": {
         "base": "svg",
-        "aliases": [
-            "AWS"
-        ],
-        "categories": [
-            "Cloud-Computing"
-        ],
+        "aliases": [],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -26080,10 +25007,7 @@
     "saltcorn": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Databases",
-            "Developper-Tools"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -26095,9 +25019,7 @@
     "note-mark": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Note-taking-Apps"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -26110,8 +25032,7 @@
         "base": "png",
         "aliases": [],
         "categories": [
-            "File",
-            "File-Sharing-&-Sync"
+            "File"
         ],
         "update": {
             "timestamp": "2025-04-09T12:14:21.469284",
@@ -26124,9 +25045,7 @@
     "flogo": {
         "base": "png",
         "aliases": [],
-        "categories": [
-            "Developper-Tools"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2025-01-07T17:54:03Z",
             "author": {
@@ -26137,12 +25056,8 @@
     },
     "foundry-vtt": {
         "base": "png",
-        "aliases": [
-            "FoundryVTT"
-        ],
-        "categories": [
-            "Gaming-Platforms"
-        ],
+        "aliases": [],
+        "categories": [],
         "update": {
             "timestamp": "2025-01-07T17:54:03Z",
             "author": {
@@ -26154,10 +25069,7 @@
     "phpipam": {
         "base": "png",
         "aliases": [],
-        "categories": [
-            "Networking-Tools",
-            "Monitoring-Tools"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2025-01-07T17:54:03Z",
             "author": {
@@ -26169,10 +25081,7 @@
     "dozzle": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Monitoring-Tools",
-            "Containerization-&-Orchestration"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2025-04-06T10:42:57.436444",
             "author": {
@@ -26183,12 +25092,8 @@
     },
     "microsoft-sql-server": {
         "base": "svg",
-        "aliases": [
-            "MSSQL"
-        ],
-        "categories": [
-            "Databases"
-        ],
+        "aliases": [],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -26204,10 +25109,7 @@
     "nextcloud-deck": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "File-Sharing-&-Sync",
-            "Office-Suites"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-09-16T20:31:13Z",
             "author": {
@@ -26219,9 +25121,7 @@
     "zabka": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "E-commerce-Platforms"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -26233,10 +25133,7 @@
     "freeipa": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Security",
-            "Server-Panels"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -26248,11 +25145,7 @@
     "rancher": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Containerization-&-Orchestration",
-            "Cloud-Computing",
-            "Server-Panels"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -26264,10 +25157,7 @@
     "brocade": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Networking-Tools",
-            "Hardware"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2022-11-01T09:26:15Z",
             "author": {
@@ -26278,12 +25168,8 @@
     },
     "icinga-full": {
         "base": "svg",
-        "aliases": [
-            "Icinga"
-        ],
-        "categories": [
-            "Monitoring-Tools"
-        ],
+        "aliases": [],
+        "categories": [],
         "update": {
             "timestamp": "2025-01-05T11:09:38Z",
             "author": {
@@ -26299,10 +25185,7 @@
     "borgmatic": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "File-Sharing-&-Sync",
-            "Cloud-Computing"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -26317,12 +25200,8 @@
     },
     "team-viewer": {
         "base": "svg",
-        "aliases": [
-            "TeamViewer"
-        ],
-        "categories": [
-            "Networking-Tools"
-        ],
+        "aliases": [],
+        "categories": [],
         "update": {
             "timestamp": "2025-04-06T14:43:40.349117",
             "author": {
@@ -26333,12 +25212,8 @@
     },
     "xbox-game-pass": {
         "base": "svg",
-        "aliases": [
-            "Game Pass"
-        ],
-        "categories": [
-            "Gaming-Platforms"
-        ],
+        "aliases": [],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -26350,10 +25225,7 @@
     "couchpotato": {
         "base": "png",
         "aliases": [],
-        "categories": [
-            "Media-Servers",
-            "Download-Managers"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2025-01-07T17:54:03Z",
             "author": {
@@ -26365,10 +25237,7 @@
     "nextcloud-contacts": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "File-Sharing-&-Sync",
-            "Office-Suites"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-13T18:33:45Z",
             "author": {
@@ -26380,9 +25249,7 @@
     "mastodon": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Social-Media"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -26394,10 +25261,7 @@
     "zoneminder": {
         "base": "png",
         "aliases": [],
-        "categories": [
-            "Monitoring-Tools",
-            "Smart-Home"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2025-01-07T17:54:03Z",
             "author": {
@@ -26409,9 +25273,7 @@
     "troddit": {
         "base": "png",
         "aliases": [],
-        "categories": [
-            "Social-Media"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2025-01-07T17:54:03Z",
             "author": {
@@ -26423,9 +25285,7 @@
     "proton-wallet": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Finance-&-Banking"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2025-01-05T03:59:46Z",
             "author": {
@@ -26437,9 +25297,7 @@
     "resiliosync": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "File-Sharing-&-Sync"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2025-02-15T17:13:37.459709",
             "author": {
@@ -26451,10 +25309,7 @@
     "google-voice": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Social-Media",
-            "Networking-Tools"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -26466,10 +25321,7 @@
     "flatpak": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Operating-Systems",
-            "Developper-Tools"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T20:27:58Z",
             "author": {
@@ -26481,10 +25333,7 @@
     "cups": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Operating-Systems",
-            "Hardware"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -26500,10 +25349,7 @@
     "appwrite": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Cloud-Computing",
-            "Developper-Tools"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -26515,10 +25361,7 @@
     "baserow": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Databases",
-            "Office-Suites"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2022-08-16T17:22:56Z",
             "author": {
@@ -26530,9 +25373,7 @@
     "nzbhydra2": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Download-Managers"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -26548,10 +25389,7 @@
     "unifi-protect": {
         "base": "png",
         "aliases": [],
-        "categories": [
-            "Monitoring-Tools",
-            "Smart-Home"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2025-01-07T17:54:03Z",
             "author": {
@@ -26563,10 +25401,7 @@
     "synology-calendar": {
         "base": "png",
         "aliases": [],
-        "categories": [
-            "Office-Suites",
-            "File-Sharing-&-Sync"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2025-01-07T17:54:03Z",
             "author": {
@@ -26578,10 +25413,7 @@
     "geckoview": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Web-Browsers",
-            "Developper-Tools"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2022-08-16T17:22:56Z",
             "author": {
@@ -26593,9 +25425,7 @@
     "xbackbone": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "File-Sharing-&-Sync"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -26607,11 +25437,7 @@
     "node-red": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Home-Automation",
-            "Developper-Tools",
-            "Smart-Home"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -26623,9 +25449,7 @@
     "stump-alt": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Media-Servers"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-18T21:07:38Z",
             "author": {
@@ -26637,10 +25461,7 @@
     "caprover": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Containerization-&-Orchestration",
-            "Server-Panels"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -26652,10 +25473,7 @@
     "thingsboard": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Monitoring-Tools",
-            "Smart-Home"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -26678,13 +25496,8 @@
     },
     "jwt-io": {
         "base": "svg",
-        "aliases": [
-            "JWT"
-        ],
-        "categories": [
-            "Security",
-            "Developper-Tools"
-        ],
+        "aliases": [],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -26700,10 +25513,7 @@
     "sophos": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Networking-Tools",
-            "Security"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -26719,9 +25529,7 @@
     "asus": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Hardware"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -26733,9 +25541,7 @@
     "minecraft": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Gaming-Platforms"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -26747,10 +25553,7 @@
     "payload": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Developper-Tools",
-            "Office-Suites"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -26766,10 +25569,7 @@
     "algo": {
         "base": "png",
         "aliases": [],
-        "categories": [
-            "VPN",
-            "Security"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T19:32:46Z",
             "author": {
@@ -26781,9 +25581,7 @@
     "kitana": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Media-Servers"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -26795,9 +25593,7 @@
     "netflix": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Video-Streaming"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -26809,10 +25605,7 @@
     "phantombot": {
         "base": "png",
         "aliases": [],
-        "categories": [
-            "Social-Media",
-            "Video-Streaming"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2025-01-07T17:54:03Z",
             "author": {
@@ -26824,9 +25617,7 @@
     "aws": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Cloud-Computing"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -26842,10 +25633,7 @@
     "cilium": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Networking-Tools",
-            "Security"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -26861,10 +25649,7 @@
     "requestly": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Developper-Tools",
-            "Networking-Tools"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-06-01T17:47:49Z",
             "author": {
@@ -26876,10 +25661,7 @@
     "seq": {
         "base": "png",
         "aliases": [],
-        "categories": [
-            "Monitoring-Tools",
-            "Developper-Tools"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2025-01-07T17:54:03Z",
             "author": {
@@ -26891,9 +25673,7 @@
     "taiga": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Office-Suites"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -26905,10 +25685,7 @@
     "nixos": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Linux-Distributions",
-            "Operating-Systems"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -26920,9 +25697,7 @@
     "suwayomi": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Media-Servers"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2025-01-26T15:28:40Z",
             "author": {
@@ -26938,9 +25713,7 @@
     "fireshare": {
         "base": "png",
         "aliases": [],
-        "categories": [
-            "File-Sharing-&-Sync"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2025-01-07T17:54:03Z",
             "author": {
@@ -26952,10 +25725,7 @@
     "google-lens": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Search-Engines",
-            "AI-&-LLM-Platforms"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -26967,10 +25737,7 @@
     "hoppscotch": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Developper-Tools",
-            "Networking-Tools"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -26982,9 +25749,7 @@
     "asana": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Office-Suites"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2022-11-28T10:18:15Z",
             "author": {
@@ -26996,9 +25761,7 @@
     "wallos": {
         "base": "png",
         "aliases": [],
-        "categories": [
-            "Finance-&-Banking"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2025-01-07T17:54:03Z",
             "author": {
@@ -27010,9 +25773,7 @@
     "yarn-social": {
         "base": "png",
         "aliases": [],
-        "categories": [
-            "Social-Media"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2025-01-07T17:54:03Z",
             "author": {
@@ -27024,10 +25785,7 @@
     "docker": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Containerization-&-Orchestration",
-            "Developper-Tools"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2022-08-16T17:22:56Z",
             "author": {
@@ -27039,9 +25797,7 @@
     "asterisk": {
         "base": "png",
         "aliases": [],
-        "categories": [
-            "Networking-Tools"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T19:32:46Z",
             "author": {
@@ -27052,12 +25808,8 @@
     },
     "open-source-initiative": {
         "base": "svg",
-        "aliases": [
-            "OSI"
-        ],
-        "categories": [
-            "Developper-Tools"
-        ],
+        "aliases": [],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -27069,10 +25821,7 @@
     "part-db": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Databases",
-            "Hardware"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -27088,9 +25837,7 @@
     "reactive-resume": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Office-Suites"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -27106,10 +25853,7 @@
     "umbrel": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Operating-Systems",
-            "Server-Panels"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2022-09-09T10:04:03Z",
             "author": {
@@ -27121,10 +25865,7 @@
     "mobotix": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Monitoring-Tools",
-            "Smart-Home"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -27139,12 +25880,8 @@
     },
     "theodinproject": {
         "base": "svg",
-        "aliases": [
-            "Odin Project"
-        ],
-        "categories": [
-            "Developper-Tools"
-        ],
+        "aliases": [],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-14T17:09:35Z",
             "author": {
@@ -27156,9 +25893,7 @@
     "franz": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Social-Media"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -27170,9 +25905,7 @@
     "openemr": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Office-Suites"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -27188,9 +25921,7 @@
     "opera-neon": {
         "base": "png",
         "aliases": [],
-        "categories": [
-            "Web-Browsers"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2025-01-07T17:54:03Z",
             "author": {
@@ -27202,10 +25933,7 @@
     "rspamd": {
         "base": "png",
         "aliases": [],
-        "categories": [
-            "Email-Providers",
-            "Security"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2025-01-07T17:54:03Z",
             "author": {
@@ -27216,13 +25944,8 @@
     },
     "elastic-logstash": {
         "base": "svg",
-        "aliases": [
-            "Logstash"
-        ],
-        "categories": [
-            "Monitoring-Tools",
-            "Databases"
-        ],
+        "aliases": [],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -27234,10 +25957,7 @@
     "nextcloud-notes": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "File-Sharing-&-Sync",
-            "Note-taking-Apps"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-09-16T20:31:13Z",
             "author": {
@@ -27249,9 +25969,7 @@
     "openreads": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Media-Servers"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -27263,9 +25981,7 @@
     "apiscp": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Server-Panels"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-10-30T09:24:44Z",
             "author": {
@@ -27277,9 +25993,7 @@
     "libreoffice": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Office-Suites"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -27295,10 +26009,7 @@
     "kaizoku": {
         "base": "png",
         "aliases": [],
-        "categories": [
-            "Media-Servers",
-            "Download-Managers"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2025-01-07T17:54:03Z",
             "author": {
@@ -27310,9 +26021,7 @@
     "mitra": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Social-Media"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -27323,13 +26032,8 @@
     },
     "home-assistant": {
         "base": "svg",
-        "aliases": [
-            "HASS"
-        ],
-        "categories": [
-            "Home-Automation",
-            "Smart-Home"
-        ],
+        "aliases": [],
+        "categories": [],
         "update": {
             "timestamp": "2022-08-16T17:22:56Z",
             "author": {
@@ -27341,9 +26045,7 @@
     "electron": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Developper-Tools"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2022-08-16T17:22:56Z",
             "author": {
@@ -27354,12 +26056,8 @@
     },
     "ycombinator": {
         "base": "svg",
-        "aliases": [
-            "YC"
-        ],
-        "categories": [
-            "Finance-&-Banking"
-        ],
+        "aliases": [],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -27374,13 +26072,8 @@
     },
     "proton-vpn": {
         "base": "svg",
-        "aliases": [
-            "ProtonVPN"
-        ],
-        "categories": [
-            "VPN",
-            "Networking-Tools"
-        ],
+        "aliases": [],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -27392,10 +26085,7 @@
     "keycloak": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Security",
-            "Password-Managers"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -27407,10 +26097,7 @@
     "wordpress": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Web-Browsers",
-            "Server-Panels"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2022-08-16T17:22:56Z",
             "author": {
@@ -27422,10 +26109,7 @@
     "helm": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Containerization-&-Orchestration",
-            "Developper-Tools"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-03-21T01:26:00Z",
             "author": {
@@ -27437,10 +26121,7 @@
     "powerpanel": {
         "base": "png",
         "aliases": [],
-        "categories": [
-            "Monitoring-Tools",
-            "Hardware"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2025-01-07T17:54:03Z",
             "author": {
@@ -27452,9 +26133,7 @@
     "logitech-legacy": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Hardware"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -27465,12 +26144,8 @@
     },
     "electronic-arts": {
         "base": "svg",
-        "aliases": [
-            "EA"
-        ],
-        "categories": [
-            "Gaming-Platforms"
-        ],
+        "aliases": [],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -27482,9 +26157,7 @@
     "birdnet": {
         "base": "png",
         "aliases": [],
-        "categories": [
-            "AI-&-LLM-Platforms"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2025-01-07T17:54:03Z",
             "author": {
@@ -27496,10 +26169,7 @@
     "automad": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Web-Browsers",
-            "Server-Panels"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -27515,10 +26185,7 @@
     "schneider": {
         "base": "png",
         "aliases": [],
-        "categories": [
-            "Smart-Home",
-            "Hardware"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2025-01-07T17:54:03Z",
             "author": {
@@ -27530,9 +26197,7 @@
     "wikidocs": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Note-taking-Apps"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -27544,10 +26209,7 @@
     "asustor": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "File-Sharing-&-Sync",
-            "Hardware"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-06-23T17:22:19Z",
             "author": {
@@ -27575,9 +26237,7 @@
     "windows-95": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Operating-Systems"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -27593,10 +26253,7 @@
     "pgbackweb": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Databases",
-            "File-Sharing-&-Sync"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2025-01-05T02:18:29Z",
             "author": {
@@ -27612,9 +26269,7 @@
     "chiefonboarding": {
         "base": "png",
         "aliases": [],
-        "categories": [
-            "Office-Suites"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2025-01-07T17:54:03Z",
             "author": {
@@ -27625,13 +26280,8 @@
     },
     "gentoo-linux": {
         "base": "svg",
-        "aliases": [
-            "Gentoo"
-        ],
-        "categories": [
-            "Linux-Distributions",
-            "Operating-Systems"
-        ],
+        "aliases": [],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -27643,9 +26293,7 @@
     "opera-beta": {
         "base": "png",
         "aliases": [],
-        "categories": [
-            "Web-Browsers"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2025-01-07T17:54:03Z",
             "author": {
@@ -27657,10 +26305,7 @@
     "google-sites": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Web-Browsers",
-            "Office-Suites"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -27672,9 +26317,7 @@
     "pingdom": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Monitoring-Tools"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -27690,10 +26333,7 @@
     "netapp": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "File-Sharing-&-Sync",
-            "Hardware"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-13T18:39:11Z",
             "author": {
@@ -27709,9 +26349,7 @@
     "taskcafe": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Office-Suites"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2022-08-16T17:22:56Z",
             "author": {
@@ -27723,10 +26361,7 @@
     "pwndrop": {
         "base": "png",
         "aliases": [],
-        "categories": [
-            "File-Sharing-&-Sync",
-            "Security"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2025-01-07T17:54:03Z",
             "author": {
@@ -27742,10 +26377,7 @@
     "wbo": {
         "base": "png",
         "aliases": [],
-        "categories": [
-            "Office-Suites",
-            "Graphics-Editors"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2025-01-07T17:54:03Z",
             "author": {
@@ -27757,9 +26389,7 @@
     "adventure-log": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Note-taking-Apps"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -27770,12 +26400,8 @@
     },
     "microsoft-to-do": {
         "base": "svg",
-        "aliases": [
-            "To Do"
-        ],
-        "categories": [
-            "Office-Suites"
-        ],
+        "aliases": [],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -27787,10 +26413,7 @@
     "invoke-ai": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "AI-&-LLM-Platforms",
-            "Graphics-Editors"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-03-21T00:22:47Z",
             "author": {
@@ -27802,9 +26425,7 @@
     "whatsapp": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Social-Media"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -27817,8 +26438,7 @@
         "base": "png",
         "aliases": [],
         "categories": [
-            "Media",
-            "Media-Servers"
+            "Media"
         ],
         "update": {
             "timestamp": "2025-04-09T11:28:49.884507",
@@ -27831,9 +26451,7 @@
     "limesurvey": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Office-Suites"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -27845,10 +26463,7 @@
     "willow": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Smart-Home",
-            "Home-Automation"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -27860,9 +26475,7 @@
     "questdb": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Databases"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-14T22:04:55Z",
             "author": {
@@ -27874,10 +26487,7 @@
     "ctfreak": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Gaming-Platforms",
-            "Security"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -27889,9 +26499,7 @@
     "omnidb": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Databases"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -27903,9 +26511,7 @@
     "remmina": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Networking-Tools"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-18T21:08:18Z",
             "author": {
@@ -27917,10 +26523,7 @@
     "btcpay-server": {
         "base": "png",
         "aliases": [],
-        "categories": [
-            "Finance-&-Banking",
-            "Server-Panels"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2025-01-07T17:54:03Z",
             "author": {
@@ -27932,10 +26535,7 @@
     "vaultwarden": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Password-Managers",
-            "Security"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -27951,9 +26551,7 @@
     "dokuwiki": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Note-taking-Apps"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -27964,13 +26562,8 @@
     },
     "atlassian-bitbucket": {
         "base": "svg",
-        "aliases": [
-            "Bitbucket"
-        ],
-        "categories": [
-            "Version-Control-Systems",
-            "Developper-Tools"
-        ],
+        "aliases": [],
+        "categories": [],
         "update": {
             "timestamp": "2024-03-21T21:53:00Z",
             "author": {
@@ -27982,10 +26575,7 @@
     "synology-chat": {
         "base": "png",
         "aliases": [],
-        "categories": [
-            "Social-Media",
-            "File-Sharing-&-Sync"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2025-01-07T17:54:03Z",
             "author": {
@@ -27997,10 +26587,7 @@
     "huginn": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Developper-Tools",
-            "Home-Automation"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -28012,10 +26599,7 @@
     "apache": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Web-Browsers",
-            "Server-Panels"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -28027,9 +26611,7 @@
     "openoffice": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Office-Suites"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -28041,9 +26623,7 @@
     "freebox-delta": {
         "base": "png",
         "aliases": [],
-        "categories": [
-            "Networking-Tools"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2025-01-07T17:54:03Z",
             "author": {
@@ -28055,10 +26635,7 @@
     "phorge": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Version-Control-Systems",
-            "Developper-Tools"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -28074,10 +26651,7 @@
     "ward": {
         "base": "png",
         "aliases": [],
-        "categories": [
-            "Monitoring-Tools",
-            "Server-Panels"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2025-01-07T17:54:03Z",
             "author": {
@@ -28089,9 +26663,7 @@
     "docker-gc": {
         "base": "png",
         "aliases": [],
-        "categories": [
-            "Containerization-&-Orchestration"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2025-01-07T17:54:03Z",
             "author": {
@@ -28115,10 +26687,7 @@
     "shiori": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Note-taking-Apps",
-            "Web-Browsers"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
             "author": {
@@ -28131,8 +26700,7 @@
         "base": "svg",
         "aliases": [],
         "categories": [
-            "Security",
-            "Networking-Tools"
+            "Security"
         ],
         "update": {
             "timestamp": "2025-04-08T17:05:04.010213",
@@ -28145,10 +26713,7 @@
     "rss-translator": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Web-Browsers",
-            "AI-&-LLM-Platforms"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -28160,10 +26725,7 @@
     "beets": {
         "base": "png",
         "aliases": [],
-        "categories": [
-            "Music-Streaming",
-            "Media-Servers"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2025-01-07T17:54:03Z",
             "author": {
@@ -28174,13 +26736,8 @@
     },
     "atlassian-confluence": {
         "base": "svg",
-        "aliases": [
-            "Confluence"
-        ],
-        "categories": [
-            "Office-Suites",
-            "Note-taking-Apps"
-        ],
+        "aliases": [],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T19:32:46Z",
             "author": {
@@ -28192,10 +26749,7 @@
     "defguard": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "VPN",
-            "Security"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
             "author": {
@@ -28207,10 +26761,7 @@
     "fenrus": {
         "base": "png",
         "aliases": [],
-        "categories": [
-            "Web-Browsers",
-            "Server-Panels"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2025-01-07T17:54:03Z",
             "author": {
@@ -28226,10 +26777,7 @@
     "cribl": {
         "base": "png",
         "aliases": [],
-        "categories": [
-            "Monitoring-Tools",
-            "Developper-Tools"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2025-01-07T17:54:03Z",
             "author": {
@@ -28245,10 +26793,7 @@
     "deployarr": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Media-Servers",
-            "Download-Managers"
-        ],
+        "categories": [],
         "update": {
             "timestamp": "2024-10-13T18:23:49Z",
             "author": {
