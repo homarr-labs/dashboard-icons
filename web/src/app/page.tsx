@@ -1,42 +1,37 @@
 import { HeroSection } from "@/components/hero"
 import { RecentlyAddedIcons } from "@/components/recently-added-icons"
-import { BASE_URL, REPO_NAME, getDescription, websiteTitle } from "@/constants"
+import { BASE_URL, DEFAULT_KEYWORDS, DEFAULT_OG_IMAGE, GITHUB_URL, ORGANIZATION_NAME, ORGANIZATION_SCHEMA, SITE_NAME, SITE_TAGLINE, WEB_URL, REPO_NAME, getHomeDescription, websiteFullTitle, websiteTitle } from "@/constants"
 import { getRecentlyAddedIcons, getTotalIcons } from "@/lib/api"
 import type { Metadata } from "next"
+import Script from "next/script"
 
 export async function generateMetadata(): Promise<Metadata> {
 	const { totalIcons } = await getTotalIcons()
+	const description = getHomeDescription(totalIcons)
 
 	return {
 		title: websiteTitle,
-		description: getDescription(totalIcons),
-		keywords: ["dashboard icons", "service icons", "application icons", "tool icons", "web dashboard", "app directory"],
+		description,
+		keywords: DEFAULT_KEYWORDS,
 		robots: {
 			index: true,
 			follow: true,
 		},
 		openGraph: {
-			title: websiteTitle,
-			description: getDescription(totalIcons),
+			title: websiteFullTitle,
+			description,
 			type: "website",
-			url: BASE_URL,
-			images: [
-				{
-					url: "/og-image.png",
-					width: 1200,
-					height: 630,
-					alt: "Dashboard Icons",
-				},
-			],
+			url: WEB_URL,
+			images: [DEFAULT_OG_IMAGE],
 		},
 		twitter: {
-			title: websiteTitle,
-			description: getDescription(totalIcons),
+			title: websiteFullTitle,
+			description,
 			card: "summary_large_image",
-			images: ["/og-image.png"],
+			images: [DEFAULT_OG_IMAGE.url],
 		},
 		alternates: {
-			canonical: BASE_URL,
+			canonical: WEB_URL,
 		},
 	}
 }
@@ -53,10 +48,38 @@ export default async function Home() {
 	const recentIcons = await getRecentlyAddedIcons(10)
 	const stars = await getGitHubStars()
 
+	// Collection schema for the homepage
+	const collectionSchema = {
+		"@context": "https://schema.org",
+		"@type": "CollectionPage",
+		"name": `${SITE_NAME} Collection - ${SITE_TAGLINE}`,
+		"description": getHomeDescription(totalIcons),
+		"url": WEB_URL,
+		"numberOfItems": totalIcons,
+		"mainEntity": {
+			"@type": "CreativeWork",
+			"name": SITE_NAME,
+			"description": getHomeDescription(totalIcons),
+			"creator": {
+				"@type": "Organization",
+				"name": ORGANIZATION_NAME,
+				"url": GITHUB_URL
+			}
+		}
+	}
+
 	return (
-		<div className="flex flex-col min-h-screen">
-			<HeroSection totalIcons={totalIcons} stars={stars} />
-			<RecentlyAddedIcons icons={recentIcons} />
-		</div>
+		<>
+			<Script id="collection-schema" type="application/ld+json">
+				{JSON.stringify(collectionSchema)}
+			</Script>
+			<Script id="org-schema" type="application/ld+json">
+				{JSON.stringify(ORGANIZATION_SCHEMA)}
+			</Script>
+			<div className="flex flex-col min-h-screen">
+				<HeroSection totalIcons={totalIcons} stars={stars} />
+				<RecentlyAddedIcons icons={recentIcons} />
+			</div>
+		</>
 	)
 }

@@ -7,8 +7,9 @@ import type { Metadata, Viewport } from "next"
 import { Inter } from "next/font/google"
 import { Toaster } from "sonner"
 import "./globals.css"
-import { getDescription, websiteTitle } from "@/constants"
+import { DEFAULT_KEYWORDS, DEFAULT_OG_IMAGE, GITHUB_URL, ORGANIZATION_NAME, ORGANIZATION_SCHEMA, SITE_NAME, SITE_TAGLINE, WEB_URL, getDescription, getWebsiteSchema, websiteFullTitle, websiteTitle } from "@/constants"
 import { ThemeProvider } from "./theme-provider"
+import Script from "next/script"
 
 const inter = Inter({
 	variable: "--font-inter",
@@ -27,12 +28,13 @@ export const viewport: Viewport = {
 
 export async function generateMetadata(): Promise<Metadata> {
 	const { totalIcons } = await getTotalIcons()
+	const description = getDescription(totalIcons)
 
 	return {
-		metadataBase: new URL("https://dashboardicons.com"),
+		metadataBase: new URL(WEB_URL),
 		title: websiteTitle,
-		description: getDescription(totalIcons),
-		keywords: ["dashboard icons", "service icons", "application icons", "tool icons", "web dashboard", "app directory"],
+		description,
+		keywords: DEFAULT_KEYWORDS,
 		robots: {
 			index: true,
 			follow: true,
@@ -42,33 +44,23 @@ export async function generateMetadata(): Promise<Metadata> {
 			googleBot: "index, follow",
 		},
 		openGraph: {
-			siteName: "Dashboard Icons",
+			siteName: SITE_NAME,
 			type: "website",
 			locale: "en_US",
-			title: websiteTitle,
-			description: getDescription(totalIcons),
-			url: "https://dashboardicons.com",
-			images: [
-				{
-					url: "/og-image.png",
-					width: 1200,
-					height: 630,
-					alt: "Dashboard Icons",
-					type: "image/png",
-				},
-			],
+			title: websiteFullTitle,
+			description,
+			url: WEB_URL,
+			images: [DEFAULT_OG_IMAGE],
 		},
 		twitter: {
 			card: "summary_large_image",
-			site: "@homarr_app",
-			creator: "@homarr_app",
-			title: websiteTitle,
-			description: getDescription(totalIcons),
-			images: ["/og-image.png"],
+			title: websiteFullTitle,
+			description,
+			images: [DEFAULT_OG_IMAGE.url],
 		},
-		applicationName: "Dashboard Icons",
+		applicationName: SITE_NAME,
 		appleWebApp: {
-			title: "Dashboard Icons",
+			title: SITE_NAME,
 			statusBarStyle: "default",
 			capable: true,
 		},
@@ -88,12 +80,32 @@ export async function generateMetadata(): Promise<Metadata> {
 			],
 		},
 		manifest: "/site.webmanifest",
+		authors: [{ name: ORGANIZATION_NAME, url: GITHUB_URL }],
+		creator: ORGANIZATION_NAME,
+		publisher: ORGANIZATION_NAME,
+		archives: [`${WEB_URL}/icons`],
+		category: "Icons",
+		classification: "Dashboard Design Resources",
+		other: {
+			"revisit-after": "7 days",
+		},
 	}
 }
 
-export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+	const { totalIcons } = await getTotalIcons()
+	const websiteSchema = getWebsiteSchema(totalIcons)
+
 	return (
 		<html lang="en" suppressHydrationWarning>
+			<head>
+				<Script id="schema-org" type="application/ld+json">
+					{JSON.stringify(websiteSchema)}
+				</Script>
+				<Script id="org-schema" type="application/ld+json">
+					{JSON.stringify(ORGANIZATION_SCHEMA)}
+				</Script>
+			</head>
 			<body className={`${inter.variable} antialiased bg-background flex flex-col min-h-screen`}>
 				<PostHogProvider>
 					<ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
