@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg" version="1.1" id="svg1" viewBox="4.5 0 58.74 67.73">
+  <defs id="defs1">
+    <linearGradient id="linearGradient4">
+      <stop style="stop-color:#000000;stop-opacity:1;" offset="0" id="stop4"/>
+      <stop style="stop-color:#000000;stop-opacity:0;" offset="1" id="stop5"/>
+    </linearGradient>
+  </defs>
+  <g id="layer2">
+    <rect style="fill:#0082c7;fill-opacity:1;stroke-width:78.4285" id="rect6" width="7.2357788" height="16.960531" x="37.661629" y="50.772774" rx="2.9794366"/>
+    <rect style="fill:#0082c7;fill-opacity:1;stroke-width:78.4285" id="rect6-6" width="7.2357788" height="16.960531" x="22.835808" y="50.772804" rx="2.9794366"/>
+    <ellipse style="fill:#0eabff;fill-opacity:1;stroke-width:63.9157" id="path6" cx="33.866619" cy="29.256916" rx="29.36875" ry="29.256916"/>
+    <ellipse style="fill:#0081c7;fill-opacity:1;stroke-width:96.3698" id="path7-9" cx="33.866619" cy="29.256916" rx="27.95863" ry="19.221935"/>
+    <ellipse style="fill:#ffffff;fill-opacity:1;stroke-width:82.2933" id="path7" cx="33.866619" cy="29.256916" rx="26.034615" ry="15.05247"/>
+    <ellipse style="fill:#004970;fill-opacity:1;stroke-width:124.026" id="path8" cx="33.866619" cy="29.256916" rx="4.8238525" ry="4.8054838"/>
+  </g>
+</svg>
