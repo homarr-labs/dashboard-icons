@@ -103,9 +103,14 @@ export function CommandMenu({ icons, open: externalOpen, onOpenChange: externalO
 
 	return (
 		<CommandDialog open={isOpen} onOpenChange={setIsOpen}>
-			<CommandInput placeholder="Search for icons by name, category, or purpose..." value={query} onValueChange={setQuery} />
-			<CommandList>
-				<CommandEmpty>No matching icons found. Try a different search term or browse all icons.</CommandEmpty>
+			<CommandInput placeholder="Search icons by name, category, or alias..." value={query} onValueChange={setQuery} />
+			<CommandList className="max-h-[350px]">
+				<CommandEmpty>
+					<div className="py-6 text-center">
+						<p className="text-sm text-muted-foreground">No matching icons found.</p>
+						<p className="text-xs text-muted-foreground mt-1">Try a different search term or browse all icons.</p>
+					</div>
+				</CommandEmpty>
 				<CommandGroup heading="Icons">
 					{filteredIcons.map(({ name, data }) => {
 						// Find matched alias for display if available
@@ -115,19 +120,25 @@ export function CommandMenu({ icons, open: externalOpen, onOpenChange: externalO
 								: null
 
 						return (
-							<CommandItem key={name} value={name} onSelect={() => handleSelect(name)} className="flex items-center gap-2 cursor-pointer">
-								<div className="flex-shrink-0 h-5 w-5 relative">
-									<div className="h-5 w-5 bg-rose-100 dark:bg-rose-900/30 rounded-md flex items-center justify-center">
-										<span className="text-[10px] font-medium text-rose-800 dark:text-rose-300">{name.substring(0, 2).toUpperCase()}</span>
+							<CommandItem key={name} value={name} onSelect={() => handleSelect(name)} className="flex items-center gap-3 cursor-pointer">
+								<div className="flex-shrink-0 h-8 w-8 relative">
+									<div className="h-8 w-8 bg-accent/40 dark:bg-accent/25 rounded-lg border border-border/60 flex items-center justify-center shadow-sm backdrop-blur-sm">
+										<span className="text-[10px] font-medium">{name.substring(0, 2).toUpperCase()}</span>
 									</div>
 								</div>
-								<span className="flex-grow capitalize">{name.replace(/-/g, " ")}</span>
-								{matchedAlias && <span className="text-xs text-primary-500 truncate max-w-[100px]">alias: {matchedAlias}</span>}
-								{!matchedAlias && data.categories && data.categories.length > 0 && (
-									<span className="text-xs text-muted-foreground truncate max-w-[100px]">
-										{data.categories[0].replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase())}
-									</span>
-								)}
+								<div className="flex flex-col gap-0.5">
+									<span className="capitalize text-sm font-medium">{name.replace(/-/g, " ")}</span>
+									{matchedAlias && (
+										<span className="text-xs text-muted-foreground truncate max-w-[180px]">
+											Alias: {matchedAlias}
+										</span>
+									)}
+									{!matchedAlias && data.categories && data.categories.length > 0 && (
+										<span className="text-xs text-muted-foreground truncate max-w-[180px]">
+											{data.categories[0].replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase())}
+										</span>
+									)}
+								</div>
 							</CommandItem>
 						)
 					})}

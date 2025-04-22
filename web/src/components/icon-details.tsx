@@ -207,6 +207,7 @@ export function IconDetails({ icon, iconData, authorData }: IconDetailsProps) {
 										size="icon"
 										className="h-8 w-8 rounded-lg cursor-pointer"
 										onClick={(e) => handleDownload(e, imageUrl, `${iconName}.${format}`)}
+										aria-label={`Download ${iconName} in ${format} format${theme ? ` (${theme} theme)` : ""}`}
 									>
 										<Download className="w-4 h-4" />
 									</Button>
@@ -223,6 +224,7 @@ export function IconDetails({ icon, iconData, authorData }: IconDetailsProps) {
 										size="icon"
 										className="h-8 w-8 rounded-lg cursor-pointer"
 										onClick={(e) => handleCopy(imageUrl, `btn-${variantKey}`, e)}
+										aria-label={`Copy URL for ${iconName} in ${format} format${theme ? ` (${theme} theme)` : ""}`}
 									>
 										{copiedVariants[`btn-${variantKey}`] ? <Check className="w-4 h-4 text-green-500" /> : <Copy className="w-4 h-4" />}
 									</Button>
@@ -234,8 +236,18 @@ export function IconDetails({ icon, iconData, authorData }: IconDetailsProps) {
 
 							<Tooltip>
 								<TooltipTrigger asChild>
-									<Button variant="outline" size="icon" className="h-8 w-8 rounded-lg" asChild>
-										<Link href={githubUrl} target="_blank" rel="noopener noreferrer">
+									<Button
+										variant="outline"
+										size="icon"
+										className="h-8 w-8 rounded-lg"
+										asChild
+									>
+										<Link
+											href={githubUrl}
+											target="_blank"
+											rel="noopener noreferrer"
+											aria-label={`View ${iconName} ${format} file on GitHub`}
+										>
 											<Github className="w-4 h-4" />
 										</Link>
 									</Button>
@@ -252,7 +264,7 @@ export function IconDetails({ icon, iconData, authorData }: IconDetailsProps) {
 	}
 
 	return (
-		<div className="container mx-auto pt-12 pb-14">
+		<div className="container mx-auto pt-12 pb-14 px-4 sm:px-6 lg:px-8">
 			<div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
 				{/* Left Column: Icon Info and Author */}
 				<div className="lg:col-span-1">

@@ -205,7 +205,7 @@ export function HeroSection({ totalIcons, stars }: { totalIcons: number; stars: 
 				/>
 			</div>
 
-			<div className="relative z-10 container mx-auto px-4 md:px-6 mt-4 py-20">
+			<div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 mt-4 py-20">
 				<div className="max-w-4xl mx-auto text-center flex flex-col gap-4 ">
 					<h1 className="relative text-3xl sm:text-5xl md:text-7xl font-bold mb-4 md:mb-8 tracking-tight motion-preset-slide-up motion-duration-500 ">
 						Your definitive source for

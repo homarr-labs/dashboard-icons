@@ -277,14 +277,14 @@ export function IconSearch({ icons }: IconSearchProps) {
 					{/* Filter dropdown */}
 					<DropdownMenu>
 						<DropdownMenuTrigger asChild>
-							<Button variant="outline" size="sm" className="flex-1 sm:flex-none cursor-pointer bg-background border-border shadow-sm ">
+							<Button
+								variant="outline"
+								size="sm"
+								className="flex-1 sm:flex-none cursor-pointer bg-background border-border shadow-sm"
+								aria-label="Filter icons"
+							>
 								<Filter className="h-4 w-4 mr-2" />
-								<span>Categories</span>
-								{selectedCategories.length > 0 && (
-									<Badge variant="secondary" className="ml-2 px-1.5">
-										{selectedCategories.length}
-									</Badge>
-								)}
+								<span>{selectedCategories.length > 0 ? `Filters (${selectedCategories.length})` : "Filter"}</span>
 							</Button>
 						</DropdownMenuTrigger>
 						<DropdownMenuContent align="start" className="w-64 sm:w-56">
@@ -353,7 +353,13 @@ export function IconSearch({ icons }: IconSearchProps) {
 
 					{/* Clear all button */}
 					{(searchQuery || selectedCategories.length > 0 || sortOption !== "relevance") && (
-						<Button variant="outline" size="sm" onClick={clearFilters} className="flex-1 sm:flex-none cursor-pointer bg-background">
+						<Button
+							variant="outline"
+							size="sm"
+							onClick={clearFilters}
+							className="flex-1 sm:flex-none cursor-pointer bg-background"
+							aria-label="Reset all filters"
+						>
 							<X className="h-4 w-4 mr-2" />
 							<span>Reset</span>
 						</Button>
@@ -406,15 +412,15 @@ export function IconSearch({ icons }: IconSearchProps) {
 					<div className="flex flex-col gap-4 items-center w-full">
 						<IconSubmissionContent />
 						<div className="mt-4 flex items-center gap-2 justify-center">
-							<span className="text-sm text-muted-foreground">Need help?</span>
+							<span className="text-sm text-muted-foreground">Can't submit it yourself?</span>
 							<Button
 								className="cursor-pointer"
 								variant="outline"
 								size="sm"
 								onClick={() => {
 									setIsLazyRequestSubmitted(true)
-									toast("Request submitted", {
-										description: `We've added "${searchQuery || "this icon"}" to our request list.`,
+									toast("Request received!", {
+										description: `We've noted your request for "${searchQuery || "this icon"}". Thanks for your suggestion.`,
 									})
 									posthog.capture("lazy icon request", {
 										query: searchQuery,
@@ -423,7 +429,7 @@ export function IconSearch({ icons }: IconSearchProps) {
 								}}
 								disabled={isLazyRequestSubmitted}
 							>
-								Submit request
+								Request this icon
 							</Button>
 						</div>
 					</div>
@@ -432,7 +438,8 @@ export function IconSearch({ icons }: IconSearchProps) {
 				<>
 					<div className="flex justify-between items-center pb-2">
 						<p className="text-sm text-muted-foreground">
-							{filteredIcons.length} {filteredIcons.length === 1 ? "icon" : "icons"} found
+							Found {filteredIcons.length} icon
+							{filteredIcons.length !== 1 ? "s" : ""}.
 						</p>
 						<div className="flex items-center gap-1 text-xs text-muted-foreground">
 							{getSortIcon(sortOption)}
