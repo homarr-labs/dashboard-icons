@@ -7,7 +7,7 @@ export function Carbon() {
 	}
 
 	useEffect(() => {
-		const serve = "CW7IP27L"
+		const serve = "CW7IKKQM"
 		const placement = "dashboardiconscom"
 		ref.current.innerHTML = ""
 		const s = document.createElement("script")
