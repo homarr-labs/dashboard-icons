@@ -1,0 +1,16 @@
+{
+  "base": "svg",
+  "aliases": [
+    "ems-esp"
+  ],
+  "categories": [
+    "Cloud"
+  ],
+  "update": {
+    "timestamp": "2025-04-22T16:56:16.429675",
+    "author": {
+      "id": 33312839,
+      "login": "vladbejenaru"
+    }
+  }
+}
