@@ -19519,6 +19519,20 @@
             }
         }
     },
+    "watchlistarr": {
+        "base": "png",
+        "aliases": [],
+        "categories": [
+            "Media"
+        ],
+        "update": {
+            "timestamp": "2025-04-22T18:31:18.100212",
+            "author": {
+                "id": 2319445,
+                "login": "samcro1967"
+            }
+        }
+    },
     "xbrowsersync": {
         "base": "svg",
         "aliases": [],
