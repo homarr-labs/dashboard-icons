@@ -10,6 +10,7 @@ body:
         Once you've submitted the issue, sombody from the team will review it, before adding a label which automatically creates a pull request with the other filetypes.
         If you submit a PNG icon, please note, that the SVG can not be generated from it.
   - type: input
+    id: name
     attributes:
       label: Icon name
       description: The name has to be unique and should be kebab-case.
