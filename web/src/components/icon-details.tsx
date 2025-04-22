@@ -318,7 +318,7 @@ export function IconDetails({ icon, iconData, authorData }: IconDetailsProps) {
 
 								{iconData.categories && iconData.categories.length > 0 && (
 									<div>
-										<h3 className="text-sm font-semibold text-muted-foreground">Categories</h3>
+										<h3 className="text-sm font-semibold text-muted-foreground mb-2">Categories</h3>
 										<div className="flex flex-wrap gap-2">
 											{iconData.categories.map((category) => (
 												<Link key={category} href={`/icons?category=${encodeURIComponent(category)}`} className="cursor-pointer">
@@ -339,7 +339,7 @@ export function IconDetails({ icon, iconData, authorData }: IconDetailsProps) {
 
 								{iconData.aliases && iconData.aliases.length > 0 && (
 									<div>
-										<h3 className="text-sm font-semibold text-muted-foreground">Aliases</h3>
+										<h3 className="text-sm font-semibold text-muted-foreground mb-2">Aliases</h3>
 										<div className="flex flex-wrap gap-2">
 											{iconData.aliases.map((alias) => (
 												<Badge
@@ -356,7 +356,7 @@ export function IconDetails({ icon, iconData, authorData }: IconDetailsProps) {
 								)}
 
 								<div>
-									<h3 className="text-sm font-semibold text-muted-foreground">About this icon</h3>
+									<h3 className="text-sm font-semibold text-muted-foreground mb-2">About this icon</h3>
 									<div className="text-xs text-muted-foreground space-y-2">
 										<p>
 											Available in {availableFormats.length > 1
@@ -422,7 +422,7 @@ export function IconDetails({ icon, iconData, authorData }: IconDetailsProps) {
 						<CardContent>
 							<div className="space-y-6">
 								<div className="">
-									<h3 className="text-sm font-semibold text-muted-foreground">Base format</h3>
+									<h3 className="text-sm font-semibold text-muted-foreground mb-2">Base format</h3>
 									<div className="flex items-center gap-2">
 										<FileType className="w-4 h-4 text-blue-500" />
 										<div className="px-3 py-1.5  border border-border rounded-lg text-sm font-medium">{iconData.base.toUpperCase()}</div>
@@ -430,7 +430,7 @@ export function IconDetails({ icon, iconData, authorData }: IconDetailsProps) {
 								</div>
 
 								<div className="">
-									<h3 className="text-sm font-semibold text-muted-foreground">Available formats</h3>
+									<h3 className="text-sm font-semibold text-muted-foreground mb-2">Available formats</h3>
 									<div className="flex flex-wrap gap-2">
 										{availableFormats.map((format) => (
 											<div key={format} className="px-3 py-1.5  border border-border rounded-lg text-xs font-medium">
@@ -442,7 +442,7 @@ export function IconDetails({ icon, iconData, authorData }: IconDetailsProps) {
 
 								{iconData.colors && (
 									<div className="">
-										<h3 className="text-sm font-semibold text-muted-foreground">Color variants</h3>
+										<h3 className="text-sm font-semibold text-muted-foreground mb-2">Color variants</h3>
 										<div className="space-y-2">
 											{Object.entries(iconData.colors).map(([theme, variant]) => (
 												<div key={theme} className="flex items-center gap-2">
@@ -456,7 +456,7 @@ export function IconDetails({ icon, iconData, authorData }: IconDetailsProps) {
 								)}
 
 								<div className="">
-									<h3 className="text-sm font-semibold text-muted-foreground">Source</h3>
+									<h3 className="text-sm font-semibold text-muted-foreground mb-2">Source</h3>
 									<Button variant="outline" className="w-full" asChild>
 										<Link href={`${REPO_PATH}/blob/main/meta/${icon}.json`} target="_blank" rel="noopener noreferrer">
 											<Github className="w-4 h-4 mr-2" />
