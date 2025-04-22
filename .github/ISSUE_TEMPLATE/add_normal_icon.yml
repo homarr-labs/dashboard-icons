@@ -15,6 +15,7 @@ body:
       description: The name has to be unique and should be kebab-case.
       placeholder: e.g. "icon-name"
   - type: textarea
+    id: icon
     attributes:
       label: Paste icon
       description: |
