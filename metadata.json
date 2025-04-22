@@ -26572,6 +26572,18 @@
             }
         }
     },
+    "gone-man-switch": {
+        "base": "png",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2025-04-22T17:37:06.429465",
+            "author": {
+                "id": 2319445,
+                "login": "samcro1967"
+            }
+        }
+    },
     "gentoo-linux": {
         "base": "svg",
         "aliases": [],
