@@ -58,11 +58,7 @@ export function Header() {
 				<div className="flex items-center gap-2 md:gap-4">
 					{/* Desktop search button */}
 					<div className="hidden md:block">
-						<Button
-							variant="outline"
-							className="gap-2 cursor-pointer   transition-all duration-300"
-							onClick={openCommandMenu}
-						>
+						<Button variant="outline" className="gap-2 cursor-pointer   transition-all duration-300" onClick={openCommandMenu}>
 							<Search className="h-4 w-4 transition-all duration-300" />
 							<span>Find icons</span>
 							<kbd className="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border border-border/80 bg-muted/80 px-1.5 font-mono text-[10px] font-medium opacity-100">

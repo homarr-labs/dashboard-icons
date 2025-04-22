@@ -216,7 +216,8 @@ export function HeroSection({ totalIcons, stars }: { totalIcons: number; stars: 
 					</h1>
 
 					<p className="text-sm sm:text-base md:text-xl text-muted-foreground leading-relaxed mb-8 font-light tracking-wide max-w-2xl mx-auto px-4 motion-preset-slide-down motion-duration-500">
-						A collection of <NumberTicker value={totalIcons} startValue={1000} className="font-bold tracking-tighter text-muted-foreground" /> curated icons
+						A collection of{" "}
+						<NumberTicker value={totalIcons} startValue={1000} className="font-bold tracking-tighter text-muted-foreground" /> curated icons
 						for services, applications and tools, designed specifically for dashboards and app directories.
 					</p>
 					<div className="flex flex-col gap-4 max-w-3xl mx-auto">

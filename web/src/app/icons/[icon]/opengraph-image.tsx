@@ -1,7 +1,7 @@
-import { getAllIcons } from "@/lib/api"
-import { ImageResponse } from "next/og"
 import { readFile } from "node:fs/promises"
 import { join } from "node:path"
+import { getAllIcons } from "@/lib/api"
+import { ImageResponse } from "next/og"
 
 export const dynamic = "force-static"
 
