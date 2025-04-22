@@ -11,32 +11,32 @@ import { useState } from "react"
 export const ISSUE_TEMPLATES = [
 	{
 		id: "add_monochrome_icon",
-		name: "Add light & dark icon",
-		description: "Submit a new icon with both light and dark versions for optimal theme compatibility.",
+		name: "Add light/dark icon",
+		description: "Submit a new icon with light and dark versions.",
 		url: `${REPO_PATH}/issues/new?template=add_monochrome_icon.yml`,
 	},
 	{
 		id: "add_normal_icon",
-		name: "Add normal icon",
-		description: "Submit a new icon that works well across both light and dark themes.",
+		name: "Add standard icon",
+		description: "Submit a new icon for both themes.",
 		url: `${REPO_PATH}/issues/new?template=add_normal_icon.yml`,
 	},
 	{
 		id: "update_monochrome_icon",
-		name: "Update light & dark icon",
-		description: "Improve an existing icon by updating both light and dark versions.",
+		name: "Update light/dark icon",
+		description: "Improve an existing light/dark icon.",
 		url: `${REPO_PATH}/issues/new?template=update_monochrome_icon.yml`,
 	},
 	{
 		id: "update_normal_icon",
-		name: "Update normal icon",
-		description: "Improve an existing icon that works across both light and dark themes.",
+		name: "Update standard icon",
+		description: "Improve an existing standard icon.",
 		url: `${REPO_PATH}/issues/new?template=update_normal_icon.yml`,
 	},
 	{
 		id: "blank_issue",
-		name: "Something else",
-		description: "Create a custom issue for other suggestions, bug reports, or improvements.",
+		name: "Other request",
+		description: "Submit another type of request.",
 		url: `${REPO_PATH}/issues/new?template=BLANK_ISSUE`,
 	},
 ]
@@ -73,13 +73,13 @@ export function IconSubmissionForm() {
 		<Dialog open={open} onOpenChange={setOpen}>
 			<DialogTrigger asChild>
 				<Button variant="outline" className="hidden md:inline-flex cursor-pointer transition-all duration-300">
-					<PlusCircle className="h-4 w-4 transition-all duration-300" /> Contribute new icon
+					<PlusCircle className="h-4 w-4 transition-all duration-300" /> Submit icon
 				</Button>
 			</DialogTrigger>
 			<DialogContent className="md:max-w-4xl backdrop-blur-2xl bg-background">
 				<DialogHeader>
-					<DialogTitle>Contribute a new icon</DialogTitle>
-					<DialogDescription>Choose a template below to suggest a new icon or improve an existing one.</DialogDescription>
+					<DialogTitle>Submit an icon</DialogTitle>
+					<DialogDescription>Select an option below to submit or update an icon.</DialogDescription>
 				</DialogHeader>
 				<div className="mt-4">
 					<IconSubmissionContent onClose={() => setOpen(false)} />

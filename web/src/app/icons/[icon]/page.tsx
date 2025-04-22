@@ -42,7 +42,7 @@ export async function generateMetadata({ params, searchParams }: Props, parent: 
 
 	return {
 		title: `${formattedIconName} Icon | Dashboard Icons`,
-		description: `Download the ${formattedIconName} icon in SVG, PNG, and WEBP formats for FREE. Part of a collection of ${totalIcons} curated icons for services, applications and tools, designed specifically for dashboards and app directories.`,
+		description: `Download the ${formattedIconName} icon in SVG, PNG, and WEBP formats. Available for free in our collection of ${totalIcons} icons for dashboards and applications.`,
 		assets: [iconImageUrl],
 		category: "icons",
 		keywords: [
@@ -57,14 +57,14 @@ export async function generateMetadata({ params, searchParams }: Props, parent: 
 		icons: {
 			icon: iconImageUrl,
 		},
-		abstract: `Download the ${formattedIconName} icon in SVG, PNG, and WEBP formats for FREE. Part of a collection of ${totalIcons} curated icons for services, applications and tools, designed specifically for dashboards and app directories.`,
+		abstract: `Download the ${formattedIconName} icon in SVG, PNG, and WEBP formats. Available for free in our collection of ${totalIcons} icons for dashboards and applications.`,
 		robots: {
 			index: true,
 			follow: true,
 		},
 		openGraph: {
 			title: `${formattedIconName} Icon | Dashboard Icons`,
-			description: `Download the ${formattedIconName} icon in SVG, PNG, and WEBP formats for FREE. Part of a collection of ${totalIcons} curated icons for services, applications and tools, designed specifically for dashboards and app directories.`,
+			description: `Download the ${formattedIconName} icon in SVG, PNG, and WEBP formats. Available for free in our collection of ${totalIcons} icons for dashboards and applications.`,
 			type: "article",
 			url: pageUrl,
 			authors: [authorName],
@@ -76,7 +76,7 @@ export async function generateMetadata({ params, searchParams }: Props, parent: 
 		twitter: {
 			card: "summary_large_image",
 			title: `${formattedIconName} Icon | Dashboard Icons`,
-			description: `Download the ${formattedIconName} icon in SVG, PNG, and WEBP formats for FREE. Part of a collection of ${totalIcons} curated icons for services, applications and tools, designed specifically for dashboards and app directories.`,
+			description: `Download the ${formattedIconName} icon in SVG, PNG, and WEBP formats. Available for free in our collection of ${totalIcons} icons for dashboards and applications.`,
 			images: [iconImageUrl],
 		},
 		alternates: {

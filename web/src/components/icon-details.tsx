@@ -347,16 +347,14 @@ export function IconDetails({ icon, iconData, authorData }: IconDetailsProps) {
 									<h3 className="text-sm font-semibold text-muted-foreground">About this icon</h3>
 									<div className="text-xs text-muted-foreground space-y-2">
 										<p>
-											Available in{" "}
-											{availableFormats.length > 1
-												? `${availableFormats.length} formats (${availableFormats.map((f) => f.toUpperCase()).join(", ")})`
-												: `${availableFormats[0].toUpperCase()} format`}{" "}
+											Available in {availableFormats.length > 1
+												? `${availableFormats.length} formats (${availableFormats.map((f) => f.toUpperCase()).join(", ")}) `
+												: `${availableFormats[0].toUpperCase()} format `}
 											with a base format of {iconData.base.toUpperCase()}.
 											{iconData.colors && " Includes both light and dark theme variants for better integration with different UI designs."}
 										</p>
 										<p>
-											Use the {icon} icon in your web applications, dashboards, or documentation to enhance visual communication and user
-											experience.
+											Perfect for adding to dashboards, app directories, documentation, or anywhere you need the {icon.replace(/-/g, " ")} logo.
 										</p>
 									</div>
 								</div>

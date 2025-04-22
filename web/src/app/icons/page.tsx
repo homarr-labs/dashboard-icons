@@ -9,7 +9,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
 	return {
 		title: "Browse Icons | Free Dashboard Icons",
-		description: `Search and browse through our collection of ${totalIcons} curated icons for services, applications and tools, designed specifically for dashboards and app directories.`,
+		description: `Browse our collection of ${totalIcons} icons for dashboards and applications. Available in SVG, PNG, and WEBP formats.`,
 		keywords: [
 			"browse icons",
 			"dashboard icons",
@@ -22,7 +22,7 @@ export async function generateMetadata(): Promise<Metadata> {
 		],
 		openGraph: {
 			title: "Browse Icons | Free Dashboard Icons",
-			description: `Search and browse through our collection of ${totalIcons} curated icons for services, applications and tools, designed specifically for dashboards and app directories.`,
+			description: `Browse our collection of ${totalIcons} icons for dashboards and applications. Available in SVG, PNG, and WEBP formats.`,
 			type: "website",
 			url: `${BASE_URL}/icons`,
 			images: [
@@ -38,7 +38,7 @@ export async function generateMetadata(): Promise<Metadata> {
 		twitter: {
 			card: "summary_large_image",
 			title: "Browse Icons | Free Dashboard Icons",
-			description: `Search and browse through our collection of ${totalIcons} curated icons for services, applications and tools, designed specifically for dashboards and app directories.`,
+			description: `Browse our collection of ${totalIcons} icons for dashboards and applications. Available in SVG, PNG, and WEBP formats.`,
 			images: ["/og-image-browse.png"],
 		},
 		alternates: {
@@ -57,8 +57,8 @@ export default async function IconsPage() {
 				<div className="space-y-4 mb-8 mx-auto max-w-7xl">
 					<div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
 						<div>
-							<h1 className="text-3xl font-bold">Browse icons</h1>
-							<p className="text-muted-foreground">Search through our collection of {icons.length} beautiful icons.</p>
+							<h1 className="text-3xl font-bold">Icons</h1>
+							<p className="text-muted-foreground">Search our collection of {icons.length} icons.</p>
 						</div>
 					</div>
 
