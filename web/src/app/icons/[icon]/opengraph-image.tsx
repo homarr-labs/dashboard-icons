@@ -2,6 +2,12 @@ import { readFile } from "node:fs/promises"
 import { join } from "node:path"
 import { getAllIcons } from "@/lib/api"
 import { ImageResponse } from "next/og"
+import {
+	SITE_NAME,
+	SITE_TAGLINE,
+	getIconDescription,
+	WEB_URL
+} from "@/constants"
 
 export const dynamic = "force-static"
 
@@ -52,9 +58,9 @@ export default async function Image({ params }: { params: { icon: string } }) {
 				position: "relative",
 				fontFamily: "Inter, system-ui, sans-serif",
 				overflow: "hidden",
-				backgroundColor: "white",
+				backgroundColor: "#0f172a", // Dark background (slate-900)
 				backgroundImage:
-					"radial-gradient(circle at 25px 25px, lightgray 2%, transparent 0%), radial-gradient(circle at 75px 75px, lightgray 2%, transparent 0%)",
+					"radial-gradient(circle at 25px 25px, #1e293b 2%, transparent 0%), radial-gradient(circle at 75px 75px, #1e293b 2%, transparent 0%)",
 				backgroundSize: "100px 100px",
 			}}
 		>
@@ -67,7 +73,7 @@ export default async function Image({ params }: { params: { icon: string } }) {
 					width: 400,
 					height: 400,
 					borderRadius: "50%",
-					background: "linear-gradient(135deg, rgba(56, 189, 248, 0.1) 0%, rgba(59, 130, 246, 0.1) 100%)",
+					background: "linear-gradient(135deg, rgba(56, 189, 248, 0.15) 0%, rgba(59, 130, 246, 0.15) 100%)",
 					filter: "blur(80px)",
 					zIndex: 2,
 				}}
@@ -80,7 +86,7 @@ export default async function Image({ params }: { params: { icon: string } }) {
 					width: 500,
 					height: 500,
 					borderRadius: "50%",
-					background: "linear-gradient(135deg, rgba(249, 115, 22, 0.1) 0%, rgba(234, 88, 12, 0.1) 100%)",
+					background: "linear-gradient(135deg, rgba(249, 115, 22, 0.15) 0%, rgba(234, 88, 12, 0.15) 100%)",
 					filter: "blur(100px)",
 					zIndex: 2,
 				}}
@@ -109,8 +115,8 @@ export default async function Image({ params }: { params: { icon: string } }) {
 						width: 320,
 						height: 320,
 						borderRadius: 32,
-						background: "white",
-						boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0, 0, 0, 0.05)",
+						background: "#1e293b", // Dark container (slate-800)
+						boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.1)",
 						padding: 30,
 						flexShrink: 0,
 						position: "relative",
@@ -121,7 +127,7 @@ export default async function Image({ params }: { params: { icon: string } }) {
 						style={{
 							position: "absolute",
 							inset: 0,
-							background: "linear-gradient(145deg, #ffffff 0%, #f8fafc 100%)",
+							background: "linear-gradient(145deg, #1e293b 0%, #0f172a 100%)",
 							zIndex: 0,
 						}}
 					/>
@@ -134,7 +140,7 @@ export default async function Image({ params }: { params: { icon: string } }) {
 							objectFit: "contain",
 							position: "relative",
 							zIndex: 1,
-							filter: "drop-shadow(0 10px 15px rgba(0, 0, 0, 0.1))",
+							filter: "drop-shadow(0 10px 15px rgba(0, 0, 0, 0.3))",
 						}}
 					/>
 				</div>
@@ -154,7 +160,7 @@ export default async function Image({ params }: { params: { icon: string } }) {
 							display: "flex",
 							fontSize: 64,
 							fontWeight: 800,
-							color: "#0f172a",
+							color: "#f8fafc", // Light text for dark background (slate-50)
 							lineHeight: 1.1,
 							letterSpacing: "-0.02em",
 						}}
@@ -167,14 +173,14 @@ export default async function Image({ params }: { params: { icon: string } }) {
 							display: "flex",
 							fontSize: 32,
 							fontWeight: 500,
-							color: "#64748b",
+							color: "#94a3b8", // Muted text (slate-400)
 							lineHeight: 1.4,
 							position: "relative",
 							paddingLeft: 16,
-							borderLeft: "4px solid #94a3b8",
+							borderLeft: "4px solid #64748b", // slate-500
 						}}
 					>
-						Amongst {totalIcons} other high-quality dashboard icons
+						{getIconDescription(formattedIconName, totalIcons)}
 					</div>
 
 					<div
@@ -191,14 +197,14 @@ export default async function Image({ params }: { params: { icon: string } }) {
 									display: "flex",
 									alignItems: "center",
 									justifyContent: "center",
-									backgroundColor: "#f1f5f9",
-									color: "#475569",
-									border: "2px solid #e2e8f0",
+									backgroundColor: "#334155", // slate-700
+									color: "#e2e8f0", // slate-200
+									border: "2px solid #475569", // slate-600
 									borderRadius: 12,
 									padding: "8px 16px",
 									fontSize: 18,
 									fontWeight: 600,
-									boxShadow: "0 1px 2px rgba(0, 0, 0, 0.05)",
+									boxShadow: "0 1px 2px rgba(0, 0, 0, 0.2)",
 								}}
 							>
 								{format}
@@ -219,8 +225,8 @@ export default async function Image({ params }: { params: { icon: string } }) {
 					display: "flex",
 					alignItems: "center",
 					justifyContent: "center",
-					background: "#ffffff",
-					borderTop: "2px solid rgba(0, 0, 0, 0.05)",
+					background: "#1e293b", // slate-800
+					borderTop: "2px solid rgba(255, 255, 255, 0.1)",
 					zIndex: 20,
 				}}
 			>
@@ -229,7 +235,7 @@ export default async function Image({ params }: { params: { icon: string } }) {
 						display: "flex",
 						fontSize: 24,
 						fontWeight: 600,
-						color: "#334155",
+						color: "#e2e8f0", // slate-200
 						alignItems: "center",
 						gap: 10,
 					}}
@@ -239,11 +245,11 @@ export default async function Image({ params }: { params: { icon: string } }) {
 							width: 8,
 							height: 8,
 							borderRadius: "50%",
-							backgroundColor: "#3b82f6",
+							backgroundColor: "#3b82f6", // blue-500
 							marginRight: 4,
 						}}
 					/>
-					dashboardicons.com
+					{WEB_URL.replace("https://", "")}
 				</div>
 			</div>
 		</div>,
