@@ -73,7 +73,7 @@ export function IconSubmissionForm() {
 		<Dialog open={open} onOpenChange={setOpen}>
 			<DialogTrigger asChild>
 				<Button variant="outline" className="hidden md:inline-flex cursor-pointer transition-all duration-300">
-					<PlusCircle className="h-4 w-4 transition-all duration-300" /> Submit icon
+					<PlusCircle className="h-4 w-4 transition-all duration-300" /> Submit icon(s)
 				</Button>
 			</DialogTrigger>
 			<DialogContent className="md:max-w-4xl backdrop-blur-2xl bg-background">

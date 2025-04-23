@@ -526,7 +526,7 @@ function SearchInput({ searchQuery, setSearchQuery, totalIcons }: SearchInputPro
 				name="q"
 				autoFocus
 				type="search"
-				placeholder={`Search from ${totalIcons} icons...`}
+				placeholder="Search for icons..."
 				className="pl-10 h-10 md:h-12 rounded-lg w-full border-border focus:border-primary/20 text-sm md:text-base"
 				value={searchQuery}
 				onChange={(e) => setSearchQuery(e.target.value)}
