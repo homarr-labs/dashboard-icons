@@ -41,26 +41,24 @@ export const dynamic = "force-static"
 export default async function IconsPage() {
 	const icons = await getIconsArray()
 
-	const gallerySchema = {
-		"@context": "https://schema.org",
-		"@type": "ImageGallery",
-		"name": `${SITE_NAME} - Browse ${icons.length} Icons - ${SITE_TAGLINE}`,
-		"description": getBrowseDescription(icons.length),
-		"url": `${WEB_URL}/icons`,
-		"numberOfItems": icons.length,
-		"creator": {
-			"@type": "Organization",
-			"name": ORGANIZATION_NAME,
-			"url": GITHUB_URL
-		}
-	}
-
 	return (
 		<>
 			<script
 				id="gallery-schema"
 				type="application/ld+json"
-				dangerouslySetInnerHTML={{ __html: JSON.stringify(gallerySchema) }}
+				dangerouslySetInnerHTML={{ __html: JSON.stringify({
+					"@context": "https://schema.org",
+					"@type": "ImageGallery",
+					"name": `${SITE_NAME} - Browse ${icons.length} Icons - ${SITE_TAGLINE}`,
+					"description": getBrowseDescription(icons.length),
+					"url": `${WEB_URL}/icons`,
+					"numberOfItems": icons.length,
+					"creator": {
+						"@type": "Organization",
+						"name": ORGANIZATION_NAME,
+						"url": GITHUB_URL
+					}
+				}) }}
 			/>
 			<script
 				id="org-schema"
