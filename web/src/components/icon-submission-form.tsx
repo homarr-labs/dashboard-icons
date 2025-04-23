@@ -30,7 +30,7 @@ export const ISSUE_TEMPLATES = [
 	{
 		id: "update_normal_icon",
 		name: "Update standard icon",
-		description: "Improve or updatean existing standard icon.",
+		description: "Improve or update an existing standard icon.",
 		url: `${REPO_PATH}/issues/new?template=update_normal_icon.yml`,
 	},
 	{
