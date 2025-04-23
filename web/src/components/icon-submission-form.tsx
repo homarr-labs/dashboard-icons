@@ -24,13 +24,13 @@ export const ISSUE_TEMPLATES = [
 	{
 		id: "update_monochrome_icon",
 		name: "Update light/dark icon",
-		description: "Improve an existing light/dark icon.",
+		description: "Improve or update an existing light/dark icon.",
 		url: `${REPO_PATH}/issues/new?template=update_monochrome_icon.yml`,
 	},
 	{
 		id: "update_normal_icon",
 		name: "Update standard icon",
-		description: "Improve an existing standard icon.",
+		description: "Improve or updatean existing standard icon.",
 		url: `${REPO_PATH}/issues/new?template=update_normal_icon.yml`,
 	},
 	{
