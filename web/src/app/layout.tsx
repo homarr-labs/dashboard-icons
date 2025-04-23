@@ -2,6 +2,7 @@ import { PostHogProvider } from "@/components/PostHogProvider"
 import { Footer } from "@/components/footer"
 import { HeaderWrapper } from "@/components/header-wrapper"
 import { LicenseNotice } from "@/components/license-notice"
+import { WebsiteStructuredData } from "@/components/structured-data"
 import { getTotalIcons } from "@/lib/api"
 import type { Metadata, Viewport } from "next"
 import { Inter } from "next/font/google"
@@ -9,7 +10,6 @@ import { Toaster } from "sonner"
 import "./globals.css"
 import { DEFAULT_KEYWORDS, DEFAULT_OG_IMAGE, GITHUB_URL, ORGANIZATION_NAME, ORGANIZATION_SCHEMA, SITE_NAME, SITE_TAGLINE, WEB_URL, getDescription, getWebsiteSchema, websiteFullTitle, websiteTitle } from "@/constants"
 import { ThemeProvider } from "./theme-provider"
-import Script from "next/script"
 
 const inter = Inter({
 	variable: "--font-inter",
@@ -98,16 +98,12 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
 
 	return (
 		<html lang="en" suppressHydrationWarning>
-			<head>
-				<Script id="schema-org" type="application/ld+json">
-					{JSON.stringify(websiteSchema)}
-				</Script>
-				<Script id="org-schema" type="application/ld+json">
-					{JSON.stringify(ORGANIZATION_SCHEMA)}
-				</Script>
-			</head>
 			<body className={`${inter.variable} antialiased bg-background flex flex-col min-h-screen`}>
 				<PostHogProvider>
+					<WebsiteStructuredData
+						websiteSchema={websiteSchema}
+						organizationSchema={ORGANIZATION_SCHEMA}
+					/>
 					<ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
 						<HeaderWrapper />
 						<main className="flex-grow">{children}</main>

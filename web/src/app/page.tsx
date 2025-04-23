@@ -1,9 +1,9 @@
 import { HeroSection } from "@/components/hero"
 import { RecentlyAddedIcons } from "@/components/recently-added-icons"
+import { StructuredData } from "@/components/structured-data"
 import { BASE_URL, DEFAULT_KEYWORDS, DEFAULT_OG_IMAGE, GITHUB_URL, ORGANIZATION_NAME, ORGANIZATION_SCHEMA, SITE_NAME, SITE_TAGLINE, WEB_URL, REPO_NAME, getHomeDescription, websiteFullTitle, websiteTitle } from "@/constants"
 import { getRecentlyAddedIcons, getTotalIcons } from "@/lib/api"
 import type { Metadata } from "next"
-import Script from "next/script"
 
 export async function generateMetadata(): Promise<Metadata> {
 	const { totalIcons } = await getTotalIcons()
@@ -70,12 +70,7 @@ export default async function Home() {
 
 	return (
 		<>
-			<Script id="collection-schema" type="application/ld+json">
-				{JSON.stringify(collectionSchema)}
-			</Script>
-			<Script id="org-schema" type="application/ld+json">
-				{JSON.stringify(ORGANIZATION_SCHEMA)}
-			</Script>
+			<StructuredData data={collectionSchema} id="collection-schema" />
 			<div className="flex flex-col min-h-screen">
 				<HeroSection totalIcons={totalIcons} stars={stars} />
 				<RecentlyAddedIcons icons={recentIcons} />

@@ -1,4 +1,5 @@
 import { IconDetails } from "@/components/icon-details"
+import { StructuredData } from "@/components/structured-data"
 import { BASE_URL, GITHUB_URL, ICON_DETAIL_KEYWORDS, SITE_NAME, SITE_TAGLINE, TITLE_SEPARATOR, WEB_URL, getIconDescription, getIconSchema } from "@/constants"
 import { getAllIcons, getAuthorData } from "@/lib/api"
 import type { Metadata, ResolvingMetadata } from "next"
@@ -118,9 +119,7 @@ export default async function IconPage({ params }: { params: Promise<{ icon: str
 
 	return (
 		<>
-			<Script id="image-schema" type="application/ld+json">
-				{JSON.stringify(imageSchema)}
-			</Script>
+			<StructuredData data={imageSchema} id="image-schema" />
 			<IconDetails icon={icon} iconData={originalIconData} authorData={authorData} />
 		</>
 	)

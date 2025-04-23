@@ -2,6 +2,7 @@ import { BASE_URL, BROWSE_KEYWORDS, DEFAULT_OG_IMAGE, GITHUB_URL, ORGANIZATION_N
 import { getIconsArray } from "@/lib/api"
 import type { Metadata } from "next"
 import { IconSearch } from "./components/icon-search"
+import { StructuredData } from "@/components/structured-data"
 
 export async function generateMetadata(): Promise<Metadata> {
 	const icons = await getIconsArray()
@@ -41,30 +42,23 @@ export const dynamic = "force-static"
 export default async function IconsPage() {
 	const icons = await getIconsArray()
 
+	const gallerySchema = {
+		"@context": "https://schema.org",
+		"@type": "ImageGallery",
+		"name": `${SITE_NAME} - Browse ${icons.length} Icons - ${SITE_TAGLINE}`,
+		"description": getBrowseDescription(icons.length),
+		"url": `${WEB_URL}/icons`,
+		"numberOfItems": icons.length,
+		"creator": {
+			"@type": "Organization",
+			"name": ORGANIZATION_NAME,
+			"url": GITHUB_URL
+		}
+	}
+
 	return (
 		<>
-			<script
-				id="gallery-schema"
-				type="application/ld+json"
-				dangerouslySetInnerHTML={{ __html: JSON.stringify({
-					"@context": "https://schema.org",
-					"@type": "ImageGallery",
-					"name": `${SITE_NAME} - Browse ${icons.length} Icons - ${SITE_TAGLINE}`,
-					"description": getBrowseDescription(icons.length),
-					"url": `${WEB_URL}/icons`,
-					"numberOfItems": icons.length,
-					"creator": {
-						"@type": "Organization",
-						"name": ORGANIZATION_NAME,
-						"url": GITHUB_URL
-					}
-				}) }}
-			/>
-			<script
-				id="org-schema"
-				type="application/ld+json"
-				dangerouslySetInnerHTML={{ __html: JSON.stringify(ORGANIZATION_SCHEMA) }}
-			/>
+			<StructuredData data={gallerySchema} id="gallery-schema" />
 			<div className="isolate overflow-hidden">
 				<div className="py-8">
 					<div className="space-y-4 mb-8 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
