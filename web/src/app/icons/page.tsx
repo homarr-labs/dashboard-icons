@@ -2,7 +2,6 @@ import { BASE_URL, BROWSE_KEYWORDS, DEFAULT_OG_IMAGE, GITHUB_URL, ORGANIZATION_N
 import { getIconsArray } from "@/lib/api"
 import type { Metadata } from "next"
 import { IconSearch } from "./components/icon-search"
-import Script from "next/script"
 
 export async function generateMetadata(): Promise<Metadata> {
 	const icons = await getIconsArray()
@@ -58,12 +57,16 @@ export default async function IconsPage() {
 
 	return (
 		<>
-			<Script id="gallery-schema" type="application/ld+json">
-				{JSON.stringify(gallerySchema)}
-			</Script>
-			<Script id="org-schema" type="application/ld+json">
-				{JSON.stringify(ORGANIZATION_SCHEMA)}
-			</Script>
+			<script
+				id="gallery-schema"
+				type="application/ld+json"
+				dangerouslySetInnerHTML={{ __html: JSON.stringify(gallerySchema) }}
+			/>
+			<script
+				id="org-schema"
+				type="application/ld+json"
+				dangerouslySetInnerHTML={{ __html: JSON.stringify(ORGANIZATION_SCHEMA) }}
+			/>
 			<div className="isolate overflow-hidden">
 				<div className="py-8">
 					<div className="space-y-4 mb-8 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
