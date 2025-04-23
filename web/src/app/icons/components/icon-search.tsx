@@ -551,7 +551,7 @@ function IconCard({
 						className="object-contain p-1 group-hover:scale-110 transition-transform duration-300"
 					/>
 				</div>
-				<span className="text-xs sm:text-sm text-center truncate w-full capitalize group- dark:group-hover:text-rose-400 transition-colors duration-200 font-medium">
+				<span className="text-xs sm:text-sm text-center truncate w-full capitalize group-hover:text-rose-500 dark:group-hover:text-rose-400 transition-colors duration-200 font-medium">
 					{name.replace(/-/g, " ")}
 				</span>
 			</Link>

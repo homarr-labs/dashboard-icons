@@ -2,7 +2,7 @@
 
 import { motion, useMotionTemplate, useMotionValue } from "motion/react"
 import type React from "react"
-import { useCallback, useEffect, useRef } from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
 
 import { cn } from "@/lib/utils"
 
@@ -28,6 +28,7 @@ export function MagicCard({
 	const cardRef = useRef<HTMLDivElement>(null)
 	const mouseX = useMotionValue(-gradientSize)
 	const mouseY = useMotionValue(-gradientSize)
+	const [isMounted, setIsMounted] = useState(false)
 
 	const handleMouseMove = useCallback(
 		(e: MouseEvent) => {
@@ -60,6 +61,14 @@ export function MagicCard({
 	}, [handleMouseMove, mouseX, gradientSize, mouseY])
 
 	useEffect(() => {
+		setIsMounted(true)
+		mouseX.set(-gradientSize)
+		mouseY.set(-gradientSize)
+	}, [gradientSize, mouseX, mouseY])
+
+	useEffect(() => {
+		if (!isMounted) return
+
 		document.addEventListener("mousemove", handleMouseMove)
 		document.addEventListener("mouseout", handleMouseOut)
 		document.addEventListener("mouseenter", handleMouseEnter)
@@ -69,22 +78,17 @@ export function MagicCard({
 			document.removeEventListener("mouseout", handleMouseOut)
 			document.removeEventListener("mouseenter", handleMouseEnter)
 		}
-	}, [handleMouseEnter, handleMouseMove, handleMouseOut])
-
-	useEffect(() => {
-		mouseX.set(-gradientSize)
-		mouseY.set(-gradientSize)
-	}, [gradientSize, mouseX, mouseY])
+	}, [isMounted, handleMouseEnter, handleMouseMove, handleMouseOut])
 
 	return (
-		<div ref={cardRef} className={cn("group relative rounded-[inherit]", className)}>
+		<div className={cn("group relative rounded-[inherit]", className)}>
 			<motion.div
 				className="pointer-events-none absolute inset-0 rounded-[inherit] bg-border duration-300 group-hover:opacity-100"
 				style={{
 					background: useMotionTemplate`
           radial-gradient(${gradientSize}px circle at ${mouseX}px ${mouseY}px,
-          ${gradientFrom}, 
-          ${gradientTo}, 
+          ${gradientFrom},
+          ${gradientTo},
           var(--border) 100%
           )
           `,
@@ -100,7 +104,7 @@ export function MagicCard({
 					opacity: gradientOpacity,
 				}}
 			/>
-			<div className="relative">{children}</div>
+			<div ref={cardRef} className="relative">{children}</div>
 		</div>
 	)
 }
