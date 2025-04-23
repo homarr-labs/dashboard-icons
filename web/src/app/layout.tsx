@@ -83,7 +83,6 @@ export async function generateMetadata(): Promise<Metadata> {
 		authors: [{ name: ORGANIZATION_NAME, url: GITHUB_URL }],
 		creator: ORGANIZATION_NAME,
 		publisher: ORGANIZATION_NAME,
-		archives: [`${WEB_URL}/icons`],
 		category: "Icons",
 		classification: "Dashboard Design Resources",
 		other: {
