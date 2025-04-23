@@ -7,7 +7,7 @@ import type { Metadata, Viewport } from "next"
 import { Inter } from "next/font/google"
 import { Toaster } from "sonner"
 import "./globals.css"
-import { getDescription, websiteTitle } from "@/constants"
+import { BASE_URL, getDescription, WEB_URL, websiteTitle } from "@/constants"
 import { ThemeProvider } from "./theme-provider"
 
 const inter = Inter({
@@ -29,44 +29,41 @@ export async function generateMetadata(): Promise<Metadata> {
 	const { totalIcons } = await getTotalIcons()
 
 	return {
-		metadataBase: new URL("https://dashboardicons.com"),
+		metadataBase: new URL(WEB_URL),
 		title: websiteTitle,
 		description: getDescription(totalIcons),
 		keywords: ["dashboard icons", "service icons", "application icons", "tool icons", "web dashboard", "app directory"],
 		robots: {
 			index: true,
 			follow: true,
-			"max-image-preview": "large",
-			"max-snippet": -1,
-			"max-video-preview": -1,
 			googleBot: "index, follow",
 		},
 		openGraph: {
-			siteName: "Dashboard Icons",
-			type: "website",
-			locale: "en_US",
+			siteName: WEB_URL,
 			title: websiteTitle,
+			url: BASE_URL,
 			description: getDescription(totalIcons),
-			url: "https://dashboardicons.com",
 			images: [
 				{
 					url: "/og-image.png",
 					width: 1200,
 					height: 630,
-					alt: "Dashboard Icons",
+					alt: "Dashboard Icons - Dashboard icons for self hosted services",
 					type: "image/png",
 				},
 			],
 		},
 		twitter: {
 			card: "summary_large_image",
-			site: "@homarr_app",
-			creator: "@homarr_app",
-			title: websiteTitle,
+			title: WEB_URL,
 			description: getDescription(totalIcons),
 			images: ["/og-image.png"],
 		},
-		applicationName: "Dashboard Icons",
+		applicationName: WEB_URL,
+		alternates: {
+			canonical: BASE_URL,
+		},
+
 		appleWebApp: {
 			title: "Dashboard Icons",
 			statusBarStyle: "default",
@@ -79,13 +76,6 @@ export async function generateMetadata(): Promise<Metadata> {
 				{ url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
 			],
 			apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
-			other: [
-				{
-					rel: "mask-icon",
-					url: "/safari-pinned-tab.svg",
-					color: "#000000",
-				},
-			],
 		},
 		manifest: "/site.webmanifest",
 	}
