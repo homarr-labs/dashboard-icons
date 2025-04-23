@@ -48,29 +48,8 @@ export default async function Home() {
 	const recentIcons = await getRecentlyAddedIcons(10)
 	const stars = await getGitHubStars()
 
-	// Collection schema for the homepage
-	const collectionSchema = {
-		"@context": "https://schema.org",
-		"@type": "CollectionPage",
-		"name": `${SITE_NAME} Collection - ${SITE_TAGLINE}`,
-		"description": getHomeDescription(totalIcons),
-		"url": WEB_URL,
-		"numberOfItems": totalIcons,
-		"mainEntity": {
-			"@type": "CreativeWork",
-			"name": SITE_NAME,
-			"description": getHomeDescription(totalIcons),
-			"creator": {
-				"@type": "Organization",
-				"name": ORGANIZATION_NAME,
-				"url": GITHUB_URL
-			}
-		}
-	}
-
 	return (
 		<>
-			<StructuredData data={collectionSchema} id="collection-schema" />
 			<div className="flex flex-col min-h-screen">
 				<HeroSection totalIcons={totalIcons} stars={stars} />
 				<RecentlyAddedIcons icons={recentIcons} />
