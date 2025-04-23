@@ -6,7 +6,7 @@ export const REPO_NAME = "homarr-labs/dashboard-icons"
 
 // Site-wide metadata constants
 export const SITE_NAME = "Dashboard Icons"
-export const TITLE_SEPARATOR = " — "
+export const TITLE_SEPARATOR = " | "
 export const SITE_TAGLINE = "Your definitive source for dashboard icons"
 export const ORGANIZATION_NAME = "Homarr Labs"
 
