@@ -44,11 +44,13 @@ export async function generateMetadata({ params, searchParams }: Props, parent: 
 		title: `${formattedIconName} Icon | Dashboard Icons`,
 		description: `Download the ${formattedIconName} icon in SVG, PNG, and WEBP formats for FREE. Part of a collection of ${totalIcons} curated icons for services, applications and tools, designed specifically for dashboards and app directories.`,
 		assets: [iconImageUrl],
-		category: "icons",
 		keywords: [
 			`${formattedIconName} icon`,
-			"dashboard icon",
-			"service icon",
+			`${formattedIconName} icon download`,
+			`${formattedIconName} icon svg`,
+			`${formattedIconName} icon png`,
+			`${formattedIconName} icon webp`,
+			`${icon} icon`,
 			"application icon",
 			"tool icon",
 			"web dashboard",
@@ -58,10 +60,6 @@ export async function generateMetadata({ params, searchParams }: Props, parent: 
 			icon: iconImageUrl,
 		},
 		abstract: `Download the ${formattedIconName} icon in SVG, PNG, and WEBP formats for FREE. Part of a collection of ${totalIcons} curated icons for services, applications and tools, designed specifically for dashboards and app directories.`,
-		robots: {
-			index: true,
-			follow: true,
-		},
 		openGraph: {
 			title: `${formattedIconName} Icon | Dashboard Icons`,
 			description: `Download the ${formattedIconName} icon in SVG, PNG, and WEBP formats for FREE. Part of a collection of ${totalIcons} curated icons for services, applications and tools, designed specifically for dashboards and app directories.`,
