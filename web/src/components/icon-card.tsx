@@ -16,7 +16,7 @@ export function IconCard({
 	return (
 		<MagicCard className="rounded-md shadow-md">
 			<Link prefetch={false} href={`/icons/${name}`} className="group flex flex-col items-center p-3 sm:p-4 cursor-pointer">
-				<div className="relative h-12 w-12 sm:h-16 sm:w-16 mb-2">
+				<div className="relative h-16 w-16 mb-2">
 					<Image
 						src={`${BASE_URL}/${iconData.base}/${name}.${iconData.base}`}
 						alt={`${name} icon`}
