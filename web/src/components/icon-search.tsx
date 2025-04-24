@@ -1,7 +1,7 @@
 "use client"
 
+import { IconsGrid } from "@/components/icon-grid"
 import { IconSubmissionContent } from "@/components/icon-submission-form"
-import { MagicCard } from "@/components/magicui/magic-card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import {
@@ -17,12 +17,9 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Input } from "@/components/ui/input"
 import { Separator } from "@/components/ui/separator"
-import { BASE_URL } from "@/constants"
-import type { Icon, IconSearchProps } from "@/types/icons"
+import type { IconSearchProps } from "@/types/icons"
 import { ArrowDownAZ, ArrowUpZA, Calendar, Filter, Search, SortAsc, X } from "lucide-react"
 import { useTheme } from "next-themes"
-import Image from "next/image"
-import Link from "next/link"
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import posthog from "posthog-js"
 import { useCallback, useEffect, useMemo, useRef, useState } from "react"
@@ -438,54 +435,6 @@ export function IconSearch({ icons }: IconSearchProps) {
 					<IconsGrid filteredIcons={filteredIcons} matchedAliases={matchedAliases} />
 				</>
 			)}
-		</>
-	)
-}
-
-function IconCard({
-	name,
-	data: iconData,
-	matchedAlias,
-}: {
-	name: string
-	data: Icon
-	matchedAlias?: string | null
-}) {
-	return (
-		<MagicCard className="rounded-md shadow-md">
-			<Link prefetch={false} href={`/icons/${name}`} className="group flex flex-col items-center p-3 sm:p-4 cursor-pointer">
-				<div className="relative h-12 w-12 sm:h-16 sm:w-16 mb-2">
-					<Image
-						src={`${BASE_URL}/${iconData.base}/${name}.${iconData.base}`}
-						alt={`${name} icon`}
-						fill
-						className="object-contain p-1 group-hover:scale-110 transition-transform duration-300"
-					/>
-				</div>
-				<span className="text-xs sm:text-sm text-center truncate w-full capitalize group- dark:group-hover:text-rose-400 transition-colors duration-200 font-medium">
-					{name.replace(/-/g, " ")}
-				</span>
-
-				{matchedAlias && <span className="text-[10px] text-center truncate w-full mt-1">Alias: {matchedAlias}</span>}
-			</Link>
-		</MagicCard>
-	)
-}
-
-interface IconsGridProps {
-	filteredIcons: { name: string; data: Icon }[]
-	matchedAliases: Record<string, string>
-}
-
-function IconsGrid({ filteredIcons, matchedAliases }: IconsGridProps) {
-	return (
-		<>
-			<div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-4 mt-2">
-				{filteredIcons.slice(0, 120).map(({ name, data }) => (
-					<IconCard key={name} name={name} data={data} matchedAlias={matchedAliases[name] || null} />
-				))}
-			</div>
-			{filteredIcons.length > 120 && <p className="text-sm text-muted-foreground">And {filteredIcons.length - 120} more...</p>}
 		</>
 	)
 }

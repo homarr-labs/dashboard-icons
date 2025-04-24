@@ -1,15 +1,15 @@
 "use client"
 
+import { IconsGrid } from "@/components/icon-grid"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { BASE_URL, REPO_PATH } from "@/constants"
-import type { AuthorData, Icon } from "@/types/icons"
+import type { AuthorData, Icon, IconFile } from "@/types/icons"
 import confetti from "canvas-confetti"
 import { motion } from "framer-motion"
 import { Check, Copy, Download, FileType, Github, Moon, PaletteIcon, Sun } from "lucide-react"
-import { useTheme } from "next-themes"
 import Image from "next/image"
 import Link from "next/link"
 import { useCallback, useState } from "react"
@@ -22,9 +22,10 @@ export type IconDetailsProps = {
 	icon: string
 	iconData: Icon
 	authorData: AuthorData
+	allIcons: IconFile
 }
 
-export function IconDetails({ icon, iconData, authorData }: IconDetailsProps) {
+export function IconDetails({ icon, iconData, authorData, allIcons }: IconDetailsProps) {
 	const authorName = authorData.name || authorData.login || ""
 	const iconColorVariants = iconData.colors
 	const formattedDate = new Date(iconData.update.timestamp).toLocaleDateString("en-GB", {
@@ -159,6 +160,7 @@ export function IconDetails({ icon, iconData, authorData }: IconDetailsProps) {
 									whileHover={{ scale: 1.05 }}
 									whileTap={{ scale: 0.95 }}
 									onClick={(e) => handleCopy(imageUrl, variantKey, e)}
+									aria-label={`Copy ${format.toUpperCase()} URL for ${iconName}${theme ? ` (${theme} theme)` : ""}`}
 								>
 									<div className="absolute inset-0 border-2 border-transparent group-hover:border-primary/20 rounded-xl z-10 transition-colors" />
 
@@ -252,23 +254,25 @@ export function IconDetails({ icon, iconData, authorData }: IconDetailsProps) {
 	}
 
 	return (
-		<div className="container mx-auto pt-12 pb-14">
+		<main className="container mx-auto pt-12 pb-14">
 			<div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
 				{/* Left Column: Icon Info and Author */}
 				<div className="lg:col-span-1">
 					<Card className="h-full bg-background/50 border shadow-lg">
 						<CardHeader className="pb-4">
 							<div className="flex flex-col items-center">
-								<div className="relative w-32 h-32  rounded-xl overflow-hidden border flex items-center justify-center p-3 ">
+								<div className="relative w-32 h-32 rounded-xl overflow-hidden border flex items-center justify-center p-3">
 									<Image
 										src={`${BASE_URL}/${iconData.base}/${icon}.${iconData.base}`}
 										width={96}
 										height={96}
-										alt={icon}
+										alt={`High quality ${icon.replace(/-/g, " ")} icon in ${iconData.base.toUpperCase()} format`}
 										className="w-full h-full object-contain"
 									/>
 								</div>
-								<CardTitle className="text-2xl font-bold capitalize text-center mb-2">{icon}</CardTitle>
+								<CardTitle className="text-2xl font-bold capitalize text-center mb-2">
+									<h1>{icon.replace(/-/g, " ")}</h1>
+								</CardTitle>
 							</div>
 						</CardHeader>
 						<CardContent>
@@ -277,14 +281,14 @@ export function IconDetails({ icon, iconData, authorData }: IconDetailsProps) {
 									<div className="space-y-2">
 										<div className="flex items-center gap-2">
 											<p className="text-sm">
-												<span className="font-medium">Updated on:</span> {formattedDate}
+												<span className="font-medium">Updated on:</span> <time dateTime={iconData.update.timestamp}>{formattedDate}</time>
 											</p>
 										</div>
 										<div className="flex items-center gap-2">
 											<div className="flex items-center gap-2">
 												<p className="text-sm font-medium">By:</p>
 												<Avatar className="h-5 w-5 border">
-													<AvatarImage src={authorData.avatar_url} alt={authorName} />
+													<AvatarImage src={authorData.avatar_url} alt={`${authorName}'s avatar`} />
 													<AvatarFallback>{authorName ? authorName.slice(0, 2).toUpperCase() : "??"}</AvatarFallback>
 												</Avatar>
 												{authorData.html_url ? (
@@ -369,7 +373,9 @@ export function IconDetails({ icon, iconData, authorData }: IconDetailsProps) {
 				<div className="lg:col-span-2">
 					<Card className="h-full bg-background/50 shadow-lg">
 						<CardHeader>
-							<CardTitle>Icon variants</CardTitle>
+							<CardTitle>
+								<h2>Icon variants</h2>
+							</CardTitle>
 							<CardDescription>Click on any icon to copy its URL to your clipboard</CardDescription>
 						</CardHeader>
 						<CardContent>
@@ -460,6 +466,31 @@ export function IconDetails({ icon, iconData, authorData }: IconDetailsProps) {
 					</Card>
 				</div>
 			</div>
-		</div>
+			{iconData.categories && iconData.categories.length > 0 && (
+				<section className="container mx-auto mt-12" aria-labelledby="related-icons-title">
+					<Card className="bg-background/50 border shadow-lg">
+						<CardHeader>
+							<CardTitle>
+								<h2 id="related-icons-title">Related Icons</h2>
+							</CardTitle>
+							<CardDescription>
+								Other icons from {iconData.categories.map((cat) => cat.replace(/-/g, " ")).join(", ")} categories
+							</CardDescription>
+						</CardHeader>
+						<CardContent>
+							<IconsGrid
+								filteredIcons={Object.entries(allIcons)
+									.filter(([name, data]) => {
+										if (name === icon) return false
+										return data.categories?.some((cat) => iconData.categories?.includes(cat))
+									})
+									.map(([name, data]) => ({ name, data }))}
+								matchedAliases={{}}
+							/>
+						</CardContent>
+					</Card>
+				</section>
+			)}
+		</main>
 	)
 }

@@ -99,5 +99,5 @@ export default async function IconPage({ params }: { params: Promise<{ icon: str
 
 	const authorData = await getAuthorData(originalIconData.update.author.id)
 
-	return <IconDetails icon={icon} iconData={originalIconData} authorData={authorData} />
+	return <IconDetails icon={icon} iconData={originalIconData} authorData={authorData} allIcons={iconsData} />
 }
