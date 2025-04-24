@@ -207,6 +207,7 @@ export function IconDetails({ icon, iconData, authorData }: IconDetailsProps) {
 										size="icon"
 										className="h-8 w-8 rounded-lg cursor-pointer"
 										onClick={(e) => handleDownload(e, imageUrl, `${iconName}.${format}`)}
+										aria-label={`Download ${iconName} in ${format} format${theme ? ` (${theme} theme)` : ""}`}
 									>
 										<Download className="w-4 h-4" />
 									</Button>
@@ -223,6 +224,7 @@ export function IconDetails({ icon, iconData, authorData }: IconDetailsProps) {
 										size="icon"
 										className="h-8 w-8 rounded-lg cursor-pointer"
 										onClick={(e) => handleCopy(imageUrl, `btn-${variantKey}`, e)}
+										aria-label={`Copy URL for ${iconName} in ${format} format${theme ? ` (${theme} theme)` : ""}`}
 									>
 										{copiedVariants[`btn-${variantKey}`] ? <Check className="w-4 h-4 text-green-500" /> : <Copy className="w-4 h-4" />}
 									</Button>
@@ -234,8 +236,18 @@ export function IconDetails({ icon, iconData, authorData }: IconDetailsProps) {
 
 							<Tooltip>
 								<TooltipTrigger asChild>
-									<Button variant="outline" size="icon" className="h-8 w-8 rounded-lg" asChild>
-										<Link href={githubUrl} target="_blank" rel="noopener noreferrer">
+									<Button
+										variant="outline"
+										size="icon"
+										className="h-8 w-8 rounded-lg"
+										asChild
+									>
+										<Link
+											href={githubUrl}
+											target="_blank"
+											rel="noopener noreferrer"
+											aria-label={`View ${iconName} ${format} file on GitHub`}
+										>
 											<Github className="w-4 h-4" />
 										</Link>
 									</Button>
@@ -252,7 +264,7 @@ export function IconDetails({ icon, iconData, authorData }: IconDetailsProps) {
 	}
 
 	return (
-		<div className="container mx-auto pt-12 pb-14">
+		<div className="container mx-auto pt-12 pb-14 px-4 sm:px-6 lg:px-8">
 			<div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
 				{/* Left Column: Icon Info and Author */}
 				<div className="lg:col-span-1">
@@ -306,7 +318,7 @@ export function IconDetails({ icon, iconData, authorData }: IconDetailsProps) {
 
 								{iconData.categories && iconData.categories.length > 0 && (
 									<div>
-										<h3 className="text-sm font-semibold text-muted-foreground">Categories</h3>
+										<h3 className="text-sm font-semibold text-muted-foreground mb-2">Categories</h3>
 										<div className="flex flex-wrap gap-2">
 											{iconData.categories.map((category) => (
 												<Link key={category} href={`/icons?category=${encodeURIComponent(category)}`} className="cursor-pointer">
@@ -327,7 +339,7 @@ export function IconDetails({ icon, iconData, authorData }: IconDetailsProps) {
 
 								{iconData.aliases && iconData.aliases.length > 0 && (
 									<div>
-										<h3 className="text-sm font-semibold text-muted-foreground">Aliases</h3>
+										<h3 className="text-sm font-semibold text-muted-foreground mb-2">Aliases</h3>
 										<div className="flex flex-wrap gap-2">
 											{iconData.aliases.map((alias) => (
 												<Badge
@@ -344,19 +356,17 @@ export function IconDetails({ icon, iconData, authorData }: IconDetailsProps) {
 								)}
 
 								<div>
-									<h3 className="text-sm font-semibold text-muted-foreground">About this icon</h3>
+									<h3 className="text-sm font-semibold text-muted-foreground mb-2">About this icon</h3>
 									<div className="text-xs text-muted-foreground space-y-2">
 										<p>
-											Available in{" "}
-											{availableFormats.length > 1
-												? `${availableFormats.length} formats (${availableFormats.map((f) => f.toUpperCase()).join(", ")})`
-												: `${availableFormats[0].toUpperCase()} format`}{" "}
+											Available in {availableFormats.length > 1
+												? `${availableFormats.length} formats (${availableFormats.map((f) => f.toUpperCase()).join(", ")}) `
+												: `${availableFormats[0].toUpperCase()} format `}
 											with a base format of {iconData.base.toUpperCase()}.
 											{iconData.colors && " Includes both light and dark theme variants for better integration with different UI designs."}
 										</p>
 										<p>
-											Use the {icon} icon in your web applications, dashboards, or documentation to enhance visual communication and user
-											experience.
+											Perfect for adding to dashboards, app directories, documentation, or anywhere you need the {icon.replace(/-/g, " ")} logo.
 										</p>
 									</div>
 								</div>
@@ -412,7 +422,7 @@ export function IconDetails({ icon, iconData, authorData }: IconDetailsProps) {
 						<CardContent>
 							<div className="space-y-6">
 								<div className="">
-									<h3 className="text-sm font-semibold text-muted-foreground">Base format</h3>
+									<h3 className="text-sm font-semibold text-muted-foreground mb-2">Base format</h3>
 									<div className="flex items-center gap-2">
 										<FileType className="w-4 h-4 text-blue-500" />
 										<div className="px-3 py-1.5  border border-border rounded-lg text-sm font-medium">{iconData.base.toUpperCase()}</div>
@@ -420,7 +430,7 @@ export function IconDetails({ icon, iconData, authorData }: IconDetailsProps) {
 								</div>
 
 								<div className="">
-									<h3 className="text-sm font-semibold text-muted-foreground">Available formats</h3>
+									<h3 className="text-sm font-semibold text-muted-foreground mb-2">Available formats</h3>
 									<div className="flex flex-wrap gap-2">
 										{availableFormats.map((format) => (
 											<div key={format} className="px-3 py-1.5  border border-border rounded-lg text-xs font-medium">
@@ -432,7 +442,7 @@ export function IconDetails({ icon, iconData, authorData }: IconDetailsProps) {
 
 								{iconData.colors && (
 									<div className="">
-										<h3 className="text-sm font-semibold text-muted-foreground">Color variants</h3>
+										<h3 className="text-sm font-semibold text-muted-foreground mb-2">Color variants</h3>
 										<div className="space-y-2">
 											{Object.entries(iconData.colors).map(([theme, variant]) => (
 												<div key={theme} className="flex items-center gap-2">
@@ -446,7 +456,7 @@ export function IconDetails({ icon, iconData, authorData }: IconDetailsProps) {
 								)}
 
 								<div className="">
-									<h3 className="text-sm font-semibold text-muted-foreground">Source</h3>
+									<h3 className="text-sm font-semibold text-muted-foreground mb-2">Source</h3>
 									<Button variant="outline" className="w-full" asChild>
 										<Link href={`${REPO_PATH}/blob/main/meta/${icon}.json`} target="_blank" rel="noopener noreferrer">
 											<Github className="w-4 h-4 mr-2" />

@@ -1,5 +1,5 @@
-name: "Update light & dark icon"
-description: Use this template to update an existing icon. Monochrome icons need both light and dark versions.
+name: "Update light/dark icon"
+description: Improve or update an existing light/dark icon.
 title: "feat(icons): update [NAME]"
 labels: ["monochrome-icon"]
 body:
