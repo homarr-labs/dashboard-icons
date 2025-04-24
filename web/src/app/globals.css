@@ -118,19 +118,6 @@
 			transform: rotate(-5deg) scale(0.9);
 		}
 	}
-
-	--animate-shiny-text: shiny-text 8s infinite;
-	@keyframes shiny-text {
-		0%,
-		90%,
-		100% {
-			background-position: calc(-100% - var(--shiny-width)) 0;
-		}
-		30%,
-		60% {
-			background-position: calc(100% + var(--shiny-width)) 0;
-		}
-	}
 }
 
 :root {
@@ -199,7 +186,7 @@
 	--secondary: oklch(0.31 0.03 266.71);
 	--secondary-foreground: oklch(0.92 0 0);
 	--muted: oklch(0.31 0.03 266.71);
-	--muted-foreground: oklch(0.72 0 0);
+	--muted-foreground: oklch(0.78 0 0);
 	--accent: oklch(0.34 0.06 267.59);
 	--accent-foreground: oklch(0.88 0.06 254.13);
 	--destructive: oklch(0.64 0.21 25.33);
