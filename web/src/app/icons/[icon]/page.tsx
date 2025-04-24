@@ -1,7 +1,9 @@
 import { IconDetails } from "@/components/icon-details"
-import { BASE_URL, WEB_URL } from "@/constants"
+import { StructuredData } from "@/components/structured-data"
+import { BASE_URL, GITHUB_URL, ICON_DETAIL_KEYWORDS, SITE_NAME, SITE_TAGLINE, TITLE_SEPARATOR, WEB_URL, getIconDescription, getIconSchema } from "@/constants"
 import { getAllIcons, getAuthorData } from "@/lib/api"
 import type { Metadata, ResolvingMetadata } from "next"
+import Script from "next/script"
 import { notFound } from "next/navigation"
 
 export const dynamicParams = false
@@ -16,12 +18,12 @@ export async function generateStaticParams() {
 export const dynamic = "force-static"
 
 type Props = {
-	params: Promise<{ icon: string }>
-	searchParams: Promise<{ [key: string]: string | string[] | undefined }>
+	params: { icon: string }
+	searchParams: { [key: string]: string | string[] | undefined }
 }
 
 export async function generateMetadata({ params, searchParams }: Props, parent: ResolvingMetadata): Promise<Metadata> {
-	const { icon } = await params
+	const { icon } = params
 	const iconsData = await getAllIcons()
 	if (!iconsData[icon]) {
 		notFound()
@@ -31,8 +33,6 @@ export async function generateMetadata({ params, searchParams }: Props, parent: 
 	const updateDate = new Date(iconsData[icon].update.timestamp)
 	const totalIcons = Object.keys(iconsData).length
 
-	console.debug(`Generated metadata for ${icon} by ${authorName} (${authorData.html_url}) updated at ${updateDate.toLocaleString()}`)
-
 	const iconImageUrl = `${BASE_URL}/png/${icon}.png`
 	const pageUrl = `${WEB_URL}/icons/${icon}`
 	const formattedIconName = icon
@@ -40,43 +40,39 @@ export async function generateMetadata({ params, searchParams }: Props, parent: 
 		.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
 		.join(" ")
 
+	const title = `${formattedIconName} Icon ${TITLE_SEPARATOR} ${SITE_NAME}`
+	const fullTitle = `${formattedIconName} Icon ${TITLE_SEPARATOR} ${SITE_NAME} ${TITLE_SEPARATOR} ${SITE_TAGLINE}`
+	const description = getIconDescription(formattedIconName, totalIcons)
+
 	return {
-		title: `${formattedIconName} Icon | Dashboard Icons`,
-		description: `Download the ${formattedIconName} icon in SVG, PNG, and WEBP formats for FREE. Part of a collection of ${totalIcons} curated icons for services, applications and tools, designed specifically for dashboards and app directories.`,
+		title,
+		description,
 		assets: [iconImageUrl],
-		category: "icons",
-		keywords: [
-			`${formattedIconName} icon`,
-			"dashboard icon",
-			"service icon",
-			"application icon",
-			"tool icon",
-			"web dashboard",
-			"app directory",
-		],
+		category: "Icons",
+		keywords: ICON_DETAIL_KEYWORDS(formattedIconName),
 		icons: {
 			icon: iconImageUrl,
 		},
-		abstract: `Download the ${formattedIconName} icon in SVG, PNG, and WEBP formats for FREE. Part of a collection of ${totalIcons} curated icons for services, applications and tools, designed specifically for dashboards and app directories.`,
+		abstract: description,
 		robots: {
 			index: true,
 			follow: true,
 		},
 		openGraph: {
-			title: `${formattedIconName} Icon | Dashboard Icons`,
-			description: `Download the ${formattedIconName} icon in SVG, PNG, and WEBP formats for FREE. Part of a collection of ${totalIcons} curated icons for services, applications and tools, designed specifically for dashboards and app directories.`,
+			title: title,
+			description,
 			type: "article",
 			url: pageUrl,
 			authors: [authorName],
 			publishedTime: updateDate.toISOString(),
 			modifiedTime: updateDate.toISOString(),
 			section: "Icons",
-			tags: [formattedIconName, "dashboard icon", "service icon", "application icon", "tool icon", "web dashboard", "app directory"],
+			tags: [formattedIconName, ...ICON_DETAIL_KEYWORDS(formattedIconName)],
 		},
 		twitter: {
 			card: "summary_large_image",
-			title: `${formattedIconName} Icon | Dashboard Icons`,
-			description: `Download the ${formattedIconName} icon in SVG, PNG, and WEBP formats for FREE. Part of a collection of ${totalIcons} curated icons for services, applications and tools, designed specifically for dashboards and app directories.`,
+			title: title,
+			description,
 			images: [iconImageUrl],
 		},
 		alternates: {
@@ -90,8 +86,8 @@ export async function generateMetadata({ params, searchParams }: Props, parent: 
 	}
 }
 
-export default async function IconPage({ params }: { params: Promise<{ icon: string }> }) {
-	const { icon } = await params
+export default async function IconPage({ params }: { params: { icon: string } }) {
+	const { icon } = params
 	const iconsData = await getAllIcons()
 	const originalIconData = iconsData[icon]
 
@@ -100,6 +96,26 @@ export default async function IconPage({ params }: { params: Promise<{ icon: str
 	}
 
 	const authorData = await getAuthorData(originalIconData.update.author.id)
+	const updateDate = new Date(originalIconData.update.timestamp)
+	const authorName = authorData.name || authorData.login
+	const formattedIconName = icon
+		.split("-")
+		.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+		.join(" ")
 
-	return <IconDetails icon={icon} iconData={originalIconData} authorData={authorData} />
+	const imageSchema = getIconSchema(
+		formattedIconName,
+		icon,
+		authorName,
+		authorData.html_url,
+		updateDate.toISOString(),
+		Object.keys(iconsData).length
+	)
+
+	return (
+		<>
+			<StructuredData data={imageSchema} id="image-schema" />
+			<IconDetails icon={icon} iconData={originalIconData} authorData={authorData} />
+		</>
+	)
 }

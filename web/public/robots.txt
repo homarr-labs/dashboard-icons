@@ -1,0 +1,6 @@
+# Allow all user agents
+User-agent: *
+Allow: /
+
+# Sitemap location (adjust if needed)
+Sitemap: https://dashboardicons.com/sitemap.xml

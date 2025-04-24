@@ -1,42 +1,36 @@
 import { HeroSection } from "@/components/hero"
 import { RecentlyAddedIcons } from "@/components/recently-added-icons"
-import { BASE_URL, REPO_NAME, getDescription, websiteTitle } from "@/constants"
+import { BASE_URL, DEFAULT_KEYWORDS, DEFAULT_OG_IMAGE, GITHUB_URL, ORGANIZATION_NAME, ORGANIZATION_SCHEMA, SITE_NAME, SITE_TAGLINE, WEB_URL, REPO_NAME, getHomeDescription, websiteFullTitle, websiteTitle } from "@/constants"
 import { getRecentlyAddedIcons, getTotalIcons } from "@/lib/api"
 import type { Metadata } from "next"
 
 export async function generateMetadata(): Promise<Metadata> {
 	const { totalIcons } = await getTotalIcons()
+	const description = getHomeDescription(totalIcons)
 
 	return {
 		title: websiteTitle,
-		description: getDescription(totalIcons),
-		keywords: ["dashboard icons", "service icons", "application icons", "tool icons", "web dashboard", "app directory"],
+		description,
+		keywords: DEFAULT_KEYWORDS,
 		robots: {
 			index: true,
 			follow: true,
 		},
 		openGraph: {
-			title: websiteTitle,
-			description: getDescription(totalIcons),
+			title: websiteFullTitle,
+			description,
 			type: "website",
-			url: BASE_URL,
-			images: [
-				{
-					url: "/og-image.png",
-					width: 1200,
-					height: 630,
-					alt: "Dashboard Icons",
-				},
-			],
+			url: WEB_URL,
+			images: [DEFAULT_OG_IMAGE],
 		},
 		twitter: {
-			title: websiteTitle,
-			description: getDescription(totalIcons),
+			title: websiteFullTitle,
+			description,
 			card: "summary_large_image",
-			images: ["/og-image.png"],
+			images: [DEFAULT_OG_IMAGE.url],
 		},
 		alternates: {
-			canonical: BASE_URL,
+			canonical: WEB_URL,
 		},
 	}
 }
@@ -44,7 +38,7 @@ export async function generateMetadata(): Promise<Metadata> {
 async function getGitHubStars() {
 	const response = await fetch(`https://api.github.com/repos/${REPO_NAME}`)
 	const data = await response.json()
-	console.log(`GitHub stars: ${data.stargazers_count}`)
+	// TODO: Consider caching this result or fetching at build time to avoid rate limits.
 	return data.stargazers_count
 }
 
@@ -54,9 +48,11 @@ export default async function Home() {
 	const stars = await getGitHubStars()
 
 	return (
-		<div className="flex flex-col min-h-screen">
-			<HeroSection totalIcons={totalIcons} stars={stars} />
-			<RecentlyAddedIcons icons={recentIcons} />
-		</div>
+		<>
+			<div className="flex flex-col min-h-screen">
+				<HeroSection totalIcons={totalIcons} stars={stars} />
+				<RecentlyAddedIcons icons={recentIcons} />
+			</div>
+		</>
 	)
 }
