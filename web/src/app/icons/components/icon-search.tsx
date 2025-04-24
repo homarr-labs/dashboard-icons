@@ -19,7 +19,7 @@ import { Input } from "@/components/ui/input"
 import { Separator } from "@/components/ui/separator"
 import { BASE_URL } from "@/constants"
 import type { Icon, IconSearchProps } from "@/types/icons"
-import { ArrowDownAZ, ArrowUpZA, Calendar, Filter, Search, SortAsc, X } from "lucide-react"
+import { ArrowDownAZ, ArrowUpZA, Calendar, ChevronLeft, ChevronRight, Filter, Search, SortAsc, X } from "lucide-react"
 import { useTheme } from "next-themes"
 import Image from "next/image"
 import Link from "next/link"
@@ -27,23 +27,81 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import posthog from "posthog-js"
 import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { toast } from "sonner"
+import { motion, AnimatePresence } from "framer-motion"
 
 type SortOption = "relevance" | "alphabetical-asc" | "alphabetical-desc" | "newest"
+
+// Get the display rows count based on viewport size
+function getDefaultRowsPerPage() {
+	if (typeof window === "undefined") return 3; // Default for SSR
+
+	// Calculate based on viewport height and width
+	const vh = window.innerHeight;
+	const vw = window.innerWidth;
+
+	// Determine number of columns based on viewport width
+	let columns = 2; // Default for small screens (sm)
+	if (vw >= 1280) columns = 8; // xl breakpoint
+	else if (vw >= 1024) columns = 6; // lg breakpoint
+	else if (vw >= 768) columns = 4; // md breakpoint
+	else if (vw >= 640) columns = 3; // sm breakpoint
+
+	// Calculate rows (accounting for pagination UI space)
+	const rowHeight = 130; // Approximate height of each row in pixels
+	const availableHeight = vh * 0.6; // 60% of viewport height
+
+	// Ensure at least 1 row, maximum 5 rows
+	return Math.max(1, Math.min(5, Math.floor(availableHeight / rowHeight)));
+}
 
 export function IconSearch({ icons }: IconSearchProps) {
 	const searchParams = useSearchParams()
 	const initialQuery = searchParams.get("q")
 	const initialCategories = searchParams.getAll("category")
 	const initialSort = (searchParams.get("sort") as SortOption) || "relevance"
+	const initialPage = Number(searchParams.get("page") || "1")
 	const router = useRouter()
 	const pathname = usePathname()
 	const [searchQuery, setSearchQuery] = useState(initialQuery ?? "")
 	const [debouncedQuery, setDebouncedQuery] = useState(initialQuery ?? "")
 	const [selectedCategories, setSelectedCategories] = useState<string[]>(initialCategories ?? [])
 	const [sortOption, setSortOption] = useState<SortOption>(initialSort)
+	const [currentPage, setCurrentPage] = useState(initialPage)
+	const [iconsPerPage, setIconsPerPage] = useState(getDefaultRowsPerPage() * 8) // Default cols is 8 for xl screens
 	const timeoutRef = useRef<NodeJS.Timeout | null>(null)
 	const { resolvedTheme } = useTheme()
 	const [isLazyRequestSubmitted, setIsLazyRequestSubmitted] = useState(false)
+
+	// Add resize observer to update iconsPerPage when window size changes
+	useEffect(() => {
+		const updateIconsPerPage = () => {
+			const rows = getDefaultRowsPerPage();
+
+			// Determine columns based on current viewport
+			const vw = window.innerWidth;
+			let columns = 2; // Default for small screens
+			if (vw >= 1280) columns = 8; // xl breakpoint
+			else if (vw >= 1024) columns = 6; // lg breakpoint
+			else if (vw >= 768) columns = 4; // md breakpoint
+			else if (vw >= 640) columns = 3; // sm breakpoint
+
+			setIconsPerPage(rows * columns);
+		};
+
+		// Initial setup
+		updateIconsPerPage();
+
+		// Add resize listener
+		window.addEventListener('resize', updateIconsPerPage);
+
+		// Cleanup
+		return () => window.removeEventListener('resize', updateIconsPerPage);
+	}, []);
+
+	// Reset page when search parameters change
+	useEffect(() => {
+		setCurrentPage(1);
+	}, [debouncedQuery, selectedCategories, sortOption]);
 
 	useEffect(() => {
 		const timer = setTimeout(() => {
@@ -138,7 +196,7 @@ export function IconSearch({ icons }: IconSearchProps) {
 	}, [filterIcons, debouncedQuery, selectedCategories, sortOption])
 
 	const updateResults = useCallback(
-		(query: string, categories: string[], sort: SortOption) => {
+		(query: string, categories: string[], sort: SortOption, page = 1) => {
 			const params = new URLSearchParams()
 			if (query) params.set("q", query)
 
@@ -150,6 +208,11 @@ export function IconSearch({ icons }: IconSearchProps) {
 			// Add sort parameter if not default
 			if (sort !== "relevance" || initialSort !== "relevance") {
 				params.set("sort", sort)
+			}
+
+			// Add page parameter if not the first page
+			if (page > 1) {
+				params.set("page", page.toString())
 			}
 
 			const newUrl = params.toString() ? `${pathname}?${params.toString()}` : pathname
@@ -197,11 +260,20 @@ export function IconSearch({ icons }: IconSearchProps) {
 		[updateResults, searchQuery, selectedCategories],
 	)
 
+	const handlePageChange = useCallback(
+		(page: number) => {
+			setCurrentPage(page);
+			updateResults(searchQuery, selectedCategories, sortOption, page);
+		},
+		[updateResults, searchQuery, selectedCategories, sortOption],
+	)
+
 	const clearFilters = useCallback(() => {
 		setSearchQuery("")
 		setSelectedCategories([])
 		setSortOption("relevance")
-		updateResults("", [], "relevance")
+		setCurrentPage(1)
+		updateResults("", [], "relevance", 1)
 	}, [updateResults])
 
 	useEffect(() => {
@@ -435,7 +507,14 @@ export function IconSearch({ icons }: IconSearchProps) {
 						</div>
 					</div>
 
-					<IconsGrid filteredIcons={filteredIcons} matchedAliases={matchedAliases} />
+					<IconsGrid
+						filteredIcons={filteredIcons}
+						matchedAliases={matchedAliases}
+						currentPage={currentPage}
+						iconsPerPage={iconsPerPage}
+						onPageChange={handlePageChange}
+						totalIcons={filteredIcons.length}
+					/>
 				</>
 			)}
 		</>
@@ -445,15 +524,13 @@ export function IconSearch({ icons }: IconSearchProps) {
 function IconCard({
 	name,
 	data: iconData,
-	matchedAlias,
 }: {
 	name: string
 	data: Icon
-	matchedAlias?: string | null
 }) {
 	return (
-		<MagicCard className="rounded-md shadow-md">
-			<Link prefetch={false} href={`/icons/${name}`} className="group flex flex-col items-center p-3 sm:p-4 cursor-pointer">
+		<MagicCard className="rounded-md shadow-md cursor-pointer">
+			<Link prefetch={false} href={`/icons/${name}`} className="group flex flex-col items-center p-3 sm:p-4">
 				<div className="relative h-12 w-12 sm:h-16 sm:w-16 mb-2">
 					<Image
 						src={`${BASE_URL}/${iconData.base}/${name}.${iconData.base}`}
@@ -465,8 +542,6 @@ function IconCard({
 				<span className="text-xs sm:text-sm text-center truncate w-full capitalize group- dark:group-hover:text-rose-400 transition-colors duration-200 font-medium">
 					{name.replace(/-/g, " ")}
 				</span>
-
-				{matchedAlias && <span className="text-[10px] text-center truncate w-full mt-1">Alias: {matchedAlias}</span>}
 			</Link>
 		</MagicCard>
 	)
@@ -475,17 +550,253 @@ function IconCard({
 interface IconsGridProps {
 	filteredIcons: { name: string; data: Icon }[]
 	matchedAliases: Record<string, string>
+	currentPage: number
+	iconsPerPage: number
+	onPageChange: (page: number) => void
+	totalIcons: number
 }
 
-function IconsGrid({ filteredIcons, matchedAliases }: IconsGridProps) {
+function IconsGrid({ filteredIcons, matchedAliases, currentPage, iconsPerPage, onPageChange, totalIcons }: IconsGridProps) {
+	// Calculate pagination values
+	const totalPages = Math.ceil(totalIcons / iconsPerPage)
+	const indexOfLastIcon = currentPage * iconsPerPage
+	const indexOfFirstIcon = indexOfLastIcon - iconsPerPage
+	const currentIcons = filteredIcons.slice(indexOfFirstIcon, indexOfLastIcon)
+
+	// Calculate letter ranges for each page
+	const getLetterRange = (pageNum: number) => {
+		if (filteredIcons.length === 0) return '';
+		const start = (pageNum - 1) * iconsPerPage;
+		const end = Math.min(start + iconsPerPage - 1, filteredIcons.length - 1);
+
+		if (start >= filteredIcons.length) return '';
+
+		const firstLetter = filteredIcons[start].name.charAt(0).toUpperCase();
+		const lastLetter = filteredIcons[end].name.charAt(0).toUpperCase();
+
+		return firstLetter === lastLetter ? firstLetter : `${firstLetter} - ${lastLetter}`;
+	};
+
+	// Get current page letter range
+	const currentLetterRange = getLetterRange(currentPage);
+
+	// Handle direct page input
+	const [pageInput, setPageInput] = useState(currentPage.toString());
+
+	useEffect(() => {
+		setPageInput(currentPage.toString());
+	}, [currentPage]);
+
+	const handlePageInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setPageInput(e.target.value);
+	};
+
+	const handlePageInputSubmit = (e: React.FormEvent) => {
+		e.preventDefault();
+		const pageNumber = parseInt(pageInput);
+		if (!isNaN(pageNumber) && pageNumber >= 1 && pageNumber <= totalPages) {
+			onPageChange(pageNumber);
+		} else {
+			// Reset to current page if invalid
+			setPageInput(currentPage.toString());
+		}
+	};
+
 	return (
 		<>
-			<div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-4 mt-2">
-				{filteredIcons.slice(0, 120).map(({ name, data }) => (
-					<IconCard key={name} name={name} data={data} matchedAlias={matchedAliases[name] || null} />
-				))}
+			<AnimatePresence mode="wait">
+				<motion.div
+					key={currentPage}
+					initial={{ opacity: 0, y: 20 }}
+					animate={{ opacity: 1, y: 0 }}
+					exit={{ opacity: 0, y: -20 }}
+					transition={{ duration: 0.3 }}
+					className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-4 mt-2"
+				>
+					{currentIcons.map(({ name, data }) => (
+						<IconCard key={name} name={name} data={data} />
+					))}
+				</motion.div>
+			</AnimatePresence>
+
+			{totalPages > 1 && (
+				<div className="flex flex-col gap-4 mt-8">
+					{/* Mobile view: centered content */}
+					<div className="text-sm text-muted-foreground text-center md:text-left md:hidden">
+						Showing {indexOfFirstIcon + 1}-{Math.min(indexOfLastIcon, totalIcons)} of {totalIcons} icons
+						{currentLetterRange && (
+							<span className="ml-2 font-medium">({currentLetterRange})</span>
+						)}
+					</div>
+
+					{/* Desktop view layout */}
+					<div className="hidden md:flex justify-between items-center">
+						<div className="text-sm text-muted-foreground">
+							Showing {indexOfFirstIcon + 1}-{Math.min(indexOfLastIcon, totalIcons)} of {totalIcons} icons
+							{currentLetterRange && (
+								<span className="ml-2 font-medium">({currentLetterRange})</span>
+							)}
+						</div>
+
+						<div className="flex items-center gap-4">
+							{/* Page input and total count */}
+							<form onSubmit={handlePageInputSubmit} className="flex items-center gap-2">
+								<Input
+									type="number"
+									min={1}
+									max={totalPages}
+									value={pageInput}
+									onChange={handlePageInputChange}
+									className="w-16 h-8 text-center cursor-text"
+									aria-label="Go to page"
+								/>
+								<span className="text-sm whitespace-nowrap">of {totalPages}</span>
+								<Button type="submit" size="sm" variant="outline" className="h-8 cursor-pointer">Go</Button>
+							</form>
+
+							{/* Pagination controls */}
+							<div className="flex items-center">
+								<Button
+									onClick={() => onPageChange(currentPage - 1)}
+									disabled={currentPage === 1}
+									size="sm"
+									variant="outline"
+									className="h-8 rounded-r-none cursor-pointer"
+									aria-label="Previous page"
+								>
+									<ChevronLeft className="h-4 w-4" />
+								</Button>
+
+								<div className="flex items-center overflow-hidden">
+									{Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+										// Show pages around current page
+										let pageNum;
+										if (totalPages <= 5) {
+											pageNum = i + 1;
+										} else if (currentPage <= 3) {
+											pageNum = i + 1;
+										} else if (currentPage >= totalPages - 2) {
+											pageNum = totalPages - 4 + i;
+										} else {
+											pageNum = currentPage - 2 + i;
+										}
+
+										// Calculate letter range for this page
+										const letterRange = getLetterRange(pageNum);
+
+										return (
+											<Button
+												key={pageNum}
+												onClick={() => onPageChange(pageNum)}
+												variant={pageNum === currentPage ? "default" : "outline"}
+												size="sm"
+												className={`h-8 w-8 p-0 rounded-none relative group cursor-pointer transition-colors duration-200 ${
+													pageNum === currentPage ? "font-medium" : ""
+												}`}
+												aria-label={`Page ${pageNum}`}
+												aria-current={pageNum === currentPage ? "page" : undefined}
+											>
+												{pageNum}
+												{letterRange && (
+													<span className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-popover text-popover-foreground px-2 py-1 rounded text-xs opacity-0 group-hover:opacity-100 transition-opacity shadow-md whitespace-nowrap">
+														{letterRange}
+													</span>
+												)}
+											</Button>
+										);
+									})}
+								</div>
+
+								<Button
+									onClick={() => onPageChange(currentPage + 1)}
+									disabled={currentPage === totalPages}
+									size="sm"
+									variant="outline"
+									className="h-8 rounded-l-none cursor-pointer"
+									aria-label="Next page"
+								>
+									<ChevronRight className="h-4 w-4" />
+								</Button>
+							</div>
+						</div>
+					</div>
+
+					{/* Mobile-only pagination layout - centered */}
+					<div className="flex flex-col items-center gap-4 md:hidden">
+						{/* Mobile pagination controls */}
+						<div className="flex items-center">
+							<Button
+								onClick={() => onPageChange(currentPage - 1)}
+								disabled={currentPage === 1}
+								size="sm"
+								variant="outline"
+								className="h-8 rounded-r-none cursor-pointer"
+								aria-label="Previous page"
+							>
+								<ChevronLeft className="h-4 w-4" />
+							</Button>
+
+							<div className="flex items-center overflow-hidden">
+								{Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+									// Show pages around current page - same logic as desktop
+									let pageNum;
+									if (totalPages <= 5) {
+										pageNum = i + 1;
+									} else if (currentPage <= 3) {
+										pageNum = i + 1;
+									} else if (currentPage >= totalPages - 2) {
+										pageNum = totalPages - 4 + i;
+									} else {
+										pageNum = currentPage - 2 + i;
+									}
+
+									return (
+										<Button
+											key={pageNum}
+											onClick={() => onPageChange(pageNum)}
+											variant={pageNum === currentPage ? "default" : "outline"}
+											size="sm"
+											className={`h-8 w-8 p-0 rounded-none cursor-pointer ${
+												pageNum === currentPage ? "font-medium" : ""
+											}`}
+											aria-label={`Page ${pageNum}`}
+											aria-current={pageNum === currentPage ? "page" : undefined}
+										>
+											{pageNum}
+										</Button>
+									);
+								})}
+							</div>
+
+							<Button
+								onClick={() => onPageChange(currentPage + 1)}
+								disabled={currentPage === totalPages}
+								size="sm"
+								variant="outline"
+								className="h-8 rounded-l-none cursor-pointer"
+								aria-label="Next page"
+							>
+								<ChevronRight className="h-4 w-4" />
+							</Button>
+						</div>
+
+						{/* Mobile page input */}
+						<form onSubmit={handlePageInputSubmit} className="flex items-center gap-2">
+							<Input
+								type="number"
+								min={1}
+								max={totalPages}
+								value={pageInput}
+								onChange={handlePageInputChange}
+								className="w-16 h-8 text-center cursor-text"
+								aria-label="Go to page"
+							/>
+							<span className="text-sm whitespace-nowrap">of {totalPages}</span>
+							<Button type="submit" size="sm" variant="outline" className="h-8 cursor-pointer">Go</Button>
+						</form>
+					</div>
 			</div>
-			{filteredIcons.length > 120 && <p className="text-sm text-muted-foreground">And {filteredIcons.length - 120} more...</p>}
+			)}
 		</>
 	)
 }
