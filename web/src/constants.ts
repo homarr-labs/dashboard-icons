@@ -34,7 +34,7 @@ export const DEFAULT_KEYWORDS = [
 	"free icons",
 	"SVG icons",
 	"web dashboard",
-	"app directory"
+	"app directory",
 ]
 
 export const BROWSE_KEYWORDS = [
@@ -44,7 +44,7 @@ export const BROWSE_KEYWORDS = [
 	"minimal icons",
 	"dashboard design",
 	"UI icons",
-	...DEFAULT_KEYWORDS
+	...DEFAULT_KEYWORDS,
 ]
 
 // Add format-specific keywords
@@ -56,63 +56,67 @@ export const ICON_DETAIL_KEYWORDS = (iconName: string): string[] => [
 	`${iconName} webp icon`, // e.g., "Homarr webp icon"
 	`${iconName} download`, // e.g., "Homarr download"
 	`${iconName} dashboard icon`, // e.g., "Homarr dashboard icon"
-	...DEFAULT_KEYWORDS
+	...DEFAULT_KEYWORDS,
 ]
 
 // Core structured data for the website (JSON-LD)
 export const getWebsiteSchema = (totalIcons: number) => ({
 	"@context": "https://schema.org",
 	"@type": "WebSite",
-	"name": SITE_NAME,
-	"url": WEB_URL,
-	"description": getDescription(totalIcons),
-	"potentialAction": {
+	name: SITE_NAME,
+	url: WEB_URL,
+	description: getDescription(totalIcons),
+	potentialAction: {
 		"@type": "SearchAction",
-		"target": {
+		target: {
 			"@type": "EntryPoint",
-			"urlTemplate": `${WEB_URL}/icons?q={search_term_string}`
+			urlTemplate: `${WEB_URL}/icons?q={search_term_string}`,
 		},
-		"query-input": "required name=search_term_string"
+		"query-input": "required name=search_term_string",
 	},
-	"slogan": SITE_TAGLINE
+	slogan: SITE_TAGLINE,
 })
 
 // Organization schema
 export const ORGANIZATION_SCHEMA = {
 	"@context": "https://schema.org",
 	"@type": "Organization",
-	"name": ORGANIZATION_NAME,
-	"url": `https://github.com/${REPO_NAME}`,
-	"logo": `${WEB_URL}/og-image.png`,
-	"sameAs": [
-		`https://github.com/${REPO_NAME}`,
-		"https://homarr.dev"
-	],
-	"slogan": SITE_TAGLINE
+	name: ORGANIZATION_NAME,
+	url: `https://github.com/${REPO_NAME}`,
+	logo: `${WEB_URL}/og-image.png`,
+	sameAs: [`https://github.com/${REPO_NAME}`, "https://homarr.dev"],
+	slogan: SITE_TAGLINE,
 }
 
 // Social media
 export const GITHUB_URL = `https://github.com/${REPO_NAME}`
 
 // Image schemas
-export const getIconSchema = (iconName: string, iconId: string, authorName: string, authorUrl: string, updateDate: string, totalIcons: number) => ({
+export const getIconSchema = (
+	iconName: string,
+	iconId: string,
+	authorName: string,
+	authorUrl: string,
+	updateDate: string,
+	totalIcons: number,
+) => ({
 	"@context": "https://schema.org",
 	"@type": "ImageObject",
-	"name": `${iconName} Icon`,
-	"description": getIconDescription(iconName, totalIcons),
-	"contentUrl": `${BASE_URL}/png/${iconId}.png`,
-	"thumbnailUrl": `${BASE_URL}/png/${iconId}.png`,
-	"uploadDate": updateDate,
-	"author": {
+	name: `${iconName} Icon`,
+	description: getIconDescription(iconName, totalIcons),
+	contentUrl: `${BASE_URL}/png/${iconId}.png`,
+	thumbnailUrl: `${BASE_URL}/png/${iconId}.png`,
+	uploadDate: updateDate,
+	author: {
 		"@type": "Person",
-		"name": authorName,
-		"url": authorUrl
+		name: authorName,
+		url: authorUrl,
 	},
-	"encodingFormat": ["image/png", "image/svg+xml", "image/webp"],
-	"contentSize": "Variable",
-	"representativeOfPage": true,
-	"creditText": `Icon contributed by ${authorName} to the ${SITE_NAME} collection by ${ORGANIZATION_NAME}`,
-	"embedUrl": `${WEB_URL}/icons/${iconId}`
+	encodingFormat: ["image/png", "image/svg+xml", "image/webp"],
+	contentSize: "Variable",
+	representativeOfPage: true,
+	creditText: `Icon contributed by ${authorName} to the ${SITE_NAME} collection by ${ORGANIZATION_NAME}`,
+	embedUrl: `${WEB_URL}/icons/${iconId}`,
 })
 
 // OpenGraph defaults
@@ -121,5 +125,5 @@ export const DEFAULT_OG_IMAGE = {
 	width: 1200,
 	height: 630,
 	alt: `${SITE_NAME} - ${SITE_TAGLINE}`,
-	type: "image/png"
+	type: "image/png",
 }

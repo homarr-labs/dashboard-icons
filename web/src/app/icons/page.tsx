@@ -1,7 +1,19 @@
-import { BASE_URL, BROWSE_KEYWORDS, DEFAULT_OG_IMAGE, GITHUB_URL, ORGANIZATION_NAME, ORGANIZATION_SCHEMA, SITE_NAME, SITE_TAGLINE, TITLE_SEPARATOR, WEB_URL, getBrowseDescription } from "@/constants"
+import { StructuredData } from "@/components/structured-data"
+import {
+	BASE_URL,
+	BROWSE_KEYWORDS,
+	DEFAULT_OG_IMAGE,
+	GITHUB_URL,
+	ORGANIZATION_NAME,
+	ORGANIZATION_SCHEMA,
+	SITE_NAME,
+	SITE_TAGLINE,
+	TITLE_SEPARATOR,
+	WEB_URL,
+	getBrowseDescription,
+} from "@/constants"
 import { getIconsArray } from "@/lib/api"
 import type { Metadata } from "next"
-import { StructuredData } from "@/components/structured-data"
 import { IconSearch } from "./components/icon-search"
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -42,15 +54,15 @@ export default async function IconsPage() {
 	const gallerySchema = {
 		"@context": "https://schema.org",
 		"@type": "ImageGallery",
-		"name": `${SITE_NAME} - Browse ${icons.length} Icons - ${SITE_TAGLINE}`,
-		"description": getBrowseDescription(icons.length),
-		"url": `${WEB_URL}/icons`,
-		"numberOfItems": icons.length,
-		"creator": {
+		name: `${SITE_NAME} - Browse ${icons.length} Icons - ${SITE_TAGLINE}`,
+		description: getBrowseDescription(icons.length),
+		url: `${WEB_URL}/icons`,
+		numberOfItems: icons.length,
+		creator: {
 			"@type": "Organization",
-			"name": ORGANIZATION_NAME,
-			"url": GITHUB_URL
-		}
+			name: ORGANIZATION_NAME,
+			url: GITHUB_URL,
+		},
 	}
 
 	return (
@@ -62,7 +74,9 @@ export default async function IconsPage() {
 						<div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
 							<div>
 								<h1 className="text-3xl font-bold">Icons</h1>
-								<p className="text-muted-foreground">Search our collection of {icons.length} icons - {SITE_TAGLINE}.</p>
+								<p className="text-muted-foreground">
+									Search our collection of {icons.length} icons - {SITE_TAGLINE}.
+								</p>
 							</div>
 						</div>
 

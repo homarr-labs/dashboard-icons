@@ -8,7 +8,20 @@ import type { Metadata, Viewport } from "next"
 import { Inter } from "next/font/google"
 import { Toaster } from "sonner"
 import "./globals.css"
-import { DEFAULT_KEYWORDS, DEFAULT_OG_IMAGE, GITHUB_URL, ORGANIZATION_NAME, ORGANIZATION_SCHEMA, SITE_NAME, SITE_TAGLINE, WEB_URL, getDescription, getWebsiteSchema, websiteFullTitle, websiteTitle } from "@/constants"
+import {
+	DEFAULT_KEYWORDS,
+	DEFAULT_OG_IMAGE,
+	GITHUB_URL,
+	ORGANIZATION_NAME,
+	ORGANIZATION_SCHEMA,
+	SITE_NAME,
+	SITE_TAGLINE,
+	WEB_URL,
+	getDescription,
+	getWebsiteSchema,
+	websiteFullTitle,
+	websiteTitle,
+} from "@/constants"
 import { ThemeProvider } from "./theme-provider"
 
 const inter = Inter({
@@ -102,10 +115,7 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
 		<html lang="en" suppressHydrationWarning>
 			<body className={`${inter.variable} antialiased bg-background flex flex-col min-h-screen`}>
 				<PostHogProvider>
-					<WebsiteStructuredData
-						websiteSchema={websiteSchema}
-						organizationSchema={ORGANIZATION_SCHEMA}
-					/>
+					<WebsiteStructuredData websiteSchema={websiteSchema} organizationSchema={ORGANIZATION_SCHEMA} />
 					<ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
 						<HeaderWrapper />
 						<main className="flex-grow">{children}</main>

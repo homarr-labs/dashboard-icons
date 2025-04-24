@@ -1,10 +1,20 @@
 import { IconDetails } from "@/components/icon-details"
 import { StructuredData } from "@/components/structured-data"
-import { BASE_URL, GITHUB_URL, ICON_DETAIL_KEYWORDS, SITE_NAME, SITE_TAGLINE, TITLE_SEPARATOR, WEB_URL, getIconDescription, getIconSchema } from "@/constants"
+import {
+	BASE_URL,
+	GITHUB_URL,
+	ICON_DETAIL_KEYWORDS,
+	SITE_NAME,
+	SITE_TAGLINE,
+	TITLE_SEPARATOR,
+	WEB_URL,
+	getIconDescription,
+	getIconSchema,
+} from "@/constants"
 import { getAllIcons, getAuthorData } from "@/lib/api"
 import type { Metadata, ResolvingMetadata } from "next"
-import Script from "next/script"
 import { notFound } from "next/navigation"
+import Script from "next/script"
 
 export const dynamicParams = false
 
@@ -109,7 +119,7 @@ export default async function IconPage({ params }: { params: { icon: string } })
 		authorName,
 		authorData.html_url,
 		updateDate.toISOString(),
-		Object.keys(iconsData).length
+		Object.keys(iconsData).length,
 	)
 
 	return (

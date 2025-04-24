@@ -1,6 +1,20 @@
 import { HeroSection } from "@/components/hero"
 import { RecentlyAddedIcons } from "@/components/recently-added-icons"
-import { BASE_URL, DEFAULT_KEYWORDS, DEFAULT_OG_IMAGE, GITHUB_URL, ORGANIZATION_NAME, ORGANIZATION_SCHEMA, SITE_NAME, SITE_TAGLINE, WEB_URL, REPO_NAME, getHomeDescription, websiteFullTitle, websiteTitle } from "@/constants"
+import {
+	BASE_URL,
+	DEFAULT_KEYWORDS,
+	DEFAULT_OG_IMAGE,
+	GITHUB_URL,
+	ORGANIZATION_NAME,
+	ORGANIZATION_SCHEMA,
+	REPO_NAME,
+	SITE_NAME,
+	SITE_TAGLINE,
+	WEB_URL,
+	getHomeDescription,
+	websiteFullTitle,
+	websiteTitle,
+} from "@/constants"
 import { getRecentlyAddedIcons, getTotalIcons } from "@/lib/api"
 import type { Metadata } from "next"
 

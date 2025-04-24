@@ -1,13 +1,8 @@
 import { readFile } from "node:fs/promises"
 import { join } from "node:path"
+import { SITE_NAME, SITE_TAGLINE, WEB_URL, getIconDescription } from "@/constants"
 import { getAllIcons } from "@/lib/api"
 import { ImageResponse } from "next/og"
-import {
-	SITE_NAME,
-	SITE_TAGLINE,
-	getIconDescription,
-	WEB_URL
-} from "@/constants"
 
 export const dynamic = "force-static"
 
