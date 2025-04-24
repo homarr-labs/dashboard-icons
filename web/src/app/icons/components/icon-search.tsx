@@ -227,6 +227,21 @@ export function IconSearch({ icons }: IconSearchProps) {
 		[pathname, router, initialSort],
 	)
 
+	// Validate currentPage when iconsPerPage or filteredIcons change
+	useEffect(() => {
+		// Calculate new total pages
+		const totalPages = Math.ceil(filteredIcons.length / iconsPerPage)
+
+		// If current page is out of bounds, adjust it
+		if (currentPage > totalPages && totalPages > 0) {
+			// Update current page state
+			setCurrentPage(totalPages)
+
+			// Update URL to reflect the adjusted page
+			updateResults(searchQuery, selectedCategories, sortOption, totalPages)
+		}
+	}, [iconsPerPage, filteredIcons.length, currentPage, searchQuery, selectedCategories, sortOption, updateResults])
+
 	const handleSearch = useCallback(
 		(query: string) => {
 			setSearchQuery(query)
