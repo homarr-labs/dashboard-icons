@@ -52,19 +52,14 @@ export const dynamic = "force-static"
 export default async function IconsPage() {
 	const icons = await getIconsArray()
 	return (
-		<div className="isolate overflow-hidden">
-			<div className="py-8">
-				<div className="space-y-4 mb-8 mx-auto max-w-7xl">
-					<div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-						<div>
-							<h1 className="text-3xl font-bold">Browse icons</h1>
-							<p className="text-muted-foreground">Search through our collection of {icons.length} beautiful icons.</p>
-						</div>
-					</div>
-
-					<IconSearch icons={icons} />
+		<div className="isolate overflow-hidden p-2 mx-auto max-w-7xl">
+			<div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+				<div>
+					<h1 className="text-3xl font-bold">Browse icons</h1>
+					<p className="text-muted-foreground">Search through our collection of {icons.length} beautiful icons.</p>
 				</div>
 			</div>
+			<IconSearch icons={icons} />
 		</div>
 	)
 }
