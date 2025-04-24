@@ -19,6 +19,7 @@ import { Input } from "@/components/ui/input"
 import { Separator } from "@/components/ui/separator"
 import { BASE_URL } from "@/constants"
 import type { Icon, IconSearchProps } from "@/types/icons"
+import { AnimatePresence, motion } from "framer-motion"
 import { ArrowDownAZ, ArrowUpZA, Calendar, ChevronLeft, ChevronRight, Filter, Search, SortAsc, X } from "lucide-react"
 import { useTheme } from "next-themes"
 import Image from "next/image"
@@ -27,31 +28,33 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import posthog from "posthog-js"
 import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { toast } from "sonner"
-import { motion, AnimatePresence } from "framer-motion"
 
 type SortOption = "relevance" | "alphabetical-asc" | "alphabetical-desc" | "newest"
 
 // Get the display rows count based on viewport size
 function getDefaultRowsPerPage() {
-	if (typeof window === "undefined") return 3; // Default for SSR
+	if (typeof window === "undefined") return 3 // Default for SSR
 
 	// Calculate based on viewport height and width
-	const vh = window.innerHeight;
-	const vw = window.innerWidth;
+	const vh = window.innerHeight
+	const vw = window.innerWidth
 
 	// Determine number of columns based on viewport width
-	let columns = 2; // Default for small screens (sm)
-	if (vw >= 1280) columns = 8; // xl breakpoint
-	else if (vw >= 1024) columns = 6; // lg breakpoint
-	else if (vw >= 768) columns = 4; // md breakpoint
-	else if (vw >= 640) columns = 3; // sm breakpoint
+	let columns = 2 // Default for small screens (sm)
+	if (vw >= 1280)
+		columns = 8 // xl breakpoint
+	else if (vw >= 1024)
+		columns = 6 // lg breakpoint
+	else if (vw >= 768)
+		columns = 4 // md breakpoint
+	else if (vw >= 640) columns = 3 // sm breakpoint
 
 	// Calculate rows (accounting for pagination UI space)
-	const rowHeight = 130; // Approximate height of each row in pixels
-	const availableHeight = vh * 0.6; // 60% of viewport height
+	const rowHeight = 130 // Approximate height of each row in pixels
+	const availableHeight = vh * 0.6 // 60% of viewport height
 
 	// Ensure at least 1 row, maximum 5 rows
-	return Math.max(1, Math.min(5, Math.floor(availableHeight / rowHeight)));
+	return Math.max(1, Math.min(5, Math.floor(availableHeight / rowHeight)))
 }
 
 export function IconSearch({ icons }: IconSearchProps) {
@@ -75,33 +78,36 @@ export function IconSearch({ icons }: IconSearchProps) {
 	// Add resize observer to update iconsPerPage when window size changes
 	useEffect(() => {
 		const updateIconsPerPage = () => {
-			const rows = getDefaultRowsPerPage();
+			const rows = getDefaultRowsPerPage()
 
 			// Determine columns based on current viewport
-			const vw = window.innerWidth;
-			let columns = 2; // Default for small screens
-			if (vw >= 1280) columns = 8; // xl breakpoint
-			else if (vw >= 1024) columns = 6; // lg breakpoint
-			else if (vw >= 768) columns = 4; // md breakpoint
-			else if (vw >= 640) columns = 3; // sm breakpoint
+			const vw = window.innerWidth
+			let columns = 2 // Default for small screens
+			if (vw >= 1280)
+				columns = 8 // xl breakpoint
+			else if (vw >= 1024)
+				columns = 6 // lg breakpoint
+			else if (vw >= 768)
+				columns = 4 // md breakpoint
+			else if (vw >= 640) columns = 3 // sm breakpoint
 
-			setIconsPerPage(rows * columns);
-		};
+			setIconsPerPage(rows * columns)
+		}
 
 		// Initial setup
-		updateIconsPerPage();
+		updateIconsPerPage()
 
 		// Add resize listener
-		window.addEventListener('resize', updateIconsPerPage);
+		window.addEventListener("resize", updateIconsPerPage)
 
 		// Cleanup
-		return () => window.removeEventListener('resize', updateIconsPerPage);
-	}, []);
+		return () => window.removeEventListener("resize", updateIconsPerPage)
+	}, [])
 
 	// Reset page when search parameters change
 	useEffect(() => {
-		setCurrentPage(1);
-	}, [debouncedQuery, selectedCategories, sortOption]);
+		setCurrentPage(1)
+	}, [])
 
 	useEffect(() => {
 		const timer = setTimeout(() => {
@@ -262,8 +268,8 @@ export function IconSearch({ icons }: IconSearchProps) {
 
 	const handlePageChange = useCallback(
 		(page: number) => {
-			setCurrentPage(page);
-			updateResults(searchQuery, selectedCategories, sortOption, page);
+			setCurrentPage(page)
+			updateResults(searchQuery, selectedCategories, sortOption, page)
 		},
 		[updateResults, searchQuery, selectedCategories, sortOption],
 	)
@@ -565,42 +571,42 @@ function IconsGrid({ filteredIcons, matchedAliases, currentPage, iconsPerPage, o
 
 	// Calculate letter ranges for each page
 	const getLetterRange = (pageNum: number) => {
-		if (filteredIcons.length === 0) return '';
-		const start = (pageNum - 1) * iconsPerPage;
-		const end = Math.min(start + iconsPerPage - 1, filteredIcons.length - 1);
+		if (filteredIcons.length === 0) return ""
+		const start = (pageNum - 1) * iconsPerPage
+		const end = Math.min(start + iconsPerPage - 1, filteredIcons.length - 1)
 
-		if (start >= filteredIcons.length) return '';
+		if (start >= filteredIcons.length) return ""
 
-		const firstLetter = filteredIcons[start].name.charAt(0).toUpperCase();
-		const lastLetter = filteredIcons[end].name.charAt(0).toUpperCase();
+		const firstLetter = filteredIcons[start].name.charAt(0).toUpperCase()
+		const lastLetter = filteredIcons[end].name.charAt(0).toUpperCase()
 
-		return firstLetter === lastLetter ? firstLetter : `${firstLetter} - ${lastLetter}`;
-	};
+		return firstLetter === lastLetter ? firstLetter : `${firstLetter} - ${lastLetter}`
+	}
 
 	// Get current page letter range
-	const currentLetterRange = getLetterRange(currentPage);
+	const currentLetterRange = getLetterRange(currentPage)
 
 	// Handle direct page input
-	const [pageInput, setPageInput] = useState(currentPage.toString());
+	const [pageInput, setPageInput] = useState(currentPage.toString())
 
 	useEffect(() => {
-		setPageInput(currentPage.toString());
-	}, [currentPage]);
+		setPageInput(currentPage.toString())
+	}, [currentPage])
 
 	const handlePageInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		setPageInput(e.target.value);
-	};
+		setPageInput(e.target.value)
+	}
 
 	const handlePageInputSubmit = (e: React.FormEvent) => {
-		e.preventDefault();
-		const pageNumber = parseInt(pageInput);
-		if (!isNaN(pageNumber) && pageNumber >= 1 && pageNumber <= totalPages) {
-			onPageChange(pageNumber);
+		e.preventDefault()
+		const pageNumber = Number.parseInt(pageInput)
+		if (!Number.isNaN(pageNumber) && pageNumber >= 1 && pageNumber <= totalPages) {
+			onPageChange(pageNumber)
 		} else {
 			// Reset to current page if invalid
-			setPageInput(currentPage.toString());
+			setPageInput(currentPage.toString())
 		}
-	};
+	}
 
 	return (
 		<>
@@ -624,18 +630,14 @@ function IconsGrid({ filteredIcons, matchedAliases, currentPage, iconsPerPage, o
 					{/* Mobile view: centered content */}
 					<div className="text-sm text-muted-foreground text-center md:text-left md:hidden">
 						Showing {indexOfFirstIcon + 1}-{Math.min(indexOfLastIcon, totalIcons)} of {totalIcons} icons
-						{currentLetterRange && (
-							<span className="ml-2 font-medium">({currentLetterRange})</span>
-						)}
+						{currentLetterRange && <span className="ml-2 font-medium">({currentLetterRange})</span>}
 					</div>
 
 					{/* Desktop view layout */}
 					<div className="hidden md:flex justify-between items-center">
 						<div className="text-sm text-muted-foreground">
 							Showing {indexOfFirstIcon + 1}-{Math.min(indexOfLastIcon, totalIcons)} of {totalIcons} icons
-							{currentLetterRange && (
-								<span className="ml-2 font-medium">({currentLetterRange})</span>
-							)}
+							{currentLetterRange && <span className="ml-2 font-medium">({currentLetterRange})</span>}
 						</div>
 
 						<div className="flex items-center gap-4">
@@ -651,7 +653,9 @@ function IconsGrid({ filteredIcons, matchedAliases, currentPage, iconsPerPage, o
 									aria-label="Go to page"
 								/>
 								<span className="text-sm whitespace-nowrap">of {totalPages}</span>
-								<Button type="submit" size="sm" variant="outline" className="h-8 cursor-pointer">Go</Button>
+								<Button type="submit" size="sm" variant="outline" className="h-8 cursor-pointer">
+									Go
+								</Button>
 							</form>
 
 							{/* Pagination controls */}
@@ -670,19 +674,19 @@ function IconsGrid({ filteredIcons, matchedAliases, currentPage, iconsPerPage, o
 								<div className="flex items-center overflow-hidden">
 									{Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
 										// Show pages around current page
-										let pageNum;
+										let pageNum: number
 										if (totalPages <= 5) {
-											pageNum = i + 1;
+											pageNum = i + 1
 										} else if (currentPage <= 3) {
-											pageNum = i + 1;
+											pageNum = i + 1
 										} else if (currentPage >= totalPages - 2) {
-											pageNum = totalPages - 4 + i;
+											pageNum = totalPages - 4 + i
 										} else {
-											pageNum = currentPage - 2 + i;
+											pageNum = currentPage - 2 + i
 										}
 
 										// Calculate letter range for this page
-										const letterRange = getLetterRange(pageNum);
+										const letterRange = getLetterRange(pageNum)
 
 										return (
 											<Button
@@ -703,7 +707,7 @@ function IconsGrid({ filteredIcons, matchedAliases, currentPage, iconsPerPage, o
 													</span>
 												)}
 											</Button>
-										);
+										)
 									})}
 								</div>
 
@@ -739,15 +743,15 @@ function IconsGrid({ filteredIcons, matchedAliases, currentPage, iconsPerPage, o
 							<div className="flex items-center overflow-hidden">
 								{Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
 									// Show pages around current page - same logic as desktop
-									let pageNum;
+									let pageNum: number
 									if (totalPages <= 5) {
-										pageNum = i + 1;
+										pageNum = i + 1
 									} else if (currentPage <= 3) {
-										pageNum = i + 1;
+										pageNum = i + 1
 									} else if (currentPage >= totalPages - 2) {
-										pageNum = totalPages - 4 + i;
+										pageNum = totalPages - 4 + i
 									} else {
-										pageNum = currentPage - 2 + i;
+										pageNum = currentPage - 2 + i
 									}
 
 									return (
@@ -756,15 +760,13 @@ function IconsGrid({ filteredIcons, matchedAliases, currentPage, iconsPerPage, o
 											onClick={() => onPageChange(pageNum)}
 											variant={pageNum === currentPage ? "default" : "outline"}
 											size="sm"
-											className={`h-8 w-8 p-0 rounded-none cursor-pointer ${
-												pageNum === currentPage ? "font-medium" : ""
-											}`}
+											className={`h-8 w-8 p-0 rounded-none cursor-pointer ${pageNum === currentPage ? "font-medium" : ""}`}
 											aria-label={`Page ${pageNum}`}
 											aria-current={pageNum === currentPage ? "page" : undefined}
 										>
 											{pageNum}
 										</Button>
-									);
+									)
 								})}
 							</div>
 
@@ -792,10 +794,12 @@ function IconsGrid({ filteredIcons, matchedAliases, currentPage, iconsPerPage, o
 								aria-label="Go to page"
 							/>
 							<span className="text-sm whitespace-nowrap">of {totalPages}</span>
-							<Button type="submit" size="sm" variant="outline" className="h-8 cursor-pointer">Go</Button>
+							<Button type="submit" size="sm" variant="outline" className="h-8 cursor-pointer">
+								Go
+							</Button>
 						</form>
 					</div>
-			</div>
+				</div>
 			)}
 		</>
 	)
