@@ -11,7 +11,7 @@ export function IconCard({
 }: {
 	name: string
 	data: Icon
-	matchedAlias?: string | null
+	matchedAlias?: string
 }) {
 	return (
 		<MagicCard className="rounded-md shadow-md">
