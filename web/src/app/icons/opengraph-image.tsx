@@ -8,13 +8,32 @@ export const size = {
   height: 630,
 }
 
+// Define a fixed list of representative icons
+const representativeIcons = [
+  "github",
+  "discord",
+  "slack",
+  "docker",
+  "kubernetes",
+  "grafana",
+  "prometheus",
+  "nextcloud",
+  "homeassistant",
+  "cloudflare",
+  "nginx",
+  "traefik",
+  "portainer",
+  "plex",
+  "jellyfin",
+]
+
 export default async function Image() {
   const iconsData = await getAllIcons()
   const totalIcons = Object.keys(iconsData).length
-  const iconKeys = Object.keys(iconsData)
-  const selectedIcons = iconKeys.slice(0, 15)
+  // Round down to the nearest 100
+  const roundedTotalIcons = Math.floor(totalIcons / 100) * 100
 
-  const iconImages = selectedIcons.map((icon) => ({
+  const iconImages = representativeIcons.map((icon) => ({
     name: icon
       .split("-")
       .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
@@ -112,7 +131,7 @@ export default async function Image() {
               maxWidth: 1100,
             }}
           >
-            A curated collection of ${totalIcons} free icons for dashboards and app directories
+            A curated collection of {roundedTotalIcons}+ free icons for dashboards and app directories
           </div>
         </div>
 
@@ -204,7 +223,7 @@ export default async function Image() {
                 zIndex: 1,
               }}
             >
-              +{totalIcons - 15}
+              +{totalIcons - representativeIcons.length}
             </div>
           </div>
         </div>
