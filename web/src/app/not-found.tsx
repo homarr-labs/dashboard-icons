@@ -16,9 +16,7 @@ export default function NotFound({
 						<AlertTriangle className="w-8 h-8" />
 					</div>
 					<h1 className="text-2xl sm:text-3xl font-bold mt-6">Not found</h1>
-					<p className="text-muted-foreground mt-3 max-w-md">
-						This icon does not exist or could not be loaded.
-					</p>
+					<p className="text-muted-foreground mt-3 max-w-md">This icon does not exist or could not be loaded.</p>
 				</div>
 
 				<div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -33,9 +31,7 @@ export default function NotFound({
 				<div className="border-t border-border pt-8 mt-8">
 					<div className="text-center mb-6">
 						<h2 className="text-xl font-semibold">Missing an icon?</h2>
-						<p className="text-muted-foreground mt-2">
-							Submit a new icon or suggest improvements to our collection.
-						</p>
+						<p className="text-muted-foreground mt-2">Submit a new icon or suggest improvements to our collection.</p>
 					</div>
 
 					<div className="mt-6">

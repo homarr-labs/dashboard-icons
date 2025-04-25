@@ -9,7 +9,7 @@ import { BASE_URL, REPO_PATH } from "@/constants"
 import type { AuthorData, Icon, IconFile } from "@/types/icons"
 import confetti from "canvas-confetti"
 import { motion } from "framer-motion"
-import { Check, Copy, Download, FileType, Github, Moon, PaletteIcon, Sun, ArrowRight } from "lucide-react"
+import { ArrowRight, Check, Copy, Download, FileType, Github, Moon, PaletteIcon, Sun } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 import { useCallback, useState } from "react"
@@ -238,12 +238,7 @@ export function IconDetails({ icon, iconData, authorData, allIcons }: IconDetail
 
 							<Tooltip>
 								<TooltipTrigger asChild>
-									<Button
-										variant="outline"
-										size="icon"
-										className="h-8 w-8 rounded-lg"
-										asChild
-									>
+									<Button variant="outline" size="icon" className="h-8 w-8 rounded-lg" asChild>
 										<Link
 											href={githubUrl}
 											target="_blank"
@@ -363,14 +358,16 @@ export function IconDetails({ icon, iconData, authorData, allIcons }: IconDetail
 									<h3 className="text-sm font-semibold text-muted-foreground mb-2">About this icon</h3>
 									<div className="text-xs text-muted-foreground space-y-2">
 										<p>
-											Available in {availableFormats.length > 1
+											Available in{" "}
+											{availableFormats.length > 1
 												? `${availableFormats.length} formats (${availableFormats.map((f) => f.toUpperCase()).join(", ")}) `
 												: `${availableFormats[0].toUpperCase()} format `}
 											with a base format of {iconData.base.toUpperCase()}.
 											{iconData.colors && " Includes both light and dark theme variants for better integration with different UI designs."}
 										</p>
 										<p>
-											Perfect for adding to dashboards, app directories, documentation, or anywhere you need the {icon.replace(/-/g, " ")} logo.
+											Perfect for adding to dashboards, app directories, documentation, or anywhere you need the {icon.replace(/-/g, " ")}{" "}
+											logo.
 										</p>
 									</div>
 								</div>
@@ -476,57 +473,63 @@ export function IconDetails({ icon, iconData, authorData, allIcons }: IconDetail
 					</Card>
 				</div>
 			</div>
-			{iconData.categories && iconData.categories.length > 0 && (() => {
-				const MAX_RELATED_ICONS = 16
-				const currentCategories = iconData.categories || []
+			{iconData.categories &&
+				iconData.categories.length > 0 &&
+				(() => {
+					const MAX_RELATED_ICONS = 16
+					const currentCategories = iconData.categories || []
 
-				const relatedIconsWithScore = Object.entries(allIcons)
-					.map(([name, data]) => {
-						if (name === icon) return null // Exclude the current icon
+					const relatedIconsWithScore = Object.entries(allIcons)
+						.map(([name, data]) => {
+							if (name === icon) return null // Exclude the current icon
 
-						const otherCategories = data.categories || []
-						const commonCategories = currentCategories.filter((cat) => otherCategories.includes(cat))
-						const score = commonCategories.length
+							const otherCategories = data.categories || []
+							const commonCategories = currentCategories.filter((cat) => otherCategories.includes(cat))
+							const score = commonCategories.length
 
-						return score > 0 ? { name, data, score } : null
-					})
-					.filter((item): item is { name: string; data: Icon; score: number } => item !== null) // Type guard
-					.sort((a, b) => b.score - a.score) // Sort by score DESC
+							return score > 0 ? { name, data, score } : null
+						})
+						.filter((item): item is { name: string; data: Icon; score: number } => item !== null) // Type guard
+						.sort((a, b) => b.score - a.score) // Sort by score DESC
 
-				const topRelatedIcons = relatedIconsWithScore.slice(0, MAX_RELATED_ICONS)
+					const topRelatedIcons = relatedIconsWithScore.slice(0, MAX_RELATED_ICONS)
 
-				const viewMoreUrl = `/icons?${currentCategories.map((cat) => `category=${encodeURIComponent(cat)}`).join("&")}`
+					const viewMoreUrl = `/icons?${currentCategories.map((cat) => `category=${encodeURIComponent(cat)}`).join("&")}`
 
-				if (topRelatedIcons.length === 0) return null
+					if (topRelatedIcons.length === 0) return null
 
-				return (
-					<section className="container mx-auto mt-12" aria-labelledby="related-icons-title">
-						<Card className="bg-background/50 border shadow-lg">
-							<CardHeader>
-								<CardTitle>
-									<h2 id="related-icons-title">Related Icons</h2>
-								</CardTitle>
-								<CardDescription>
-									Other icons from {currentCategories.map((cat) => cat.replace(/-/g, " ")).join(", ")} categories
-								</CardDescription>
-							</CardHeader>
-							<CardContent>
-								<IconsGrid filteredIcons={topRelatedIcons} matchedAliases={{}} />
-								{relatedIconsWithScore.length > MAX_RELATED_ICONS && (
-									<div className="mt-6 text-center">
-										<Button asChild variant="link" className="text-muted-foreground hover:text-primary transition-colors duration-200 hover:no-underline">
-											<Link href={viewMoreUrl} className="no-underline">
-												View all related icons
-												<ArrowRight className="ml-2 h-4 w-4" />
-											</Link>
-										</Button>
-									</div>
-								)}
-							</CardContent>
-						</Card>
-					</section>
-				)
-			})()}
+					return (
+						<section className="container mx-auto mt-12" aria-labelledby="related-icons-title">
+							<Card className="bg-background/50 border shadow-lg">
+								<CardHeader>
+									<CardTitle>
+										<h2 id="related-icons-title">Related Icons</h2>
+									</CardTitle>
+									<CardDescription>
+										Other icons from {currentCategories.map((cat) => cat.replace(/-/g, " ")).join(", ")} categories
+									</CardDescription>
+								</CardHeader>
+								<CardContent>
+									<IconsGrid filteredIcons={topRelatedIcons} matchedAliases={{}} />
+									{relatedIconsWithScore.length > MAX_RELATED_ICONS && (
+										<div className="mt-6 text-center">
+											<Button
+												asChild
+												variant="link"
+												className="text-muted-foreground hover:text-primary transition-colors duration-200 hover:no-underline"
+											>
+												<Link href={viewMoreUrl} className="no-underline">
+													View all related icons
+													<ArrowRight className="ml-2 h-4 w-4" />
+												</Link>
+											</Button>
+										</div>
+									)}
+								</CardContent>
+							</Card>
+						</section>
+					)
+				})()}
 		</div>
 	)
 }

@@ -25,7 +25,7 @@ export function VirtualizedIconsGrid({ filteredIcons, matchedAliases }: IconsGri
 
 	useEffect(() => {
 		setWindowWidth(window.innerWidth)
-		
+
 		const handleResize = () => {
 			setWindowWidth(window.innerWidth)
 		}

@@ -216,19 +216,19 @@ export function HeroSection({ totalIcons, stars }: { totalIcons: number; stars: 
 							transition={{
 								duration: 0.5,
 								delay: 0.3,
-								ease: "easeOut"
+								ease: "easeOut",
 							}}
 						>
 							<motion.div
 								animate={{
 									y: [0, -3, 0],
-									rotate: [0, 5, 0]
+									rotate: [0, 5, 0],
 								}}
 								transition={{
 									duration: 3,
-									repeat: Infinity,
+									repeat: Number.POSITIVE_INFINITY,
 									repeatType: "reverse",
-									ease: "easeInOut"
+									ease: "easeInOut",
 								}}
 							>
 								<Sparkles className="text-rose-500 h-8 w-8 sm:h-12 sm:w-12 md:h-16 md:w-12" />
@@ -242,19 +242,19 @@ export function HeroSection({ totalIcons, stars }: { totalIcons: number; stars: 
 							transition={{
 								duration: 0.5,
 								delay: 0.3,
-								ease: "easeOut"
+								ease: "easeOut",
 							}}
 						>
 							<motion.div
 								animate={{
 									y: [0, -3, 0],
-									rotate: [0, -5, 0]
+									rotate: [0, -5, 0],
 								}}
 								transition={{
 									duration: 4,
-									repeat: Infinity,
+									repeat: Number.POSITIVE_INFINITY,
 									repeatType: "reverse",
-									ease: "easeInOut"
+									ease: "easeInOut",
 								}}
 							>
 								<Sparkles className="text-rose-500 h-5 w-5 sm:h-8 sm:w-8 md:h-12 md:w-12" />
