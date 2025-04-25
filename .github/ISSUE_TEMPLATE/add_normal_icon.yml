@@ -1,5 +1,5 @@
-name: "Add standard icon"
-description: Submit a new icon for both light and dark themes.
+name: "Add normal icon"
+description: Use this template to add a new icon to the project. Normal icons work for both light and dark themes.
 title: "feat(icons): add [NAME]"
 labels: ["normal-icon"]
 body:

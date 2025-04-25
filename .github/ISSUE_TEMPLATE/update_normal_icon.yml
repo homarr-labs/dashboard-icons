@@ -1,5 +1,5 @@
-name: "Update standard icon"
-description: Improve or update an existing standard icon.
+name: "Update normal icon"
+description: Use this template to update an existing icon. Normal icons work for both light and dark themes.
 title: "feat(icons): update [NAME]"
 labels: ["normal-icon"]
 body:

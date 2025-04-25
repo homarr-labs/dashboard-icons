@@ -11,32 +11,32 @@ import { useState } from "react"
 export const ISSUE_TEMPLATES = [
 	{
 		id: "add_monochrome_icon",
-		name: "Add light/dark icon",
-		description: "Submit a new icon with light and dark versions.",
+		name: "Add light & dark icon",
+		description: "Submit a new icon with both light and dark versions for optimal theme compatibility.",
 		url: `${REPO_PATH}/issues/new?template=add_monochrome_icon.yml`,
 	},
 	{
 		id: "add_normal_icon",
-		name: "Add standard icon",
-		description: "Submit a new icon for both themes.",
+		name: "Add normal icon",
+		description: "Submit a new icon that works well across both light and dark themes.",
 		url: `${REPO_PATH}/issues/new?template=add_normal_icon.yml`,
 	},
 	{
 		id: "update_monochrome_icon",
-		name: "Update light/dark icon",
-		description: "Improve or update an existing light/dark icon.",
+		name: "Update light & dark icon",
+		description: "Improve an existing icon by updating both light and dark versions.",
 		url: `${REPO_PATH}/issues/new?template=update_monochrome_icon.yml`,
 	},
 	{
 		id: "update_normal_icon",
-		name: "Update standard icon",
-		description: "Improve or update an existing standard icon.",
+		name: "Update normal icon",
+		description: "Improve an existing icon that works across both light and dark themes.",
 		url: `${REPO_PATH}/issues/new?template=update_normal_icon.yml`,
 	},
 	{
 		id: "blank_issue",
-		name: "Other request",
-		description: "Submit another type of request.",
+		name: "Something else",
+		description: "Create a custom issue for other suggestions, bug reports, or improvements.",
 		url: `${REPO_PATH}/issues/new?template=BLANK_ISSUE`,
 	},
 ]
