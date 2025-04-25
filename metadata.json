@@ -2907,10 +2907,6 @@
                 "id": 710886,
                 "name": "MatthewGlenn"
             }
-        },
-        "colors": {
-            "dark": "ollama-dark",
-            "light": "ollama-light"
         }
     },
     "ihatemoney": {
@@ -7319,19 +7315,15 @@
             "Developper-Tools"
         ],
         "update": {
-            "timestamp": "2025-04-25T12:00:00Z",
+            "timestamp": "2022-10-03T09:35:40Z",
             "author": {
-                "id": 49837342,
-                "name": "ajnart"
+                "id": 15933,
+                "name": "fabricionaweb"
             }
         },
         "colors": {
             "dark": "github",
             "light": "github-light"
-        },
-        "wordmark": {
-            "light": "github-wordmark-light",
-            "dark": "github-wordmark-dark"
         }
     },
     "octoprint": {
@@ -8591,24 +8583,6 @@
             "author": {
                 "id": 48109134,
                 "login": "jdcool00"
-            }
-        }
-    },
-    "hugging-face": {
-        "base": "svg",
-        "aliases": [
-            "machine-learning-platform",
-            "nlp-library"
-        ],
-        "categories": [
-            "AI-&-LLM-Platforms",
-            "Developper-Tools"
-        ],
-        "update": {
-            "timestamp": "2023-04-16T22:04:08Z",
-            "author": {
-                "id": 71191962,
-                "name": "walkxcode"
             }
         }
     },
@@ -13301,22 +13275,6 @@
             }
         }
     },
-    "youtube-music": {
-        "base": "svg",
-        "aliases": [],
-        "categories": [],
-        "update": {
-            "timestamp": "2025-04-25T12:00:00Z",
-            "author": {
-                "id": 49837342,
-                "name": "ajnart"
-            }
-        },
-        "wordmark": {
-            "light": "youtube-music-wordmark-light",
-            "dark": "youtube-music-wordmark-dark"
-        }
-    },
     "atlassian-opsgenie": {
         "base": "svg",
         "aliases": [],
@@ -14284,10 +14242,6 @@
                 "id": 71191962,
                 "name": "walkxcode"
             }
-        },
-        "colors": {
-            "dark": "cisco-dark",
-            "light": "cisco-light"
         }
     },
     "gboard": {
@@ -15790,18 +15744,6 @@
             "author": {
                 "id": 40500313,
                 "name": "bfpimentel"
-            }
-        }
-    },
-    "raspberrymatic": {
-        "base": "png",
-        "aliases": [],
-        "categories": [],
-        "update": {
-            "timestamp": "2025-01-07T17:54:03Z",
-            "author": {
-                "id": 71191962,
-                "name": "walkxcode"
             }
         }
     },
@@ -23848,10 +23790,6 @@
                 "id": 71191962,
                 "name": "walkxcode"
             }
-        },
-        "colors": {
-            "dark": "golang-dark",
-            "light": "golang"
         }
     },
     "speedtest-tracker": {
@@ -24723,15 +24661,19 @@
         "aliases": [],
         "categories": [],
         "update": {
-            "timestamp": "2025-02-07T08:49:00Z",
+            "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 120187197,
-                "name": "janmile"
+                "id": 49837342,
+                "name": "ajnart"
             }
         },
         "colors": {
             "dark": "perplexity-dark",
             "light": "perplexity-light"
+        },
+        "wordmark": {
+            "light": "perplexity-wordmark-light",
+            "dark": "perplexity-wordmark-dark"
         }
     },
     "touitomamout": {
@@ -27443,7 +27385,21 @@
             }
         }
     },
-    "milanote": {
+    "drive": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "Google"
+        ],
+        "update": {
+            "timestamp": "2025-04-25T12:00:00Z",
+            "author": {
+                "id": 49837342,
+                "name": "ajnart"
+            }
+        }
+    },
+    "milanote-light": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -27465,7 +27421,7 @@
             "light": "milanote-light"
         }
     },
-    "together-ai": {
+    "togetherai-light": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -27533,6 +27489,42 @@
             }
         },
         "wordmark": "cohere-wordmark"
+    },
+    "ollama-light": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "AI"
+        ],
+        "update": {
+            "timestamp": "2025-04-25T12:00:00Z",
+            "author": {
+                "id": 49837342,
+                "name": "ajnart"
+            }
+        },
+        "colors": {
+            "dark": "ollama-dark",
+            "light": "ollama-light"
+        }
+    },
+    "cisco-light": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "Software"
+        ],
+        "update": {
+            "timestamp": "2025-04-25T12:00:00Z",
+            "author": {
+                "id": 49837342,
+                "name": "ajnart"
+            }
+        },
+        "colors": {
+            "dark": "cisco-dark",
+            "light": "cisco-light"
+        }
     },
     "animate": {
         "base": "svg",
@@ -27640,7 +27632,7 @@
             }
         }
     },
-    "react": {
+    "react-light": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -27854,7 +27846,7 @@
             }
         }
     },
-    "discord.js": {
+    "djs": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -27952,7 +27944,7 @@
             }
         }
     },
-    "sublime-text": {
+    "sublimetext": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -27982,7 +27974,7 @@
             }
         }
     },
-    "tailwind-css": {
+    "tailwindcss": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -28000,7 +27992,7 @@
             "dark": "tailwindcss-wordmark-dark"
         }
     },
-    "styled-components": {
+    "styledcomponents": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -28028,7 +28020,7 @@
             }
         }
     },
-    "blitz": {
+    "blitzjs": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -28106,7 +28098,7 @@
             "light": "framer"
         }
     },
-    "headless-ui": {
+    "headlessui": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -28160,24 +28152,6 @@
                 "id": 49837342,
                 "name": "ajnart"
             }
-        }
-    },
-    "payload-cms": {
-        "base": "svg",
-        "aliases": [],
-        "categories": [
-            "CMS"
-        ],
-        "update": {
-            "timestamp": "2025-04-25T12:00:00Z",
-            "author": {
-                "id": 49837342,
-                "name": "ajnart"
-            }
-        },
-        "colors": {
-            "dark": "payload-dark",
-            "light": "payload"
         }
     },
     "fly": {
@@ -28236,7 +28210,7 @@
             }
         }
     },
-    "express.js": {
+    "expressjs": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -28290,7 +28264,7 @@
             "light": "jquery"
         }
     },
-    "rapid-api": {
+    "rapidapi": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -28365,6 +28339,24 @@
             "light": "arc"
         }
     },
+    "arc-fintech-light": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "Software"
+        ],
+        "update": {
+            "timestamp": "2025-04-25T12:00:00Z",
+            "author": {
+                "id": 49837342,
+                "name": "ajnart"
+            }
+        },
+        "colors": {
+            "dark": "arc-fintech-dark",
+            "light": "arc-fintech-light"
+        }
+    },
     "qwik": {
         "base": "svg",
         "aliases": [],
@@ -28426,7 +28418,7 @@
             }
         }
     },
-    "github-copilot": {
+    "copilot": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -28476,7 +28468,7 @@
             }
         }
     },
-    "grok": {
+    "grok-light": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -28514,6 +28506,24 @@
         "colors": {
             "dark": "prisma-dark",
             "light": "prisma"
+        }
+    },
+    "golang": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "Language"
+        ],
+        "update": {
+            "timestamp": "2025-04-25T12:00:00Z",
+            "author": {
+                "id": 49837342,
+                "name": "ajnart"
+            }
+        },
+        "colors": {
+            "dark": "golang-dark",
+            "light": "golang"
         }
     },
     "platzi": {
@@ -28558,6 +28568,24 @@
             }
         }
     },
+    "aws-light": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "Software"
+        ],
+        "update": {
+            "timestamp": "2025-04-25T12:00:00Z",
+            "author": {
+                "id": 49837342,
+                "name": "ajnart"
+            }
+        },
+        "colors": {
+            "dark": "aws-dark",
+            "light": "aws-light"
+        }
+    },
     "heroku": {
         "base": "svg",
         "aliases": [],
@@ -28586,7 +28614,7 @@
             }
         }
     },
-    "jetbrains-rider": {
+    "rider": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -28717,7 +28745,7 @@
             }
         }
     },
-    "intellij-idea": {
+    "intellijidea": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -28759,6 +28787,20 @@
             }
         }
     },
+    "jetbrainsSolid": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "Software"
+        ],
+        "update": {
+            "timestamp": "2025-04-25T12:00:00Z",
+            "author": {
+                "id": 49837342,
+                "name": "ajnart"
+            }
+        }
+    },
     "krakenjs": {
         "base": "svg",
         "aliases": [],
@@ -28787,7 +28829,7 @@
             }
         }
     },
-    "material-ui": {
+    "materialui": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -28829,7 +28871,7 @@
             }
         }
     },
-    "react-query": {
+    "reactquery": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -28843,7 +28885,7 @@
             }
         }
     },
-    "devto": {
+    "devto-light": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -28991,6 +29033,20 @@
             }
         }
     },
+    "pocket-base": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "Database"
+        ],
+        "update": {
+            "timestamp": "2025-04-25T12:00:00Z",
+            "author": {
+                "id": 49837342,
+                "name": "ajnart"
+            }
+        }
+    },
     "openbootcamp": {
         "base": "svg",
         "aliases": [],
@@ -29005,63 +29061,7 @@
             }
         }
     },
-    "disney+": {
-        "base": "svg",
-        "aliases": [],
-        "categories": [
-            "Entertainment"
-        ],
-        "update": {
-            "timestamp": "2025-04-25T12:00:00Z",
-            "author": {
-                "id": 49837342,
-                "name": "ajnart"
-            }
-        }
-    },
-    "react-router": {
-        "base": "svg",
-        "aliases": [],
-        "categories": [
-            "Library"
-        ],
-        "update": {
-            "timestamp": "2025-04-25T12:00:00Z",
-            "author": {
-                "id": 49837342,
-                "name": "ajnart"
-            }
-        }
-    },
-    "developer-student-club": {
-        "base": "svg",
-        "aliases": [],
-        "categories": [
-            "Community"
-        ],
-        "update": {
-            "timestamp": "2025-04-25T12:00:00Z",
-            "author": {
-                "id": 49837342,
-                "name": "ajnart"
-            }
-        }
-    },
-    "brave-browser": {
-        "base": "svg",
-        "aliases": [],
-        "categories": [
-            "Browser"
-        ],
-        "update": {
-            "timestamp": "2025-04-25T12:00:00Z",
-            "author": {
-                "id": 49837342,
-                "name": "ajnart"
-            }
-        }
-    },
-    "eclipse-ide": {
+    "digitalocean": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -29075,7 +29075,63 @@
             }
         }
     },
-    "three.js": {
+    "disneyplus": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "Entertainment"
+        ],
+        "update": {
+            "timestamp": "2025-04-25T12:00:00Z",
+            "author": {
+                "id": 49837342,
+                "name": "ajnart"
+            }
+        }
+    },
+    "reactrouter": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "Library"
+        ],
+        "update": {
+            "timestamp": "2025-04-25T12:00:00Z",
+            "author": {
+                "id": 49837342,
+                "name": "ajnart"
+            }
+        }
+    },
+    "gdsc": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "Community"
+        ],
+        "update": {
+            "timestamp": "2025-04-25T12:00:00Z",
+            "author": {
+                "id": 49837342,
+                "name": "ajnart"
+            }
+        }
+    },
+    "eclipse": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "Software"
+        ],
+        "update": {
+            "timestamp": "2025-04-25T12:00:00Z",
+            "author": {
+                "id": 49837342,
+                "name": "ajnart"
+            }
+        }
+    },
+    "threejs-light": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -29107,7 +29163,7 @@
             }
         }
     },
-    "css-(new)": {
+    "css-old": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -29401,6 +29457,24 @@
             }
         }
     },
+    "kick-light": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "Entertainment"
+        ],
+        "update": {
+            "timestamp": "2025-04-25T12:00:00Z",
+            "author": {
+                "id": 49837342,
+                "name": "ajnart"
+            }
+        },
+        "colors": {
+            "dark": "kick-dark",
+            "light": "kick-light"
+        }
+    },
     "rxjs": {
         "base": "svg",
         "aliases": [],
@@ -29429,7 +29503,7 @@
             }
         }
     },
-    "trust-wallet": {
+    "trust": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -29448,6 +29522,20 @@
         "aliases": [],
         "categories": [
             "Language"
+        ],
+        "update": {
+            "timestamp": "2025-04-25T12:00:00Z",
+            "author": {
+                "id": 49837342,
+                "name": "ajnart"
+            }
+        }
+    },
+    "arc-browser": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "Browser"
         ],
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
@@ -29513,7 +29601,7 @@
             }
         }
     },
-    "codesandbox": {
+    "codesandbox-square": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -29573,7 +29661,7 @@
             "dark": "valibot-wordmark-dark"
         }
     },
-    "dreamweaver": {
+    "dw": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -29601,7 +29689,7 @@
             }
         }
     },
-    "microsoft-sql-server-": {
+    "sql-server": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -29713,7 +29801,7 @@
             }
         }
     },
-    "volta": {
+    "volta-dark": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -29745,7 +29833,7 @@
             }
         }
     },
-    "solana": {
+    "btc": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -29759,7 +29847,35 @@
             }
         }
     },
-    "dogecoin": {
+    "eth": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "Crypto"
+        ],
+        "update": {
+            "timestamp": "2025-04-25T12:00:00Z",
+            "author": {
+                "id": 49837342,
+                "name": "ajnart"
+            }
+        }
+    },
+    "sol": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "Crypto"
+        ],
+        "update": {
+            "timestamp": "2025-04-25T12:00:00Z",
+            "author": {
+                "id": 49837342,
+                "name": "ajnart"
+            }
+        }
+    },
+    "doge": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -29819,7 +29935,7 @@
             "dark": "link-wordmark-dark"
         }
     },
-    "polygon": {
+    "matic": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -29859,24 +29975,6 @@
                 "id": 49837342,
                 "name": "ajnart"
             }
-        }
-    },
-    "x-(formerly-twitter)": {
-        "base": "svg",
-        "aliases": [],
-        "categories": [
-            "Social"
-        ],
-        "update": {
-            "timestamp": "2025-04-25T12:00:00Z",
-            "author": {
-                "id": 49837342,
-                "name": "ajnart"
-            }
-        },
-        "colors": {
-            "dark": "x-dark",
-            "light": "x"
         }
     },
     "after-effects": {
@@ -30065,7 +30163,7 @@
             }
         }
     },
-    "beacon": {
+    "Beacon-Logo": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -30121,7 +30219,7 @@
             }
         }
     },
-    "roblox": {
+    "roblox-light": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -30139,7 +30237,7 @@
             "light": "roblox-light"
         }
     },
-    "stately.ai": {
+    "stately": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -30203,7 +30301,7 @@
             }
         }
     },
-    "cal.com": {
+    "cal": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -30263,7 +30361,7 @@
             }
         }
     },
-    "product-hunt": {
+    "producthunt": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -30337,7 +30435,7 @@
             "light": "bash"
         }
     },
-    "c++": {
+    "c-plusplus": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -30453,7 +30551,7 @@
             }
         }
     },
-    "axiom": {
+    "axiom-light": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -30489,7 +30587,7 @@
             }
         }
     },
-    "zeabur": {
+    "zeabur-light": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -30525,7 +30623,7 @@
             }
         }
     },
-    "shadcn/ui": {
+    "shadcn-ui": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -30557,7 +30655,7 @@
             }
         }
     },
-    "reflex": {
+    "reflex-dark": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -30590,7 +30688,7 @@
             }
         }
     },
-    "xd": {
+    "adobe-xd": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -30618,7 +30716,7 @@
             }
         }
     },
-    "sketch": {
+    "sketch-light": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -30664,7 +30762,7 @@
             }
         }
     },
-    "jetbrains-webstorm": {
+    "webstorm": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -30678,7 +30776,7 @@
             }
         }
     },
-    "jetbrains-pycharm": {
+    "pycharm": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -30692,7 +30790,7 @@
             }
         }
     },
-    "jetbrains-rubymine": {
+    "fleet": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -30706,7 +30804,21 @@
             }
         }
     },
-    "jetbrains-phpstorm": {
+    "rubymine": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "Software"
+        ],
+        "update": {
+            "timestamp": "2025-04-25T12:00:00Z",
+            "author": {
+                "id": 49837342,
+                "name": "ajnart"
+            }
+        }
+    },
+    "phpstorm": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -30736,20 +30848,6 @@
         "wordmark": {
             "light": "monkeytype-wordmark-light",
             "dark": "monkeytype-wordmark-dark"
-        }
-    },
-    "pycharm": {
-        "base": "svg",
-        "aliases": [],
-        "categories": [
-            "Software"
-        ],
-        "update": {
-            "timestamp": "2025-04-25T12:00:00Z",
-            "author": {
-                "id": 49837342,
-                "name": "ajnart"
-            }
         }
     },
     "webflow": {
@@ -30813,7 +30911,7 @@
         },
         "wordmark": "airbnb-wordmark"
     },
-    "uber": {
+    "uber-light": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -30951,24 +31049,6 @@
             }
         }
     },
-    "perplexity-ai": {
-        "base": "svg",
-        "aliases": [],
-        "categories": [
-            "AI"
-        ],
-        "update": {
-            "timestamp": "2025-04-25T12:00:00Z",
-            "author": {
-                "id": 49837342,
-                "name": "ajnart"
-            }
-        },
-        "wordmark": {
-            "light": "perplexity-wordmark-light",
-            "dark": "perplexity-wordmark-dark"
-        }
-    },
     "spring": {
         "base": "svg",
         "aliases": [],
@@ -31034,7 +31114,7 @@
             }
         }
     },
-    "remix": {
+    "remix-light": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -31066,7 +31146,25 @@
             }
         }
     },
-    "flask": {
+    "1password-light": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "Software"
+        ],
+        "update": {
+            "timestamp": "2025-04-25T12:00:00Z",
+            "author": {
+                "id": 49837342,
+                "name": "ajnart"
+            }
+        },
+        "colors": {
+            "dark": "1password-dark",
+            "light": "1password-light"
+        }
+    },
+    "flask-light": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -31116,7 +31214,7 @@
             }
         }
     },
-    "voicemod": {
+    "voicemod-light": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -31275,21 +31373,7 @@
             }
         }
     },
-    "c#": {
-        "base": "svg",
-        "aliases": [],
-        "categories": [
-            "Language"
-        ],
-        "update": {
-            "timestamp": "2025-04-25T12:00:00Z",
-            "author": {
-                "id": 49837342,
-                "name": "ajnart"
-            }
-        }
-    },
-    "replicate": {
+    "replicate-light": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -31311,7 +31395,7 @@
             "light": "replicate-light"
         }
     },
-    "markdown": {
+    "markdown-light": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -31329,7 +31413,7 @@
             "light": "markdown-light"
         }
     },
-    "radix-ui": {
+    "radix-ui-light": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -31347,7 +31431,7 @@
             "light": "radix-ui-light"
         }
     },
-    "web.dev": {
+    "webdev": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -31361,7 +31445,7 @@
             }
         }
     },
-    "swr": {
+    "swr-light": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -31379,7 +31463,7 @@
             "light": "swr-light"
         }
     },
-    "refine": {
+    "refine-dark": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -31397,7 +31481,26 @@
             "light": "refine-dark"
         }
     },
-    "tidal": {
+    "youtube-music": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "Google",
+            "Music"
+        ],
+        "update": {
+            "timestamp": "2025-04-25T12:00:00Z",
+            "author": {
+                "id": 49837342,
+                "name": "ajnart"
+            }
+        },
+        "wordmark": {
+            "light": "youtube-music-wordmark-light",
+            "dark": "youtube-music-wordmark-dark"
+        }
+    },
+    "tidal-light": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -31433,7 +31536,7 @@
             }
         }
     },
-    "stack-overflow": {
+    "stackoverflow": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -31448,7 +31551,7 @@
         },
         "wordmark": "stackoverflow-wordmark"
     },
-    "ngrok": {
+    "ngrok-light": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -31466,7 +31569,7 @@
             "light": "ngrok-light"
         }
     },
-    "lemon-squeezy": {
+    "lemonsqueezy": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -31510,7 +31613,7 @@
         },
         "wordmark": "tina-wordmark"
     },
-    "next.js": {
+    "nextjs-icon-dark": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -31529,7 +31632,7 @@
             "dark": "nextjs-logo-dark"
         }
     },
-    "mistral-ai": {
+    "mistral-ai-logo": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -31544,11 +31647,12 @@
         },
         "wordmark": "mistral-ai-wordmark"
     },
-    "node.js": {
+    "hugging-face": {
         "base": "svg",
         "aliases": [],
         "categories": [
-            "Library"
+            "Developper-Tools",
+            "AI"
         ],
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
@@ -31558,7 +31662,7 @@
             }
         }
     },
-    "raindrop.io": {
+    "raindrop": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -31628,7 +31732,7 @@
             }
         }
     },
-    "resend": {
+    "resend-icon-black": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -31650,7 +31754,7 @@
             "light": "resend-icon-black"
         }
     },
-    "layers": {
+    "layers-light": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -31696,7 +31800,7 @@
             }
         }
     },
-    "turso": {
+    "turso-light": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -31719,7 +31823,7 @@
             "light": "turso-light"
         }
     },
-    "relagit": {
+    "relagit-icon-light": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -31741,7 +31845,7 @@
             "light": "relagit-icon-light"
         }
     },
-    "t3-stack": {
+    "t3-dark": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -31818,7 +31922,7 @@
             }
         }
     },
-    "chart.js": {
+    "chartjs": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -31846,7 +31950,7 @@
             }
         }
     },
-    "v0": {
+    "v0-light": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -31878,7 +31982,7 @@
             }
         }
     },
-    "prettier": {
+    "prettier-icon-light": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -31916,7 +32020,7 @@
             "dark": "leap-wallet-wordmark-dark"
         }
     },
-    "nx": {
+    "nx-light": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -31935,7 +32039,7 @@
             "light": "nx-light"
         }
     },
-    "google-colaboratory": {
+    "Google-Colaboratory": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -31950,7 +32054,7 @@
             }
         }
     },
-    "vite": {
+    "vitejs": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -32024,7 +32128,7 @@
             }
         }
     },
-    "afordin": {
+    "afordin-light": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -32088,7 +32192,7 @@
             "dark": "trpc-wordmark-dark"
         }
     },
-    "drizzle-orm": {
+    "drizzle-orm-light": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -32107,7 +32211,7 @@
             "light": "drizzle-orm-light"
         }
     },
-    "daily.dev": {
+    "daily-dev-ligth": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -32158,7 +32262,7 @@
             "light": "zed-logo"
         }
     },
-    "polar": {
+    "polar-sh-light": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -32176,7 +32280,7 @@
             "light": "polar-sh-light"
         }
     },
-    "bolt": {
+    "bolt-new": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -32252,7 +32356,7 @@
             "light": "soundcloud-logo"
         }
     },
-    "clerk": {
+    "clerk-light": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -32271,7 +32375,7 @@
             "light": "clerk-light"
         }
     },
-    "mermaid": {
+    "mermaid-logo-light": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -32289,7 +32393,7 @@
             "light": "mermaid-logo-light"
         }
     },
-    "uxanarangel": {
+    "uxanarangel-light": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -32307,7 +32411,7 @@
             "light": "uxanarangel-light"
         }
     },
-    "uxcorprangel": {
+    "uxcorprangel-light": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -32368,7 +32472,7 @@
             }
         }
     },
-    "typegpu": {
+    "typegpu-light": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -32455,6 +32559,21 @@
             }
         }
     },
+    "openwebui": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "AI",
+            "Software"
+        ],
+        "update": {
+            "timestamp": "2025-04-25T12:00:00Z",
+            "author": {
+                "id": 49837342,
+                "name": "ajnart"
+            }
+        }
+    },
     "base-ui": {
         "base": "svg",
         "aliases": [],
@@ -32473,7 +32592,7 @@
             "light": "base-ui"
         }
     },
-    "socket.io": {
+    "socketio-light": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -32491,7 +32610,7 @@
             "light": "socketio-light"
         }
     },
-    "ant-design": {
+    "ant-design-dark-theme": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -32519,7 +32638,7 @@
             }
         }
     },
-    "zen-browser": {
+    "zen-browser-light": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -32557,7 +32676,7 @@
         },
         "wordmark": "gemini-wordmark"
     },
-    "xai-(grok)": {
+    "xai-light": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -32575,7 +32694,7 @@
             "light": "xai-light"
         }
     },
-    "qwen": {
+    "qwen-light": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -32593,7 +32712,7 @@
             "light": "qwen-light"
         }
     },
-    "inflection-ai": {
+    "inflectionai-light": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -32615,7 +32734,7 @@
             "light": "inflectionai-light"
         }
     },
-    "d3.js": {
+    "D3": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -32629,7 +32748,7 @@
             }
         }
     },
-    "anthropic": {
+    "anthropic-black": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -32669,7 +32788,7 @@
             "dark": "replit-wordmark-dark"
         }
     },
-    "magic-ui": {
+    "magicui": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -32683,7 +32802,7 @@
             }
         }
     },
-    "web-components": {
+    "webcomponents": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -32735,7 +32854,7 @@
             "light": "curseforge"
         }
     },
-    "cursor": {
+    "cursor-light": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -32775,7 +32894,7 @@
             "dark": "ghostty-wordmark-dark"
         }
     },
-    "better-auth": {
+    "better-auth-light": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -32798,7 +32917,7 @@
             "light": "better-auth-light"
         }
     },
-    "buy-me-a-coffee": {
+    "bmc": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -32810,6 +32929,28 @@
                 "id": 49837342,
                 "name": "ajnart"
             }
+        }
+    },
+    "github-light": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "Software"
+        ],
+        "update": {
+            "timestamp": "2025-04-25T12:00:00Z",
+            "author": {
+                "id": 49837342,
+                "name": "ajnart"
+            }
+        },
+        "wordmark": {
+            "light": "github-wordmark-light",
+            "dark": "github-wordmark-dark"
+        },
+        "colors": {
+            "dark": "github-dark",
+            "light": "github-light"
         }
     },
     "firebase-studio": {
@@ -32827,7 +32968,7 @@
             }
         }
     },
-    "heroui": {
+    "heroui-black": {
         "base": "svg",
         "aliases": [],
         "categories": [
