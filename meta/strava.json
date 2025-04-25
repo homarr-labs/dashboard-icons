@@ -1,0 +1,15 @@
+{
+  "base": "svg",
+  "aliases": [],
+  "categories": [
+    "Health",
+    "Location"
+  ],
+  "update": {
+    "timestamp": "2025-04-25T21:59:58.890268",
+    "author": {
+      "id": 71191962,
+      "login": "lammersbjorn"
+    }
+  }
+}
