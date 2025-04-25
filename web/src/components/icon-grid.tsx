@@ -21,9 +21,11 @@ export function IconsGrid({ filteredIcons, matchedAliases }: IconsGridProps) {
 
 export function VirtualizedIconsGrid({ filteredIcons, matchedAliases }: IconsGridProps) {
 	const listRef = useRef<HTMLDivElement | null>(null)
-	const [windowWidth, setWindowWidth] = useState(typeof window !== "undefined" ? window.innerWidth : 1280)
+	const [windowWidth, setWindowWidth] = useState(0)
 
 	useEffect(() => {
+		setWindowWidth(window.innerWidth)
+		
 		const handleResize = () => {
 			setWindowWidth(window.innerWidth)
 		}
