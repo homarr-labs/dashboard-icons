@@ -30,7 +30,7 @@ export function RecentlyAddedIcons({ icons }: { icons: IconWithName[] }) {
 			{/* Background glow */}
 			<div className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80" aria-hidden="true" />
 
-			<div className="mx-auto px-6 lg:px-8">
+			<div className="mx-auto px-4 sm:px-6 lg:px-8">
 				<div className="mx-auto max-w-2xl text-center my-4">
 					<h2 className="text-3xl font-bold tracking-tight sm:text-4xl bg-clip-text text-transparent bg-gradient-to-r from-rose-600 to-rose-500  motion-safe:motion-preset-fade-lg motion-duration-500">
 						Recently Added Icons
@@ -61,7 +61,7 @@ export function RecentlyAddedIcons({ icons }: { icons: IconWithName[] }) {
 						href="/icons"
 						className="font-medium inline-flex items-center py-2 px-4 rounded-full border  transition-all duration-200 group hover-lift soft-shadow"
 					>
-						View complete collection
+						View all icons
 						<ArrowRight className="w-4 h-4 ml-1.5 transition-transform duration-200 group-hover:translate-x-1" />
 					</Link>
 				</div>

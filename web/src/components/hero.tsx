@@ -205,13 +205,61 @@ export function HeroSection({ totalIcons, stars }: { totalIcons: number; stars: 
 				/>
 			</div>
 
-			<div className="relative z-10 container mx-auto px-4 md:px-6 mt-4 py-20">
+			<div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 mt-4 py-20">
 				<div className="max-w-4xl mx-auto text-center flex flex-col gap-4 ">
 					<h1 className="relative text-3xl sm:text-5xl md:text-7xl font-bold mb-4 md:mb-8 tracking-tight motion-preset-slide-up motion-duration-500 ">
 						Your definitive source for
-						<Sparkles className="absolute -right-1 -bottom-3 text-rose-500 h-8 w-8 sm:h-12 sm:w-12 md:h-16 md:w-12 motion-delay-300 motion-preset-seesaw-lg motion-scale-in-[0.5] motion-translate-x-in-[-120%] motion-translate-y-in-[-60%] motion-opacity-in-[33%] motion-rotate-in-[-1080deg] motion-blur-in-[10px] motion-duration-500 motion-delay-[0.13s]/scale motion-duration-[0.13s]/opacity motion-duration-[0.40s]/rotate motion-duration-[0.05s]/blur motion-delay-[0.20s]/blur motion-ease-spring-bouncier" />
+						<motion.span
+							className="absolute -right-1 -bottom-3"
+							initial={{ opacity: 0, scale: 0.5, x: -20, y: -10 }}
+							animate={{ opacity: 1, scale: 1, x: 0, y: 0 }}
+							transition={{
+								duration: 0.5,
+								delay: 0.3,
+								ease: "easeOut"
+							}}
+						>
+							<motion.div
+								animate={{
+									y: [0, -3, 0],
+									rotate: [0, 5, 0]
+								}}
+								transition={{
+									duration: 3,
+									repeat: Infinity,
+									repeatType: "reverse",
+									ease: "easeInOut"
+								}}
+							>
+								<Sparkles className="text-rose-500 h-8 w-8 sm:h-12 sm:w-12 md:h-16 md:w-12" />
+							</motion.div>
+						</motion.span>
 						<br />
-						<Sparkles className="absolute -left-1 -top-3 text-rose-500 h-5 w-5 sm:h-8 sm:w-8 md:h-12 md:w-12 motion-delay-300 motion-preset-seesaw-lg motion-scale-in-[0.5] motion-translate-x-in-[159%] motion-translate-y-in-[-60%] motion-opacity-in-[33%] motion-rotate-in-[-1080deg] motion-blur-in-[10px] motion-duration-500 motion-delay-[0.13s]/scale motion-duration-[0.13s]/opacity motion-duration-[0.40s]/rotate motion-duration-[0.05s]/blur motion-delay-[0.20s]/blur motion-ease-spring-bouncier" />
+						<motion.span
+							className="absolute -left-1 -top-3"
+							initial={{ opacity: 0, scale: 0.5, x: 20, y: -10 }}
+							animate={{ opacity: 1, scale: 1, x: 0, y: 0 }}
+							transition={{
+								duration: 0.5,
+								delay: 0.3,
+								ease: "easeOut"
+							}}
+						>
+							<motion.div
+								animate={{
+									y: [0, -3, 0],
+									rotate: [0, -5, 0]
+								}}
+								transition={{
+									duration: 4,
+									repeat: Infinity,
+									repeatType: "reverse",
+									ease: "easeInOut"
+								}}
+							>
+								<Sparkles className="text-rose-500 h-5 w-5 sm:h-8 sm:w-8 md:h-12 md:w-12" />
+							</motion.div>
+						</motion.span>
 						<AuroraText colors={["#FA5352", "#FA5352", "orange"]}>dashboard icons</AuroraText>
 					</h1>
 
@@ -224,7 +272,7 @@ export function HeroSection({ totalIcons, stars }: { totalIcons: number; stars: 
 						<SearchInput searchQuery={searchQuery} setSearchQuery={setSearchQuery} totalIcons={totalIcons} />
 						<div className="w-full flex gap-3 md:gap-4 flex-wrap justify-center motion-preset-slide-down motion-duration-500">
 							<Link href="/icons">
-								<InteractiveHoverButton className="rounded-md bg-input/30">Explore icons</InteractiveHoverButton>
+								<InteractiveHoverButton className="rounded-md bg-input/30">Browse icons</InteractiveHoverButton>
 							</Link>
 							<GiveUsAStarButton stars={stars} />
 							<GiveUsMoneyButton />
@@ -449,12 +497,12 @@ export function GiveUsMoneyButton() {
 					<div className="flex justify-between items-center pt-2">
 						<Link href={openCollectiveUrl} target="_blank" rel="noopener noreferrer">
 							<Button variant="default" size="sm" className="bg-primary hover:bg-primary/90">
-								Donate
+								Support
 							</Button>
 						</Link>
 						<Link href={`${openCollectiveUrl}/transactions`} target="_blank" rel="noopener noreferrer">
 							<Button variant="link" size="sm" className="flex items-center gap-1 text-xs text-secondary-foreground">
-								View expenses
+								View transactions
 								<ExternalLink className="h-3 w-3" />
 							</Button>
 						</Link>
@@ -478,7 +526,7 @@ function SearchInput({ searchQuery, setSearchQuery, totalIcons }: SearchInputPro
 				name="q"
 				autoFocus
 				type="search"
-				placeholder={`Find any of ${totalIcons} icons by name or category...`}
+				placeholder={`Search our collection of ${totalIcons} icons by name or category...`}
 				className="pl-10 h-10 md:h-12 rounded-lg w-full border-border focus:border-primary/20 text-sm md:text-base"
 				value={searchQuery}
 				onChange={(e) => setSearchQuery(e.target.value)}
