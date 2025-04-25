@@ -718,7 +718,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
@@ -2907,6 +2907,10 @@
                 "id": 710886,
                 "name": "MatthewGlenn"
             }
+        },
+        "colors": {
+            "dark": "ollama-dark",
+            "light": "ollama-light"
         }
     },
     "ihatemoney": {
@@ -3656,7 +3660,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
@@ -4285,7 +4289,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
@@ -5746,7 +5750,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
@@ -6448,7 +6452,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
@@ -7315,15 +7319,19 @@
             "Developper-Tools"
         ],
         "update": {
-            "timestamp": "2022-10-03T09:35:40Z",
+            "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 15933,
-                "name": "fabricionaweb"
+                "id": "49837342",
+                "name": "ajnart"
             }
         },
         "colors": {
             "dark": "github",
             "light": "github-light"
+        },
+        "wordmark": {
+            "light": "github-wordmark-light",
+            "dark": "github-wordmark-dark"
         }
     },
     "octoprint": {
@@ -8380,7 +8388,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
@@ -8405,7 +8413,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
@@ -9144,7 +9152,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
@@ -9499,7 +9507,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
@@ -9607,7 +9615,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
@@ -11487,7 +11495,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
@@ -11688,7 +11696,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
@@ -11833,7 +11841,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
@@ -12261,7 +12269,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
@@ -13300,7 +13308,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
@@ -13692,7 +13700,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
@@ -14276,6 +14284,10 @@
                 "id": 71191962,
                 "name": "walkxcode"
             }
+        },
+        "colors": {
+            "dark": "cisco-dark",
+            "light": "cisco-light"
         }
     },
     "gboard": {
@@ -16586,7 +16598,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
@@ -16658,7 +16670,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
@@ -17565,7 +17577,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
@@ -17685,7 +17697,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
@@ -19995,7 +20007,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
@@ -22170,7 +22182,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
@@ -23319,7 +23331,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
@@ -24709,7 +24721,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
@@ -26319,7 +26331,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
@@ -26607,7 +26619,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
@@ -27412,7 +27424,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -27426,7 +27438,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -27440,12 +27452,12 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
     },
-    "milanote-light": {
+    "milanote": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -27454,20 +27466,20 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
         "wordmark": {
-            "light": "milanote-light-wordmark-light",
-            "dark": "milanote-light-wordmark-dark"
+            "light": "milanote-wordmark-light",
+            "dark": "milanote-wordmark-dark"
         },
         "colors": {
-            "dark": "milanote-light-dark",
-            "light": "milanote-light-light"
+            "dark": "milanote-dark",
+            "light": "milanote-light"
         }
     },
-    "togetherai-light": {
+    "togetherai": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -27476,13 +27488,13 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
         "colors": {
-            "dark": "togetherai-light-dark",
-            "light": "togetherai-light-light"
+            "dark": "togetherai-dark",
+            "light": "togetherai-light"
         }
     },
     "suno": {
@@ -27494,7 +27506,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
@@ -27512,7 +27524,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
@@ -27530,47 +27542,11 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
         "wordmark": "cohere-wordmark"
-    },
-    "ollama-light": {
-        "base": "svg",
-        "aliases": [],
-        "categories": [
-            "AI"
-        ],
-        "update": {
-            "timestamp": "2025-04-25T12:00:00Z",
-            "author": {
-                "id": 49837342,
-                "name": "ajnart"
-            }
-        },
-        "colors": {
-            "dark": "ollama-light-dark",
-            "light": "ollama-light-light"
-        }
-    },
-    "cisco-light": {
-        "base": "svg",
-        "aliases": [],
-        "categories": [
-            "Software"
-        ],
-        "update": {
-            "timestamp": "2025-04-25T12:00:00Z",
-            "author": {
-                "id": 49837342,
-                "name": "ajnart"
-            }
-        },
-        "colors": {
-            "dark": "cisco-light-dark",
-            "light": "cisco-light-light"
-        }
     },
     "animate": {
         "base": "svg",
@@ -27582,7 +27558,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -27596,7 +27572,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -27611,7 +27587,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -27625,7 +27601,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
@@ -27641,7 +27617,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -27655,7 +27631,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
@@ -27673,12 +27649,12 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
     },
-    "react-light": {
+    "react": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -27687,17 +27663,17 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
         "wordmark": {
-            "light": "react-light-wordmark-light",
-            "dark": "react-light-wordmark-dark"
+            "light": "react-wordmark-light",
+            "dark": "react-wordmark-dark"
         },
         "colors": {
-            "dark": "react-light-dark",
-            "light": "react-light-light"
+            "dark": "react-dark",
+            "light": "react-light"
         }
     },
     "svelte": {
@@ -27709,7 +27685,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -27723,7 +27699,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -27737,7 +27713,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -27751,7 +27727,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -27765,7 +27741,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -27779,7 +27755,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -27793,7 +27769,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -27807,7 +27783,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -27822,7 +27798,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -27836,7 +27812,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -27851,7 +27827,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
@@ -27869,7 +27845,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
@@ -27887,7 +27863,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -27901,7 +27877,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -27915,7 +27891,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -27929,7 +27905,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -27943,7 +27919,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -27957,7 +27933,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -27971,7 +27947,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -27985,7 +27961,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -27999,7 +27975,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -28015,7 +27991,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -28029,7 +28005,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
@@ -28047,7 +28023,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -28061,7 +28037,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -28075,7 +28051,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -28089,7 +28065,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -28103,7 +28079,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -28117,7 +28093,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
@@ -28135,7 +28111,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
@@ -28153,7 +28129,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -28167,7 +28143,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -28181,7 +28157,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -28195,7 +28171,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -28209,7 +28185,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -28223,7 +28199,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -28237,7 +28213,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -28251,7 +28227,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -28265,7 +28241,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
@@ -28283,7 +28259,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
@@ -28301,7 +28277,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
@@ -28319,7 +28295,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -28333,7 +28309,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -28347,7 +28323,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -28362,7 +28338,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -28376,7 +28352,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
@@ -28385,7 +28361,7 @@
             "light": "arc-light"
         }
     },
-    "arc-fintech-light": {
+    "arc-fintech": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -28394,13 +28370,13 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
         "colors": {
-            "dark": "arc-fintech-light-dark",
-            "light": "arc-fintech-light-light"
+            "dark": "arc-fintech-dark",
+            "light": "arc-fintech-light"
         }
     },
     "qwik": {
@@ -28412,7 +28388,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -28426,7 +28402,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
@@ -28445,7 +28421,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -28459,7 +28435,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -28473,7 +28449,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
@@ -28491,7 +28467,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
@@ -28509,12 +28485,12 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
     },
-    "grok-light": {
+    "grok": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -28523,17 +28499,17 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
         "wordmark": {
-            "light": "grok-light-wordmark-light",
-            "dark": "grok-light-wordmark-dark"
+            "light": "grok-wordmark-light",
+            "dark": "grok-wordmark-dark"
         },
         "colors": {
-            "dark": "grok-light-dark",
-            "light": "grok-light-light"
+            "dark": "grok-dark",
+            "light": "grok-light"
         }
     },
     "prisma": {
@@ -28545,7 +28521,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
@@ -28563,7 +28539,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
@@ -28581,7 +28557,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -28595,7 +28571,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -28609,27 +28585,9 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
-        }
-    },
-    "aws-light": {
-        "base": "svg",
-        "aliases": [],
-        "categories": [
-            "Software"
-        ],
-        "update": {
-            "timestamp": "2025-04-25T12:00:00Z",
-            "author": {
-                "id": 49837342,
-                "name": "ajnart"
-            }
-        },
-        "colors": {
-            "dark": "aws-light-dark",
-            "light": "aws-light-light"
         }
     },
     "heroku": {
@@ -28641,7 +28599,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -28655,7 +28613,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -28669,7 +28627,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -28683,7 +28641,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
@@ -28701,7 +28659,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -28715,7 +28673,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -28729,7 +28687,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -28743,7 +28701,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -28758,7 +28716,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -28772,7 +28730,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -28786,7 +28744,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -28800,7 +28758,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -28814,7 +28772,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -28828,7 +28786,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -28842,7 +28800,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -28856,7 +28814,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -28870,7 +28828,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -28884,7 +28842,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -28898,7 +28856,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -28912,7 +28870,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -28926,12 +28884,12 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
     },
-    "devto-light": {
+    "devto": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -28940,13 +28898,13 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
         "colors": {
-            "dark": "devto-light-dark",
-            "light": "devto-light-light"
+            "dark": "devto-dark",
+            "light": "devto-light"
         }
     },
     "redwoodjs": {
@@ -28958,7 +28916,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -28972,7 +28930,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -28986,7 +28944,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -29000,7 +28958,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -29014,7 +28972,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -29028,7 +28986,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -29042,7 +29000,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -29056,7 +29014,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
@@ -29074,7 +29032,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -29088,7 +29046,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -29102,7 +29060,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -29116,7 +29074,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -29130,7 +29088,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -29144,7 +29102,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -29158,7 +29116,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -29172,12 +29130,12 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
     },
-    "threejs-light": {
+    "threejs": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -29186,13 +29144,13 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
         "colors": {
-            "dark": "threejs-light-dark",
-            "light": "threejs-light-light"
+            "dark": "threejs-dark",
+            "light": "threejs-light"
         }
     },
     "html5": {
@@ -29204,7 +29162,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -29218,7 +29176,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -29232,7 +29190,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -29246,7 +29204,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -29260,7 +29218,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -29274,7 +29232,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -29288,7 +29246,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -29302,7 +29260,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -29316,7 +29274,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -29330,7 +29288,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -29344,7 +29302,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -29358,7 +29316,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -29372,7 +29330,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -29386,7 +29344,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -29400,7 +29358,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -29414,7 +29372,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -29428,7 +29386,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -29442,7 +29400,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -29456,7 +29414,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -29470,7 +29428,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -29484,7 +29442,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -29498,27 +29456,9 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
-        }
-    },
-    "kick-light": {
-        "base": "svg",
-        "aliases": [],
-        "categories": [
-            "Entertainment"
-        ],
-        "update": {
-            "timestamp": "2025-04-25T12:00:00Z",
-            "author": {
-                "id": 49837342,
-                "name": "ajnart"
-            }
-        },
-        "colors": {
-            "dark": "kick-light-dark",
-            "light": "kick-light-light"
         }
     },
     "rxjs": {
@@ -29530,7 +29470,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -29544,7 +29484,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -29558,7 +29498,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -29572,7 +29512,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -29586,7 +29526,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -29600,7 +29540,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -29614,7 +29554,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -29628,7 +29568,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -29642,7 +29582,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -29656,7 +29596,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -29670,7 +29610,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -29684,7 +29624,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -29698,7 +29638,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
@@ -29716,7 +29656,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -29730,7 +29670,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -29744,7 +29684,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -29758,7 +29698,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -29772,7 +29712,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -29786,7 +29726,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -29800,7 +29740,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -29814,7 +29754,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -29828,7 +29768,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -29842,12 +29782,12 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
     },
-    "volta-dark": {
+    "volta": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -29856,13 +29796,13 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
         "colors": {
-            "dark": "volta-dark-dark",
-            "light": "volta-dark-light"
+            "dark": "volta-dark",
+            "light": "volta-light"
         }
     },
     "typesense": {
@@ -29874,7 +29814,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -29888,7 +29828,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -29902,7 +29842,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -29916,7 +29856,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -29930,7 +29870,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -29944,7 +29884,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -29958,7 +29898,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -29972,7 +29912,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
@@ -29990,7 +29930,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -30004,7 +29944,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -30018,7 +29958,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -30032,7 +29972,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -30046,7 +29986,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -30060,7 +30000,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -30074,7 +30014,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -30088,7 +30028,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -30102,7 +30042,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -30116,7 +30056,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -30130,7 +30070,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -30144,7 +30084,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -30158,7 +30098,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
@@ -30176,7 +30116,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -30190,7 +30130,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -30204,7 +30144,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -30218,7 +30158,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -30232,7 +30172,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -30246,7 +30186,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -30260,12 +30200,12 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
     },
-    "roblox-light": {
+    "roblox": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -30274,13 +30214,13 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
         "colors": {
-            "dark": "roblox-light-dark",
-            "light": "roblox-light-light"
+            "dark": "roblox-dark",
+            "light": "roblox-light"
         }
     },
     "stately": {
@@ -30292,7 +30232,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
@@ -30310,7 +30250,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
@@ -30328,7 +30268,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -30342,7 +30282,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -30356,7 +30296,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
@@ -30374,7 +30314,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -30388,7 +30328,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -30402,7 +30342,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -30416,7 +30356,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -30430,7 +30370,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -30444,7 +30384,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -30458,7 +30398,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -30472,7 +30412,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
@@ -30490,7 +30430,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -30504,7 +30444,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -30518,7 +30458,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -30532,7 +30472,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -30546,7 +30486,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -30560,7 +30500,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -30574,7 +30514,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
@@ -30592,12 +30532,12 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
     },
-    "axiom-light": {
+    "axiom": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -30606,17 +30546,17 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
         "wordmark": {
-            "light": "axiom-light-wordmark-light",
-            "dark": "axiom-light-wordmark-dark"
+            "light": "axiom-wordmark-light",
+            "dark": "axiom-wordmark-dark"
         },
         "colors": {
-            "dark": "axiom-light-dark",
-            "light": "axiom-light-light"
+            "dark": "axiom-dark",
+            "light": "axiom-light"
         }
     },
     "django": {
@@ -30628,12 +30568,12 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
     },
-    "zeabur-light": {
+    "zeabur": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -30642,17 +30582,17 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
         "wordmark": {
-            "light": "zeabur-light-wordmark-light",
-            "dark": "zeabur-light-wordmark-dark"
+            "light": "zeabur-wordmark-light",
+            "dark": "zeabur-wordmark-dark"
         },
         "colors": {
-            "dark": "zeabur-light-dark",
-            "light": "zeabur-light-light"
+            "dark": "zeabur-dark",
+            "light": "zeabur-light"
         }
     },
     "metamask": {
@@ -30664,7 +30604,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -30678,7 +30618,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
@@ -30696,12 +30636,12 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
     },
-    "reflex-dark": {
+    "reflex": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -30710,13 +30650,13 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
         "colors": {
-            "dark": "reflex-dark-dark",
-            "light": "reflex-dark-light"
+            "dark": "reflex-dark",
+            "light": "reflex-light"
         }
     },
     "stripe": {
@@ -30729,7 +30669,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -30743,7 +30683,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -30757,12 +30697,12 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
     },
-    "sketch-light": {
+    "sketch": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -30771,13 +30711,13 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
         "colors": {
-            "dark": "sketch-light-dark",
-            "light": "sketch-light-light"
+            "dark": "sketch-dark",
+            "light": "sketch-light"
         }
     },
     "ubuntu": {
@@ -30789,7 +30729,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -30803,7 +30743,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -30817,7 +30757,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -30831,7 +30771,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -30845,7 +30785,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -30859,7 +30799,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -30873,7 +30813,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -30887,7 +30827,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
@@ -30905,7 +30845,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
@@ -30923,7 +30863,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -30937,7 +30877,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -30951,13 +30891,13 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
         "wordmark": "airbnb-wordmark"
     },
-    "uber-light": {
+    "uber": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -30966,13 +30906,13 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
         "colors": {
-            "dark": "uber-light-dark",
-            "light": "uber-light-light"
+            "dark": "uber-dark",
+            "light": "uber-light"
         }
     },
     "outlook": {
@@ -30984,7 +30924,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -30998,7 +30938,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -31012,7 +30952,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -31026,7 +30966,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
@@ -31044,7 +30984,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
@@ -31062,7 +31002,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -31076,7 +31016,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -31090,7 +31030,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -31104,7 +31044,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -31118,7 +31058,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
@@ -31140,7 +31080,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -31155,12 +31095,12 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
     },
-    "remix-light": {
+    "remix": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -31169,13 +31109,13 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
         "colors": {
-            "dark": "remix-light-dark",
-            "light": "remix-light-light"
+            "dark": "remix-dark",
+            "light": "remix-light"
         }
     },
     "tabby": {
@@ -31187,30 +31127,12 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
     },
-    "1password-light": {
-        "base": "svg",
-        "aliases": [],
-        "categories": [
-            "Software"
-        ],
-        "update": {
-            "timestamp": "2025-04-25T12:00:00Z",
-            "author": {
-                "id": 49837342,
-                "name": "ajnart"
-            }
-        },
-        "colors": {
-            "dark": "1password-light-dark",
-            "light": "1password-light-light"
-        }
-    },
-    "flask-light": {
+    "flask": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -31219,17 +31141,17 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
         "wordmark": {
-            "light": "flask-light-wordmark-light",
-            "dark": "flask-light-wordmark-dark"
+            "light": "flask-wordmark-light",
+            "dark": "flask-wordmark-dark"
         },
         "colors": {
-            "dark": "flask-light-dark",
-            "light": "flask-light-light"
+            "dark": "flask-dark",
+            "light": "flask-light"
         }
     },
     "alacritty": {
@@ -31241,7 +31163,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -31255,12 +31177,12 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
     },
-    "voicemod-light": {
+    "voicemod": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -31269,13 +31191,13 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
         "colors": {
-            "dark": "voicemod-light-dark",
-            "light": "voicemod-light-light"
+            "dark": "voicemod-dark",
+            "light": "voicemod-light"
         }
     },
     "neovim": {
@@ -31287,7 +31209,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -31301,7 +31223,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -31315,7 +31237,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -31329,7 +31251,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -31343,7 +31265,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -31358,7 +31280,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -31372,7 +31294,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -31386,7 +31308,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -31400,7 +31322,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -31414,12 +31336,12 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
     },
-    "replicate-light": {
+    "replicate": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -31428,20 +31350,20 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
         "wordmark": {
-            "light": "replicate-light-wordmark-light",
-            "dark": "replicate-light-wordmark-dark"
+            "light": "replicate-wordmark-light",
+            "dark": "replicate-wordmark-dark"
         },
         "colors": {
-            "dark": "replicate-light-dark",
-            "light": "replicate-light-light"
+            "dark": "replicate-dark",
+            "light": "replicate-light"
         }
     },
-    "markdown-light": {
+    "markdown": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -31450,16 +31372,16 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
         "colors": {
-            "dark": "markdown-light-dark",
-            "light": "markdown-light-light"
+            "dark": "markdown-dark",
+            "light": "markdown-light"
         }
     },
-    "radix-ui-light": {
+    "radix-ui": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -31468,13 +31390,13 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
         "colors": {
-            "dark": "radix-ui-light-dark",
-            "light": "radix-ui-light-light"
+            "dark": "radix-ui-dark",
+            "light": "radix-ui-light"
         }
     },
     "webdev": {
@@ -31486,12 +31408,12 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
     },
-    "swr-light": {
+    "swr": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -31500,16 +31422,16 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
         "colors": {
-            "dark": "swr-light-dark",
-            "light": "swr-light-light"
+            "dark": "swr-dark",
+            "light": "swr-light"
         }
     },
-    "refine-dark": {
+    "refine": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -31518,16 +31440,16 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
         "colors": {
-            "dark": "refine-dark-dark",
-            "light": "refine-dark-light"
+            "dark": "refine-dark",
+            "light": "refine-light"
         }
     },
-    "tidal-light": {
+    "tidal": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -31536,17 +31458,17 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
         "wordmark": {
-            "light": "tidal-light-wordmark-light",
-            "dark": "tidal-light-wordmark-dark"
+            "light": "tidal-wordmark-light",
+            "dark": "tidal-wordmark-dark"
         },
         "colors": {
-            "dark": "tidal-light-dark",
-            "light": "tidal-light-light"
+            "dark": "tidal-dark",
+            "light": "tidal-light"
         }
     },
     "obs": {
@@ -31558,7 +31480,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -31572,13 +31494,13 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
         "wordmark": "stackoverflow-wordmark"
     },
-    "ngrok-light": {
+    "ngrok": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -31587,13 +31509,13 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
         "colors": {
-            "dark": "ngrok-light-dark",
-            "light": "ngrok-light-light"
+            "dark": "ngrok-dark",
+            "light": "ngrok-light"
         }
     },
     "lemonsqueezy": {
@@ -31605,7 +31527,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -31619,7 +31541,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
@@ -31634,13 +31556,13 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
         "wordmark": "tina-wordmark"
     },
-    "nextjs-icon-dark": {
+    "nextjs-icon": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -31650,13 +31572,13 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
         "wordmark": {
-            "light": "nextjs-icon-dark-wordmark-light",
-            "dark": "nextjs-icon-dark-wordmark-dark"
+            "light": "nextjs-icon-wordmark-light",
+            "dark": "nextjs-icon-wordmark-dark"
         }
     },
     "mistral-ai-logo": {
@@ -31668,7 +31590,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
@@ -31683,7 +31605,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -31697,7 +31619,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -31711,7 +31633,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -31725,7 +31647,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -31739,7 +31661,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -31753,7 +31675,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
@@ -31766,7 +31688,7 @@
             "light": "resend-icon-black-light"
         }
     },
-    "layers-light": {
+    "layers": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -31775,13 +31697,13 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
         "colors": {
-            "dark": "layers-light-dark",
-            "light": "layers-light-light"
+            "dark": "layers-dark",
+            "light": "layers-light"
         }
     },
     "exome": {
@@ -31793,7 +31715,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -31807,12 +31729,12 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
     },
-    "turso-light": {
+    "turso": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -31822,20 +31744,20 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
         "wordmark": {
-            "light": "turso-light-wordmark-light",
-            "dark": "turso-light-wordmark-dark"
+            "light": "turso-wordmark-light",
+            "dark": "turso-wordmark-dark"
         },
         "colors": {
-            "dark": "turso-light-dark",
-            "light": "turso-light-light"
+            "dark": "turso-dark",
+            "light": "turso-light"
         }
     },
-    "relagit-icon-light": {
+    "relagit-icon": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -31844,20 +31766,20 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
         "wordmark": {
-            "light": "relagit-icon-light-wordmark-light",
-            "dark": "relagit-icon-light-wordmark-dark"
+            "light": "relagit-icon-wordmark-light",
+            "dark": "relagit-icon-wordmark-dark"
         },
         "colors": {
-            "dark": "relagit-icon-light-dark",
-            "light": "relagit-icon-light-light"
+            "dark": "relagit-icon-dark",
+            "light": "relagit-icon-light"
         }
     },
-    "t3-dark": {
+    "t3": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -31866,13 +31788,13 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
         "colors": {
-            "dark": "t3-dark-dark",
-            "light": "t3-dark-light"
+            "dark": "t3-dark",
+            "light": "t3-light"
         }
     },
     "ygeeker": {
@@ -31884,7 +31806,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -31898,7 +31820,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
@@ -31914,7 +31836,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
@@ -31929,7 +31851,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -31943,7 +31865,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -31957,12 +31879,12 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
     },
-    "v0-light": {
+    "v0": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -31971,13 +31893,13 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
         "colors": {
-            "dark": "v0-light-dark",
-            "light": "v0-light-light"
+            "dark": "v0-dark",
+            "light": "v0-light"
         }
     },
     "bento": {
@@ -31989,12 +31911,12 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
     },
-    "prettier-icon-light": {
+    "prettier-icon": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -32003,13 +31925,13 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
         "colors": {
-            "dark": "prettier-icon-light-dark",
-            "light": "prettier-icon-light-light"
+            "dark": "prettier-icon-dark",
+            "light": "prettier-icon-light"
         }
     },
     "leap-wallet": {
@@ -32023,7 +31945,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
@@ -32032,7 +31954,7 @@
             "dark": "leap-wallet-wordmark-dark"
         }
     },
-    "nx-light": {
+    "nx": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -32042,13 +31964,13 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
         "colors": {
-            "dark": "nx-light-dark",
-            "light": "nx-light-light"
+            "dark": "nx-dark",
+            "light": "nx-light"
         }
     },
     "Google-Colaboratory": {
@@ -32061,7 +31983,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -32076,7 +31998,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -32091,7 +32013,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -32106,7 +32028,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -32121,7 +32043,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -32135,12 +32057,12 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
     },
-    "afordin-light": {
+    "afordin": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -32149,13 +32071,13 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
         "colors": {
-            "dark": "afordin-light-dark",
-            "light": "afordin-light-light"
+            "dark": "afordin-dark",
+            "light": "afordin-light"
         }
     },
     "carrd": {
@@ -32167,7 +32089,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -32181,7 +32103,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -32195,7 +32117,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
@@ -32204,7 +32126,7 @@
             "dark": "trpc-wordmark-dark"
         }
     },
-    "drizzle-orm-light": {
+    "drizzle-orm": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -32214,13 +32136,13 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
         "colors": {
-            "dark": "drizzle-orm-light-dark",
-            "light": "drizzle-orm-light-light"
+            "dark": "drizzle-orm-dark",
+            "light": "drizzle-orm-light"
         }
     },
     "daily-dev-ligth": {
@@ -32233,7 +32155,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
@@ -32251,7 +32173,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -32265,7 +32187,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
@@ -32274,7 +32196,7 @@
             "light": "zed-light"
         }
     },
-    "polar-sh-light": {
+    "polar-sh": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -32283,13 +32205,13 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
         "colors": {
-            "dark": "polar-sh-light-dark",
-            "light": "polar-sh-light-light"
+            "dark": "polar-sh-dark",
+            "light": "polar-sh-light"
         }
     },
     "bolt-new": {
@@ -32301,7 +32223,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
@@ -32319,7 +32241,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -32333,7 +32255,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
@@ -32355,7 +32277,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
@@ -32368,7 +32290,7 @@
             "light": "soundcloud-light"
         }
     },
-    "clerk-light": {
+    "clerk": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -32378,16 +32300,16 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
         "colors": {
-            "dark": "clerk-light-dark",
-            "light": "clerk-light-light"
+            "dark": "clerk-dark",
+            "light": "clerk-light"
         }
     },
-    "mermaid-logo-light": {
+    "mermaid-logo": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -32396,16 +32318,16 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
         "colors": {
-            "dark": "mermaid-logo-light-dark",
-            "light": "mermaid-logo-light-light"
+            "dark": "mermaid-logo-dark",
+            "light": "mermaid-logo-light"
         }
     },
-    "uxanarangel-light": {
+    "uxanarangel": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -32414,16 +32336,16 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
         "colors": {
-            "dark": "uxanarangel-light-dark",
-            "light": "uxanarangel-light-light"
+            "dark": "uxanarangel-dark",
+            "light": "uxanarangel-light"
         }
     },
-    "uxcorprangel-light": {
+    "uxcorprangel": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -32432,13 +32354,13 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
         "colors": {
-            "dark": "uxcorprangel-light-dark",
-            "light": "uxcorprangel-light-light"
+            "dark": "uxcorprangel-dark",
+            "light": "uxcorprangel-light"
         }
     },
     "powertoys": {
@@ -32450,7 +32372,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -32464,7 +32386,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -32479,12 +32401,12 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
     },
-    "typegpu-light": {
+    "typegpu": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -32494,17 +32416,17 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
         "wordmark": {
-            "light": "typegpu-light-wordmark-light",
-            "dark": "typegpu-light-wordmark-dark"
+            "light": "typegpu-wordmark-light",
+            "dark": "typegpu-wordmark-dark"
         },
         "colors": {
-            "dark": "typegpu-light-dark",
-            "light": "typegpu-light-light"
+            "dark": "typegpu-dark",
+            "light": "typegpu-light"
         }
     },
     "dotenv": {
@@ -32518,7 +32440,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -32534,7 +32456,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -32548,7 +32470,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
@@ -32566,7 +32488,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -32581,7 +32503,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -32595,7 +32517,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
@@ -32604,7 +32526,7 @@
             "light": "base-ui-light"
         }
     },
-    "socketio-light": {
+    "socketio": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -32613,13 +32535,13 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
         "colors": {
-            "dark": "socketio-light-dark",
-            "light": "socketio-light-light"
+            "dark": "socketio-dark",
+            "light": "socketio-light"
         }
     },
     "ant-design-dark-theme": {
@@ -32631,7 +32553,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -32645,12 +32567,12 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
     },
-    "zen-browser-light": {
+    "zen-browser": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -32659,17 +32581,17 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
         "wordmark": {
-            "light": "zen-browser-light-wordmark-light",
-            "dark": "zen-browser-light-wordmark-dark"
+            "light": "zen-browser-wordmark-light",
+            "dark": "zen-browser-wordmark-dark"
         },
         "colors": {
-            "dark": "zen-browser-light-dark",
-            "light": "zen-browser-light-light"
+            "dark": "zen-browser-dark",
+            "light": "zen-browser-light"
         }
     },
     "gemini": {
@@ -32682,13 +32604,13 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
         "wordmark": "gemini-wordmark"
     },
-    "xai-light": {
+    "xai": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -32697,16 +32619,16 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
         "colors": {
-            "dark": "xai-light-dark",
-            "light": "xai-light-light"
+            "dark": "xai-dark",
+            "light": "xai-light"
         }
     },
-    "qwen-light": {
+    "qwen": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -32715,16 +32637,16 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
         "colors": {
-            "dark": "qwen-light-dark",
-            "light": "qwen-light-light"
+            "dark": "qwen-dark",
+            "light": "qwen-light"
         }
     },
-    "inflectionai-light": {
+    "inflectionai": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -32733,17 +32655,17 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
         "wordmark": {
-            "light": "inflectionai-light-wordmark-light",
-            "dark": "inflectionai-light-wordmark-dark"
+            "light": "inflectionai-wordmark-light",
+            "dark": "inflectionai-wordmark-dark"
         },
         "colors": {
-            "dark": "inflectionai-light-dark",
-            "light": "inflectionai-light-light"
+            "dark": "inflectionai-dark",
+            "light": "inflectionai-light"
         }
     },
     "D3": {
@@ -32755,7 +32677,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -32769,7 +32691,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
@@ -32791,7 +32713,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
@@ -32809,7 +32731,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -32823,7 +32745,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -32838,7 +32760,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -32853,7 +32775,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
@@ -32866,7 +32788,7 @@
             "light": "curseforge-light"
         }
     },
-    "cursor-light": {
+    "cursor": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -32875,17 +32797,17 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
         "wordmark": {
-            "light": "cursor-light-wordmark-light",
-            "dark": "cursor-light-wordmark-dark"
+            "light": "cursor-wordmark-light",
+            "dark": "cursor-wordmark-dark"
         },
         "colors": {
-            "dark": "cursor-light-dark",
-            "light": "cursor-light-light"
+            "dark": "cursor-dark",
+            "light": "cursor-light"
         }
     },
     "ghostty": {
@@ -32897,7 +32819,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
@@ -32906,7 +32828,7 @@
             "dark": "ghostty-wordmark-dark"
         }
     },
-    "better-auth-light": {
+    "better-auth": {
         "base": "svg",
         "aliases": [],
         "categories": [
@@ -32916,17 +32838,17 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
         "wordmark": {
-            "light": "better-auth-light-wordmark-light",
-            "dark": "better-auth-light-wordmark-dark"
+            "light": "better-auth-wordmark-light",
+            "dark": "better-auth-wordmark-dark"
         },
         "colors": {
-            "dark": "better-auth-light-dark",
-            "light": "better-auth-light-light"
+            "dark": "better-auth-dark",
+            "light": "better-auth-light"
         }
     },
     "bmc": {
@@ -32938,31 +32860,9 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
-        }
-    },
-    "github-light": {
-        "base": "svg",
-        "aliases": [],
-        "categories": [
-            "Software"
-        ],
-        "update": {
-            "timestamp": "2025-04-25T12:00:00Z",
-            "author": {
-                "id": 49837342,
-                "name": "ajnart"
-            }
-        },
-        "wordmark": {
-            "light": "github-light-wordmark-light",
-            "dark": "github-light-wordmark-dark"
-        },
-        "colors": {
-            "dark": "github-light-dark",
-            "light": "github-light-light"
         }
     },
     "firebase-studio": {
@@ -32975,7 +32875,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         }
@@ -32989,7 +32889,7 @@
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
             "author": {
-                "id": 49837342,
+                "id": "49837342",
                 "name": "ajnart"
             }
         },
