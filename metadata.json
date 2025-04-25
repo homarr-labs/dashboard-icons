@@ -727,8 +727,8 @@
             "light": "dub-light"
         },
         "wordmark": {
-            "light": "dub-light-wordmark",
-            "dark": "dub-dark-wordmark"
+            "light": "dub-wordmark-light",
+            "dark": "dub-wordmark-dark"
         }
     },
     "docking-station": {
@@ -2980,7 +2980,7 @@
         },
         "colors": {
             "dark": "r-dark",
-            "light": "r"
+            "light": "r-light"
         }
     },
     "gitsign": {
@@ -3207,7 +3207,7 @@
         },
         "colors": {
             "dark": "hulu-dark",
-            "light": "hulu"
+            "light": "hulu-light"
         }
     },
     "etherpad": {
@@ -6457,7 +6457,7 @@
             "light": "posthog-light"
         },
         "wordmark": {
-            "light": "posthog-wordmark",
+            "light": "posthog-wordmark-light",
             "dark": "posthog-wordmark-dark"
         }
     },
@@ -8105,7 +8105,7 @@
         },
         "colors": {
             "dark": "rust-dark",
-            "light": "rust"
+            "light": "rust-light"
         }
     },
     "android-robot": {
@@ -8389,7 +8389,7 @@
             "light": "deno-light"
         },
         "wordmark": {
-            "light": "deno-wordmark",
+            "light": "deno-wordmark-light",
             "dark": "deno-wordmark-dark"
         }
     },
@@ -8583,6 +8583,24 @@
             "author": {
                 "id": 48109134,
                 "login": "jdcool00"
+            }
+        }
+    },
+    "hugging-face": {
+        "base": "svg",
+        "aliases": [
+            "machine-learning-platform",
+            "nlp-library"
+        ],
+        "categories": [
+            "AI-&-LLM-Platforms",
+            "Developper-Tools"
+        ],
+        "update": {
+            "timestamp": "2023-04-16T22:04:08Z",
+            "author": {
+                "id": 71191962,
+                "name": "walkxcode"
             }
         }
     },
@@ -12247,7 +12265,7 @@
                 "name": "ajnart"
             }
         },
-        "wordmark": "aliexpress-logo"
+        "wordmark": "aliexpress-wordmark"
     },
     "clickhouse": {
         "base": "svg",
@@ -13273,6 +13291,22 @@
                 "id": 48109134,
                 "login": "jdcool00"
             }
+        }
+    },
+    "youtube-music": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2025-04-25T12:00:00Z",
+            "author": {
+                "id": 49837342,
+                "name": "ajnart"
+            }
+        },
+        "wordmark": {
+            "light": "youtube-music-wordmark-light",
+            "dark": "youtube-music-wordmark-dark"
         }
     },
     "atlassian-opsgenie": {
@@ -15390,7 +15424,7 @@
         },
         "colors": {
             "dark": "instagram-dark",
-            "light": "instagram"
+            "light": "instagram-light"
         }
     },
     "azure-container-instances": {
@@ -15744,6 +15778,18 @@
             "author": {
                 "id": 40500313,
                 "name": "bfpimentel"
+            }
+        }
+    },
+    "raspberrymatic": {
+        "base": "png",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2025-01-07T17:54:03Z",
+            "author": {
+                "id": 71191962,
+                "name": "walkxcode"
             }
         }
     },
@@ -16549,7 +16595,7 @@
             "light": "vercel-light"
         },
         "wordmark": {
-            "light": "vercel-wordmark",
+            "light": "vercel-wordmark-light",
             "dark": "vercel-wordmark-dark"
         }
     },
@@ -17528,8 +17574,8 @@
             "light": "claude-ai-light"
         },
         "wordmark": {
-            "light": "claude-ai-wordmark-icon-light",
-            "dark": "claude-ai-wordmark-icon-dark"
+            "light": "claude-ai-wordmark-light",
+            "dark": "claude-ai-wordmark-dark"
         }
     },
     "cert-manager": {
@@ -19954,7 +20000,7 @@
             }
         },
         "wordmark": {
-            "light": "dropbox-wordmark",
+            "light": "dropbox-wordmark-light",
             "dark": "dropbox-wordmark-dark"
         }
     },
@@ -21610,7 +21656,7 @@
         },
         "colors": {
             "dark": "godaddy-dark",
-            "light": "godaddy"
+            "light": "godaddy-light"
         }
     },
     "premiumize": {
@@ -22447,7 +22493,7 @@
         },
         "colors": {
             "dark": "documenso-dark",
-            "light": "documenso"
+            "light": "documenso-light"
         }
     },
     "send": {
@@ -26566,7 +26612,7 @@
             }
         },
         "wordmark": {
-            "light": "home-assistant-wordmark",
+            "light": "home-assistant-wordmark-light",
             "dark": "home-assistant-wordmark-dark"
         }
     },
@@ -27413,12 +27459,12 @@
             }
         },
         "wordmark": {
-            "light": "milanote-wordmark-light",
-            "dark": "milanote-wordmark-dark"
+            "light": "milanote-light-wordmark-light",
+            "dark": "milanote-light-wordmark-dark"
         },
         "colors": {
-            "dark": "milanote-dark",
-            "light": "milanote-light"
+            "dark": "milanote-light-dark",
+            "light": "milanote-light-light"
         }
     },
     "togetherai-light": {
@@ -27435,8 +27481,8 @@
             }
         },
         "colors": {
-            "dark": "togetherai-dark",
-            "light": "togetherai-light"
+            "dark": "togetherai-light-dark",
+            "light": "togetherai-light-light"
         }
     },
     "suno": {
@@ -27504,8 +27550,8 @@
             }
         },
         "colors": {
-            "dark": "ollama-dark",
-            "light": "ollama-light"
+            "dark": "ollama-light-dark",
+            "light": "ollama-light-light"
         }
     },
     "cisco-light": {
@@ -27522,8 +27568,8 @@
             }
         },
         "colors": {
-            "dark": "cisco-dark",
-            "light": "cisco-light"
+            "dark": "cisco-light-dark",
+            "light": "cisco-light-light"
         }
     },
     "animate": {
@@ -27646,12 +27692,12 @@
             }
         },
         "wordmark": {
-            "light": "react-wordmark-light",
-            "dark": "react-wordmark-dark"
+            "light": "react-light-wordmark-light",
+            "dark": "react-light-wordmark-dark"
         },
         "colors": {
-            "dark": "react-dark",
-            "light": "react-light"
+            "dark": "react-light-dark",
+            "light": "react-light-light"
         }
     },
     "svelte": {
@@ -27810,8 +27856,8 @@
             }
         },
         "colors": {
-            "dark": "workos-light",
-            "light": "workos"
+            "dark": "workos-dark",
+            "light": "workos-light"
         }
     },
     "whop": {
@@ -27828,8 +27874,8 @@
             }
         },
         "colors": {
-            "dark": "whop-light",
-            "light": "whop"
+            "dark": "whop-dark",
+            "light": "whop-light"
         }
     },
     "postman": {
@@ -27988,7 +28034,7 @@
             }
         },
         "wordmark": {
-            "light": "tailwindcss-wordmark",
+            "light": "tailwindcss-wordmark-light",
             "dark": "tailwindcss-wordmark-dark"
         }
     },
@@ -28077,7 +28123,7 @@
         },
         "colors": {
             "dark": "astro-dark",
-            "light": "astro"
+            "light": "astro-light"
         }
     },
     "framer": {
@@ -28095,7 +28141,7 @@
         },
         "colors": {
             "dark": "framer-dark",
-            "light": "framer"
+            "light": "framer-light"
         }
     },
     "headlessui": {
@@ -28225,7 +28271,7 @@
         },
         "colors": {
             "dark": "expressjs-dark",
-            "light": "expressjs"
+            "light": "expressjs-light"
         }
     },
     "fastify": {
@@ -28243,7 +28289,7 @@
         },
         "colors": {
             "dark": "fastify-dark",
-            "light": "fastify"
+            "light": "fastify-light"
         }
     },
     "jquery": {
@@ -28261,7 +28307,7 @@
         },
         "colors": {
             "dark": "jquery-dark",
-            "light": "jquery"
+            "light": "jquery-light"
         }
     },
     "rapidapi": {
@@ -28336,7 +28382,7 @@
         },
         "colors": {
             "dark": "arc-dark",
-            "light": "arc"
+            "light": "arc-light"
         }
     },
     "arc-fintech-light": {
@@ -28353,8 +28399,8 @@
             }
         },
         "colors": {
-            "dark": "arc-fintech-dark",
-            "light": "arc-fintech-light"
+            "dark": "arc-fintech-light-dark",
+            "light": "arc-fintech-light-light"
         }
     },
     "qwik": {
@@ -28433,7 +28479,7 @@
         },
         "colors": {
             "dark": "copilot-dark",
-            "light": "copilot"
+            "light": "copilot-light"
         }
     },
     "railway": {
@@ -28451,7 +28497,7 @@
         },
         "colors": {
             "dark": "railway-dark",
-            "light": "railway"
+            "light": "railway-light"
         }
     },
     "graphql": {
@@ -28482,12 +28528,12 @@
             }
         },
         "wordmark": {
-            "light": "grok-wordmark-light",
-            "dark": "grok-wordmark-dark"
+            "light": "grok-light-wordmark-light",
+            "dark": "grok-light-wordmark-dark"
         },
         "colors": {
-            "dark": "grok-dark",
-            "light": "grok-light"
+            "dark": "grok-light-dark",
+            "light": "grok-light-light"
         }
     },
     "prisma": {
@@ -28505,7 +28551,7 @@
         },
         "colors": {
             "dark": "prisma-dark",
-            "light": "prisma"
+            "light": "prisma-light"
         }
     },
     "golang": {
@@ -28523,7 +28569,7 @@
         },
         "colors": {
             "dark": "golang-dark",
-            "light": "golang"
+            "light": "golang-light"
         }
     },
     "platzi": {
@@ -28582,8 +28628,8 @@
             }
         },
         "colors": {
-            "dark": "aws-dark",
-            "light": "aws-light"
+            "dark": "aws-light-dark",
+            "light": "aws-light-light"
         }
     },
     "heroku": {
@@ -28643,7 +28689,7 @@
         },
         "colors": {
             "dark": "planetscale-dark",
-            "light": "planetscale"
+            "light": "planetscale-light"
         }
     },
     "playwright": {
@@ -28899,8 +28945,8 @@
             }
         },
         "colors": {
-            "dark": "devto-dark",
-            "light": "devto-light"
+            "dark": "devto-light-dark",
+            "light": "devto-light-light"
         }
     },
     "redwoodjs": {
@@ -29016,7 +29062,7 @@
         },
         "colors": {
             "dark": "unity-dark",
-            "light": "unity"
+            "light": "unity-light"
         }
     },
     "vim": {
@@ -29145,8 +29191,8 @@
             }
         },
         "colors": {
-            "dark": "threejs-dark",
-            "light": "threejs-light"
+            "dark": "threejs-light-dark",
+            "light": "threejs-light-light"
         }
     },
     "html5": {
@@ -29471,8 +29517,8 @@
             }
         },
         "colors": {
-            "dark": "kick-dark",
-            "light": "kick-light"
+            "dark": "kick-light-dark",
+            "light": "kick-light-light"
         }
     },
     "rxjs": {
@@ -29815,8 +29861,8 @@
             }
         },
         "colors": {
-            "dark": "volta-light",
-            "light": "volta-dark"
+            "dark": "volta-dark-dark",
+            "light": "volta-dark-light"
         }
     },
     "typesense": {
@@ -30118,7 +30164,7 @@
         },
         "colors": {
             "dark": "unreal-engine-dark",
-            "light": "unreal-engine"
+            "light": "unreal-engine-light"
         }
     },
     "godot-engine": {
@@ -30233,8 +30279,8 @@
             }
         },
         "colors": {
-            "dark": "roblox",
-            "light": "roblox-light"
+            "dark": "roblox-light-dark",
+            "light": "roblox-light-light"
         }
     },
     "stately": {
@@ -30252,7 +30298,7 @@
         },
         "colors": {
             "dark": "stately-dark",
-            "light": "stately"
+            "light": "stately-light"
         }
     },
     "xstate": {
@@ -30270,7 +30316,7 @@
         },
         "colors": {
             "dark": "xstate-dark",
-            "light": "xstate"
+            "light": "xstate-light"
         }
     },
     "hashnode": {
@@ -30316,7 +30362,7 @@
         },
         "colors": {
             "dark": "cal-dark",
-            "light": "cal"
+            "light": "cal-light"
         }
     },
     "calendly": {
@@ -30432,7 +30478,7 @@
         },
         "colors": {
             "dark": "bash-dark",
-            "light": "bash"
+            "light": "bash-light"
         }
     },
     "c-plusplus": {
@@ -30534,7 +30580,7 @@
         },
         "colors": {
             "dark": "instatus-dark",
-            "light": "instatus"
+            "light": "instatus-light"
         }
     },
     "front": {
@@ -30565,12 +30611,12 @@
             }
         },
         "wordmark": {
-            "light": "axiom-wordmark-light",
-            "dark": "axiom-wordmark-dark"
+            "light": "axiom-light-wordmark-light",
+            "dark": "axiom-light-wordmark-dark"
         },
         "colors": {
-            "dark": "axiom-dark",
-            "light": "axiom-light"
+            "dark": "axiom-light-dark",
+            "light": "axiom-light-light"
         }
     },
     "django": {
@@ -30601,12 +30647,12 @@
             }
         },
         "wordmark": {
-            "light": "zeabur-wordmark-light",
-            "dark": "zeabur-wordmark-dark"
+            "light": "zeabur-light-wordmark-light",
+            "dark": "zeabur-light-wordmark-dark"
         },
         "colors": {
-            "dark": "zeabur-dark",
-            "light": "zeabur-light"
+            "dark": "zeabur-light-dark",
+            "light": "zeabur-light-light"
         }
     },
     "metamask": {
@@ -30638,7 +30684,7 @@
         },
         "colors": {
             "dark": "shadcn-ui-dark",
-            "light": "shadcn-ui"
+            "light": "shadcn-ui-light"
         }
     },
     "putio": {
@@ -30669,8 +30715,8 @@
             }
         },
         "colors": {
-            "dark": "reflex-light",
-            "light": "reflex-dark"
+            "dark": "reflex-dark-dark",
+            "light": "reflex-dark-light"
         }
     },
     "stripe": {
@@ -30730,8 +30776,8 @@
             }
         },
         "colors": {
-            "dark": "sketch",
-            "light": "sketch-light"
+            "dark": "sketch-light-dark",
+            "light": "sketch-light-light"
         }
     },
     "ubuntu": {
@@ -30925,8 +30971,8 @@
             }
         },
         "colors": {
-            "dark": "uber-dark",
-            "light": "uber-light"
+            "dark": "uber-light-dark",
+            "light": "uber-light-light"
         }
     },
     "outlook": {
@@ -31082,7 +31128,7 @@
         },
         "colors": {
             "dark": "pnpm-dark",
-            "light": "pnpm"
+            "light": "pnpm-light"
         }
     },
     "svgl": {
@@ -31128,8 +31174,8 @@
             }
         },
         "colors": {
-            "dark": "remix-dark",
-            "light": "remix-light"
+            "dark": "remix-light-dark",
+            "light": "remix-light-light"
         }
     },
     "tabby": {
@@ -31160,8 +31206,8 @@
             }
         },
         "colors": {
-            "dark": "1password-dark",
-            "light": "1password-light"
+            "dark": "1password-light-dark",
+            "light": "1password-light-light"
         }
     },
     "flask-light": {
@@ -31178,12 +31224,12 @@
             }
         },
         "wordmark": {
-            "light": "flask-wordmark-light",
-            "dark": "flask-wordmark-dark"
+            "light": "flask-light-wordmark-light",
+            "dark": "flask-light-wordmark-dark"
         },
         "colors": {
-            "dark": "flask-dark",
-            "light": "flask-light"
+            "dark": "flask-light-dark",
+            "light": "flask-light-light"
         }
     },
     "alacritty": {
@@ -31228,8 +31274,8 @@
             }
         },
         "colors": {
-            "dark": "voicemod-dark",
-            "light": "voicemod-light"
+            "dark": "voicemod-light-dark",
+            "light": "voicemod-light-light"
         }
     },
     "neovim": {
@@ -31387,12 +31433,12 @@
             }
         },
         "wordmark": {
-            "light": "replicate-wordmark-light",
-            "dark": "replicate-wordmark-dark"
+            "light": "replicate-light-wordmark-light",
+            "dark": "replicate-light-wordmark-dark"
         },
         "colors": {
-            "dark": "replicate-dark",
-            "light": "replicate-light"
+            "dark": "replicate-light-dark",
+            "light": "replicate-light-light"
         }
     },
     "markdown-light": {
@@ -31409,8 +31455,8 @@
             }
         },
         "colors": {
-            "dark": "markdown-dark",
-            "light": "markdown-light"
+            "dark": "markdown-light-dark",
+            "light": "markdown-light-light"
         }
     },
     "radix-ui-light": {
@@ -31427,8 +31473,8 @@
             }
         },
         "colors": {
-            "dark": "radix-ui-dark",
-            "light": "radix-ui-light"
+            "dark": "radix-ui-light-dark",
+            "light": "radix-ui-light-light"
         }
     },
     "webdev": {
@@ -31459,8 +31505,8 @@
             }
         },
         "colors": {
-            "dark": "swr-dark",
-            "light": "swr-light"
+            "dark": "swr-light-dark",
+            "light": "swr-light-light"
         }
     },
     "refine-dark": {
@@ -31477,27 +31523,8 @@
             }
         },
         "colors": {
-            "dark": "refine-light",
-            "light": "refine-dark"
-        }
-    },
-    "youtube-music": {
-        "base": "svg",
-        "aliases": [],
-        "categories": [
-            "Google",
-            "Music"
-        ],
-        "update": {
-            "timestamp": "2025-04-25T12:00:00Z",
-            "author": {
-                "id": 49837342,
-                "name": "ajnart"
-            }
-        },
-        "wordmark": {
-            "light": "youtube-music-wordmark-light",
-            "dark": "youtube-music-wordmark-dark"
+            "dark": "refine-dark-dark",
+            "light": "refine-dark-light"
         }
     },
     "tidal-light": {
@@ -31514,12 +31541,12 @@
             }
         },
         "wordmark": {
-            "light": "tidal-wordmark-light",
-            "dark": "tidal-wordmark-dark"
+            "light": "tidal-light-wordmark-light",
+            "dark": "tidal-light-wordmark-dark"
         },
         "colors": {
-            "dark": "tidal-dark",
-            "light": "tidal-light"
+            "dark": "tidal-light-dark",
+            "light": "tidal-light-light"
         }
     },
     "obs": {
@@ -31565,8 +31592,8 @@
             }
         },
         "colors": {
-            "dark": "ngrok-dark",
-            "light": "ngrok-light"
+            "dark": "ngrok-light-dark",
+            "light": "ngrok-light-light"
         }
     },
     "lemonsqueezy": {
@@ -31628,8 +31655,8 @@
             }
         },
         "wordmark": {
-            "light": "nextjs-logo-light",
-            "dark": "nextjs-logo-dark"
+            "light": "nextjs-icon-dark-wordmark-light",
+            "dark": "nextjs-icon-dark-wordmark-dark"
         }
     },
     "mistral-ai-logo": {
@@ -31645,22 +31672,7 @@
                 "name": "ajnart"
             }
         },
-        "wordmark": "mistral-ai-wordmark"
-    },
-    "hugging-face": {
-        "base": "svg",
-        "aliases": [],
-        "categories": [
-            "Developper-Tools",
-            "AI"
-        ],
-        "update": {
-            "timestamp": "2025-04-25T12:00:00Z",
-            "author": {
-                "id": 49837342,
-                "name": "ajnart"
-            }
-        }
+        "wordmark": "mistral-ai-logo-wordmark"
     },
     "raindrop": {
         "base": "svg",
@@ -31746,12 +31758,12 @@
             }
         },
         "wordmark": {
-            "light": "resend-wordmark-black",
-            "dark": "resend-wordmark-white"
+            "light": "resend-icon-black-wordmark-light",
+            "dark": "resend-icon-black-wordmark-dark"
         },
         "colors": {
-            "dark": "resend-icon-white",
-            "light": "resend-icon-black"
+            "dark": "resend-icon-black-dark",
+            "light": "resend-icon-black-light"
         }
     },
     "layers-light": {
@@ -31768,8 +31780,8 @@
             }
         },
         "colors": {
-            "dark": "layers-dark",
-            "light": "layers-light"
+            "dark": "layers-light-dark",
+            "light": "layers-light-light"
         }
     },
     "exome": {
@@ -31815,12 +31827,12 @@
             }
         },
         "wordmark": {
-            "light": "turso-wordmark-light",
-            "dark": "turso-wordmark-dark"
+            "light": "turso-light-wordmark-light",
+            "dark": "turso-light-wordmark-dark"
         },
         "colors": {
-            "dark": "turso-dark",
-            "light": "turso-light"
+            "dark": "turso-light-dark",
+            "light": "turso-light-light"
         }
     },
     "relagit-icon-light": {
@@ -31837,12 +31849,12 @@
             }
         },
         "wordmark": {
-            "light": "relagit-wordmark-light",
-            "dark": "relagit-wordmark-dark"
+            "light": "relagit-icon-light-wordmark-light",
+            "dark": "relagit-icon-light-wordmark-dark"
         },
         "colors": {
-            "dark": "relagit-icon-dark",
-            "light": "relagit-icon-light"
+            "dark": "relagit-icon-light-dark",
+            "light": "relagit-icon-light-light"
         }
     },
     "t3-dark": {
@@ -31859,8 +31871,8 @@
             }
         },
         "colors": {
-            "dark": "t3-light",
-            "light": "t3-dark"
+            "dark": "t3-dark-dark",
+            "light": "t3-dark-light"
         }
     },
     "ygeeker": {
@@ -31964,8 +31976,8 @@
             }
         },
         "colors": {
-            "dark": "v0-dark",
-            "light": "v0-light"
+            "dark": "v0-light-dark",
+            "light": "v0-light-light"
         }
     },
     "bento": {
@@ -31996,8 +32008,8 @@
             }
         },
         "colors": {
-            "dark": "prettier-icon-dark",
-            "light": "prettier-icon-light"
+            "dark": "prettier-icon-light-dark",
+            "light": "prettier-icon-light-light"
         }
     },
     "leap-wallet": {
@@ -32035,8 +32047,8 @@
             }
         },
         "colors": {
-            "dark": "nx-dark",
-            "light": "nx-light"
+            "dark": "nx-light-dark",
+            "light": "nx-light-light"
         }
     },
     "Google-Colaboratory": {
@@ -32142,8 +32154,8 @@
             }
         },
         "colors": {
-            "dark": "afordin-dark",
-            "light": "afordin-light"
+            "dark": "afordin-light-dark",
+            "light": "afordin-light-light"
         }
     },
     "carrd": {
@@ -32207,8 +32219,8 @@
             }
         },
         "colors": {
-            "dark": "drizzle-orm-dark",
-            "light": "drizzle-orm-light"
+            "dark": "drizzle-orm-light-dark",
+            "light": "drizzle-orm-light-light"
         }
     },
     "daily-dev-ligth": {
@@ -32226,8 +32238,8 @@
             }
         },
         "colors": {
-            "dark": "daily-dev-dark",
-            "light": "daily-dev-ligth"
+            "dark": "daily-dev-ligth-dark",
+            "light": "daily-dev-ligth-light"
         }
     },
     "polars": {
@@ -32258,8 +32270,8 @@
             }
         },
         "colors": {
-            "dark": "zed-logo-dark",
-            "light": "zed-logo"
+            "dark": "zed-dark",
+            "light": "zed-light"
         }
     },
     "polar-sh-light": {
@@ -32276,8 +32288,8 @@
             }
         },
         "colors": {
-            "dark": "polar-sh-dark",
-            "light": "polar-sh-light"
+            "dark": "polar-sh-light-dark",
+            "light": "polar-sh-light-light"
         }
     },
     "bolt-new": {
@@ -32295,7 +32307,7 @@
         },
         "colors": {
             "dark": "bolt-new-dark",
-            "light": "bolt-new"
+            "light": "bolt-new-light"
         }
     },
     "json": {
@@ -32326,12 +32338,12 @@
             }
         },
         "wordmark": {
-            "light": "nuqs-wordmark",
+            "light": "nuqs-wordmark-light",
             "dark": "nuqs-wordmark-dark"
         },
         "colors": {
             "dark": "nuqs-dark",
-            "light": "nuqs"
+            "light": "nuqs-light"
         }
     },
     "soundcloud": {
@@ -32348,12 +32360,12 @@
             }
         },
         "wordmark": {
-            "light": "soundcloud-wordmark",
+            "light": "soundcloud-wordmark-light",
             "dark": "soundcloud-wordmark-dark"
         },
         "colors": {
-            "dark": "soundcloud-logo-dark",
-            "light": "soundcloud-logo"
+            "dark": "soundcloud-dark",
+            "light": "soundcloud-light"
         }
     },
     "clerk-light": {
@@ -32371,8 +32383,8 @@
             }
         },
         "colors": {
-            "dark": "clerk-dark",
-            "light": "clerk-light"
+            "dark": "clerk-light-dark",
+            "light": "clerk-light-light"
         }
     },
     "mermaid-logo-light": {
@@ -32389,8 +32401,8 @@
             }
         },
         "colors": {
-            "dark": "mermaid-logo-dark",
-            "light": "mermaid-logo-light"
+            "dark": "mermaid-logo-light-dark",
+            "light": "mermaid-logo-light-light"
         }
     },
     "uxanarangel-light": {
@@ -32407,8 +32419,8 @@
             }
         },
         "colors": {
-            "dark": "uxanarangel-dark",
-            "light": "uxanarangel-light"
+            "dark": "uxanarangel-light-dark",
+            "light": "uxanarangel-light-light"
         }
     },
     "uxcorprangel-light": {
@@ -32425,8 +32437,8 @@
             }
         },
         "colors": {
-            "dark": "uxcorprangel-dark",
-            "light": "uxcorprangel-light"
+            "dark": "uxcorprangel-light-dark",
+            "light": "uxcorprangel-light-light"
         }
     },
     "powertoys": {
@@ -32487,12 +32499,12 @@
             }
         },
         "wordmark": {
-            "light": "typegpu-wordmark-light",
-            "dark": "typegpu-wordmark-dark"
+            "light": "typegpu-light-wordmark-light",
+            "dark": "typegpu-light-wordmark-dark"
         },
         "colors": {
-            "dark": "typegpu-dark",
-            "light": "typegpu-light"
+            "dark": "typegpu-light-dark",
+            "light": "typegpu-light-light"
         }
     },
     "dotenv": {
@@ -32542,7 +32554,7 @@
         },
         "colors": {
             "dark": "motion-dark",
-            "light": "motion"
+            "light": "motion-light"
         }
     },
     "shiki": {
@@ -32589,7 +32601,7 @@
         },
         "colors": {
             "dark": "base-ui-dark",
-            "light": "base-ui"
+            "light": "base-ui-light"
         }
     },
     "socketio-light": {
@@ -32606,8 +32618,8 @@
             }
         },
         "colors": {
-            "dark": "socketio-dark",
-            "light": "socketio-light"
+            "dark": "socketio-light-dark",
+            "light": "socketio-light-light"
         }
     },
     "ant-design-dark-theme": {
@@ -32652,12 +32664,12 @@
             }
         },
         "wordmark": {
-            "light": "zen-browser-wordmark-light",
-            "dark": "zen-browser-wordmark-dark"
+            "light": "zen-browser-light-wordmark-light",
+            "dark": "zen-browser-light-wordmark-dark"
         },
         "colors": {
-            "dark": "zen-browser-dark",
-            "light": "zen-browser-light"
+            "dark": "zen-browser-light-dark",
+            "light": "zen-browser-light-light"
         }
     },
     "gemini": {
@@ -32690,8 +32702,8 @@
             }
         },
         "colors": {
-            "dark": "xai-dark",
-            "light": "xai-light"
+            "dark": "xai-light-dark",
+            "light": "xai-light-light"
         }
     },
     "qwen-light": {
@@ -32708,8 +32720,8 @@
             }
         },
         "colors": {
-            "dark": "qwen-dark",
-            "light": "qwen-light"
+            "dark": "qwen-light-dark",
+            "light": "qwen-light-light"
         }
     },
     "inflectionai-light": {
@@ -32726,12 +32738,12 @@
             }
         },
         "wordmark": {
-            "light": "inflectionai-wordmark-light",
-            "dark": "inflectionai-wordmark-dark"
+            "light": "inflectionai-light-wordmark-light",
+            "dark": "inflectionai-light-wordmark-dark"
         },
         "colors": {
-            "dark": "inflectionai-dark",
-            "light": "inflectionai-light"
+            "dark": "inflectionai-light-dark",
+            "light": "inflectionai-light-light"
         }
     },
     "D3": {
@@ -32762,12 +32774,12 @@
             }
         },
         "wordmark": {
-            "light": "anthropic-black-wordmark",
-            "dark": "anthropic-white-wordmark"
+            "light": "anthropic-black-wordmark-light",
+            "dark": "anthropic-black-wordmark-dark"
         },
         "colors": {
-            "dark": "anthropic-white",
-            "light": "anthropic-black"
+            "dark": "anthropic-black-dark",
+            "light": "anthropic-black-light"
         }
     },
     "replit": {
@@ -32846,12 +32858,12 @@
             }
         },
         "wordmark": {
-            "light": "curseforge-wordmark",
+            "light": "curseforge-wordmark-light",
             "dark": "curseforge-wordmark-dark"
         },
         "colors": {
             "dark": "curseforge-dark",
-            "light": "curseforge"
+            "light": "curseforge-light"
         }
     },
     "cursor-light": {
@@ -32868,12 +32880,12 @@
             }
         },
         "wordmark": {
-            "light": "cursor-wordmark-light",
-            "dark": "cursor-wordmark-dark"
+            "light": "cursor-light-wordmark-light",
+            "dark": "cursor-light-wordmark-dark"
         },
         "colors": {
-            "dark": "cursor-dark",
-            "light": "cursor-light"
+            "dark": "cursor-light-dark",
+            "light": "cursor-light-light"
         }
     },
     "ghostty": {
@@ -32909,12 +32921,12 @@
             }
         },
         "wordmark": {
-            "light": "better-auth-wordmark-light",
-            "dark": "better-auth-wordmark-dark"
+            "light": "better-auth-light-wordmark-light",
+            "dark": "better-auth-light-wordmark-dark"
         },
         "colors": {
-            "dark": "better-auth-dark",
-            "light": "better-auth-light"
+            "dark": "better-auth-light-dark",
+            "light": "better-auth-light-light"
         }
     },
     "bmc": {
@@ -32945,12 +32957,12 @@
             }
         },
         "wordmark": {
-            "light": "github-wordmark-light",
-            "dark": "github-wordmark-dark"
+            "light": "github-light-wordmark-light",
+            "dark": "github-light-wordmark-dark"
         },
         "colors": {
-            "dark": "github-dark",
-            "light": "github-light"
+            "dark": "github-light-dark",
+            "light": "github-light-light"
         }
     },
     "firebase-studio": {
@@ -32982,8 +32994,8 @@
             }
         },
         "colors": {
-            "dark": "heroui-light",
-            "light": "heroui-black"
+            "dark": "heroui-black-dark",
+            "light": "heroui-black-light"
         }
     }
 }
