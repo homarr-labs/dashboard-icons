@@ -530,6 +530,6 @@ export function IconDetails({ icon, iconData, authorData, allIcons }: IconDetail
 						</section>
 					)
 				})()}
-		</div>
+		</main>
 	)
 }
