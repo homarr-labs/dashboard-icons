@@ -13,7 +13,7 @@ export function Footer() {
 					<div className="flex flex-col gap-3">
 						<h3 className="font-bold text-lg text-foreground/90">Dashboard Icons</h3>
 						<p className="text-sm text-muted-foreground leading-relaxed">
-							A collection of curated icons for services, applications and tools, designed specifically for dashboards and app directories.
+							Collection of icons for applications, services, and tools - designed for dashboards and app directories.
 						</p>
 					</div>
 

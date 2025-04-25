@@ -73,13 +73,13 @@ export function IconSubmissionForm() {
 		<Dialog open={open} onOpenChange={setOpen}>
 			<DialogTrigger asChild>
 				<Button variant="outline" className="hidden md:inline-flex cursor-pointer transition-all duration-300">
-					<PlusCircle className="h-4 w-4 transition-all duration-300" /> Contribute new icon
+					<PlusCircle className="h-4 w-4 transition-all duration-300" /> Submit icon(s)
 				</Button>
 			</DialogTrigger>
 			<DialogContent className="md:max-w-4xl backdrop-blur-2xl bg-background">
 				<DialogHeader>
-					<DialogTitle>Contribute a new icon</DialogTitle>
-					<DialogDescription>Choose a template below to suggest a new icon or improve an existing one.</DialogDescription>
+					<DialogTitle>Submit an icon</DialogTitle>
+					<DialogDescription>Select an option below to submit or update an icon.</DialogDescription>
 				</DialogHeader>
 				<div className="mt-4">
 					<IconSubmissionContent onClose={() => setOpen(false)} />
