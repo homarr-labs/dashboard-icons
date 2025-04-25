@@ -112,7 +112,7 @@ export default async function Image() {
               maxWidth: 1100,
             }}
           >
-            {totalIcons} high-quality icons for your dashboard
+            A curated collection of ${totalIcons} free icons for dashboards and app directories
           </div>
         </div>
 
