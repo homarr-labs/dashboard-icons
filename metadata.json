@@ -28009,9 +28009,7 @@
         "base": "svg",
         "aliases": [],
         "categories": [
-            "Library",
-            "Vercel",
-            "Monorepo"
+            "Library"
         ],
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
@@ -31980,8 +31978,7 @@
         "base": "svg",
         "aliases": [],
         "categories": [
-            "Devtool",
-            "Monorepo"
+            "Developper-Tools"
         ],
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
@@ -32014,8 +32011,7 @@
         "base": "svg",
         "aliases": [],
         "categories": [
-            "Devtool",
-            "VoidZero"
+            "Developper-Tools"
         ],
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
@@ -32029,8 +32025,7 @@
         "base": "svg",
         "aliases": [],
         "categories": [
-            "Framework",
-            "VoidZero"
+            "Framework"
         ],
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
@@ -32044,8 +32039,7 @@
         "base": "svg",
         "aliases": [],
         "categories": [
-            "Devtool",
-            "VoidZero"
+            "Developper-Tools"
         ],
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
@@ -32059,8 +32053,7 @@
         "base": "svg",
         "aliases": [],
         "categories": [
-            "Compiler",
-            "VoidZero"
+            "Compiler"
         ],
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
@@ -32120,7 +32113,7 @@
         "base": "svg",
         "aliases": [],
         "categories": [
-            "Devtool"
+            "Developper-Tools"
         ],
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
@@ -32240,7 +32233,7 @@
         "base": "svg",
         "aliases": [],
         "categories": [
-            "Devtool"
+            "Developper-Tools"
         ],
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
@@ -32457,7 +32450,7 @@
         "categories": [
             "Config",
             "Library",
-            "Devtool"
+            "Developper-Tools"
         ],
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
@@ -32473,7 +32466,7 @@
         "categories": [
             "Secrets",
             "Config",
-            "Devtool"
+            "Developper-Tools"
         ],
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
