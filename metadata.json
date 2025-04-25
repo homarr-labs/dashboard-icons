@@ -3664,10 +3664,7 @@
                 "name": "ajnart"
             }
         },
-        "wordmark": {
-            "light": "firebase-wordmark",
-            "dark": "firebase-wordmark"
-        }
+        "wordmark": "firebase-wordmark"
     },
     "google-meet": {
         "base": "svg",
@@ -4296,10 +4293,7 @@
                 "name": "ajnart"
             }
         },
-        "wordmark": {
-            "light": "slack-wordmark",
-            "dark": "slack-wordmark"
-        }
+        "wordmark": "slack-wordmark"
     },
     "kasten-k10": {
         "base": "svg",
@@ -8423,10 +8417,7 @@
                 "name": "ajnart"
             }
         },
-        "wordmark": {
-            "light": "youtube-wordmark",
-            "dark": "youtube-wordmark"
-        }
+        "wordmark": "youtube-wordmark"
     },
     "opnform": {
         "base": "svg",
@@ -9520,10 +9511,7 @@
                 "name": "ajnart"
             }
         },
-        "wordmark": {
-            "light": "duckduckgo-wordmark",
-            "dark": "duckduckgo-wordmark"
-        }
+        "wordmark": "duckduckgo-wordmark"
     },
     "profilarr": {
         "base": "svg",
@@ -11515,10 +11503,7 @@
             "dark": "todoist-dark",
             "light": "todoist"
         },
-        "wordmark": {
-            "light": "todoist-wordmark",
-            "dark": "todoist-wordmark"
-        }
+        "wordmark": "todoist-wordmark"
     },
     "tolgee": {
         "base": "svg",
@@ -11715,10 +11700,7 @@
                 "name": "ajnart"
             }
         },
-        "wordmark": {
-            "light": "deepseek-wordmark",
-            "dark": "deepseek-wordmark"
-        }
+        "wordmark": "deepseek-wordmark"
     },
     "plantuml": {
         "base": "svg",
@@ -12291,10 +12273,7 @@
                 "name": "ajnart"
             }
         },
-        "wordmark": {
-            "light": "aliexpress-logo",
-            "dark": "aliexpress-logo"
-        }
+        "wordmark": "aliexpress-logo"
     },
     "clickhouse": {
         "base": "svg",
@@ -13725,10 +13704,7 @@
                 "name": "ajnart"
             }
         },
-        "wordmark": {
-            "light": "spotify-wordmark",
-            "dark": "spotify-wordmark"
-        }
+        "wordmark": "spotify-wordmark"
     },
     "portainer": {
         "base": "svg",
@@ -16698,10 +16674,7 @@
                 "name": "ajnart"
             }
         },
-        "wordmark": {
-            "light": "google-wordmark",
-            "dark": "google-wordmark"
-        }
+        "wordmark": "google-wordmark"
     },
     "synology-cloud-sync": {
         "base": "png",
@@ -17728,10 +17701,7 @@
                 "name": "ajnart"
             }
         },
-        "wordmark": {
-            "light": "mongodb-wordmark",
-            "dark": "mongodb-wordmark"
-        }
+        "wordmark": "mongodb-wordmark"
     },
     "google-play-books": {
         "base": "svg",
@@ -22216,10 +22186,7 @@
                 "name": "ajnart"
             }
         },
-        "wordmark": {
-            "light": "paypal-wordmark",
-            "dark": "paypal-wordmark"
-        }
+        "wordmark": "paypal-wordmark"
     },
     "apprise": {
         "base": "png",
@@ -27565,10 +27532,7 @@
                 "name": "ajnart"
             }
         },
-        "wordmark": {
-            "light": "cohere-wordmark",
-            "dark": "cohere-wordmark"
-        }
+        "wordmark": "cohere-wordmark"
     },
     "animate": {
         "base": "svg",
@@ -27627,10 +27591,7 @@
                 "name": "ajnart"
             }
         },
-        "wordmark": {
-            "light": "mercado-pago-wordmark",
-            "dark": "mercado-pago-wordmark"
-        }
+        "wordmark": "mercado-pago-wordmark"
     },
     "basewell": {
         "base": "svg",
@@ -28009,7 +27970,9 @@
         "base": "svg",
         "aliases": [],
         "categories": [
-            "Library"
+            "Library",
+            "Vercel",
+            "Monorepo"
         ],
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
@@ -28503,7 +28466,7 @@
         "base": "svg",
         "aliases": [],
         "categories": [
-            "Programming-Languages"
+            "Language"
         ],
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
@@ -28916,7 +28879,7 @@
         "base": "svg",
         "aliases": [],
         "categories": [
-            "Programming-Languages"
+            "Language"
         ],
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
@@ -29134,7 +29097,7 @@
         "base": "svg",
         "aliases": [],
         "categories": [
-            "Programming-Languages"
+            "Language"
         ],
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
@@ -29148,7 +29111,7 @@
         "base": "svg",
         "aliases": [],
         "categories": [
-            "Programming-Languages"
+            "Language"
         ],
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
@@ -29190,7 +29153,7 @@
         "base": "svg",
         "aliases": [],
         "categories": [
-            "Programming-Languages"
+            "Language"
         ],
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
@@ -29484,7 +29447,7 @@
         "base": "svg",
         "aliases": [],
         "categories": [
-            "Programming-Languages"
+            "Language"
         ],
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
@@ -30360,7 +30323,7 @@
         "base": "svg",
         "aliases": [],
         "categories": [
-            "Programming-Languages"
+            "Language"
         ],
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
@@ -30378,7 +30341,7 @@
         "base": "svg",
         "aliases": [],
         "categories": [
-            "Programming-Languages"
+            "Language"
         ],
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
@@ -30392,7 +30355,7 @@
         "base": "svg",
         "aliases": [],
         "categories": [
-            "Programming-Languages"
+            "Language"
         ],
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
@@ -30406,7 +30369,7 @@
         "base": "svg",
         "aliases": [],
         "categories": [
-            "Programming-Languages"
+            "Language"
         ],
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
@@ -30420,7 +30383,7 @@
         "base": "svg",
         "aliases": [],
         "categories": [
-            "Programming-Languages"
+            "Language"
         ],
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
@@ -30434,7 +30397,7 @@
         "base": "svg",
         "aliases": [],
         "categories": [
-            "Programming-Languages"
+            "Language"
         ],
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
@@ -30448,7 +30411,7 @@
         "base": "svg",
         "aliases": [],
         "categories": [
-            "Programming-Languages"
+            "Language"
         ],
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
@@ -30848,10 +30811,7 @@
                 "name": "ajnart"
             }
         },
-        "wordmark": {
-            "light": "airbnb-wordmark",
-            "dark": "airbnb-wordmark"
-        }
+        "wordmark": "airbnb-wordmark"
     },
     "uber": {
         "base": "svg",
@@ -31319,7 +31279,7 @@
         "base": "svg",
         "aliases": [],
         "categories": [
-            "Programming-Languages"
+            "Language"
         ],
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
@@ -31355,7 +31315,7 @@
         "base": "svg",
         "aliases": [],
         "categories": [
-            "Programming-Languages"
+            "Language"
         ],
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
@@ -31486,10 +31446,7 @@
                 "name": "ajnart"
             }
         },
-        "wordmark": {
-            "light": "stackoverflow-wordmark",
-            "dark": "stackoverflow-wordmark"
-        }
+        "wordmark": "stackoverflow-wordmark"
     },
     "ngrok": {
         "base": "svg",
@@ -31536,10 +31493,7 @@
                 "name": "ajnart"
             }
         },
-        "wordmark": {
-            "light": "upleveled-wordmark",
-            "dark": "upleveled-wordmark"
-        }
+        "wordmark": "upleveled-wordmark"
     },
     "tina": {
         "base": "svg",
@@ -31554,10 +31508,7 @@
                 "name": "ajnart"
             }
         },
-        "wordmark": {
-            "light": "tina-wordmark",
-            "dark": "tina-wordmark"
-        }
+        "wordmark": "tina-wordmark"
     },
     "next.js": {
         "base": "svg",
@@ -31591,10 +31542,7 @@
                 "name": "ajnart"
             }
         },
-        "wordmark": {
-            "light": "mistral-ai-wordmark",
-            "dark": "mistral-ai-wordmark"
-        }
+        "wordmark": "mistral-ai-wordmark"
     },
     "node.js": {
         "base": "svg",
@@ -31642,7 +31590,7 @@
         "base": "svg",
         "aliases": [],
         "categories": [
-            "Programming-Languages"
+            "Language"
         ],
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
@@ -31838,16 +31786,13 @@
                 "name": "ajnart"
             }
         },
-        "wordmark": {
-            "light": "postcss-wordmark",
-            "dark": "postcss-wordmark"
-        }
+        "wordmark": "postcss-wordmark"
     },
     "svg": {
         "base": "svg",
         "aliases": [],
         "categories": [
-            "Programming-Languages",
+            "Language",
             "Design"
         ],
         "update": {
@@ -31857,10 +31802,7 @@
                 "name": "ajnart"
             }
         },
-        "wordmark": {
-            "light": "svg-wordmark",
-            "dark": "svg-wordmark"
-        }
+        "wordmark": "svg-wordmark"
     },
     "apidog": {
         "base": "svg",
@@ -31978,7 +31920,8 @@
         "base": "svg",
         "aliases": [],
         "categories": [
-            "Developper-Tools"
+            "Devtool",
+            "Monorepo"
         ],
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
@@ -32011,7 +31954,8 @@
         "base": "svg",
         "aliases": [],
         "categories": [
-            "Developper-Tools"
+            "Devtool",
+            "VoidZero"
         ],
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
@@ -32025,7 +31969,8 @@
         "base": "svg",
         "aliases": [],
         "categories": [
-            "Framework"
+            "Framework",
+            "VoidZero"
         ],
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
@@ -32039,7 +31984,8 @@
         "base": "svg",
         "aliases": [],
         "categories": [
-            "Developper-Tools"
+            "Devtool",
+            "VoidZero"
         ],
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
@@ -32053,7 +31999,8 @@
         "base": "svg",
         "aliases": [],
         "categories": [
-            "Compiler"
+            "Compiler",
+            "VoidZero"
         ],
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
@@ -32113,7 +32060,7 @@
         "base": "svg",
         "aliases": [],
         "categories": [
-            "Developper-Tools"
+            "Devtool"
         ],
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
@@ -32233,7 +32180,7 @@
         "base": "svg",
         "aliases": [],
         "categories": [
-            "Developper-Tools"
+            "Devtool"
         ],
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
@@ -32251,7 +32198,7 @@
         "base": "svg",
         "aliases": [],
         "categories": [
-            "Programming-Languages"
+            "Language"
         ],
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
@@ -32450,7 +32397,7 @@
         "categories": [
             "Config",
             "Library",
-            "Developper-Tools"
+            "Devtool"
         ],
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
@@ -32466,7 +32413,7 @@
         "categories": [
             "Secrets",
             "Config",
-            "Developper-Tools"
+            "Devtool"
         ],
         "update": {
             "timestamp": "2025-04-25T12:00:00Z",
@@ -32608,10 +32555,7 @@
                 "name": "ajnart"
             }
         },
-        "wordmark": {
-            "light": "gemini-wordmark",
-            "dark": "gemini-wordmark"
-        }
+        "wordmark": "gemini-wordmark"
     },
     "xai-(grok)": {
         "base": "svg",
