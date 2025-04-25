@@ -727,8 +727,8 @@
             "light": "dub-light"
         },
         "wordmark": {
-            "light": "dub_light_wordmark.svg",
-            "dark": "dub_dark_wordmark.svg"
+            "light": "dub_light_wordmark",
+            "dark": "dub_dark_wordmark"
         }
     },
     "docking-station": {
@@ -3665,8 +3665,8 @@
             }
         },
         "wordmark": {
-            "light": "firebase-wordmark.svg",
-            "dark": "firebase-wordmark.svg"
+            "light": "firebase-wordmark",
+            "dark": "firebase-wordmark"
         }
     },
     "google-meet": {
@@ -4297,8 +4297,8 @@
             }
         },
         "wordmark": {
-            "light": "slack-wordmark.svg",
-            "dark": "slack-wordmark.svg"
+            "light": "slack-wordmark",
+            "dark": "slack-wordmark"
         }
     },
     "kasten-k10": {
@@ -5761,8 +5761,8 @@
             }
         },
         "wordmark": {
-            "light": "supabase_wordmark_light.svg",
-            "dark": "supabase_wordmark_dark.svg"
+            "light": "supabase_wordmark_light",
+            "dark": "supabase_wordmark_dark"
         }
     },
     "pagerduty": {
@@ -6467,8 +6467,8 @@
             "light": "posthog-light"
         },
         "wordmark": {
-            "light": "posthog-wordmark.svg",
-            "dark": "posthog-wordmark_dark.svg"
+            "light": "posthog-wordmark",
+            "dark": "posthog-wordmark_dark"
         }
     },
     "kook": {
@@ -7336,8 +7336,8 @@
             "light": "github-light"
         },
         "wordmark": {
-            "light": "github_wordmark_light.svg",
-            "dark": "github_wordmark_dark.svg"
+            "light": "github_wordmark_light",
+            "dark": "github_wordmark_dark"
         }
     },
     "octoprint": {
@@ -8403,8 +8403,8 @@
             "light": "deno-light"
         },
         "wordmark": {
-            "light": "deno_wordmark.svg",
-            "dark": "deno_wordmark_dark.svg"
+            "light": "deno_wordmark",
+            "dark": "deno_wordmark_dark"
         }
     },
     "youtube": {
@@ -8424,8 +8424,8 @@
             }
         },
         "wordmark": {
-            "light": "youtube-wordmark.svg",
-            "dark": "youtube-wordmark.svg"
+            "light": "youtube-wordmark",
+            "dark": "youtube-wordmark"
         }
     },
     "opnform": {
@@ -9166,8 +9166,8 @@
             }
         },
         "wordmark": {
-            "light": "apple-music-wordmark-light.svg",
-            "dark": "apple-music-wordmark-dark.svg"
+            "light": "apple-music-wordmark-light",
+            "dark": "apple-music-wordmark-dark"
         }
     },
     "webdb": {
@@ -9521,8 +9521,8 @@
             }
         },
         "wordmark": {
-            "light": "duckduckgo-wordmark.svg",
-            "dark": "duckduckgo-wordmark.svg"
+            "light": "duckduckgo-wordmark",
+            "dark": "duckduckgo-wordmark"
         }
     },
     "profilarr": {
@@ -9636,8 +9636,8 @@
             "light": "openai-light"
         },
         "wordmark": {
-            "light": "openai_wordmark_light.svg",
-            "dark": "openai_wordmark_dark.svg"
+            "light": "openai_wordmark_light",
+            "dark": "openai_wordmark_dark"
         }
     },
     "microsoft-excel": {
@@ -11516,8 +11516,8 @@
             "light": "todoist"
         },
         "wordmark": {
-            "light": "todoist-wordmark.svg",
-            "dark": "todoist-wordmark.svg"
+            "light": "todoist-wordmark",
+            "dark": "todoist-wordmark"
         }
     },
     "tolgee": {
@@ -11716,8 +11716,8 @@
             }
         },
         "wordmark": {
-            "light": "deepseek_wordmark.svg",
-            "dark": "deepseek_wordmark.svg"
+            "light": "deepseek_wordmark",
+            "dark": "deepseek_wordmark"
         }
     },
     "plantuml": {
@@ -11864,8 +11864,8 @@
             }
         },
         "wordmark": {
-            "light": "mediawiki-wordmark-light.svg",
-            "dark": "mediawiki-wordmark-dark.svg"
+            "light": "mediawiki-wordmark-light",
+            "dark": "mediawiki-wordmark-dark"
         }
     },
     "domainmod": {
@@ -12292,8 +12292,8 @@
             }
         },
         "wordmark": {
-            "light": "aliexpress-logo.svg",
-            "dark": "aliexpress-logo.svg"
+            "light": "aliexpress-logo",
+            "dark": "aliexpress-logo"
         }
     },
     "clickhouse": {
@@ -13334,8 +13334,8 @@
             }
         },
         "wordmark": {
-            "light": "youtube_music_wordmark_light.svg",
-            "dark": "youtube_music_wordmark_dark.svg"
+            "light": "youtube_music_wordmark_light",
+            "dark": "youtube_music_wordmark_dark"
         }
     },
     "atlassian-opsgenie": {
@@ -13726,8 +13726,8 @@
             }
         },
         "wordmark": {
-            "light": "spotify_wordmark.svg",
-            "dark": "spotify_wordmark.svg"
+            "light": "spotify_wordmark",
+            "dark": "spotify_wordmark"
         }
     },
     "portainer": {
@@ -16631,8 +16631,8 @@
             "light": "vercel-light"
         },
         "wordmark": {
-            "light": "vercel_wordmark.svg",
-            "dark": "vercel_wordmark_dark.svg"
+            "light": "vercel_wordmark",
+            "dark": "vercel_wordmark_dark"
         }
     },
     "alma-linux": {
@@ -16699,8 +16699,8 @@
             }
         },
         "wordmark": {
-            "light": "google-wordmark.svg",
-            "dark": "google-wordmark.svg"
+            "light": "google-wordmark",
+            "dark": "google-wordmark"
         }
     },
     "synology-cloud-sync": {
@@ -17613,8 +17613,8 @@
             "light": "claude-ai-light"
         },
         "wordmark": {
-            "light": "claude-ai-wordmark-icon_light.svg",
-            "dark": "claude-ai-wordmark-icon_dark.svg"
+            "light": "claude-ai-wordmark-icon_light",
+            "dark": "claude-ai-wordmark-icon_dark"
         }
     },
     "cert-manager": {
@@ -17729,8 +17729,8 @@
             }
         },
         "wordmark": {
-            "light": "mongodb-wordmark.svg",
-            "dark": "mongodb-wordmark.svg"
+            "light": "mongodb-wordmark",
+            "dark": "mongodb-wordmark"
         }
     },
     "google-play-books": {
@@ -20042,8 +20042,8 @@
             }
         },
         "wordmark": {
-            "light": "dropbox_wordmark.svg",
-            "dark": "dropbox_wordmark_dark.svg"
+            "light": "dropbox_wordmark",
+            "dark": "dropbox_wordmark_dark"
         }
     },
     "synology-photo-station": {
@@ -22217,8 +22217,8 @@
             }
         },
         "wordmark": {
-            "light": "paypal-wordmark.svg",
-            "dark": "paypal-wordmark.svg"
+            "light": "paypal-wordmark",
+            "dark": "paypal-wordmark"
         }
     },
     "apprise": {
@@ -23369,8 +23369,8 @@
             }
         },
         "wordmark": {
-            "light": "shopify-wordmark-light.svg",
-            "dark": "shopify-wordmark-dark.svg"
+            "light": "shopify-wordmark-light",
+            "dark": "shopify-wordmark-dark"
         }
     },
     "visual-studio-code": {
@@ -26369,8 +26369,8 @@
             }
         },
         "wordmark": {
-            "light": "asana-wordmark-light.svg",
-            "dark": "asana-wordmark-dark.svg"
+            "light": "asana-wordmark-light",
+            "dark": "asana-wordmark-dark"
         }
     },
     "wallos": {
@@ -26657,8 +26657,8 @@
             }
         },
         "wordmark": {
-            "light": "home-assistant-wordmark.svg",
-            "dark": "home-assistant-wordmark-dark.svg"
+            "light": "home-assistant-wordmark",
+            "dark": "home-assistant-wordmark-dark"
         }
     },
     "electron": {
@@ -27490,8 +27490,8 @@
             }
         },
         "wordmark": {
-            "light": "milanote-wordmark-light.svg",
-            "dark": "milanote-wordmark-dark.svg"
+            "light": "milanote-wordmark-light",
+            "dark": "milanote-wordmark-dark"
         },
         "colors": {
             "dark": "milanote-dark",
@@ -27530,8 +27530,8 @@
             }
         },
         "wordmark": {
-            "light": "suno_wordmark_light.svg",
-            "dark": "suno_wordmark_dark.svg"
+            "light": "suno_wordmark_light",
+            "dark": "suno_wordmark_dark"
         }
     },
     "groq": {
@@ -27548,8 +27548,8 @@
             }
         },
         "wordmark": {
-            "light": "groq_wordmark_light.svg",
-            "dark": "groq_wordmark_dark.svg"
+            "light": "groq_wordmark_light",
+            "dark": "groq_wordmark_dark"
         }
     },
     "cohere": {
@@ -27566,8 +27566,8 @@
             }
         },
         "wordmark": {
-            "light": "cohere_wordmark.svg",
-            "dark": "cohere_wordmark.svg"
+            "light": "cohere_wordmark",
+            "dark": "cohere_wordmark"
         }
     },
     "animate": {
@@ -27628,8 +27628,8 @@
             }
         },
         "wordmark": {
-            "light": "mercado-pago-wordmark.svg",
-            "dark": "mercado-pago-wordmark.svg"
+            "light": "mercado-pago-wordmark",
+            "dark": "mercado-pago-wordmark"
         }
     },
     "basewell": {
@@ -27661,8 +27661,8 @@
             }
         },
         "wordmark": {
-            "light": "ahooks-wordmark-light.svg",
-            "dark": "ahooks-wordmark-dark.svg"
+            "light": "ahooks-wordmark-light",
+            "dark": "ahooks-wordmark-dark"
         }
     },
     "preact": {
@@ -27693,8 +27693,8 @@
             }
         },
         "wordmark": {
-            "light": "react_wordmark_light.svg",
-            "dark": "react_wordmark_dark.svg"
+            "light": "react_wordmark_light",
+            "dark": "react_wordmark_dark"
         },
         "colors": {
             "dark": "react_dark",
@@ -28035,8 +28035,8 @@
             }
         },
         "wordmark": {
-            "light": "tailwindcss-wordmark.svg",
-            "dark": "tailwindcss-wordmark-dark.svg"
+            "light": "tailwindcss-wordmark",
+            "dark": "tailwindcss-wordmark-dark"
         }
     },
     "styled-components": {
@@ -28432,8 +28432,8 @@
             }
         },
         "wordmark": {
-            "light": "coinbase-wordmark-light.svg",
-            "dark": "coinbase-wordmark-dark.svg"
+            "light": "coinbase-wordmark-light",
+            "dark": "coinbase-wordmark-dark"
         }
     },
     "authy": {
@@ -28529,8 +28529,8 @@
             }
         },
         "wordmark": {
-            "light": "grok-wordmark-light.svg",
-            "dark": "grok-wordmark-dark.svg"
+            "light": "grok-wordmark-light",
+            "dark": "grok-wordmark-dark"
         },
         "colors": {
             "dark": "grok-dark",
@@ -29608,8 +29608,8 @@
             }
         },
         "wordmark": {
-            "light": "valibot-wordmark-light.svg",
-            "dark": "valibot-wordmark-dark.svg"
+            "light": "valibot-wordmark-light",
+            "dark": "valibot-wordmark-dark"
         }
     },
     "dreamweaver": {
@@ -29854,8 +29854,8 @@
             }
         },
         "wordmark": {
-            "light": "link-wordmark-light.svg",
-            "dark": "link-wordmark-dark.svg"
+            "light": "link-wordmark-light",
+            "dark": "link-wordmark-dark"
         }
     },
     "polygon": {
@@ -30506,8 +30506,8 @@
             }
         },
         "wordmark": {
-            "light": "axiom-wordmark-light.svg",
-            "dark": "axiom-wordmark-dark.svg"
+            "light": "axiom-wordmark-light",
+            "dark": "axiom-wordmark-dark"
         },
         "colors": {
             "dark": "axiom-dark",
@@ -30542,8 +30542,8 @@
             }
         },
         "wordmark": {
-            "light": "zeabur_wordmark_light.svg",
-            "dark": "zeabur_wordmark_dark.svg"
+            "light": "zeabur_wordmark_light",
+            "dark": "zeabur_wordmark_dark"
         },
         "colors": {
             "dark": "zeabur-dark",
@@ -30773,8 +30773,8 @@
             }
         },
         "wordmark": {
-            "light": "monkeytype-wordmark-light.svg",
-            "dark": "monkeytype-wordmark-dark.svg"
+            "light": "monkeytype-wordmark-light",
+            "dark": "monkeytype-wordmark-dark"
         }
     },
     "pycharm": {
@@ -30805,8 +30805,8 @@
             }
         },
         "wordmark": {
-            "light": "webflow-wordmark-light.svg",
-            "dark": "webflow-wordmark-dark.svg"
+            "light": "webflow-wordmark-light",
+            "dark": "webflow-wordmark-dark"
         }
     },
     "sanity": {
@@ -30851,8 +30851,8 @@
             }
         },
         "wordmark": {
-            "light": "airbnb-wordmark.svg",
-            "dark": "airbnb-wordmark.svg"
+            "light": "airbnb-wordmark",
+            "dark": "airbnb-wordmark"
         }
     },
     "uber": {
@@ -30929,8 +30929,8 @@
             }
         },
         "wordmark": {
-            "light": "raycast-wordmark-light.svg",
-            "dark": "raycast-wordmark-dark.svg"
+            "light": "raycast-wordmark-light",
+            "dark": "raycast-wordmark-dark"
         }
     },
     "hack-the-box": {
@@ -30947,8 +30947,8 @@
             }
         },
         "wordmark": {
-            "light": "hack-the-box-wordmark-light.svg",
-            "dark": "hack-the-box-wordmark-dark.svg"
+            "light": "hack-the-box-wordmark-light",
+            "dark": "hack-the-box-wordmark-dark"
         }
     },
     "procure": {
@@ -31007,8 +31007,8 @@
             }
         },
         "wordmark": {
-            "light": "perplexity_wordmark_light.svg",
-            "dark": "perplexity_wordmark_dark.svg"
+            "light": "perplexity_wordmark_light",
+            "dark": "perplexity_wordmark_dark"
         }
     },
     "spring": {
@@ -31039,8 +31039,8 @@
             }
         },
         "wordmark": {
-            "light": "pnpm_wordmark_light.svg",
-            "dark": "pnpm_wordmark_dark.svg"
+            "light": "pnpm_wordmark_light",
+            "dark": "pnpm_wordmark_dark"
         },
         "colors": {
             "dark": "pnpm_dark",
@@ -31122,8 +31122,8 @@
             }
         },
         "wordmark": {
-            "light": "flask-wordmark-light.svg",
-            "dark": "flask-wordmark-dark.svg"
+            "light": "flask-wordmark-light",
+            "dark": "flask-wordmark-dark"
         },
         "colors": {
             "dark": "flask-dark",
@@ -31345,8 +31345,8 @@
             }
         },
         "wordmark": {
-            "light": "replicate-wordmark_light.svg",
-            "dark": "replicate-wordmark_dark.svg"
+            "light": "replicate-wordmark_light",
+            "dark": "replicate-wordmark_dark"
         },
         "colors": {
             "dark": "replicate_dark",
@@ -31453,8 +31453,8 @@
             }
         },
         "wordmark": {
-            "light": "tidal_wordmark_light.svg",
-            "dark": "tidal_wordmark_dark.svg"
+            "light": "tidal_wordmark_light",
+            "dark": "tidal_wordmark_dark"
         },
         "colors": {
             "dark": "tidal_dark",
@@ -31489,8 +31489,8 @@
             }
         },
         "wordmark": {
-            "light": "stackoverflow_wordmark.svg",
-            "dark": "stackoverflow_wordmark.svg"
+            "light": "stackoverflow_wordmark",
+            "dark": "stackoverflow_wordmark"
         }
     },
     "ngrok": {
@@ -31539,8 +31539,8 @@
             }
         },
         "wordmark": {
-            "light": "upleveled-wordmark.svg",
-            "dark": "upleveled-wordmark.svg"
+            "light": "upleveled-wordmark",
+            "dark": "upleveled-wordmark"
         }
     },
     "tina": {
@@ -31557,8 +31557,8 @@
             }
         },
         "wordmark": {
-            "light": "tina_wordmark.svg",
-            "dark": "tina_wordmark.svg"
+            "light": "tina_wordmark",
+            "dark": "tina_wordmark"
         }
     },
     "next.js": {
@@ -31576,8 +31576,8 @@
             }
         },
         "wordmark": {
-            "light": "nextjs_logo_light.svg",
-            "dark": "nextjs_logo_dark.svg"
+            "light": "nextjs_logo_light",
+            "dark": "nextjs_logo_dark"
         }
     },
     "mistral-ai": {
@@ -31594,8 +31594,8 @@
             }
         },
         "wordmark": {
-            "light": "mistral-ai_wordmark.svg",
-            "dark": "mistral-ai_wordmark.svg"
+            "light": "mistral-ai_wordmark",
+            "dark": "mistral-ai_wordmark"
         }
     },
     "node.js": {
@@ -31696,8 +31696,8 @@
             }
         },
         "wordmark": {
-            "light": "resend-wordmark-black.svg",
-            "dark": "resend-wordmark-white.svg"
+            "light": "resend-wordmark-black",
+            "dark": "resend-wordmark-white"
         },
         "colors": {
             "dark": "resend-icon-white",
@@ -31765,8 +31765,8 @@
             }
         },
         "wordmark": {
-            "light": "turso-wordmark-light.svg",
-            "dark": "turso-wordmark-dark.svg"
+            "light": "turso-wordmark-light",
+            "dark": "turso-wordmark-dark"
         },
         "colors": {
             "dark": "turso-dark",
@@ -31787,8 +31787,8 @@
             }
         },
         "wordmark": {
-            "light": "relagit-wordmark-light.svg",
-            "dark": "relagit-wordmark-dark.svg"
+            "light": "relagit-wordmark-light",
+            "dark": "relagit-wordmark-dark"
         },
         "colors": {
             "dark": "relagit-icon-dark",
@@ -31841,8 +31841,8 @@
             }
         },
         "wordmark": {
-            "light": "postcss_wordmark.svg",
-            "dark": "postcss_wordmark.svg"
+            "light": "postcss_wordmark",
+            "dark": "postcss_wordmark"
         }
     },
     "svg": {
@@ -31860,8 +31860,8 @@
             }
         },
         "wordmark": {
-            "light": "svg_wordmark.svg",
-            "dark": "svg_wordmark.svg"
+            "light": "svg_wordmark",
+            "dark": "svg_wordmark"
         }
     },
     "apidog": {
@@ -31972,8 +31972,8 @@
             }
         },
         "wordmark": {
-            "light": "leap-wallet-wordmark-light.svg",
-            "dark": "leap-wallet-wordmark-dark.svg"
+            "light": "leap-wallet-wordmark-light",
+            "dark": "leap-wallet-wordmark-dark"
         }
     },
     "nx": {
@@ -32144,8 +32144,8 @@
             }
         },
         "wordmark": {
-            "light": "trpc_wordmark_light.svg",
-            "dark": "trpc_wordmark_dark.svg"
+            "light": "trpc_wordmark_light",
+            "dark": "trpc_wordmark_dark"
         }
     },
     "drizzle-orm": {
@@ -32282,8 +32282,8 @@
             }
         },
         "wordmark": {
-            "light": "nuqs-wordmark.svg",
-            "dark": "nuqs-wordmark_dark.svg"
+            "light": "nuqs-wordmark",
+            "dark": "nuqs-wordmark_dark"
         },
         "colors": {
             "dark": "nuqs_dark",
@@ -32304,8 +32304,8 @@
             }
         },
         "wordmark": {
-            "light": "soundcloud-wordmark.svg",
-            "dark": "soundcloud-wordmark_dark.svg"
+            "light": "soundcloud-wordmark",
+            "dark": "soundcloud-wordmark_dark"
         },
         "colors": {
             "dark": "soundcloud-logo_dark",
@@ -32443,8 +32443,8 @@
             }
         },
         "wordmark": {
-            "light": "typegpu-wordmark-light.svg",
-            "dark": "typegpu-wordmark-dark.svg"
+            "light": "typegpu-wordmark-light",
+            "dark": "typegpu-wordmark-dark"
         },
         "colors": {
             "dark": "typegpu-dark",
@@ -32593,8 +32593,8 @@
             }
         },
         "wordmark": {
-            "light": "zen-browser-wordmark-light.svg",
-            "dark": "zen-browser-wordmark-dark.svg"
+            "light": "zen-browser-wordmark-light",
+            "dark": "zen-browser-wordmark-dark"
         },
         "colors": {
             "dark": "zen-browser-dark",
@@ -32616,8 +32616,8 @@
             }
         },
         "wordmark": {
-            "light": "gemini_wordmark.svg",
-            "dark": "gemini_wordmark.svg"
+            "light": "gemini_wordmark",
+            "dark": "gemini_wordmark"
         }
     },
     "xai-(grok)": {
@@ -32670,8 +32670,8 @@
             }
         },
         "wordmark": {
-            "light": "inflectionai_wordmark_light.svg",
-            "dark": "inflectionai_wordmark_dark.svg"
+            "light": "inflectionai_wordmark_light",
+            "dark": "inflectionai_wordmark_dark"
         },
         "colors": {
             "dark": "inflectionai_dark",
@@ -32706,8 +32706,8 @@
             }
         },
         "wordmark": {
-            "light": "anthropic_black_wordmark.svg",
-            "dark": "anthropic_white_wordmark.svg"
+            "light": "anthropic_black_wordmark",
+            "dark": "anthropic_white_wordmark"
         },
         "colors": {
             "dark": "anthropic_white",
@@ -32728,8 +32728,8 @@
             }
         },
         "wordmark": {
-            "light": "replit-wordmark-light.svg",
-            "dark": "replit-wordmark-dark.svg"
+            "light": "replit-wordmark-light",
+            "dark": "replit-wordmark-dark"
         }
     },
     "magic-ui": {
@@ -32790,8 +32790,8 @@
             }
         },
         "wordmark": {
-            "light": "curseforge-wordmark.svg",
-            "dark": "curseforge-wordmark-dark.svg"
+            "light": "curseforge-wordmark",
+            "dark": "curseforge-wordmark-dark"
         },
         "colors": {
             "dark": "curseforge-dark",
@@ -32812,8 +32812,8 @@
             }
         },
         "wordmark": {
-            "light": "cursor_wordmark_light.svg",
-            "dark": "cursor_wordmark_dark.svg"
+            "light": "cursor_wordmark_light",
+            "dark": "cursor_wordmark_dark"
         },
         "colors": {
             "dark": "cursor_dark",
@@ -32834,8 +32834,8 @@
             }
         },
         "wordmark": {
-            "light": "ghostty_wordmark_light.svg",
-            "dark": "ghostty_wordmark_dark.svg"
+            "light": "ghostty_wordmark_light",
+            "dark": "ghostty_wordmark_dark"
         }
     },
     "better-auth": {
@@ -32853,8 +32853,8 @@
             }
         },
         "wordmark": {
-            "light": "better-auth_wordmark_light.svg",
-            "dark": "better-auth_wordmark_dark.svg"
+            "light": "better-auth_wordmark_light",
+            "dark": "better-auth_wordmark_dark"
         },
         "colors": {
             "dark": "better-auth_dark",
