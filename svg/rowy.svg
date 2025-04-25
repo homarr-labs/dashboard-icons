@@ -1,0 +1,61 @@
+<svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_1215_3872)">
+<g clip-path="url(#clip1_1215_3872)">
+<rect width="26" height="26" fill="white"/>
+<rect width="26" height="26" fill="url(#paint0_linear_1215_3872)"/>
+<rect width="26" height="26" fill="url(#paint1_radial_1215_3872)" fill-opacity="0.8"/>
+<g style="mix-blend-mode:overlay">
+<rect width="26" height="26" fill="url(#paint2_radial_1215_3872)"/>
+<rect width="26" height="26" fill="url(#paint3_radial_1215_3872)"/>
+</g>
+</g>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M11.5 18.5V15.5H5.5V18.5C5.5 20.1569 6.84315 21.5 8.5 21.5C10.1569 21.5 11.5 20.1569 11.5 18.5ZM6.5 16.5H10.5V18.5L10.4945 18.6493C10.4182 19.6841 9.55436 20.5 8.5 20.5L8.35074 20.4945C7.31588 20.4182 6.5 19.5544 6.5 18.5V16.5Z" fill="url(#paint4_linear_1215_3872)"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M5.5 8.5V11.5H11.5L11.5 8.5C11.5 6.84315 10.1569 5.5 8.5 5.5C6.84315 5.5 5.5 6.84315 5.5 8.5ZM10.5 10.5H6.5V8.5L6.50549 8.35074C6.58183 7.31588 7.44564 6.5 8.5 6.5L8.64926 6.50549C9.68412 6.58183 10.5 7.44564 10.5 8.5V10.5Z" fill="#4200FF"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M11.5 16.5V10.5H5.5V16.5H11.5ZM6.5 11.5H10.5V15.5H6.5V11.5Z" fill="url(#paint5_linear_1215_3872)"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M18.5 5.5L15.5 5.5V11.5H18.5C20.1569 11.5 21.5 10.1569 21.5 8.5C21.5 6.84315 20.1569 5.5 18.5 5.5ZM16.501 10.5V6.5L18.5 6.5L18.6493 6.50549C19.6841 6.58183 20.5 7.44564 20.5 8.5L20.4945 8.64926C20.4182 9.68412 19.5544 10.5 18.5 10.5H16.501Z" fill="url(#paint6_linear_1215_3872)"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M10.5 8.5V11.5H16.5V5.5H13.5C11.8431 5.5 10.5 6.84315 10.5 8.5ZM13.5 6.5H15.5V10.5H11.5V8.5L11.5055 8.35074C11.5818 7.31588 12.4456 6.5 13.5 6.5Z" fill="url(#paint7_linear_1215_3872)"/>
+</g>
+<defs>
+<linearGradient id="paint0_linear_1215_3872" x1="13" y1="0" x2="13" y2="26" gradientUnits="userSpaceOnUse">
+<stop stop-color="white" stop-opacity="0"/>
+<stop offset="1" stop-color="white"/>
+</linearGradient>
+<radialGradient id="paint1_radial_1215_3872" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(23.01 32.4326) rotate(-103.865) scale(60.94 68.5315)">
+<stop stop-color="white" stop-opacity="0"/>
+<stop offset="1" stop-color="#C6C6C6"/>
+<stop offset="1" stop-color="#C6C6C6"/>
+</radialGradient>
+<radialGradient id="paint2_radial_1215_3872" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(3.73283 26) rotate(-80.5992) scale(17.6864 18.7096)">
+<stop stop-color="#FFAA00"/>
+<stop offset="0.489583" stop-color="#FF00AA"/>
+<stop offset="1" stop-color="#4200FF"/>
+</radialGradient>
+<radialGradient id="paint3_radial_1215_3872" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(26 3.06223) rotate(179.35) scale(15.2894 48.4386)">
+<stop offset="0.260417" stop-color="#00FFAA"/>
+<stop offset="0.489583" stop-color="#00AAFF"/>
+<stop offset="1" stop-color="#4200FF" stop-opacity="0"/>
+</radialGradient>
+<linearGradient id="paint4_linear_1215_3872" x1="5.99952" y1="16.499" x2="5.99952" y2="21.5" gradientUnits="userSpaceOnUse">
+<stop stop-color="#FF00AA"/>
+<stop offset="1" stop-color="#FFAA00"/>
+</linearGradient>
+<linearGradient id="paint5_linear_1215_3872" x1="5.98829" y1="11.4766" x2="5.98829" y2="16.5" gradientUnits="userSpaceOnUse">
+<stop stop-color="#4200FF"/>
+<stop offset="1" stop-color="#FF00AA"/>
+</linearGradient>
+<linearGradient id="paint6_linear_1215_3872" x1="16.5169" y1="10.9916" x2="21.5" y2="10.9916" gradientUnits="userSpaceOnUse">
+<stop stop-color="#00AAFF"/>
+<stop offset="1" stop-color="#00FFAA"/>
+</linearGradient>
+<linearGradient id="paint7_linear_1215_3872" x1="16.5" y1="5.99843" x2="11.4969" y2="5.99843" gradientUnits="userSpaceOnUse">
+<stop stop-color="#00AAFF"/>
+<stop offset="1" stop-color="#4200FF"/>
+</linearGradient>
+<clipPath id="clip0_1215_3872">
+<rect width="26" height="26" rx="8" fill="white"/>
+</clipPath>
+<clipPath id="clip1_1215_3872">
+<rect width="26" height="26" fill="white"/>
+</clipPath>
+</defs>
+</svg>
