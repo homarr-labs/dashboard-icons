@@ -1,6 +1,6 @@
 "use client"
 
-import { IconsGrid } from "@/components/icon-grid"
+import { VirtualizedIconsGrid } from "@/components/icon-grid"
 import { IconSubmissionContent } from "@/components/icon-submission-form"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -432,7 +432,7 @@ export function IconSearch({ icons }: IconSearchProps) {
 						</div>
 					</div>
 
-					<IconsGrid filteredIcons={filteredIcons} matchedAliases={matchedAliases} />
+					<VirtualizedIconsGrid filteredIcons={filteredIcons} matchedAliases={matchedAliases} />
 				</>
 			)}
 		</>
