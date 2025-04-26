@@ -46,7 +46,7 @@ export default async function IconsPage() {
 			<div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
 				<div>
 					<h1 className="text-3xl font-bold">Browse icons</h1>
-					<p className="text-muted-foreground">Search through our collection of {icons.length} beautiful icons.</p>
+					<p className="text-muted-foreground mb-1">Search through our collection of {icons.length} beautiful icons.</p>
 				</div>
 			</div>
 			<IconSearch icons={icons} />
