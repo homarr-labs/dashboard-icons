@@ -30,8 +30,6 @@ export function IconCard({
 				<span className="text-xs sm:text-sm text-center truncate w-full capitalize group- dark:group-hover:text-primary transition-colors duration-200 font-medium">
 					{formatedIconName}
 				</span>
-
-				{matchedAlias && <span className="text-[10px] text-center truncate w-full mt-1">Alias: {matchedAlias}</span>}
 			</Link>
 		</MagicCard>
 	)
