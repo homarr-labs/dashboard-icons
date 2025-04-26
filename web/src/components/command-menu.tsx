@@ -2,19 +2,13 @@
 
 import { CommandDialog, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command"
 import { useMediaQuery } from "@/hooks/use-media-query"
-import { formatIconName, fuzzySearch } from "@/lib/utils"
+import { formatIconName, fuzzySearch, filterAndSortIcons } from "@/lib/utils"
 import { useRouter } from "next/navigation"
-import { useCallback, useEffect, useState } from "react"
+import { useCallback, useEffect, useState, useMemo } from "react"
+import type { IconWithName } from "@/types/icons"
 
 interface CommandMenuProps {
-	icons: {
-		name: string
-		data: {
-			categories: string[]
-			aliases: string[]
-			[key: string]: unknown
-		}
-	}[]
+	icons: IconWithName[]
 	triggerButtonId?: string
 	open?: boolean
 	onOpenChange?: (open: boolean) => void
@@ -41,7 +35,10 @@ export function CommandMenu({ icons, open: externalOpen, onOpenChange: externalO
 		[externalOnOpenChange],
 	)
 
-	const filteredIcons = getFilteredIcons(icons, query)
+	const filteredIcons = useMemo(() =>
+		filterAndSortIcons({ icons, query, limit: 20 }),
+		[icons, query]
+	)
 
 	useEffect(() => {
 		const handleKeyDown = (e: KeyboardEvent) => {
@@ -57,43 +54,6 @@ export function CommandMenu({ icons, open: externalOpen, onOpenChange: externalO
 		document.addEventListener("keydown", handleKeyDown)
 		return () => document.removeEventListener("keydown", handleKeyDown)
 	}, [isOpen, setIsOpen])
-
-	function getFilteredIcons(iconList: CommandMenuProps["icons"], query: string) {
-		if (!query) {
-			// Return a limited number of icons when no query is provided
-			return iconList.slice(0, 8)
-		}
-
-		// Calculate scores for each icon
-		const scoredIcons = iconList.map((icon) => {
-			// Calculate scores for different fields
-			const nameScore = fuzzySearch(icon.name, query) * 2.0 // Give more weight to name matches
-
-			// Get max score from aliases
-			const aliasScore =
-				icon.data.aliases && icon.data.aliases.length > 0
-					? Math.max(...icon.data.aliases.map((alias) => fuzzySearch(alias, query))) * 1.8 // Increased weight for aliases
-					: 0
-
-			// Get max score from categories
-			const categoryScore =
-				icon.data.categories && icon.data.categories.length > 0
-					? Math.max(...icon.data.categories.map((category) => fuzzySearch(category, query)))
-					: 0
-
-			// Use the highest score
-			const score = Math.max(nameScore, aliasScore, categoryScore)
-
-			return { icon, score, matchedField: score === nameScore ? "name" : score === aliasScore ? "alias" : "category" }
-		})
-
-		// Filter icons with a minimum score and sort by highest score
-		return scoredIcons
-			.filter((item) => item.score > 0.3) // Higher threshold for more accurate results
-			.sort((a, b) => b.score - a.score)
-			.slice(0, 20) // Limit the number of results
-			.map((item) => item.icon)
-	}
 
 	const handleSelect = (name: string) => {
 		setIsOpen(false)

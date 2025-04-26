@@ -24,8 +24,7 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import posthog from "posthog-js"
 import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { toast } from "sonner"
-
-type SortOption = "relevance" | "alphabetical-asc" | "alphabetical-desc" | "newest"
+import { filterAndSortIcons, SortOption } from "@/lib/utils"
 
 export function IconSearch({ icons }: IconSearchProps) {
 	const searchParams = useSearchParams()
@@ -61,54 +60,6 @@ export function IconSearch({ icons }: IconSearchProps) {
 		return Array.from(categories).sort()
 	}, [icons])
 
-	// Simple filter function using substring matching
-	const filterIcons = useCallback(
-		(query: string, categories: string[], sort: SortOption) => {
-			// First filter by categories if any are selected
-			let filtered = icons
-			if (categories.length > 0) {
-				filtered = filtered.filter(({ data }) =>
-					data.categories.some((cat) => categories.some((selectedCat) => cat.toLowerCase() === selectedCat.toLowerCase())),
-				)
-			}
-
-			// Then filter by search query
-			if (query.trim()) {
-				// Normalization function: lowercase, remove spaces and hyphens
-				const normalizeString = (str: string) => str.toLowerCase().replace(/[-\s]/g, "")
-				const normalizedQuery = normalizeString(query)
-
-				filtered = filtered.filter(({ name, data }) => {
-					// Check normalized name
-					if (normalizeString(name).includes(normalizedQuery)) return true
-					// Check normalized aliases
-					if (data.aliases.some((alias) => normalizeString(alias).includes(normalizedQuery))) return true
-					// Check normalized categories
-					if (data.categories.some((category) => normalizeString(category).includes(normalizedQuery))) return true
-					return false
-				})
-			}
-
-			// Apply sorting
-			if (sort === "alphabetical-asc") {
-				return filtered.sort((a, b) => a.name.localeCompare(b.name))
-			}
-			if (sort === "alphabetical-desc") {
-				return filtered.sort((a, b) => b.name.localeCompare(a.name))
-			}
-			if (sort === "newest") {
-				return filtered.sort((a, b) => {
-					return new Date(b.data.update.timestamp).getTime() - new Date(a.data.update.timestamp).getTime()
-				})
-			}
-
-			// Default sort (relevance or fallback to alphabetical)
-			// TODO: Implement actual relevance sorting
-			return filtered.sort((a, b) => a.name.localeCompare(b.name))
-		},
-		[icons],
-	)
-
 	// Find matched aliases for display purposes
 	const matchedAliases = useMemo(() => {
 		if (!searchQuery.trim()) return {}
@@ -131,8 +82,13 @@ export function IconSearch({ icons }: IconSearchProps) {
 
 	// Use useMemo for filtered icons with debounced query
 	const filteredIcons = useMemo(() => {
-		return filterIcons(debouncedQuery, selectedCategories, sortOption)
-	}, [filterIcons, debouncedQuery, selectedCategories, sortOption])
+		return filterAndSortIcons({
+			icons,
+			query: debouncedQuery,
+			categories: selectedCategories,
+			sort: sortOption,
+		})
+	}, [icons, debouncedQuery, selectedCategories, sortOption])
 
 	const updateResults = useCallback(
 		(query: string, categories: string[], sort: SortOption) => {
