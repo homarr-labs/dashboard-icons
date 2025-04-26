@@ -372,7 +372,7 @@ export function IconDetails({ icon, iconData, authorData, allIcons }: IconDetail
 											{iconData.colors && " Includes both light and dark theme variants for better integration with different UI designs."}
 										</p>
 										<p>
-											Perfect for adding to dashboards, app directories, documentation, or anywhere you need the {icon.replace(/-/g, " ")}{" "}
+											Perfect for adding to dashboards, app directories, documentation, or anywhere you need the {formatIconName(icon)}{" "}
 											logo.
 										</p>
 									</div>
