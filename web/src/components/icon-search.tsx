@@ -397,23 +397,25 @@ export function IconSearch({ icons }: IconSearchProps) {
 			</div>
 
 			{filteredIcons.length === 0 ? (
-				<div className="flex flex-col gap-8 py-12 max-w-2xl mx-auto items-center">
-					<div className="text-center">
+				<div className="flex flex-col gap-8 py-12 px-2 w-full max-w-full sm:max-w-2xl mx-auto items-center overflow-x-hidden">
+					<div className="text-center w-full">
 						<h2 className="text-3xl sm:text-5xl font-semibold">Icon not found</h2>
 						<p className="text-lg text-muted-foreground mt-2">Help us expand our collection</p>
 					</div>
 					<div className="flex flex-col gap-4 items-center w-full">
-						<IconSubmissionContent />
-						<div className="mt-4 flex items-center gap-2 justify-center">
+						<div id="icon-submission-content" className="w-full">
+							<IconSubmissionContent />
+						</div>
+						<div className="mt-4 flex flex-col sm:flex-row items-center gap-2 justify-center w-full">
 							<span className="text-sm text-muted-foreground">Can't submit it yourself?</span>
 							<Button
-								className="cursor-pointer"
+								className="cursor-pointer w-full sm:w-auto truncate whitespace-nowrap"
 								variant="outline"
 								size="sm"
 								onClick={() => {
 									setIsLazyRequestSubmitted(true)
 									toast("Request received!", {
-										description: `We've noted your request for "${searchQuery || "this icon"}". Thanks for your suggestion.`,
+										description: `We've noted your request for \"${searchQuery || "this icon"}\". Thanks for your suggestion.`,
 									})
 									posthog.capture("lazy icon request", {
 										query: searchQuery,
