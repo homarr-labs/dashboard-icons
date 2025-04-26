@@ -131,13 +131,13 @@ export function fuzzySearch(text: string, query: string): number {
 	const wordMatchScore = queryWords.length > 0 ? wordMatchCount / queryWords.length : 0
 
 	// Composite score
-	score += sequenceScore * 0.2 + similarityScore * 0.2 + wordMatchScore * 0.6
+	score += sequenceScore * 0.1 + similarityScore * 0.1 + wordMatchScore * 0.6
 
 	// Penalize if not all words present in multi-word query
 	if (queryWords.length > 1 && !allWordsPresent) score *= 0.4
 
 	// Penalize very weak matches
-	if (score < 0.5) score *= 0.5
+	if (score < 0.5) score *= 0.3
 
 	return score
 }
@@ -208,7 +208,7 @@ export function filterAndSortIcons({
 
 			return { icon, score: allWordsPresent ? finalScore : finalScore * 0.4 }
 		})
-			.filter((item) => item.score > 0.6) // Higher threshold for more relevant results
+			.filter((item) => item.score > 0.7)
 			.sort((a, b) => {
 				if (b.score !== a.score) return b.score - a.score
 				return a.icon.name.localeCompare(b.icon.name)
