@@ -1,0 +1,17 @@
+{
+  "base": "svg",
+  "aliases": [
+    "radarr-4k",
+    "radarr4k"
+  ],
+  "categories": [
+    "Media"
+  ],
+  "update": {
+    "timestamp": "2025-04-26T21:09:55.392134",
+    "author": {
+      "id": 8594827,
+      "login": "tylertylerday"
+    }
+  }
+}
