@@ -78,11 +78,7 @@ export function Header() {
 					<div className="md:hidden">
 						<IconSubmissionForm
 							trigger={
-								<Button
-									variant="ghost"
-									size="icon"
-									className="rounded-lg cursor-pointer transition-all duration-300 hover:ring-2 "
-								>
+								<Button variant="ghost" size="icon" className="rounded-lg cursor-pointer transition-all duration-300 hover:ring-2 ">
 									<PlusCircle className="h-5 w-5 transition-all duration-300" />
 									<span className="sr-only">Submit icon(s)</span>
 								</Button>
