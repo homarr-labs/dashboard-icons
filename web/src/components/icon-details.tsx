@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { BASE_URL, REPO_PATH } from "@/constants"
+import { formatIconName } from "@/lib/utils"
 import type { AuthorData, Icon, IconFile } from "@/types/icons"
 import confetti from "canvas-confetti"
 import { motion } from "framer-motion"
@@ -18,7 +19,6 @@ import { toast } from "sonner"
 import { Carbon } from "./carbon"
 import { MagicCard } from "./magicui/magic-card"
 import { Badge } from "./ui/badge"
-import { formatIconName } from "@/lib/utils"
 
 export type IconDetailsProps = {
 	icon: string
@@ -241,12 +241,7 @@ export function IconDetails({ icon, iconData, authorData, allIcons }: IconDetail
 
 							<Tooltip>
 								<TooltipTrigger asChild>
-									<Button
-										variant="outline"
-										size="icon"
-										className="h-8 w-8 rounded-lg"
-										asChild
-									>
+									<Button variant="outline" size="icon" className="h-8 w-8 rounded-lg" asChild>
 										<Link
 											href={githubUrl}
 											target="_blank"
@@ -369,14 +364,16 @@ export function IconDetails({ icon, iconData, authorData, allIcons }: IconDetail
 									<h3 className="text-sm font-semibold text-muted-foreground mb-2">About this icon</h3>
 									<div className="text-xs text-muted-foreground space-y-2">
 										<p>
-											Available in {availableFormats.length > 1
+											Available in{" "}
+											{availableFormats.length > 1
 												? `${availableFormats.length} formats (${availableFormats.map((f) => f.toUpperCase()).join(", ")}) `
 												: `${availableFormats[0].toUpperCase()} format `}
 											with a base format of {iconData.base.toUpperCase()}.
 											{iconData.colors && " Includes both light and dark theme variants for better integration with different UI designs."}
 										</p>
 										<p>
-											Perfect for adding to dashboards, app directories, documentation, or anywhere you need the {icon.replace(/-/g, " ")} logo.
+											Perfect for adding to dashboards, app directories, documentation, or anywhere you need the {icon.replace(/-/g, " ")}{" "}
+											logo.
 										</p>
 									</div>
 								</div>

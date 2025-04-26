@@ -82,7 +82,6 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-
 	return (
 		<html lang="en" suppressHydrationWarning>
 			<body className={`${inter.variable} antialiased bg-background flex flex-col min-h-screen`}>

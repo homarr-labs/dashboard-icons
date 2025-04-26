@@ -335,10 +335,12 @@ export function IconSearch({ icons }: IconSearchProps) {
 									Relevance
 								</DropdownMenuRadioItem>
 								<DropdownMenuRadioItem value="alphabetical-asc" className="cursor-pointer">
-									<ArrowDownAZ className="h-4 w-4 mr-2" />Name (A-Z)
+									<ArrowDownAZ className="h-4 w-4 mr-2" />
+									Name (A-Z)
 								</DropdownMenuRadioItem>
 								<DropdownMenuRadioItem value="alphabetical-desc" className="cursor-pointer">
-									<ArrowUpZA className="h-4 w-4 mr-2" />Name (Z-A)
+									<ArrowUpZA className="h-4 w-4 mr-2" />
+									Name (Z-A)
 								</DropdownMenuRadioItem>
 								<DropdownMenuRadioItem value="newest" className="cursor-pointer">
 									<Calendar className="h-4 w-4 mr-2" />

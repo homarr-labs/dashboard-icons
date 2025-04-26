@@ -51,11 +51,7 @@ export async function generateMetadata({ params, searchParams }: Props, parent: 
 	return {
 		title: `${formattedIconName} Icon | Dashboard Icons`,
 		description: `Download the ${formattedIconName} icon in SVG, PNG, and WEBP formats for FREE. Part of a collection of ${totalIcons} curated icons for services, applications and tools, designed specifically for dashboards and app directories.`,
-		assets: [
-			`${BASE_URL}/svg/${icon}.svg`,
-			`${BASE_URL}/png/${icon}.png`,
-			`${BASE_URL}/webp/${icon}.webp`,
-		],
+		assets: [`${BASE_URL}/svg/${icon}.svg`, `${BASE_URL}/png/${icon}.png`, `${BASE_URL}/webp/${icon}.webp`],
 		keywords: [
 			`${formattedIconName} icon`,
 			`${formattedIconName} icon download`,
