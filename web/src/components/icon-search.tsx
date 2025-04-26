@@ -285,7 +285,7 @@ export function IconSearch({ icons }: IconSearchProps) {
 							</Button>
 						</DropdownMenuTrigger>
 						<DropdownMenuContent align="start" className="w-64 sm:w-56">
-							<DropdownMenuLabel className="font-semibold">Categories</DropdownMenuLabel>
+							<DropdownMenuLabel className="font-semibold">Select Categories</DropdownMenuLabel>
 							<DropdownMenuSeparator />
 
 							<div className="max-h-[40vh] overflow-y-auto p-1">
@@ -311,7 +311,7 @@ export function IconSearch({ icons }: IconSearchProps) {
 										}}
 										className="cursor-pointer  focus: focus:bg-rose-50 dark:focus:bg-rose-950/20"
 									>
-										Clear all filters
+										Clear categories
 									</DropdownMenuItem>
 								</>
 							)}
@@ -332,13 +332,13 @@ export function IconSearch({ icons }: IconSearchProps) {
 							<DropdownMenuRadioGroup value={sortOption} onValueChange={(value) => handleSortChange(value as SortOption)}>
 								<DropdownMenuRadioItem value="relevance" className="cursor-pointer">
 									<Search className="h-4 w-4 mr-2" />
-									Best match
+									Relevance
 								</DropdownMenuRadioItem>
 								<DropdownMenuRadioItem value="alphabetical-asc" className="cursor-pointer">
-									<ArrowDownAZ className="h-4 w-4 mr-2" />A to Z
+									<ArrowDownAZ className="h-4 w-4 mr-2" />Name (A-Z)
 								</DropdownMenuRadioItem>
 								<DropdownMenuRadioItem value="alphabetical-desc" className="cursor-pointer">
-									<ArrowUpZA className="h-4 w-4 mr-2" />Z to A
+									<ArrowUpZA className="h-4 w-4 mr-2" />Name (Z-A)
 								</DropdownMenuRadioItem>
 								<DropdownMenuRadioItem value="newest" className="cursor-pointer">
 									<Calendar className="h-4 w-4 mr-2" />
@@ -352,7 +352,7 @@ export function IconSearch({ icons }: IconSearchProps) {
 					{(searchQuery || selectedCategories.length > 0 || sortOption !== "relevance") && (
 						<Button variant="outline" size="sm" onClick={clearFilters} className="flex-1 sm:flex-none cursor-pointer bg-background">
 							<X className="h-4 w-4 mr-2" />
-							<span>Clear all</span>
+							<span>Reset all</span>
 						</Button>
 					)}
 				</div>
@@ -360,7 +360,7 @@ export function IconSearch({ icons }: IconSearchProps) {
 				{/* Active filter badges */}
 				{selectedCategories.length > 0 && (
 					<div className="flex flex-wrap items-center gap-2 mt-2">
-						<span className="text-sm text-muted-foreground">Filters:</span>
+						<span className="text-sm text-muted-foreground">Selected:</span>
 						<div className="flex flex-wrap gap-2">
 							{selectedCategories.map((category) => (
 								<Badge key={category} variant="secondary" className="flex items-center gap-1 pl-2 pr-1">
@@ -386,7 +386,7 @@ export function IconSearch({ icons }: IconSearchProps) {
 							}}
 							className="text-xs h-7 px-2 cursor-pointer"
 						>
-							Clear all
+							Clear
 						</Button>
 					</div>
 				)}
@@ -397,27 +397,33 @@ export function IconSearch({ icons }: IconSearchProps) {
 			{filteredIcons.length === 0 ? (
 				<div className="flex flex-col gap-8 py-12 max-w-2xl mx-auto items-center">
 					<div className="text-center">
-						<h2 className="text-3xl sm:text-5xl font-semibold">We don't have this one...yet!</h2>
+						<h2 className="text-3xl sm:text-5xl font-semibold">Icon not found</h2>
+						<p className="text-lg text-muted-foreground mt-2">Help us expand our collection</p>
 					</div>
-					<Button
-						className="cursor-pointer motion-preset-pop"
-						variant="default"
-						size="lg"
-						onClick={() => {
-							setIsLazyRequestSubmitted(true)
-							toast("We hear you!", {
-								description: `Okay, okay... we'll consider adding "${searchQuery || "that icon"}" just for you. 😉`,
-							})
-							posthog.capture("lazy icon request", {
-								query: searchQuery,
-								categories: selectedCategories,
-							})
-						}}
-						disabled={isLazyRequestSubmitted}
-					>
-						I want this icon added but I'm too lazy to add it myself
-					</Button>
-					<IconSubmissionContent />
+					<div className="flex flex-col gap-4 items-center w-full">
+						<IconSubmissionContent />
+						<div className="mt-4 flex items-center gap-2 justify-center">
+							<span className="text-sm text-muted-foreground">Can't submit it yourself?</span>
+							<Button
+								className="cursor-pointer"
+								variant="outline"
+								size="sm"
+								onClick={() => {
+									setIsLazyRequestSubmitted(true)
+									toast("Request received!", {
+										description: `We've noted your request for "${searchQuery || "this icon"}". Thanks for your suggestion.`,
+									})
+									posthog.capture("lazy icon request", {
+										query: searchQuery,
+										categories: selectedCategories,
+									})
+								}}
+								disabled={isLazyRequestSubmitted}
+							>
+								Request this icon
+							</Button>
+						</div>
+					</div>
 				</div>
 			) : (
 				<>

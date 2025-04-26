@@ -61,7 +61,7 @@ export function RecentlyAddedIcons({ icons }: { icons: IconWithName[] }) {
 						href="/icons"
 						className="font-medium inline-flex items-center py-2 px-4 rounded-full border  transition-all duration-200 group hover-lift soft-shadow"
 					>
-						View complete collection
+						View all icons
 						<ArrowRight className="w-4 h-4 ml-1.5 transition-transform duration-200 group-hover:translate-x-1" />
 					</Link>
 				</div>
