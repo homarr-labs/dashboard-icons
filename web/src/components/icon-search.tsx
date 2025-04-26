@@ -415,7 +415,7 @@ export function IconSearch({ icons }: IconSearchProps) {
 								onClick={() => {
 									setIsLazyRequestSubmitted(true)
 									toast("Request received!", {
-										description: `We've noted your request for \"${searchQuery || "this icon"}\". Thanks for your suggestion.`,
+										description: `We've noted your request for "${searchQuery || "this icon"}". Thanks for your suggestion.`,
 									})
 									posthog.capture("lazy icon request", {
 										query: searchQuery,
