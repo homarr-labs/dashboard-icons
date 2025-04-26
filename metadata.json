@@ -26156,6 +26156,23 @@
             }
         }
     },
+    "sonarr-4k": {
+        "base": "svg",
+        "aliases": [
+            "sonarr-4k",
+            "sonarr4k"
+        ],
+        "categories": [
+            "Media"
+        ],
+        "update": {
+            "timestamp": "2025-04-26T21:09:56.156008",
+            "author": {
+                "id": 8594827,
+                "login": "tylertylerday"
+            }
+        }
+    },
     "mantisbt": {
         "base": "png",
         "aliases": [],
