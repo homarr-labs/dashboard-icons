@@ -3914,6 +3914,24 @@
             }
         }
     },
+    "zen-browser": {
+        "base": "svg",
+        "aliases": [
+            "zen"
+        ],
+        "categories": [],
+        "update": {
+            "timestamp": "2025-04-27T15:10:44.543461",
+            "author": {
+                "id": 120695243,
+                "login": "theoneand33"
+            }
+        },
+        "colors": {
+            "light": "zen-browser",
+            "dark": "zen-browser-dark"
+        }
+    },
     "zipline": {
         "base": "svg",
         "aliases": [
