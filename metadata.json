@@ -3123,6 +3123,18 @@
             "light": "libreddit-light"
         }
     },
+    "nzbgeek": {
+        "base": "png",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2025-04-27T15:13:05.869706",
+            "author": {
+                "id": 39389502,
+                "login": "TeHtloTs"
+            }
+        }
+    },
     "seelf": {
         "base": "svg",
         "aliases": [
