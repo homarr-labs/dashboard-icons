@@ -89,7 +89,6 @@ export async function generateMetadata({ params, searchParams }: Props, parent: 
 			description: `Download the ${formattedIconName} icon in SVG, PNG, and WEBP formats for FREE. Part of a collection of ${totalIcons} curated icons for services, applications and tools, designed specifically for dashboards and app directories.`,
 		},
 		alternates: {
-			canonical: pageUrl,
 			media: {
 				png: `${BASE_URL}/png/${icon}.png`,
 				svg: `${BASE_URL}/svg/${icon}.svg`,
