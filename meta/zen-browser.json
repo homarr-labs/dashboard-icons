@@ -1,0 +1,18 @@
+{
+  "base": "svg",
+  "aliases": [
+    "zen"
+  ],
+  "categories": [],
+  "update": {
+    "timestamp": "2025-04-28T17:40:35.244653",
+    "author": {
+      "id": 120695243,
+      "login": "theoneand33"
+    }
+  },
+  "colors": {
+    "light": "zen-browser",
+    "dark": "zen-browser-dark"
+  }
+}
