@@ -8,14 +8,14 @@
     "Developer-Tools"
   ],
   "update": {
-    "timestamp": "2024-10-20T17:24:03Z",
+    "timestamp": "2025-04-28T18:55:01.927896",
     "author": {
       "id": 71191962,
-      "name": "walkxcode"
+      "login": "lammersbjorn"
     }
   },
   "colors": {
-    "dark": "opengist",
-    "light": "opengist-light"
+    "light": "opengist-light",
+    "dark": "opengist"
   }
 }
