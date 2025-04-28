@@ -1,0 +1,16 @@
+{
+  "base": "svg",
+  "aliases": [
+    "uptime-robot"
+  ],
+  "categories": [
+    "Cloud"
+  ],
+  "update": {
+    "timestamp": "2025-04-28T18:02:44.073299",
+    "author": {
+      "id": 69894187,
+      "login": "bunnypranav"
+    }
+  }
+}
