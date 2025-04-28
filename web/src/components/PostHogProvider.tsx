@@ -7,7 +7,7 @@ import { Suspense, useEffect } from "react"
 
 export function PostHogProvider({ children }: { children: React.ReactNode }) {
 	useEffect(() => {
-		if (process.env.DISABLE_POSTHOG === "true") return
+		if (process.env.NEXT_PUBLIC_DISABLE_POSTHOG === "true") return
 		// biome-ignore lint/style/noNonNullAssertion: The NEXT_PUBLIC_POSTHOG_KEY environment variable is guaranteed to be set in production.
 		posthog.init(process.env.NEXT_PUBLIC_POSTHOG_KEY!, {
 			ui_host: "https://eu.posthog.com",
