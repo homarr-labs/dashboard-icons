@@ -3,10 +3,14 @@
   "aliases": [],
   "categories": [],
   "update": {
-    "timestamp": "2023-05-26T20:42:05Z",
+    "timestamp": "2025-04-28T18:59:35.544514",
     "author": {
       "id": 71191962,
-      "name": "walkxcode"
+      "login": "lammersbjorn"
     }
+  },
+  "colors": {
+    "light": "jellystat",
+    "dark": "jellystat-dark"
   }
 }
