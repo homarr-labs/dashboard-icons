@@ -1,0 +1,15 @@
+{
+  "base": "svg",
+  "aliases": [
+    "zorin-os",
+    "zorin"
+  ],
+  "categories": [],
+  "update": {
+    "timestamp": "2025-04-28T18:00:29.340232",
+    "author": {
+      "id": 57258250,
+      "login": "AnttiNannimus"
+    }
+  }
+}
