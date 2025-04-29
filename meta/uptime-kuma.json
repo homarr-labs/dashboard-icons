@@ -1,6 +1,7 @@
 {
   "base": "svg",
   "aliases": [
+    "uptimekuma",
     "status-page",
     "website-monitor"
   ],
