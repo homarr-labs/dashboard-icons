@@ -31,17 +31,15 @@ export default function ErrorPage({
 					<AlertTriangle className="w-8 h-8" />
 				</div>
 				<h1 className="text-2xl font-bold">Something went wrong</h1>
-				<p className="text-muted-foreground">
-					An unexpected error occurred while loading this page. We've been notified and are looking into it.
-				</p>
+				<p className="text-muted-foreground">Unable to load this page. We're looking into the issue.</p>
 				<div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
 					<Button variant="outline" onClick={() => reset()} className="cursor-pointer">
 						<RefreshCcw className="mr-2 h-4 w-4" />
-						Try again
+						Retry
 					</Button>
 					<Button onClick={handleGoBack} className="cursor-pointer">
 						<ArrowLeft className="mr-2 h-4 w-4" />
-						Go back
+						Back
 					</Button>
 				</div>
 				{error.digest && <p className="text-xs text-muted-foreground mt-6">Error ID: {error.digest}</p>}

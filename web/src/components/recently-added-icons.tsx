@@ -2,7 +2,7 @@
 
 import { Marquee } from "@/components/magicui/marquee"
 import { BASE_URL } from "@/constants"
-import { cn } from "@/lib/utils"
+import { cn, formatIconName } from "@/lib/utils"
 import type { Icon, IconWithName } from "@/types/icons"
 import { format, isToday, isYesterday } from "date-fns"
 import { ArrowRight, Clock, ExternalLink } from "lucide-react"
@@ -61,7 +61,7 @@ export function RecentlyAddedIcons({ icons }: { icons: IconWithName[] }) {
 						href="/icons"
 						className="font-medium inline-flex items-center py-2 px-4 rounded-full border  transition-all duration-200 group hover-lift soft-shadow"
 					>
-						View complete collection
+						View all icons
 						<ArrowRight className="w-4 h-4 ml-1.5 transition-transform duration-200 group-hover:translate-x-1" />
 					</Link>
 				</div>
@@ -78,6 +78,7 @@ function RecentIconCard({
 	name: string
 	data: Icon
 }) {
+	const formattedIconName = formatIconName(name)
 	return (
 		<Link
 			prefetch={false}
@@ -85,8 +86,9 @@ function RecentIconCard({
 			className={cn(
 				"flex flex-col items-center p-3 sm:p-4 rounded-xl border border-border",
 				"transition-all duration-300 hover:shadow-lg hover:shadow-rose-500/5 relative overflow-hidden hover-lift",
-				"w-36 mx-2",
+				"w-36 mx-2 group/item",
 			)}
+			aria-label={`View details for ${formattedIconName} icon`}
 		>
 			<div className="absolute inset-0 bg-gradient-to-br from-rose-500/5 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300" />
 
@@ -99,7 +101,7 @@ function RecentIconCard({
 				/>
 			</div>
 			<span className="text-xs sm:text-sm text-center truncate w-full capitalize  dark:hover:text-rose-400 transition-colors duration-200 font-medium">
-				{name.replace(/-/g, " ")}
+				{formattedIconName}
 			</span>
 			<div className="flex items-center justify-center mt-2 w-full">
 				<span className="text-[10px] sm:text-xs text-muted-foreground flex items-center whitespace-nowrap hover:/70 transition-colors duration-200">
@@ -108,7 +110,7 @@ function RecentIconCard({
 				</span>
 			</div>
 
-			<div className="absolute top-2 right-2 opacity-0 hover:opacity-100 transition-opacity duration-200">
+			<div className="absolute top-2 right-2 opacity-0 group-hover/item:opacity-100 transition-opacity duration-200">
 				<ExternalLink className="w-3 h-3 " />
 			</div>
 		</Link>

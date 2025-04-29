@@ -5,8 +5,7 @@ import { ThemeSwitcher } from "@/components/theme-switcher"
 import { REPO_PATH } from "@/constants"
 import { getIconsArray } from "@/lib/api"
 import type { IconWithName } from "@/types/icons"
-import { motion } from "framer-motion"
-import { Github, Search } from "lucide-react"
+import { Github, PlusCircle, Search } from "lucide-react"
 import Link from "next/link"
 import { useEffect, useState } from "react"
 import { CommandMenu } from "./command-menu"
@@ -40,12 +39,7 @@ export function Header() {
 	}
 
 	return (
-		<motion.header
-			className="border-b sticky top-0 z-50 backdrop-blur-2xl bg-background/50 border-border/50"
-			initial={{ y: -20, opacity: 0 }}
-			animate={{ y: 0, opacity: 1 }}
-			transition={{ duration: 0.3, ease: "easeOut" }}
-		>
+		<header className="border-b sticky top-0 z-50 backdrop-blur-2xl bg-background/50 border-border/50">
 			<div className="px-4 md:px-12 flex items-center justify-between h-16 md:h-18">
 				<div className="flex items-center gap-2 md:gap-6">
 					<Link href="/" className="text-lg md:text-xl font-bold group hidden md:block">
@@ -80,7 +74,20 @@ export function Header() {
 						</Button>
 					</div>
 
+					{/* Mobile Submit Button -> triggers IconSubmissionForm dialog */}
+					<div className="md:hidden">
+						<IconSubmissionForm
+							trigger={
+								<Button variant="ghost" size="icon" className="rounded-lg cursor-pointer transition-all duration-300 hover:ring-2 ">
+									<PlusCircle className="h-5 w-5 transition-all duration-300" />
+									<span className="sr-only">Submit icon(s)</span>
+								</Button>
+							}
+						/>
+					</div>
+
 					<div className="hidden md:flex items-center gap-2 md:gap-4">
+						{/* Desktop Submit Button */}
 						<IconSubmissionForm />
 						<TooltipProvider>
 							<Tooltip>
@@ -109,6 +116,6 @@ export function Header() {
 
 			{/* Single instance of CommandMenu */}
 			{isLoaded && <CommandMenu icons={iconsData} open={commandMenuOpen} onOpenChange={setCommandMenuOpen} />}
-		</motion.header>
+		</header>
 	)
 }

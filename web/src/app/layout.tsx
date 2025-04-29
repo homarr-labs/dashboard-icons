@@ -2,12 +2,12 @@ import { PostHogProvider } from "@/components/PostHogProvider"
 import { Footer } from "@/components/footer"
 import { HeaderWrapper } from "@/components/header-wrapper"
 import { LicenseNotice } from "@/components/license-notice"
+import { BASE_URL, WEB_URL, getDescription, websiteTitle } from "@/constants"
 import { getTotalIcons } from "@/lib/api"
 import type { Metadata, Viewport } from "next"
 import { Inter } from "next/font/google"
 import { Toaster } from "sonner"
 import "./globals.css"
-import { BASE_URL, getDescription, WEB_URL, websiteTitle } from "@/constants"
 import { ThemeProvider } from "./theme-provider"
 
 const inter = Inter({

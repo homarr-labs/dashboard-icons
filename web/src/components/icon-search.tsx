@@ -1,7 +1,7 @@
 "use client"
 
+import { VirtualizedIconsGrid } from "@/components/icon-grid"
 import { IconSubmissionContent } from "@/components/icon-submission-form"
-import { MagicCard } from "@/components/magicui/magic-card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import {
@@ -17,18 +17,14 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Input } from "@/components/ui/input"
 import { Separator } from "@/components/ui/separator"
-import { BASE_URL } from "@/constants"
-import type { Icon, IconSearchProps } from "@/types/icons"
+import { type SortOption, filterAndSortIcons } from "@/lib/utils"
+import type { IconSearchProps } from "@/types/icons"
 import { ArrowDownAZ, ArrowUpZA, Calendar, Filter, Search, SortAsc, X } from "lucide-react"
 import { useTheme } from "next-themes"
-import Image from "next/image"
-import Link from "next/link"
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import posthog from "posthog-js"
 import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { toast } from "sonner"
-
-type SortOption = "relevance" | "alphabetical-asc" | "alphabetical-desc" | "newest"
 
 export function IconSearch({ icons }: IconSearchProps) {
 	const searchParams = useSearchParams()
@@ -64,54 +60,6 @@ export function IconSearch({ icons }: IconSearchProps) {
 		return Array.from(categories).sort()
 	}, [icons])
 
-	// Simple filter function using substring matching
-	const filterIcons = useCallback(
-		(query: string, categories: string[], sort: SortOption) => {
-			// First filter by categories if any are selected
-			let filtered = icons
-			if (categories.length > 0) {
-				filtered = filtered.filter(({ data }) =>
-					data.categories.some((cat) => categories.some((selectedCat) => cat.toLowerCase() === selectedCat.toLowerCase())),
-				)
-			}
-
-			// Then filter by search query
-			if (query.trim()) {
-				// Normalization function: lowercase, remove spaces and hyphens
-				const normalizeString = (str: string) => str.toLowerCase().replace(/[-\s]/g, "")
-				const normalizedQuery = normalizeString(query)
-
-				filtered = filtered.filter(({ name, data }) => {
-					// Check normalized name
-					if (normalizeString(name).includes(normalizedQuery)) return true
-					// Check normalized aliases
-					if (data.aliases.some((alias) => normalizeString(alias).includes(normalizedQuery))) return true
-					// Check normalized categories
-					if (data.categories.some((category) => normalizeString(category).includes(normalizedQuery))) return true
-					return false
-				})
-			}
-
-			// Apply sorting
-			if (sort === "alphabetical-asc") {
-				return filtered.sort((a, b) => a.name.localeCompare(b.name))
-			}
-			if (sort === "alphabetical-desc") {
-				return filtered.sort((a, b) => b.name.localeCompare(a.name))
-			}
-			if (sort === "newest") {
-				return filtered.sort((a, b) => {
-					return new Date(b.data.update.timestamp).getTime() - new Date(a.data.update.timestamp).getTime()
-				})
-			}
-
-			// Default sort (relevance or fallback to alphabetical)
-			// TODO: Implement actual relevance sorting
-			return filtered.sort((a, b) => a.name.localeCompare(b.name))
-		},
-		[icons],
-	)
-
 	// Find matched aliases for display purposes
 	const matchedAliases = useMemo(() => {
 		if (!searchQuery.trim()) return {}
@@ -134,8 +82,13 @@ export function IconSearch({ icons }: IconSearchProps) {
 
 	// Use useMemo for filtered icons with debounced query
 	const filteredIcons = useMemo(() => {
-		return filterIcons(debouncedQuery, selectedCategories, sortOption)
-	}, [filterIcons, debouncedQuery, selectedCategories, sortOption])
+		return filterAndSortIcons({
+			icons,
+			query: debouncedQuery,
+			categories: selectedCategories,
+			sort: sortOption,
+		})
+	}, [icons, debouncedQuery, selectedCategories, sortOption])
 
 	const updateResults = useCallback(
 		(query: string, categories: string[], sort: SortOption) => {
@@ -288,7 +241,7 @@ export function IconSearch({ icons }: IconSearchProps) {
 							</Button>
 						</DropdownMenuTrigger>
 						<DropdownMenuContent align="start" className="w-64 sm:w-56">
-							<DropdownMenuLabel className="font-semibold">Categories</DropdownMenuLabel>
+							<DropdownMenuLabel className="font-semibold">Select Categories</DropdownMenuLabel>
 							<DropdownMenuSeparator />
 
 							<div className="max-h-[40vh] overflow-y-auto p-1">
@@ -314,7 +267,7 @@ export function IconSearch({ icons }: IconSearchProps) {
 										}}
 										className="cursor-pointer  focus: focus:bg-rose-50 dark:focus:bg-rose-950/20"
 									>
-										Clear all filters
+										Clear categories
 									</DropdownMenuItem>
 								</>
 							)}
@@ -335,13 +288,15 @@ export function IconSearch({ icons }: IconSearchProps) {
 							<DropdownMenuRadioGroup value={sortOption} onValueChange={(value) => handleSortChange(value as SortOption)}>
 								<DropdownMenuRadioItem value="relevance" className="cursor-pointer">
 									<Search className="h-4 w-4 mr-2" />
-									Best match
+									Relevance
 								</DropdownMenuRadioItem>
 								<DropdownMenuRadioItem value="alphabetical-asc" className="cursor-pointer">
-									<ArrowDownAZ className="h-4 w-4 mr-2" />A to Z
+									<ArrowDownAZ className="h-4 w-4 mr-2" />
+									Name (A-Z)
 								</DropdownMenuRadioItem>
 								<DropdownMenuRadioItem value="alphabetical-desc" className="cursor-pointer">
-									<ArrowUpZA className="h-4 w-4 mr-2" />Z to A
+									<ArrowUpZA className="h-4 w-4 mr-2" />
+									Name (Z-A)
 								</DropdownMenuRadioItem>
 								<DropdownMenuRadioItem value="newest" className="cursor-pointer">
 									<Calendar className="h-4 w-4 mr-2" />
@@ -355,7 +310,7 @@ export function IconSearch({ icons }: IconSearchProps) {
 					{(searchQuery || selectedCategories.length > 0 || sortOption !== "relevance") && (
 						<Button variant="outline" size="sm" onClick={clearFilters} className="flex-1 sm:flex-none cursor-pointer bg-background">
 							<X className="h-4 w-4 mr-2" />
-							<span>Clear all</span>
+							<span>Reset all</span>
 						</Button>
 					)}
 				</div>
@@ -363,7 +318,7 @@ export function IconSearch({ icons }: IconSearchProps) {
 				{/* Active filter badges */}
 				{selectedCategories.length > 0 && (
 					<div className="flex flex-wrap items-center gap-2 mt-2">
-						<span className="text-sm text-muted-foreground">Filters:</span>
+						<span className="text-sm text-muted-foreground">Selected:</span>
 						<div className="flex flex-wrap gap-2">
 							{selectedCategories.map((category) => (
 								<Badge key={category} variant="secondary" className="flex items-center gap-1 pl-2 pr-1">
@@ -389,7 +344,7 @@ export function IconSearch({ icons }: IconSearchProps) {
 							}}
 							className="text-xs h-7 px-2 cursor-pointer"
 						>
-							Clear all
+							Clear
 						</Button>
 					</div>
 				)}
@@ -398,29 +353,37 @@ export function IconSearch({ icons }: IconSearchProps) {
 			</div>
 
 			{filteredIcons.length === 0 ? (
-				<div className="flex flex-col gap-8 py-12 max-w-2xl mx-auto items-center">
-					<div className="text-center">
-						<h2 className="text-3xl sm:text-5xl font-semibold">We don't have this one...yet!</h2>
+				<div className="flex flex-col gap-8 py-12 px-2 w-full max-w-full sm:max-w-2xl mx-auto items-center overflow-x-hidden">
+					<div className="text-center w-full">
+						<h2 className="text-3xl sm:text-5xl font-semibold">Icon not found</h2>
+						<p className="text-lg text-muted-foreground mt-2">Help us expand our collection</p>
 					</div>
-					<Button
-						className="cursor-pointer motion-preset-pop"
-						variant="default"
-						size="lg"
-						onClick={() => {
-							setIsLazyRequestSubmitted(true)
-							toast("We hear you!", {
-								description: `Okay, okay... we'll consider adding "${searchQuery || "that icon"}" just for you. 😉`,
-							})
-							posthog.capture("lazy icon request", {
-								query: searchQuery,
-								categories: selectedCategories,
-							})
-						}}
-						disabled={isLazyRequestSubmitted}
-					>
-						I want this icon added but I'm too lazy to add it myself
-					</Button>
-					<IconSubmissionContent />
+					<div className="flex flex-col gap-4 items-center w-full">
+						<div id="icon-submission-content" className="w-full">
+							<IconSubmissionContent />
+						</div>
+						<div className="mt-4 flex flex-col sm:flex-row items-center gap-2 justify-center w-full">
+							<span className="text-sm text-muted-foreground">Can't submit it yourself?</span>
+							<Button
+								className="cursor-pointer w-full sm:w-auto truncate whitespace-nowrap"
+								variant="outline"
+								size="sm"
+								onClick={() => {
+									setIsLazyRequestSubmitted(true)
+									toast("Request received!", {
+										description: `We've noted your request for "${searchQuery || "this icon"}". Thanks for your suggestion.`,
+									})
+									posthog.capture("lazy icon request", {
+										query: searchQuery,
+										categories: selectedCategories,
+									})
+								}}
+								disabled={isLazyRequestSubmitted}
+							>
+								Request this icon
+							</Button>
+						</div>
+					</div>
 				</div>
 			) : (
 				<>
@@ -435,57 +398,9 @@ export function IconSearch({ icons }: IconSearchProps) {
 						</div>
 					</div>
 
-					<IconsGrid filteredIcons={filteredIcons} matchedAliases={matchedAliases} />
+					<VirtualizedIconsGrid filteredIcons={filteredIcons} matchedAliases={matchedAliases} />
 				</>
 			)}
-		</>
-	)
-}
-
-function IconCard({
-	name,
-	data: iconData,
-	matchedAlias,
-}: {
-	name: string
-	data: Icon
-	matchedAlias?: string | null
-}) {
-	return (
-		<MagicCard className="rounded-md shadow-md">
-			<Link prefetch={false} href={`/icons/${name}`} className="group flex flex-col items-center p-3 sm:p-4 cursor-pointer">
-				<div className="relative h-12 w-12 sm:h-16 sm:w-16 mb-2">
-					<Image
-						src={`${BASE_URL}/${iconData.base}/${name}.${iconData.base}`}
-						alt={`${name} icon`}
-						fill
-						className="object-contain p-1 group-hover:scale-110 transition-transform duration-300"
-					/>
-				</div>
-				<span className="text-xs sm:text-sm text-center truncate w-full capitalize group- dark:group-hover:text-rose-400 transition-colors duration-200 font-medium">
-					{name.replace(/-/g, " ")}
-				</span>
-
-				{matchedAlias && <span className="text-[10px] text-center truncate w-full mt-1">Alias: {matchedAlias}</span>}
-			</Link>
-		</MagicCard>
-	)
-}
-
-interface IconsGridProps {
-	filteredIcons: { name: string; data: Icon }[]
-	matchedAliases: Record<string, string>
-}
-
-function IconsGrid({ filteredIcons, matchedAliases }: IconsGridProps) {
-	return (
-		<>
-			<div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-4 mt-2">
-				{filteredIcons.slice(0, 120).map(({ name, data }) => (
-					<IconCard key={name} name={name} data={data} matchedAlias={matchedAliases[name] || null} />
-				))}
-			</div>
-			{filteredIcons.length > 120 && <p className="text-sm text-muted-foreground">And {filteredIcons.length - 120} more...</p>}
 		</>
 	)
 }

@@ -1,0 +1,17 @@
+{
+  "base": "svg",
+  "aliases": [
+    "viber-app",
+    "viber-messaging"
+  ],
+  "categories": [
+    "Communication"
+  ],
+  "update": {
+    "timestamp": "2025-04-27T15:12:16.037327",
+    "author": {
+      "id": 61716607,
+      "login": "lesolski"
+    }
+  }
+}

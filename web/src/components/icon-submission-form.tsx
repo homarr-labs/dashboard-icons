@@ -52,12 +52,12 @@ export function IconSubmissionContent({ onClose }: { onClose?: () => void }) {
 							className="w-full flex flex-col items-start gap-1 h-auto p-4 text-left cursor-pointer transition-all duration-300"
 							asChild
 						>
-							<div>
+							<div className="w-full">
 								<div className="flex w-full items-center justify-between">
-									<span className="font-medium transition-all duration-300">{template.name}</span>
-									<ExternalLink className="h-4 w-4 text-muted-foreground transition-all duration-300" />
+									<span className="font-medium transition-all duration-300 whitespace-normal text-wrap">{template.name}</span>
+									<ExternalLink className="h-4 w-4 text-muted-foreground transition-all duration-300 flex-shrink-0 ml-2" />
 								</div>
-								<span className="text-xs text-muted-foreground">{template.description}</span>
+								<span className="text-xs text-muted-foreground whitespace-normal text-wrap break-words">{template.description}</span>
 							</div>
 						</Button>
 					</Link>
@@ -66,22 +66,26 @@ export function IconSubmissionContent({ onClose }: { onClose?: () => void }) {
 		</div>
 	)
 }
-export function IconSubmissionForm() {
+export function IconSubmissionForm({ trigger }: { trigger?: React.ReactNode }) {
 	const [open, setOpen] = useState(false)
 
 	return (
 		<Dialog open={open} onOpenChange={setOpen}>
-			<DialogTrigger asChild>
-				<Button variant="outline" className="hidden md:inline-flex cursor-pointer transition-all duration-300">
-					<PlusCircle className="h-4 w-4 transition-all duration-300" /> Contribute new icon
-				</Button>
-			</DialogTrigger>
-			<DialogContent className="md:max-w-4xl backdrop-blur-2xl bg-background">
+			{trigger ? (
+				<DialogTrigger asChild>{trigger}</DialogTrigger>
+			) : (
+				<DialogTrigger asChild>
+					<Button variant="outline" className="hidden md:inline-flex cursor-pointer transition-all duration-300 items-center gap-2">
+						<PlusCircle className="h-4 w-4 transition-all duration-300" /> Submit icon(s)
+					</Button>
+				</DialogTrigger>
+			)}
+			<DialogContent className="w-[calc(100%-2rem)] max-w-sm md:w-full md:max-w-4xl p-6 backdrop-blur-2xl bg-background flex flex-col gap-4">
 				<DialogHeader>
-					<DialogTitle>Contribute a new icon</DialogTitle>
-					<DialogDescription>Choose a template below to suggest a new icon or improve an existing one.</DialogDescription>
+					<DialogTitle>Submit an icon</DialogTitle>
+					<DialogDescription>Select an option below to submit or update an icon.</DialogDescription>
 				</DialogHeader>
-				<div className="mt-4">
+				<div className="overflow-y-auto max-h-[calc(85vh-10rem)] pr-2">
 					<IconSubmissionContent onClose={() => setOpen(false)} />
 				</div>
 			</DialogContent>

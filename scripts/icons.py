@@ -28,10 +28,10 @@ class Icon:
                 "author": author
             }
         }
-    
+
     def convertions(self) -> list[IconConvertion]:
         raise NotImplementedError("Method 'files' must be implemented in subclass")
-    
+
 
 class NormalIcon(Icon):
     def __init__(self, icon: str, name: str, type: str, categories: list, aliases: list):
@@ -42,7 +42,7 @@ class NormalIcon(Icon):
         return [
             IconConvertion(self.name, self.icon)
         ]
-    
+
     def from_addition_issue_form(input: dict):
         return NormalIcon(
             mapUrlFromMarkdownImage(input, "Paste icon"),
@@ -51,13 +51,13 @@ class NormalIcon(Icon):
             mapListFrom(input, "Categories"),
             mapListFrom(input, "Aliases")
         )
-    
+
     def from_update_issue_form(input: dict):
         try:
             name = convert_to_kebab_case(mapFromRequired(input, "Icon name"))
             metadata = load_metadata(name)
 
-            
+
             return NormalIcon(
                 mapUrlFromMarkdownImage(input, "Paste icon"),
                 mapFromRequired(input, "Icon name"),
@@ -67,11 +67,11 @@ class NormalIcon(Icon):
             )
         except Exception as exeption:
             raise ValueError(f"Icon '{name}' does not exist", exeption)
-        
+
     def from_metadata_update_issue_form(input: dict):
         name = convert_to_kebab_case(mapFromRequired(input, "Icon name"))
         metadata = load_metadata(name)
-        
+
         return NormalIcon(
             None,
             name,
@@ -80,14 +80,14 @@ class NormalIcon(Icon):
             mapListFrom(input, "Aliases")
         )
 
-    
+
 
 class MonochromeIcon(Icon):
     def __init__(self, lightIcon: str, darkIcon: str, name: str, type: str, categories: list, aliases: list):
         super().__init__(name, type, categories, aliases)
         self.lightIcon = lightIcon
         self.darkIcon = darkIcon
-    
+
     def to_colors(self) -> dict:
         try:
             metadata = load_metadata(self.name)
@@ -105,14 +105,14 @@ class MonochromeIcon(Icon):
         metadata = super().to_metadata(author)
         metadata["colors"] = self.to_colors()
         return metadata
-    
+
     def convertions(self) -> list[IconConvertion]:
         colorNames = self.to_colors()
         return [
             IconConvertion(colorNames["light"], self.lightIcon),
             IconConvertion(colorNames["dark"], self.darkIcon),
         ]
-    
+
     def from_addition_issue_form(input: dict):
         return MonochromeIcon(
             mapUrlFromMarkdownImage(input, "Paste light mode icon"),
@@ -122,12 +122,12 @@ class MonochromeIcon(Icon):
             mapListFrom(input, "Categories"),
             mapListFrom(input, "Aliases")
         )
-    
+
     def from_update_issue_form(input: dict):
         try:
             name = convert_to_kebab_case(mapFromRequired(input, "Icon name"))
             metadata = load_metadata(name)
-            
+
             return MonochromeIcon(
                 mapUrlFromMarkdownImage(input, "Paste light mode icon"),
                 mapUrlFromMarkdownImage(input, "Paste dark mode icon"),
@@ -138,11 +138,11 @@ class MonochromeIcon(Icon):
             )
         except Exception as exeption:
             raise ValueError(f"Icon '{name}' does not exist", exeption)
-        
+
     def from_metadata_update_issue_form(input: dict):
         name = convert_to_kebab_case(mapFromRequired(input, "Icon name"))
         metadata = load_metadata(name)
-        
+
         return MonochromeIcon(
             None,
             None,
@@ -213,10 +213,19 @@ def mapListFrom(input: dict, label: str) -> list:
         return []
     return list(map(str.strip, stringList.split(",")))
 
-def mapUrlFromMarkdownImage(input: dict, label: str) -> re.Match[str]:
-    markdown = mapFromRequired(input, label)
-    try:
-        return re.match(r"!\[[^\]]+\]\((https:[^\)]+)\)", markdown)[1]
-    except IndexError:
-        raise ValueError(f"Invalid markdown image: '{markdown}'")
-    
+def mapUrlFromMarkdownImage(input: dict, label: str) -> str:
+    markdown_or_html = mapFromRequired(input, label)
+
+    # Try Markdown format: ![alt](url)
+    markdown_match = re.match(r"!\[[^\]]*\]\((https:[^\)]+)\)", markdown_or_html)
+    if markdown_match:
+        return markdown_match[1]
+
+    # Try HTML format: <img src="url" ...>
+    html_match = re.search(r"<img[^>]+src=\"(https:[^\"]+)\"", markdown_or_html)
+    if html_match:
+        return html_match[1]
+
+    # If neither matches
+    raise ValueError(f"Could not extract URL from '{label}'. Expected Markdown image or HTML img tag, but got: '{markdown_or_html}'")
+

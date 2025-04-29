@@ -224,7 +224,7 @@ export function HeroSection({ totalIcons, stars }: { totalIcons: number; stars: 
 						<SearchInput searchQuery={searchQuery} setSearchQuery={setSearchQuery} totalIcons={totalIcons} />
 						<div className="w-full flex gap-3 md:gap-4 flex-wrap justify-center motion-preset-slide-down motion-duration-500">
 							<Link href="/icons">
-								<InteractiveHoverButton className="rounded-md bg-input/30">Explore icons</InteractiveHoverButton>
+								<InteractiveHoverButton className="rounded-md bg-input/30">Browse icons</InteractiveHoverButton>
 							</Link>
 							<GiveUsAStarButton stars={stars} />
 							<GiveUsMoneyButton />
@@ -449,12 +449,12 @@ export function GiveUsMoneyButton() {
 					<div className="flex justify-between items-center pt-2">
 						<Link href={openCollectiveUrl} target="_blank" rel="noopener noreferrer">
 							<Button variant="default" size="sm" className="bg-primary hover:bg-primary/90">
-								Donate
+								Support
 							</Button>
 						</Link>
 						<Link href={`${openCollectiveUrl}/transactions`} target="_blank" rel="noopener noreferrer">
 							<Button variant="link" size="sm" className="flex items-center gap-1 text-xs text-secondary-foreground">
-								View expenses
+								View transactions
 								<ExternalLink className="h-3 w-3" />
 							</Button>
 						</Link>
@@ -478,7 +478,7 @@ function SearchInput({ searchQuery, setSearchQuery, totalIcons }: SearchInputPro
 				name="q"
 				autoFocus
 				type="search"
-				placeholder={`Find any of ${totalIcons} icons by name or category...`}
+				placeholder={`Search our collection of ${totalIcons} icons by name or category...`}
 				className="pl-10 h-10 md:h-12 rounded-lg w-full border-border focus:border-primary/20 text-sm md:text-base"
 				value={searchQuery}
 				onChange={(e) => setSearchQuery(e.target.value)}
