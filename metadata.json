@@ -14444,6 +14444,18 @@
             }
         }
     },
+    "huntarr": {
+        "base": "png",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2025-04-29T13:06:45.556946",
+            "author": {
+                "id": 209011735,
+                "login": "StuckAntichris"
+            }
+        }
+    },
     "octoeverywhere": {
         "base": "png",
         "aliases": [
