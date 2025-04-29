@@ -1,17 +1,17 @@
 {
-  "base": "svg",
-  "aliases": [
-    "Code Hosting"
-  ],
-  "categories": [
-    "Version-Control-Systems",
-    "Developer-Tools"
-  ],
-  "update": {
-    "timestamp": "2023-04-13T20:27:58Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "Code Hosting"
+    ],
+    "categories": [
+        "Development",
+        "Version-Control"
+    ],
+    "update": {
+        "timestamp": "2023-04-13T20:27:58Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
     }
-  }
 }

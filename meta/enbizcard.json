@@ -1,17 +1,17 @@
 {
-  "base": "svg",
-  "aliases": [
-    "business-card-ocr",
-    "contact-scanner"
-  ],
-  "categories": [
-    "Office-Suites"
-  ],
-  "update": {
-    "timestamp": "2024-06-01T17:44:56Z",
-    "author": {
-      "id": 113554994,
-      "name": "wisnioskis"
+    "base": "svg",
+    "aliases": [
+        "business-card-ocr",
+        "contact-scanner"
+    ],
+    "categories": [
+        "Notes-&-Productivity"
+    ],
+    "update": {
+        "timestamp": "2024-06-01T17:44:56Z",
+        "author": {
+            "id": 113554994,
+            "name": "wisnioskis"
+        }
     }
-  }
 }

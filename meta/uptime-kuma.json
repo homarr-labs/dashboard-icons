@@ -1,17 +1,17 @@
 {
-  "base": "svg",
-  "aliases": [
-    "status-page",
-    "website-monitor"
-  ],
-  "categories": [
-    "Monitoring-Tools"
-  ],
-  "update": {
-    "timestamp": "2022-08-16T17:22:56Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "status-page",
+        "website-monitor"
+    ],
+    "categories": [
+        "Analytics-&-Monitoring"
+    ],
+    "update": {
+        "timestamp": "2022-08-16T17:22:56Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
     }
-  }
 }

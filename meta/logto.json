@@ -1,17 +1,17 @@
 {
-  "base": "svg",
-  "aliases": [
-    "Auth Service"
-  ],
-  "categories": [
-    "Security",
-    "Developer-Tools"
-  ],
-  "update": {
-    "timestamp": "2024-10-20T17:24:03Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "Auth Service"
+    ],
+    "categories": [
+        "Development",
+        "Security"
+    ],
+    "update": {
+        "timestamp": "2024-10-20T17:24:03Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
     }
-  }
 }

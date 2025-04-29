@@ -1,18 +1,18 @@
 {
-  "base": "svg",
-  "aliases": [
-    "android-screen-mirroring",
-    "phone-screen-on-pc"
-  ],
-  "categories": [
-    "Developer-Tools",
-    "Hardware"
-  ],
-  "update": {
-    "timestamp": "2025-03-26T21:09:30.463729",
-    "author": {
-      "id": 48109134,
-      "login": "jdcool00"
+    "base": "svg",
+    "aliases": [
+        "android-screen-mirroring",
+        "phone-screen-on-pc"
+    ],
+    "categories": [
+        "Development",
+        "Hardware"
+    ],
+    "update": {
+        "timestamp": "2025-03-26T21:09:30.463729",
+        "author": {
+            "id": 48109134,
+            "login": "jdcool00"
+        }
     }
-  }
 }

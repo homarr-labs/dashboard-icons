@@ -1,18 +1,18 @@
 {
-  "base": "svg",
-  "aliases": [
-    "mobile-ads",
-    "app-monetization"
-  ],
-  "categories": [
-    "Developer-Tools",
-    "E-commerce-Platforms"
-  ],
-  "update": {
-    "timestamp": "2023-04-13T13:56:18Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "mobile-ads",
+        "app-monetization"
+    ],
+    "categories": [
+        "Development",
+        "E-commerce-Platforms"
+    ],
+    "update": {
+        "timestamp": "2023-04-13T13:56:18Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
     }
-  }
 }

@@ -1,17 +1,17 @@
 {
-  "base": "png",
-  "aliases": [
-    "online-tools",
-    "utility-website"
-  ],
-  "categories": [
-    "Developer-Tools"
-  ],
-  "update": {
-    "timestamp": "2025-01-07T17:54:03Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "png",
+    "aliases": [
+        "online-tools",
+        "utility-website"
+    ],
+    "categories": [
+        "Development"
+    ],
+    "update": {
+        "timestamp": "2025-01-07T17:54:03Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
     }
-  }
 }

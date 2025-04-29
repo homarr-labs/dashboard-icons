@@ -1,18 +1,18 @@
 {
-  "base": "svg",
-  "aliases": [
-    "Code Signing"
-  ],
-  "categories": [
-    "Security",
-    "Developer-Tools",
-    "Version-Control-Systems"
-  ],
-  "update": {
-    "timestamp": "2024-03-21T00:59:33Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "Code Signing"
+    ],
+    "categories": [
+        "Development",
+        "Security",
+        "Version-Control"
+    ],
+    "update": {
+        "timestamp": "2024-03-21T00:59:33Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
     }
-  }
 }

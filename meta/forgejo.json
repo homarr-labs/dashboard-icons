@@ -1,18 +1,18 @@
 {
-  "base": "svg",
-  "aliases": [
-    "gitea-fork",
-    "code-repository"
-  ],
-  "categories": [
-    "Version-Control-Systems",
-    "Developer-Tools"
-  ],
-  "update": {
-    "timestamp": "2023-01-05T14:11:25Z",
-    "author": {
-      "id": 1340784,
-      "name": "reeseovine"
+    "base": "svg",
+    "aliases": [
+        "gitea-fork",
+        "code-repository"
+    ],
+    "categories": [
+        "Development",
+        "Version-Control"
+    ],
+    "update": {
+        "timestamp": "2023-01-05T14:11:25Z",
+        "author": {
+            "id": 1340784,
+            "name": "reeseovine"
+        }
     }
-  }
 }

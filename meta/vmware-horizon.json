@@ -1,18 +1,18 @@
 {
-  "base": "png",
-  "aliases": [
-    "vdi-solution",
-    "remote-desktop-access"
-  ],
-  "categories": [
-    "Operating-Systems",
-    "Server-Panels"
-  ],
-  "update": {
-    "timestamp": "2025-01-07T17:54:03Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "png",
+    "aliases": [
+        "vdi-solution",
+        "remote-desktop-access"
+    ],
+    "categories": [
+        "Infrastructure",
+        "Operating-Systems"
+    ],
+    "update": {
+        "timestamp": "2025-01-07T17:54:03Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
     }
-  }
 }

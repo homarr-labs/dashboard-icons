@@ -1,17 +1,17 @@
 {
-  "base": "svg",
-  "aliases": [
-    "Inventory Management"
-  ],
-  "categories": [
-    "Office-Suites",
-    "E-commerce-Platforms"
-  ],
-  "update": {
-    "timestamp": "2023-04-13T13:56:18Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "Inventory Management"
+    ],
+    "categories": [
+        "E-commerce-Platforms",
+        "Notes-&-Productivity"
+    ],
+    "update": {
+        "timestamp": "2023-04-13T13:56:18Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
     }
-  }
 }

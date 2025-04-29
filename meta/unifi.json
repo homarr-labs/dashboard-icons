@@ -1,22 +1,22 @@
 {
-  "base": "svg",
-  "aliases": [
-    "Network Devices"
-  ],
-  "categories": [
-    "Networking-Tools",
-    "Smart-Home",
-    "Hardware"
-  ],
-  "update": {
-    "timestamp": "2024-10-20T17:24:03Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "Network Devices"
+    ],
+    "categories": [
+        "Hardware",
+        "Home-Automation",
+        "Networking"
+    ],
+    "update": {
+        "timestamp": "2024-10-20T17:24:03Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
+    },
+    "colors": {
+        "dark": "unifi-dark",
+        "light": "unifi"
     }
-  },
-  "colors": {
-    "dark": "unifi-dark",
-    "light": "unifi"
-  }
 }

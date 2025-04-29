@@ -1,18 +1,17 @@
 {
-  "base": "svg",
-  "aliases": [
-    "k8s-dashboard",
-    "container-management-ui"
-  ],
-  "categories": [
-    "Containerization-&-Orchestration",
-    "Server-Panels"
-  ],
-  "update": {
-    "timestamp": "2023-04-13T13:56:18Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "k8s-dashboard",
+        "container-management-ui"
+    ],
+    "categories": [
+        "Infrastructure"
+    ],
+    "update": {
+        "timestamp": "2023-04-13T13:56:18Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
     }
-  }
 }

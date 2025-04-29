@@ -1,17 +1,17 @@
 {
-  "base": "svg",
-  "aliases": [
-    "comic-book-reader",
-    "cbr-server"
-  ],
-  "categories": [
-    "Media-Servers"
-  ],
-  "update": {
-    "timestamp": "2024-10-13T18:42:14Z",
-    "author": {
-      "id": 710886,
-      "name": "MatthewGlenn"
+    "base": "svg",
+    "aliases": [
+        "comic-book-reader",
+        "cbr-server"
+    ],
+    "categories": [
+        "Streaming"
+    ],
+    "update": {
+        "timestamp": "2024-10-13T18:42:14Z",
+        "author": {
+            "id": 710886,
+            "name": "MatthewGlenn"
+        }
     }
-  }
 }

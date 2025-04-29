@@ -1,22 +1,22 @@
 {
-  "base": "svg",
-  "aliases": [
-    "Server OS"
-  ],
-  "categories": [
-    "Operating-Systems",
-    "Server-Panels",
-    "Linux-Distributions"
-  ],
-  "update": {
-    "timestamp": "2024-10-20T17:24:03Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "Server OS"
+    ],
+    "categories": [
+        "Infrastructure",
+        "Linux-Distributions",
+        "Operating-Systems"
+    ],
+    "update": {
+        "timestamp": "2024-10-20T17:24:03Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
+    },
+    "colors": {
+        "light": "yuno-host-light",
+        "dark": "yuno-host"
     }
-  },
-  "colors": {
-    "light": "yuno-host-light",
-    "dark": "yuno-host"
-  }
 }

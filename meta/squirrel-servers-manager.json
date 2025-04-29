@@ -1,17 +1,17 @@
 {
-  "base": "svg",
-  "aliases": [
-    "Game Server Manager"
-  ],
-  "categories": [
-    "Gaming-Platforms",
-    "Server-Panels"
-  ],
-  "update": {
-    "timestamp": "2024-10-20T17:24:03Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "Game Server Manager"
+    ],
+    "categories": [
+        "Gaming-Platforms",
+        "Infrastructure"
+    ],
+    "update": {
+        "timestamp": "2024-10-20T17:24:03Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
     }
-  }
 }

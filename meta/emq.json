@@ -1,22 +1,22 @@
 {
-  "base": "svg",
-  "aliases": [
-    "MQTT Broker"
-  ],
-  "categories": [
-    "Networking-Tools",
-    "Smart-Home",
-    "Developer-Tools"
-  ],
-  "update": {
-    "timestamp": "2024-10-20T17:24:03Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "MQTT Broker"
+    ],
+    "categories": [
+        "Development",
+        "Home-Automation",
+        "Networking"
+    ],
+    "update": {
+        "timestamp": "2024-10-20T17:24:03Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
+    },
+    "colors": {
+        "dark": "emq",
+        "light": "emq-light"
     }
-  },
-  "colors": {
-    "dark": "emq",
-    "light": "emq-light"
-  }
 }

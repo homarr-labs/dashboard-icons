@@ -1,18 +1,18 @@
 {
-  "base": "png",
-  "aliases": [
-    "ldap-management",
-    "directory-service-admin"
-  ],
-  "categories": [
-    "Networking-Tools",
-    "Developer-Tools"
-  ],
-  "update": {
-    "timestamp": "2025-01-07T17:54:03Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "png",
+    "aliases": [
+        "ldap-management",
+        "directory-service-admin"
+    ],
+    "categories": [
+        "Development",
+        "Networking"
+    ],
+    "update": {
+        "timestamp": "2025-01-07T17:54:03Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
     }
-  }
 }

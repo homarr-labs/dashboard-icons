@@ -1,22 +1,22 @@
 {
-  "base": "svg",
-  "aliases": [
-    "Secrets Manager"
-  ],
-  "categories": [
-    "Password-Managers",
-    "Security",
-    "Developer-Tools"
-  ],
-  "update": {
-    "timestamp": "2025-01-05T22:18:03Z",
-    "author": {
-      "id": 1522389,
-      "name": "stuntguy3000"
+    "base": "svg",
+    "aliases": [
+        "Secrets Manager"
+    ],
+    "categories": [
+        "Development",
+        "Identity",
+        "Security"
+    ],
+    "update": {
+        "timestamp": "2025-01-05T22:18:03Z",
+        "author": {
+            "id": 1522389,
+            "name": "stuntguy3000"
+        }
+    },
+    "colors": {
+        "dark": "hemmelig",
+        "light": "hemmelig-light"
     }
-  },
-  "colors": {
-    "dark": "hemmelig",
-    "light": "hemmelig-light"
-  }
 }

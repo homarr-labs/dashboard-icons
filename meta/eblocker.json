@@ -1,18 +1,18 @@
 {
-  "base": "svg",
-  "aliases": [
-    "adblocker",
-    "privacy-browser-extension"
-  ],
-  "categories": [
-    "Web-Browsers",
-    "Security"
-  ],
-  "update": {
-    "timestamp": "2024-06-01T17:40:18Z",
-    "author": {
-      "id": 60366145,
-      "name": "4immerjung"
+    "base": "svg",
+    "aliases": [
+        "adblocker",
+        "privacy-browser-extension"
+    ],
+    "categories": [
+        "Browsers-&-Search",
+        "Security"
+    ],
+    "update": {
+        "timestamp": "2024-06-01T17:40:18Z",
+        "author": {
+            "id": 60366145,
+            "name": "4immerjung"
+        }
     }
-  }
 }

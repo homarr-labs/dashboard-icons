@@ -1,18 +1,18 @@
 {
-  "base": "svg",
-  "aliases": [
-    "voice-chat-platform",
-    "community-platform"
-  ],
-  "categories": [
-    "Social-Media",
-    "Communication"
-  ],
-  "update": {
-    "timestamp": "2025-01-05T02:20:49Z",
-    "author": {
-      "id": 1522389,
-      "name": "stuntguy3000"
+    "base": "svg",
+    "aliases": [
+        "voice-chat-platform",
+        "community-platform"
+    ],
+    "categories": [
+        "Communication",
+        "Community-&-Social"
+    ],
+    "update": {
+        "timestamp": "2025-01-05T02:20:49Z",
+        "author": {
+            "id": 1522389,
+            "name": "stuntguy3000"
+        }
     }
-  }
 }

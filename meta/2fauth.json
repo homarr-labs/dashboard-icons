@@ -1,21 +1,21 @@
 {
-  "base": "svg",
-  "aliases": [
-    "2FA Authenticator"
-  ],
-  "categories": [
-    "Password-Managers",
-    "Security"
-  ],
-  "update": {
-    "timestamp": "2024-10-13T18:37:13Z",
-    "author": {
-      "id": 858858,
-      "name": "Bubka"
+    "base": "svg",
+    "aliases": [
+        "2FA Authenticator"
+    ],
+    "categories": [
+        "Identity",
+        "Security"
+    ],
+    "update": {
+        "timestamp": "2024-10-13T18:37:13Z",
+        "author": {
+            "id": 858858,
+            "name": "Bubka"
+        }
+    },
+    "colors": {
+        "dark": "2fauth",
+        "light": "2fauth-light"
     }
-  },
-  "colors": {
-    "dark": "2fauth",
-    "light": "2fauth-light"
-  }
 }

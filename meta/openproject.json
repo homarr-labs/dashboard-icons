@@ -1,17 +1,17 @@
 {
-  "base": "svg",
-  "aliases": [
-    "task-management",
-    "project-planning"
-  ],
-  "categories": [
-    "Organization"
-  ],
-  "update": {
-    "timestamp": "2023-04-13T13:56:18Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "task-management",
+        "project-planning"
+    ],
+    "categories": [
+        "Organization-&-Planning"
+    ],
+    "update": {
+        "timestamp": "2023-04-13T13:56:18Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
     }
-  }
 }

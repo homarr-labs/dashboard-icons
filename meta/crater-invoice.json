@@ -1,17 +1,17 @@
 {
-  "base": "png",
-  "aliases": [
-    "crater",
-    "invoice-app"
-  ],
-  "categories": [
-    "Finance-&-Banking"
-  ],
-  "update": {
-    "timestamp": "2025-01-07T17:54:03Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "png",
+    "aliases": [
+        "crater",
+        "invoice-app"
+    ],
+    "categories": [
+        "Finance"
+    ],
+    "update": {
+        "timestamp": "2025-01-07T17:54:03Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
     }
-  }
 }

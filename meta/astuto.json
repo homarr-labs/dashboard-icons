@@ -1,21 +1,21 @@
 {
-  "base": "svg",
-  "aliases": [
-    "Help Desk"
-  ],
-  "categories": [
-    "Office-Suites",
-    "Developer-Tools"
-  ],
-  "update": {
-    "timestamp": "2024-10-20T17:24:03Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "Help Desk"
+    ],
+    "categories": [
+        "Development",
+        "Notes-&-Productivity"
+    ],
+    "update": {
+        "timestamp": "2024-10-20T17:24:03Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
+    },
+    "colors": {
+        "dark": "astuto",
+        "light": "astuto-light"
     }
-  },
-  "colors": {
-    "dark": "astuto",
-    "light": "astuto-light"
-  }
 }

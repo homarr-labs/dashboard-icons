@@ -1,22 +1,22 @@
 {
-  "base": "svg",
-  "aliases": [
-    "Music Player OS"
-  ],
-  "categories": [
-    "Operating-Systems",
-    "Media-Servers",
-    "Linux-Distributions"
-  ],
-  "update": {
-    "timestamp": "2024-01-01T11:07:38Z",
-    "author": {
-      "id": 76069640,
-      "name": "Tinyblargon"
+    "base": "svg",
+    "aliases": [
+        "Music Player OS"
+    ],
+    "categories": [
+        "Linux-Distributions",
+        "Operating-Systems",
+        "Streaming"
+    ],
+    "update": {
+        "timestamp": "2024-01-01T11:07:38Z",
+        "author": {
+            "id": 76069640,
+            "name": "Tinyblargon"
+        }
+    },
+    "colors": {
+        "dark": "volumio",
+        "light": "volumio-light"
     }
-  },
-  "colors": {
-    "dark": "volumio",
-    "light": "volumio-light"
-  }
 }

@@ -1,18 +1,18 @@
 {
-  "base": "svg",
-  "aliases": [],
-  "categories": [
-    "Video-Streaming"
-  ],
-  "update": {
-    "timestamp": "2024-10-20T17:24:03Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [],
+    "categories": [
+        "Streaming"
+    ],
+    "update": {
+        "timestamp": "2024-10-20T17:24:03Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
+    },
+    "colors": {
+        "dark": "prime-video",
+        "light": "prime-video-light"
     }
-  },
-  "colors": {
-    "dark": "prime-video",
-    "light": "prime-video-light"
-  }
 }

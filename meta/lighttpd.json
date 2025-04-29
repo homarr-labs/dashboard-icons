@@ -1,18 +1,18 @@
 {
-  "base": "svg",
-  "aliases": [
-    "Web Server"
-  ],
-  "categories": [
-    "Web-Browsers",
-    "Server-Panels",
-    "Networking-Tools"
-  ],
-  "update": {
-    "timestamp": "2023-04-13T13:56:18Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "Web Server"
+    ],
+    "categories": [
+        "Browsers-&-Search",
+        "Infrastructure",
+        "Networking"
+    ],
+    "update": {
+        "timestamp": "2023-04-13T13:56:18Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
     }
-  }
 }

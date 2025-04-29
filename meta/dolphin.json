@@ -1,18 +1,18 @@
 {
-  "base": "png",
-  "aliases": [
-    "kde-file-manager",
-    "linux-file-explorer"
-  ],
-  "categories": [
-    "File-Sharing-&-Sync",
-    "Developer-Tools"
-  ],
-  "update": {
-    "timestamp": "2025-01-07T17:54:03Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "png",
+    "aliases": [
+        "kde-file-manager",
+        "linux-file-explorer"
+    ],
+    "categories": [
+        "Development",
+        "File-Management-&-Sync"
+    ],
+    "update": {
+        "timestamp": "2025-01-07T17:54:03Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
     }
-  }
 }

@@ -1,22 +1,22 @@
 {
-  "base": "svg",
-  "aliases": [
-    "router-manufacturer",
-    "network-devices"
-  ],
-  "categories": [
-    "Networking-Tools",
-    "Hardware"
-  ],
-  "update": {
-    "timestamp": "2024-10-20T17:24:03Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "router-manufacturer",
+        "network-devices"
+    ],
+    "categories": [
+        "Hardware",
+        "Networking"
+    ],
+    "update": {
+        "timestamp": "2024-10-20T17:24:03Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
+    },
+    "colors": {
+        "dark": "mikrotik",
+        "light": "mikrotik-light"
     }
-  },
-  "colors": {
-    "dark": "mikrotik",
-    "light": "mikrotik-light"
-  }
 }

@@ -1,21 +1,21 @@
 {
-  "base": "svg",
-  "aliases": [
-    "NVR"
-  ],
-  "categories": [
-    "Home-Automation",
-    "Monitoring-Tools"
-  ],
-  "update": {
-    "timestamp": "2022-08-16T17:22:56Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "NVR"
+    ],
+    "categories": [
+        "Analytics-&-Monitoring",
+        "Home-Automation"
+    ],
+    "update": {
+        "timestamp": "2022-08-16T17:22:56Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
+    },
+    "colors": {
+        "dark": "frigate",
+        "light": "frigate-light"
     }
-  },
-  "colors": {
-    "dark": "frigate",
-    "light": "frigate-light"
-  }
 }

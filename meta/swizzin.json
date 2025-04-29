@@ -1,18 +1,18 @@
 {
-  "base": "png",
-  "aliases": [
-    "torrenting-scripts",
-    "media-server-scripts"
-  ],
-  "categories": [
-    "Download-Managers",
-    "Server-Panels"
-  ],
-  "update": {
-    "timestamp": "2025-01-07T17:54:03Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "png",
+    "aliases": [
+        "torrenting-scripts",
+        "media-server-scripts"
+    ],
+    "categories": [
+        "Downloaders",
+        "Infrastructure"
+    ],
+    "update": {
+        "timestamp": "2025-01-07T17:54:03Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
     }
-  }
 }

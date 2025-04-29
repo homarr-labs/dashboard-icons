@@ -1,17 +1,17 @@
 {
-  "base": "svg",
-  "aliases": [
-    "Media Tracking"
-  ],
-  "categories": [
-    "Media-Servers",
-    "Social-Media"
-  ],
-  "update": {
-    "timestamp": "2025-04-06T10:49:45.530344",
-    "author": {
-      "id": 63781622,
-      "login": "Meierschlumpf"
+    "base": "svg",
+    "aliases": [
+        "Media Tracking"
+    ],
+    "categories": [
+        "Community-&-Social",
+        "Streaming"
+    ],
+    "update": {
+        "timestamp": "2025-04-06T10:49:45.530344",
+        "author": {
+            "id": 63781622,
+            "login": "Meierschlumpf"
+        }
     }
-  }
 }

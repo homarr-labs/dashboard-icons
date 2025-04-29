@@ -1,18 +1,18 @@
 {
-  "base": "svg",
-  "aliases": [
-    "Cloud Storage",
-    "File Sync"
-  ],
-  "categories": [
-    "File-Sharing-&-Sync",
-    "Cloud-Computing"
-  ],
-  "update": {
-    "timestamp": "2023-04-13T13:56:18Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "Cloud Storage",
+        "File Sync"
+    ],
+    "categories": [
+        "Cloud-&-Hosting",
+        "File-Management-&-Sync"
+    ],
+    "update": {
+        "timestamp": "2023-04-13T13:56:18Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
     }
-  }
 }

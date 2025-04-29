@@ -1,18 +1,17 @@
 {
-  "base": "svg",
-  "aliases": [
-    "home-automation-controller",
-    "smart-device-hub"
-  ],
-  "categories": [
-    "Smart-Home",
-    "Home-Automation"
-  ],
-  "update": {
-    "timestamp": "2023-04-13T13:56:18Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "home-automation-controller",
+        "smart-device-hub"
+    ],
+    "categories": [
+        "Home-Automation"
+    ],
+    "update": {
+        "timestamp": "2023-04-13T13:56:18Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
     }
-  }
 }

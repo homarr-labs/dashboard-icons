@@ -1,18 +1,18 @@
 {
-  "base": "svg",
-  "aliases": [
-    "javascript-environment",
-    "server-side-js"
-  ],
-  "categories": [
-    "Programming-Languages",
-    "Developer-Tools"
-  ],
-  "update": {
-    "timestamp": "2023-04-13T13:56:18Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "javascript-environment",
+        "server-side-js"
+    ],
+    "categories": [
+        "Development",
+        "Programming-Languages"
+    ],
+    "update": {
+        "timestamp": "2023-04-13T13:56:18Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
     }
-  }
 }

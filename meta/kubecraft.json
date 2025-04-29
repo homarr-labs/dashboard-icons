@@ -1,16 +1,16 @@
 {
-  "base": "png",
-  "aliases": [
-    "kube-craft"
-  ],
-  "categories": [
-    "Containerization-&-Orchestration"
-  ],
-  "update": {
-    "timestamp": "2025-03-31T19:22:27.794388",
-    "author": {
-      "id": 28745927,
-      "login": "pedrotchang"
+    "base": "png",
+    "aliases": [
+        "kube-craft"
+    ],
+    "categories": [
+        "Infrastructure"
+    ],
+    "update": {
+        "timestamp": "2025-03-31T19:22:27.794388",
+        "author": {
+            "id": 28745927,
+            "login": "pedrotchang"
+        }
     }
-  }
 }

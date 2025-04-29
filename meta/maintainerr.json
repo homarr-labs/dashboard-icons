@@ -1,12 +1,12 @@
 {
-  "base": "svg",
-  "aliases": [],
-  "categories": [],
-  "update": {
-    "timestamp": "2025-04-03T21:25:36.176609",
-    "author": {
-      "id": 139772086,
-      "login": "lokas88"
+    "base": "svg",
+    "aliases": [],
+    "categories": [],
+    "update": {
+        "timestamp": "2025-04-03T21:25:36.176609",
+        "author": {
+            "id": 139772086,
+            "login": "lokas88"
+        }
     }
-  }
 }

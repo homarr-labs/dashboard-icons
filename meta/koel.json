@@ -1,18 +1,17 @@
 {
-  "base": "svg",
-  "aliases": [
-    "Web Music Player"
-  ],
-  "categories": [
-    "Music-Streaming",
-    "Media-Servers",
-    "Web-Browsers"
-  ],
-  "update": {
-    "timestamp": "2023-04-13T13:56:18Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "Web Music Player"
+    ],
+    "categories": [
+        "Browsers-&-Search",
+        "Streaming"
+    ],
+    "update": {
+        "timestamp": "2023-04-13T13:56:18Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
     }
-  }
 }

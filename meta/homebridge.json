@@ -1,17 +1,16 @@
 {
-  "base": "svg",
-  "aliases": [
-    "Smart Home Bridge"
-  ],
-  "categories": [
-    "Home-Automation",
-    "Smart-Home"
-  ],
-  "update": {
-    "timestamp": "2022-08-16T17:22:56Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "Smart Home Bridge"
+    ],
+    "categories": [
+        "Home-Automation"
+    ],
+    "update": {
+        "timestamp": "2022-08-16T17:22:56Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
     }
-  }
 }

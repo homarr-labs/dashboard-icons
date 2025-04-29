@@ -1,18 +1,18 @@
 {
-  "base": "svg",
-  "aliases": [
-    "video-meeting",
-    "web-conferencing"
-  ],
-  "categories": [
-    "Networking-Tools",
-    "Communication"
-  ],
-  "update": {
-    "timestamp": "2023-02-01T13:14:37Z",
-    "author": {
-      "id": 112093608,
-      "name": "enter-a-random-username"
+    "base": "svg",
+    "aliases": [
+        "video-meeting",
+        "web-conferencing"
+    ],
+    "categories": [
+        "Communication",
+        "Networking"
+    ],
+    "update": {
+        "timestamp": "2023-02-01T13:14:37Z",
+        "author": {
+            "id": 112093608,
+            "name": "enter-a-random-username"
+        }
     }
-  }
 }

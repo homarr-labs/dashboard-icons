@@ -1,17 +1,17 @@
 {
-  "base": "svg",
-  "aliases": [
-    "Remote Support"
-  ],
-  "categories": [
-    "Networking-Tools",
-    "Developer-Tools"
-  ],
-  "update": {
-    "timestamp": "2024-01-02T00:01:42Z",
-    "author": {
-      "id": 13395348,
-      "name": "silversword411"
+    "base": "svg",
+    "aliases": [
+        "Remote Support"
+    ],
+    "categories": [
+        "Development",
+        "Networking"
+    ],
+    "update": {
+        "timestamp": "2024-01-02T00:01:42Z",
+        "author": {
+            "id": 13395348,
+            "name": "silversword411"
+        }
     }
-  }
 }

@@ -1,17 +1,17 @@
 {
-  "base": "svg",
-  "aliases": [
-    "Duplicate File Finder"
-  ],
-  "categories": [
-    "File-Sharing-&-Sync",
-    "Office-Suites"
-  ],
-  "update": {
-    "timestamp": "2024-10-20T17:24:03Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "Duplicate File Finder"
+    ],
+    "categories": [
+        "File-Management-&-Sync",
+        "Notes-&-Productivity"
+    ],
+    "update": {
+        "timestamp": "2024-10-20T17:24:03Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
     }
-  }
 }

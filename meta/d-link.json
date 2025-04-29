@@ -1,17 +1,17 @@
 {
-  "base": "svg",
-  "aliases": [
-    "Network Devices"
-  ],
-  "categories": [
-    "Networking-Tools",
-    "Hardware"
-  ],
-  "update": {
-    "timestamp": "2023-04-13T13:56:18Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "Network Devices"
+    ],
+    "categories": [
+        "Hardware",
+        "Networking"
+    ],
+    "update": {
+        "timestamp": "2023-04-13T13:56:18Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
     }
-  }
 }

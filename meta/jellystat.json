@@ -1,16 +1,16 @@
 {
-  "base": "svg",
-  "aliases": [],
-  "categories": [],
-  "update": {
-    "timestamp": "2025-04-28T18:59:35.544514",
-    "author": {
-      "id": 71191962,
-      "login": "lammersbjorn"
+    "base": "svg",
+    "aliases": [],
+    "categories": [],
+    "update": {
+        "timestamp": "2025-04-28T18:59:35.544514",
+        "author": {
+            "id": 71191962,
+            "login": "lammersbjorn"
+        }
+    },
+    "colors": {
+        "light": "jellystat",
+        "dark": "jellystat-dark"
     }
-  },
-  "colors": {
-    "light": "jellystat",
-    "dark": "jellystat-dark"
-  }
 }

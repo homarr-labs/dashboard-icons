@@ -1,12 +1,12 @@
 {
-  "base": "svg",
-  "aliases": [],
-  "categories": [],
-  "update": {
-    "timestamp": "2025-04-28T18:01:22.158852",
-    "author": {
-      "id": 77530549,
-      "login": "sergi0g"
+    "base": "svg",
+    "aliases": [],
+    "categories": [],
+    "update": {
+        "timestamp": "2025-04-28T18:01:22.158852",
+        "author": {
+            "id": 77530549,
+            "login": "sergi0g"
+        }
     }
-  }
 }

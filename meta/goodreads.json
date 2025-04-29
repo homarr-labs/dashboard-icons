@@ -1,16 +1,16 @@
 {
-  "base": "svg",
-  "aliases": [
-    "Book Social Network"
-  ],
-  "categories": [
-    "Social-Media"
-  ],
-  "update": {
-    "timestamp": "2023-04-24T11:18:46Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "Book Social Network"
+    ],
+    "categories": [
+        "Community-&-Social"
+    ],
+    "update": {
+        "timestamp": "2023-04-24T11:18:46Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
     }
-  }
 }

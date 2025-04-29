@@ -1,17 +1,17 @@
 {
-  "base": "svg",
-  "aliases": [
-    "plex-year-in-review",
-    "media-stats"
-  ],
-  "categories": [
-    "Media-Servers"
-  ],
-  "update": {
-    "timestamp": "2024-10-20T17:24:03Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "plex-year-in-review",
+        "media-stats"
+    ],
+    "categories": [
+        "Streaming"
+    ],
+    "update": {
+        "timestamp": "2024-10-20T17:24:03Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
     }
-  }
 }

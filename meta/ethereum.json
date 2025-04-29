@@ -1,18 +1,18 @@
 {
-  "base": "svg",
-  "aliases": [
-    "crypto-platform",
-    "decentralized-apps"
-  ],
-  "categories": [
-    "Developer-Tools",
-    "Finance-&-Banking"
-  ],
-  "update": {
-    "timestamp": "2023-04-13T20:27:58",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "crypto-platform",
+        "decentralized-apps"
+    ],
+    "categories": [
+        "Development",
+        "Finance"
+    ],
+    "update": {
+        "timestamp": "2023-04-13T20:27:58",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
     }
-  }
 }

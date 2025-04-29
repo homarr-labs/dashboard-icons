@@ -1,17 +1,16 @@
 {
-  "base": "svg",
-  "aliases": [
-    "Knowledge Base"
-  ],
-  "categories": [
-    "Note-taking-Apps",
-    "Office-Suites"
-  ],
-  "update": {
-    "timestamp": "2024-10-20T17:24:03Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "Knowledge Base"
+    ],
+    "categories": [
+        "Notes-&-Productivity"
+    ],
+    "update": {
+        "timestamp": "2024-10-20T17:24:03Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
     }
-  }
 }

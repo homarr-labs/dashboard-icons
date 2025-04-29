@@ -1,16 +1,16 @@
 {
-  "base": "png",
-  "aliases": [
-    "Budgeting App"
-  ],
-  "categories": [
-    "Finance-&-Banking"
-  ],
-  "update": {
-    "timestamp": "2025-01-07T17:54:03Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "png",
+    "aliases": [
+        "Budgeting App"
+    ],
+    "categories": [
+        "Finance"
+    ],
+    "update": {
+        "timestamp": "2025-01-07T17:54:03Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
     }
-  }
 }

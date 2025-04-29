@@ -1,17 +1,17 @@
 {
-  "base": "svg",
-  "aliases": [
-    "markdown-notes",
-    "cloud-notes"
-  ],
-  "categories": [
-    "Note-taking-Apps"
-  ],
-  "update": {
-    "timestamp": "2022-09-12T10:27:09Z",
-    "author": {
-      "id": 31266841,
-      "name": "Finrodchen"
+    "base": "svg",
+    "aliases": [
+        "markdown-notes",
+        "cloud-notes"
+    ],
+    "categories": [
+        "Notes-&-Productivity"
+    ],
+    "update": {
+        "timestamp": "2022-09-12T10:27:09Z",
+        "author": {
+            "id": 31266841,
+            "name": "Finrodchen"
+        }
     }
-  }
 }

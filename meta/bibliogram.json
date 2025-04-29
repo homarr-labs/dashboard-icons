@@ -1,17 +1,17 @@
 {
-  "base": "png",
-  "aliases": [
-    "Instagram Frontend"
-  ],
-  "categories": [
-    "Social-Media",
-    "Web-Browsers"
-  ],
-  "update": {
-    "timestamp": "2025-01-07T17:54:03Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "png",
+    "aliases": [
+        "Instagram Frontend"
+    ],
+    "categories": [
+        "Browsers-&-Search",
+        "Community-&-Social"
+    ],
+    "update": {
+        "timestamp": "2025-01-07T17:54:03Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
     }
-  }
 }

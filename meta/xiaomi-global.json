@@ -1,17 +1,17 @@
 {
-  "base": "svg",
-  "aliases": [
-    "mi-global",
-    "redmi-global"
-  ],
-  "categories": [
-    "Organization"
-  ],
-  "update": {
-    "timestamp": "2025-03-24T19:31:15.329045",
-    "author": {
-      "id": 48109134,
-      "login": "jdcool00"
+    "base": "svg",
+    "aliases": [
+        "mi-global",
+        "redmi-global"
+    ],
+    "categories": [
+        "Organization-&-Planning"
+    ],
+    "update": {
+        "timestamp": "2025-03-24T19:31:15.329045",
+        "author": {
+            "id": 48109134,
+            "login": "jdcool00"
+        }
     }
-  }
 }

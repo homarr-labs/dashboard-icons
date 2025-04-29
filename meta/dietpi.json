@@ -1,18 +1,18 @@
 {
-  "base": "png",
-  "aliases": [
-    "Lightweight OS"
-  ],
-  "categories": [
-    "Operating-Systems",
-    "Linux-Distributions",
-    "Smart-Home"
-  ],
-  "update": {
-    "timestamp": "2025-01-07T17:54:03Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "png",
+    "aliases": [
+        "Lightweight OS"
+    ],
+    "categories": [
+        "Home-Automation",
+        "Linux-Distributions",
+        "Operating-Systems"
+    ],
+    "update": {
+        "timestamp": "2025-01-07T17:54:03Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
     }
-  }
 }

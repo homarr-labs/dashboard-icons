@@ -1,18 +1,18 @@
 {
-  "base": "png",
-  "aliases": [
-    "video-call-app",
-    "web-conferencing"
-  ],
-  "categories": [
-    "Networking-Tools",
-    "Communication"
-  ],
-  "update": {
-    "timestamp": "2025-01-07T17:54:03Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "png",
+    "aliases": [
+        "video-call-app",
+        "web-conferencing"
+    ],
+    "categories": [
+        "Communication",
+        "Networking"
+    ],
+    "update": {
+        "timestamp": "2025-01-07T17:54:03Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
     }
-  }
 }

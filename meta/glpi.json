@@ -1,17 +1,17 @@
 {
-  "base": "svg",
-  "aliases": [
-    "IT Asset Management"
-  ],
-  "categories": [
-    "Office-Suites",
-    "Developer-Tools"
-  ],
-  "update": {
-    "timestamp": "2024-10-20T17:24:03Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "IT Asset Management"
+    ],
+    "categories": [
+        "Development",
+        "Notes-&-Productivity"
+    ],
+    "update": {
+        "timestamp": "2024-10-20T17:24:03Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
     }
-  }
 }

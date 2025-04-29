@@ -1,17 +1,17 @@
 {
-  "base": "svg",
-  "aliases": [
-    "facebook-company"
-  ],
-  "categories": [
-    "Social-Media",
-    "Organization"
-  ],
-  "update": {
-    "timestamp": "2023-04-13T13:56:18Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "facebook-company"
+    ],
+    "categories": [
+        "Community-&-Social",
+        "Organization-&-Planning"
+    ],
+    "update": {
+        "timestamp": "2023-04-13T13:56:18Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
     }
-  }
 }

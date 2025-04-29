@@ -1,17 +1,17 @@
 {
-  "base": "svg",
-  "aliases": [
-    "Static Site Generator"
-  ],
-  "categories": [
-    "Developer-Tools",
-    "Web-Browsers"
-  ],
-  "update": {
-    "timestamp": "2023-04-13T20:27:58Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "Static Site Generator"
+    ],
+    "categories": [
+        "Browsers-&-Search",
+        "Development"
+    ],
+    "update": {
+        "timestamp": "2023-04-13T20:27:58Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
     }
-  }
 }

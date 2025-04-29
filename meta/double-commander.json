@@ -1,17 +1,17 @@
 {
-  "base": "svg",
-  "aliases": [
-    "File Manager"
-  ],
-  "categories": [
-    "File-Sharing-&-Sync",
-    "Office-Suites"
-  ],
-  "update": {
-    "timestamp": "2025-04-02T16:15:44.587958",
-    "author": {
-      "id": 139772086,
-      "login": "lokas88"
+    "base": "svg",
+    "aliases": [
+        "File Manager"
+    ],
+    "categories": [
+        "File-Management-&-Sync",
+        "Notes-&-Productivity"
+    ],
+    "update": {
+        "timestamp": "2025-04-02T16:15:44.587958",
+        "author": {
+            "id": 139772086,
+            "login": "lokas88"
+        }
     }
-  }
 }

@@ -1,18 +1,18 @@
 {
-  "base": "svg",
-  "aliases": [
-    "Static Site Hosting"
-  ],
-  "categories": [
-    "Web-Browsers",
-    "Developer-Tools",
-    "Cloud-Computing"
-  ],
-  "update": {
-    "timestamp": "2023-04-13T20:27:58Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "Static Site Hosting"
+    ],
+    "categories": [
+        "Browsers-&-Search",
+        "Cloud-&-Hosting",
+        "Development"
+    ],
+    "update": {
+        "timestamp": "2023-04-13T20:27:58Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
     }
-  }
 }

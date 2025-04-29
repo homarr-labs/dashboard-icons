@@ -1,19 +1,19 @@
 {
-  "base": "svg",
-  "aliases": [],
-  "categories": [
-    "E-commerce-Platforms",
-    "Finance-&-Banking"
-  ],
-  "update": {
-    "timestamp": "2024-10-20T17:24:03Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [],
+    "categories": [
+        "E-commerce-Platforms",
+        "Finance"
+    ],
+    "update": {
+        "timestamp": "2024-10-20T17:24:03Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
+    },
+    "colors": {
+        "dark": "invoice-ninja",
+        "light": "invoice-ninja-light"
     }
-  },
-  "colors": {
-    "dark": "invoice-ninja",
-    "light": "invoice-ninja-light"
-  }
 }

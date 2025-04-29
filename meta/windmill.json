@@ -1,17 +1,17 @@
 {
-  "base": "svg",
-  "aliases": [
-    "automation-platform",
-    "workflow-engine"
-  ],
-  "categories": [
-    "Developer-Tools"
-  ],
-  "update": {
-    "timestamp": "2024-02-11T23:43:52Z",
-    "author": {
-      "id": 29450538,
-      "name": "WilliamB78"
+    "base": "svg",
+    "aliases": [
+        "automation-platform",
+        "workflow-engine"
+    ],
+    "categories": [
+        "Development"
+    ],
+    "update": {
+        "timestamp": "2024-02-11T23:43:52Z",
+        "author": {
+            "id": 29450538,
+            "name": "WilliamB78"
+        }
     }
-  }
 }

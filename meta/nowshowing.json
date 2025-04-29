@@ -1,17 +1,17 @@
 {
-  "base": "png",
-  "aliases": [
-    "Movie Listings"
-  ],
-  "categories": [
-    "Media-Servers",
-    "Information"
-  ],
-  "update": {
-    "timestamp": "2025-01-07T17:54:03Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "png",
+    "aliases": [
+        "Movie Listings"
+    ],
+    "categories": [
+        "Information",
+        "Streaming"
+    ],
+    "update": {
+        "timestamp": "2025-01-07T17:54:03Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
     }
-  }
 }

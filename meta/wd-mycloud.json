@@ -1,18 +1,18 @@
 {
-  "base": "svg",
-  "aliases": [
-    "network-attached-storage",
-    "personal-cloud"
-  ],
-  "categories": [
-    "Cloud",
-    "File-Sharing-&-Sync"
-  ],
-  "update": {
-    "timestamp": "2025-04-09T12:25:42.292198",
-    "author": {
-      "id": 48109134,
-      "login": "jdcool00"
+    "base": "svg",
+    "aliases": [
+        "network-attached-storage",
+        "personal-cloud"
+    ],
+    "categories": [
+        "Cloud-&-Hosting",
+        "File-Management-&-Sync"
+    ],
+    "update": {
+        "timestamp": "2025-04-09T12:25:42.292198",
+        "author": {
+            "id": 48109134,
+            "login": "jdcool00"
+        }
     }
-  }
 }

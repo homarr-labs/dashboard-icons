@@ -1,18 +1,18 @@
 {
-  "base": "svg",
-  "aliases": [
-    "privacy-dns",
-    "secure-dns"
-  ],
-  "categories": [
-    "Networking-Tools",
-    "Security"
-  ],
-  "update": {
-    "timestamp": "2023-04-13T13:56:18Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "privacy-dns",
+        "secure-dns"
+    ],
+    "categories": [
+        "Networking",
+        "Security"
+    ],
+    "update": {
+        "timestamp": "2023-04-13T13:56:18Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
     }
-  }
 }

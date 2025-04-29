@@ -1,18 +1,18 @@
 {
-  "base": "svg",
-  "aliases": [
-    "developer-tools",
-    "browser-inspector"
-  ],
-  "categories": [
-    "Developer-Tools",
-    "Web-Browsers"
-  ],
-  "update": {
-    "timestamp": "2022-08-16T17:22:56Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "developer-tools",
+        "browser-inspector"
+    ],
+    "categories": [
+        "Browsers-&-Search",
+        "Development"
+    ],
+    "update": {
+        "timestamp": "2022-08-16T17:22:56Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
     }
-  }
 }

@@ -1,21 +1,21 @@
 {
-  "base": "svg",
-  "aliases": [
-    "flat-file-cms",
-    "content-management-system"
-  ],
-  "categories": [
-    "Developer-Tools"
-  ],
-  "update": {
-    "timestamp": "2024-10-20T17:24:03Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "flat-file-cms",
+        "content-management-system"
+    ],
+    "categories": [
+        "Development"
+    ],
+    "update": {
+        "timestamp": "2024-10-20T17:24:03Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
+    },
+    "colors": {
+        "dark": "grav",
+        "light": "grav-light"
     }
-  },
-  "colors": {
-    "dark": "grav",
-    "light": "grav-light"
-  }
 }

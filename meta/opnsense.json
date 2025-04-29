@@ -1,20 +1,20 @@
 {
-  "base": "svg",
-  "aliases": [
-    "Firewall",
-    "Router OS"
-  ],
-  "categories": [
-    "Operating-Systems",
-    "Networking-Tools",
-    "Security",
-    "Linux-Distributions"
-  ],
-  "update": {
-    "timestamp": "2025-03-17T15:50:46.882165",
-    "author": {
-      "id": 5345489,
-      "login": "savely-krasovsky"
+    "base": "svg",
+    "aliases": [
+        "Firewall",
+        "Router OS"
+    ],
+    "categories": [
+        "Linux-Distributions",
+        "Networking",
+        "Operating-Systems",
+        "Security"
+    ],
+    "update": {
+        "timestamp": "2025-03-17T15:50:46.882165",
+        "author": {
+            "id": 5345489,
+            "login": "savely-krasovsky"
+        }
     }
-  }
 }

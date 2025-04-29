@@ -1,12 +1,12 @@
 {
-  "base": "svg",
-  "aliases": [],
-  "categories": [],
-  "update": {
-    "timestamp": "2025-01-05T16:19:49Z",
-    "author": {
-      "id": 89848245,
-      "name": "ArmoredGoat"
+    "base": "svg",
+    "aliases": [],
+    "categories": [],
+    "update": {
+        "timestamp": "2025-01-05T16:19:49Z",
+        "author": {
+            "id": 89848245,
+            "name": "ArmoredGoat"
+        }
     }
-  }
 }

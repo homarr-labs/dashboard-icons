@@ -1,17 +1,17 @@
 {
-  "base": "svg",
-  "aliases": [
-    "youtube-privacy-frontend",
-    "privacy-youtube"
-  ],
-  "categories": [
-    "Video-Streaming"
-  ],
-  "update": {
-    "timestamp": "2023-04-13T13:56:18Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "youtube-privacy-frontend",
+        "privacy-youtube"
+    ],
+    "categories": [
+        "Streaming"
+    ],
+    "update": {
+        "timestamp": "2023-04-13T13:56:18Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
     }
-  }
 }

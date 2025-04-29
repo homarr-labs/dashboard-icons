@@ -1,17 +1,17 @@
 {
-  "base": "svg",
-  "aliases": [
-    "lobe-ai",
-    "chatgpt-ui"
-  ],
-  "categories": [
-    "AI-&-LLM-Platforms"
-  ],
-  "update": {
-    "timestamp": "2025-04-17T16:52:42.903330",
-    "author": {
-      "id": 65860997,
-      "login": "xiaopeng-ye"
+    "base": "svg",
+    "aliases": [
+        "lobe-ai",
+        "chatgpt-ui"
+    ],
+    "categories": [
+        "AI"
+    ],
+    "update": {
+        "timestamp": "2025-04-17T16:52:42.903330",
+        "author": {
+            "id": 65860997,
+            "login": "xiaopeng-ye"
+        }
     }
-  }
 }

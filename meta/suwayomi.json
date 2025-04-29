@@ -1,16 +1,16 @@
 {
-  "base": "svg",
-  "aliases": [],
-  "categories": [],
-  "update": {
-    "timestamp": "2025-01-26T15:28:40Z",
-    "author": {
-      "id": 30987265,
-      "name": "Robonau"
+    "base": "svg",
+    "aliases": [],
+    "categories": [],
+    "update": {
+        "timestamp": "2025-01-26T15:28:40Z",
+        "author": {
+            "id": 30987265,
+            "name": "Robonau"
+        }
+    },
+    "colors": {
+        "dark": "suwayomi",
+        "light": "suwayomi-light"
     }
-  },
-  "colors": {
-    "dark": "suwayomi",
-    "light": "suwayomi-light"
-  }
 }

@@ -1,21 +1,21 @@
 {
-  "base": "svg",
-  "aliases": [
-    "Voice Chat"
-  ],
-  "categories": [
-    "Communication",
-    "Gaming-Platforms"
-  ],
-  "update": {
-    "timestamp": "2024-10-20T17:24:03Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "Voice Chat"
+    ],
+    "categories": [
+        "Communication",
+        "Gaming-Platforms"
+    ],
+    "update": {
+        "timestamp": "2024-10-20T17:24:03Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
+    },
+    "colors": {
+        "dark": "mumble",
+        "light": "mumble-light"
     }
-  },
-  "colors": {
-    "dark": "mumble",
-    "light": "mumble-light"
-  }
 }

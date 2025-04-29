@@ -1,18 +1,18 @@
 {
-  "base": "png",
-  "aliases": [
-    "Session Manager"
-  ],
-  "categories": [
-    "Security",
-    "Developer-Tools",
-    "Networking-Tools"
-  ],
-  "update": {
-    "timestamp": "2025-01-07T17:54:03Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "png",
+    "aliases": [
+        "Session Manager"
+    ],
+    "categories": [
+        "Development",
+        "Networking",
+        "Security"
+    ],
+    "update": {
+        "timestamp": "2025-01-07T17:54:03Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
     }
-  }
 }

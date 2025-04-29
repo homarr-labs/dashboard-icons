@@ -1,20 +1,20 @@
 {
-  "base": "svg",
-  "aliases": [
-    "Server Control Panel"
-  ],
-  "categories": [
-    "Server-Panels"
-  ],
-  "update": {
-    "timestamp": "2024-10-20T17:24:03Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "Server Control Panel"
+    ],
+    "categories": [
+        "Infrastructure"
+    ],
+    "update": {
+        "timestamp": "2024-10-20T17:24:03Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
+    },
+    "colors": {
+        "dark": "openpanel",
+        "light": "openpanel-light"
     }
-  },
-  "colors": {
-    "dark": "openpanel",
-    "light": "openpanel-light"
-  }
 }

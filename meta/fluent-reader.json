@@ -1,17 +1,17 @@
 {
-  "base": "svg",
-  "aliases": [
-    "RSS Reader"
-  ],
-  "categories": [
-    "News",
-    "Web-Browsers"
-  ],
-  "update": {
-    "timestamp": "2025-04-09T12:06:00.578312",
-    "author": {
-      "id": 48109134,
-      "login": "jdcool00"
+    "base": "svg",
+    "aliases": [
+        "RSS Reader"
+    ],
+    "categories": [
+        "Browsers-&-Search",
+        "News"
+    ],
+    "update": {
+        "timestamp": "2025-04-09T12:06:00.578312",
+        "author": {
+            "id": 48109134,
+            "login": "jdcool00"
+        }
     }
-  }
 }

@@ -1,16 +1,16 @@
 {
-  "base": "png",
-  "aliases": [],
-  "categories": [],
-  "update": {
-    "timestamp": "2025-01-07T17:54:03Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "png",
+    "aliases": [],
+    "categories": [],
+    "update": {
+        "timestamp": "2025-01-07T17:54:03Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
+    },
+    "colors": {
+        "dark": "raritan",
+        "light": "raritan-light"
     }
-  },
-  "colors": {
-    "dark": "raritan",
-    "light": "raritan-light"
-  }
 }

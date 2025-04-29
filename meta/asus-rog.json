@@ -1,18 +1,18 @@
 {
-  "base": "svg",
-  "aliases": [
-    "gaming-laptop",
-    "gaming-pc"
-  ],
-  "categories": [
-    "Gaming-Platforms",
-    "Hardware"
-  ],
-  "update": {
-    "timestamp": "2023-04-13T13:56:18Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "gaming-laptop",
+        "gaming-pc"
+    ],
+    "categories": [
+        "Gaming-Platforms",
+        "Hardware"
+    ],
+    "update": {
+        "timestamp": "2023-04-13T13:56:18Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
     }
-  }
 }

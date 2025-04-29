@@ -1,22 +1,22 @@
 {
-  "base": "svg",
-  "aliases": [
-    "bookmarking-tool",
-    "offline-reader"
-  ],
-  "categories": [
-    "Note-taking-Apps",
-    "Web-Browsers"
-  ],
-  "update": {
-    "timestamp": "2024-10-20T17:24:03Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "bookmarking-tool",
+        "offline-reader"
+    ],
+    "categories": [
+        "Browsers-&-Search",
+        "Notes-&-Productivity"
+    ],
+    "update": {
+        "timestamp": "2024-10-20T17:24:03Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
+    },
+    "colors": {
+        "dark": "wallabag",
+        "light": "wallabag-light"
     }
-  },
-  "colors": {
-    "dark": "wallabag",
-    "light": "wallabag-light"
-  }
 }

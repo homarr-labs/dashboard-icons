@@ -1,18 +1,18 @@
 {
-  "base": "svg",
-  "aliases": [
-    "Container Updater"
-  ],
-  "categories": [
-    "Containerization-&-Orchestration",
-    "Developer-Tools",
-    "DevOps"
-  ],
-  "update": {
-    "timestamp": "2025-04-06T11:33:05.840470",
-    "author": {
-      "id": 63781622,
-      "login": "Meierschlumpf"
+    "base": "svg",
+    "aliases": [
+        "Container Updater"
+    ],
+    "categories": [
+        "DevOps",
+        "Development",
+        "Infrastructure"
+    ],
+    "update": {
+        "timestamp": "2025-04-06T11:33:05.840470",
+        "author": {
+            "id": 63781622,
+            "login": "Meierschlumpf"
+        }
     }
-  }
 }

@@ -1,21 +1,21 @@
 {
-  "base": "svg",
-  "aliases": [
-    "Code Analytics"
-  ],
-  "categories": [
-    "Developer-Tools",
-    "Monitoring-Tools"
-  ],
-  "update": {
-    "timestamp": "2024-10-20T17:24:03Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "Code Analytics"
+    ],
+    "categories": [
+        "Analytics-&-Monitoring",
+        "Development"
+    ],
+    "update": {
+        "timestamp": "2024-10-20T17:24:03Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
+    },
+    "colors": {
+        "dark": "codestats",
+        "light": "codestats-light"
     }
-  },
-  "colors": {
-    "dark": "codestats",
-    "light": "codestats-light"
-  }
 }

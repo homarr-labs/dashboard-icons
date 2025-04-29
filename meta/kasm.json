@@ -1,17 +1,17 @@
 {
-  "base": "svg",
-  "aliases": [
-    "Workspace Streaming"
-  ],
-  "categories": [
-    "Developer-Tools",
-    "Cloud-Computing"
-  ],
-  "update": {
-    "timestamp": "2023-04-13T13:56:18Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "Workspace Streaming"
+    ],
+    "categories": [
+        "Cloud-&-Hosting",
+        "Development"
+    ],
+    "update": {
+        "timestamp": "2023-04-13T13:56:18Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
     }
-  }
 }

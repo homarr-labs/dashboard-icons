@@ -1,17 +1,17 @@
 {
-  "base": "png",
-  "aliases": [
-    "file-upload",
-    "temporary-file-sharing"
-  ],
-  "categories": [
-    "File-Sharing-&-Sync"
-  ],
-  "update": {
-    "timestamp": "2025-01-07T17:54:03Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "png",
+    "aliases": [
+        "file-upload",
+        "temporary-file-sharing"
+    ],
+    "categories": [
+        "File-Management-&-Sync"
+    ],
+    "update": {
+        "timestamp": "2025-01-07T17:54:03Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
     }
-  }
 }

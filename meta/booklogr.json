@@ -1,21 +1,21 @@
 {
-  "base": "svg",
-  "aliases": [
-    "book-tracker",
-    "reading-log"
-  ],
-  "categories": [
-    "Note-taking-Apps"
-  ],
-  "update": {
-    "timestamp": "2024-10-20T17:24:03Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "book-tracker",
+        "reading-log"
+    ],
+    "categories": [
+        "Notes-&-Productivity"
+    ],
+    "update": {
+        "timestamp": "2024-10-20T17:24:03Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
+    },
+    "colors": {
+        "dark": "booklogr",
+        "light": "booklogr-light"
     }
-  },
-  "colors": {
-    "dark": "booklogr",
-    "light": "booklogr-light"
-  }
 }

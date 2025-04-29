@@ -1,20 +1,20 @@
 {
-  "base": "svg",
-  "aliases": [
-    "Command Line Tips"
-  ],
-  "categories": [
-    "Developer-Tools"
-  ],
-  "update": {
-    "timestamp": "2024-10-20T17:24:03Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "Command Line Tips"
+    ],
+    "categories": [
+        "Development"
+    ],
+    "update": {
+        "timestamp": "2024-10-20T17:24:03Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
+    },
+    "colors": {
+        "dark": "shell-tips",
+        "light": "shell-tips-light"
     }
-  },
-  "colors": {
-    "dark": "shell-tips",
-    "light": "shell-tips-light"
-  }
 }

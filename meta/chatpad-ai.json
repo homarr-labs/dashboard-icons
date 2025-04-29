@@ -1,16 +1,16 @@
 {
-  "base": "svg",
-  "aliases": [
-    "AI Chatbot"
-  ],
-  "categories": [
-    "AI-&-LLM-Platforms"
-  ],
-  "update": {
-    "timestamp": "2024-01-29T22:26:51Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "AI Chatbot"
+    ],
+    "categories": [
+        "AI"
+    ],
+    "update": {
+        "timestamp": "2024-01-29T22:26:51Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
     }
-  }
 }

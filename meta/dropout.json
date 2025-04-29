@@ -1,21 +1,21 @@
 {
-  "base": "svg",
-  "aliases": [
-    "Streaming Service"
-  ],
-  "categories": [
-    "Video-Streaming",
-    "Gaming-Platforms"
-  ],
-  "update": {
-    "timestamp": "2024-10-20T17:24:03Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "Streaming Service"
+    ],
+    "categories": [
+        "Gaming-Platforms",
+        "Streaming"
+    ],
+    "update": {
+        "timestamp": "2024-10-20T17:24:03Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
+    },
+    "colors": {
+        "dark": "dropout",
+        "light": "dropout-light"
     }
-  },
-  "colors": {
-    "dark": "dropout",
-    "light": "dropout-light"
-  }
 }

@@ -1,16 +1,16 @@
 {
-  "base": "png",
-  "aliases": [
-    "Supermarket"
-  ],
-  "categories": [
-    "E-commerce-Platforms"
-  ],
-  "update": {
-    "timestamp": "2025-01-07T17:54:03Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "png",
+    "aliases": [
+        "Supermarket"
+    ],
+    "categories": [
+        "E-commerce-Platforms"
+    ],
+    "update": {
+        "timestamp": "2025-01-07T17:54:03Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
     }
-  }
 }

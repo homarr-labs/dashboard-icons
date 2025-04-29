@@ -1,22 +1,22 @@
 {
-  "base": "svg",
-  "aliases": [
-    "git-hosting",
-    "code-repository"
-  ],
-  "categories": [
-    "Version-Control-Systems",
-    "Developer-Tools"
-  ],
-  "update": {
-    "timestamp": "2022-10-03T09:35:40Z",
-    "author": {
-      "id": 15933,
-      "name": "fabricionaweb"
+    "base": "svg",
+    "aliases": [
+        "git-hosting",
+        "code-repository"
+    ],
+    "categories": [
+        "Development",
+        "Version-Control"
+    ],
+    "update": {
+        "timestamp": "2022-10-03T09:35:40Z",
+        "author": {
+            "id": 15933,
+            "name": "fabricionaweb"
+        }
+    },
+    "colors": {
+        "dark": "github",
+        "light": "github-light"
     }
-  },
-  "colors": {
-    "dark": "github",
-    "light": "github-light"
-  }
 }

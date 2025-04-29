@@ -1,18 +1,18 @@
 {
-  "base": "svg",
-  "aliases": [
-    "authentication-protocol",
-    "network-security"
-  ],
-  "categories": [
-    "Security",
-    "Networking-Tools"
-  ],
-  "update": {
-    "timestamp": "2023-04-13T13:56:18Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "authentication-protocol",
+        "network-security"
+    ],
+    "categories": [
+        "Networking",
+        "Security"
+    ],
+    "update": {
+        "timestamp": "2023-04-13T13:56:18Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
     }
-  }
 }

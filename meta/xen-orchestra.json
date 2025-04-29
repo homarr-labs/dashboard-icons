@@ -1,12 +1,12 @@
 {
-  "base": "svg",
-  "aliases": [],
-  "categories": [],
-  "update": {
-    "timestamp": "2025-02-15T17:00:48.753339",
-    "author": {
-      "id": 63781622,
-      "login": "Meierschlumpf"
+    "base": "svg",
+    "aliases": [],
+    "categories": [],
+    "update": {
+        "timestamp": "2025-02-15T17:00:48.753339",
+        "author": {
+            "id": 63781622,
+            "login": "Meierschlumpf"
+        }
     }
-  }
 }

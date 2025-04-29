@@ -1,18 +1,18 @@
 {
-  "base": "svg",
-  "aliases": [
-    "Collaboration Platform"
-  ],
-  "categories": [
-    "Office-Suites",
-    "Cloud-Computing",
-    "File-Sharing-&-Sync"
-  ],
-  "update": {
-    "timestamp": "2024-10-13T18:28:15Z",
-    "author": {
-      "id": 25162574,
-      "name": "mitchplze"
+    "base": "svg",
+    "aliases": [
+        "Collaboration Platform"
+    ],
+    "categories": [
+        "Cloud-&-Hosting",
+        "File-Management-&-Sync",
+        "Notes-&-Productivity"
+    ],
+    "update": {
+        "timestamp": "2024-10-13T18:28:15Z",
+        "author": {
+            "id": 25162574,
+            "name": "mitchplze"
+        }
     }
-  }
 }

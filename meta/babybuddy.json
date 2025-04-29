@@ -1,17 +1,17 @@
 {
-  "base": "png",
-  "aliases": [
-    "Baby Tracker"
-  ],
-  "categories": [
-    "Home-Automation",
-    "Personal"
-  ],
-  "update": {
-    "timestamp": "2025-01-07T17:54:03Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "png",
+    "aliases": [
+        "Baby Tracker"
+    ],
+    "categories": [
+        "Home-Automation",
+        "Notes-&-Productivity"
+    ],
+    "update": {
+        "timestamp": "2025-01-07T17:54:03Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
     }
-  }
 }

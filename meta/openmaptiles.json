@@ -1,17 +1,17 @@
 {
-  "base": "png",
-  "aliases": [
-    "Map Tiles"
-  ],
-  "categories": [
-    "Web-Browsers",
-    "Networking-Tools"
-  ],
-  "update": {
-    "timestamp": "2025-01-07T17:54:03Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "png",
+    "aliases": [
+        "Map Tiles"
+    ],
+    "categories": [
+        "Browsers-&-Search",
+        "Networking"
+    ],
+    "update": {
+        "timestamp": "2025-01-07T17:54:03Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
     }
-  }
 }

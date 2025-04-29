@@ -1,21 +1,21 @@
 {
-  "base": "svg",
-  "aliases": [
-    "Content Creator Platform"
-  ],
-  "categories": [
-    "Social-Media",
-    "E-commerce-Platforms"
-  ],
-  "update": {
-    "timestamp": "2024-10-20T17:24:03Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "Content Creator Platform"
+    ],
+    "categories": [
+        "Community-&-Social",
+        "E-commerce-Platforms"
+    ],
+    "update": {
+        "timestamp": "2024-10-20T17:24:03Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
+    },
+    "colors": {
+        "dark": "patreon",
+        "light": "patreon-light"
     }
-  },
-  "colors": {
-    "dark": "patreon",
-    "light": "patreon-light"
-  }
 }

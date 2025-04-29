@@ -1,21 +1,21 @@
 {
-  "base": "svg",
-  "aliases": [
-    "Photo Management"
-  ],
-  "categories": [
-    "Media-Servers",
-    "File-Sharing-&-Sync"
-  ],
-  "update": {
-    "timestamp": "2024-10-20T17:24:03Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "Photo Management"
+    ],
+    "categories": [
+        "File-Management-&-Sync",
+        "Streaming"
+    ],
+    "update": {
+        "timestamp": "2024-10-20T17:24:03Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
+    },
+    "colors": {
+        "dark": "photoprism",
+        "light": "photoprism-light"
     }
-  },
-  "colors": {
-    "dark": "photoprism",
-    "light": "photoprism-light"
-  }
 }

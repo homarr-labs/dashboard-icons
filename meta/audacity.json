@@ -1,17 +1,17 @@
 {
-  "base": "svg",
-  "aliases": [
-    "audio-editing-software",
-    "sound-editor"
-  ],
-  "categories": [
-    "Graphics-Editors"
-  ],
-  "update": {
-    "timestamp": "2023-04-13T13:56:18Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "audio-editing-software",
+        "sound-editor"
+    ],
+    "categories": [
+        "Graphics-Editors"
+    ],
+    "update": {
+        "timestamp": "2023-04-13T13:56:18Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
     }
-  }
 }

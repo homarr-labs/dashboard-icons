@@ -1,18 +1,18 @@
 {
-  "base": "svg",
-  "aliases": [
-    "media-processing",
-    "video-automation"
-  ],
-  "categories": [
-    "Media-Servers",
-    "Developer-Tools"
-  ],
-  "update": {
-    "timestamp": "2023-04-13T13:56:18Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "media-processing",
+        "video-automation"
+    ],
+    "categories": [
+        "Development",
+        "Streaming"
+    ],
+    "update": {
+        "timestamp": "2023-04-13T13:56:18Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
     }
-  }
 }

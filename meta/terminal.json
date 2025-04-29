@@ -1,18 +1,18 @@
 {
-  "base": "svg",
-  "aliases": [
-    "command-line",
-    "shell-interface"
-  ],
-  "categories": [
-    "Developer-Tools",
-    "Operating-Systems"
-  ],
-  "update": {
-    "timestamp": "2023-04-13T13:56:18Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "command-line",
+        "shell-interface"
+    ],
+    "categories": [
+        "Development",
+        "Operating-Systems"
+    ],
+    "update": {
+        "timestamp": "2023-04-13T13:56:18Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
     }
-  }
 }

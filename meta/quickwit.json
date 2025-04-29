@@ -1,17 +1,17 @@
 {
-  "base": "svg",
-  "aliases": [
-    "Search Engine"
-  ],
-  "categories": [
-    "Search-Engines",
-    "Developer-Tools"
-  ],
-  "update": {
-    "timestamp": "2024-10-20T17:24:03Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "Search Engine"
+    ],
+    "categories": [
+        "Browsers-&-Search",
+        "Development"
+    ],
+    "update": {
+        "timestamp": "2024-10-20T17:24:03Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
     }
-  }
 }

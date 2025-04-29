@@ -1,16 +1,16 @@
 {
-  "base": "svg",
-  "aliases": [
-    "Text Editor"
-  ],
-  "categories": [
-    "Developer-Tools"
-  ],
-  "update": {
-    "timestamp": "2023-04-13T20:27:58Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "Text Editor"
+    ],
+    "categories": [
+        "Development"
+    ],
+    "update": {
+        "timestamp": "2023-04-13T20:27:58Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
     }
-  }
 }

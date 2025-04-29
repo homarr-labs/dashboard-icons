@@ -1,18 +1,18 @@
 {
-  "base": "png",
-  "aliases": [
-    "latency-monitor",
-    "network-monitor"
-  ],
-  "categories": [
-    "Monitoring-Tools",
-    "Networking-Tools"
-  ],
-  "update": {
-    "timestamp": "2025-01-07T17:54:03Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "png",
+    "aliases": [
+        "latency-monitor",
+        "network-monitor"
+    ],
+    "categories": [
+        "Analytics-&-Monitoring",
+        "Networking"
+    ],
+    "update": {
+        "timestamp": "2025-01-07T17:54:03Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
     }
-  }
 }

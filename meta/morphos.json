@@ -1,16 +1,16 @@
 {
-  "base": "svg",
-  "aliases": [
-    "Operating System"
-  ],
-  "categories": [
-    "Operating-Systems"
-  ],
-  "update": {
-    "timestamp": "2024-10-20T17:24:03Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "Operating System"
+    ],
+    "categories": [
+        "Operating-Systems"
+    ],
+    "update": {
+        "timestamp": "2024-10-20T17:24:03Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
     }
-  }
 }

@@ -1,17 +1,17 @@
 {
-  "base": "svg",
-  "aliases": [
-    "Uptime Monitor"
-  ],
-  "categories": [
-    "Monitoring-Tools",
-    "Networking-Tools"
-  ],
-  "update": {
-    "timestamp": "2022-08-16T17:22:56Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "Uptime Monitor"
+    ],
+    "categories": [
+        "Analytics-&-Monitoring",
+        "Networking"
+    ],
+    "update": {
+        "timestamp": "2022-08-16T17:22:56Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
     }
-  }
 }

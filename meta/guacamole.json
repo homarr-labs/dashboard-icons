@@ -1,22 +1,22 @@
 {
-  "base": "svg",
-  "aliases": [
-    "rdp-gateway",
-    "vnc-gateway"
-  ],
-  "categories": [
-    "Networking-Tools",
-    "Developer-Tools"
-  ],
-  "update": {
-    "timestamp": "2024-10-20T17:24:03Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "rdp-gateway",
+        "vnc-gateway"
+    ],
+    "categories": [
+        "Development",
+        "Networking"
+    ],
+    "update": {
+        "timestamp": "2024-10-20T17:24:03Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
+    },
+    "colors": {
+        "dark": "guacamole",
+        "light": "guacamole-light"
     }
-  },
-  "colors": {
-    "dark": "guacamole",
-    "light": "guacamole-light"
-  }
 }

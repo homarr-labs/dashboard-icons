@@ -1,17 +1,17 @@
 {
-  "base": "png",
-  "aliases": [
-    "contact-app",
-    "address-book"
-  ],
-  "categories": [
-    "Office-Suites"
-  ],
-  "update": {
-    "timestamp": "2025-01-07T17:54:03Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "png",
+    "aliases": [
+        "contact-app",
+        "address-book"
+    ],
+    "categories": [
+        "Notes-&-Productivity"
+    ],
+    "update": {
+        "timestamp": "2025-01-07T17:54:03Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
     }
-  }
 }

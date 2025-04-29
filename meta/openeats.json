@@ -1,21 +1,21 @@
 {
-  "base": "svg",
-  "aliases": [
-    "restaurant-app",
-    "food-ordering-app"
-  ],
-  "categories": [
-    "Home-Automation"
-  ],
-  "update": {
-    "timestamp": "2024-10-20T17:24:03Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "restaurant-app",
+        "food-ordering-app"
+    ],
+    "categories": [
+        "Home-Automation"
+    ],
+    "update": {
+        "timestamp": "2024-10-20T17:24:03Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
+    },
+    "colors": {
+        "dark": "openeats",
+        "light": "openeats-light"
     }
-  },
-  "colors": {
-    "dark": "openeats",
-    "light": "openeats-light"
-  }
 }

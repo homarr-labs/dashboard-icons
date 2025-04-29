@@ -1,16 +1,16 @@
 {
-  "base": "svg",
-  "aliases": [],
-  "categories": [],
-  "update": {
-    "timestamp": "2025-01-26T15:26:18Z",
-    "author": {
-      "id": 110087,
-      "name": "halkeye"
+    "base": "svg",
+    "aliases": [],
+    "categories": [],
+    "update": {
+        "timestamp": "2025-01-26T15:26:18Z",
+        "author": {
+            "id": 110087,
+            "name": "halkeye"
+        }
+    },
+    "colors": {
+        "dark": "medium-dark",
+        "light": "medium-light"
     }
-  },
-  "colors": {
-    "dark": "medium-dark",
-    "light": "medium-light"
-  }
 }

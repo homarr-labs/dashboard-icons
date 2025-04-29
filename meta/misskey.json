@@ -1,21 +1,21 @@
 {
-  "base": "svg",
-  "aliases": [
-    "federated-microblogging",
-    "mastodon-alternative"
-  ],
-  "categories": [
-    "Social-Media"
-  ],
-  "update": {
-    "timestamp": "2024-10-20T17:24:03Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "federated-microblogging",
+        "mastodon-alternative"
+    ],
+    "categories": [
+        "Community-&-Social"
+    ],
+    "update": {
+        "timestamp": "2024-10-20T17:24:03Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
+    },
+    "colors": {
+        "dark": "misskey",
+        "light": "misskey-light"
     }
-  },
-  "colors": {
-    "dark": "misskey",
-    "light": "misskey-light"
-  }
 }

@@ -1,23 +1,23 @@
 {
-  "base": "png",
-  "aliases": [
-    "cloud-gaming",
-    "game-streaming",
-    "pc-in-the-cloud"
-  ],
-  "categories": [
-    "Gaming-Platforms",
-    "Cloud-Computing"
-  ],
-  "update": {
-    "timestamp": "2025-01-07T17:54:03Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "png",
+    "aliases": [
+        "cloud-gaming",
+        "game-streaming",
+        "pc-in-the-cloud"
+    ],
+    "categories": [
+        "Cloud-&-Hosting",
+        "Gaming-Platforms"
+    ],
+    "update": {
+        "timestamp": "2025-01-07T17:54:03Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
+    },
+    "colors": {
+        "dark": "salad",
+        "light": "salad-light"
     }
-  },
-  "colors": {
-    "dark": "salad",
-    "light": "salad-light"
-  }
 }

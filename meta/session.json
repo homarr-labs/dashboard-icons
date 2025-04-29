@@ -1,17 +1,17 @@
 {
-  "base": "svg",
-  "aliases": [
-    "Messaging App"
-  ],
-  "categories": [
-    "Communication",
-    "Security"
-  ],
-  "update": {
-    "timestamp": "2024-06-01T17:44:56Z",
-    "author": {
-      "id": 113554994,
-      "name": "wisnioskis"
+    "base": "svg",
+    "aliases": [
+        "Messaging App"
+    ],
+    "categories": [
+        "Communication",
+        "Security"
+    ],
+    "update": {
+        "timestamp": "2024-06-01T17:44:56Z",
+        "author": {
+            "id": 113554994,
+            "name": "wisnioskis"
+        }
     }
-  }
 }

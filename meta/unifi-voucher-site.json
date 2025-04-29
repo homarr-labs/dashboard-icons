@@ -1,17 +1,17 @@
 {
-  "base": "svg",
-  "aliases": [
-    "Voucher System"
-  ],
-  "categories": [
-    "Networking-Tools",
-    "Web-Browsers"
-  ],
-  "update": {
-    "timestamp": "2024-10-20T17:24:03Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "Voucher System"
+    ],
+    "categories": [
+        "Browsers-&-Search",
+        "Networking"
+    ],
+    "update": {
+        "timestamp": "2024-10-20T17:24:03Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
     }
-  }
 }

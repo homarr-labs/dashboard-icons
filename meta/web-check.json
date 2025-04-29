@@ -1,22 +1,22 @@
 {
-  "base": "svg",
-  "aliases": [
-    "website-monitor",
-    "url-checker"
-  ],
-  "categories": [
-    "Monitoring-Tools",
-    "Networking-Tools"
-  ],
-  "update": {
-    "timestamp": "2024-10-20T17:24:03Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "website-monitor",
+        "url-checker"
+    ],
+    "categories": [
+        "Analytics-&-Monitoring",
+        "Networking"
+    ],
+    "update": {
+        "timestamp": "2024-10-20T17:24:03Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
+    },
+    "colors": {
+        "dark": "web-check-dark",
+        "light": "web-check"
     }
-  },
-  "colors": {
-    "dark": "web-check-dark",
-    "light": "web-check"
-  }
 }

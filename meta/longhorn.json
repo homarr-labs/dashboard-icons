@@ -1,17 +1,17 @@
 {
-  "base": "svg",
-  "aliases": [
-    "Distributed Block Storage"
-  ],
-  "categories": [
-    "Containerization-&-Orchestration",
-    "Developer-Tools"
-  ],
-  "update": {
-    "timestamp": "2023-04-13T13:56:18Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "Distributed Block Storage"
+    ],
+    "categories": [
+        "Development",
+        "Infrastructure"
+    ],
+    "update": {
+        "timestamp": "2023-04-13T13:56:18Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
     }
-  }
 }

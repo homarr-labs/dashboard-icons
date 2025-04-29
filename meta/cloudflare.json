@@ -1,19 +1,19 @@
 {
-  "base": "svg",
-  "aliases": [
-    "content-delivery-network",
-    "ddos-protection"
-  ],
-  "categories": [
-    "Cloud-Computing",
-    "Networking-Tools",
-    "Security"
-  ],
-  "update": {
-    "timestamp": "2022-09-01T17:06:45Z",
-    "author": {
-      "id": 15933,
-      "name": "fabricionaweb"
+    "base": "svg",
+    "aliases": [
+        "content-delivery-network",
+        "ddos-protection"
+    ],
+    "categories": [
+        "Cloud-&-Hosting",
+        "Networking",
+        "Security"
+    ],
+    "update": {
+        "timestamp": "2022-09-01T17:06:45Z",
+        "author": {
+            "id": 15933,
+            "name": "fabricionaweb"
+        }
     }
-  }
 }

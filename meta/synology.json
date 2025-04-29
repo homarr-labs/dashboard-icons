@@ -1,21 +1,21 @@
 {
-  "base": "svg",
-  "aliases": [],
-  "categories": [
-    "Hardware",
-    "Smart-Home",
-    "File-Sharing-&-Sync",
-    "Media-Servers"
-  ],
-  "update": {
-    "timestamp": "2024-10-20T17:24:03Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [],
+    "categories": [
+        "File-Management-&-Sync",
+        "Hardware",
+        "Home-Automation",
+        "Streaming"
+    ],
+    "update": {
+        "timestamp": "2024-10-20T17:24:03Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
+    },
+    "colors": {
+        "dark": "synology",
+        "light": "synology-light"
     }
-  },
-  "colors": {
-    "dark": "synology",
-    "light": "synology-light"
-  }
 }

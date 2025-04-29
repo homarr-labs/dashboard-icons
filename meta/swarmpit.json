@@ -1,17 +1,17 @@
 {
-  "base": "svg",
-  "aliases": [
-    "Docker Swarm UI"
-  ],
-  "categories": [
-    "Containerization-&-Orchestration",
-    "Monitoring-Tools"
-  ],
-  "update": {
-    "timestamp": "2023-07-05T16:00:19Z",
-    "author": {
-      "id": 57060193,
-      "name": "drewstopherlee"
+    "base": "svg",
+    "aliases": [
+        "Docker Swarm UI"
+    ],
+    "categories": [
+        "Analytics-&-Monitoring",
+        "Infrastructure"
+    ],
+    "update": {
+        "timestamp": "2023-07-05T16:00:19Z",
+        "author": {
+            "id": 57060193,
+            "name": "drewstopherlee"
+        }
     }
-  }
 }

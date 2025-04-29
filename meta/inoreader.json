@@ -1,17 +1,17 @@
 {
-  "base": "svg",
-  "aliases": [
-    "online-rss-reader",
-    "feed-aggregator"
-  ],
-  "categories": [
-    "News"
-  ],
-  "update": {
-    "timestamp": "2024-10-20T17:24:03Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "online-rss-reader",
+        "feed-aggregator"
+    ],
+    "categories": [
+        "News"
+    ],
+    "update": {
+        "timestamp": "2024-10-20T17:24:03Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
     }
-  }
 }

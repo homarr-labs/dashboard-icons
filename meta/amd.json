@@ -1,22 +1,22 @@
 {
-  "base": "svg",
-  "aliases": [
-    "processor-company",
-    "computer-chips"
-  ],
-  "categories": [
-    "Hardware",
-    "Organization"
-  ],
-  "update": {
-    "timestamp": "2023-04-13T13:56:18Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "processor-company",
+        "computer-chips"
+    ],
+    "categories": [
+        "Hardware",
+        "Organization-&-Planning"
+    ],
+    "update": {
+        "timestamp": "2023-04-13T13:56:18Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
+    },
+    "colors": {
+        "dark": "amd",
+        "light": "amd-light"
     }
-  },
-  "colors": {
-    "dark": "amd",
-    "light": "amd-light"
-  }
 }

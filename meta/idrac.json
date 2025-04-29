@@ -1,17 +1,17 @@
 {
-  "base": "svg",
-  "aliases": [
-    "Remote Access"
-  ],
-  "categories": [
-    "Server-Panels",
-    "Networking-Tools"
-  ],
-  "update": {
-    "timestamp": "2023-04-13T13:56:18Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "Remote Access"
+    ],
+    "categories": [
+        "Infrastructure",
+        "Networking"
+    ],
+    "update": {
+        "timestamp": "2023-04-13T13:56:18Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
     }
-  }
 }

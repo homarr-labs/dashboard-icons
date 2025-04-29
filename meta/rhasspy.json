@@ -1,22 +1,22 @@
 {
-  "base": "svg",
-  "aliases": [
-    "offline-voice-assistant",
-    "privacy-voice-assistant"
-  ],
-  "categories": [
-    "Home-Automation",
-    "AI-&-LLM-Platforms"
-  ],
-  "update": {
-    "timestamp": "2024-10-20T17:24:03Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "offline-voice-assistant",
+        "privacy-voice-assistant"
+    ],
+    "categories": [
+        "AI",
+        "Home-Automation"
+    ],
+    "update": {
+        "timestamp": "2024-10-20T17:24:03Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
+    },
+    "colors": {
+        "dark": "rhasspy-dark",
+        "light": "rhasspy"
     }
-  },
-  "colors": {
-    "dark": "rhasspy-dark",
-    "light": "rhasspy"
-  }
 }

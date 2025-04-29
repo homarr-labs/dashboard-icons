@@ -1,21 +1,21 @@
 {
-  "base": "svg",
-  "aliases": [
-    "apple-tv",
-    "streaming-service"
-  ],
-  "categories": [
-    "Video-Streaming"
-  ],
-  "update": {
-    "timestamp": "2024-10-20T17:24:03Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "apple-tv",
+        "streaming-service"
+    ],
+    "categories": [
+        "Streaming"
+    ],
+    "update": {
+        "timestamp": "2024-10-20T17:24:03Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
+    },
+    "colors": {
+        "dark": "apple-tv-plus",
+        "light": "apple-tv-plus-light"
     }
-  },
-  "colors": {
-    "dark": "apple-tv-plus",
-    "light": "apple-tv-plus-light"
-  }
 }

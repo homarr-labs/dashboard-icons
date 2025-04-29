@@ -1,16 +1,16 @@
 {
-  "base": "svg",
-  "aliases": [
-    "Hosting Provider"
-  ],
-  "categories": [
-    "Cloud-Computing"
-  ],
-  "update": {
-    "timestamp": "2025-01-05T20:55:05Z",
-    "author": {
-      "id": 89848245,
-      "name": "ArmoredGoat"
+    "base": "svg",
+    "aliases": [
+        "Hosting Provider"
+    ],
+    "categories": [
+        "Cloud-&-Hosting"
+    ],
+    "update": {
+        "timestamp": "2025-01-05T20:55:05Z",
+        "author": {
+            "id": 89848245,
+            "name": "ArmoredGoat"
+        }
     }
-  }
 }

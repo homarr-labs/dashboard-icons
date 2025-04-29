@@ -1,18 +1,18 @@
 {
-  "base": "svg",
-  "aliases": [
-    "upnp-server",
-    "dlna-server"
-  ],
-  "categories": [
-    "Media-Servers",
-    "Home-Automation"
-  ],
-  "update": {
-    "timestamp": "2024-10-20T17:24:03Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "upnp-server",
+        "dlna-server"
+    ],
+    "categories": [
+        "Home-Automation",
+        "Streaming"
+    ],
+    "update": {
+        "timestamp": "2024-10-20T17:24:03Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
     }
-  }
 }
