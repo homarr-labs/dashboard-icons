@@ -33,32 +33,49 @@ body:
       label: Categories
       multiple: true
       options:
-        - Animal
-        - Cloud
+        - AI
+        - Analytics-&-Monitoring
+        - Automation
+        - Browsers-&-Search
+        - Cloud-&-Hosting
         - Communication
+        - Community-&-Social
+        - Content-Management
+        - Crypto
+        - Databases
         - Design
         - Development
+        - Downloaders
         - E-Commerce
         - Education
-        - File
+        - File-Management-&-Sync
         - Finance
         - Food
+        - Framework
         - Gaming
         - Hardware
         - Health
-        - Location
-        - Logistics
+        - Home-Automation
+        - Identity
+        - Infrastructure
+        - Library
+        - Mapping-&-Location
         - Media
-        - Music
+        - Music-&-Audio
         - Nature
+        - Networking
         - News
-        - Organization
-        - Search
+        - Notes-&-Productivity
+        - Operating-Systems
+        - Organization-&-Planning
+        - Programming-Language
         - Security
-        - SocialMedia
+        - Software
         - Streaming
         - Travel
+        - Version-Control
         - Video
+        - Virtualization
   - type: input
     attributes:
       label: Aliases

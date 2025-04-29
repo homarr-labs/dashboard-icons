@@ -29,6 +29,54 @@ body:
       options:
         - SVG
         - PNG
+  - type: dropdown
+    attributes:
+      label: Categories
+      multiple: true
+      options:
+        - AI
+        - Analytics-&-Monitoring
+        - Automation
+        - Browsers-&-Search
+        - Cloud-&-Hosting
+        - Communication
+        - Community-&-Social
+        - Content-Management
+        - Crypto
+        - Databases
+        - Design
+        - Development
+        - Downloaders
+        - E-Commerce
+        - Education
+        - File-Management-&-Sync
+        - Finance
+        - Food
+        - Framework
+        - Gaming
+        - Hardware
+        - Health
+        - Home-Automation
+        - Identity
+        - Infrastructure
+        - Library
+        - Mapping-&-Location
+        - Media
+        - Music-&-Audio
+        - Nature
+        - Networking
+        - News
+        - Notes-&-Productivity
+        - Operating-Systems
+        - Organization-&-Planning
+        - Programming-Language
+        - Security
+        - Software
+        - Streaming
+        - Travel
+        - Version-Control
+        - Video
+        - Virtualization
   - type: textarea
     attributes:
       label: Additional information
