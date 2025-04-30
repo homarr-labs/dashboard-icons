@@ -11108,6 +11108,22 @@
             }
         }
     },
+    "localxpose": {
+        "base": "svg",
+        "aliases": [
+            "localxpose"
+        ],
+        "categories": [
+            "Development"
+        ],
+        "update": {
+            "timestamp": "2025-04-30T09:11:10.554520",
+            "author": {
+                "id": 21882723,
+                "login": "pelinoleg"
+            }
+        }
+    },
     "cup": {
         "base": "svg",
         "aliases": [],
