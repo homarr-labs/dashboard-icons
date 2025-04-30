@@ -18610,6 +18610,20 @@
             }
         }
     },
+    "mangadex": {
+        "base": "png",
+        "aliases": [],
+        "categories": [
+            "Media"
+        ],
+        "update": {
+            "timestamp": "2025-04-30T09:08:35.461506",
+            "author": {
+                "id": 170339248,
+                "login": "Hicsuntd"
+            }
+        }
+    },
     "microsoft-sharepoint": {
         "base": "svg",
         "aliases": [
