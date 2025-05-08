@@ -1,0 +1,14 @@
+{
+  "base": "png",
+  "aliases": [],
+  "categories": [
+    "Organization"
+  ],
+  "update": {
+    "timestamp": "2025-05-08T21:13:01.765713",
+    "author": {
+      "id": 1506555,
+      "login": "danielkoster"
+    }
+  }
+}
