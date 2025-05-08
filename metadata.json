@@ -24859,6 +24859,18 @@
             }
         }
     },
+    "local-content-share": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2025-05-08T20:44:20.147949",
+            "author": {
+                "id": 209243632,
+                "login": "7rumpk1n"
+            }
+        }
+    },
     "pivpn": {
         "base": "png",
         "aliases": [],
