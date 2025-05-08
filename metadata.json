@@ -15731,6 +15731,20 @@
             }
         }
     },
+    "ldap-account-manager": {
+        "base": "png",
+        "aliases": [
+            "LDAPAccountManager lam"
+        ],
+        "categories": [],
+        "update": {
+            "timestamp": "2025-05-08T21:00:43.459757",
+            "author": {
+                "id": 521035,
+                "login": "Zuko"
+            }
+        }
+    },
     "pushover": {
         "base": "svg",
         "aliases": [],
