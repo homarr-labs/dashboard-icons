@@ -14684,6 +14684,20 @@
             "light": "netbox"
         }
     },
+    "wiki-go": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "Wiki"
+        ],
+        "update": {
+            "timestamp": "2025-05-08T20:11:39.922282",
+            "author": {
+                "id": 44511355,
+                "login": "beastarman74"
+            }
+        }
+    },
     "riot": {
         "base": "svg",
         "aliases": [
