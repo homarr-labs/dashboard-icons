@@ -125,15 +125,11 @@
         "aliases": [],
         "categories": [],
         "update": {
-            "timestamp": "2024-10-20T17:24:03Z",
+            "timestamp": "2025-05-08T21:06:35.478852",
             "author": {
-                "id": 71191962,
-                "name": "walkxcode"
+                "id": 3457368,
+                "login": "tankerkiller125"
             }
-        },
-        "colors": {
-            "dark": "homebox",
-            "light": "homebox-light"
         }
     },
     "pigallery2": {
