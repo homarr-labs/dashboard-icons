@@ -1,0 +1,16 @@
+{
+  "base": "svg",
+  "aliases": [
+    "localxpose"
+  ],
+  "categories": [
+    "Development"
+  ],
+  "update": {
+    "timestamp": "2025-05-08T21:10:06.659448",
+    "author": {
+      "id": 21882723,
+      "login": "pelinoleg"
+    }
+  }
+}
