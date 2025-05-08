@@ -1,0 +1,17 @@
+{
+  "base": "png",
+  "aliases": [
+    "comfy",
+    "comfyui"
+  ],
+  "categories": [
+    "Design"
+  ],
+  "update": {
+    "timestamp": "2025-05-08T21:28:48.301900",
+    "author": {
+      "id": 76230780,
+      "login": "TheRedCyclops"
+    }
+  }
+}
