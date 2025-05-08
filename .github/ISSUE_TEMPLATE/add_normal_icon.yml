@@ -1,71 +1,74 @@
 name: "Add normal icon"
-description: Use this template to add a new icon to the project. Normal icons work for both light and dark themes.
-title: "feat(icons): add [NAME]"
-labels: ["normal-icon"]
+description: "Submit a new 'normal' icon. A normal icon is designed to be versatile and visually consistent across both light and dark backgrounds without requiring separate versions."
+title: "feat(icons): add [icon-name]"
+labels: ["icon addition", "normal icon"]
 body:
   - type: markdown
     attributes:
       value: |
-        Hello and thank you for contributing to the project! Please fill out the following information to add a new icon to the project.
-        Once you've submitted the issue, sombody from the team will review it, before adding a label which automatically creates a pull request with the other filetypes.
-        If you submit a PNG icon, please note, that the SVG can not be generated from it.
+        Thanks for your interest in contributing a new icon! Please complete the following details.
+        A **normal icon** should be designed to work well and maintain good contrast/readability on both light and dark backgrounds.
+        Ensure your icon is optimized and adheres to our quality standards.
+
   - type: input
-    id: name
+    id: icon-name
     attributes:
-      label: Icon name
-      description: The name has to be unique and should be kebab-case.
-      placeholder: e.g. "icon-name"
+      label: "Icon Name"
+      description: "The unique name for the icon (e.g., `home-assistant`). This will be used as the filename."
+      placeholder: "e.g., sonarr"
+    validations:
+      required: true
+
   - type: textarea
-    id: icon
+    id: svg-code
     attributes:
-      label: Paste icon
-      description: |
-        Please paste the icon here. It will automatically upload it to github.
-  - type: dropdown
-    id: type
-    attributes:
-      label: Icon type
-      options:
-        - SVG
-        - PNG
-  - type: dropdown
-    attributes:
-      label: Categories
-      multiple: true
-      options:
-        - Animal
-        - Cloud
-        - Communication
-        - Design
-        - Development
-        - E-Commerce
-        - Education
-        - File
-        - Finance
-        - Food
-        - Gaming
-        - Hardware
-        - Health
-        - Location
-        - Logistics
-        - Media
-        - Music
-        - Nature
-        - News
-        - Organization
-        - Search
-        - Security
-        - SocialMedia
-        - Streaming
-        - Travel
-        - Video
+      label: "SVG Code (Normal Version)"
+      description: "Paste the SVG code for the icon. This version should be suitable for both light and dark backgrounds. Ensure the icon\'s colors provide good contrast and readability on various background shades."
+      placeholder: "<svg>...</svg>"
+      render: svg
+    validations:
+      required: true
+
   - type: input
+    id: brand-guidelines
     attributes:
-      label: Aliases
-      description: A comma separated list of aliases
-      placeholder: e.g. "icon-alias, icon-alias-2"
+      label: "Brand Guidelines URL (Optional)"
+      description: "If available, provide a link to the official brand guidelines or logo source."
+      placeholder: "e.g., https://brand.home-assistant.io/"
+
+  - type: input
+    id: source-url
+    attributes:
+      label: "Icon Source URL (Optional)"
+      description: "Link to where you found the icon (e.g., official website, GitHub repository)."
+      placeholder: "e.g., https://example.com/logo.svg"
+
+  - type: dropdown
+    id: icon-type-confirmation
+    attributes:
+      label: "Icon Type Confirmation"
+      description: "Confirm this icon is a \'normal\' icon (designed to be versatile and visually consistent across both light and dark backgrounds without requiring separate versions)."
+      options:
+        - "Yes, this is a normal icon."
+    validations:
+      required: true
+
+  - type: input
+    id: categories
+    attributes:
+      label: "Categories (Optional, comma-separated)"
+      description: "Relevant categories for the icon (e.g., `media, automation`). Helps with searching and organization."
+      placeholder: "e.g., dashboard, utility, networking"
+
+  - type: input
+    id: aliases
+    attributes:
+      label: "Aliases (Optional, comma-separated)"
+      description: "Alternative names or keywords for the icon (e.g., `ha, hass`)."
+      placeholder: "e.g., prox, pve"
+
   - type: textarea
+    id: additional-notes
     attributes:
-      label: Additional information
-      description: |
-        Add additional informations like a link to the application.
+      label: "Additional Notes (Optional)"
+      description: "Any other relevant information or context for the maintainers."

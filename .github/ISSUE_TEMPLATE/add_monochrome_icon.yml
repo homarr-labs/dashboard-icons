@@ -1,73 +1,88 @@
 name: "Add light & dark icon"
-description: Use this template to add a new icon to the project. Monochrome icons need both light and dark versions.
-title: "feat(icons): add [NAME]"
-labels: ["monochrome-icon"]
+description: |
+  Submit a new icon with distinct 'light' and 'dark' versions.
+  - A **Light Icon** is typically light-colored (e.g., predominantly white/very light shades, like Sonarr's logo) and is best suited for dark backgrounds.
+  - A **Dark Icon** is typically dark-colored (e.g., predominantly black/very dark shades, like Ollama's logo) and is best suited for light backgrounds.
+title: "feat(icons): add monochrome [icon-name]"
+labels: ["icon addition", "monochrome icon"]
 body:
   - type: markdown
     attributes:
       value: |
-        Hello and thank you for contributing to the project! Please fill out the following information to add a new icon to the project.
-        Once you've submitted the issue, sombody from the team will review it, before adding a label which automatically creates a pull request with the other filetypes.
-        If you submit a PNG icon, please note, that the SVG can not be generated from it.
+        Thanks for contributing a new icon with light and dark variants! Please complete the following.
+        Ensure your icons are optimized and adhere to quality standards.
+        **Light Icon Definition:** Predominantly light colors (e.g., white, light grays - like Sonarr's logo), designed for optimal visibility on dark backgrounds.
+        **Dark Icon Definition:** Predominantly dark colors (e.g., black, dark grays - like Ollama's logo), designed for optimal visibility on light backgrounds.
+
   - type: input
+    id: icon-name
     attributes:
-      label: Icon name
-      description: The name has to be unique and should be kebab-case.
-      placeholder: e.g. "icon-name"
+      label: "Icon Name"
+      description: "The unique name for the icon (e.g., `home-assistant`). This will be the base filename."
+      placeholder: "e.g., sonarr"
+    validations:
+      required: true
+
   - type: textarea
+    id: svg-code-light
     attributes:
-      label: Paste light mode icon
-      description: |
-        Please paste the icon here. It will automatically upload it to github. This icon should be visible on a light background.
+      label: "SVG Code (Light Version)"
+      description: "Paste the SVG code for the **Light Version** of the icon (predominantly light colors, for dark backgrounds)."
+      placeholder: "<svg>...</svg>"
+      render: svg
+    validations:
+      required: true
+
   - type: textarea
+    id: svg-code-dark
     attributes:
-      label: Paste dark mode icon
-      description: |
-        Please paste the icon here. It will automatically upload it to github. This icon should be visible on a dark background.
-  - type: dropdown
-    attributes:
-      label: Icon type
-      options:
-        - SVG
-        - PNG
-  - type: dropdown
-    attributes:
-      label: Categories
-      multiple: true
-      options:
-        - Animal
-        - Cloud
-        - Communication
-        - Design
-        - Development
-        - E-Commerce
-        - Education
-        - File
-        - Finance
-        - Food
-        - Gaming
-        - Hardware
-        - Health
-        - Location
-        - Logistics
-        - Media
-        - Music
-        - Nature
-        - News
-        - Organization
-        - Search
-        - Security
-        - SocialMedia
-        - Streaming
-        - Travel
-        - Video
+      label: "SVG Code (Dark Version)"
+      description: "Paste the SVG code for the **Dark Version** of the icon (predominantly dark colors, for light backgrounds)."
+      placeholder: "<svg>...</svg>"
+      render: svg
+    validations:
+      required: true
+
   - type: input
+    id: brand-guidelines
     attributes:
-      label: Aliases
-      description: A comma separated list of aliases
-      placeholder: e.g. "icon-alias, icon-alias-2"
+      label: "Brand Guidelines URL (Optional)"
+      description: "If available, provide a link to the official brand guidelines or logo source."
+      placeholder: "e.g., https://brand.home-assistant.io/"
+
+  - type: input
+    id: source-url
+    attributes:
+      label: "Icon Source URL (Optional)"
+      description: "Link to where you found the icon (e.g., official website, GitHub repository)."
+      placeholder: "e.g., https://example.com/logo.svg"
+
+  - type: dropdown
+    id: icon-type-confirmation
+    attributes:
+      label: "Icon Type Confirmation"
+      description: "Confirm this icon submission includes separate light and dark variants as defined above."
+      options:
+        - "Yes, this includes light and dark variants."
+    validations:
+      required: true
+
+  - type: input
+    id: categories
+    attributes:
+      label: "Categories (Optional, comma-separated)"
+      description: "Relevant categories for the icon (e.g., `media, automation`). Helps with searching and organization."
+      placeholder: "e.g., dashboard, utility, networking"
+
+  - type: input
+    id: aliases
+    attributes:
+      label: "Aliases (Optional, comma-separated)"
+      description: "Alternative names or keywords for the icon (e.g., `ha, hass`)."
+      placeholder: "e.g., prox, pve"
+
   - type: textarea
+    id: additional-notes
     attributes:
-      label: Additional information
-      description: |
-        Add additional informations like a link to the application.
+      label: "Additional Notes (Optional)"
+      description: "Any other relevant information or context for the maintainers."

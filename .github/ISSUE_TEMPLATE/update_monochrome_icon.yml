@@ -1,36 +1,59 @@
 name: "Update light & dark icon"
-description: Use this template to update an existing icon. Monochrome icons need both light and dark versions.
-title: "feat(icons): update [NAME]"
-labels: ["monochrome-icon"]
+description: |
+  Improve an existing icon with distinct 'light' and 'dark' versions.
+  - A **Light Icon** is typically light-colored (e.g., predominantly white/very light shades, like Sonarr's logo) and is best suited for dark backgrounds.
+  - A **Dark Icon** is typically dark-colored (e.g., predominantly black/very dark shades, like Ollama's logo) and is best suited for light backgrounds.
+title: "fix(icons): update monochrome [icon-name]"
+labels: ["icon update", "monochrome icon"]
 body:
   - type: markdown
     attributes:
       value: |
-        Hello and thank you for contributing to the project! Please fill out the following informations to update an existing icon in the project.
+        Thanks for improving an icon with light and dark variants!
+        Please ensure the updated versions adhere to the definitions:
+        **Light Icon Definition:** Predominantly light colors (e.g., white, light grays - like Sonarr's logo), for dark backgrounds.
+        **Dark Icon Definition:** Predominantly dark colors (e.g., black, dark grays - like Ollama's logo), for light backgrounds.
+        Please specify the icon name and provide the updated SVGs.
+
   - type: input
-    id: iconName
+    id: icon-name
     attributes:
-      label: Icon name
-      description: The name has to be unique and should be kebab-case.
-      placeholder: e.g. "icon-name"
+      label: "Icon Name to Update"
+      description: "The name of the existing icon you are updating (e.g., `home-assistant`)."
+      placeholder: "e.g., sonarr"
+    validations:
+      required: true
+
   - type: textarea
+    id: svg-code-light
     attributes:
-      label: Paste light mode icon
-      description: |
-        Please paste the icon here. It will automatically upload it to github. This icon should be visible on a light background.
+      label: "Updated SVG Code (Light Version)"
+      description: "Paste the new SVG code for the **Light Version** (predominantly light colors, for dark backgrounds)."
+      placeholder: "<svg>...</svg>"
+      render: svg
+    validations:
+      required: true
+
   - type: textarea
+    id: svg-code-dark
     attributes:
-      label: Paste dark mode icon
-      description: |
-        Please paste the icon here. It will automatically upload it to github. This icon should be visible on a dark background.
-  - type: dropdown
-    attributes:
-      label: Icon type
-      options:
-        - SVG
-        - PNG
+      label: "Updated SVG Code (Dark Version)"
+      description: "Paste the new SVG code for the **Dark Version** (predominantly dark colors, for light backgrounds)."
+      placeholder: "<svg>...</svg>"
+      render: svg
+    validations:
+      required: true
+
   - type: textarea
+    id: reason-for-update
     attributes:
-      label: Additional information
-      description: |
-        Add additional informations like, the reason for the update, or what has been changed.
+      label: "Reason for Update"
+      description: "Briefly explain why this icon needs an update (e.g., outdated design, quality, color adjustment)."
+    validations:
+      required: true
+
+  - type: textarea
+    id: additional-notes
+    attributes:
+      label: "Additional Notes (Optional)"
+      description: "Any other relevant information or context for the maintainers."

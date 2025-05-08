@@ -11,27 +11,39 @@ import { useState } from "react"
 export const ISSUE_TEMPLATES = [
 	{
 		id: "add_monochrome_icon",
-		name: "Add light & dark icon",
-		description: "Submit a new icon with both light and dark versions for optimal theme compatibility.",
+		name: "Add Light & Dark Icon",
+		description: "Submit a new icon with distinct light (for dark UIs, e.g., Sonarr) and dark (for light UIs, e.g., Ollama) versions.",
 		url: `${REPO_PATH}/issues/new?template=add_monochrome_icon.yml`,
 	},
 	{
 		id: "add_normal_icon",
-		name: "Add normal icon",
-		description: "Submit a new icon that works well across both light and dark themes.",
+		name: "Add Normal Icon",
+		description: "Submit a new icon designed to be versatile across both light and dark themes without separate versions.",
 		url: `${REPO_PATH}/issues/new?template=add_normal_icon.yml`,
 	},
 	{
+		id: "add_wordmark_icon",
+		name: "Add Wordmark Icon",
+		description: "Submit a new wordmark icon (icon with brand name). Can be single-version or have light/dark variants.",
+		url: `${REPO_PATH}/issues/new?template=add_wordmark_icon.yml`,
+	},
+	{
 		id: "update_monochrome_icon",
-		name: "Update light & dark icon",
-		description: "Improve an existing icon by updating both light and dark versions.",
+		name: "Update Light & Dark Icon",
+		description: "Improve an existing icon with light and dark versions, clarifying light (e.g., Sonarr) vs. dark (e.g., Ollama) variants.",
 		url: `${REPO_PATH}/issues/new?template=update_monochrome_icon.yml`,
 	},
 	{
 		id: "update_normal_icon",
-		name: "Update normal icon",
-		description: "Improve an existing icon that works across both light and dark themes.",
+		name: "Update Normal Icon",
+		description: "Improve an existing versatile icon that works across both light and dark themes.",
 		url: `${REPO_PATH}/issues/new?template=update_normal_icon.yml`,
+	},
+	{
+		id: "update_wordmark_icon",
+		name: "Update Wordmark Icon",
+		description: "Improve an existing wordmark icon (icon with brand name).",
+		url: `${REPO_PATH}/issues/new?template=update_wordmark_icon.yml`,
 	},
 	{
 		id: "blank_issue",

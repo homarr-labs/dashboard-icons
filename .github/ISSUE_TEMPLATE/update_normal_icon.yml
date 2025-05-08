@@ -1,31 +1,44 @@
 name: "Update normal icon"
-description: Use this template to update an existing icon. Normal icons work for both light and dark themes.
-title: "feat(icons): update [NAME]"
-labels: ["normal-icon"]
+description: "Improve an existing 'normal' icon. A normal icon is designed to be versatile and visually consistent across both light and dark backgrounds."
+title: "fix(icons): update [icon-name]"
+labels: ["icon update", "normal icon"]
 body:
   - type: markdown
     attributes:
       value: |
-        Hello and thank you for contributing to the project! Please fill out the following informations to update an existing icon in the project.
+        Thanks for helping improve an existing icon!
+        A **normal icon** should be designed to work well and maintain good contrast/readability on both light and dark backgrounds.
+        Please specify the icon name and provide the updated details.
+
   - type: input
-    id: iconName
+    id: icon-name
     attributes:
-      label: Icon name
-      description: The name has to match the existing icon name.
-      placeholder: e.g. "icon-name"
+      label: "Icon Name to Update"
+      description: "The name of the existing icon you are updating (e.g., `home-assistant`)."
+      placeholder: "e.g., sonarr"
+    validations:
+      required: true
+
   - type: textarea
+    id: svg-code
     attributes:
-      label: Paste icon
-      description: |
-        Please paste the icon here. It will automatically upload it to github.
-  - type: dropdown
-    attributes:
-      label: Icon type
-      options:
-        - SVG
-        - PNG
+      label: "Updated SVG Code (Normal Version)"
+      description: "Paste the new SVG code for the icon. This version should be suitable for both light and dark backgrounds. Ensure the icon\'s colors provide good contrast and readability."
+      placeholder: "<svg>...</svg>"
+      render: svg
+    validations:
+      required: true
+
   - type: textarea
+    id: reason-for-update
     attributes:
-      label: Additional information
-      description: |
-        Add additional informations like, the reason for the update, or what has been changed.
+      label: "Reason for Update"
+      description: "Briefly explain why this icon needs an update (e.g., outdated design, quality improvement, color adjustment for better universal background compatibility)."
+    validations:
+      required: true
+
+  - type: textarea
+    id: additional-notes
+    attributes:
+      label: "Additional Notes (Optional)"
+      description: "Any other relevant information or context for the maintainers."

@@ -1,0 +1,87 @@
+name: "Update Wordmark Icon"
+description: |
+  Improve an existing wordmark icon.
+  A **Wordmark Icon** incorporates the brand's name or logotype.
+  Remember the light/dark definitions if applicable for the wordmark.
+title: "fix(icons): update wordmark [icon-name]"
+labels: ["icon update", "wordmark icon"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping improve a wordmark icon!
+        Please specify the icon name and provide the updated details.
+
+  - type: input
+    id: icon-name
+    attributes:
+      label: "Wordmark Icon Name to Update"
+      description: "The name of the existing wordmark icon you are updating (e.g., `my-service-wordmark`)."
+      placeholder: "e.g., awesome-app-wordmark"
+    validations:
+      required: true
+
+  - type: markdown
+    attributes:
+      value: |
+        **Icon Versioning Being Updated:** Is this wordmark a single version or does it have separate light/dark versions? This helps in providing the correct updated SVGs.
+
+  - type: checkboxes
+    id: wordmark-update-type
+    attributes:
+      label: "Wordmark Version Type (of the icon being updated)"
+      description: "Indicate the type of wordmark you are updating."
+      options:
+        - label: "Updating a single-version wordmark"
+          required: false
+        - label: "Updating a wordmark with separate light and dark versions"
+          required: false
+
+  - type: textarea
+    id: svg-code-wordmark-normal-updated
+    attributes:
+      label: "Updated SVG Code (Single/Normal Wordmark)"
+      description: "If updating a single-version wordmark, paste the NEW SVG code here."
+      placeholder: "<svg>...</svg>"
+      render: svg
+    validations:
+      required: false
+
+  - type: textarea
+    id: svg-code-wordmark-light-updated
+    attributes:
+      label: "Updated SVG Code (Light Wordmark Version)"
+      description: "If updating light/dark versions, paste the NEW SVG for the Light Version here (predominantly light colors)."
+      placeholder: "<svg>...</svg>"
+      render: svg
+    validations:
+      required: false
+
+  - type: textarea
+    id: svg-code-wordmark-dark-updated
+    attributes:
+      label: "Updated SVG Code (Dark Wordmark Version)"
+      description: "If updating light/dark versions, paste the NEW SVG for the Dark Version here (predominantly dark colors)."
+      placeholder: "<svg>...</svg>"
+      render: svg
+    validations:
+      required: false
+
+  - type: markdown
+    attributes:
+      value: |
+        **Important:** Provide the updated SVG(s) in the relevant section(s) above based on the type of wordmark being updated.
+
+  - type: textarea
+    id: reason-for-update
+    attributes:
+      label: "Reason for Update"
+      description: "Briefly explain why this wordmark icon needs an update (e.g., outdated design, quality improvement, color adjustment)."
+    validations:
+      required: true
+
+  - type: textarea
+    id: additional-notes
+    attributes:
+      label: "Additional Notes (Optional)"
+      description: "Any other relevant information." 
