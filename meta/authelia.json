@@ -1,18 +1,18 @@
 {
-  "base": "svg",
-  "aliases": [
-    "reverse-proxy-auth",
-    "identity-provider"
-  ],
-  "categories": [
-    "Security",
-    "Networking-Tools"
-  ],
-  "update": {
-    "timestamp": "2023-04-13T13:56:18Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "reverse-proxy-auth",
+        "identity-provider"
+    ],
+    "categories": [
+        "Networking",
+        "Security"
+    ],
+    "update": {
+        "timestamp": "2023-04-13T13:56:18Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
     }
-  }
 }

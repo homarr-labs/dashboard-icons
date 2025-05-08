@@ -1,17 +1,17 @@
 {
-  "base": "svg",
-  "aliases": [
-    "wiki-software",
-    "knowledge-management"
-  ],
-  "categories": [
-    "Note-taking-Apps"
-  ],
-  "update": {
-    "timestamp": "2024-10-20T17:24:03Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "wiki-software",
+        "knowledge-management"
+    ],
+    "categories": [
+        "Notes-&-Productivity"
+    ],
+    "update": {
+        "timestamp": "2024-10-20T17:24:03Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
     }
-  }
 }

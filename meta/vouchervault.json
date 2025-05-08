@@ -1,18 +1,18 @@
 {
-  "base": "svg",
-  "aliases": [
-    "coupon-manager",
-    "discount-tracker"
-  ],
-  "categories": [
-    "E-commerce-Platforms",
-    "Finance-&-Banking"
-  ],
-  "update": {
-    "timestamp": "2025-01-07T19:12:28Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "coupon-manager",
+        "discount-tracker"
+    ],
+    "categories": [
+        "E-commerce-Platforms",
+        "Finance"
+    ],
+    "update": {
+        "timestamp": "2025-01-07T19:12:28Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
     }
-  }
 }

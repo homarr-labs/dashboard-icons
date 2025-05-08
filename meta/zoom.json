@@ -1,17 +1,17 @@
 {
-  "base": "svg",
-  "aliases": [
-    "Video Conferencing"
-  ],
-  "categories": [
-    "Communication",
-    "Office-Suites"
-  ],
-  "update": {
-    "timestamp": "2024-01-28T15:27:56Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "Video Conferencing"
+    ],
+    "categories": [
+        "Communication",
+        "Notes-&-Productivity"
+    ],
+    "update": {
+        "timestamp": "2024-01-28T15:27:56Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
     }
-  }
 }

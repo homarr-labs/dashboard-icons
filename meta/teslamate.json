@@ -1,21 +1,21 @@
 {
-  "base": "svg",
-  "aliases": [
-    "Tesla Data Logger"
-  ],
-  "categories": [
-    "Monitoring-Tools",
-    "Smart-Home"
-  ],
-  "update": {
-    "timestamp": "2024-10-20T17:24:03Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "Tesla Data Logger"
+    ],
+    "categories": [
+        "Analytics-&-Monitoring",
+        "Home-Automation"
+    ],
+    "update": {
+        "timestamp": "2024-10-20T17:24:03Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
+    },
+    "colors": {
+        "dark": "teslamate",
+        "light": "teslamate-light"
     }
-  },
-  "colors": {
-    "dark": "teslamate",
-    "light": "teslamate-light"
-  }
 }

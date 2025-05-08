@@ -1,17 +1,17 @@
 {
-  "base": "svg",
-  "aliases": [
-    "finamp-music-player",
-    "android-music-player"
-  ],
-  "categories": [
-    "Music-Streaming"
-  ],
-  "update": {
-    "timestamp": "2024-10-13T20:39:18Z",
-    "author": {
-      "id": 72495210,
-      "name": "v3DJG6GL"
+    "base": "svg",
+    "aliases": [
+        "finamp-music-player",
+        "android-music-player"
+    ],
+    "categories": [
+        "Streaming"
+    ],
+    "update": {
+        "timestamp": "2024-10-13T20:39:18Z",
+        "author": {
+            "id": 72495210,
+            "name": "v3DJG6GL"
+        }
     }
-  }
 }

@@ -1,21 +1,21 @@
 {
-  "base": "svg",
-  "aliases": [
-    "gpt-api",
-    "artificial-intelligence-api"
-  ],
-  "categories": [
-    "AI-&-LLM-Platforms"
-  ],
-  "update": {
-    "timestamp": "2024-10-20T17:24:03Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "gpt-api",
+        "artificial-intelligence-api"
+    ],
+    "categories": [
+        "AI"
+    ],
+    "update": {
+        "timestamp": "2024-10-20T17:24:03Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
+    },
+    "colors": {
+        "dark": "openai",
+        "light": "openai-light"
     }
-  },
-  "colors": {
-    "dark": "openai",
-    "light": "openai-light"
-  }
 }

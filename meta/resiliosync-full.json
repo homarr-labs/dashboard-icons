@@ -1,21 +1,21 @@
 {
-  "base": "svg",
-  "aliases": [
-    "resilio-sync",
-    "btsync"
-  ],
-  "categories": [
-    "File-Sharing-&-Sync"
-  ],
-  "update": {
-    "timestamp": "2025-02-15T17:10:45.502368",
-    "author": {
-      "id": 63781622,
-      "login": "Meierschlumpf"
+    "base": "svg",
+    "aliases": [
+        "resilio-sync",
+        "btsync"
+    ],
+    "categories": [
+        "File-Management-&-Sync"
+    ],
+    "update": {
+        "timestamp": "2025-02-15T17:10:45.502368",
+        "author": {
+            "id": 63781622,
+            "login": "Meierschlumpf"
+        }
+    },
+    "colors": {
+        "light": "resiliosync-full",
+        "dark": "resiliosync-full-dark"
     }
-  },
-  "colors": {
-    "light": "resiliosync-full",
-    "dark": "resiliosync-full-dark"
-  }
 }

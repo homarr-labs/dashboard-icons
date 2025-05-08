@@ -1,22 +1,22 @@
 {
-  "base": "png",
-  "aliases": [
-    "Router Firmware"
-  ],
-  "categories": [
-    "Operating-Systems",
-    "Networking-Tools",
-    "Linux-Distributions"
-  ],
-  "update": {
-    "timestamp": "2025-01-07T17:54:03Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "png",
+    "aliases": [
+        "Router Firmware"
+    ],
+    "categories": [
+        "Linux-Distributions",
+        "Networking",
+        "Operating-Systems"
+    ],
+    "update": {
+        "timestamp": "2025-01-07T17:54:03Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
+    },
+    "colors": {
+        "dark": "dd-wrt",
+        "light": "dd-wrt-light"
     }
-  },
-  "colors": {
-    "dark": "dd-wrt",
-    "light": "dd-wrt-light"
-  }
 }

@@ -1,17 +1,17 @@
 {
-  "base": "svg",
-  "aliases": [
-    "3D Printing Monitor"
-  ],
-  "categories": [
-    "Hardware",
-    "Home-Automation"
-  ],
-  "update": {
-    "timestamp": "2022-09-26T20:02:39Z",
-    "author": {
-      "id": 575387,
-      "name": "lostage"
+    "base": "svg",
+    "aliases": [
+        "3D Printing Monitor"
+    ],
+    "categories": [
+        "Hardware",
+        "Home-Automation"
+    ],
+    "update": {
+        "timestamp": "2022-09-26T20:02:39Z",
+        "author": {
+            "id": 575387,
+            "name": "lostage"
+        }
     }
-  }
 }

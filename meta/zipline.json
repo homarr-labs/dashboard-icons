@@ -1,22 +1,22 @@
 {
-  "base": "svg",
-  "aliases": [
-    "youtube-privacy-frontend",
-    "ad-free-youtube-player"
-  ],
-  "categories": [
-    "Video-Streaming",
-    "Web-Browsers"
-  ],
-  "update": {
-    "timestamp": "2024-10-20T17:24:03Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "youtube-privacy-frontend",
+        "ad-free-youtube-player"
+    ],
+    "categories": [
+        "Browsers-&-Search",
+        "Streaming"
+    ],
+    "update": {
+        "timestamp": "2024-10-20T17:24:03Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
+    },
+    "colors": {
+        "dark": "zipline",
+        "light": "zipline-light"
     }
-  },
-  "colors": {
-    "dark": "zipline",
-    "light": "zipline-light"
-  }
 }

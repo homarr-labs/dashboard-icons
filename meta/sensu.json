@@ -1,18 +1,18 @@
 {
-  "base": "svg",
-  "aliases": [
-    "infrastructure-monitoring",
-    "server-monitoring"
-  ],
-  "categories": [
-    "Monitoring-Tools",
-    "Networking-Tools"
-  ],
-  "update": {
-    "timestamp": "2023-04-13T13:56:18Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "infrastructure-monitoring",
+        "server-monitoring"
+    ],
+    "categories": [
+        "Analytics-&-Monitoring",
+        "Networking"
+    ],
+    "update": {
+        "timestamp": "2023-04-13T13:56:18Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
     }
-  }
 }

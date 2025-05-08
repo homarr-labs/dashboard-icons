@@ -1,18 +1,18 @@
 {
-  "base": "svg",
-  "aliases": [
-    "postgres-backup-manager",
-    "database-backup-ui"
-  ],
-  "categories": [
-    "Databases",
-    "Developer-Tools"
-  ],
-  "update": {
-    "timestamp": "2024-10-20T17:24:03Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "postgres-backup-manager",
+        "database-backup-ui"
+    ],
+    "categories": [
+        "Databases",
+        "Development"
+    ],
+    "update": {
+        "timestamp": "2024-10-20T17:24:03Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
     }
-  }
 }

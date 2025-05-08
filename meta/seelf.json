@@ -1,16 +1,16 @@
 {
-  "base": "svg",
-  "aliases": [
-    "Social Network"
-  ],
-  "categories": [
-    "Social-Media"
-  ],
-  "update": {
-    "timestamp": "2024-10-20T17:24:03Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "Social Network"
+    ],
+    "categories": [
+        "Community-&-Social"
+    ],
+    "update": {
+        "timestamp": "2024-10-20T17:24:03Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
     }
-  }
 }

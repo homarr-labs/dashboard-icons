@@ -1,16 +1,16 @@
 {
-  "base": "svg",
-  "aliases": [],
-  "categories": [],
-  "update": {
-    "timestamp": "2025-01-05T15:58:55Z",
-    "author": {
-      "id": 1081566,
-      "name": "marcaurele"
+    "base": "svg",
+    "aliases": [],
+    "categories": [],
+    "update": {
+        "timestamp": "2025-01-05T15:58:55Z",
+        "author": {
+            "id": 1081566,
+            "name": "marcaurele"
+        }
+    },
+    "colors": {
+        "dark": "lyrion-dark",
+        "light": "lyrion"
     }
-  },
-  "colors": {
-    "dark": "lyrion-dark",
-    "light": "lyrion"
-  }
 }

@@ -1,21 +1,21 @@
 {
-  "base": "svg",
-  "aliases": [
-    "Cloud Storage"
-  ],
-  "categories": [
-    "Cloud-Computing",
-    "File-Sharing-&-Sync"
-  ],
-  "update": {
-    "timestamp": "2024-10-20T17:24:03Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "Cloud Storage"
+    ],
+    "categories": [
+        "Cloud-&-Hosting",
+        "File-Management-&-Sync"
+    ],
+    "update": {
+        "timestamp": "2024-10-20T17:24:03Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
+    },
+    "colors": {
+        "dark": "mega-nz-dark",
+        "light": "mega-nz"
     }
-  },
-  "colors": {
-    "dark": "mega-nz-dark",
-    "light": "mega-nz"
-  }
 }

@@ -1,22 +1,22 @@
 {
-  "base": "svg",
-  "aliases": [
-    "webmail-app",
-    "browser-based-email"
-  ],
-  "categories": [
-    "Email-Providers",
-    "Web-Browsers"
-  ],
-  "update": {
-    "timestamp": "2024-10-20T17:24:03Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "webmail-app",
+        "browser-based-email"
+    ],
+    "categories": [
+        "Browsers-&-Search",
+        "Email-Providers"
+    ],
+    "update": {
+        "timestamp": "2024-10-20T17:24:03Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
+    },
+    "colors": {
+        "dark": "snappymail",
+        "light": "snappymail-light"
     }
-  },
-  "colors": {
-    "dark": "snappymail",
-    "light": "snappymail-light"
-  }
 }

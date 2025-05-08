@@ -1,21 +1,21 @@
 {
-  "base": "svg",
-  "aliases": [
-    "Identity Management"
-  ],
-  "categories": [
-    "Security",
-    "Developer-Tools"
-  ],
-  "update": {
-    "timestamp": "2024-10-20T17:24:03Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "Identity Management"
+    ],
+    "categories": [
+        "Development",
+        "Security"
+    ],
+    "update": {
+        "timestamp": "2024-10-20T17:24:03Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
+    },
+    "colors": {
+        "dark": "zitadel",
+        "light": "zitadel-light"
     }
-  },
-  "colors": {
-    "dark": "zitadel",
-    "light": "zitadel-light"
-  }
 }

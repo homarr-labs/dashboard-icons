@@ -1,22 +1,22 @@
 {
-  "base": "svg",
-  "aliases": [
-    "budget-manager",
-    "personal-finance"
-  ],
-  "categories": [
-    "Finance-&-Banking",
-    "Note-taking-Apps"
-  ],
-  "update": {
-    "timestamp": "2024-10-20T17:24:03Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "budget-manager",
+        "personal-finance"
+    ],
+    "categories": [
+        "Finance",
+        "Notes-&-Productivity"
+    ],
+    "update": {
+        "timestamp": "2024-10-20T17:24:03Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
+    },
+    "colors": {
+        "dark": "budgetbee",
+        "light": "budgetbee-light"
     }
-  },
-  "colors": {
-    "dark": "budgetbee",
-    "light": "budgetbee-light"
-  }
 }

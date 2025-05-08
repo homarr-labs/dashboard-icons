@@ -1,17 +1,17 @@
 {
-  "base": "svg",
-  "aliases": [
-    "LDAP Server"
-  ],
-  "categories": [
-    "Networking-Tools",
-    "Server-Panels"
-  ],
-  "update": {
-    "timestamp": "2024-10-20T17:24:03Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "LDAP Server"
+    ],
+    "categories": [
+        "Infrastructure",
+        "Networking"
+    ],
+    "update": {
+        "timestamp": "2024-10-20T17:24:03Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
     }
-  }
 }

@@ -1,16 +1,16 @@
 {
-  "base": "svg",
-  "aliases": [],
-  "categories": [],
-  "update": {
-    "timestamp": "2025-01-05T02:18:29Z",
-    "author": {
-      "id": 1522389,
-      "name": "stuntguy3000"
+    "base": "svg",
+    "aliases": [],
+    "categories": [],
+    "update": {
+        "timestamp": "2025-01-05T02:18:29Z",
+        "author": {
+            "id": 1522389,
+            "name": "stuntguy3000"
+        }
+    },
+    "colors": {
+        "dark": "pgbackweb-dark",
+        "light": "pgbackweb-light"
     }
-  },
-  "colors": {
-    "dark": "pgbackweb-dark",
-    "light": "pgbackweb-light"
-  }
 }

@@ -1,17 +1,16 @@
 {
-  "base": "png",
-  "aliases": [
-    "Task Manager"
-  ],
-  "categories": [
-    "Office-Suites",
-    "Note-taking-Apps"
-  ],
-  "update": {
-    "timestamp": "2025-01-07T17:54:03Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "png",
+    "aliases": [
+        "Task Manager"
+    ],
+    "categories": [
+        "Notes-&-Productivity"
+    ],
+    "update": {
+        "timestamp": "2025-01-07T17:54:03Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
     }
-  }
 }

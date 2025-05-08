@@ -1,15 +1,15 @@
 {
-  "base": "png",
-  "aliases": [],
-  "categories": [
-    "Monitoring-Tools",
-    "Security"
-  ],
-  "update": {
-    "timestamp": "2025-01-07T17:54:03Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "png",
+    "aliases": [],
+    "categories": [
+        "Analytics-&-Monitoring",
+        "Security"
+    ],
+    "update": {
+        "timestamp": "2025-01-07T17:54:03Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
     }
-  }
 }

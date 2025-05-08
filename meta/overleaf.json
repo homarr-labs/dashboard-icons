@@ -1,18 +1,18 @@
 {
-  "base": "svg",
-  "aliases": [
-    "online-latex",
-    "collaborative-latex"
-  ],
-  "categories": [
-    "Developer-Tools",
-    "Office-Suites"
-  ],
-  "update": {
-    "timestamp": "2024-06-01T18:03:26Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "online-latex",
+        "collaborative-latex"
+    ],
+    "categories": [
+        "Development",
+        "Notes-&-Productivity"
+    ],
+    "update": {
+        "timestamp": "2024-06-01T18:03:26Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
     }
-  }
 }

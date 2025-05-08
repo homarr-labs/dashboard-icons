@@ -1,18 +1,18 @@
 {
-  "base": "svg",
-  "aliases": [
-    "K8s"
-  ],
-  "categories": [
-    "Containerization-&-Orchestration",
-    "Developer-Tools",
-    "Cloud-Computing"
-  ],
-  "update": {
-    "timestamp": "2022-08-16T17:22:56Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "K8s"
+    ],
+    "categories": [
+        "Cloud-&-Hosting",
+        "Development",
+        "Infrastructure"
+    ],
+    "update": {
+        "timestamp": "2022-08-16T17:22:56Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
     }
-  }
 }

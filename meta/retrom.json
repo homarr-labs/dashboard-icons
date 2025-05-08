@@ -1,16 +1,16 @@
 {
-  "base": "svg",
-  "aliases": [
-    "Game Launcher"
-  ],
-  "categories": [
-    "Gaming-Platforms"
-  ],
-  "update": {
-    "timestamp": "2025-04-09T12:11:10.533446",
-    "author": {
-      "id": 150545,
-      "login": "ajgon"
+    "base": "svg",
+    "aliases": [
+        "Game Launcher"
+    ],
+    "categories": [
+        "Gaming-Platforms"
+    ],
+    "update": {
+        "timestamp": "2025-04-09T12:11:10.533446",
+        "author": {
+            "id": 150545,
+            "login": "ajgon"
+        }
     }
-  }
 }

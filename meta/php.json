@@ -1,19 +1,19 @@
 {
-  "base": "svg",
-  "aliases": [],
-  "categories": [
-    "Programming-Languages",
-    "Developer-Tools"
-  ],
-  "update": {
-    "timestamp": "2024-10-20T17:24:03Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [],
+    "categories": [
+        "Development",
+        "Programming-Languages"
+    ],
+    "update": {
+        "timestamp": "2024-10-20T17:24:03Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
+    },
+    "colors": {
+        "dark": "php",
+        "light": "php-light"
     }
-  },
-  "colors": {
-    "dark": "php",
-    "light": "php-light"
-  }
 }

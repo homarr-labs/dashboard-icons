@@ -1,21 +1,20 @@
 {
-  "base": "svg",
-  "aliases": [
-    "Habit Tracker"
-  ],
-  "categories": [
-    "Note-taking-Apps",
-    "Office-Suites"
-  ],
-  "update": {
-    "timestamp": "2024-10-20T17:24:03Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "Habit Tracker"
+    ],
+    "categories": [
+        "Notes-&-Productivity"
+    ],
+    "update": {
+        "timestamp": "2024-10-20T17:24:03Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
+    },
+    "colors": {
+        "dark": "beaver-habit-tracker",
+        "light": "beaver-habit-tracker-light"
     }
-  },
-  "colors": {
-    "dark": "beaver-habit-tracker",
-    "light": "beaver-habit-tracker-light"
-  }
 }

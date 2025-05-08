@@ -1,16 +1,16 @@
 {
-  "base": "svg",
-  "aliases": [],
-  "categories": [],
-  "update": {
-    "timestamp": "2025-04-08T16:31:49.112782",
-    "author": {
-      "id": 89823371,
-      "login": "0xSolanaceae"
+    "base": "svg",
+    "aliases": [],
+    "categories": [],
+    "update": {
+        "timestamp": "2025-04-08T16:31:49.112782",
+        "author": {
+            "id": 89823371,
+            "login": "0xSolanaceae"
+        }
+    },
+    "colors": {
+        "light": "pikvm-light",
+        "dark": "pikvm"
     }
-  },
-  "colors": {
-    "light": "pikvm-light",
-    "dark": "pikvm"
-  }
 }

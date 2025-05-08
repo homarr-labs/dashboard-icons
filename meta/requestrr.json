@@ -1,17 +1,17 @@
 {
-  "base": "svg",
-  "aliases": [
-    "plex-requests",
-    "jellyfin-requests"
-  ],
-  "categories": [
-    "Media-Servers"
-  ],
-  "update": {
-    "timestamp": "2023-04-13T13:56:18Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "plex-requests",
+        "jellyfin-requests"
+    ],
+    "categories": [
+        "Streaming"
+    ],
+    "update": {
+        "timestamp": "2023-04-13T13:56:18Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
     }
-  }
 }

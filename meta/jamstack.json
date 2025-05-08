@@ -1,17 +1,17 @@
 {
-  "base": "svg",
-  "aliases": [
-    "static-site-generator",
-    "modern-web-dev"
-  ],
-  "categories": [
-    "Developer-Tools"
-  ],
-  "update": {
-    "timestamp": "2023-04-13T20:27:58",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "static-site-generator",
+        "modern-web-dev"
+    ],
+    "categories": [
+        "Development"
+    ],
+    "update": {
+        "timestamp": "2023-04-13T20:27:58",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
     }
-  }
 }

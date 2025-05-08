@@ -1,22 +1,22 @@
 {
-  "base": "png",
-  "aliases": [
-    "image-ai",
-    "text-to-image"
-  ],
-  "categories": [
-    "AI-&-LLM-Platforms",
-    "Graphics-Editors"
-  ],
-  "update": {
-    "timestamp": "2025-01-07T17:54:03Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "png",
+    "aliases": [
+        "image-ai",
+        "text-to-image"
+    ],
+    "categories": [
+        "AI",
+        "Graphics-Editors"
+    ],
+    "update": {
+        "timestamp": "2025-01-07T17:54:03Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
+    },
+    "colors": {
+        "dark": "midjourney",
+        "light": "midjourney-light"
     }
-  },
-  "colors": {
-    "dark": "midjourney",
-    "light": "midjourney-light"
-  }
 }

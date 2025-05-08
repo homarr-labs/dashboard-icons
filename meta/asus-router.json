@@ -1,17 +1,17 @@
 {
-  "base": "svg",
-  "aliases": [
-    "Router"
-  ],
-  "categories": [
-    "Networking-Tools",
-    "Smart-Home"
-  ],
-  "update": {
-    "timestamp": "2023-04-16T12:26:21Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "Router"
+    ],
+    "categories": [
+        "Home-Automation",
+        "Networking"
+    ],
+    "update": {
+        "timestamp": "2023-04-16T12:26:21Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
     }
-  }
 }

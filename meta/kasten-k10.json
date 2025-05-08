@@ -1,17 +1,17 @@
 {
-  "base": "svg",
-  "aliases": [
-    "Kubernetes Backup"
-  ],
-  "categories": [
-    "Containerization-&-Orchestration",
-    "Developer-Tools"
-  ],
-  "update": {
-    "timestamp": "2023-08-10T08:28:08Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "Kubernetes Backup"
+    ],
+    "categories": [
+        "Development",
+        "Infrastructure"
+    ],
+    "update": {
+        "timestamp": "2023-08-10T08:28:08Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
     }
-  }
 }

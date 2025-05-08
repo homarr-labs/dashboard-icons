@@ -1,17 +1,17 @@
 {
-  "base": "svg",
-  "aliases": [
-    "Torrent Client"
-  ],
-  "categories": [
-    "Download-Managers",
-    "File-Sharing-&-Sync"
-  ],
-  "update": {
-    "timestamp": "2023-04-13T13:56:18Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "Torrent Client"
+    ],
+    "categories": [
+        "Downloaders",
+        "File-Management-&-Sync"
+    ],
+    "update": {
+        "timestamp": "2023-04-13T13:56:18Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
     }
-  }
 }

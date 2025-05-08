@@ -1,17 +1,17 @@
 {
-  "base": "svg",
-  "aliases": [
-    "Backend as a Service"
-  ],
-  "categories": [
-    "Cloud-Computing",
-    "Developer-Tools"
-  ],
-  "update": {
-    "timestamp": "2023-09-11T09:55:09Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "Backend as a Service"
+    ],
+    "categories": [
+        "Cloud-&-Hosting",
+        "Development"
+    ],
+    "update": {
+        "timestamp": "2023-09-11T09:55:09Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
     }
-  }
 }

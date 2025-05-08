@@ -1,17 +1,17 @@
 {
-  "base": "svg",
-  "aliases": [
-    "youtube-dl-gui",
-    "video-downloader"
-  ],
-  "categories": [
-    "Download-Managers"
-  ],
-  "update": {
-    "timestamp": "2023-04-13T13:56:18Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "youtube-dl-gui",
+        "video-downloader"
+    ],
+    "categories": [
+        "Downloaders"
+    ],
+    "update": {
+        "timestamp": "2023-04-13T13:56:18Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
     }
-  }
 }

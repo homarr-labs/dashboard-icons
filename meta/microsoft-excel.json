@@ -1,17 +1,17 @@
 {
-  "base": "svg",
-  "aliases": [
-    "excel",
-    "spreadsheet-editor"
-  ],
-  "categories": [
-    "Office-Suites"
-  ],
-  "update": {
-    "timestamp": "2024-10-20T17:24:03Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "excel",
+        "spreadsheet-editor"
+    ],
+    "categories": [
+        "Notes-&-Productivity"
+    ],
+    "update": {
+        "timestamp": "2024-10-20T17:24:03Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
     }
-  }
 }

@@ -1,18 +1,18 @@
 {
-  "base": "png",
-  "aliases": [
-    "security-scanner",
-    "container-scanner"
-  ],
-  "categories": [
-    "Security",
-    "Developer-Tools"
-  ],
-  "update": {
-    "timestamp": "2025-01-07T17:54:03Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "png",
+    "aliases": [
+        "security-scanner",
+        "container-scanner"
+    ],
+    "categories": [
+        "Development",
+        "Security"
+    ],
+    "update": {
+        "timestamp": "2025-01-07T17:54:03Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
     }
-  }
 }

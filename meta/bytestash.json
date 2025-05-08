@@ -1,17 +1,17 @@
 {
-  "base": "svg",
-  "aliases": [
-    "File Uploader"
-  ],
-  "categories": [
-    "File-Sharing-&-Sync",
-    "Developer-Tools"
-  ],
-  "update": {
-    "timestamp": "2025-01-05T01:06:46Z",
-    "author": {
-      "id": 1522389,
-      "name": "stuntguy3000"
+    "base": "svg",
+    "aliases": [
+        "File Uploader"
+    ],
+    "categories": [
+        "Development",
+        "File-Management-&-Sync"
+    ],
+    "update": {
+        "timestamp": "2025-01-05T01:06:46Z",
+        "author": {
+            "id": 1522389,
+            "name": "stuntguy3000"
+        }
     }
-  }
 }

@@ -1,21 +1,21 @@
 {
-  "base": "svg",
-  "aliases": [
-    "link-shortener",
-    "custom-url-generator"
-  ],
-  "categories": [
-    "Networking-Tools"
-  ],
-  "update": {
-    "timestamp": "2024-10-20T17:24:03Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "link-shortener",
+        "custom-url-generator"
+    ],
+    "categories": [
+        "Networking"
+    ],
+    "update": {
+        "timestamp": "2024-10-20T17:24:03Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
+    },
+    "colors": {
+        "dark": "hatsh",
+        "light": "hatsh-light"
     }
-  },
-  "colors": {
-    "dark": "hatsh",
-    "light": "hatsh-light"
-  }
 }

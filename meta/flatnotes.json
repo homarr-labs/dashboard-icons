@@ -1,17 +1,17 @@
 {
-  "base": "svg",
-  "aliases": [
-    "markdown-notes",
-    "plain-text-notes"
-  ],
-  "categories": [
-    "Note-taking-Apps"
-  ],
-  "update": {
-    "timestamp": "2024-10-20T17:24:03Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "markdown-notes",
+        "plain-text-notes"
+    ],
+    "categories": [
+        "Notes-&-Productivity"
+    ],
+    "update": {
+        "timestamp": "2024-10-20T17:24:03Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
     }
-  }
 }

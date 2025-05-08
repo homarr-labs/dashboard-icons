@@ -1,15 +1,15 @@
 {
-  "base": "svg",
-  "aliases": [],
-  "categories": [
-    "Operating-Systems",
-    "Linux-Distributions"
-  ],
-  "update": {
-    "timestamp": "2024-10-20T17:24:03Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [],
+    "categories": [
+        "Operating-Systems",
+        "Linux-Distributions"
+    ],
+    "update": {
+        "timestamp": "2024-10-20T17:24:03Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
     }
-  }
 }

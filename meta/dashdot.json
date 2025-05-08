@@ -1,17 +1,17 @@
 {
-  "base": "png",
-  "aliases": [
-    "Server Dashboard"
-  ],
-  "categories": [
-    "Monitoring-Tools",
-    "Server-Panels"
-  ],
-  "update": {
-    "timestamp": "2025-01-07T17:54:03Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "png",
+    "aliases": [
+        "Server Dashboard"
+    ],
+    "categories": [
+        "Analytics-&-Monitoring",
+        "Infrastructure"
+    ],
+    "update": {
+        "timestamp": "2025-01-07T17:54:03Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
     }
-  }
 }

@@ -1,18 +1,18 @@
 {
-  "base": "svg",
-  "aliases": [
-    "continuous-integration",
-    "build-pipeline"
-  ],
-  "categories": [
-    "Developer-Tools",
-    "Version-Control-Systems"
-  ],
-  "update": {
-    "timestamp": "2022-08-16T17:22:56Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "continuous-integration",
+        "build-pipeline"
+    ],
+    "categories": [
+        "Development",
+        "Version-Control"
+    ],
+    "update": {
+        "timestamp": "2022-08-16T17:22:56Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
     }
-  }
 }

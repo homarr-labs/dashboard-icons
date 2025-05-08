@@ -1,17 +1,17 @@
 {
-  "base": "svg",
-  "aliases": [
-    "german-tv-replay",
-    "public-broadcasting-archive"
-  ],
-  "categories": [
-    "Video-Streaming"
-  ],
-  "update": {
-    "timestamp": "2022-11-05T12:18:24Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "german-tv-replay",
+        "public-broadcasting-archive"
+    ],
+    "categories": [
+        "Streaming"
+    ],
+    "update": {
+        "timestamp": "2022-11-05T12:18:24Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
     }
-  }
 }

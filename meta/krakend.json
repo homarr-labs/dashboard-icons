@@ -1,18 +1,18 @@
 {
-  "base": "svg",
-  "aliases": [
-    "reverse-proxy",
-    "api-management"
-  ],
-  "categories": [
-    "Developer-Tools",
-    "Networking-Tools"
-  ],
-  "update": {
-    "timestamp": "2024-10-20T17:24:03Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "reverse-proxy",
+        "api-management"
+    ],
+    "categories": [
+        "Development",
+        "Networking"
+    ],
+    "update": {
+        "timestamp": "2024-10-20T17:24:03Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
     }
-  }
 }

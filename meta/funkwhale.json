@@ -1,22 +1,21 @@
 {
-  "base": "svg",
-  "aliases": [
-    "podcasting-platform",
-    "audio-server"
-  ],
-  "categories": [
-    "Media-Servers",
-    "Music-Streaming"
-  ],
-  "update": {
-    "timestamp": "2024-10-20T17:24:03Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "podcasting-platform",
+        "audio-server"
+    ],
+    "categories": [
+        "Streaming"
+    ],
+    "update": {
+        "timestamp": "2024-10-20T17:24:03Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
+    },
+    "colors": {
+        "dark": "funkwhale",
+        "light": "funkwhale-light"
     }
-  },
-  "colors": {
-    "dark": "funkwhale",
-    "light": "funkwhale-light"
-  }
 }

@@ -1,18 +1,18 @@
 {
-  "base": "svg",
-  "aliases": [
-    "digital-signatures",
-    "software-verification"
-  ],
-  "categories": [
-    "Security",
-    "Developer-Tools"
-  ],
-  "update": {
-    "timestamp": "2024-03-21T00:59:33Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "digital-signatures",
+        "software-verification"
+    ],
+    "categories": [
+        "Development",
+        "Security"
+    ],
+    "update": {
+        "timestamp": "2024-03-21T00:59:33Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
     }
-  }
 }

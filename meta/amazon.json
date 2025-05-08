@@ -1,21 +1,21 @@
 {
-  "base": "svg",
-  "aliases": [
-    "online-marketplace",
-    "shopping-website"
-  ],
-  "categories": [
-    "E-commerce-Platforms"
-  ],
-  "update": {
-    "timestamp": "2024-10-20T17:24:03Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "online-marketplace",
+        "shopping-website"
+    ],
+    "categories": [
+        "E-commerce-Platforms"
+    ],
+    "update": {
+        "timestamp": "2024-10-20T17:24:03Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
+    },
+    "colors": {
+        "dark": "amazon",
+        "light": "amazon-light"
     }
-  },
-  "colors": {
-    "dark": "amazon",
-    "light": "amazon-light"
-  }
 }

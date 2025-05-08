@@ -1,18 +1,18 @@
 {
-  "base": "svg",
-  "aliases": [
-    "Authentication Proxy"
-  ],
-  "categories": [
-    "Security",
-    "Networking-Tools",
-    "Developer-Tools"
-  ],
-  "update": {
-    "timestamp": "2025-03-17T15:39:00.007266",
-    "author": {
-      "id": 5345489,
-      "login": "savely-krasovsky"
+    "base": "svg",
+    "aliases": [
+        "Authentication Proxy"
+    ],
+    "categories": [
+        "Development",
+        "Networking",
+        "Security"
+    ],
+    "update": {
+        "timestamp": "2025-03-17T15:39:00.007266",
+        "author": {
+            "id": 5345489,
+            "login": "savely-krasovsky"
+        }
     }
-  }
 }

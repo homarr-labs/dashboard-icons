@@ -1,17 +1,17 @@
 {
-  "base": "svg",
-  "aliases": [
-    "ebook-library",
-    "book-converter"
-  ],
-  "categories": [
-    "Media-Servers"
-  ],
-  "update": {
-    "timestamp": "2023-04-13T20:27:58",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "ebook-library",
+        "book-converter"
+    ],
+    "categories": [
+        "Streaming"
+    ],
+    "update": {
+        "timestamp": "2023-04-13T20:27:58",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
     }
-  }
 }

@@ -1,17 +1,17 @@
 {
-  "base": "svg",
-  "aliases": [
-    "Messaging App"
-  ],
-  "categories": [
-    "Social-Media",
-    "Security"
-  ],
-  "update": {
-    "timestamp": "2023-09-16T20:31:13Z",
-    "author": {
-      "id": 72495210,
-      "name": "v3DJG6GL"
+    "base": "svg",
+    "aliases": [
+        "Messaging App"
+    ],
+    "categories": [
+        "Community-&-Social",
+        "Security"
+    ],
+    "update": {
+        "timestamp": "2023-09-16T20:31:13Z",
+        "author": {
+            "id": 72495210,
+            "name": "v3DJG6GL"
+        }
     }
-  }
 }

@@ -1,22 +1,22 @@
 {
-  "base": "svg",
-  "aliases": [
-    "bash-scripting",
-    "command-line-scripting"
-  ],
-  "categories": [
-    "Developer-Tools",
-    "Operating-Systems"
-  ],
-  "update": {
-    "timestamp": "2024-10-20T17:24:03Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "bash-scripting",
+        "command-line-scripting"
+    ],
+    "categories": [
+        "Development",
+        "Operating-Systems"
+    ],
+    "update": {
+        "timestamp": "2024-10-20T17:24:03Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
+    },
+    "colors": {
+        "dark": "shell",
+        "light": "shell-light"
     }
-  },
-  "colors": {
-    "dark": "shell",
-    "light": "shell-light"
-  }
 }

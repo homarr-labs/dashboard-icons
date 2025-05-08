@@ -1,18 +1,18 @@
 {
-  "base": "svg",
-  "aliases": [
-    "mqtt-server",
-    "iot-broker"
-  ],
-  "categories": [
-    "Networking-Tools",
-    "Home-Automation"
-  ],
-  "update": {
-    "timestamp": "2024-10-20T17:24:03Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "mqtt-server",
+        "iot-broker"
+    ],
+    "categories": [
+        "Home-Automation",
+        "Networking"
+    ],
+    "update": {
+        "timestamp": "2024-10-20T17:24:03Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
     }
-  }
 }

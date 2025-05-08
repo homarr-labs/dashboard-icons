@@ -1,21 +1,21 @@
 {
-  "base": "svg",
-  "aliases": [
-    "EDMS"
-  ],
-  "categories": [
-    "Office-Suites",
-    "File-Sharing-&-Sync"
-  ],
-  "update": {
-    "timestamp": "2024-10-20T17:24:03Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "EDMS"
+    ],
+    "categories": [
+        "File-Management-&-Sync",
+        "Notes-&-Productivity"
+    ],
+    "update": {
+        "timestamp": "2024-10-20T17:24:03Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
+    },
+    "colors": {
+        "dark": "mayan-edms",
+        "light": "mayan-edms-light"
     }
-  },
-  "colors": {
-    "dark": "mayan-edms",
-    "light": "mayan-edms-light"
-  }
 }

@@ -1,21 +1,21 @@
 {
-  "base": "svg",
-  "aliases": [
-    "File Transfer"
-  ],
-  "categories": [
-    "File-Sharing-&-Sync",
-    "Cloud-Computing"
-  ],
-  "update": {
-    "timestamp": "2025-02-07T08:47:33Z",
-    "author": {
-      "id": 129796456,
-      "name": "beppeilgommista"
+    "base": "svg",
+    "aliases": [
+        "File Transfer"
+    ],
+    "categories": [
+        "Cloud-&-Hosting",
+        "File-Management-&-Sync"
+    ],
+    "update": {
+        "timestamp": "2025-02-07T08:47:33Z",
+        "author": {
+            "id": 129796456,
+            "name": "beppeilgommista"
+        }
+    },
+    "colors": {
+        "dark": "infomaniak-swisstransfer-dark",
+        "light": "infomaniak-swisstransfer-light"
     }
-  },
-  "colors": {
-    "dark": "infomaniak-swisstransfer-dark",
-    "light": "infomaniak-swisstransfer-light"
-  }
 }

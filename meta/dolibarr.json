@@ -1,18 +1,18 @@
 {
-  "base": "png",
-  "aliases": [
-    "ERP",
-    "CRM"
-  ],
-  "categories": [
-    "Office-Suites",
-    "E-commerce-Platforms"
-  ],
-  "update": {
-    "timestamp": "2025-01-07T17:54:03Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "png",
+    "aliases": [
+        "ERP",
+        "CRM"
+    ],
+    "categories": [
+        "E-commerce-Platforms",
+        "Notes-&-Productivity"
+    ],
+    "update": {
+        "timestamp": "2025-01-07T17:54:03Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
     }
-  }
 }

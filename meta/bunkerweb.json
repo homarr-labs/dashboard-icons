@@ -1,18 +1,18 @@
 {
-  "base": "svg",
-  "aliases": [
-    "Reverse Proxy"
-  ],
-  "categories": [
-    "Networking-Tools",
-    "Server-Panels",
-    "Security"
-  ],
-  "update": {
-    "timestamp": "2024-06-01T17:44:17Z",
-    "author": {
-      "id": 9982795,
-      "name": "DocKob"
+    "base": "svg",
+    "aliases": [
+        "Reverse Proxy"
+    ],
+    "categories": [
+        "Infrastructure",
+        "Networking",
+        "Security"
+    ],
+    "update": {
+        "timestamp": "2024-06-01T17:44:17Z",
+        "author": {
+            "id": 9982795,
+            "name": "DocKob"
+        }
     }
-  }
 }

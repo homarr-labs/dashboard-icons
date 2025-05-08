@@ -1,18 +1,18 @@
 {
-  "base": "png",
-  "aliases": [
-    "minecraft-server-script",
-    "game-server-automation"
-  ],
-  "categories": [
-    "Gaming-Platforms",
-    "Home-Automation"
-  ],
-  "update": {
-    "timestamp": "2025-03-24T19:26:25.573313",
-    "author": {
-      "id": 48109134,
-      "login": "jdcool00"
+    "base": "png",
+    "aliases": [
+        "minecraft-server-script",
+        "game-server-automation"
+    ],
+    "categories": [
+        "Gaming-Platforms",
+        "Home-Automation"
+    ],
+    "update": {
+        "timestamp": "2025-03-24T19:26:25.573313",
+        "author": {
+            "id": 48109134,
+            "login": "jdcool00"
+        }
     }
-  }
 }

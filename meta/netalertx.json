@@ -1,22 +1,22 @@
 {
-  "base": "svg",
-  "aliases": [
-    "network-monitor",
-    "alerting-system"
-  ],
-  "categories": [
-    "Monitoring-Tools",
-    "Networking-Tools"
-  ],
-  "update": {
-    "timestamp": "2024-10-20T17:24:03Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "network-monitor",
+        "alerting-system"
+    ],
+    "categories": [
+        "Analytics-&-Monitoring",
+        "Networking"
+    ],
+    "update": {
+        "timestamp": "2024-10-20T17:24:03Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
+    },
+    "colors": {
+        "dark": "netalertx",
+        "light": "netalertx-light"
     }
-  },
-  "colors": {
-    "dark": "netalertx",
-    "light": "netalertx-light"
-  }
 }

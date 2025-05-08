@@ -37,6 +37,58 @@ jobs:
         run: echo "ISSUE_FORM=$(python scripts/parse_issue_form.py)" >> "$GITHUB_OUTPUT"
         env:
           INPUT_ISSUE_BODY: ${{ github.event.issue.body }}
+      - name: Validate Categories
+        run: |
+          import json
+          import sys
+          import os
+
+          # Load allowed categories from metadata.map.json
+          map_file = "metadata.map.json"
+          try:
+              with open(map_file, 'r', encoding='utf-8') as f:
+                  map_data = json.load(f)
+              # Assuming the first key in the map holds the example structure
+              example_key = list(map_data.keys())[0]
+              allowed_categories = set(map_data[example_key]['categories'])
+              print(f"Loaded {len(allowed_categories)} allowed categories from {map_file}")
+          except Exception as e:
+              print(f"::error file={map_file}::Failed to load or parse allowed categories from {map_file}: {e}")
+              sys.exit(1)
+
+          # Load submitted form data
+          form_json_string = os.environ.get('INPUT_ISSUE_FORM')
+          if not form_json_string:
+            print("::error::Failed to get form JSON from environment variable.")
+            sys.exit(1)
+
+          try:
+              form_data = json.loads(form_json_string)
+          except json.JSONDecodeError as e:
+              print(f"::error::Failed to parse form JSON: {e}")
+              print(f"Form JSON string was: {form_json_string}")
+              sys.exit(1)
+
+          # Extract submitted categories (handle potential missing key or None value)
+          submitted_categories_str = form_data.get('Categories') # Label from issue form
+          submitted_categories = set()
+          if submitted_categories_str:
+              submitted_categories = set(cat.strip() for cat in submitted_categories_str.split('\\n') if cat.strip())
+
+          print(f"Submitted categories: {submitted_categories or 'None'}")
+
+          # Validate
+          invalid_categories = submitted_categories - allowed_categories
+
+          if invalid_categories:
+              print(f"::error::Invalid categories found: {', '.join(sorted(list(invalid_categories)))}")
+              print("Please ensure all submitted categories exist in metadata.map.json.")
+              sys.exit(1)
+          else:
+              print("All submitted categories are valid.")
+
+        env:
+          INPUT_ISSUE_FORM: ${{ steps.parse_issue_form.outputs.ISSUE_FORM }}
       - name: Create metadata file
         run: python scripts/generate_metadata_file.py ${{ env.ICON_TYPE }} addition
         env:

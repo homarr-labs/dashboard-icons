@@ -1,18 +1,18 @@
 {
-  "base": "svg",
-  "aliases": [
-    "ipmi-tool",
-    "server-remote-management"
-  ],
-  "categories": [
-    "Server-Panels",
-    "Hardware"
-  ],
-  "update": {
-    "timestamp": "2024-10-20T19:32:46Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "ipmi-tool",
+        "server-remote-management"
+    ],
+    "categories": [
+        "Hardware",
+        "Infrastructure"
+    ],
+    "update": {
+        "timestamp": "2024-10-20T19:32:46Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
     }
-  }
 }

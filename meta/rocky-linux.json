@@ -1,17 +1,17 @@
 {
-  "base": "svg",
-  "aliases": [
-    "Linux Distribution"
-  ],
-  "categories": [
-    "Operating-Systems",
-    "Linux-Distributions"
-  ],
-  "update": {
-    "timestamp": "2023-04-13T13:56:18Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "Linux Distribution"
+    ],
+    "categories": [
+        "Operating-Systems",
+        "Linux-Distributions"
+    ],
+    "update": {
+        "timestamp": "2023-04-13T13:56:18Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
     }
-  }
 }

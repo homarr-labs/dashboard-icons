@@ -1,18 +1,17 @@
 {
-  "base": "svg",
-  "aliases": [
-    "audio-streaming-server",
-    "internet-radio-server"
-  ],
-  "categories": [
-    "Media-Servers",
-    "Music-Streaming"
-  ],
-  "update": {
-    "timestamp": "2023-04-13T13:56:18Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "audio-streaming-server",
+        "internet-radio-server"
+    ],
+    "categories": [
+        "Streaming"
+    ],
+    "update": {
+        "timestamp": "2023-04-13T13:56:18Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
     }
-  }
 }

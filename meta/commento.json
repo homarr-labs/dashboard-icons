@@ -1,22 +1,22 @@
 {
-  "base": "svg",
-  "aliases": [
-    "website-comments",
-    "embeddable-comments"
-  ],
-  "categories": [
-    "Web-Browsers",
-    "Developer-Tools"
-  ],
-  "update": {
-    "timestamp": "2024-10-20T17:24:03Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "website-comments",
+        "embeddable-comments"
+    ],
+    "categories": [
+        "Browsers-&-Search",
+        "Development"
+    ],
+    "update": {
+        "timestamp": "2024-10-20T17:24:03Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
+    },
+    "colors": {
+        "dark": "commento",
+        "light": "commento-light"
     }
-  },
-  "colors": {
-    "dark": "commento",
-    "light": "commento-light"
-  }
 }

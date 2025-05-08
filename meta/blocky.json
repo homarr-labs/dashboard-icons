@@ -1,18 +1,18 @@
 {
-  "base": "svg",
-  "aliases": [
-    "dns-server",
-    "adblocking-dns"
-  ],
-  "categories": [
-    "Networking-Tools",
-    "Security"
-  ],
-  "update": {
-    "timestamp": "2022-09-12T10:23:51Z",
-    "author": {
-      "id": 15933,
-      "name": "fabricionaweb"
+    "base": "svg",
+    "aliases": [
+        "dns-server",
+        "adblocking-dns"
+    ],
+    "categories": [
+        "Networking",
+        "Security"
+    ],
+    "update": {
+        "timestamp": "2022-09-12T10:23:51Z",
+        "author": {
+            "id": 15933,
+            "name": "fabricionaweb"
+        }
     }
-  }
 }

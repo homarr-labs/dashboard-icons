@@ -1,17 +1,17 @@
 {
-  "base": "png",
-  "aliases": [
-    "ISP Router"
-  ],
-  "categories": [
-    "Networking-Tools",
-    "Smart-Home"
-  ],
-  "update": {
-    "timestamp": "2025-01-07T17:54:03Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "png",
+    "aliases": [
+        "ISP Router"
+    ],
+    "categories": [
+        "Home-Automation",
+        "Networking"
+    ],
+    "update": {
+        "timestamp": "2025-01-07T17:54:03Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
     }
-  }
 }

@@ -1,17 +1,17 @@
 {
-  "base": "svg",
-  "aliases": [
-    "Disk Usage Analyzer"
-  ],
-  "categories": [
-    "File-Sharing-&-Sync",
-    "Monitoring-Tools"
-  ],
-  "update": {
-    "timestamp": "2023-02-26T00:39:22Z",
-    "author": {
-      "id": 1117625,
-      "name": "stevietv"
+    "base": "svg",
+    "aliases": [
+        "Disk Usage Analyzer"
+    ],
+    "categories": [
+        "Analytics-&-Monitoring",
+        "File-Management-&-Sync"
+    ],
+    "update": {
+        "timestamp": "2023-02-26T00:39:22Z",
+        "author": {
+            "id": 1117625,
+            "name": "stevietv"
+        }
     }
-  }
 }

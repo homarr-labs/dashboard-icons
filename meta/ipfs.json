@@ -1,22 +1,22 @@
 {
-  "base": "svg",
-  "aliases": [
-    "Decentralized Storage"
-  ],
-  "categories": [
-    "File-Sharing-&-Sync",
-    "Cloud-Computing",
-    "Networking-Tools"
-  ],
-  "update": {
-    "timestamp": "2024-10-20T17:24:03Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "Decentralized Storage"
+    ],
+    "categories": [
+        "Cloud-&-Hosting",
+        "File-Management-&-Sync",
+        "Networking"
+    ],
+    "update": {
+        "timestamp": "2024-10-20T17:24:03Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
+    },
+    "colors": {
+        "dark": "ipfs",
+        "light": "ipfs-light"
     }
-  },
-  "colors": {
-    "dark": "ipfs",
-    "light": "ipfs-light"
-  }
 }

@@ -1,18 +1,17 @@
 {
-  "base": "png",
-  "aliases": [
-    "music-server",
-    "audio-streaming"
-  ],
-  "categories": [
-    "Media-Servers",
-    "Music-Streaming"
-  ],
-  "update": {
-    "timestamp": "2024-10-20T19:32:46Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "png",
+    "aliases": [
+        "music-server",
+        "audio-streaming"
+    ],
+    "categories": [
+        "Streaming"
+    ],
+    "update": {
+        "timestamp": "2024-10-20T19:32:46Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
     }
-  }
 }

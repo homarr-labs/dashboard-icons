@@ -1,17 +1,17 @@
 {
-  "base": "svg",
-  "aliases": [
-    "job-search-website",
-    "recruitment-platform"
-  ],
-  "categories": [
-    "E-commerce-Platforms"
-  ],
-  "update": {
-    "timestamp": "2024-10-20T17:24:03Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "job-search-website",
+        "recruitment-platform"
+    ],
+    "categories": [
+        "E-commerce-Platforms"
+    ],
+    "update": {
+        "timestamp": "2024-10-20T17:24:03Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
     }
-  }
 }

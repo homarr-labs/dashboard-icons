@@ -1,18 +1,18 @@
 {
-  "base": "svg",
-  "aliases": [
-    "mqtt-server",
-    "iot-broker"
-  ],
-  "categories": [
-    "Networking-Tools",
-    "Home-Automation"
-  ],
-  "update": {
-    "timestamp": "2022-10-17T10:12:46Z",
-    "author": {
-      "id": 16795594,
-      "name": "fire1ce"
+    "base": "svg",
+    "aliases": [
+        "mqtt-server",
+        "iot-broker"
+    ],
+    "categories": [
+        "Home-Automation",
+        "Networking"
+    ],
+    "update": {
+        "timestamp": "2022-10-17T10:12:46Z",
+        "author": {
+            "id": 16795594,
+            "name": "fire1ce"
+        }
     }
-  }
 }

@@ -1,20 +1,20 @@
 {
-  "base": "png",
-  "aliases": [
-    "Download Manager"
-  ],
-  "categories": [
-    "Download-Managers"
-  ],
-  "update": {
-    "timestamp": "2024-10-20T19:32:46Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "png",
+    "aliases": [
+        "Download Manager"
+    ],
+    "categories": [
+        "Downloaders"
+    ],
+    "update": {
+        "timestamp": "2024-10-20T19:32:46Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
+    },
+    "colors": {
+        "dark": "alltube",
+        "light": "alltube-light"
     }
-  },
-  "colors": {
-    "dark": "alltube",
-    "light": "alltube-light"
-  }
 }

@@ -1,17 +1,17 @@
 {
-  "base": "svg",
-  "aliases": [
-    "lastfm-scrobbler",
-    "music-activity-tracker"
-  ],
-  "categories": [
-    "Music-Streaming"
-  ],
-  "update": {
-    "timestamp": "2024-01-28T15:19:34Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "lastfm-scrobbler",
+        "music-activity-tracker"
+    ],
+    "categories": [
+        "Streaming"
+    ],
+    "update": {
+        "timestamp": "2024-01-28T15:19:34Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
     }
-  }
 }

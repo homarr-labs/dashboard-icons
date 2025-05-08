@@ -1,17 +1,17 @@
 {
-  "base": "png",
-  "aliases": [
-    "jdownloader",
-    "jd2"
-  ],
-  "categories": [
-    "Download-Managers"
-  ],
-  "update": {
-    "timestamp": "2025-01-07T17:54:03Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "png",
+    "aliases": [
+        "jdownloader",
+        "jd2"
+    ],
+    "categories": [
+        "Downloaders"
+    ],
+    "update": {
+        "timestamp": "2025-01-07T17:54:03Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
     }
-  }
 }

@@ -1,21 +1,21 @@
 {
-  "base": "svg",
-  "aliases": [
-    "Static Site Hosting"
-  ],
-  "categories": [
-    "Web-Browsers",
-    "Developer-Tools"
-  ],
-  "update": {
-    "timestamp": "2024-10-20T17:24:03Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "Static Site Hosting"
+    ],
+    "categories": [
+        "Browsers-&-Search",
+        "Development"
+    ],
+    "update": {
+        "timestamp": "2024-10-20T17:24:03Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
+    },
+    "colors": {
+        "dark": "selfh-st",
+        "light": "selfh-st-light"
     }
-  },
-  "colors": {
-    "dark": "selfh-st",
-    "light": "selfh-st-light"
-  }
 }

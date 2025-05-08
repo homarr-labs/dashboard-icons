@@ -1,17 +1,17 @@
 {
-  "base": "svg",
-  "aliases": [
-    "DNS Server"
-  ],
-  "categories": [
-    "Networking-Tools",
-    "Server-Panels"
-  ],
-  "update": {
-    "timestamp": "2022-08-16T17:22:56Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "DNS Server"
+    ],
+    "categories": [
+        "Infrastructure",
+        "Networking"
+    ],
+    "update": {
+        "timestamp": "2022-08-16T17:22:56Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
     }
-  }
 }

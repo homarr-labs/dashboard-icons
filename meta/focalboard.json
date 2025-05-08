@@ -1,16 +1,16 @@
 {
-  "base": "svg",
-  "aliases": [
-    "mattermost-boards"
-  ],
-  "categories": [
-    "Organization"
-  ],
-  "update": {
-    "timestamp": "2022-08-16T17:22:56Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "mattermost-boards"
+    ],
+    "categories": [
+        "Organization-&-Planning"
+    ],
+    "update": {
+        "timestamp": "2022-08-16T17:22:56Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
     }
-  }
 }

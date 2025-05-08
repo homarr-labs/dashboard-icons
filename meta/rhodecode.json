@@ -1,18 +1,18 @@
 {
-  "base": "svg",
-  "aliases": [
-    "code-repository",
-    "git-hosting"
-  ],
-  "categories": [
-    "Version-Control-Systems",
-    "Developer-Tools"
-  ],
-  "update": {
-    "timestamp": "2023-04-13T13:56:18Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "code-repository",
+        "git-hosting"
+    ],
+    "categories": [
+        "Development",
+        "Version-Control"
+    ],
+    "update": {
+        "timestamp": "2023-04-13T13:56:18Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
     }
-  }
 }

@@ -1,17 +1,17 @@
 {
-  "base": "svg",
-  "aliases": [
-    "Web Application Platform"
-  ],
-  "categories": [
-    "Server-Panels",
-    "Web-Browsers"
-  ],
-  "update": {
-    "timestamp": "2023-04-13T13:56:18Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "Web Application Platform"
+    ],
+    "categories": [
+        "Browsers-&-Search",
+        "Infrastructure"
+    ],
+    "update": {
+        "timestamp": "2023-04-13T13:56:18Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
     }
-  }
 }

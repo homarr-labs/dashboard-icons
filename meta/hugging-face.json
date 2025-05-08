@@ -1,18 +1,18 @@
 {
-  "base": "svg",
-  "aliases": [
-    "machine-learning-platform",
-    "nlp-library"
-  ],
-  "categories": [
-    "AI-&-LLM-Platforms",
-    "Developer-Tools"
-  ],
-  "update": {
-    "timestamp": "2023-04-16T22:04:08Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "machine-learning-platform",
+        "nlp-library"
+    ],
+    "categories": [
+        "AI",
+        "Development"
+    ],
+    "update": {
+        "timestamp": "2023-04-16T22:04:08Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
     }
-  }
 }

@@ -1,18 +1,18 @@
 {
-  "base": "svg",
-  "aliases": [
-    "GitOps Tool"
-  ],
-  "categories": [
-    "Developer-Tools",
-    "DevOps",
-    "Containerization-&-Orchestration"
-  ],
-  "update": {
-    "timestamp": "2024-10-20T17:24:03Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "GitOps Tool"
+    ],
+    "categories": [
+        "DevOps",
+        "Development",
+        "Infrastructure"
+    ],
+    "update": {
+        "timestamp": "2024-10-20T17:24:03Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
     }
-  }
 }

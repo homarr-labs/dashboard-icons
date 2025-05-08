@@ -1,18 +1,18 @@
 {
-  "base": "svg",
-  "aliases": [
-    "Google Workspace Admin"
-  ],
-  "categories": [
-    "Office-Suites",
-    "Cloud-Computing",
-    "Server-Panels"
-  ],
-  "update": {
-    "timestamp": "2023-04-14T18:55:51Z",
-    "author": {
-      "id": 9990159,
-      "name": "zry98"
+    "base": "svg",
+    "aliases": [
+        "Google Workspace Admin"
+    ],
+    "categories": [
+        "Cloud-&-Hosting",
+        "Infrastructure",
+        "Notes-&-Productivity"
+    ],
+    "update": {
+        "timestamp": "2023-04-14T18:55:51Z",
+        "author": {
+            "id": 9990159,
+            "name": "zry98"
+        }
     }
-  }
 }

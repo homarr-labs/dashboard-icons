@@ -1,22 +1,22 @@
 {
-  "base": "svg",
-  "aliases": [
-    "Network Management"
-  ],
-  "categories": [
-    "Networking-Tools",
-    "Developer-Tools",
-    "Monitoring-Tools"
-  ],
-  "update": {
-    "timestamp": "2025-01-06T02:12:00Z",
-    "author": {
-      "id": 1522389,
-      "name": "stuntguy3000"
+    "base": "svg",
+    "aliases": [
+        "Network Management"
+    ],
+    "categories": [
+        "Analytics-&-Monitoring",
+        "Development",
+        "Networking"
+    ],
+    "update": {
+        "timestamp": "2025-01-06T02:12:00Z",
+        "author": {
+            "id": 1522389,
+            "name": "stuntguy3000"
+        }
+    },
+    "colors": {
+        "dark": "netbox-full-dark",
+        "light": "netbox-full"
     }
-  },
-  "colors": {
-    "dark": "netbox-full-dark",
-    "light": "netbox-full"
-  }
 }

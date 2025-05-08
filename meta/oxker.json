@@ -1,21 +1,21 @@
 {
-  "base": "svg",
-  "aliases": [
-    "Container Management"
-  ],
-  "categories": [
-    "Containerization-&-Orchestration",
-    "Developer-Tools"
-  ],
-  "update": {
-    "timestamp": "2024-10-20T17:24:03Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "Container Management"
+    ],
+    "categories": [
+        "Development",
+        "Infrastructure"
+    ],
+    "update": {
+        "timestamp": "2024-10-20T17:24:03Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
+    },
+    "colors": {
+        "dark": "oxker",
+        "light": "oxker-light"
     }
-  },
-  "colors": {
-    "dark": "oxker",
-    "light": "oxker-light"
-  }
 }

@@ -1,17 +1,17 @@
 {
-  "base": "svg",
-  "aliases": [
-    "Automation Platform"
-  ],
-  "categories": [
-    "Home-Automation",
-    "Developer-Tools"
-  ],
-  "update": {
-    "timestamp": "2023-04-13T13:56:18Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "Automation Platform"
+    ],
+    "categories": [
+        "Development",
+        "Home-Automation"
+    ],
+    "update": {
+        "timestamp": "2023-04-13T13:56:18Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
     }
-  }
 }

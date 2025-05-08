@@ -1,12 +1,12 @@
 {
-  "base": "svg",
-  "aliases": [],
-  "categories": [],
-  "update": {
-    "timestamp": "2025-01-05T19:39:22Z",
-    "author": {
-      "id": 150545,
-      "name": "ajgon"
+    "base": "svg",
+    "aliases": [],
+    "categories": [],
+    "update": {
+        "timestamp": "2025-01-05T19:39:22Z",
+        "author": {
+            "id": 150545,
+            "name": "ajgon"
+        }
     }
-  }
 }

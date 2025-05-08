@@ -1,18 +1,18 @@
 {
-  "base": "png",
-  "aliases": [
-    "feed-generator",
-    "rss-aggregator"
-  ],
-  "categories": [
-    "News",
-    "Developer-Tools"
-  ],
-  "update": {
-    "timestamp": "2025-01-07T17:54:03Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "png",
+    "aliases": [
+        "feed-generator",
+        "rss-aggregator"
+    ],
+    "categories": [
+        "Development",
+        "News"
+    ],
+    "update": {
+        "timestamp": "2025-01-07T17:54:03Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
     }
-  }
 }

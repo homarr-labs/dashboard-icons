@@ -1,17 +1,17 @@
 {
-  "base": "svg",
-  "aliases": [
-    "Collaborative Editor"
-  ],
-  "categories": [
-    "Office-Suites",
-    "Web-Browsers"
-  ],
-  "update": {
-    "timestamp": "2024-06-01T18:14:57Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "Collaborative Editor"
+    ],
+    "categories": [
+        "Browsers-&-Search",
+        "Notes-&-Productivity"
+    ],
+    "update": {
+        "timestamp": "2024-06-01T18:14:57Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
     }
-  }
 }

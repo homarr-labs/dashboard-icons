@@ -1,17 +1,17 @@
 {
-  "base": "svg",
-  "aliases": [
-    "content-management-system",
-    "website-builder"
-  ],
-  "categories": [
-    "Developer-Tools"
-  ],
-  "update": {
-    "timestamp": "2023-04-13T13:56:18Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "content-management-system",
+        "website-builder"
+    ],
+    "categories": [
+        "Development"
+    ],
+    "update": {
+        "timestamp": "2023-04-13T13:56:18Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
     }
-  }
 }

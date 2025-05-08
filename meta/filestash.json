@@ -1,17 +1,17 @@
 {
-  "base": "svg",
-  "aliases": [
-    "Web File Manager"
-  ],
-  "categories": [
-    "File-Sharing-&-Sync",
-    "Web-Browsers"
-  ],
-  "update": {
-    "timestamp": "2024-10-20T17:24:03Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "Web File Manager"
+    ],
+    "categories": [
+        "Browsers-&-Search",
+        "File-Management-&-Sync"
+    ],
+    "update": {
+        "timestamp": "2024-10-20T17:24:03Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
     }
-  }
 }

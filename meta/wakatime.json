@@ -1,22 +1,22 @@
 {
-  "base": "svg",
-  "aliases": [
-    "coding-tracker",
-    "developer-analytics"
-  ],
-  "categories": [
-    "Developer-Tools",
-    "Monitoring-Tools"
-  ],
-  "update": {
-    "timestamp": "2024-10-20T17:24:03Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "coding-tracker",
+        "developer-analytics"
+    ],
+    "categories": [
+        "Analytics-&-Monitoring",
+        "Development"
+    ],
+    "update": {
+        "timestamp": "2024-10-20T17:24:03Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
+    },
+    "colors": {
+        "dark": "wakatime",
+        "light": "wakatime-light"
     }
-  },
-  "colors": {
-    "dark": "wakatime",
-    "light": "wakatime-light"
-  }
 }

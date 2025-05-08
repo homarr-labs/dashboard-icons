@@ -1,21 +1,21 @@
 {
-  "base": "png",
-  "aliases": [
-    "Media Manager"
-  ],
-  "categories": [
-    "Media-Servers",
-    "Home-Automation"
-  ],
-  "update": {
-    "timestamp": "2025-01-07T17:54:03Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "png",
+    "aliases": [
+        "Media Manager"
+    ],
+    "categories": [
+        "Home-Automation",
+        "Streaming"
+    ],
+    "update": {
+        "timestamp": "2025-01-07T17:54:03Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
+    },
+    "colors": {
+        "dark": "plex-meta-manager",
+        "light": "plex-meta-manager-light"
     }
-  },
-  "colors": {
-    "dark": "plex-meta-manager",
-    "light": "plex-meta-manager-light"
-  }
 }

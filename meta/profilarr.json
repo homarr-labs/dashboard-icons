@@ -1,19 +1,19 @@
 {
-  "base": "svg",
-  "aliases": [
-    "plex-stats",
-    "jellyfin-stats"
-  ],
-  "categories": [
-    "Media",
-    "Monitoring-Tools",
-    "Media-Servers"
-  ],
-  "update": {
-    "timestamp": "2025-04-02T16:11:24.001900",
-    "author": {
-      "id": 23315858,
-      "login": "stathiskef"
+    "base": "svg",
+    "aliases": [
+        "plex-stats",
+        "jellyfin-stats"
+    ],
+    "categories": [
+        "Analytics-&-Monitoring",
+        "Media",
+        "Streaming"
+    ],
+    "update": {
+        "timestamp": "2025-04-02T16:11:24.001900",
+        "author": {
+            "id": 23315858,
+            "login": "stathiskef"
+        }
     }
-  }
 }

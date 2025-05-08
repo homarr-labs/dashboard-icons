@@ -1,17 +1,17 @@
 {
-  "base": "svg",
-  "aliases": [
-    "Fan Control"
-  ],
-  "categories": [
-    "Hardware",
-    "Monitoring-Tools"
-  ],
-  "update": {
-    "timestamp": "2025-04-09T12:21:43.314393",
-    "author": {
-      "id": 57640252,
-      "login": "hshl2"
+    "base": "svg",
+    "aliases": [
+        "Fan Control"
+    ],
+    "categories": [
+        "Analytics-&-Monitoring",
+        "Hardware"
+    ],
+    "update": {
+        "timestamp": "2025-04-09T12:21:43.314393",
+        "author": {
+            "id": 57640252,
+            "login": "hshl2"
+        }
     }
-  }
 }

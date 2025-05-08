@@ -1,18 +1,18 @@
 {
-  "base": "png",
-  "aliases": [
-    "digital-asset-management",
-    "media-library"
-  ],
-  "categories": [
-    "File-Sharing-&-Sync",
-    "Developer-Tools"
-  ],
-  "update": {
-    "timestamp": "2024-10-20T19:32:46Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "png",
+    "aliases": [
+        "digital-asset-management",
+        "media-library"
+    ],
+    "categories": [
+        "Development",
+        "File-Management-&-Sync"
+    ],
+    "update": {
+        "timestamp": "2024-10-20T19:32:46Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
     }
-  }
 }

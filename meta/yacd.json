@@ -1,17 +1,17 @@
 {
-  "base": "png",
-  "aliases": [
-    "Yet Another Clash Dashboard"
-  ],
-  "categories": [
-    "Networking-Tools",
-    "Monitoring-Tools"
-  ],
-  "update": {
-    "timestamp": "2025-02-15T15:14:24.169434",
-    "author": {
-      "id": 56171752,
-      "login": "Flying-Tom"
+    "base": "png",
+    "aliases": [
+        "Yet Another Clash Dashboard"
+    ],
+    "categories": [
+        "Analytics-&-Monitoring",
+        "Networking"
+    ],
+    "update": {
+        "timestamp": "2025-02-15T15:14:24.169434",
+        "author": {
+            "id": 56171752,
+            "login": "Flying-Tom"
+        }
     }
-  }
 }

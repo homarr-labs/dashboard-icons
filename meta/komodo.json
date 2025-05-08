@@ -1,17 +1,17 @@
 {
-  "base": "svg",
-  "aliases": [
-    "ide",
-    "text-editor"
-  ],
-  "categories": [
-    "Developer-Tools"
-  ],
-  "update": {
-    "timestamp": "2025-02-21T11:58:52.385242",
-    "author": {
-      "id": 3360055,
-      "login": "gbrown09"
+    "base": "svg",
+    "aliases": [
+        "ide",
+        "text-editor"
+    ],
+    "categories": [
+        "Development"
+    ],
+    "update": {
+        "timestamp": "2025-02-21T11:58:52.385242",
+        "author": {
+            "id": 3360055,
+            "login": "gbrown09"
+        }
     }
-  }
 }

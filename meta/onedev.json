@@ -1,22 +1,22 @@
 {
-  "base": "svg",
-  "aliases": [
-    "DevOps Platform"
-  ],
-  "categories": [
-    "Developer-Tools",
-    "DevOps",
-    "Version-Control-Systems"
-  ],
-  "update": {
-    "timestamp": "2024-10-20T17:24:03Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "DevOps Platform"
+    ],
+    "categories": [
+        "DevOps",
+        "Development",
+        "Version-Control"
+    ],
+    "update": {
+        "timestamp": "2024-10-20T17:24:03Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
+    },
+    "colors": {
+        "dark": "onedev",
+        "light": "onedev-light"
     }
-  },
-  "colors": {
-    "dark": "onedev",
-    "light": "onedev-light"
-  }
 }

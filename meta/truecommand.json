@@ -1,18 +1,18 @@
 {
-  "base": "svg",
-  "aliases": [
-    "truenas-manager",
-    "nas-management"
-  ],
-  "categories": [
-    "Server-Panels",
-    "File-Sharing-&-Sync"
-  ],
-  "update": {
-    "timestamp": "2025-04-06T11:44:16.033293",
-    "author": {
-      "id": 63781622,
-      "login": "Meierschlumpf"
+    "base": "svg",
+    "aliases": [
+        "truenas-manager",
+        "nas-management"
+    ],
+    "categories": [
+        "File-Management-&-Sync",
+        "Infrastructure"
+    ],
+    "update": {
+        "timestamp": "2025-04-06T11:44:16.033293",
+        "author": {
+            "id": 63781622,
+            "login": "Meierschlumpf"
+        }
     }
-  }
 }

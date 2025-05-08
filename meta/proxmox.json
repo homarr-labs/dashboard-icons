@@ -1,22 +1,22 @@
 {
-  "base": "svg",
-  "aliases": [
-    "Virtualization Platform"
-  ],
-  "categories": [
-    "Server-Panels",
-    "Operating-Systems",
-    "Cloud-Computing"
-  ],
-  "update": {
-    "timestamp": "2024-10-20T17:24:03Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "Virtualization Platform"
+    ],
+    "categories": [
+        "Cloud-&-Hosting",
+        "Infrastructure",
+        "Operating-Systems"
+    ],
+    "update": {
+        "timestamp": "2024-10-20T17:24:03Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
+    },
+    "colors": {
+        "dark": "proxmox",
+        "light": "proxmox-light"
     }
-  },
-  "colors": {
-    "dark": "proxmox",
-    "light": "proxmox-light"
-  }
 }

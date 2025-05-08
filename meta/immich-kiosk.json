@@ -1,22 +1,22 @@
 {
-  "base": "svg",
-  "aliases": [
-    "photo-display",
-    "digital-photo-frame"
-  ],
-  "categories": [
-    "Home-Automation",
-    "Media-Servers"
-  ],
-  "update": {
-    "timestamp": "2024-10-20T17:24:03Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "photo-display",
+        "digital-photo-frame"
+    ],
+    "categories": [
+        "Home-Automation",
+        "Streaming"
+    ],
+    "update": {
+        "timestamp": "2024-10-20T17:24:03Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
+    },
+    "colors": {
+        "dark": "immich-kiosk",
+        "light": "immich-kiosk-light"
     }
-  },
-  "colors": {
-    "dark": "immich-kiosk",
-    "light": "immich-kiosk-light"
-  }
 }

@@ -1,22 +1,22 @@
 {
-  "base": "svg",
-  "aliases": [
-    "ddns-provider",
-    "dynamic-ip-service"
-  ],
-  "categories": [
-    "Networking-Tools",
-    "Cloud-Computing"
-  ],
-  "update": {
-    "timestamp": "2024-10-20T17:24:03Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "ddns-provider",
+        "dynamic-ip-service"
+    ],
+    "categories": [
+        "Cloud-&-Hosting",
+        "Networking"
+    ],
+    "update": {
+        "timestamp": "2024-10-20T17:24:03Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
+    },
+    "colors": {
+        "dark": "duckdns",
+        "light": "duckdns-light"
     }
-  },
-  "colors": {
-    "dark": "duckdns",
-    "light": "duckdns-light"
-  }
 }

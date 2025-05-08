@@ -1,21 +1,21 @@
 {
-  "base": "png",
-  "aliases": [
-    "Maven Repository"
-  ],
-  "categories": [
-    "Developer-Tools",
-    "DevOps"
-  ],
-  "update": {
-    "timestamp": "2025-04-06T09:07:59.093807",
-    "author": {
-      "id": 27736357,
-      "login": "ornelasf1"
+    "base": "png",
+    "aliases": [
+        "Maven Repository"
+    ],
+    "categories": [
+        "DevOps",
+        "Development"
+    ],
+    "update": {
+        "timestamp": "2025-04-06T09:07:59.093807",
+        "author": {
+            "id": 27736357,
+            "login": "ornelasf1"
+        }
+    },
+    "colors": {
+        "light": "reposilite",
+        "dark": "reposilite-dark"
     }
-  },
-  "colors": {
-    "light": "reposilite",
-    "dark": "reposilite-dark"
-  }
 }

@@ -1,21 +1,21 @@
 {
-  "base": "svg",
-  "aliases": [
-    "code-sharing",
-    "snippet-hosting"
-  ],
-  "categories": [
-    "Developer-Tools"
-  ],
-  "update": {
-    "timestamp": "2025-04-28T18:55:01.927896",
-    "author": {
-      "id": 71191962,
-      "login": "lammersbjorn"
+    "base": "svg",
+    "aliases": [
+        "code-sharing",
+        "snippet-hosting"
+    ],
+    "categories": [
+        "Development"
+    ],
+    "update": {
+        "timestamp": "2025-04-28T18:55:01.927896",
+        "author": {
+            "id": 71191962,
+            "login": "lammersbjorn"
+        }
+    },
+    "colors": {
+        "light": "opengist-light",
+        "dark": "opengist"
     }
-  },
-  "colors": {
-    "light": "opengist-light",
-    "dark": "opengist"
-  }
 }

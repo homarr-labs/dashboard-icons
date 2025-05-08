@@ -1,21 +1,21 @@
 {
-  "base": "svg",
-  "aliases": [
-    "NAC"
-  ],
-  "categories": [
-    "Networking-Tools",
-    "Security"
-  ],
-  "update": {
-    "timestamp": "2025-02-15T17:40:42.756801",
-    "author": {
-      "id": 63781622,
-      "login": "Meierschlumpf"
+    "base": "svg",
+    "aliases": [
+        "NAC"
+    ],
+    "categories": [
+        "Networking",
+        "Security"
+    ],
+    "update": {
+        "timestamp": "2025-02-15T17:40:42.756801",
+        "author": {
+            "id": 63781622,
+            "login": "Meierschlumpf"
+        }
+    },
+    "colors": {
+        "light": "packetfence",
+        "dark": "packetfence-dark"
     }
-  },
-  "colors": {
-    "light": "packetfence",
-    "dark": "packetfence-dark"
-  }
 }

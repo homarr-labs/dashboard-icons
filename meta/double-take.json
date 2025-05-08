@@ -1,22 +1,21 @@
 {
-  "base": "svg",
-  "aliases": [
-    "ai-face-recognition",
-    "object-detection"
-  ],
-  "categories": [
-    "Smart-Home",
-    "Home-Automation"
-  ],
-  "update": {
-    "timestamp": "2024-10-20T17:24:03Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "ai-face-recognition",
+        "object-detection"
+    ],
+    "categories": [
+        "Home-Automation"
+    ],
+    "update": {
+        "timestamp": "2024-10-20T17:24:03Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
+    },
+    "colors": {
+        "dark": "double-take-dark",
+        "light": "double-take"
     }
-  },
-  "colors": {
-    "dark": "double-take-dark",
-    "light": "double-take"
-  }
 }

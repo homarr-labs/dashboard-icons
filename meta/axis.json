@@ -1,22 +1,22 @@
 {
-  "base": "png",
-  "aliases": [
-    "security-camera-company",
-    "video-surveillance"
-  ],
-  "categories": [
-    "Smart-Home",
-    "Hardware"
-  ],
-  "update": {
-    "timestamp": "2025-01-07T17:54:03Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "png",
+    "aliases": [
+        "security-camera-company",
+        "video-surveillance"
+    ],
+    "categories": [
+        "Hardware",
+        "Home-Automation"
+    ],
+    "update": {
+        "timestamp": "2025-01-07T17:54:03Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
+    },
+    "colors": {
+        "dark": "axis",
+        "light": "axis-light"
     }
-  },
-  "colors": {
-    "dark": "axis",
-    "light": "axis-light"
-  }
 }

@@ -1,18 +1,18 @@
 {
-  "base": "svg",
-  "aliases": [
-    "Email Server"
-  ],
-  "categories": [
-    "Email-Providers",
-    "Server-Panels",
-    "Office-Suites"
-  ],
-  "update": {
-    "timestamp": "2024-10-13T18:28:15Z",
-    "author": {
-      "id": 25162574,
-      "name": "mitchplze"
+    "base": "svg",
+    "aliases": [
+        "Email Server"
+    ],
+    "categories": [
+        "Email-Providers",
+        "Infrastructure",
+        "Notes-&-Productivity"
+    ],
+    "update": {
+        "timestamp": "2024-10-13T18:28:15Z",
+        "author": {
+            "id": 25162574,
+            "name": "mitchplze"
+        }
     }
-  }
 }

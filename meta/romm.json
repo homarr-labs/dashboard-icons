@@ -1,12 +1,12 @@
 {
-  "base": "svg",
-  "aliases": [],
-  "categories": [],
-  "update": {
-    "timestamp": "2025-02-07T08:48:16Z",
-    "author": {
-      "id": 34356590,
-      "name": "zurdi15"
+    "base": "svg",
+    "aliases": [],
+    "categories": [],
+    "update": {
+        "timestamp": "2025-02-07T08:48:16Z",
+        "author": {
+            "id": 34356590,
+            "name": "zurdi15"
+        }
     }
-  }
 }

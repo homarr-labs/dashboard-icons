@@ -1,18 +1,18 @@
 {
-  "base": "png",
-  "aliases": [
-    "distributed-authoring",
-    "web-file-system"
-  ],
-  "categories": [
-    "File-Sharing-&-Sync",
-    "Networking-Tools"
-  ],
-  "update": {
-    "timestamp": "2025-01-07T17:54:03Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "png",
+    "aliases": [
+        "distributed-authoring",
+        "web-file-system"
+    ],
+    "categories": [
+        "File-Management-&-Sync",
+        "Networking"
+    ],
+    "update": {
+        "timestamp": "2025-01-07T17:54:03Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
     }
-  }
 }

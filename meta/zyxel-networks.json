@@ -1,21 +1,21 @@
 {
-  "base": "svg",
-  "aliases": [
-    "Network Devices"
-  ],
-  "categories": [
-    "Networking-Tools",
-    "Hardware"
-  ],
-  "update": {
-    "timestamp": "2024-10-20T17:24:03Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "Network Devices"
+    ],
+    "categories": [
+        "Hardware",
+        "Networking"
+    ],
+    "update": {
+        "timestamp": "2024-10-20T17:24:03Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
+    },
+    "colors": {
+        "dark": "zyxel-networks",
+        "light": "zyxel-networks-light"
     }
-  },
-  "colors": {
-    "dark": "zyxel-networks",
-    "light": "zyxel-networks-light"
-  }
 }

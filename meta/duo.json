@@ -1,17 +1,17 @@
 {
-  "base": "svg",
-  "aliases": [
-    "Two-Factor Authentication"
-  ],
-  "categories": [
-    "Password-Managers",
-    "Security"
-  ],
-  "update": {
-    "timestamp": "2023-04-14T09:58:29Z",
-    "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+    "base": "svg",
+    "aliases": [
+        "Two-Factor Authentication"
+    ],
+    "categories": [
+        "Identity",
+        "Security"
+    ],
+    "update": {
+        "timestamp": "2023-04-14T09:58:29Z",
+        "author": {
+            "id": 71191962,
+            "name": "walkxcode"
+        }
     }
-  }
 }
