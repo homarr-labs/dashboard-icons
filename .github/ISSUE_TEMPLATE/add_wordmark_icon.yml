@@ -1,0 +1,110 @@
+name: "Add Wordmark Icon"
+description: |
+  Submit a new wordmark icon (icon featuring brand name).
+  A **Wordmark Icon** incorporates the brand's name or logotype directly into or alongside the graphical mark.
+  It can be a single version for all themes, or have separate light/dark versions.
+  - **Light Icon Version:** (If applicable) predominantly light colors (e.g., Sonarr's logo), for dark backgrounds.
+  - **Dark Icon Version:** (If applicable) predominantly dark colors (e.g., Ollama's logo), for light backgrounds.
+title: "feat(icons): add wordmark [icon-name]"
+labels: ["icon addition", "wordmark icon"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for contributing a new wordmark icon!
+        **What is a Wordmark Icon?** It's an icon that integrates the brand's name/logotype with its graphical mark for stronger brand recognition.
+        Please complete the following details. Ensure your icon is optimized.
+
+  - type: input
+    id: icon-name
+    attributes:
+      label: "Icon Name (Base)"
+      description: "The unique name for the icon (e.g., `my-service-wordmark`). This will be used as the base for filenames."
+      placeholder: "e.g., awesome-app-wordmark"
+    validations:
+      required: true
+
+  - type: markdown
+    attributes:
+      value: |
+        **Icon Versioning:** Does this wordmark have a single version or separate light/dark versions?
+
+  - type: checkboxes
+    id: wordmark-type
+    attributes:
+      label: "Wordmark Version Type"
+      description: "Select how this wordmark is provided."
+      options:
+        - label: "Single version (works on both light and dark backgrounds)"
+          required: false
+        - label: "Separate light and dark versions"
+          required: false
+
+  - type: textarea
+    id: svg-code-wordmark-normal
+    attributes:
+      label: "SVG Code (Single/Normal Wordmark)"
+      description: "If this is a single-version wordmark, paste the SVG code here. Ensure it's versatile for all backgrounds."
+      placeholder: "<svg>...</svg>"
+      render: svg
+    validations:
+      required: false
+
+  - type: textarea
+    id: svg-code-wordmark-light
+    attributes:
+      label: "SVG Code (Light Wordmark Version)"
+      description: "If providing separate versions, paste the SVG for the **Light Version** here (predominantly light colors, e.g., for dark UIs)."
+      placeholder: "<svg>...</svg>"
+      render: svg
+    validations:
+      required: false
+
+  - type: textarea
+    id: svg-code-wordmark-dark
+    attributes:
+      label: "SVG Code (Dark Wordmark Version)"
+      description: "If providing separate versions, paste the SVG for the **Dark Version** here (predominantly dark colors, e.g., for light UIs)."
+      placeholder: "<svg>...</svg>"
+      render: svg
+    validations:
+      required: false
+
+  - type: markdown
+    attributes:
+      value: |
+        **Important:** Please ensure you fill out the correct SVG code section(s) based on your selection above. If providing separate light/dark versions, both are typically required. If a single version, only the 'Single/Normal' field is needed.
+
+  - type: input
+    id: brand-guidelines
+    attributes:
+      label: "Brand Guidelines URL (Optional)"
+      description: "Link to official brand guidelines, if available."
+      placeholder: "e.g., https://brand.example.com/"
+
+  - type: input
+    id: source-url
+    attributes:
+      label: "Icon Source URL (Optional)"
+      description: "Link to where you found the wordmark (e.g., official website)."
+      placeholder: "e.g., https://example.com/logo-wordmark.svg"
+
+  - type: input
+    id: categories
+    attributes:
+      label: "Categories (Optional, comma-separated)"
+      description: "Relevant categories for the icon."
+      placeholder: "e.g., service, productivity"
+
+  - type: input
+    id: aliases
+    attributes:
+      label: "Aliases (Optional, comma-separated)"
+      description: "Alternative names or keywords."
+      placeholder: "e.g., myapp-text, full-logo"
+
+  - type: textarea
+    id: additional-notes
+    attributes:
+      label: "Additional Notes (Optional)"
+      description: "Any other relevant information." 
