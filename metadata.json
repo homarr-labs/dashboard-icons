@@ -3965,6 +3965,18 @@
             }
         }
     },
+    "trmnl-android": {
+        "base": "png",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2025-05-11T20:21:15.217703",
+            "author": {
+                "id": 48109134,
+                "login": "jdcool00"
+            }
+        }
+    },
     "pinry": {
         "base": "png",
         "aliases": [],
