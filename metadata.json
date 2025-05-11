@@ -16687,6 +16687,20 @@
             "light": "it-tools-light"
         }
     },
+    "akaunting": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "Finance"
+        ],
+        "update": {
+            "timestamp": "2025-05-11T20:01:41.455664",
+            "author": {
+                "id": 10255587,
+                "login": "SteffeyDev"
+            }
+        }
+    },
     "librum": {
         "base": "svg",
         "aliases": [],
