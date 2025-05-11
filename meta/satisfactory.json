@@ -1,0 +1,17 @@
+{
+  "base": "png",
+  "aliases": [
+    "satisfactory-server",
+    "satisfactory-dedicated-server"
+  ],
+  "categories": [
+    "Gaming"
+  ],
+  "update": {
+    "timestamp": "2025-05-11T20:09:13.753964",
+    "author": {
+      "id": 31751462,
+      "login": "InsertDisc"
+    }
+  }
+}
