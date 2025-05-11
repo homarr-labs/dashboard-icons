@@ -1,0 +1,17 @@
+{
+  "base": "svg",
+  "aliases": [
+    "natwest",
+    "natwest-banking"
+  ],
+  "categories": [
+    "Finance"
+  ],
+  "update": {
+    "timestamp": "2025-05-11T19:15:31.485707",
+    "author": {
+      "id": 30195129,
+      "login": "ashburton88"
+    }
+  }
+}
