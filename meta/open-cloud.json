@@ -1,0 +1,18 @@
+{
+  "base": "svg",
+  "aliases": [],
+  "categories": [
+    "File"
+  ],
+  "update": {
+    "timestamp": "2025-05-12T16:42:17.623530",
+    "author": {
+      "id": 5345489,
+      "login": "savely-krasovsky"
+    }
+  },
+  "colors": {
+    "light": "open-cloud",
+    "dark": "open-cloud-dark"
+  }
+}
