@@ -1,0 +1,14 @@
+{
+  "base": "svg",
+  "aliases": [],
+  "categories": [
+    "Networking Tools"
+  ],
+  "update": {
+    "timestamp": "2025-05-13T16:25:16.880205",
+    "author": {
+      "id": 1585718,
+      "login": "wolfg1969"
+    }
+  }
+}
