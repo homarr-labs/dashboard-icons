@@ -10,15 +10,121 @@ import { formatIconName } from "@/lib/utils"
 import type { AuthorData, Icon, IconFile } from "@/types/icons"
 import confetti from "canvas-confetti"
 import { motion } from "framer-motion"
-import { ArrowRight, Check, Copy, Download, FileType, Github, Moon, PaletteIcon, Sun } from "lucide-react"
-import dynamic from "next/dynamic"
+import { ArrowRight, Check, FileType, Github, Moon, PaletteIcon, Sun, Type } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
+import type React from "react"
 import { useCallback, useState } from "react"
 import { toast } from "sonner"
 import { Carbon } from "./carbon"
+import { IconActions } from "./icon-actions"
 import { MagicCard } from "./magicui/magic-card"
 import { Badge } from "./ui/badge"
+
+type RenderVariantFn = (
+	format: string,
+	iconName: string,
+	theme?: "light" | "dark"
+) => React.ReactNode
+
+type IconVariantsSectionProps = {
+	title: string
+	description: string
+	iconElement: React.ReactNode
+	aavailableFormats: string[]
+	icon: string
+	iconData: Icon
+	handleCopy: (url: string, variantKey: string, event?: React.MouseEvent) => void
+	handleDownload: (event: React.MouseEvent, url: string, filename: string) => Promise<void>
+	copiedVariants: Record<string, boolean>
+	theme?: "light" | "dark"
+	renderVariant: RenderVariantFn
+}
+
+function IconVariantsSection({
+	title,
+	description,
+	iconElement,
+	aavailableFormats,
+	icon,
+	iconData,
+	theme,
+	renderVariant,
+}: IconVariantsSectionProps) {
+	const iconName = theme && iconData.colors?.[theme] ? iconData.colors[theme] : icon
+	return (
+		<div>
+			<h3 className="text-lg font-semibold flex items-center gap-2 mb-1">
+				{iconElement}
+				{title}
+			</h3>
+			<p className="text-sm text-muted-foreground mb-4">{description}</p>
+			<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+				{aavailableFormats.map((format) => renderVariant(format, iconName, theme))}
+			</div>
+		</div>
+	)
+}
+
+type WordmarkSectionProps = {
+	iconData: Icon
+	icon: string
+	aavailableFormats: string[]
+	handleCopy: (url: string, variantKey: string, event?: React.MouseEvent) => void
+	handleDownload: (event: React.MouseEvent, url: string, filename: string) => Promise<void>
+	copiedVariants: Record<string, boolean>
+	renderVariant: RenderVariantFn
+}
+
+function WordmarkSection({
+	iconData,
+	aavailableFormats,
+	renderVariant,
+}: WordmarkSectionProps) {
+	if (!iconData.wordmark) return null
+
+	return (
+		<div>
+			<h3 className="text-lg font-semibold flex items-center gap-2 mb-1">
+				<Type className="w-4 h-4 text-green-500" />
+				Wordmark Variants
+			</h3>
+			<p className="text-sm text-muted-foreground mb-4">
+				Icon variants that include the brand name. Click to copy URL.
+			</p>
+			<div className="space-y-6">
+				{iconData.wordmark.light && (
+					<div>
+						<h4 className="text-md font-medium flex items-center gap-2 mb-3">
+							<Sun className="w-4 h-4 text-amber-500" />
+							Light Theme Wordmark
+						</h4>
+						<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+							{aavailableFormats.map((format) => {
+								if (!iconData.wordmark?.light) return null
+								return renderVariant(format, iconData.wordmark.light, "light")
+							})}
+						</div>
+					</div>
+				)}
+				{iconData.wordmark.dark && (
+					<div>
+						<h4 className="text-md font-medium flex items-center gap-2 mb-3">
+							<Moon className="w-4 h-4 text-indigo-500" />
+							Dark Theme Wordmark
+						</h4>
+						<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+							{aavailableFormats.map((format) => {
+								if (!iconData.wordmark?.dark) return null
+								return renderVariant(format, iconData.wordmark.dark, "dark")
+							})}
+						</div>
+					</div>
+				)}
+			</div>
+		</div>
+	)
+}
 
 export type IconDetailsProps = {
 	icon: string
@@ -30,11 +136,13 @@ export type IconDetailsProps = {
 export function IconDetails({ icon, iconData, authorData, allIcons }: IconDetailsProps) {
 	const authorName = authorData.name || authorData.login || ""
 	const iconColorVariants = iconData.colors
+	const iconWordmarkVariants = iconData.wordmark
 	const formattedDate = new Date(iconData.update.timestamp).toLocaleDateString("en-GB", {
 		day: "numeric",
 		month: "long",
 		year: "numeric",
 	})
+	
 	const getAvailableFormats = () => {
 		switch (iconData.base) {
 			case "svg":
@@ -48,9 +156,12 @@ export function IconDetails({ icon, iconData, authorData, allIcons }: IconDetail
 
 	const availableFormats = getAvailableFormats()
 	const [copiedVariants, setCopiedVariants] = useState<Record<string, boolean>>({})
+	const [copiedUrlKey, setCopiedUrlKey] = useState<string | null>(null)
+	const [copiedImageKey, setCopiedImageKey] = useState<string | null>(null)
 
-	// Launch confetti from the pointer position
 	const launchConfetti = useCallback((originX?: number, originY?: number) => {
+		if (typeof confetti !== "function") return
+
 		const defaults = {
 			startVelocity: 15,
 			spread: 180,
@@ -60,7 +171,6 @@ export function IconDetails({ icon, iconData, authorData, allIcons }: IconDetail
 			colors: ["#ff0a54", "#ff477e", "#ff7096", "#ff85a1", "#fbb1bd", "#f9bec7"],
 		}
 
-		// If we have origin coordinates, use them
 		if (originX !== undefined && originY !== undefined) {
 			confetti({
 				...defaults,
@@ -71,7 +181,6 @@ export function IconDetails({ icon, iconData, authorData, allIcons }: IconDetail
 				},
 			})
 		} else {
-			// Default to center of screen
 			confetti({
 				...defaults,
 				particleCount: 50,
@@ -80,20 +189,13 @@ export function IconDetails({ icon, iconData, authorData, allIcons }: IconDetail
 		}
 	}, [])
 
-	const handleCopy = (url: string, variantKey: string, event?: React.MouseEvent) => {
+	const handleCopyUrl = (url: string, variantKey: string, event?: React.MouseEvent) => {
 		navigator.clipboard.writeText(url)
-		setCopiedVariants((prev) => ({
-			...prev,
-			[variantKey]: true,
-		}))
+		setCopiedUrlKey(variantKey)
 		setTimeout(() => {
-			setCopiedVariants((prev) => ({
-				...prev,
-				[variantKey]: false,
-			}))
+			setCopiedUrlKey(null)
 		}, 2000)
 
-		// Launch confetti from click position or center of screen
 		if (event) {
 			launchConfetti(event.clientX, event.clientY)
 		} else {
@@ -105,29 +207,99 @@ export function IconDetails({ icon, iconData, authorData, allIcons }: IconDetail
 		})
 	}
 
+	const handleCopyImage = async (
+		imageUrl: string,
+		format: string,
+		variantKey: string,
+		event?: React.MouseEvent
+	) => {
+		try {
+			toast.loading("Copying image...")
+
+			if (format === 'svg') {
+				const response = await fetch(imageUrl)
+				if (!response.ok) {
+					throw new Error(`Failed to fetch SVG: ${response.statusText}`)
+				}
+				const svgText = await response.text()
+
+				await navigator.clipboard.writeText(svgText)
+
+				setCopiedImageKey(variantKey)
+				setTimeout(() => {
+					setCopiedImageKey(null)
+				}, 2000)
+
+				if (event) {
+					launchConfetti(event.clientX, event.clientY)
+				} else {
+					launchConfetti()
+				}
+
+				toast.dismiss()
+				toast.success("SVG Markup Copied", {
+					description: "The SVG code has been copied to your clipboard.",
+				})
+
+			} else if (format === 'png' || format === 'webp') {
+				const mimeType = `image/${format}`
+				const response = await fetch(imageUrl)
+				if (!response.ok) {
+					throw new Error(`Failed to fetch image: ${response.statusText}`)
+				}
+				const blob = await response.blob()
+
+				if (!blob) {
+					throw new Error('Failed to generate image blob')
+				}
+
+				await navigator.clipboard.write([new ClipboardItem({ [mimeType]: blob })]);
+
+				setCopiedImageKey(variantKey)
+				setTimeout(() => {
+					setCopiedImageKey(null)
+				}, 2000)
+
+				if (event) {
+					launchConfetti(event.clientX, event.clientY)
+				} else {
+					launchConfetti()
+				}
+
+				toast.dismiss()
+				toast.success("Image copied", {
+					description: `The ${format.toUpperCase()} image has been copied to your clipboard.`,
+				})
+
+			} else {
+				throw new Error(`Unsupported format for image copy: ${format}`)
+			}
+
+		} catch (error) {
+			console.error("Copy error:", error)
+			toast.dismiss()
+			let description = "Could not copy. Check console for details."
+			if (error instanceof Error) {
+				description = error.message
+			}
+			toast.error("Copy failed", { description })
+		}
+	}
+
 	const handleDownload = async (event: React.MouseEvent, url: string, filename: string) => {
 		event.preventDefault()
-
-		// Launch confetti from download button position
 		launchConfetti(event.clientX, event.clientY)
 
 		try {
-			// Show loading toast
 			toast.loading("Preparing download...")
-
-			// Fetch the file first as a blob
 			const response = await fetch(url)
 			const blob = await response.blob()
-
-			// Create a blob URL and use it for download
 			const blobUrl = URL.createObjectURL(blob)
 			const link = document.createElement("a")
 			link.href = blobUrl
 			link.download = filename
 			document.body.appendChild(link)
 			link.click()
-
-			// Clean up
 			document.body.removeChild(link)
 			setTimeout(() => URL.revokeObjectURL(blobUrl), 100)
 
@@ -161,7 +333,7 @@ export function IconDetails({ icon, iconData, authorData, allIcons }: IconDetail
 									className="relative w-28 h-28 mb-3 cursor-pointer rounded-xl overflow-hidden group"
 									whileHover={{ scale: 1.05 }}
 									whileTap={{ scale: 0.95 }}
-									onClick={(e) => handleCopy(imageUrl, variantKey, e)}
+									onClick={(e) => handleCopyUrl(imageUrl, variantKey, e)}
 									aria-label={`Copy ${format.toUpperCase()} URL for ${iconName}${theme ? ` (${theme} theme)` : ""}`}
 								>
 									<div className="absolute inset-0 border-2 border-transparent group-hover:border-primary/20 rounded-xl z-10 transition-colors" />
@@ -204,59 +376,18 @@ export function IconDetails({ icon, iconData, authorData, allIcons }: IconDetail
 
 						<p className="text-sm font-medium">{format.toUpperCase()}</p>
 
-						<div className="flex gap-2 mt-3 w-full justify-center">
-							<Tooltip>
-								<TooltipTrigger asChild>
-									<Button
-										variant="outline"
-										size="icon"
-										className="h-8 w-8 rounded-lg cursor-pointer"
-										onClick={(e) => handleDownload(e, imageUrl, `${iconName}.${format}`)}
-										aria-label={`Download ${iconName} in ${format} format${theme ? ` (${theme} theme)` : ""}`}
-									>
-										<Download className="w-4 h-4" />
-									</Button>
-								</TooltipTrigger>
-								<TooltipContent>
-									<p>Download icon file</p>
-								</TooltipContent>
-							</Tooltip>
-
-							<Tooltip>
-								<TooltipTrigger asChild>
-									<Button
-										variant="outline"
-										size="icon"
-										className="h-8 w-8 rounded-lg cursor-pointer"
-										onClick={(e) => handleCopy(imageUrl, `btn-${variantKey}`, e)}
-										aria-label={`Copy URL for ${iconName} in ${format} format${theme ? ` (${theme} theme)` : ""}`}
-									>
-										{copiedVariants[`btn-${variantKey}`] ? <Check className="w-4 h-4 text-green-500" /> : <Copy className="w-4 h-4" />}
-									</Button>
-								</TooltipTrigger>
-								<TooltipContent>
-									<p>Copy direct URL to clipboard</p>
-								</TooltipContent>
-							</Tooltip>
-
-							<Tooltip>
-								<TooltipTrigger asChild>
-									<Button variant="outline" size="icon" className="h-8 w-8 rounded-lg" asChild>
-										<Link
-											href={githubUrl}
-											target="_blank"
-											rel="noopener noreferrer"
-											aria-label={`View ${iconName} ${format} file on GitHub`}
-										>
-											<Github className="w-4 h-4" />
-										</Link>
-									</Button>
-								</TooltipTrigger>
-								<TooltipContent>
-									<p>View on GitHub</p>
-								</TooltipContent>
-							</Tooltip>
-						</div>
+						<IconActions
+							imageUrl={imageUrl}
+							githubUrl={githubUrl}
+							iconName={iconName}
+							format={format}
+							variantKey={variantKey}
+							copiedUrlKey={copiedUrlKey}
+							copiedImageKey={copiedImageKey}
+							handleDownload={handleDownload}
+							handleCopyUrl={handleCopyUrl}
+							handleCopyImage={handleCopyImage}
+						/>
 					</div>
 				</MagicCard>
 			</TooltipProvider>
@@ -268,14 +399,13 @@ export function IconDetails({ icon, iconData, authorData, allIcons }: IconDetail
 	return (
 		<main className="container mx-auto pt-12 pb-14 px-4 sm:px-6 lg:px-8">
 			<div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-				{/* Left Column: Icon Info and Author */}
 				<div className="lg:col-span-1">
 					<Card className="h-full bg-background/50 border shadow-lg">
 						<CardHeader className="pb-4">
 							<div className="flex flex-col items-center">
 								<div className="relative w-32 h-32 rounded-xl overflow-hidden border flex items-center justify-center p-3">
 									<Image
-										src={`${BASE_URL}/${iconData.base}/${icon}.${iconData.base}`}
+										src={`${BASE_URL}/${iconData.base}/${iconData.colors?.light || icon}.${iconData.base}`}
 										width={96}
 										height={96}
 										placeholder="empty"
@@ -304,7 +434,7 @@ export function IconDetails({ icon, iconData, authorData, allIcons }: IconDetail
 													<AvatarImage src={authorData.avatar_url} alt={`${authorName}'s avatar`} />
 													<AvatarFallback>{authorName ? authorName.slice(0, 2).toUpperCase() : "??"}</AvatarFallback>
 												</Avatar>
-												{authorData.html_url ? (
+												{authorData.html_url && (
 													<Link
 														href={authorData.html_url}
 														target="_blank"
@@ -313,7 +443,8 @@ export function IconDetails({ icon, iconData, authorData, allIcons }: IconDetail
 													>
 														{authorName}
 													</Link>
-												) : (
+												)}
+												{!authorData.html_url && (
 													<span className="text-sm">{authorName}</span>
 												)}
 											</div>
@@ -370,6 +501,7 @@ export function IconDetails({ icon, iconData, authorData, allIcons }: IconDetail
 												: `${availableFormats[0].toUpperCase()} format `}
 											with a base format of {iconData.base.toUpperCase()}.
 											{iconData.colors && " Includes both light and dark theme variants for better integration with different UI designs."}
+											{iconData.wordmark && " Wordmark variants are also available for enhanced branding options."}
 										</p>
 										<p>
 											Perfect for adding to dashboards, app directories, documentation, or anywhere you need the {formatIconName(icon)}{" "}
@@ -382,7 +514,6 @@ export function IconDetails({ icon, iconData, authorData, allIcons }: IconDetail
 					</Card>
 				</div>
 
-				{/* Middle Column: Icon variants */}
 				<div className="lg:col-span-2">
 					<Card className="h-full bg-background/50 shadow-lg">
 						<CardHeader>
@@ -392,37 +523,70 @@ export function IconDetails({ icon, iconData, authorData, allIcons }: IconDetail
 							<CardDescription>Click on any icon to copy its URL to your clipboard</CardDescription>
 						</CardHeader>
 						<CardContent>
-							{!iconData.colors ? (
-								<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-									{availableFormats.map((format) => renderVariant(format, icon))}
-								</div>
-							) : (
-								<div className="space-y-10">
-									<div>
-										<h3 className="text-lg font-semibold  flex items-center gap-2">
-											<Sun className="w-4 h-4 text-amber-500" />
-											Light theme
-										</h3>
-										<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 p-3 rounded-lg ">
-											{availableFormats.map((format) => renderVariant(format, icon, "light"))}
-										</div>
-									</div>
-									<div>
-										<h3 className="text-lg font-semibold  flex items-center gap-2">
-											<Moon className="w-4 h-4 text-indigo-500" />
-											Dark theme
-										</h3>
-										<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 p-3 rounded-lg ">
-											{availableFormats.map((format) => renderVariant(format, icon, "dark"))}
-										</div>
-									</div>
-								</div>
-							)}
+							<div className="space-y-10">
+								{!iconData.colors && (
+									<IconVariantsSection
+										title="Default"
+										description="Standard icon versions. Click to copy URL."
+										iconElement={<FileType className="w-4 h-4 text-blue-500" />}
+										aavailableFormats={availableFormats}
+										icon={icon}
+										iconData={iconData}
+										handleCopy={handleCopyUrl}
+										handleDownload={handleDownload}
+										copiedVariants={copiedVariants}
+										renderVariant={renderVariant}
+									/>
+								)}
+
+								{iconData.colors && (
+									<>
+										<IconVariantsSection
+											title="Light theme"
+											description="Icon variants optimized for light backgrounds (typically lighter icon colors). Click to copy URL."
+											iconElement={<Sun className="w-4 h-4 text-amber-500" />}
+											aavailableFormats={availableFormats}
+											icon={icon}
+											theme="light"
+											iconData={iconData}
+											handleCopy={handleCopyUrl}
+											handleDownload={handleDownload}
+											copiedVariants={copiedVariants}
+											renderVariant={renderVariant}
+										/>
+
+										<IconVariantsSection
+											title="Dark theme"
+											description="Icon variants optimized for dark backgrounds (typically darker icon colors). Click to copy URL."
+											iconElement={<Moon className="w-4 h-4 text-indigo-500" />}
+											aavailableFormats={availableFormats}
+											icon={icon}
+											theme="dark"
+											iconData={iconData}
+											handleCopy={handleCopyUrl}
+											handleDownload={handleDownload}
+											copiedVariants={copiedVariants}
+											renderVariant={renderVariant}
+										/>
+									</>
+								)}
+
+								{iconData.wordmark && (
+									<WordmarkSection
+										iconData={iconData}
+										icon={icon}
+										aavailableFormats={availableFormats}
+										handleCopy={handleCopyUrl}
+										handleDownload={handleDownload}
+										copiedVariants={copiedVariants}
+										renderVariant={renderVariant}
+									/>
+								)}
+							</div>
 						</CardContent>
 					</Card>
 				</div>
 
-				{/* Right Column: Technical details */}
 				<div className="lg:col-span-1">
 					<Card className="h-full bg-background/50 border shadow-lg">
 						<CardHeader>
@@ -460,6 +624,28 @@ export function IconDetails({ icon, iconData, authorData, allIcons }: IconDetail
 													<code className=" border border-border px-2 py-0.5 rounded-lg text-xs">{variant}</code>
 												</div>
 											))}
+										</div>
+									</div>
+								)}
+
+								{iconData.wordmark && (
+									<div className="">
+										<h3 className="text-sm font-semibold text-muted-foreground">Wordmark variants</h3>
+										<div className="space-y-2">
+											{iconData.wordmark.light && (
+												<div className="flex items-center gap-2">
+													<Type className="w-4 h-4 text-green-500" />
+													<span className="capitalize font-medium text-sm">Light:</span>
+													<code className="border border-border px-2 py-0.5 rounded-lg text-xs">{iconData.wordmark.light}</code>
+												</div>
+											)}
+											{iconData.wordmark.dark && (
+												<div className="flex items-center gap-2">
+													<Type className="w-4 h-4 text-green-500" />
+													<span className="capitalize font-medium text-sm">Dark:</span>
+													<code className="border border-border px-2 py-0.5 rounded-lg text-xs">{iconData.wordmark.dark}</code>
+												</div>
+											)}
 										</div>
 									</div>
 								)}

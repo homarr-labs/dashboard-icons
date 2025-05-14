@@ -4,7 +4,6 @@ import { formatIconName } from "@/lib/utils"
 import type { Icon } from "@/types/icons"
 import Image from "next/image"
 import Link from "next/link"
-import { preload } from "react-dom"
 
 export function IconCard({
 	name,
@@ -21,7 +20,7 @@ export function IconCard({
 			<Link prefetch={false} href={`/icons/${name}`} className="group flex flex-col items-center p-3 sm:p-4 cursor-pointer">
 				<div className="relative h-16 w-16 mb-2">
 					<Image
-						src={`${BASE_URL}/${iconData.base}/${name}.${iconData.base}`}
+						src={`${BASE_URL}/${iconData.base}/${iconData.colors?.light || name}.${iconData.base}`}
 						alt={`${name} icon`}
 						fill
 						className="object-contain p-1 group-hover:scale-110 transition-transform duration-300"
