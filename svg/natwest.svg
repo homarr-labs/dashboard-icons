@@ -1,0 +1,80 @@
+<svg xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="svg9969" version="1.1" viewBox="0 0 75.59 75.59">
+  <defs id="defs9966">
+    <linearGradient gradientUnits="userSpaceOnUse" x1="0.81999999" id="Grad11" x2="10.4437" y2="13.8055" y1="5.73">
+      <stop id="stop8431" stop-color="#c8161d" offset="0%" stop-opacity="1"/>
+      <stop id="stop8433" stop-color="#c8161d" offset="100%" stop-opacity="1"/>
+    </linearGradient>
+    <mask id="Mask5">
+      <path id="path8437" d="M 0,0 H 8.46 V 19.537 H 0 Z" style="fill:url(#Pattern_from_PDF_6S5);stroke:none"/>
+    </mask>
+    <pattern xlink:href="#Pattern_from_PDF_6S" patternTransform="matrix(1 0 0 1 0 0)" height="19.537" width="8.46" id="Pattern_from_PDF_6S5" patternUnits="userSpaceOnUse"/>
+    <pattern height="19.537" width="8.46" id="Pattern_from_PDF_6S">
+      <g style="fill:none; stroke:none" id="Group14" clip-rule="evenodd" transform="translate(0, 0) scale(1, 1)" clip-path="url(#Clip8)">
+        <path id="path8361" style="fill:url(#Grad5); fill-rule:nonzero;stroke:none;" d="M0 9.76 L5.64 19.537 L8.46 14.638 L5.64 9.76 L8.46 4.88 L5.63 0 L0 9.76 Z" transform="translate(0, 0)"/>
+      </g>
+    </pattern>
+    <clipPath id="Clip8">
+      <path id="path8353" d="M 0,0 H 8.46 V 19.537 H 0 Z"/>
+    </clipPath>
+    <linearGradient gradientUnits="userSpaceOnUse" x1="0.82401299" id="Grad5" x2="10.4477" y2="13.8041" y1="5.7286601">
+      <stop id="stop8356" stop-color="#393938" offset="0%" stop-opacity="1"/>
+      <stop id="stop8358" stop-color="#c6c6c5" offset="100%" stop-opacity="1"/>
+    </linearGradient>
+    <linearGradient gradientUnits="userSpaceOnUse" x1="12.03" id="Grad10" x2="6.1293001" y2="7.6623998" y1="0.63">
+      <stop id="stop8422" stop-color="#c8161d" offset="0%" stop-opacity="1"/>
+      <stop id="stop8424" stop-color="#c8161d" offset="100%" stop-opacity="1"/>
+    </linearGradient>
+    <mask id="Mask4">
+      <path id="path8428" d="M 0,0 H 16.92 V 9.78 H 0 Z" style="fill:url(#Pattern_from_PDF_5S4);stroke:none"/>
+    </mask>
+    <pattern xlink:href="#Pattern_from_PDF_5S" patternTransform="matrix(1 0 0 1 0 0)" height="9.78" width="16.9179" id="Pattern_from_PDF_5S4" patternUnits="userSpaceOnUse"/>
+    <pattern height="9.78" width="16.9179" id="Pattern_from_PDF_5S">
+      <g style="fill:none; stroke:none" id="Group13" clip-rule="evenodd" transform="translate(0, 0) scale(1, 1)" clip-path="url(#Clip7)">
+        <path id="path8349" style="fill:url(#Grad4); fill-rule:nonzero;stroke:none;" d="M0 0.00188053 L2.82891 4.9 L8.44891 4.9 L11.2789 9.78 L16.9164 9.78 L16.9179 9.77822 L11.2789 0 L0.00157787 0 L0 0.00188053 Z" transform="translate(0, 0)"/>
+      </g>
+    </pattern>
+    <clipPath id="Clip7">
+      <path id="path8341" d="M 0,0 H 16.9179 V 9.78 H 0 Z"/>
+    </clipPath>
+    <linearGradient gradientUnits="userSpaceOnUse" x1="12.0327" id="Grad4" x2="6.13202" y2="7.6645198" y1="0.63216197">
+      <stop id="stop8344" stop-color="#393938" offset="0%" stop-opacity="1"/>
+      <stop id="stop8346" stop-color="#c6c6c5" offset="100%" stop-opacity="1"/>
+    </linearGradient>
+    <linearGradient gradientUnits="userSpaceOnUse" x1="4.23" id="Grad9" x2="12.6956" y2="7.3175998" y1="2.4300001">
+      <stop id="stop8413" stop-color="#c8161d" offset="0%" stop-opacity="1"/>
+      <stop id="stop8415" stop-color="#c8161d" offset="100%" stop-opacity="1"/>
+    </linearGradient>
+    <mask id="Mask3">
+      <path id="path8419" d="M 0,0 H 16.92 V 9.76 H 0 Z" style="fill:url(#Pattern_from_PDF_4S3);stroke:none"/>
+    </mask>
+    <pattern xlink:href="#Pattern_from_PDF_4S" patternTransform="matrix(1 0 0 1 0 0)" height="9.76" width="16.9198" id="Pattern_from_PDF_4S3" patternUnits="userSpaceOnUse"/>
+    <pattern height="9.76" width="16.9198" id="Pattern_from_PDF_4S">
+      <g style="fill:none; stroke:none" id="Group12" clip-rule="evenodd" transform="translate(0, 0) scale(1, 1)" clip-path="url(#Clip6)">
+        <path id="path8337" style="fill:url(#Grad3); fill-rule:nonzero;stroke:none;" d="M11.2798 0 L8.45982 4.88 L2.81982 4.88 L0 9.75968 L0.000552306 9.76 L11.2898 9.76 L16.9198 0 L11.2798 0 Z" transform="translate(0, 0)"/>
+      </g>
+    </pattern>
+    <clipPath id="Clip6">
+      <path id="path8329" d="M 0,0 H 16.9198 V 9.76 H 0 Z"/>
+    </clipPath>
+    <linearGradient gradientUnits="userSpaceOnUse" x1="4.2291002" id="Grad3" x2="12.6947" y2="7.3220301" y1="2.4344201">
+      <stop id="stop8332" stop-color="#393938" offset="0%" stop-opacity="1"/>
+      <stop id="stop8334" stop-color="#c6c6c5" offset="100%" stop-opacity="1"/>
+    </linearGradient>
+    <clipPath id="Clip13">
+      <path id="path8410" d="M 0,0 H 56.693 V 73.313 H 0 Z"/>
+    </clipPath>
+  </defs>
+  <g style="clip-rule:evenodd;fill:none;stroke:none" id="Group11" transform="scale(1.3333333)" clip-path="url(#Clip13)">
+    <path id="path9073" style="fill:#471563;fill-rule:nonzero;stroke:none" d="m 56.693,28.346 c 0,26.289 -2.057,28.346 -28.346,28.346 C 2.058,56.692 0,54.635 0,28.346 0,2.057 2.058,0 28.347,0 54.636,0 56.693,2.057 56.693,28.346"/>
+    
+  </g>
+  <path id="path9078" style="clip-rule:evenodd;fill:url(#Grad9);fill-rule:nonzero;stroke:none" mask="url(#Mask3)" d="M 11.28,0 8.46,4.88 H 2.82 L 0,9.76 H 11.29 L 16.92,0 Z" transform="matrix(1.3333333,0,0,1.3333333,34.044,33.088)"/>
+  <path id="path9080" style="clip-rule:evenodd;fill:url(#Grad10);fill-rule:nonzero;stroke:none" mask="url(#Mask4)" d="m 0,0 2.83,4.9 h 5.62 l 2.83,4.88 h 5.64 L 11.28,0 Z" transform="matrix(1.3333333,0,0,1.3333333,22.764,26.55467)"/>
+  <path id="path9082" style="clip-rule:evenodd;fill:url(#Grad11);fill-rule:nonzero;stroke:none" mask="url(#Mask5)" d="M 0,9.76 5.64,19.537 8.46,14.638 5.64,9.76 8.46,4.88 5.63,0 Z" transform="matrix(1.3333333,0,0,1.3333333,26.524,33.088)"/>
+  <path id="path9084" style="clip-rule:evenodd;fill:#e3000a;fill-rule:nonzero;stroke:none;stroke-width:1.33333325" d="M 49.0973,46.10132 H 34.0546 l 7.5173,13.03333 h 15.0427 v 0 z"/>
+  <path id="path9086" style="clip-rule:evenodd;fill:#c30203;fill-rule:nonzero;stroke:none;stroke-width:1.33333325" d="M 56.6039,33.08798 64.1253,46.11465 56.6079,59.14132 49.0866,46.10798 Z"/>
+  <path id="path9088" style="clip-rule:evenodd;fill:#e3000a;fill-rule:nonzero;stroke:none;stroke-width:1.33333325" d="m 26.5239,46.10132 v 0 l 7.516,-13.02 H 18.9986 l -7.516,13.02 v 0 0.005 z"/>
+  <path id="path9090" style="clip-rule:evenodd;fill:#c30203;fill-rule:nonzero;stroke:none;stroke-width:1.33333325" d="m 34.0439,59.13732 v 0 H 19.0026 L 11.4813,46.10798 v -0.005 h 15.0426 z"/>
+  <path id="path9092" style="clip-rule:evenodd;fill:#e3000a;fill-rule:nonzero;stroke:none;stroke-width:1.33333325" d="m 45.3239,13.54132 v 0 H 30.2826 l -7.516,13.01866 h 15.04 v 0 z"/>
+  <path id="path9094" style="clip-rule:evenodd;fill:#c30203;fill-rule:nonzero;stroke:none;stroke-width:1.33333325" d="m 37.8039,26.55465 7.5214,13.03067 7.5173,-13.024 -7.5213,-13.02667 z"/>
+</svg>

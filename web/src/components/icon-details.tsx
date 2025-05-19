@@ -365,6 +365,7 @@ export function IconDetails({ icon, iconData, authorData, allIcons }: IconDetail
 										alt={`${iconName} in ${format} format${theme ? ` (${theme} theme)` : ""}`}
 										fill
 										loading="eager"
+										priority
 										className="object-contain p-4"
 									/>
 								</motion.div>
@@ -406,6 +407,7 @@ export function IconDetails({ icon, iconData, authorData, allIcons }: IconDetail
 								<div className="relative w-32 h-32 rounded-xl overflow-hidden border flex items-center justify-center p-3">
 									<Image
 										src={`${BASE_URL}/${iconData.base}/${iconData.colors?.light || icon}.${iconData.base}`}
+										priority
 										width={96}
 										height={96}
 										placeholder="empty"

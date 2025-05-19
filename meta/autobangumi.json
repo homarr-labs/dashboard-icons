@@ -1,0 +1,18 @@
+{
+  "base": "svg",
+  "aliases": [],
+  "categories": [
+    "Media"
+  ],
+  "update": {
+    "timestamp": "2025-05-12T16:23:45.630840",
+    "author": {
+      "id": 63781622,
+      "login": "Meierschlumpf"
+    }
+  },
+  "colors": {
+    "light": "autobangumi",
+    "dark": "autobangumi-dark"
+  }
+}

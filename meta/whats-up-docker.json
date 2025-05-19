@@ -3,14 +3,10 @@
   "aliases": [],
   "categories": [],
   "update": {
-    "timestamp": "2024-10-20T17:24:03Z",
+    "timestamp": "2025-05-11T20:26:17.225235",
     "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+      "id": 72615568,
+      "login": "pat-gal"
     }
-  },
-  "colors": {
-    "dark": "whats-up-docker",
-    "light": "whats-up-docker-light"
   }
 }

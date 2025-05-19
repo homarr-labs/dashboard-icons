@@ -1,0 +1,17 @@
+{
+  "base": "svg",
+  "aliases": [
+    "halifax",
+    "halifax-banking"
+  ],
+  "categories": [
+    "Finance"
+  ],
+  "update": {
+    "timestamp": "2025-05-11T19:32:27.179521",
+    "author": {
+      "id": 30195129,
+      "login": "ashburton88"
+    }
+  }
+}

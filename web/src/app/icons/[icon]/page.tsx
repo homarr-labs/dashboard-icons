@@ -57,17 +57,32 @@ export async function generateMetadata({ params, searchParams }: Props, parent: 
 		icons: {
 			icon: `${BASE_URL}/webp/${icon}.webp`,
 		},
+		robots: {
+			index: true,
+			follow: true,
+			nocache: false,
+			googleBot: {
+				index: true,
+				follow: true,
+				noimageindex: false,
+				"max-video-preview": -1,
+				"max-image-preview": "large",
+			},
+		},
 		abstract: `Download the ${formattedIconName} icon in SVG, PNG, and WEBP formats for FREE. Part of a collection of ${totalIcons} curated icons for services, applications and tools, designed specifically for dashboards and app directories.`,
 		openGraph: {
 			title: `${formattedIconName} Icon | Dashboard Icons`,
 			description: `Download the ${formattedIconName} icon in SVG, PNG, and WEBP formats for FREE. Part of a collection of ${totalIcons} curated icons for services, applications and tools, designed specifically for dashboards and app directories.`,
-			type: "article",
+			type: "website",
 			url: pageUrl,
-			authors: [authorName],
-			publishedTime: updateDate.toISOString(),
-			modifiedTime: updateDate.toISOString(),
-			section: "Icons",
-			tags: [formattedIconName, "dashboard icon", "service icon", "application icon", "tool icon", "web dashboard", "app directory"],
+			siteName: "Dashboard Icons",
+			  images: [{
+    url: `${BASE_URL}/webp/${icon}.webp`,
+    width: 512,
+    height: 512,
+    alt: `${formattedIconName} icon`,
+  }]
+
 		},
 		twitter: {
 			card: "summary_large_image",
@@ -75,6 +90,7 @@ export async function generateMetadata({ params, searchParams }: Props, parent: 
 			description: `Download the ${formattedIconName} icon in SVG, PNG, and WEBP formats for FREE. Part of a collection of ${totalIcons} curated icons for services, applications and tools, designed specifically for dashboards and app directories.`,
 		},
 		alternates: {
+			canonical: `${WEB_URL}/icons/${icon}`,
 			media: {
 				png: `${BASE_URL}/png/${icon}.png`,
 				svg: `${BASE_URL}/svg/${icon}.svg`,
@@ -95,5 +111,26 @@ export default async function IconPage({ params }: { params: Promise<{ icon: str
 
 	const authorData = await getAuthorData(originalIconData.update.author.id)
 
-	return <IconDetails icon={icon} iconData={originalIconData} authorData={authorData} allIcons={iconsData} />
+	return (
+		<>
+			<script
+				type="application/ld+json"
+				// biome-ignore lint/security/noDangerouslySetInnerHtml: Needs to be done
+				dangerouslySetInnerHTML={{
+					__html: JSON.stringify({
+						"@context": "https://schema.org",
+						"@type": "ImageObject",
+						contentUrl: `${BASE_URL}/png/${icon}.png`,
+						license: "https://creativecommons.org/licenses/by/4.0/",
+						acquireLicensePage: `${WEB_URL}/license`,
+						creator: {
+							"@type": "Person",
+							name: authorData.name || authorData.login,
+						},
+					}),
+				}}
+			/>
+			<IconDetails icon={icon} iconData={originalIconData} authorData={authorData} allIcons={iconsData} />
+		</>
+	)
 }
