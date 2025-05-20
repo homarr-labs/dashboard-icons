@@ -13805,6 +13805,20 @@
             "light": "kiwix-light"
         }
     },
+    "chhoto-url": {
+        "base": "png",
+        "aliases": [],
+        "categories": [
+            "Cloud"
+        ],
+        "update": {
+            "timestamp": "2025-05-20T19:21:32.118916",
+            "author": {
+                "id": 98167323,
+                "login": "BDN-fr"
+            }
+        }
+    },
     "netbird": {
         "base": "svg",
         "aliases": [
