@@ -1,0 +1,18 @@
+{
+  "base": "svg",
+  "aliases": [],
+  "categories": [
+    "Organization"
+  ],
+  "update": {
+    "timestamp": "2025-05-20T18:33:04.102221",
+    "author": {
+      "id": 46075675,
+      "login": "GabrielPearce"
+    }
+  },
+  "colors": {
+    "light": "otter-wiki",
+    "dark": "otter-wiki-dark"
+  }
+}
