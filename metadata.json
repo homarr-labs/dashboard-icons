@@ -7293,6 +7293,20 @@
             }
         }
     },
+    "koboldcpp": {
+        "base": "png",
+        "aliases": [],
+        "categories": [
+            "Development"
+        ],
+        "update": {
+            "timestamp": "2025-05-20T18:25:51.753143",
+            "author": {
+                "id": 97732691,
+                "login": "jgh02"
+            }
+        }
+    },
     "guacamole": {
         "base": "svg",
         "aliases": [
