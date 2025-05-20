@@ -1,0 +1,16 @@
+{
+  "base": "svg",
+  "aliases": [
+    "bitcoin-electrum"
+  ],
+  "categories": [
+    "Finance"
+  ],
+  "update": {
+    "timestamp": "2025-05-20T18:20:57.070345",
+    "author": {
+      "id": 56157795,
+      "login": "MontejoJorge"
+    }
+  }
+}
