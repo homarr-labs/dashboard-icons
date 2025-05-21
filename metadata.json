@@ -23314,6 +23314,22 @@
             }
         }
     },
+    "oh-my-posh": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2025-05-21T09:01:47.712689",
+            "author": {
+                "id": 48109134,
+                "login": "jdcool00"
+            }
+        },
+        "colors": {
+            "light": "oh-my-posh",
+            "dark": "oh-my-posh-dark"
+        }
+    },
     "dream-host": {
         "base": "svg",
         "aliases": [],
