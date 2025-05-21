@@ -27595,6 +27595,20 @@
             }
         }
     },
+    "gramps-web": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "Organization"
+        ],
+        "update": {
+            "timestamp": "2025-05-21T08:57:08.423238",
+            "author": {
+                "id": 13964878,
+                "login": "jondycz"
+            }
+        }
+    },
     "polywork": {
         "base": "svg",
         "aliases": [
