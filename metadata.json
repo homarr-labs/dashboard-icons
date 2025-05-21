@@ -379,15 +379,15 @@
             }
         }
     },
-    "asus-full": {
+    "asus": {
         "base": "svg",
         "aliases": [],
         "categories": [],
         "update": {
-            "timestamp": "2023-04-13T13:56:18Z",
+            "timestamp": "2025-05-21T09:09:56.753640",
             "author": {
-                "id": 71191962,
-                "name": "walkxcode"
+                "id": 652463,
+                "login": "verglor"
             }
         }
     },
@@ -20951,6 +20951,18 @@
         ],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
+            "author": {
+                "id": 71191962,
+                "name": "walkxcode"
+            }
+        }
+    },
+    "asus-full": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2023-04-13T13:56:18Z",
             "author": {
                 "id": 71191962,
                 "name": "walkxcode"
