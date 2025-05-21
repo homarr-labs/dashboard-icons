@@ -4593,6 +4593,23 @@
             }
         }
     },
+    "rozetkaua": {
+        "base": "png",
+        "aliases": [
+            "rozetka",
+            "rztk"
+        ],
+        "categories": [
+            "E-Commerce"
+        ],
+        "update": {
+            "timestamp": "2025-05-21T08:52:04.544870",
+            "author": {
+                "id": 211981784,
+                "login": "provoqator7"
+            }
+        }
+    },
     "dropbox": {
         "base": "svg",
         "aliases": [],
