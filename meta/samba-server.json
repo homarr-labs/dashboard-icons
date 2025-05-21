@@ -1,0 +1,19 @@
+{
+  "base": "svg",
+  "aliases": [
+    "samba",
+    "samba-server",
+    "smb",
+    "smb-server"
+  ],
+  "categories": [
+    "Communication"
+  ],
+  "update": {
+    "timestamp": "2025-05-21T08:46:24.232508",
+    "author": {
+      "id": 4868121,
+      "login": "andrejmonteiro"
+    }
+  }
+}
