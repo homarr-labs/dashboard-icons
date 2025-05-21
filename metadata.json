@@ -26729,6 +26729,18 @@
             }
         }
     },
+    "aya": {
+        "base": "png",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2025-05-21T08:40:49.961984",
+            "author": {
+                "id": 48109134,
+                "login": "jdcool00"
+            }
+        }
+    },
     "nintendo-switch": {
         "base": "svg",
         "aliases": [
