@@ -13865,6 +13865,20 @@
             "light": "kiwix-light"
         }
     },
+    "webex": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "Communication"
+        ],
+        "update": {
+            "timestamp": "2025-05-23T20:17:19.500104",
+            "author": {
+                "id": 35078276,
+                "login": "EasyArt"
+            }
+        }
+    },
     "chhoto-url": {
         "base": "png",
         "aliases": [],
