@@ -20990,6 +20990,20 @@
             "light": "windows-retro-light"
         }
     },
+    "macmon": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "Security"
+        ],
+        "update": {
+            "timestamp": "2025-05-23T20:09:20.451412",
+            "author": {
+                "id": 35078276,
+                "login": "EasyArt"
+            }
+        }
+    },
     "tangerine-ui": {
         "base": "svg",
         "aliases": [],
