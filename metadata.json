@@ -21677,6 +21677,18 @@
             }
         }
     },
+    "nutanix": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2025-05-23T19:55:49.860663",
+            "author": {
+                "id": 35078276,
+                "login": "EasyArt"
+            }
+        }
+    },
     "chatwoot": {
         "base": "svg",
         "aliases": [],
