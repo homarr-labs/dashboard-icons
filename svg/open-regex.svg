@@ -1,0 +1,30 @@
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg" version="1.1" id="svg1" viewBox="-0.83 0 148.53 93.37">
+  <defs id="defs1">
+    <linearGradient id="swatch257">
+      <stop style="stop-color:#000000;stop-opacity:1;" offset="0" id="stop257"/>
+    </linearGradient>
+    <linearGradient id="swatch255">
+      <stop style="stop-color:#000000;stop-opacity:1;" offset="0" id="stop255"/>
+    </linearGradient>
+    <linearGradient id="swatch252">
+      <stop style="stop-color:#f9f9f9;stop-opacity:1;" offset="0" id="stop252"/>
+    </linearGradient>
+    <linearGradient id="swatch251">
+      <stop style="stop-color:#bc0000;stop-opacity:1;" offset="0" id="stop251"/>
+    </linearGradient>
+    <linearGradient id="swatch142">
+      <stop style="stop-color:#000000;stop-opacity:1;" offset="0" id="stop142"/>
+    </linearGradient>
+    <linearGradient xlink:href="#swatch252" id="linearGradient252" x1="101.91318" y1="138.53146" x2="163.81355" y2="138.53146" gradientUnits="userSpaceOnUse"/>
+    <linearGradient xlink:href="#swatch251" id="linearGradient254" gradientUnits="userSpaceOnUse" x1="48.167595" y1="138.76474" x2="139.78217" y2="138.76474"/>
+    <linearGradient xlink:href="#swatch142" id="linearGradient255" x1="48.167595" y1="138.76474" x2="139.78217" y2="138.76474" gradientUnits="userSpaceOnUse"/>
+    <linearGradient xlink:href="#swatch142" id="linearGradient256" x1="101.91318" y1="138.53146" x2="163.81355" y2="138.53146" gradientUnits="userSpaceOnUse"/>
+    
+  </defs>
+  
+  <g id="layer4" transform="translate(-33.826079,-106.53659)">
+    <path id="path239" style="opacity:1;fill:url(#linearGradient254);fill-opacity:1;stroke:url(#linearGradient255);stroke-width:1.05;stroke-linecap:butt;stroke-dasharray:none;paint-order:fill markers stroke" d="m 92.075067,107.71569 c -25.547384,3.08775 -43.833265,15.85592 -43.907473,30.65852 -1.34e-4,17.36356 24.839418,31.43956 55.480626,31.43957 16.35142,-0.0215 28.86761,-4.0332 36.13394,-7.70994 l -0.0427,-0.14503 c -4.14902,2.35262 -19.58885,3.95595 -36,4 -24.489206,-3e-5 -44.432838,-14.06482 -44.432881,-27.78747 0.02732,-12.19507 15.844577,-22.57647 37.334212,-24.50371 z"/>
+    <path id="path249" style="fill:url(#linearGradient252);stroke:url(#linearGradient256);stroke-width:1.052;stroke-linecap:butt;stroke-dasharray:none;paint-order:fill markers stroke" d="m 121.76866,107.06377 c -2.03526,-0.002 -4.1216,0.005 -6.22011,0.0205 -2.1279,0.0155 -4.28044,0.028 -6.23942,0.0587 -0.45246,-0.0101 -0.90511,-0.0171 -1.35787,-0.0209 -0.83351,0.0264 -1.66586,0.0635 -2.49641,0.11116 -1.18494,0.0281 -2.56153,0.0492 -3.54167,0.0833 l 0.0553,0.0723 4.73746,6.17609 0.006,0.007 c 0.0551,-0.003 0.1102,-0.005 0.16531,-0.008 0.18291,-10e-4 0.3847,-0.002 0.56991,-0.004 v 3.6e-4 c 0.83989,-0.007 1.70369,-0.011 2.58454,-0.0143 3.36754,-0.0126 6.89669,-0.004 10.50215,0.0363 3.90884,0.0431 7.71099,0.12128 11.19943,0.22709 l 0.0328,-0.003 0.0553,7.4e-4 -0.0553,-3.7e-4 -0.0296,0.003 c 0.61814,0.0187 1.307,0.031 1.89821,0.0517 l -0.0547,-0.003 0.0547,0.002 c 9.7262,0.53836 17.13913,5.12158 17.14166,10.59823 -0.0513,1.52718 -0.68817,3.03032 -1.86732,4.40746 v 3.7e-4 c -2.30814,2.86355 -6.75459,5.01003 -12.15014,5.86537 -1.62681,0.25026 -3.30582,0.37807 -4.99282,0.38006 -0.0562,-0.004 -0.11239,-0.008 -0.16853,-0.0125 -0.0189,0.003 -0.0321,0.0125 -0.0527,0.0125 h -8.30872 L 150,169.99999 h 13.81355 l -10.37158,-13.52027 -5.67529,-7.39811 -6.02458,-7.85374 c 3.86005,-0.71622 7.43459,-1.83801 10.52788,-3.30395 4.22111,-2.00214 7.41674,-4.58436 9.26586,-7.48726 1.21304,-1.85214 1.85411,-3.80425 1.89628,-5.77438 -0.006,-8.81626 -11.8248,-16.26008 -27.6091,-17.38955 l 0.0122,-0.0374 c -0.26589,-0.009 -0.68957,-0.0108 -0.97258,-0.0194 -1.02877,-0.0596 -2.0622,-0.0912 -3.09656,-0.0947 -0.14397,0.007 -0.28784,0.0151 -0.43161,0.0235 -2.9238,-0.0523 -6.1735,-0.079 -9.56561,-0.0818 z m 9.96763,6.7462 c -0.001,-4e-5 -0.002,2e-5 -0.003,0 v 3.6e-4 z"/>
+    <text xml:space="preserve" style="font-size:25.4px;text-align:start;writing-mode:lr-tb;direction:ltr;text-anchor:start;fill:#aa0000;stroke-width:1.052;" x="33.521122" y="194.37755" id="text256"><tspan id="tspan256" style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:Tahoma;stroke: black;" x="33.521122" y="194.37755">Open<tspan style="fill:#f9f9f9;" id="tspan258">Regex</tspan></tspan></text>
+  </g>
+</svg>
