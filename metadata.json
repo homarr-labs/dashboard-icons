@@ -22372,6 +22372,20 @@
             }
         }
     },
+    "ko-insight": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "Media"
+        ],
+        "update": {
+            "timestamp": "2025-05-26T19:45:28.092446",
+            "author": {
+                "id": 150545,
+                "login": "ajgon"
+            }
+        }
+    },
     "f1-dash": {
         "base": "svg",
         "aliases": [
