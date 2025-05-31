@@ -1,0 +1,16 @@
+{
+  "base": "svg",
+  "aliases": [
+    "espo-crm"
+  ],
+  "categories": [
+    "Cloud"
+  ],
+  "update": {
+    "timestamp": "2025-05-31T12:07:22.343939",
+    "author": {
+      "id": 18901550,
+      "login": "DJh2o2"
+    }
+  }
+}
