@@ -8,10 +8,14 @@
     "Developer-Tools"
   ],
   "update": {
-    "timestamp": "2024-06-01T17:31:33Z",
+    "timestamp": "2025-05-31T12:14:13.412714",
     "author": {
-      "id": 710886,
-      "name": "MatthewGlenn"
+      "id": 80942857,
+      "login": "SpeeterYT"
     }
+  },
+  "colors": {
+    "light": "ollama",
+    "dark": "ollama-dark"
   }
 }
