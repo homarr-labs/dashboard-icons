@@ -1,0 +1,18 @@
+{
+  "base": "png",
+  "aliases": [],
+  "categories": [
+    "Organization"
+  ],
+  "update": {
+    "timestamp": "2025-05-31T12:51:24.991083",
+    "author": {
+      "id": 136855477,
+      "login": "Kai-Wulf"
+    }
+  },
+  "colors": {
+    "light": "slurpit",
+    "dark": "slurpit-dark"
+  }
+}
