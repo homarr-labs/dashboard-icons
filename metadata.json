@@ -1328,6 +1328,24 @@
             }
         }
     },
+    "openshift": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "Cloud"
+        ],
+        "update": {
+            "timestamp": "2025-05-31T12:38:38.943077",
+            "author": {
+                "id": 14149567,
+                "login": "arslankhanali"
+            }
+        },
+        "colors": {
+            "light": "openshift",
+            "dark": "openshift-dark"
+        }
+    },
     "handbrake": {
         "base": "svg",
         "aliases": [],
