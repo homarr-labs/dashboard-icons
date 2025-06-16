@@ -1,0 +1,14 @@
+{
+  "base": "svg",
+  "aliases": [],
+  "categories": [
+    "Security"
+  ],
+  "update": {
+    "timestamp": "2025-06-16T21:08:42.534766",
+    "author": {
+      "id": 147527091,
+      "login": "mayberryjp"
+    }
+  }
+}
