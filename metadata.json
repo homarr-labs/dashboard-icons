@@ -15641,6 +15641,20 @@
             }
         }
     },
+    "tunarr": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "Streaming"
+        ],
+        "update": {
+            "timestamp": "2025-06-16T20:56:20.501883",
+            "author": {
+                "id": 209290276,
+                "login": "alawwiz"
+            }
+        }
+    },
     "opera-developer": {
         "base": "png",
         "aliases": [

@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 3 32 25">
+ <style>
+    line { stroke: #231A12; }
+    path.darkMode, circle { fill: #231A12; }
+    circle.button {fill: white}
+    @media (prefers-color-scheme: dark) {
+      line { stroke: #474143 }
+      path.darkMode, circle { fill: #474143 }
+      circle.button {fill: white}
+    }
+  </style>
+<line class="darkMode" x1="13.0531" y1="3.85848" x2="15.1559" y2="7.61348" stroke="#231A12"/>
+<line x1="18.3012" y1="3.78277" x2="15.8843" y2="7.34375" stroke="#231A12"/>
+<path class="darkMode" d="M0 17C0 11.4772 4.47715 7 10 7H22C27.5228 7 32 11.4772 32 17V18C32 23.5228 27.5228 28 22 28H10C4.47715 28 0 23.5228 0 18V17Z" fill="#231A12"/>
+<path class="darkMode" d="M0 8.48936C0 7.66681 0.69548 7 1.5534 7H30.4466C31.3045 7 32 7.66681 32 8.48936V26.5106C32 27.3332 31.3045 28 30.4466 28H1.5534C0.69548 28 0 27.3332 0 26.5106V8.48936Z" fill="#231A12"/>
+<circle cx="13" cy="4" r="1" fill="#231A12"/>
+<circle cx="18" cy="4" r="1" fill="#231A12"/>
+<path d="M3.00397 11.5614C3.00397 11.0091 3.45168 10.5614 4.00397 10.5614H8.33894V24.53H4.00397C3.45168 24.53 3.00397 24.0823 3.00397 23.53V11.5614Z" fill="#DD3C2C"/>
+<path d="M18.8472 10.5614H23.1822C23.7345 10.5614 24.1822 11.0091 24.1822 11.5614V23.53C24.1822 24.0823 23.7345 24.53 23.1822 24.53H18.8472V10.5614Z" fill="#E98E1D"/>
+<rect x="13.6739" y="10.5614" width="5.33497" height="13.9686" fill="#68AAE5"/>
+<rect x="8.33899" y="10.5614" width="5.33497" height="13.9686" fill="#8DCA23"/>
+<circle class="button" cx="28" cy="14" r="1" fill="white"/>
+<circle class="button" cx="28" cy="22" r="1" fill="white"/>
+<circle class="button" cx="28" cy="18" r="1" fill="white"/>
+</svg>
