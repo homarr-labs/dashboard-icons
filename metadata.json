@@ -21074,6 +21074,20 @@
             }
         }
     },
+    "bechtle": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "E-Commerce"
+        ],
+        "update": {
+            "timestamp": "2025-06-16T21:17:22.434178",
+            "author": {
+                "id": 114433629,
+                "login": "Deisling"
+            }
+        }
+    },
     "google-finance": {
         "base": "png",
         "aliases": [],
