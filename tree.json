@@ -1,6 +1,7 @@
 {
     "png": [
         "13ft.png",
+        "1panel.png",
         "1password-dark.png",
         "1password.png",
         "2fauth-light.png",
@@ -2335,6 +2336,7 @@
     ],
     "svg": [
         "13ft.svg",
+        "1panel.svg",
         "1password-dark.svg",
         "1password.svg",
         "2fauth-light.svg",
@@ -4204,6 +4206,7 @@
     ],
     "webp": [
         "13ft.webp",
+        "1panel.webp",
         "1password-dark.webp",
         "1password.webp",
         "2fauth-light.webp",

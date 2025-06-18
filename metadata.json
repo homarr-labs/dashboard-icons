@@ -23125,6 +23125,20 @@
             }
         }
     },
+    "1panel": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "Development"
+        ],
+        "update": {
+            "timestamp": "2025-06-18T05:14:18.987936",
+            "author": {
+                "id": 98148330,
+                "login": "YuSung-2022"
+            }
+        }
+    },
     "spoolman": {
         "base": "svg",
         "aliases": [
