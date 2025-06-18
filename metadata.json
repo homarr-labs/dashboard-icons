@@ -24150,6 +24150,20 @@
             "light": "forte-light"
         }
     },
+    "pulse": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "Cloud"
+        ],
+        "update": {
+            "timestamp": "2025-06-18T05:18:25.028839",
+            "author": {
+                "id": 21307071,
+                "login": "Maxzhao1999"
+            }
+        }
+    },
     "ddclient": {
         "base": "svg",
         "aliases": [],
