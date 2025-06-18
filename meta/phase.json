@@ -1,0 +1,19 @@
+{
+  "base": "svg",
+  "aliases": [],
+  "categories": [
+    "Development",
+    "Security"
+  ],
+  "update": {
+    "timestamp": "2025-06-18T05:08:27.110973",
+    "author": {
+      "id": 5591423,
+      "login": "MDRushin"
+    }
+  },
+  "colors": {
+    "light": "phase",
+    "dark": "phase-dark"
+  }
+}
