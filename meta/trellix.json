@@ -1,0 +1,18 @@
+{
+  "base": "svg",
+  "aliases": [],
+  "categories": [
+    "Security"
+  ],
+  "update": {
+    "timestamp": "2025-06-19T05:44:43.846851",
+    "author": {
+      "id": 43590820,
+      "login": "dadingfs"
+    }
+  },
+  "colors": {
+    "light": "trellix",
+    "dark": "trellix-dark"
+  }
+}
