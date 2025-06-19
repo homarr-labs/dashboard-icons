@@ -1,0 +1,18 @@
+{
+  "base": "svg",
+  "aliases": [],
+  "categories": [
+    "Hardware"
+  ],
+  "update": {
+    "timestamp": "2025-06-19T05:06:27.098647",
+    "author": {
+      "id": 68505869,
+      "login": "adriantankodev"
+    }
+  },
+  "colors": {
+    "light": "glinet",
+    "dark": "glinet-dark"
+  }
+}
