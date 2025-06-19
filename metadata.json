@@ -23685,6 +23685,18 @@
             }
         }
     },
+    "morss": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2025-06-19T19:25:41.839943",
+            "author": {
+                "id": 54368516,
+                "login": "clockwinder"
+            }
+        }
+    },
     "linkace": {
         "base": "svg",
         "aliases": [],
