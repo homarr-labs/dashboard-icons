@@ -10564,6 +10564,22 @@
             }
         }
     },
+    "swagger": {
+        "base": "svg",
+        "aliases": [
+            "swag"
+        ],
+        "categories": [
+            "Development"
+        ],
+        "update": {
+            "timestamp": "2025-06-19T05:38:27.966406",
+            "author": {
+                "id": 137435237,
+                "login": "zgastley"
+            }
+        }
+    },
     "arm": {
         "base": "svg",
         "aliases": [],
