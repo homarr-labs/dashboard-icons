@@ -13267,6 +13267,22 @@
             }
         }
     },
+    "opencost": {
+        "base": "svg",
+        "aliases": [
+            "opencost"
+        ],
+        "categories": [
+            "Cloud"
+        ],
+        "update": {
+            "timestamp": "2025-06-19T05:40:46.696543",
+            "author": {
+                "id": 137435237,
+                "login": "zgastley"
+            }
+        }
+    },
     "bytestash": {
         "base": "svg",
         "aliases": [
