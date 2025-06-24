@@ -15298,6 +15298,20 @@
             }
         }
     },
+    "ruckus-unleashed": {
+        "base": "png",
+        "aliases": [],
+        "categories": [
+            "Communication"
+        ],
+        "update": {
+            "timestamp": "2025-06-24T21:54:17.871572",
+            "author": {
+                "id": 72809254,
+                "login": "fatSquirrel42"
+            }
+        }
+    },
     "ispy": {
         "base": "png",
         "aliases": [],
