@@ -11561,6 +11561,20 @@
             }
         }
     },
+    "safeline": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "Security"
+        ],
+        "update": {
+            "timestamp": "2025-06-24T21:43:24.779599",
+            "author": {
+                "id": 74575336,
+                "login": "ait88"
+            }
+        }
+    },
     "windows-vista": {
         "base": "png",
         "aliases": [
