@@ -1,0 +1,16 @@
+{
+  "base": "svg",
+  "aliases": [
+    "mistral"
+  ],
+  "categories": [
+    "Organization"
+  ],
+  "update": {
+    "timestamp": "2025-06-30T19:08:09.480496",
+    "author": {
+      "id": 25284995,
+      "login": "stefanorossiti"
+    }
+  }
+}
