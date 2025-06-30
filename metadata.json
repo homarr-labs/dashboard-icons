@@ -5933,6 +5933,20 @@
             }
         }
     },
+    "tinyauth": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "Security"
+        ],
+        "update": {
+            "timestamp": "2025-06-30T18:47:41.581523",
+            "author": {
+                "id": 4858543,
+                "login": "mtklr"
+            }
+        }
+    },
     "pulse": {
         "base": "svg",
         "aliases": [],
