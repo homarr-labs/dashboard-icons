@@ -14640,6 +14640,18 @@
             }
         }
     },
+    "a-mule": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2025-06-30T18:55:02.066881",
+            "author": {
+                "id": 1392556,
+                "login": "vitofasano"
+            }
+        }
+    },
     "baikal": {
         "base": "png",
         "aliases": [
