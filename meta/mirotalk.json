@@ -1,0 +1,16 @@
+{
+  "base": "svg",
+  "aliases": [
+    "mirotalk"
+  ],
+  "categories": [
+    "Communication"
+  ],
+  "update": {
+    "timestamp": "2025-06-30T19:13:30.250116",
+    "author": {
+      "id": 39833218,
+      "login": "lollopasso00"
+    }
+  }
+}
