@@ -1,0 +1,16 @@
+{
+  "base": "svg",
+  "aliases": [],
+  "categories": [],
+  "update": {
+    "timestamp": "2025-06-30T18:38:48.844332",
+    "author": {
+      "id": 198086697,
+      "login": "gustavoaffnso"
+    }
+  },
+  "colors": {
+    "light": "vertiv",
+    "dark": "vertiv-dark"
+  }
+}
