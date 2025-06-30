@@ -16968,6 +16968,20 @@
             }
         }
     },
+    "dumbassets": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "Logistics"
+        ],
+        "update": {
+            "timestamp": "2025-06-30T18:52:39.427623",
+            "author": {
+                "id": 7990505,
+                "login": "thinkhead"
+            }
+        }
+    },
     "ovh": {
         "base": "svg",
         "aliases": [],
