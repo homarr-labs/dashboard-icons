@@ -3,14 +3,14 @@
   "aliases": [],
   "categories": [],
   "update": {
-    "timestamp": "2024-10-20T17:24:03Z",
+    "timestamp": "2025-07-02T20:53:17.628824",
     "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+      "id": 141176710,
+      "login": "Qumumba"
     }
   },
   "colors": {
-    "dark": "coder",
-    "light": "coder-light"
+    "light": "coder-light",
+    "dark": "coder"
   }
 }
