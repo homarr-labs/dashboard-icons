@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" viewBox="1 2 14 14">
+  <rect x="1" y="5" width="4" height="11" fill="#90CF00"/>
+  <rect x="9" y="2" width="4" height="14" fill="#90CF00"/>
+  <path d="M0 0 C1.32 0 2.64 0 4 0 C4 2.97 4 5.94 4 9 C2.68 9 1.36 9 0 9 C0 6.03 0 3.06 0 0 Z" fill="#000000" transform="translate(11,7)"/>
+  <path d="M0 0 C1.32 0 2.64 0 4 0 C4 1.65 4 3.3 4 5 C2.68 5 1.36 5 0 5 C0 3.35 0 1.7 0 0 Z" fill="#000000" transform="translate(3,11)"/>
+</svg>
