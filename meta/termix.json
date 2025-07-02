@@ -1,0 +1,16 @@
+{
+  "base": "svg",
+  "aliases": [
+    "ssh"
+  ],
+  "categories": [
+    "Development"
+  ],
+  "update": {
+    "timestamp": "2025-07-02T20:59:19.549576",
+    "author": {
+      "id": 88517757,
+      "login": "LukeGus"
+    }
+  }
+}
