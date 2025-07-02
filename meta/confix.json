@@ -1,0 +1,17 @@
+{
+  "base": "svg",
+  "aliases": [
+    "config",
+    "text-editor"
+  ],
+  "categories": [
+    "Development"
+  ],
+  "update": {
+    "timestamp": "2025-07-02T20:57:04.775955",
+    "author": {
+      "id": 88517757,
+      "login": "LukeGus"
+    }
+  }
+}
