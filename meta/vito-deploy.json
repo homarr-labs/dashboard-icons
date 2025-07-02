@@ -1,0 +1,16 @@
+{
+  "base": "svg",
+  "aliases": [
+    "vito-deploy"
+  ],
+  "categories": [
+    "Cloud"
+  ],
+  "update": {
+    "timestamp": "2025-07-02T20:48:36.011822",
+    "author": {
+      "id": 367897,
+      "login": "thefrosty"
+    }
+  }
+}
