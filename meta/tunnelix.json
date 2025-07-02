@@ -1,0 +1,18 @@
+{
+  "base": "svg",
+  "aliases": [
+    "ssh",
+    "tunnels",
+    "port-forwarding"
+  ],
+  "categories": [
+    "Development"
+  ],
+  "update": {
+    "timestamp": "2025-07-02T20:55:29.985535",
+    "author": {
+      "id": 88517757,
+      "login": "LukeGus"
+    }
+  }
+}
