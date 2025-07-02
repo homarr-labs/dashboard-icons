@@ -1,0 +1,25 @@
+{
+  "base": "svg",
+  "aliases": [
+    "nessus",
+    "tenable-nessus",
+    "tenable-one",
+    "tenable-io",
+    "tenable-was",
+    "tenable-vm"
+  ],
+  "categories": [
+    "Security"
+  ],
+  "update": {
+    "timestamp": "2025-07-02T20:33:58.225487",
+    "author": {
+      "id": 67136265,
+      "login": "luisfalvarez-dev"
+    }
+  },
+  "colors": {
+    "light": "tenable",
+    "dark": "tenable-dark"
+  }
+}
