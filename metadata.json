@@ -12405,6 +12405,27 @@
             }
         }
     },
+    "security-onion": {
+        "base": "svg",
+        "aliases": [
+            "onion",
+            "sos"
+        ],
+        "categories": [
+            "Security"
+        ],
+        "update": {
+            "timestamp": "2025-07-02T20:39:08.226721",
+            "author": {
+                "id": 97694636,
+                "login": "sloraris"
+            }
+        },
+        "colors": {
+            "light": "security-onion",
+            "dark": "security-onion-dark"
+        }
+    },
     "google-admob": {
         "base": "svg",
         "aliases": [
