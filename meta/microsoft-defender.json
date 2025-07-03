@@ -1,0 +1,14 @@
+{
+  "base": "svg",
+  "aliases": [],
+  "categories": [
+    "Cloud"
+  ],
+  "update": {
+    "timestamp": "2025-07-03T18:01:31.815923",
+    "author": {
+      "id": 54372740,
+      "login": "simoncollmann"
+    }
+  }
+}
