@@ -13,12 +13,18 @@ export type IconColors = {
 	light?: string
 }
 
+export type IconWordmarkColors = {
+	dark?: string
+	light?: string
+}
+
 export type Icon = {
 	base: string | "svg" | "png" | "webp"
 	aliases: string[]
 	categories: string[]
 	update: IconUpdate
 	colors?: IconColors
+	wordmark?: IconWordmarkColors
 }
 
 export type IconFile = {
