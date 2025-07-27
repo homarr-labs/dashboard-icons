@@ -1,0 +1,14 @@
+{
+  "base": "svg",
+  "aliases": [],
+  "categories": [
+    "Hardware"
+  ],
+  "update": {
+    "timestamp": "2025-07-27T12:08:08.764997",
+    "author": {
+      "id": 54372740,
+      "login": "simoncollmann"
+    }
+  }
+}
