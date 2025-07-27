@@ -3402,6 +3402,18 @@
             }
         }
     },
+    "shinkro": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2025-07-27T12:29:42.522149",
+            "author": {
+                "id": 4620093,
+                "login": "HeyItsJono"
+            }
+        }
+    },
     "z-wave-js-ui": {
         "base": "svg",
         "aliases": [],
