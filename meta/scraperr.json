@@ -1,0 +1,18 @@
+{
+  "base": "png",
+  "aliases": [],
+  "categories": [
+    "Development",
+    "File",
+    "Cloud",
+    "Media",
+    "Search"
+  ],
+  "update": {
+    "timestamp": "2025-07-27T12:12:49.295242",
+    "author": {
+      "id": 25284995,
+      "login": "stefanorossiti"
+    }
+  }
+}
