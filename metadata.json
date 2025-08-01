@@ -20614,16 +20614,16 @@
         }
     },
     "chhoto-url": {
-        "base": "png",
+        "base": "svg",
         "aliases": [],
         "categories": [
             "Cloud"
         ],
         "update": {
-            "timestamp": "2025-05-20T19:21:32.118916",
+            "timestamp": "2025-08-01T10:04:00.212808",
             "author": {
-                "id": 98167323,
-                "login": "BDN-fr"
+                "id": 63781622,
+                "login": "Meierschlumpf"
             }
         }
     },
