@@ -25987,7 +25987,7 @@
         }
     },
     "unifi-drive": {
-        "base": "png",
+        "base": "svg",
         "aliases": [],
         "categories": [
             "File"
