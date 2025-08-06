@@ -946,6 +946,23 @@
             }
         }
     },
+    "sipeed": {
+        "base": "svg",
+        "aliases": [
+            "sipeed-kvm",
+            "sipeed-nanokvm"
+        ],
+        "categories": [
+            "Hardware"
+        ],
+        "update": {
+            "timestamp": "2025-08-06T18:27:52.171298",
+            "author": {
+                "id": 428312,
+                "login": "chrislentz"
+            }
+        }
+    },
     "mailpit": {
         "base": "svg",
         "aliases": [],
