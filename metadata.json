@@ -26100,6 +26100,20 @@
             }
         }
     },
+    "paymenter": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "E-Commerce"
+        ],
+        "update": {
+            "timestamp": "2025-08-06T19:32:53.141672",
+            "author": {
+                "id": 61483651,
+                "login": "Fritoqc"
+            }
+        }
+    },
     "gigaset": {
         "base": "svg",
         "aliases": [],
