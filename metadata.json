@@ -20557,6 +20557,20 @@
             }
         }
     },
+    "my-guitar-tabs": {
+        "base": "png",
+        "aliases": [],
+        "categories": [
+            "Music"
+        ],
+        "update": {
+            "timestamp": "2025-08-06T19:09:48.641564",
+            "author": {
+                "id": 5960567,
+                "login": "angrykoala"
+            }
+        }
+    },
     "hexo": {
         "base": "svg",
         "aliases": [
