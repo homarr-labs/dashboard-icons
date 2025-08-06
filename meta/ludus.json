@@ -1,0 +1,21 @@
+{
+  "base": "svg",
+  "aliases": [
+    "ludus-cloud",
+    "ludus-goad"
+  ],
+  "categories": [
+    "Development"
+  ],
+  "update": {
+    "timestamp": "2025-08-06T18:59:10.746982",
+    "author": {
+      "id": 58376398,
+      "login": "mr-pmillz"
+    }
+  },
+  "colors": {
+    "light": "ludus",
+    "dark": "ludus-dark"
+  }
+}
