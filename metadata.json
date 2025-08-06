@@ -5492,6 +5492,20 @@
             }
         }
     },
+    "media-manager": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "Media"
+        ],
+        "update": {
+            "timestamp": "2025-08-06T18:22:49.206649",
+            "author": {
+                "id": 28937672,
+                "login": "geoffgbsn"
+            }
+        }
+    },
     "searx": {
         "base": "svg",
         "aliases": [],
