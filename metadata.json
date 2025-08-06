@@ -9880,7 +9880,9 @@
     },
     "cleanuperr": {
         "base": "svg",
-        "aliases": ["cleanuparr"],
+        "aliases": [
+            "cleanuparr"
+        ],
         "categories": [],
         "update": {
             "timestamp": "2025-06-17T17:45:50.317780",
@@ -25743,6 +25745,20 @@
             "author": {
                 "id": 25284995,
                 "login": "stefanorossiti"
+            }
+        }
+    },
+    "book-lore": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "Media"
+        ],
+        "update": {
+            "timestamp": "2025-08-06T18:14:48.266125",
+            "author": {
+                "id": 82271911,
+                "login": "Khyzer10"
             }
         }
     },
