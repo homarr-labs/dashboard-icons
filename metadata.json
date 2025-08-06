@@ -23018,6 +23018,20 @@
             }
         }
     },
+    "palmr": {
+        "base": "png",
+        "aliases": [],
+        "categories": [
+            "File"
+        ],
+        "update": {
+            "timestamp": "2025-08-06T19:30:31.078449",
+            "author": {
+                "id": 32385799,
+                "login": "nkkfs"
+            }
+        }
+    },
     "hikvision": {
         "base": "svg",
         "aliases": [],
