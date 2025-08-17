@@ -16444,7 +16444,7 @@
             }
         }
     },
-    "portainer": {
+    "portainer-alt": {
         "base": "svg",
         "aliases": [],
         "categories": [],

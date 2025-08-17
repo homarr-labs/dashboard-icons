@@ -21,7 +21,7 @@ const representativeIcons = [
 	"cloudflare",
 	"github",
 	"traefik",
-	"portainer",
+	"portainer-alt",
 	"plex",
 	"jellyfin",
 	"overseerr",
