@@ -16246,6 +16246,18 @@
             }
         }
     },
+    "zima-os": {
+        "base": "png",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2025-08-17T19:40:04.026430",
+            "author": {
+                "id": 72711518,
+                "login": "alemosman1"
+            }
+        }
+    },
     "lark": {
         "base": "svg",
         "aliases": [],
