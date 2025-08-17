@@ -2645,6 +2645,20 @@
             }
         }
     },
+    "icon-checkcle": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "Development"
+        ],
+        "update": {
+            "timestamp": "2025-08-17T20:14:04.919459",
+            "author": {
+                "id": 4575656,
+                "login": "samang-dauth"
+            }
+        }
+    },
     "invoice-ninja": {
         "base": "svg",
         "aliases": [],
