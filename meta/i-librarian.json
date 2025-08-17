@@ -1,0 +1,17 @@
+{
+  "base": "svg",
+  "aliases": [
+    "ilibrarian",
+    "i-lib"
+  ],
+  "categories": [
+    "Education"
+  ],
+  "update": {
+    "timestamp": "2025-08-17T18:42:27.647950",
+    "author": {
+      "id": 36165088,
+      "login": "emhl"
+    }
+  }
+}
