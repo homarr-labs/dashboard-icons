@@ -4854,6 +4854,20 @@
             }
         }
     },
+    "figma-icon": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "Design"
+        ],
+        "update": {
+            "timestamp": "2025-08-17T18:21:32.104919",
+            "author": {
+                "id": 19648156,
+                "login": "safiurrehman96"
+            }
+        }
+    },
     "honda-jet": {
         "base": "svg",
         "aliases": [
