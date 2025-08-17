@@ -1,0 +1,16 @@
+{
+  "base": "svg",
+  "aliases": [
+    "qwikjs"
+  ],
+  "categories": [
+    "Development"
+  ],
+  "update": {
+    "timestamp": "2025-08-17T20:17:27.998669",
+    "author": {
+      "id": 1623983,
+      "login": "austins"
+    }
+  }
+}
