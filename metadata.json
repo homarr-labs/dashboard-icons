@@ -19608,6 +19608,18 @@
             }
         }
     },
+    "notion-calendar": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2025-08-17T18:40:14.327346",
+            "author": {
+                "id": 108161370,
+                "login": "eduardoh05"
+            }
+        }
+    },
     "kutt": {
         "base": "svg",
         "aliases": [
