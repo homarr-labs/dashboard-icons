@@ -25943,6 +25943,22 @@
             }
         }
     },
+    "portainer-be": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2025-08-17T20:45:16.038950",
+            "author": {
+                "id": 63781622,
+                "login": "Meierschlumpf"
+            }
+        },
+        "colors": {
+            "light": "portainer-be",
+            "dark": "portainer-be-dark"
+        }
+    },
     "timemachines": {
         "base": "png",
         "aliases": [],
