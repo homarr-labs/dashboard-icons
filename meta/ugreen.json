@@ -1,0 +1,14 @@
+{
+  "base": "svg",
+  "aliases": [
+    "ugreen"
+  ],
+  "categories": [],
+  "update": {
+    "timestamp": "2025-08-17T19:35:37.609785",
+    "author": {
+      "id": 95088006,
+      "login": "RamboMonkey"
+    }
+  }
+}
