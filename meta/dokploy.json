@@ -1,0 +1,18 @@
+{
+  "base": "svg",
+  "aliases": [],
+  "categories": [
+    "Development"
+  ],
+  "update": {
+    "timestamp": "2025-08-17T19:13:37.247398",
+    "author": {
+      "id": 49070556,
+      "login": "lityyy"
+    }
+  },
+  "colors": {
+    "light": "dokploy",
+    "dark": "dokploy-dark"
+  }
+}
