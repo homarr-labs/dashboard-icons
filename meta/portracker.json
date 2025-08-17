@@ -1,0 +1,18 @@
+{
+  "base": "svg",
+  "aliases": [],
+  "categories": [
+    "Development"
+  ],
+  "update": {
+    "timestamp": "2025-08-17T19:49:14.324869",
+    "author": {
+      "id": 166069986,
+      "login": "NightBlueSkies"
+    }
+  },
+  "colors": {
+    "light": "portracker",
+    "dark": "portracker-dark"
+  }
+}
