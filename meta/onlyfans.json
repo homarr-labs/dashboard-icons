@@ -1,0 +1,21 @@
+{
+  "base": "svg",
+  "aliases": [
+    "only-fans",
+    "of"
+  ],
+  "categories": [
+    "SocialMedia"
+  ],
+  "update": {
+    "timestamp": "2025-08-17T18:12:58.038201",
+    "author": {
+      "id": 83889634,
+      "login": "UNakade"
+    }
+  },
+  "colors": {
+    "light": "onlyfans",
+    "dark": "onlyfans-dark"
+  }
+}
