@@ -1,5 +1,6 @@
 {
     "png": [
+        "1337x.png",
         "13ft.png",
         "1panel.png",
         "1password-dark.png",
@@ -2427,6 +2428,7 @@
         "zyxel-networks.png"
     ],
     "svg": [
+        "1337x.svg",
         "13ft.svg",
         "1panel.svg",
         "1password-dark.svg",
@@ -4371,6 +4373,7 @@
         "zyxel-networks.svg"
     ],
     "webp": [
+        "1337x.webp",
         "13ft.webp",
         "1panel.webp",
         "1password-dark.webp",
