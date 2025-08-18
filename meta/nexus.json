@@ -1,0 +1,20 @@
+{
+  "base": "svg",
+  "aliases": [
+    "nexus3"
+  ],
+  "categories": [
+    "Development"
+  ],
+  "update": {
+    "timestamp": "2025-08-18T21:23:22.480718",
+    "author": {
+      "id": 26223813,
+      "login": "foxpluto"
+    }
+  },
+  "colors": {
+    "light": "nexus",
+    "dark": "nexus-dark"
+  }
+}
