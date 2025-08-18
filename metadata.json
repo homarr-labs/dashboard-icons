@@ -24114,6 +24114,24 @@
             "dark": "onlyfans-dark"
         }
     },
+    "notebook-lm": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "Cloud"
+        ],
+        "update": {
+            "timestamp": "2025-08-18T21:31:19.452234",
+            "author": {
+                "id": 13136819,
+                "login": "joikokira"
+            }
+        },
+        "colors": {
+            "light": "notebook-lm",
+            "dark": "notebook-lm-dark"
+        }
+    },
     "posthog": {
         "base": "svg",
         "aliases": [
