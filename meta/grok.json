@@ -1,0 +1,16 @@
+{
+  "base": "svg",
+  "aliases": [],
+  "categories": [],
+  "update": {
+    "timestamp": "2025-08-18T21:09:04.416672",
+    "author": {
+      "id": 981383,
+      "login": "gldtn"
+    }
+  },
+  "colors": {
+    "light": "grok",
+    "dark": "grok-dark"
+  }
+}
