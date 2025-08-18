@@ -6709,6 +6709,20 @@
             }
         }
     },
+    "adsb": {
+        "base": "png",
+        "aliases": [],
+        "categories": [
+            "Logistics"
+        ],
+        "update": {
+            "timestamp": "2025-08-18T21:33:40.843973",
+            "author": {
+                "id": 442966,
+                "login": "hanjo"
+            }
+        }
+    },
     "docspell": {
         "base": "svg",
         "aliases": [
