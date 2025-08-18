@@ -3,10 +3,14 @@
   "aliases": [],
   "categories": [],
   "update": {
-    "timestamp": "2023-04-13T13:56:18Z",
+    "timestamp": "2025-08-18T21:12:28.850811",
     "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+      "id": 2071331,
+      "login": "alexislefebvre"
     }
+  },
+  "colors": {
+    "light": "pigallery2",
+    "dark": "pigallery2-dark"
   }
 }
