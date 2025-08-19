@@ -25944,6 +25944,22 @@
             "light": "music-assistant-light"
         }
     },
+    "newshosting": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2025-08-19T20:31:16.975731",
+            "author": {
+                "id": 71774499,
+                "login": "exdatos"
+            }
+        },
+        "colors": {
+            "light": "newshosting",
+            "dark": "newshosting-dark"
+        }
+    },
     "postgresql": {
         "base": "svg",
         "aliases": [],
