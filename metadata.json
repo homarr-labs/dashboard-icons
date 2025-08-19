@@ -20203,6 +20203,22 @@
             }
         }
     },
+    "tidal": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2025-08-19T20:38:48.905598",
+            "author": {
+                "id": 4071593,
+                "login": "spencerhadley"
+            }
+        },
+        "colors": {
+            "light": "tidal",
+            "dark": "tidal-dark"
+        }
+    },
     "nextcloud-cookbook": {
         "base": "svg",
         "aliases": [],
