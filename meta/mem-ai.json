@@ -1,0 +1,18 @@
+{
+  "base": "png",
+  "aliases": [
+    "mem",
+    "mem-v1",
+    "mem-v2"
+  ],
+  "categories": [
+    "Cloud"
+  ],
+  "update": {
+    "timestamp": "2025-08-19T20:46:24.125442",
+    "author": {
+      "id": 19619829,
+      "login": "jmarz3"
+    }
+  }
+}
