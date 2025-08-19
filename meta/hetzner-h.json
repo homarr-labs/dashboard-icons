@@ -1,0 +1,17 @@
+{
+  "base": "svg",
+  "aliases": [
+    "hetzner",
+    "hetzner-min"
+  ],
+  "categories": [
+    "Development"
+  ],
+  "update": {
+    "timestamp": "2025-08-19T20:57:48.594550",
+    "author": {
+      "id": 77987178,
+      "login": "madroots"
+    }
+  }
+}
