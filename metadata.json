@@ -12051,6 +12051,22 @@
             }
         }
     },
+    "expense-owl": {
+        "base": "png",
+        "aliases": [
+            "expenseowl"
+        ],
+        "categories": [
+            "Finance"
+        ],
+        "update": {
+            "timestamp": "2025-08-19T21:10:19.706005",
+            "author": {
+                "id": 51025166,
+                "login": "leornt"
+            }
+        }
+    },
     "haptic": {
         "base": "svg",
         "aliases": [],
