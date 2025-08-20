@@ -7,14 +7,6 @@ export const dynamicParams = false
 
 export async function generateStaticParams() {
 	const iconsData = await getAllIcons()
-	if (process.env.CI_MODE === "false") {
-		// This is meant to speed up the build process in local development
-		return Object.keys(iconsData)
-			.slice(0, 5)
-			.map((icon) => ({
-				icon,
-			}))
-	}
 	return Object.keys(iconsData).map((icon) => ({
 		icon,
 	}))
