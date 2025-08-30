@@ -1,0 +1,20 @@
+{
+  "base": "svg",
+  "aliases": [
+    "openrouter"
+  ],
+  "categories": [
+    "Cloud"
+  ],
+  "update": {
+    "timestamp": "2025-08-30T13:29:57.437395",
+    "author": {
+      "id": 3728785,
+      "login": "bradich"
+    }
+  },
+  "colors": {
+    "light": "open-router",
+    "dark": "open-router-dark"
+  }
+}
