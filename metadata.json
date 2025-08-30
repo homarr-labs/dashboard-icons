@@ -15226,6 +15226,23 @@
             }
         }
     },
+    "svelte": {
+        "base": "svg",
+        "aliases": [
+            "sveltejs",
+            "sveltekit"
+        ],
+        "categories": [
+            "Development"
+        ],
+        "update": {
+            "timestamp": "2025-08-30T14:46:16.643961",
+            "author": {
+                "id": 1623983,
+                "login": "austins"
+            }
+        }
+    },
     "guacamole": {
         "base": "svg",
         "aliases": [
