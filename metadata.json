@@ -18921,6 +18921,25 @@
             "light": "kiwix-light"
         }
     },
+    "lldap": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "Organization",
+            "Security"
+        ],
+        "update": {
+            "timestamp": "2025-08-30T14:56:01.128392",
+            "author": {
+                "id": 42997116,
+                "login": "mcsrobert"
+            }
+        },
+        "colors": {
+            "light": "lldap",
+            "dark": "lldap-dark"
+        }
+    },
     "duplicati": {
         "base": "svg",
         "aliases": [],
