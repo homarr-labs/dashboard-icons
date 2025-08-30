@@ -1,0 +1,16 @@
+{
+  "base": "svg",
+  "aliases": [
+    "osl"
+  ],
+  "categories": [
+    "Organization"
+  ],
+  "update": {
+    "timestamp": "2025-08-30T13:44:07.609489",
+    "author": {
+      "id": 6125744,
+      "login": "slipperybeluga"
+    }
+  }
+}
