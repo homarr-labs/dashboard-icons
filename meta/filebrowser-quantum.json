@@ -1,12 +1,12 @@
 {
-  "base": "png",
+  "base": "svg",
   "aliases": [],
   "categories": [],
   "update": {
-    "timestamp": "2025-08-03T10:46:00.954984",
+    "timestamp": "2025-08-30T15:23:24.584100",
     "author": {
-      "id": 49212524,
-      "login": "jterpstra1"
+      "id": 10557728,
+      "login": "Bare7a"
     }
   }
 }
