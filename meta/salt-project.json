@@ -1,0 +1,17 @@
+{
+  "base": "svg",
+  "aliases": [
+    "saltstack",
+    "salt"
+  ],
+  "categories": [
+    "Development"
+  ],
+  "update": {
+    "timestamp": "2025-08-30T14:41:56.805437",
+    "author": {
+      "id": 97694636,
+      "login": "sloraris"
+    }
+  }
+}
