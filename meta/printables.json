@@ -1,0 +1,14 @@
+{
+  "base": "svg",
+  "aliases": [],
+  "categories": [
+    "Organization"
+  ],
+  "update": {
+    "timestamp": "2025-08-30T13:31:38.974886",
+    "author": {
+      "id": 46387880,
+      "login": "pgroon"
+    }
+  }
+}
