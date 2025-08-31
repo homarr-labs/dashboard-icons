@@ -1,0 +1,15 @@
+{
+  $schema: "https://docs.renovatebot.com/renovate-schema.json",
+  extends: ["config:recommended"],
+  packageRules: [
+    {
+      matchUpdateTypes: ["minor", "patch", "pin", "digest"],
+      automerge: true,
+    },
+  ],
+  updateInternalDeps: true,
+  rangeStrategy: "bump",
+  automerge: false,
+  baseBranches: ["main"],
+  dependencyDashboard: false,
+}
