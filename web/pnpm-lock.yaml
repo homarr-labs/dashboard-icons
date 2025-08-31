@@ -132,7 +132,7 @@ importers:
         specifier: ^1.235.6
         version: 1.256.1
       posthog-node:
-        specifier: ^4.11.3
+        specifier: ^4.18.0
         version: 4.18.0
       react:
         specifier: ^19.1.0
