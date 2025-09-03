@@ -90,7 +90,7 @@ importers:
         specifier: ^1.2.0
         version: 1.2.7(@types/react-dom@19.1.6(@types/react@19.1.8))(@types/react@19.1.8)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       '@tanstack/react-virtual':
-        specifier: ^3.13.6
+        specifier: ^3.13.12
         version: 3.13.12(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       canvas-confetti:
         specifier: ^1.9.3
