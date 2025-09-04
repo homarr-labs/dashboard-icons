@@ -1,0 +1,18 @@
+{
+  "base": "png",
+  "aliases": [
+    "garmin"
+  ],
+  "categories": [
+    "Health",
+    "Organization",
+    "Cloud"
+  ],
+  "update": {
+    "timestamp": "2025-09-04T17:19:14.226634",
+    "author": {
+      "id": 58833097,
+      "login": "rsiedl"
+    }
+  }
+}
