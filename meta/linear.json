@@ -1,0 +1,20 @@
+{
+  "base": "svg",
+  "aliases": [
+    "linear-app"
+  ],
+  "categories": [
+    "Development"
+  ],
+  "update": {
+    "timestamp": "2025-09-04T18:20:37.295669",
+    "author": {
+      "id": 564542,
+      "login": "DouglasdeMoura"
+    }
+  },
+  "colors": {
+    "light": "linear",
+    "dark": "linear-dark"
+  }
+}
