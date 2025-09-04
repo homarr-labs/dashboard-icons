@@ -2765,6 +2765,20 @@
             }
         }
     },
+    "livebook": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "Development"
+        ],
+        "update": {
+            "timestamp": "2025-09-04T17:22:40.740559",
+            "author": {
+                "id": 4853491,
+                "login": "servaasvdc"
+            }
+        }
+    },
     "reolink": {
         "base": "svg",
         "aliases": [],
