@@ -1,0 +1,20 @@
+{
+  "base": "svg",
+  "aliases": [
+    "controld"
+  ],
+  "categories": [
+    "Security"
+  ],
+  "update": {
+    "timestamp": "2025-09-04T09:33:36.986743",
+    "author": {
+      "id": 29818713,
+      "login": "Zareix"
+    }
+  },
+  "colors": {
+    "light": "control-d",
+    "dark": "control-d-dark"
+  }
+}
