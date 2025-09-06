@@ -12,5 +12,9 @@
   "colors": {
     "light": "issabel-pbx",
     "dark": "issabel-pbx-dark"
+  },
+  "wordmark": {
+    "light": "issabel-pbx-wordmark",
+    "dark": "issabel-pbx-wordmark-dark"
   }
 }
