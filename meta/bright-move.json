@@ -1,0 +1,18 @@
+{
+  "base": "svg",
+  "aliases": [
+    "brightmove",
+    "bright-move-ats",
+    "brightmove-ats"
+  ],
+  "categories": [
+    "Organization"
+  ],
+  "update": {
+    "timestamp": "2025-09-06T18:33:28.889668",
+    "author": {
+      "id": 4467101,
+      "login": "prowave"
+    }
+  }
+}
