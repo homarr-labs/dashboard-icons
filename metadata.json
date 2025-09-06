@@ -29594,6 +29594,26 @@
             }
         }
     },
+    "opencode": {
+        "base": "svg",
+        "aliases": [
+            "opencode"
+        ],
+        "categories": [
+            "Development"
+        ],
+        "update": {
+            "timestamp": "2025-09-06T18:31:45.274263",
+            "author": {
+                "id": 11842502,
+                "login": "ZainW"
+            }
+        },
+        "colors": {
+            "light": "opencode",
+            "dark": "opencode-dark"
+        }
+    },
     "rsshub": {
         "base": "png",
         "aliases": [
