@@ -10853,6 +10853,18 @@
             }
         }
     },
+    "teamtailor": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2025-09-06T18:13:33.888809",
+            "author": {
+                "id": 412615,
+                "login": "johanekhager"
+            }
+        }
+    },
     "triliumnext": {
         "base": "svg",
         "aliases": [],
