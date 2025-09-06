@@ -20,7 +20,7 @@ jobs:
           private_key: ${{ secrets.DASHBOARD_ICONS_MANAGER_APP_PRIVATE_KEY }}
           app_id: ${{ vars.DASHBOARD_ICONS_MANAGER_APP_ID }}
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         env:
           GITHUB_TOKEN: ${{ steps.obtainToken.outputs.token }}
       - name: Set Up Python
