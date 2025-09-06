@@ -1700,6 +1700,23 @@
             }
         }
     },
+    "lunalytics": {
+        "base": "svg",
+        "aliases": [
+            "status-page",
+            "website-monitor"
+        ],
+        "categories": [
+            "Development"
+        ],
+        "update": {
+            "timestamp": "2025-09-06T18:41:43.767807",
+            "author": {
+                "id": 115587774,
+                "login": "Yayafla"
+            }
+        }
+    },
     "borg": {
         "base": "svg",
         "aliases": [],
