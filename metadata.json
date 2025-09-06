@@ -15645,6 +15645,22 @@
             "light": "backrest-light"
         }
     },
+    "issabel-pbx": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2025-09-06T17:13:18.400425",
+            "author": {
+                "id": 168635257,
+                "login": "adolf242"
+            }
+        },
+        "colors": {
+            "light": "issabel-pbx",
+            "dark": "issabel-pbx-dark"
+        }
+    },
     "servarr": {
         "base": "svg",
         "aliases": [],
