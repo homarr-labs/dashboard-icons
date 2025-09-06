@@ -1,0 +1,18 @@
+{
+  "base": "svg",
+  "aliases": [],
+  "categories": [
+    "Communication"
+  ],
+  "update": {
+    "timestamp": "2025-09-06T18:48:01.178210",
+    "author": {
+      "id": 48501111,
+      "login": "mattxcnm"
+    }
+  },
+  "colors": {
+    "light": "openwebrx-plus",
+    "dark": "openwebrx-plus-dark"
+  }
+}
