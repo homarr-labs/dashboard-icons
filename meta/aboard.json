@@ -1,0 +1,14 @@
+{
+  "base": "svg",
+  "aliases": [
+    "aboardhr"
+  ],
+  "categories": [],
+  "update": {
+    "timestamp": "2025-09-06T18:26:21.574041",
+    "author": {
+      "id": 412615,
+      "login": "johanekhager"
+    }
+  }
+}
