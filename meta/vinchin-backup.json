@@ -1,0 +1,18 @@
+{
+  "base": "svg",
+  "aliases": [
+    "vinchin-backup",
+    "vinchin",
+    "vinchin-logo"
+  ],
+  "categories": [
+    "Cloud"
+  ],
+  "update": {
+    "timestamp": "2025-09-06T18:37:39.154441",
+    "author": {
+      "id": 3720528,
+      "login": "luizfpq"
+    }
+  }
+}
