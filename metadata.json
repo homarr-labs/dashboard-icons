@@ -6883,22 +6883,6 @@
             }
         }
     },
-    "issabel-pbx-wordmark": {
-        "base": "svg",
-        "aliases": [],
-        "categories": [],
-        "update": {
-            "timestamp": "2025-09-06T17:39:26.710858",
-            "author": {
-                "id": 63781622,
-                "login": "Meierschlumpf"
-            }
-        },
-        "colors": {
-            "light": "issabel-pbx-wordmark",
-            "dark": "issabel-pbx-wordmark-dark"
-        }
-    },
     "ollama": {
         "base": "svg",
         "aliases": [
@@ -15675,6 +15659,10 @@
         "colors": {
             "light": "issabel-pbx",
             "dark": "issabel-pbx-dark"
+        },
+        "wordmark": {
+            "light": "issabel-pbx-wordmark",
+            "dark": "issabel-pbx-wordmark-dark"
         }
     },
     "servarr": {
