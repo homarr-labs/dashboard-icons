@@ -156,7 +156,7 @@ importers:
         specifier: ^2.0.7
         version: 2.0.7(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       tailwind-merge:
-        specifier: ^3.2.0
+        specifier: ^3.3.1
         version: 3.3.1
       tailwindcss-motion:
         specifier: ^1.1.0
