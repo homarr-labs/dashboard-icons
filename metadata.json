@@ -21461,6 +21461,22 @@
             }
         }
     },
+    "dashboard-icons": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2025-09-06T18:50:43.801762",
+            "author": {
+                "id": 63781622,
+                "login": "Meierschlumpf"
+            }
+        },
+        "colors": {
+            "light": "dashboard-icons",
+            "dark": "dashboard-icons-dark"
+        }
+    },
     "moodist": {
         "base": "svg",
         "aliases": [

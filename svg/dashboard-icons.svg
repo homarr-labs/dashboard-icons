@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 232 232" role="img" aria-label="dashboard-icons logo">
+  <rect x="4" y="4" width="224" height="224" rx="32" fill="none" stroke="#000" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+  <g fill="none" stroke="#ccc" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="24" y="24" width="48" height="48" rx="8" stroke="#FB7185"/>
+    <rect x="92" y="24" width="48" height="48" rx="8" fill="#FDBA74"/>
+    <rect x="92" y="92" width="48" height="48" rx="8" stroke="#C4B5FD"/>
+    <rect x="160" y="92" width="48" height="48" rx="8"/>
+    <rect x="92" y="160" width="48" height="48" rx="8"/>
+    <rect x="160" y="160" width="48" height="48" rx="8" fill="#93C5FD"/>
+  </g>
+  <circle cx="184" cy="48" r="26" fill="#86EFAC"/>
+  <circle cx="48" cy="116" r="26" fill="#93C5FD"/>
+  <rect x="24" y="160" width="48" height="48" rx="8" fill="#FDE68A"/>
+</svg>
