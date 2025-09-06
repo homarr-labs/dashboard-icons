@@ -1734,6 +1734,20 @@
             }
         }
     },
+    "lexmark": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "Hardware"
+        ],
+        "update": {
+            "timestamp": "2025-09-06T17:45:00.646049",
+            "author": {
+                "id": 154547389,
+                "login": "tech-pops"
+            }
+        }
+    },
     "papra": {
         "base": "svg",
         "aliases": [],
