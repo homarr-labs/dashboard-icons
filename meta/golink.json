@@ -1,0 +1,16 @@
+{
+  "base": "svg",
+  "aliases": [],
+  "categories": [],
+  "update": {
+    "timestamp": "2025-09-06T17:50:24.395398",
+    "author": {
+      "id": 142508044,
+      "login": "mawewo"
+    }
+  },
+  "colors": {
+    "light": "golink",
+    "dark": "golink-dark"
+  }
+}
