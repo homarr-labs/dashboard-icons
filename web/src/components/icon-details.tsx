@@ -317,8 +317,7 @@ export function IconDetails({ icon, iconData, authorData, allIcons }: IconDetail
 	}
 
 	const renderVariant = (format: string, iconName: string, theme?: "light" | "dark") => {
-		const variantName = theme && iconColorVariants?.[theme] ? iconColorVariants[theme] : iconName
-		const imageUrl = `${BASE_URL}/${format}/${variantName}.${format}`
+		const imageUrl = `${BASE_URL}/${format}/${iconName}.${format}`
 		const githubUrl = `${REPO_PATH}/tree/main/${format}/${iconName}.${format}`
 		const variantKey = `${format}-${theme || "default"}`
 		const isCopied = copiedVariants[variantKey] || false
