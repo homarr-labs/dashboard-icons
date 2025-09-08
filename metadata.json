@@ -5586,6 +5586,21 @@
             }
         }
     },
+    "tailwind": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "Design",
+            "Development"
+        ],
+        "update": {
+            "timestamp": "2025-09-08T12:54:01.069146",
+            "author": {
+                "id": 109094587,
+                "login": "Yarnacle"
+            }
+        }
+    },
     "nextcloud-timemanager": {
         "base": "svg",
         "aliases": [],
