@@ -2848,6 +2848,22 @@
             }
         }
     },
+    "geo-guessr": {
+        "base": "svg",
+        "aliases": [
+            "geoguessr"
+        ],
+        "categories": [
+            "Gaming"
+        ],
+        "update": {
+            "timestamp": "2025-09-08T12:33:18.729656",
+            "author": {
+                "id": 200864789,
+                "login": "nicholascsmith"
+            }
+        }
+    },
     "listmonk": {
         "base": "svg",
         "aliases": [],
