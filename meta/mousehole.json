@@ -1,0 +1,18 @@
+{
+  "base": "svg",
+  "aliases": [],
+  "categories": [
+    "Development"
+  ],
+  "update": {
+    "timestamp": "2025-09-08T13:14:11.592285",
+    "author": {
+      "id": 43462320,
+      "login": "bughaver"
+    }
+  },
+  "colors": {
+    "light": "mousehole",
+    "dark": "mousehole-dark"
+  }
+}
