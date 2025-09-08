@@ -1,0 +1,16 @@
+{
+  "base": "svg",
+  "aliases": [
+    "airtrail"
+  ],
+  "categories": [
+    "Travel"
+  ],
+  "update": {
+    "timestamp": "2025-09-08T12:23:51.466615",
+    "author": {
+      "id": 1340823,
+      "login": "b12e"
+    }
+  }
+}
