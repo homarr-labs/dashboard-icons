@@ -4035,6 +4035,20 @@
             }
         }
     },
+    "yazi": {
+        "base": "png",
+        "aliases": [],
+        "categories": [
+            "Development"
+        ],
+        "update": {
+            "timestamp": "2025-09-08T12:06:37.250878",
+            "author": {
+                "id": 1079016,
+                "login": "dvogeldev"
+            }
+        }
+    },
     "unifi-protect": {
         "base": "png",
         "aliases": [],
