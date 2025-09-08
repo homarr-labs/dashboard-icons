@@ -1,0 +1,18 @@
+{
+  "base": "svg",
+  "aliases": [],
+  "categories": [
+    "Media"
+  ],
+  "update": {
+    "timestamp": "2025-09-08T12:39:20.422673",
+    "author": {
+      "id": 24190769,
+      "login": "enzops"
+    }
+  },
+  "colors": {
+    "light": "capacities",
+    "dark": "capacities-dark"
+  }
+}
