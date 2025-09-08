@@ -1,0 +1,16 @@
+{
+  "base": "svg",
+  "aliases": [
+    "tutanota"
+  ],
+  "categories": [
+    "Communication"
+  ],
+  "update": {
+    "timestamp": "2025-09-08T12:30:11.845300",
+    "author": {
+      "id": 200864789,
+      "login": "nicholascsmith"
+    }
+  }
+}
