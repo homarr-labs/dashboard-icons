@@ -1,0 +1,18 @@
+{
+  "base": "svg",
+  "aliases": [],
+  "categories": [
+    "Gaming"
+  ],
+  "update": {
+    "timestamp": "2025-09-08T13:01:16.422344",
+    "author": {
+      "id": 48598,
+      "login": "shanus"
+    }
+  },
+  "colors": {
+    "light": "omnic-forge",
+    "dark": "omnic-forge-dark"
+  }
+}
