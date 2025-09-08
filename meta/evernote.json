@@ -1,0 +1,16 @@
+{
+  "base": "svg",
+  "aliases": [
+    "evernote"
+  ],
+  "categories": [
+    "Cloud"
+  ],
+  "update": {
+    "timestamp": "2025-09-08T13:35:28.387565",
+    "author": {
+      "id": 3998989,
+      "login": "oeeve"
+    }
+  }
+}
