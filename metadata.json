@@ -15861,6 +15861,22 @@
             }
         }
     },
+    "canvas-lms": {
+        "base": "svg",
+        "aliases": [
+            "instructure-canvas"
+        ],
+        "categories": [
+            "Education"
+        ],
+        "update": {
+            "timestamp": "2025-09-08T12:47:49.488680",
+            "author": {
+                "id": 5969940,
+                "login": "jimmy0017"
+            }
+        }
+    },
     "etcd": {
         "base": "svg",
         "aliases": [],
