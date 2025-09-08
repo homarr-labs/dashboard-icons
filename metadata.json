@@ -5040,6 +5040,20 @@
             }
         }
     },
+    "smlight": {
+        "base": "png",
+        "aliases": [],
+        "categories": [
+            "Hardware"
+        ],
+        "update": {
+            "timestamp": "2025-09-08T12:45:25.500825",
+            "author": {
+                "id": 33230248,
+                "login": "tutomun"
+            }
+        }
+    },
     "tube-archivist": {
         "base": "png",
         "aliases": [],
