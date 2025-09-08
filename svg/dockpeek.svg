@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 100 100">
+    <!-- Tło: ciemny granat/prawie czarny -->
+    <circle cx="50" cy="50" r="50" fill="#1A202C"/>
+
+    <!-- Sylizowana baza przypominająca wieloryba: jasnoszary -->
+    <path d="M15 50 Q30 20 50 30 T85 50 Q70 80 50 70 T15 50 Z" fill="#E2E8F0"/>
+
+    <!-- Uproszczone elementy kontenerów na grzbiecie wieloryba: ciemnoszary/grafitowy -->
+    <rect x="35" y="38" width="10" height="15" rx="2" ry="2" fill="#4A5568"/>
+    <rect x="56" y="44" width="10" height="15" rx="2" ry="2" fill="#4A5568"/>
+
+    <!-- Opcjonalnie: małe "oko" lub detal na wielorybie: ciemniejszy szary -->
+    <circle cx="28" cy="45" r="3" fill="#2D3748"/>
+</svg>
