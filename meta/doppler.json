@@ -1,0 +1,16 @@
+{
+  "base": "svg",
+  "aliases": [
+    "doppler-secrets"
+  ],
+  "categories": [
+    "Development"
+  ],
+  "update": {
+    "timestamp": "2025-09-08T12:37:48.861505",
+    "author": {
+      "id": 97694636,
+      "login": "sloraris"
+    }
+  }
+}
