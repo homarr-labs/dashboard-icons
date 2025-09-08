@@ -3855,6 +3855,20 @@
             }
         }
     },
+    "codellm": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "Development"
+        ],
+        "update": {
+            "timestamp": "2025-09-08T12:10:52.006524",
+            "author": {
+                "id": 1079016,
+                "login": "dvogeldev"
+            }
+        }
+    },
     "filebot": {
         "base": "svg",
         "aliases": [
