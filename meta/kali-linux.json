@@ -1,0 +1,16 @@
+{
+  "base": "svg",
+  "aliases": [
+    "kali"
+  ],
+  "categories": [
+    "Security"
+  ],
+  "update": {
+    "timestamp": "2025-09-09T19:16:14.770145",
+    "author": {
+      "id": 160300441,
+      "login": "BuilderBoy163"
+    }
+  }
+}
