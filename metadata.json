@@ -7481,6 +7481,20 @@
             }
         }
     },
+    "redmine": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "Development"
+        ],
+        "update": {
+            "timestamp": "2025-09-09T19:19:17.138796",
+            "author": {
+                "id": 399188,
+                "login": "jangins101"
+            }
+        }
+    },
     "n8n": {
         "base": "svg",
         "aliases": [],
@@ -15271,6 +15285,20 @@
             }
         }
     },
+    "habit-trove": {
+        "base": "png",
+        "aliases": [],
+        "categories": [
+            "Organization"
+        ],
+        "update": {
+            "timestamp": "2025-09-09T19:21:54.763511",
+            "author": {
+                "id": 399188,
+                "login": "jangins101"
+            }
+        }
+    },
     "openmaptiles": {
         "base": "png",
         "aliases": [
@@ -22894,6 +22922,18 @@
             }
         }
     },
+    "eliza-os": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2025-09-09T19:28:51.951091",
+            "author": {
+                "id": 37813373,
+                "login": "iurisouz4"
+            }
+        }
+    },
     "phpmyadmin": {
         "base": "svg",
         "aliases": [],
@@ -26572,6 +26612,22 @@
         "colors": {
             "dark": "cal-com",
             "light": "cal-com-light"
+        }
+    },
+    "kali-linux": {
+        "base": "svg",
+        "aliases": [
+            "kali"
+        ],
+        "categories": [
+            "Security"
+        ],
+        "update": {
+            "timestamp": "2025-09-09T19:16:14.770145",
+            "author": {
+                "id": 160300441,
+                "login": "BuilderBoy163"
+            }
         }
     },
     "mikrotik": {
