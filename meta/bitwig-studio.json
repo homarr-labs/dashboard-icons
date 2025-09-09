@@ -1,0 +1,22 @@
+{
+  "base": "png",
+  "aliases": [
+    "bitwig",
+    "studio",
+    "bitwig-music"
+  ],
+  "categories": [
+    "Music"
+  ],
+  "update": {
+    "timestamp": "2025-09-09T20:49:37.952500",
+    "author": {
+      "id": 160300441,
+      "login": "BuilderBoy163"
+    }
+  },
+  "colors": {
+    "light": "bitwig-studio",
+    "dark": "bitwig-studio-dark"
+  }
+}
