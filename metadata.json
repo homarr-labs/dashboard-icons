@@ -2606,6 +2606,20 @@
             }
         }
     },
+    "agile-freaks": {
+        "base": "png",
+        "aliases": [],
+        "categories": [
+            "Organization"
+        ],
+        "update": {
+            "timestamp": "2025-09-10T18:16:01.315508",
+            "author": {
+                "id": 679198,
+                "login": "alexandru-calinoiu"
+            }
+        }
+    },
     "act": {
         "base": "svg",
         "aliases": [],
