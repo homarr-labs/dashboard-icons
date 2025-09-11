@@ -26489,6 +26489,22 @@
             }
         }
     },
+    "hyprland": {
+        "base": "svg",
+        "aliases": [
+            "hyprwm"
+        ],
+        "categories": [
+            "Organization"
+        ],
+        "update": {
+            "timestamp": "2025-09-11T17:45:43.512097",
+            "author": {
+                "id": 84806918,
+                "login": "ninjack-dev"
+            }
+        }
+    },
     "lsio": {
         "base": "png",
         "aliases": [],
