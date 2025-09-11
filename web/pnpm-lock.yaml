@@ -129,7 +129,7 @@ importers:
         specifier: ^0.4.6
         version: 0.4.6(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
       posthog-js:
-        specifier: ^1.261.0
+        specifier: ^1.261.7
         version: 1.261.7
       posthog-node:
         specifier: ^5.8.2
