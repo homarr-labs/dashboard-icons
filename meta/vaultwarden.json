@@ -3,14 +3,14 @@
   "aliases": [],
   "categories": [],
   "update": {
-    "timestamp": "2024-10-20T17:24:03Z",
+    "timestamp": "2025-09-13T12:22:48.599992",
     "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+      "id": 63781622,
+      "login": "Meierschlumpf"
     }
   },
   "colors": {
-    "dark": "vaultwarden",
-    "light": "vaultwarden-light"
+    "light": "vaultwarden-light",
+    "dark": "vaultwarden"
   }
 }
