@@ -1,0 +1,20 @@
+{
+  "base": "svg",
+  "aliases": [
+    "unity-3d"
+  ],
+  "categories": [
+    "Development"
+  ],
+  "update": {
+    "timestamp": "2025-09-26T20:57:54.983944",
+    "author": {
+      "id": 1355848,
+      "login": "Lachee"
+    }
+  },
+  "colors": {
+    "light": "unity",
+    "dark": "unity-dark"
+  }
+}
