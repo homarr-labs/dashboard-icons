@@ -23430,6 +23430,20 @@
             "light": "cribl-light"
         }
     },
+    "any-listen": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "Music"
+        ],
+        "update": {
+            "timestamp": "2025-09-26T20:59:46.315320",
+            "author": {
+                "id": 23657968,
+                "login": "springsunx"
+            }
+        }
+    },
     "tp-link": {
         "base": "svg",
         "aliases": [],
