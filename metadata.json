@@ -26344,6 +26344,20 @@
             }
         }
     },
+    "pulsarr": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "Media"
+        ],
+        "update": {
+            "timestamp": "2025-09-26T21:24:18.833296",
+            "author": {
+                "id": 8018130,
+                "login": "t1k3"
+            }
+        }
+    },
     "ezbookkeeping": {
         "base": "png",
         "aliases": [],
