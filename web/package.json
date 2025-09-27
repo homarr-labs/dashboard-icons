@@ -54,7 +54,7 @@
 		"posthog-js": "^1.262.0",
 		"posthog-node": "^5.8.2",
 		"react": "^19.1.1",
-		"react-day-picker": "8.10.1",
+		"react-day-picker": "9.11.0",
 		"react-dom": "^19.1.1",
 		"react-hook-form": "^7.62.0",
 		"react-resizable-panels": "^2.1.9",
