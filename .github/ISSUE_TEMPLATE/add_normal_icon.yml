@@ -15,12 +15,16 @@ body:
       label: Icon name
       description: The name has to be unique and should be kebab-case.
       placeholder: e.g. "icon-name"
+    validations:
+      required: true
   - type: textarea
     id: icon
     attributes:
       label: Paste icon
       description: |
         Please paste the icon here. It will automatically upload it to github.
+    validations:
+      required: true
   - type: dropdown
     id: type
     attributes:
@@ -28,6 +32,8 @@ body:
       options:
         - SVG
         - PNG
+    validations:
+      required: true
   - type: dropdown
     attributes:
       label: Categories

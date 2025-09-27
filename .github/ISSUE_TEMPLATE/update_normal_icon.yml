@@ -13,17 +13,23 @@ body:
       label: Icon name
       description: The name has to match the existing icon name.
       placeholder: e.g. "icon-name"
+    validations:
+      required: true
   - type: textarea
     attributes:
       label: Paste icon
       description: |
         Please paste the icon here. It will automatically upload it to github.
+    validations:
+      required: true
   - type: dropdown
     attributes:
       label: Icon type
       options:
         - SVG
         - PNG
+    validations:
+      required: true
   - type: textarea
     attributes:
       label: Additional information

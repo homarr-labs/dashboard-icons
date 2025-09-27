@@ -13,22 +13,30 @@ body:
       label: Icon name
       description: The name has to be unique and should be kebab-case.
       placeholder: e.g. "icon-name"
+    validations:
+      required: true
   - type: textarea
     attributes:
       label: Paste light mode icon
       description: |
         Please paste the icon here. It will automatically upload it to github. This icon should be visible on a light background.
+    validations:
+      required: true
   - type: textarea
     attributes:
       label: Paste dark mode icon
       description: |
         Please paste the icon here. It will automatically upload it to github. This icon should be visible on a dark background.
+    validations:
+      required: true
   - type: dropdown
     attributes:
       label: Icon type
       options:
         - SVG
         - PNG
+    validations:
+      required: true
   - type: textarea
     attributes:
       label: Additional information
