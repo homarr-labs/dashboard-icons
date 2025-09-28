@@ -29376,6 +29376,20 @@
             "light": "oscarr-light"
         }
     },
+    "ikuai": {
+        "base": "png",
+        "aliases": [],
+        "categories": [
+            "Organization"
+        ],
+        "update": {
+            "timestamp": "2025-09-28T09:53:26.066924",
+            "author": {
+                "id": 127128984,
+                "login": "Ray2023m"
+            }
+        }
+    },
     "maptiler": {
         "base": "svg",
         "aliases": [],
