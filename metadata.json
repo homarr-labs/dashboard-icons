@@ -25280,6 +25280,18 @@
             }
         }
     },
+    "linuxdo": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2025-09-28T10:39:28.806380",
+            "author": {
+                "id": 127128984,
+                "login": "Ray2023m"
+            }
+        }
+    },
     "avg": {
         "base": "svg",
         "aliases": [],
