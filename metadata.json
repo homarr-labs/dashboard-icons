@@ -16119,6 +16119,23 @@
             }
         }
     },
+    "osu": {
+        "base": "svg",
+        "aliases": [
+            "osu lazer",
+            "osu!"
+        ],
+        "categories": [
+            "Gaming"
+        ],
+        "update": {
+            "timestamp": "2025-09-28T10:24:00.505783",
+            "author": {
+                "id": 73608084,
+                "login": "Rishabh-Sarang"
+            }
+        }
+    },
     "concourse": {
         "base": "svg",
         "aliases": [],
