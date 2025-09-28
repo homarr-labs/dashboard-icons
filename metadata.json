@@ -1512,6 +1512,20 @@
             "light": "mailchimp-light"
         }
     },
+    "recomendarr": {
+        "base": "png",
+        "aliases": [],
+        "categories": [
+            "Media"
+        ],
+        "update": {
+            "timestamp": "2025-09-28T09:01:52.752275",
+            "author": {
+                "id": 71524789,
+                "login": "B1NT0N"
+            }
+        }
+    },
     "booklogr": {
         "base": "svg",
         "aliases": [
