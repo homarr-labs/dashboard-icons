@@ -1,0 +1,16 @@
+{
+  "base": "svg",
+  "aliases": [],
+  "categories": [],
+  "update": {
+    "timestamp": "2025-09-28T11:16:17.689724",
+    "author": {
+      "id": 63781622,
+      "login": "Meierschlumpf"
+    }
+  },
+  "colors": {
+    "light": "crowdin",
+    "dark": "crowdin-dark"
+  }
+}
