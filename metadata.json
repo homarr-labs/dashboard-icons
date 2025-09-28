@@ -10787,7 +10787,7 @@
         }
     },
     "axis": {
-        "base": "png",
+        "base": "svg",
         "aliases": [
             "security-camera-company",
             "video-surveillance"
@@ -10797,15 +10797,11 @@
             "Hardware"
         ],
         "update": {
-            "timestamp": "2025-01-07T17:54:03Z",
+            "timestamp": "2025-09-28T09:38:41.752362",
             "author": {
-                "id": 71191962,
-                "name": "walkxcode"
+                "id": 63781622,
+                "login": "Meierschlumpf"
             }
-        },
-        "colors": {
-            "dark": "axis",
-            "light": "axis-light"
         }
     },
     "canvas-lms": {
