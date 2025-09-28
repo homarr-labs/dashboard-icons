@@ -1,0 +1,16 @@
+{
+  "base": "svg",
+  "aliases": [
+    "dilg-2025"
+  ],
+  "categories": [
+    "Organization"
+  ],
+  "update": {
+    "timestamp": "2025-09-28T09:04:33.108363",
+    "author": {
+      "id": 184480716,
+      "login": "d-noelex"
+    }
+  }
+}
