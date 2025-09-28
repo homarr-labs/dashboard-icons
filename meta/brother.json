@@ -9,14 +9,10 @@
     "Office-Suites"
   ],
   "update": {
-    "timestamp": "2024-10-20T17:24:03Z",
+    "timestamp": "2025-09-28T09:41:36.476862",
     "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+      "id": 63781622,
+      "login": "Meierschlumpf"
     }
-  },
-  "colors": {
-    "dark": "brother",
-    "light": "brother-light"
   }
 }
