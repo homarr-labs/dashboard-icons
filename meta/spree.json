@@ -1,0 +1,18 @@
+{
+  "base": "svg",
+  "aliases": [],
+  "categories": [
+    "E-Commerce"
+  ],
+  "update": {
+    "timestamp": "2025-09-28T09:07:27.811192",
+    "author": {
+      "id": 10255587,
+      "login": "SteffeyDev"
+    }
+  },
+  "colors": {
+    "light": "spree",
+    "dark": "spree-dark"
+  }
+}
