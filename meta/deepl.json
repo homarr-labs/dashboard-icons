@@ -1,0 +1,16 @@
+{
+  "base": "svg",
+  "aliases": [],
+  "categories": [],
+  "update": {
+    "timestamp": "2025-09-28T09:43:34.981048",
+    "author": {
+      "id": 173324028,
+      "login": "MyOnwForest"
+    }
+  },
+  "colors": {
+    "light": "deepl",
+    "dark": "deepl-dark"
+  }
+}
