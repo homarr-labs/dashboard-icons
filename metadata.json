@@ -2487,6 +2487,18 @@
             }
         }
     },
+    "italki": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2025-09-28T09:19:07.153119",
+            "author": {
+                "id": 234478058,
+                "login": "jamestsengmillan-art"
+            }
+        }
+    },
     "docsify": {
         "base": "svg",
         "aliases": [],
