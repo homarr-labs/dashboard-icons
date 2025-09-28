@@ -19454,6 +19454,23 @@
             }
         }
     },
+    "yac-reader": {
+        "base": "svg",
+        "aliases": [
+            "yacreader"
+        ],
+        "categories": [
+            "File",
+            "Education"
+        ],
+        "update": {
+            "timestamp": "2025-09-28T09:10:16.033444",
+            "author": {
+                "id": 2258234,
+                "login": "snachodog"
+            }
+        }
+    },
     "jellystat": {
         "base": "svg",
         "aliases": [],
