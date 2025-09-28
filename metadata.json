@@ -11434,6 +11434,22 @@
             }
         }
     },
+    "sketchup-make": {
+        "base": "png",
+        "aliases": [
+            "sketchup"
+        ],
+        "categories": [
+            "Development"
+        ],
+        "update": {
+            "timestamp": "2025-09-28T16:48:04.764217",
+            "author": {
+                "id": 230745655,
+                "login": "stillkool"
+            }
+        }
+    },
     "papra": {
         "base": "svg",
         "aliases": [],
