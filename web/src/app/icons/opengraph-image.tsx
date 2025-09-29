@@ -1,5 +1,5 @@
-import { getAllIcons } from "@/lib/api"
 import { ImageResponse } from "next/og"
+import { getAllIcons } from "@/lib/api"
 
 export const dynamic = "force-static"
 

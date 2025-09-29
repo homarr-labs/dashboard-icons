@@ -1,7 +1,7 @@
 import { readFile } from "node:fs/promises"
 import { join } from "node:path"
-import { getAllIcons } from "@/lib/api"
 import { ImageResponse } from "next/og"
+import { getAllIcons } from "@/lib/api"
 
 export const dynamic = "force-static"
 
@@ -42,7 +42,7 @@ export default async function Image({ params }: { params: { icon: string } }) {
 		const iconPath = join(process.cwd(), `../png/${icon}.png`)
 		console.log(`Generating opengraph image for ${icon} (${index + 1} / ${totalIcons}) from path ${iconPath}`)
 		iconData = await readFile(iconPath)
-	} catch (error) {
+	} catch (_error) {
 		console.error(`Icon ${icon} was not found locally`)
 	}
 

@@ -1,13 +1,9 @@
+import { AlertTriangle, ArrowLeft } from "lucide-react"
+import Link from "next/link"
 import { IconSubmissionContent } from "@/components/icon-submission-form"
 import { Button } from "@/components/ui/button"
-import { AlertTriangle, ArrowLeft, PlusCircle } from "lucide-react"
-import Link from "next/link"
 
-export default function NotFound({
-	error,
-}: {
-	error: Error & { digest?: string }
-}) {
+export default function NotFound({ error }: { error: Error & { digest?: string } }) {
 	return (
 		<div className="py-16 flex items-center justify-center">
 			<div className="text-center space-y-8 max-w-2xl mx-auto">

@@ -1,6 +1,6 @@
-import type { IconWithName } from "@/types/icons"
 import { type ClassValue, clsx } from "clsx"
 import { twMerge } from "tailwind-merge"
+import type { IconWithName } from "@/types/icons"
 
 export function cn(...inputs: ClassValue[]) {
 	return twMerge(clsx(inputs))

@@ -7,10 +7,7 @@
 	},
 	"files": {
 		"ignoreUnknown": false,
-		"includes": [
-			"src/**",
-			"!src/components/ui"
-		]
+		"includes": ["src/**", "!src/components/ui"]
 	},
 	"formatter": {
 		"lineWidth": 140,
@@ -22,6 +19,8 @@
 		"rules": {
 			"recommended": true,
 			"suspicious": {
+				"noExplicitAny": "off",
+				"noUnknownAtRules": "off",
 				"noArrayIndexKey": "off"
 			}
 		}

@@ -1,6 +1,6 @@
-import { REPO_PATH } from "@/constants"
 import { ExternalLink } from "lucide-react"
 import Link from "next/link"
+import { REPO_PATH } from "@/constants"
 import { HeartEasterEgg } from "./heart"
 
 export function Footer() {

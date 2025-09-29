@@ -1,8 +1,8 @@
+import type { Metadata, ResolvingMetadata } from "next"
+import { notFound } from "next/navigation"
 import { IconDetails } from "@/components/icon-details"
 import { BASE_URL, WEB_URL } from "@/constants"
 import { getAllIcons, getAuthorData } from "@/lib/api"
-import type { Metadata, ResolvingMetadata } from "next"
-import { notFound } from "next/navigation"
 export const dynamicParams = false
 
 export async function generateStaticParams() {
@@ -19,7 +19,7 @@ type Props = {
 	searchParams: Promise<{ [key: string]: string | string[] | undefined }>
 }
 
-export async function generateMetadata({ params, searchParams }: Props, parent: ResolvingMetadata): Promise<Metadata> {
+export async function generateMetadata({ params, searchParams }: Props, _parent: ResolvingMetadata): Promise<Metadata> {
 	const { icon } = await params
 	const iconsData = await getAllIcons()
 	if (!iconsData[icon]) {
@@ -76,13 +76,14 @@ export async function generateMetadata({ params, searchParams }: Props, parent: 
 			type: "website",
 			url: pageUrl,
 			siteName: "Dashboard Icons",
-			  images: [{
-    url: `${BASE_URL}/webp/${icon}.webp`,
-    width: 512,
-    height: 512,
-    alt: `${formattedIconName} icon`,
-  }]
-
+			images: [
+				{
+					url: `${BASE_URL}/webp/${icon}.webp`,
+					width: 512,
+					height: 512,
+					alt: `${formattedIconName} icon`,
+				},
+			],
 		},
 		twitter: {
 			card: "summary_large_image",

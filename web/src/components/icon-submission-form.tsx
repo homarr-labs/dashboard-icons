@@ -1,12 +1,12 @@
 "use client"
 
-import { Button } from "@/components/ui/button"
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
-import { REPO_PATH } from "@/constants"
 import { DialogDescription } from "@radix-ui/react-dialog"
 import { ExternalLink, PlusCircle } from "lucide-react"
 import Link from "next/link"
 import { useState } from "react"
+import { Button } from "@/components/ui/button"
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import { REPO_PATH } from "@/constants"
 
 export const ISSUE_TEMPLATES = [
 	{

@@ -1,19 +1,11 @@
+import Image from "next/image"
+import Link from "next/link"
 import { MagicCard } from "@/components/magicui/magic-card"
 import { BASE_URL } from "@/constants"
 import { formatIconName } from "@/lib/utils"
 import type { Icon } from "@/types/icons"
-import Image from "next/image"
-import Link from "next/link"
 
-export function IconCard({
-	name,
-	data: iconData,
-	matchedAlias,
-}: {
-	name: string
-	data: Icon
-	matchedAlias?: string
-}) {
+export function IconCard({ name, data: iconData, matchedAlias }: { name: string; data: Icon; matchedAlias?: string }) {
 	const formatedIconName = formatIconName(name)
 	return (
 		<MagicCard className="rounded-md shadow-md">

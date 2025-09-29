@@ -1,7 +1,6 @@
-import type { Icon } from "@/types/icons"
-
 import { useWindowVirtualizer } from "@tanstack/react-virtual"
 import { useEffect, useMemo, useRef, useState } from "react"
+import type { Icon } from "@/types/icons"
 import { IconCard } from "./icon-card"
 
 interface IconsGridProps {

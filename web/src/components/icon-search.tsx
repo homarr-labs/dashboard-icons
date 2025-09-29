@@ -1,5 +1,11 @@
 "use client"
 
+import { ArrowDownAZ, ArrowUpZA, Calendar, Filter, Search, SortAsc, X } from "lucide-react"
+import { usePathname, useRouter, useSearchParams } from "next/navigation"
+import { useTheme } from "next-themes"
+import posthog from "posthog-js"
+import { useCallback, useEffect, useMemo, useRef, useState } from "react"
+import { toast } from "sonner"
 import { VirtualizedIconsGrid } from "@/components/icon-grid"
 import { IconSubmissionContent } from "@/components/icon-submission-form"
 import { Badge } from "@/components/ui/badge"
@@ -17,14 +23,8 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Input } from "@/components/ui/input"
 import { Separator } from "@/components/ui/separator"
-import { type SortOption, filterAndSortIcons } from "@/lib/utils"
+import { filterAndSortIcons, type SortOption } from "@/lib/utils"
 import type { IconSearchProps } from "@/types/icons"
-import { ArrowDownAZ, ArrowUpZA, Calendar, Filter, Search, SortAsc, X } from "lucide-react"
-import { useTheme } from "next-themes"
-import { usePathname, useRouter, useSearchParams } from "next/navigation"
-import posthog from "posthog-js"
-import { useCallback, useEffect, useMemo, useRef, useState } from "react"
-import { toast } from "sonner"
 
 export function IconSearch({ icons }: IconSearchProps) {
 	const searchParams = useSearchParams()
@@ -359,6 +359,7 @@ export function IconSearch({ icons }: IconSearchProps) {
 						<p className="text-lg text-muted-foreground mt-2">Help us expand our collection</p>
 					</div>
 					<div className="flex flex-col gap-4 items-center w-full">
+						{/** biome-ignore lint/correctness/useUniqueElementIds: I want the ID to be fixed */}
 						<div id="icon-submission-content" className="w-full">
 							<IconSubmissionContent />
 						</div>

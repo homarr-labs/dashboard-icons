@@ -1,9 +1,5 @@
 "use client"
 
-import { Button } from "@/components/ui/button"
-import { Card } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { cn } from "@/lib/utils"
 import { Separator } from "@radix-ui/react-dropdown-menu"
 import { motion, useAnimation, useInView } from "framer-motion"
 import {
@@ -25,6 +21,10 @@ import {
 } from "lucide-react"
 import Link from "next/link"
 import { useEffect, useRef, useState } from "react"
+import { Button } from "@/components/ui/button"
+import { Card } from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import { cn } from "@/lib/utils"
 import { AuroraText } from "./magicui/aurora-text"
 import { InteractiveHoverButton } from "./magicui/interactive-hover-button"
 import { NumberTicker } from "./magicui/number-ticker"
@@ -35,7 +35,7 @@ interface IconCardProps {
 	imageUrl: string
 }
 
-function IconCard({ name, imageUrl }: IconCardProps) {
+function _IconCard({ name, imageUrl }: IconCardProps) {
 	return (
 		<Card className="p-4 flex flex-col items-center gap-2 cursor-pointer group hover-lift card-hover">
 			<div className="w-16 h-16 flex items-center justify-center">

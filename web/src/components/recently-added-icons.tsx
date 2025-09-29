@@ -1,13 +1,13 @@
 "use client"
 
-import { Marquee } from "@/components/magicui/marquee"
-import { BASE_URL } from "@/constants"
-import { cn, formatIconName } from "@/lib/utils"
-import type { Icon, IconWithName } from "@/types/icons"
 import { format, isToday, isYesterday } from "date-fns"
 import { ArrowRight, Clock, ExternalLink } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
+import { Marquee } from "@/components/magicui/marquee"
+import { BASE_URL } from "@/constants"
+import { cn, formatIconName } from "@/lib/utils"
+import type { Icon, IconWithName } from "@/types/icons"
 
 function formatIconDate(timestamp: string): string {
 	const date = new Date(timestamp)
@@ -71,13 +71,7 @@ export function RecentlyAddedIcons({ icons }: { icons: IconWithName[] }) {
 }
 
 // Marquee-compatible icon card
-function RecentIconCard({
-	name,
-	data,
-}: {
-	name: string
-	data: Icon
-}) {
+function RecentIconCard({ name, data }: { name: string; data: Icon }) {
 	const formattedIconName = formatIconName(name)
 	return (
 		<Link
