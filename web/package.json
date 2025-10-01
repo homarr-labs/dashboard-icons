@@ -5,7 +5,7 @@
 	"scripts": {
 		"dev": "next dev --turbopack",
 		"build": "next build",
-		"start": "pnpx serve@latest out",
+		"start": "next start",
 		"format": "biome check --write",
 		"lint": "biome lint --write",
 		"ci": "biome check --write"
