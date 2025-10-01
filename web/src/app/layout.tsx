@@ -9,6 +9,7 @@ import { BASE_URL, getDescription, WEB_URL, websiteTitle } from "@/constants"
 import { getTotalIcons } from "@/lib/api"
 import "./globals.css"
 import { ThemeProvider } from "./theme-provider"
+import { Providers } from "@/components/providers"
 
 const inter = Inter({
 	variable: "--font-inter",
@@ -85,15 +86,17 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
 	return (
 		<html lang="en" suppressHydrationWarning>
 			<body className={`${inter.variable} antialiased bg-background flex flex-col min-h-screen`}>
-				<PostHogProvider>
-					<ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-						<HeaderWrapper />
-						<main className="flex-grow">{children}</main>
-						<Footer />
-						<Toaster />
-						<LicenseNotice />
-					</ThemeProvider>
-				</PostHogProvider>
+				<Providers>
+					<PostHogProvider>
+						<ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+							<HeaderWrapper />
+							<main className="flex-grow">{children}</main>
+							<Footer />
+							<Toaster />
+							<LicenseNotice />
+						</ThemeProvider>
+					</PostHogProvider>
+				</Providers>
 			</body>
 		</html>
 	)
