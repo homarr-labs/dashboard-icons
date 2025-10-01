@@ -18,6 +18,9 @@
 		"enabled": true,
 		"rules": {
 			"recommended": true,
+			"correctness": {
+				"useUniqueElementIds": "off"
+			},
 			"suspicious": {
 				"noExplicitAny": "off",
 				"noUnknownAtRules": "off",
