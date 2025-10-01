@@ -1,4 +1,5 @@
 import type { Metadata } from "next"
+import { Suspense } from "react"
 import { CommunityIconSearch } from "@/components/community-icon-search"
 import { BASE_URL } from "@/constants"
 import { getCommunitySubmissions } from "@/lib/community"
@@ -49,7 +50,9 @@ export default async function CommunityPage() {
 					<p className="text-muted-foreground mb-1">Search through our collection of {icons.length} community-submitted icons.</p>
 				</div>
 			</div>
-			<CommunityIconSearch icons={icons as any} />
+			<Suspense fallback={<div className="text-muted-foreground">Loading...</div>}>
+				<CommunityIconSearch icons={icons as any} />
+			</Suspense>
 		</div>
 	)
 }
