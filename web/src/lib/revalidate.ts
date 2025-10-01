@@ -19,4 +19,3 @@ export async function revalidateSubmissions() {
 	revalidatePath("/community")
 	revalidatePath("/dashboard")
 }
-

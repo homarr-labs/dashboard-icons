@@ -34,4 +34,3 @@ export async function revalidateAllSubmissions() {
 		return { success: false, error: "Failed to revalidate" }
 	}
 }
-

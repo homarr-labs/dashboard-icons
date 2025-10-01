@@ -8,8 +8,8 @@ import { PostHogProvider } from "@/components/PostHogProvider"
 import { BASE_URL, getDescription, WEB_URL, websiteTitle } from "@/constants"
 import { getTotalIcons } from "@/lib/api"
 import "./globals.css"
-import { ThemeProvider } from "./theme-provider"
 import { Providers } from "@/components/providers"
+import { ThemeProvider } from "./theme-provider"
 
 const inter = Inter({
 	variable: "--font-inter",

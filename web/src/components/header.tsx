@@ -1,6 +1,6 @@
 "use client"
 
-import { Github, LogOut, PlusCircle, Search, Star, LayoutDashboard } from "lucide-react"
+import { Github, LayoutDashboard, LogOut, PlusCircle, Search, Star } from "lucide-react"
 import Link from "next/link"
 import { useEffect, useState } from "react"
 import { IconSubmissionForm } from "@/components/icon-submission-form"
@@ -14,12 +14,7 @@ import { CommandMenu } from "./command-menu"
 import { HeaderNav } from "./header-nav"
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar"
 import { Button } from "./ui/button"
-import {
-	DropdownMenu,
-	DropdownMenuContent,
-	DropdownMenuSeparator,
-	DropdownMenuTrigger,
-} from "./ui/dropdown-menu"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuSeparator, DropdownMenuTrigger } from "./ui/dropdown-menu"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "./ui/tooltip"
 
 interface UserData {
@@ -119,13 +114,8 @@ export function Header() {
 		<header className="border-b sticky top-0 z-50 backdrop-blur-2xl bg-background/50 border-border/50">
 			<div className="px-4 md:px-12 flex items-center justify-between h-16 md:h-18">
 				<div className="flex items-center gap-2 md:gap-6">
-					<Link
-						href="/"
-						className="text-lg md:text-xl font-bold group hidden md:block"
-					>
-						<span className="transition-colors duration-300 group-hover:">
-							Dashboard Icons
-						</span>
+					<Link href="/" className="text-lg md:text-xl font-bold group hidden md:block">
+						<span className="transition-colors duration-300 group-hover:">Dashboard Icons</span>
 					</Link>
 					<div className="flex-nowrap">
 						<HeaderNav isLoggedIn={isLoggedIn} />
@@ -134,11 +124,7 @@ export function Header() {
 				<div className="flex items-center gap-2 md:gap-4">
 					{/* Desktop search button */}
 					<div className="hidden md:block">
-						<Button
-							variant="outline"
-							className="gap-2 cursor-pointer transition-all duration-300"
-							onClick={openCommandMenu}
-						>
+						<Button variant="outline" className="gap-2 cursor-pointer transition-all duration-300" onClick={openCommandMenu}>
 							<Search className="h-4 w-4 transition-all duration-300" />
 							<span>Find icons</span>
 							<kbd className="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border border-border/80 bg-muted/80 px-1.5 font-mono text-[10px] font-medium opacity-100">
@@ -165,11 +151,7 @@ export function Header() {
 						{isLoggedIn ? (
 							<IconSubmissionForm
 								trigger={
-									<Button
-										variant="ghost"
-										size="icon"
-										className="rounded-lg cursor-pointer transition-all duration-300 hover:ring-2"
-									>
+									<Button variant="ghost" size="icon" className="rounded-lg cursor-pointer transition-all duration-300 hover:ring-2">
 										<PlusCircle className="h-5 w-5 transition-all duration-300" />
 										<span className="sr-only">Submit icon(s)</span>
 									</Button>
@@ -201,11 +183,7 @@ export function Header() {
 						<TooltipProvider>
 							<Tooltip>
 								<TooltipTrigger asChild>
-									<Button
-										variant="ghost"
-										className="rounded-lg cursor-pointer transition-all duration-300 hover:ring-2 gap-1.5"
-										asChild
-									>
+									<Button variant="ghost" className="rounded-lg cursor-pointer transition-all duration-300 hover:ring-2 gap-1.5" asChild>
 										<Link href={REPO_PATH} target="_blank" className="group flex items-center">
 											<Github className="h-5 w-5 group-hover: transition-all duration-300" />
 											{stars > 0 && (
@@ -224,7 +202,7 @@ export function Header() {
 						</TooltipProvider>
 					</div>
 					<ThemeSwitcher />
-					
+
 					{isLoggedIn && userData && (
 						<DropdownMenu>
 							<DropdownMenuTrigger asChild>
@@ -234,13 +212,8 @@ export function Header() {
 									size="icon"
 								>
 									<Avatar className="h-8 w-8">
-										<AvatarImage
-											src={userData.avatar || "/placeholder.svg"}
-											alt={userData.username}
-										/>
-										<AvatarFallback className="text-xs">
-											{userData.username.slice(0, 2).toUpperCase()}
-										</AvatarFallback>
+										<AvatarImage src={userData.avatar || "/placeholder.svg"} alt={userData.username} />
+										<AvatarFallback className="text-xs">{userData.username.slice(0, 2).toUpperCase()}</AvatarFallback>
 									</Avatar>
 									<span className="sr-only">User menu</span>
 								</Button>
@@ -249,29 +222,18 @@ export function Header() {
 								<div className="space-y-3">
 									<div className="flex items-center gap-3 px-1">
 										<Avatar className="h-10 w-10">
-											<AvatarImage
-												src={userData.avatar || "/placeholder.svg"}
-												alt={userData.username}
-											/>
-											<AvatarFallback className="text-sm font-semibold">
-												{userData.username.slice(0, 2).toUpperCase()}
-											</AvatarFallback>
+											<AvatarImage src={userData.avatar || "/placeholder.svg"} alt={userData.username} />
+											<AvatarFallback className="text-sm font-semibold">{userData.username.slice(0, 2).toUpperCase()}</AvatarFallback>
 										</Avatar>
 										<div className="flex flex-col gap-0.5 flex-1 min-w-0">
 											<p className="text-sm font-semibold truncate">{userData.username}</p>
-											<p className="text-xs text-muted-foreground truncate">
-												{userData.email}
-											</p>
+											<p className="text-xs text-muted-foreground truncate">{userData.email}</p>
 										</div>
 									</div>
 
 									<DropdownMenuSeparator />
 
-									<Button
-										asChild
-										variant="ghost"
-										className="w-full justify-start gap-2 hover:bg-muted"
-									>
+									<Button asChild variant="ghost" className="w-full justify-start gap-2 hover:bg-muted">
 										<Link href="/dashboard">
 											<LayoutDashboard className="h-4 w-4" />
 											Dashboard
@@ -294,13 +256,7 @@ export function Header() {
 			</div>
 
 			{/* Single instance of CommandMenu */}
-			{isLoaded && (
-				<CommandMenu
-					icons={iconsData}
-					open={commandMenuOpen}
-					onOpenChange={setCommandMenuOpen}
-				/>
-			)}
+			{isLoaded && <CommandMenu icons={iconsData} open={commandMenuOpen} onOpenChange={setCommandMenuOpen} />}
 
 			{/* Login Modal */}
 			<LoginModal open={loginModalOpen} onOpenChange={setLoginModalOpen} />

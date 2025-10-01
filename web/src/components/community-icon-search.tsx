@@ -115,19 +115,19 @@ export function CommunityIconSearch({ icons }: CommunityIconSearchProps) {
 			categories: selectedCategories,
 			sort: sortOption,
 		}) as IconWithStatus[]
-		
+
 		return result
 	}, [icons, debouncedQuery, selectedCategories, sortOption])
 
 	const groupedIcons = useMemo(() => {
 		const statusPriority = { pending: 0, approved: 1, rejected: 2, added_to_collection: 3 }
-		
+
 		const groups: Record<string, IconWithStatus[]> = {}
-		
+
 		for (const icon of filteredIcons) {
 			const iconWithStatus = icon as IconWithStatus
-			const status = iconWithStatus.status || 'pending'
-			
+			const status = iconWithStatus.status || "pending"
+
 			if (!groups[status]) {
 				groups[status] = []
 			}
@@ -136,8 +136,7 @@ export function CommunityIconSearch({ icons }: CommunityIconSearchProps) {
 
 		return Object.entries(groups)
 			.sort(([a], [b]) => {
-				return (statusPriority[a as keyof typeof statusPriority] ?? 999) - 
-							 (statusPriority[b as keyof typeof statusPriority] ?? 999)
+				return (statusPriority[a as keyof typeof statusPriority] ?? 999) - (statusPriority[b as keyof typeof statusPriority] ?? 999)
 			})
 			.map(([status, items]) => ({ status, items }))
 	}, [filteredIcons])
@@ -410,7 +409,7 @@ export function CommunityIconSearch({ icons }: CommunityIconSearchProps) {
 									{getStatusDisplayName(status)}
 								</Badge>
 								<span className="text-sm text-muted-foreground">
-									{items.length} {items.length === 1 ? 'icon' : 'icons'}
+									{items.length} {items.length === 1 ? "icon" : "icons"}
 								</span>
 							</div>
 							<Card className="bg-background/50 border shadow-lg">
@@ -425,4 +424,3 @@ export function CommunityIconSearch({ icons }: CommunityIconSearchProps) {
 		</>
 	)
 }
-

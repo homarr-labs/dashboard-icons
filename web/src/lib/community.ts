@@ -12,18 +12,16 @@ import type { IconWithName } from "@/types/icons"
  * Note: Do not use the client-side pb instance (with auth store) on the server
  */
 function createServerPB() {
-	return new PocketBase(process.env.POCKETBASE_URL || "http://127.0.0.1:8090")
+	return new PocketBase(process.env.NEXT_PUBLIC_POCKETBASE_URL || "http://127.0.0.1:8090")
 }
 
 /**
  * Transform a CommunityGallery item to IconWithName format for use with IconSearch
  */
 function transformGalleryToIcon(item: CommunityGallery): any {
-	const pbUrl = process.env.POCKETBASE_URL || "http://127.0.0.1:8090"
-	
-	const fileUrl = item.assets?.[0]
-		? `${pbUrl}/api/files/community_gallery/${item.id}/${item.assets[0]}`
-		: ""
+	const pbUrl = process.env.NEXT_PUBLIC_POCKETBASE_URL || "http://127.0.0.1:8090"
+
+	const fileUrl = item.assets?.[0] ? `${pbUrl}/api/files/community_gallery/${item.id}/${item.assets[0]}` : ""
 
 	const transformed = {
 		name: item.name,
@@ -43,7 +41,7 @@ function transformGalleryToIcon(item: CommunityGallery): any {
 			wordmark: item.extras?.wordmark,
 		},
 	}
-		
+
 	return transformed
 }
 
@@ -62,9 +60,7 @@ export async function fetchCommunitySubmissions(): Promise<IconWithName[]> {
 			sort: "-created",
 		})
 
-		return records
-			.filter(item => item.assets && item.assets.length > 0)
-			.map(transformGalleryToIcon)
+		return records.filter((item) => item.assets && item.assets.length > 0).map(transformGalleryToIcon)
 	} catch (error) {
 		console.error("Error fetching community submissions:", error)
 		return []
@@ -80,4 +76,3 @@ export const getCommunitySubmissions = unstable_cache(fetchCommunitySubmissions,
 	revalidate: 600,
 	tags: ["community-gallery"],
 })
-
