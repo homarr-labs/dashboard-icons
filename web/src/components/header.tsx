@@ -1,19 +1,26 @@
 "use client"
 
-import { Github, PlusCircle, Search } from "lucide-react"
+import { Github, LogOut, PlusCircle, Search, Star, LayoutDashboard } from "lucide-react"
 import Link from "next/link"
 import { useEffect, useState } from "react"
 import { IconSubmissionForm } from "@/components/icon-submission-form"
+import { LoginModal } from "@/components/login-modal"
 import { ThemeSwitcher } from "@/components/theme-switcher"
-import { REPO_PATH } from "@/constants"
+import { REPO_NAME, REPO_PATH } from "@/constants"
 import { getIconsArray } from "@/lib/api"
 import { pb } from "@/lib/pb"
 import type { IconWithName } from "@/types/icons"
 import { CommandMenu } from "./command-menu"
 import { HeaderNav } from "./header-nav"
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar"
 import { Button } from "./ui/button"
+import {
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuSeparator,
+	DropdownMenuTrigger,
+} from "./ui/dropdown-menu"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "./ui/tooltip"
-import { LoginPopup } from "./user-button"
 
 interface UserData {
 	username: string
@@ -21,12 +28,21 @@ interface UserData {
 	avatar?: string
 }
 
+function formatStars(stars: number): string {
+	if (stars >= 1000) {
+		return `${(stars / 1000).toFixed(1)}K`
+	}
+	return stars.toString()
+}
+
 export function Header() {
 	const [iconsData, setIconsData] = useState<IconWithName[]>([])
 	const [isLoaded, setIsLoaded] = useState(false)
 	const [commandMenuOpen, setCommandMenuOpen] = useState(false)
+	const [loginModalOpen, setLoginModalOpen] = useState(false)
 	const [isLoggedIn, setIsLoggedIn] = useState(false)
 	const [userData, setUserData] = useState<UserData | undefined>(undefined)
+	const [stars, setStars] = useState<number>(0)
 
 	useEffect(() => {
 		async function loadIcons() {
@@ -44,7 +60,20 @@ export function Header() {
 	}, [])
 
 	useEffect(() => {
-		// Initialize auth state from PocketBase authStore
+		async function fetchStars() {
+			try {
+				const response = await fetch(`https://api.github.com/repos/${REPO_NAME}`)
+				const data = await response.json()
+				setStars(Math.round(data.stargazers_count / 100) * 100)
+			} catch (error) {
+				console.error("Failed to fetch stars:", error)
+			}
+		}
+
+		fetchStars()
+	}, [])
+
+	useEffect(() => {
 		const updateAuthState = () => {
 			if (pb.authStore.isValid && pb.authStore.record) {
 				setIsLoggedIn(true)
@@ -61,28 +90,29 @@ export function Header() {
 			}
 		}
 
-		// Set initial state
 		updateAuthState()
 
-		// Listen for auth changes
 		const unsubscribe = pb.authStore.onChange(() => {
 			updateAuthState()
 		})
 
-		// Cleanup listener on unmount
 		return () => {
 			unsubscribe()
 		}
 	}, [])
 
-	// Function to open the command menu
 	const openCommandMenu = () => {
 		setCommandMenuOpen(true)
 	}
 
-	// Handle sign out using PocketBase
 	const handleSignOut = () => {
 		pb.authStore.clear()
+	}
+
+	const handleSubmitClick = () => {
+		if (!isLoggedIn) {
+			setLoginModalOpen(true)
+		}
 	}
 
 	return (
@@ -98,7 +128,7 @@ export function Header() {
 						</span>
 					</Link>
 					<div className="flex-nowrap">
-						<HeaderNav />
+						<HeaderNav isLoggedIn={isLoggedIn} />
 					</div>
 				</div>
 				<div className="flex items-center gap-2 md:gap-4">
@@ -106,7 +136,7 @@ export function Header() {
 					<div className="hidden md:block">
 						<Button
 							variant="outline"
-							className="gap-2 cursor-pointer   transition-all duration-300"
+							className="gap-2 cursor-pointer transition-all duration-300"
 							onClick={openCommandMenu}
 						>
 							<Search className="h-4 w-4 transition-all duration-300" />
@@ -122,7 +152,7 @@ export function Header() {
 						<Button
 							variant="ghost"
 							size="icon"
-							className="rounded-lg cursor-pointer transition-all duration-300 hover:ring-2 "
+							className="rounded-lg cursor-pointer transition-all duration-300 hover:ring-2"
 							onClick={openCommandMenu}
 						>
 							<Search className="h-5 w-5 transition-all duration-300" />
@@ -130,36 +160,59 @@ export function Header() {
 						</Button>
 					</div>
 
-					{/* Mobile Submit Button -> triggers IconSubmissionForm dialog */}
+					{/* Mobile Submit Button */}
 					<div className="md:hidden">
-						<IconSubmissionForm
-							trigger={
-								<Button
-									variant="ghost"
-									size="icon"
-									className="rounded-lg cursor-pointer transition-all duration-300 hover:ring-2 "
-								>
-									<PlusCircle className="h-5 w-5 transition-all duration-300" />
-									<span className="sr-only">Submit icon(s)</span>
-								</Button>
-							}
-						/>
+						{isLoggedIn ? (
+							<IconSubmissionForm
+								trigger={
+									<Button
+										variant="ghost"
+										size="icon"
+										className="rounded-lg cursor-pointer transition-all duration-300 hover:ring-2"
+									>
+										<PlusCircle className="h-5 w-5 transition-all duration-300" />
+										<span className="sr-only">Submit icon(s)</span>
+									</Button>
+								}
+							/>
+						) : (
+							<Button
+								variant="ghost"
+								size="icon"
+								className="rounded-lg cursor-pointer transition-all duration-300 hover:ring-2"
+								onClick={handleSubmitClick}
+							>
+								<PlusCircle className="h-5 w-5 transition-all duration-300" />
+								<span className="sr-only">Submit icon(s)</span>
+							</Button>
+						)}
 					</div>
 
 					<div className="hidden md:flex items-center gap-2 md:gap-4">
 						{/* Desktop Submit Button */}
-						<IconSubmissionForm />
+						{isLoggedIn ? (
+							<IconSubmissionForm />
+						) : (
+							<Button onClick={handleSubmitClick}>
+								<PlusCircle className="h-4 w-4 mr-2" />
+								Submit icon
+							</Button>
+						)}
 						<TooltipProvider>
 							<Tooltip>
 								<TooltipTrigger asChild>
 									<Button
 										variant="ghost"
-										size="icon"
-										className="rounded-lg cursor-pointer  transition-all duration-300 hover:ring-2"
+										className="rounded-lg cursor-pointer transition-all duration-300 hover:ring-2 gap-1.5"
 										asChild
 									>
-										<Link href={REPO_PATH} target="_blank" className="group">
+										<Link href={REPO_PATH} target="_blank" className="group flex items-center">
 											<Github className="h-5 w-5 group-hover: transition-all duration-300" />
+											{stars > 0 && (
+												<>
+													<span className="text-xs font-medium text-muted-foreground">{formatStars(stars)}</span>
+												</>
+											)}
 											<span className="sr-only">View on GitHub</span>
 										</Link>
 									</Button>
@@ -171,11 +224,72 @@ export function Header() {
 						</TooltipProvider>
 					</div>
 					<ThemeSwitcher />
-					<LoginPopup
-              isLoggedIn={isLoggedIn}
-              userData={isLoggedIn ? userData : undefined}
-              onSignOut={handleSignOut}
-            />
+					
+					{isLoggedIn && userData && (
+						<DropdownMenu>
+							<DropdownMenuTrigger asChild>
+								<Button
+									className="transition-colors duration-200 group hover:ring-2 rounded-lg cursor-pointer border border-border/50"
+									variant="ghost"
+									size="icon"
+								>
+									<Avatar className="h-8 w-8">
+										<AvatarImage
+											src={userData.avatar || "/placeholder.svg"}
+											alt={userData.username}
+										/>
+										<AvatarFallback className="text-xs">
+											{userData.username.slice(0, 2).toUpperCase()}
+										</AvatarFallback>
+									</Avatar>
+									<span className="sr-only">User menu</span>
+								</Button>
+							</DropdownMenuTrigger>
+							<DropdownMenuContent align="end" className="w-56 p-3">
+								<div className="space-y-3">
+									<div className="flex items-center gap-3 px-1">
+										<Avatar className="h-10 w-10">
+											<AvatarImage
+												src={userData.avatar || "/placeholder.svg"}
+												alt={userData.username}
+											/>
+											<AvatarFallback className="text-sm font-semibold">
+												{userData.username.slice(0, 2).toUpperCase()}
+											</AvatarFallback>
+										</Avatar>
+										<div className="flex flex-col gap-0.5 flex-1 min-w-0">
+											<p className="text-sm font-semibold truncate">{userData.username}</p>
+											<p className="text-xs text-muted-foreground truncate">
+												{userData.email}
+											</p>
+										</div>
+									</div>
+
+									<DropdownMenuSeparator />
+
+									<Button
+										asChild
+										variant="ghost"
+										className="w-full justify-start gap-2 hover:bg-muted"
+									>
+										<Link href="/dashboard">
+											<LayoutDashboard className="h-4 w-4" />
+											Dashboard
+										</Link>
+									</Button>
+
+									<Button
+										onClick={handleSignOut}
+										variant="ghost"
+										className="w-full justify-start gap-2 text-destructive hover:text-destructive hover:bg-destructive/10"
+									>
+										<LogOut className="h-4 w-4" />
+										Sign out
+									</Button>
+								</div>
+							</DropdownMenuContent>
+						</DropdownMenu>
+					)}
 				</div>
 			</div>
 
@@ -187,6 +301,9 @@ export function Header() {
 					onOpenChange={setCommandMenuOpen}
 				/>
 			)}
+
+			{/* Login Modal */}
+			<LoginModal open={loginModalOpen} onOpenChange={setLoginModalOpen} />
 		</header>
-	);
+	)
 }
