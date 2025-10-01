@@ -67,7 +67,7 @@ interface SubmissionsDataTableProps {
 
 // Group submissions by status with priority order
 const groupAndSortSubmissions = (submissions: Submission[]): Submission[] => {
-  const statusPriority = { pending: 0, approved: 1, rejected: 2 }
+  const statusPriority = { pending: 0, approved: 1, added_to_collection: 2, rejected: 3 }
   
   return [...submissions].sort((a, b) => {
     // First, sort by status priority
@@ -82,11 +82,13 @@ const groupAndSortSubmissions = (submissions: Submission[]): Submission[] => {
 const getStatusColor = (status: Submission["status"]) => {
   switch (status) {
     case "approved":
-      return "bg-green-500/10 text-green-500 border-green-500/20"
+      return "bg-blue-500/10 text-blue-400 font-bold border-blue-500/20"
     case "rejected":
 			return "bg-red-500/10 text-red-500 border-red-500/20"
 			case "pending":
       return "bg-yellow-500/10 text-yellow-500 border-yellow-500/20"
+    case "added_to_collection":
+      return "bg-green-500/10 text-green-500 border-green-500/20"
     default:
       return "bg-gray-500/10 text-gray-500 border-gray-500/20"
   }
@@ -100,6 +102,8 @@ const getStatusDisplayName = (status: Submission["status"]) => {
       return "Approved"
     case "rejected":
       return "Rejected"
+    case "added_to_collection":
+      return "Added to Collection"
     default:
       return status
   }
