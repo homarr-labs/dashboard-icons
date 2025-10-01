@@ -242,3 +242,31 @@
 		@apply backdrop-blur-sm;
 	}
 }
+
+/* Enhanced Input Styling */
+@layer components {
+	input[type="text"],
+	input[type="email"],
+	input[type="password"],
+	input[type="search"] {
+		@apply bg-background text-foreground;
+	}
+
+	input[type="text"]:focus,
+	input[type="email"]:focus,
+	input[type="password"]:focus,
+	input[type="search"]:focus {
+		@apply ring-2 ring-ring ring-offset-2 ring-offset-background;
+	}
+
+	/* Error state for inputs */
+	input[aria-invalid="true"],
+	input.error {
+		@apply border-destructive bg-destructive/5 text-foreground placeholder:text-muted-foreground;
+	}
+
+	input[aria-invalid="true"]:focus,
+	input.error:focus {
+		@apply ring-2 ring-destructive ring-offset-2 ring-offset-background;
+	}
+}
