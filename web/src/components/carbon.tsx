@@ -1,5 +1,9 @@
 import { useEffect, useRef } from "react"
 export function Carbon() {
+	if (process.env.NODE_ENV === "development") {
+		return null
+	}
+
 	useEffect(() => {
 		const serve = "CW7IKKQM"
 		const placement = "dashboardiconscom"
@@ -11,9 +15,6 @@ export function Carbon() {
 	}, [])
 
 	const ref = useRef<HTMLDivElement>(null!)
-	if (process.env.NODE_ENV === "development") {
-		return null
-	}
 
 	return (
 		<>
