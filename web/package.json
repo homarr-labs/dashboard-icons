@@ -3,12 +3,16 @@
 	"version": "0.2.0",
 	"private": false,
 	"scripts": {
-		"dev": "next dev --turbopack",
+		"dev": "turbo run dev:backend dev:web --ui tui",
+		"dev:backend": "cd backend && ./pocketbase serve",
+		"dev:web": "next dev --turbopack",
 		"build": "next build",
 		"start": "next start",
 		"format": "biome check --write",
 		"lint": "biome lint --write",
-		"ci": "biome check --write"
+		"ci": "biome check --write",
+		"backend:start": "cd backend && ./pocketbase serve",
+		"backend:download": "cd backend && curl -L -o pocketbase.zip https://github.com/pocketbase/pocketbase/releases/download/v0.30.0/pocketbase_0.30.0_darwin_arm64.zip && unzip pocketbase.zip && rm pocketbase.zip && rm CHANGELOG.md && rm LICENSE.md"
 	},
 	"dependencies": {
 		"@hookform/resolvers": "^5.2.1",
@@ -38,12 +42,16 @@
 		"@radix-ui/react-toggle": "^1.1.10",
 		"@radix-ui/react-toggle-group": "^1.1.11",
 		"@radix-ui/react-tooltip": "^1.2.8",
+		"@tanstack/react-query": "^5.90.2",
+		"@tanstack/react-query-devtools": "^5.90.2",
+		"@tanstack/react-table": "^8.21.3",
 		"@tanstack/react-virtual": "^3.13.12",
 		"canvas-confetti": "^1.9.3",
 		"class-variance-authority": "^0.7.1",
 		"clsx": "^2.1.1",
 		"cmdk": "^1.1.1",
 		"date-fns": "^4.1.0",
+		"dayjs": "^1.11.18",
 		"embla-carousel-react": "^8.6.0",
 		"framer-motion": "^12.23.12",
 		"input-otp": "^1.4.2",
@@ -51,6 +59,7 @@
 		"motion": "^12.23.12",
 		"next": "15.5.4",
 		"next-themes": "^0.4.6",
+		"pocketbase": "^0.26.2",
 		"posthog-js": "^1.268.7",
 		"posthog-node": "^5.9.1",
 		"react": "^19.1.1",
@@ -81,6 +90,7 @@
 	"pnpm": {
 		"onlyBuiltDependencies": [
 			"@biomejs/biome",
+			"@tailwindcss/oxide",
 			"core-js",
 			"esbuild",
 			"sharp",
