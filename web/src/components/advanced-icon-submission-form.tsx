@@ -80,6 +80,7 @@ export function AdvancedIconSubmissionForm() {
 	const [isExistingIcon, setIsExistingIcon] = useState(false)
 	const [activeVariants, setActiveVariants] = useState<string[]>(["base"])
 	const [files, setFiles] = useState<Record<string, File[]>>({})
+	const [filePreviews, setFilePreviews] = useState<Record<string, string>>({})
 	const [aliases, setAliases] = useState<string[]>([])
 	const [aliasInput, setAliasInput] = useState("")
 	const [categories, setCategories] = useState<string[]>([])
@@ -96,8 +97,11 @@ export function AdvancedIconSubmissionForm() {
 		if (variantId !== "base") {
 			setActiveVariants(activeVariants.filter((id) => id !== variantId))
 			const newFiles = { ...files }
+			const newPreviews = { ...filePreviews }
 			delete newFiles[variantId]
+			delete newPreviews[variantId]
 			setFiles(newFiles)
+			setFilePreviews(newPreviews)
 		}
 	}
 
@@ -106,6 +110,20 @@ export function AdvancedIconSubmissionForm() {
 			...files,
 			[variantId]: droppedFiles,
 		})
+		
+		// Generate preview for the first file
+		if (droppedFiles.length > 0) {
+			const reader = new FileReader()
+			reader.onload = (e) => {
+				if (typeof e.target?.result === 'string') {
+					setFilePreviews({
+						...filePreviews,
+						[variantId]: e.target.result,
+					})
+				}
+			}
+			reader.readAsDataURL(droppedFiles[0])
+		}
 	}
 
 	const handleAddAlias = () => {
@@ -212,6 +230,7 @@ export function AdvancedIconSubmissionForm() {
 			// Reset form
 			setIconName("")
 			setFiles({})
+			setFilePreviews({})
 			setActiveVariants(["base"])
 			setAliases([])
 			setCategories([])
@@ -312,7 +331,17 @@ export function AdvancedIconSubmissionForm() {
 									src={files[variantId]}
 								>
 									<DropzoneEmptyState />
-									<DropzoneContent />
+									<DropzoneContent>
+										{filePreviews[variantId] && (
+											<div className="h-[102px] w-full">
+												<img
+													alt="Preview"
+													className="absolute top-0 left-0 h-full w-full object-cover"
+													src={filePreviews[variantId]}
+												/>
+											</div>
+										)}
+									</DropzoneContent>
 								</Dropzone>
 							</div>
 						)
@@ -432,6 +461,7 @@ export function AdvancedIconSubmissionForm() {
 					onClick={() => {
 						setIconName("")
 						setFiles({})
+						setFilePreviews({})
 						setActiveVariants(["base"])
 						setAliases([])
 						setCategories([])
