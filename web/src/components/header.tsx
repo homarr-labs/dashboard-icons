@@ -3,7 +3,6 @@
 import { Github, LayoutDashboard, LogOut, PlusCircle, Search, Star } from "lucide-react"
 import Link from "next/link"
 import { useEffect, useState } from "react"
-import { IconSubmissionForm } from "@/components/icon-submission-form"
 import { LoginModal } from "@/components/login-modal"
 import { ThemeSwitcher } from "@/components/theme-switcher"
 import { REPO_NAME, REPO_PATH } from "@/constants"
@@ -149,14 +148,12 @@ export function Header() {
 					{/* Mobile Submit Button */}
 					<div className="md:hidden">
 						{isLoggedIn ? (
-							<IconSubmissionForm
-								trigger={
-									<Button variant="ghost" size="icon" className="rounded-lg cursor-pointer transition-all duration-300 hover:ring-2">
-										<PlusCircle className="h-5 w-5 transition-all duration-300" />
-										<span className="sr-only">Submit icon(s)</span>
-									</Button>
-								}
-							/>
+							<Button variant="ghost" size="icon" className="rounded-lg cursor-pointer transition-all duration-300 hover:ring-2" asChild>
+								<Link href="/submit">
+									<PlusCircle className="h-5 w-5 transition-all duration-300" />
+									<span className="sr-only">Submit icon(s)</span>
+								</Link>
+							</Button>
 						) : (
 							<Button
 								variant="ghost"
@@ -171,13 +168,15 @@ export function Header() {
 					</div>
 
 					<div className="hidden md:flex items-center gap-2 md:gap-4">
-						{/* Desktop Submit Button */}
 						{isLoggedIn ? (
-							<IconSubmissionForm />
+							<Button variant="outline" className="hidden md:inline-flex cursor-pointer transition-all duration-300 items-center gap-2" asChild>
+								<Link href="/submit">
+									<PlusCircle className="h-4 w-4 transition-all duration-300" /> Submit icon(s)
+								</Link>
+							</Button>
 						) : (
-							<Button onClick={handleSubmitClick}>
-								<PlusCircle className="h-4 w-4 mr-2" />
-								Submit icon
+							<Button variant="outline" className="hidden md:inline-flex cursor-pointer transition-all duration-300 items-center gap-2" onClick={handleSubmitClick}>
+								<PlusCircle className="h-4 w-4 transition-all duration-300" /> Submit icon(s)
 							</Button>
 						)}
 						<TooltipProvider>
