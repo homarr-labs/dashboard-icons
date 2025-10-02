@@ -141,7 +141,7 @@ export function SubmissionDetails({
 									<div className="relative">
 										<div className="aspect-square rounded-lg border flex items-center justify-center p-8 bg-muted/30">
 											<Image
-												src={`${pb.baseUrl}/api/files/submissions/${submission.id}/${asset}` || "/placeholder.svg"}
+												src={`${pb.baseURL}/api/files/submissions/${submission.id}/${asset}` || "/placeholder.svg"}
 												alt={`${submission.name} asset ${index + 1}`}
 												width={200}
 												height={200}
