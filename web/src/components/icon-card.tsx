@@ -12,7 +12,6 @@ export function IconCard({ name, data: iconData, matchedAlias }: { name: string;
 	const imageUrl = isCommunityIcon ? iconData.base : `${BASE_URL}/${iconData.base}/${iconData.colors?.light || name}.${iconData.base}`
 
 	const linkHref = isCommunityIcon ? `/community/${name}` : `/icons/${name}`
-
 	return (
 		<MagicCard className="rounded-md shadow-md">
 			<Link prefetch={false} href={linkHref} className="group flex flex-col items-center p-3 sm:p-4 cursor-pointer">
