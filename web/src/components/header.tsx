@@ -3,11 +3,13 @@
 import { Github, LayoutDashboard, LogOut, PlusCircle, Search, Star } from "lucide-react"
 import Link from "next/link"
 import { useEffect, useState } from "react"
+import { usePostHog } from "posthog-js/react"
 import { LoginModal } from "@/components/login-modal"
 import { ThemeSwitcher } from "@/components/theme-switcher"
 import { REPO_NAME, REPO_PATH } from "@/constants"
 import { getIconsArray } from "@/lib/api"
 import { pb } from "@/lib/pb"
+import { resetPostHogIdentity } from "@/lib/posthog-utils"
 import type { IconWithName } from "@/types/icons"
 import { CommandMenu } from "./command-menu"
 import { HeaderNav } from "./header-nav"
@@ -37,6 +39,7 @@ export function Header() {
 	const [isLoggedIn, setIsLoggedIn] = useState(false)
 	const [userData, setUserData] = useState<UserData | undefined>(undefined)
 	const [stars, setStars] = useState<number>(0)
+	const posthog = usePostHog()
 
 	useEffect(() => {
 		async function loadIcons() {
@@ -100,7 +103,20 @@ export function Header() {
 	}
 
 	const handleSignOut = () => {
+		// Track logout event before clearing auth
+		if (userData) {
+			posthog?.capture("user_logged_out", {
+				email: userData.email,
+				username: userData.username,
+			})
+		}
+		
+		// Clear PocketBase auth
 		pb.authStore.clear()
+		
+		// Reset PostHog identity to unlink future events from this user
+		// This is important for shared computers and follows PostHog best practices
+		resetPostHogIdentity(posthog)
 	}
 
 	const handleSubmitClick = () => {
