@@ -218,7 +218,7 @@ export function HeroSection({ totalIcons, stars }: { totalIcons: number; stars: 
 						<AuroraText colors={["#FA5352", "#FA5352", "orange"]}>dashboard icons</AuroraText>
 					</h1>
 
-					<p className="text-sm sm:text-base md:text-xl text-muted-foreground leading-relaxed mb-8 font-light tracking-wide max-w-2xl mx-auto px-4 motion-preset-slide-down motion-duration-500">
+					<p className="text-sm sm:text-base md:text-xl text-muted-foreground leading-relaxed mb-8 font-medium tracking-wide max-w-2xl mx-auto px-4 motion-preset-slide-down motion-duration-500">
 						A collection of{" "}
 						<NumberTicker value={totalIcons} startValue={1000} className="font-bold tracking-tighter text-muted-foreground" /> curated icons
 						for services, applications and tools, designed specifically for dashboards and app directories.
@@ -277,8 +277,8 @@ export default function GiveUsAStarButton({ stars }: { stars: string | number })
 					</div>
 
 					<div className="space-y-2">
-						<h5 className="text-sm font-medium text-secondary-foreground">How your star helps us:</h5>
-						<ul className="text-xs text-secondary-foreground/80 space-y-1.5">
+						<h5 className="text-sm font-medium text-muted-foreground">How your star helps us:</h5>
+						<ul className="text-xs text-muted-foreground/80 space-y-1.5">
 							<li className="flex items-start gap-2">
 								<TrendingUp className="h-3.5 w-3.5 text-primary flex-shrink-0 mt-0.5" />
 								<span>Increases our visibility in GitHub search results</span>
@@ -310,7 +310,7 @@ export default function GiveUsAStarButton({ stars }: { stars: string | number })
 						<Button
 							variant="link"
 							size="sm"
-							className="flex items-center gap-1 text-xs text-secondary-foreground"
+							className="flex items-center gap-1 text-xs text-muted-foreground"
 							onClick={() =>
 								window.open("https://docs.github.com/get-started/exploring-projects-on-github/saving-repositories-with-stars", "_blank")
 							}
@@ -360,8 +360,8 @@ export function GiveUsLoveButton() {
 					</div>
 
 					<div className="space-y-2">
-						<h5 className="text-sm font-medium text-secondary-foreground">Our Privacy Promise:</h5>
-						<ul className="text-xs text-secondary-foreground/80 space-y-1.5">
+						<h5 className="text-sm font-medium text-muted-foreground">Our Privacy Promise:</h5>
+						<ul className="text-xs text-muted-foreground/80 space-y-1.5">
 							<li className="flex items-start gap-2">
 								<span className="text-primary font-bold">✓</span>
 								<span>We don't track your browsing habits</span>
@@ -380,11 +380,11 @@ export function GiveUsLoveButton() {
 					<Separator className="bg-secondary/20" />
 
 					<div className="space-y-2">
-						<h5 className="text-sm font-medium text-secondary-foreground flex items-center gap-2">
+						<h5 className="text-sm font-medium text-muted-foreground flex items-center gap-2">
 							<Share2 className="h-4 w-4 text-primary" />
 							Spread the word
 						</h5>
-						<p className="text-xs text-secondary-foreground/80">
+						<p className="text-xs text-muted-foreground/80">
 							Don't want to disable your ad blocker? You can still help us by sharing our website with others who might find it useful.
 						</p>
 					</div>
@@ -428,8 +428,8 @@ export function GiveUsMoneyButton() {
 					</div>
 
 					<div className="space-y-2">
-						<h5 className="text-sm font-medium text-secondary-foreground">Where your money goes:</h5>
-						<ul className="text-xs text-secondary-foreground/80 space-y-1.5">
+						<h5 className="text-sm font-medium text-muted-foreground">Where your money goes:</h5>
+						<ul className="text-xs text-muted-foreground/80 space-y-1.5">
 							<li className="flex items-start gap-2">
 								<Server className="h-3.5 w-3.5 text-primary flex-shrink-0 mt-0.5" />
 								<span>Hosting and infrastructure costs</span>
@@ -456,7 +456,7 @@ export function GiveUsMoneyButton() {
 							</Button>
 						</Link>
 						<Link href={`${openCollectiveUrl}/transactions`} target="_blank" rel="noopener noreferrer">
-							<Button variant="link" size="sm" className="flex items-center gap-1 text-xs text-secondary-foreground">
+							<Button variant="link" size="sm" className="flex items-center gap-1 text-xs text-muted-foreground">
 								View transactions
 								<ExternalLink className="h-3 w-3" />
 							</Button>

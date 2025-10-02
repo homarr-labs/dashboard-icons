@@ -330,10 +330,11 @@ export function SubmissionsDataTable({
 		<div className="space-y-4">
 			{/* Search and Filters */}
 			<div className="flex flex-col sm:flex-row gap-4">
-				<div className="relative flex-1">
+				<div className="relative flex-1  border rounded-md bg-background">
 					<Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
 					<Input
 						placeholder="Search submissions..."
+						autoFocus
 						value={globalFilter ?? ""}
 						onChange={(event) => setGlobalFilter(String(event.target.value))}
 						className="pl-10"
@@ -377,7 +378,7 @@ export function SubmissionsDataTable({
 							</TableRow>
 						))}
 					</TableHeader>
-					<TableBody>
+					<TableBody className="bg-background">
 						{table.getRowModel().rows?.length ? (
 							(() => {
 								let lastStatus: string | null = null

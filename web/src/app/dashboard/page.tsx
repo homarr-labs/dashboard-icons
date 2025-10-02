@@ -104,7 +104,7 @@ export default function DashboardPage() {
 	// Success state
 	return (
 		<main className="container mx-auto pt-12 pb-14 px-4 sm:px-6 lg:px-8">
-			<Card className="bg-background/50 border shadow-lg">
+			<Card className="bg-background/50 border-none shadow-lg">
 				<CardHeader>
 					<CardTitle>Submissions Dashboard</CardTitle>
 					<CardDescription>
