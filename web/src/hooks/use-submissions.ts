@@ -14,18 +14,13 @@ export function useSubmissions() {
 	return useQuery({
 		queryKey: submissionKeys.lists(),
 		queryFn: async () => {
-			console.log("🔍 Fetching submissions...")
 			const records = await pb.collection("submissions").getFullList<Submission>({
 				sort: "-updated",
 				expand: "created_by,approved_by",
 				requestKey: null,
 			})
 
-			console.log("📊 Fetched submissions:", records.length)
 			if (records.length > 0) {
-				console.log("📋 First submission sample:", records[0])
-				console.log("👤 First submission created_by field:", records[0].created_by)
-				console.log("🔗 First submission expand data:", (records[0] as any).expand)
 			}
 
 			return records
@@ -102,6 +97,28 @@ export function useRejectSubmission() {
 				})
 			}
 		},
+	})
+}
+
+// Fetch existing icon names for the combobox
+export function useExistingIconNames() {
+	return useQuery({
+		queryKey: ["existing-icon-names"],
+		queryFn: async () => {
+			const records = await pb.collection("community_gallery").getFullList({
+				fields: "name",
+				sort: "name",
+				requestKey: null,
+			})
+
+			const uniqueNames = Array.from(new Set(records.map((r) => r.name)))
+			return uniqueNames.map((name) => ({
+				label: name,
+				value: name,
+			}))
+		},
+		staleTime: 5 * 60 * 1000, // 5 minutes
+		retry: false,
 	})
 }
 
