@@ -121,7 +121,7 @@
 }
 
 :root {
-	--radius: 0.4rem;
+	--radius: 0.2rem;
 
 	--background: oklch(0.99 0 0);
 	--foreground: oklch(0.32 0 0);
