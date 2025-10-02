@@ -8,6 +8,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } f
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Separator } from "@/components/ui/separator"
+import { BorderBeam } from "@/components/ui/border-beam"
 import { pb } from "@/lib/pb"
 
 interface LoginModalProps {
@@ -86,7 +87,7 @@ export function LoginModal({ open, onOpenChange }: LoginModalProps) {
 
 	return (
 		<Dialog open={open} onOpenChange={onOpenChange}>
-			<DialogContent className="sm:max-w-md bg-background border shadow-2xl ">
+			<DialogContent className="sm:max-w-md bg-background border shadow-2xl relative overflow-hidden">
 				<DialogHeader className="space-y-3">
 					<DialogTitle className="text-2xl font-bold">{isRegister ? "Create account" : "Sign in"}</DialogTitle>
 					<DialogDescription className="text-base">
@@ -248,6 +249,18 @@ export function LoginModal({ open, onOpenChange }: LoginModalProps) {
 						</div>
 					</footer>
 				</form>
+				<BorderBeam
+					duration={6}
+					size={400}
+					className="from-transparent via-red-500 to-transparent"
+				/>
+				<BorderBeam
+					duration={6}
+					delay={3}
+					size={400}
+					borderWidth={2}
+					className="from-transparent via-blue-500 to-transparent"
+				/>
 			</DialogContent>
 		</Dialog>
 	)
