@@ -30,28 +30,20 @@ dayjs.extend(relativeTime)
 
 // Utility function to get display name with priority: username > email > created_by field
 const getDisplayName = (submission: Submission, expandedData?: any): string => {
-	console.log("🏷️ Getting display name for submission:", submission.id)
-	console.log("👤 created_by field:", submission.created_by)
-	console.log("🔗 expanded data:", expandedData)
-
 	// Check if we have expanded user data
 	if (expandedData && expandedData.created_by) {
 		const user = expandedData.created_by
-		console.log("📋 User data from expand:", user)
 
 		// Priority: username > email
 		if (user.username) {
-			console.log("✅ Using username:", user.username)
 			return user.username
 		}
 		if (user.email) {
-			console.log("✅ Using email:", user.email)
 			return user.email
 		}
 	}
 
 	// Fallback to created_by field (could be user ID or username)
-	console.log("⚠️ Fallback to created_by field:", submission.created_by)
 	return submission.created_by
 }
 
