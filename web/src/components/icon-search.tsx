@@ -388,7 +388,7 @@ export function IconSearch({ icons }: IconSearchProps) {
 				</div>
 			) : (
 				<>
-					<div className="flex justify-between items-center pb-2">
+					<div className="flex justify-between items-center">
 						<p className="text-sm text-muted-foreground">
 							Found {filteredIcons.length} icon
 							{filteredIcons.length !== 1 ? "s" : ""}.
