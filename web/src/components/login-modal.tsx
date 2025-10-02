@@ -3,12 +3,14 @@
 import { Github, Loader2 } from "lucide-react"
 import type React from "react"
 import { useRef, useState } from "react"
+import { usePostHog } from "posthog-js/react"
 import { Button } from "@/components/ui/button"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Separator } from "@/components/ui/separator"
 import { pb } from "@/lib/pb"
+import { identifyUserInPostHog } from "@/lib/posthog-utils"
 
 interface LoginModalProps {
 	open: boolean
@@ -24,6 +26,7 @@ export function LoginModal({ open, onOpenChange }: LoginModalProps) {
 	const [error, setError] = useState("")
 	const [isLoading, setIsLoading] = useState(false)
 	const emailRef = useRef<HTMLInputElement>(null)
+	const posthog = usePostHog()
 
 	const resetForm = () => {
 		setEmail("")
@@ -62,9 +65,28 @@ export function LoginModal({ open, onOpenChange }: LoginModalProps) {
 					passwordConfirm: confirmPassword,
 				})
 				await pb.collection("users").authWithPassword(email, password)
+				
+				// Identify user immediately after successful authentication
+				// This follows PostHog best practice of calling identify as soon as possible
+				identifyUserInPostHog(posthog)
+				
+				// Track registration event
+				posthog?.capture("user_registered", {
+					email: email.trim(),
+					username: username.trim(),
+				})
 			} else {
 				// Login
 				await pb.collection("users").authWithPassword(email, password)
+				
+				// Identify user immediately after successful authentication
+				// This follows PostHog best practice of calling identify as soon as possible
+				identifyUserInPostHog(posthog)
+				
+				// Track login event
+				posthog?.capture("user_logged_in", {
+					email: email.trim(),
+				})
 			}
 
 			// Success
