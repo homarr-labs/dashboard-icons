@@ -52,7 +52,7 @@ function ElegantShape({
 	width = 400,
 	height = 100,
 	rotate = 0,
-	gradient = "from-rose-500/[0.5]",
+	gradient = "from-primary/[0.5]",
 	mobileWidth,
 	mobileHeight,
 }: {
@@ -128,10 +128,13 @@ function ElegantShape({
 				<div
 					className={cn(
 						"absolute inset-0 rounded-full",
-						"bg-gradient-to-r from-rose-500/[0.6] via-rose-500/[0.4] to-rose-500/[0.1]",
+						// Use primary 
+						"bg-gradient-to-r from-primary/[0.6] via-primary/[0.4] to-primary/[0.1]",
 						gradient,
 						"backdrop-blur-[3px]",
-						"shadow-[0_0_40px_0_rgba(244,63,94,0.35),inset_0_0_0_1px_rgba(244,63,94,0.2)]",
+						"shadow-primary/35",
+						"inset-shadow-2xs",
+						"inset-shadow-primary/20",
 						"after:absolute after:inset-0 after:rounded-full",
 						"after:bg-[radial-gradient(circle_at_50%_50%,rgba(255,255,255,0.4),transparent_70%)]",
 					)}
@@ -146,7 +149,7 @@ export function HeroSection({ totalIcons, stars }: { totalIcons: number; stars: 
 
 	return (
 		<div className="relative w-full flex items-center justify-center overflow-hidden">
-			<div className="absolute inset-0 bg-gradient-to-br from-rose-500/[0.1] via-transparent to-rose-500/[0.1] blur-3xl" />
+			<div className="absolute inset-0 bg-gradient-to-br from-primary/[0.1] via-transparent to-primary/[0.1] blur-3xl" />
 
 			<div className="absolute inset-0 overflow-hidden pointer-events-none">
 				<ElegantShape
@@ -156,7 +159,7 @@ export function HeroSection({ totalIcons, stars }: { totalIcons: number; stars: 
 					mobileWidth={300}
 					mobileHeight={80}
 					rotate={12}
-					gradient="from-rose-500/[0.6]"
+					gradient="from-primary/[0.6]"
 					className="left-[-10%] md:left-[-5%] top-[15%] md:top-[20%]"
 				/>
 
@@ -167,7 +170,7 @@ export function HeroSection({ totalIcons, stars }: { totalIcons: number; stars: 
 					mobileWidth={250}
 					mobileHeight={70}
 					rotate={-15}
-					gradient="from-rose-500/[0.55]"
+					gradient="from-primary/[0.55]"
 					className="right-[-5%] md:right-[0%] top-[70%] md:top-[75%]"
 				/>
 
@@ -178,7 +181,7 @@ export function HeroSection({ totalIcons, stars }: { totalIcons: number; stars: 
 					mobileWidth={150}
 					mobileHeight={50}
 					rotate={-8}
-					gradient="from-rose-500/[0.65]"
+					gradient="from-primary/[0.65]"
 					className="left-[5%] md:left-[10%] bottom-[5%] md:bottom-[10%]"
 				/>
 
@@ -189,7 +192,7 @@ export function HeroSection({ totalIcons, stars }: { totalIcons: number; stars: 
 					mobileWidth={100}
 					mobileHeight={40}
 					rotate={20}
-					gradient="from-rose-500/[0.58]"
+					gradient="from-primary/[0.58]"
 					className="right-[15%] md:right-[20%] top-[10%] md:top-[15%]"
 				/>
 
@@ -200,7 +203,7 @@ export function HeroSection({ totalIcons, stars }: { totalIcons: number; stars: 
 					mobileWidth={80}
 					mobileHeight={30}
 					rotate={-25}
-					gradient="from-rose-500/[0.62]"
+					gradient="from-primary/[0.62]"
 					className="left-[20%] md:left-[25%] top-[5%] md:top-[10%]"
 				/>
 			</div>
@@ -209,9 +212,9 @@ export function HeroSection({ totalIcons, stars }: { totalIcons: number; stars: 
 				<div className="max-w-4xl mx-auto text-center flex flex-col gap-4 ">
 					<h1 className="relative text-3xl sm:text-5xl md:text-7xl font-bold mb-4 md:mb-8 tracking-tight motion-preset-slide-up motion-duration-500 ">
 						Your definitive source for
-						<Sparkles className="absolute -right-1 -bottom-3 text-rose-500 h-8 w-8 sm:h-12 sm:w-12 md:h-16 md:w-12 motion-delay-300 motion-preset-seesaw-lg motion-scale-in-[0.5] motion-translate-x-in-[-120%] motion-translate-y-in-[-60%] motion-opacity-in-[33%] motion-rotate-in-[-1080deg] motion-blur-in-[10px] motion-duration-500 motion-delay-[0.13s]/scale motion-duration-[0.13s]/opacity motion-duration-[0.40s]/rotate motion-duration-[0.05s]/blur motion-delay-[0.20s]/blur motion-ease-spring-bouncier" />
+						<Sparkles className="absolute -right-1 -bottom-3 text-primary h-8 w-8 sm:h-12 sm:w-12 md:h-16 md:w-12 motion-delay-300 motion-preset-seesaw-lg motion-scale-in-[0.5] motion-translate-x-in-[-120%] motion-translate-y-in-[-60%] motion-opacity-in-[33%] motion-rotate-in-[-1080deg] motion-blur-in-[10px] motion-duration-500 motion-delay-[0.13s]/scale motion-duration-[0.13s]/opacity motion-duration-[0.40s]/rotate motion-duration-[0.05s]/blur motion-delay-[0.20s]/blur motion-ease-spring-bouncier" />
 						<br />
-						<Sparkles className="absolute -left-1 -top-3 text-rose-500 h-5 w-5 sm:h-8 sm:w-8 md:h-12 md:w-12 motion-delay-300 motion-preset-seesaw-lg motion-scale-in-[0.5] motion-translate-x-in-[159%] motion-translate-y-in-[-60%] motion-opacity-in-[33%] motion-rotate-in-[-1080deg] motion-blur-in-[10px] motion-duration-500 motion-delay-[0.13s]/scale motion-duration-[0.13s]/opacity motion-duration-[0.40s]/rotate motion-duration-[0.05s]/blur motion-delay-[0.20s]/blur motion-ease-spring-bouncier" />
+						<Sparkles className="absolute -left-1 -top-3 text-primary h-5 w-5 sm:h-8 sm:w-8 md:h-12 md:w-12 motion-delay-300 motion-preset-seesaw-lg motion-scale-in-[0.5] motion-translate-x-in-[159%] motion-translate-y-in-[-60%] motion-opacity-in-[33%] motion-rotate-in-[-1080deg] motion-blur-in-[10px] motion-duration-500 motion-delay-[0.13s]/scale motion-duration-[0.13s]/opacity motion-duration-[0.40s]/rotate motion-duration-[0.05s]/blur motion-delay-[0.20s]/blur motion-ease-spring-bouncier" />
 						<AuroraText colors={["#FA5352", "#FA5352", "orange"]}>dashboard icons</AuroraText>
 					</h1>
 
@@ -329,7 +332,7 @@ export function GiveUsLoveButton() {
 				<Button variant="outline" className="h-9 md:h-10 px-4 cursor-pointer">
 					<div className="flex items-center gap-2">
 						<p>Give us love</p>
-						<Heart className="h-4 w-4 ml-1 fill-red-500 text-red-500" />
+						<Heart className="h-4 w-4 ml-1 fill-primary text-primary" />
 					</div>
 				</Button>
 			</HoverCardTrigger>
@@ -337,7 +340,7 @@ export function GiveUsLoveButton() {
 				<div className="grid gap-4">
 					<div className="space-y-2">
 						<h4 className="font-medium leading-none flex items-center gap-2">
-							<Heart className="h-4 w-4 fill-red-500 text-red-500" />
+							<Heart className="h-4 w-4 fill-primary text-primary" />
 							Support us without spending
 						</h4>
 						<p className="text-sm text-muted-foreground">We keep our service free through minimal, non-intrusive ads.</p>
