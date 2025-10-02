@@ -151,7 +151,7 @@ export function Header() {
 							<Button variant="ghost" size="icon" className="rounded-lg cursor-pointer transition-all duration-300 hover:ring-2" asChild>
 								<Link href="/submit">
 									<PlusCircle className="h-5 w-5 transition-all duration-300" />
-									<span className="sr-only">Submit icon(s)</span>
+									<span className="sr-only">Submit icon</span>
 								</Link>
 							</Button>
 						) : (
@@ -162,7 +162,7 @@ export function Header() {
 								onClick={handleSubmitClick}
 							>
 								<PlusCircle className="h-5 w-5 transition-all duration-300" />
-								<span className="sr-only">Submit icon(s)</span>
+								<span className="sr-only">Submit icon</span>
 							</Button>
 						)}
 					</div>
