@@ -69,7 +69,7 @@ export default function SubmitPage() {
 					</div>
 				</div>
 
-				{showLoginModal && <LoginModal onClose={() => setShowLoginModal(false)} />}
+				<LoginModal open={showLoginModal} onOpenChange={setShowLoginModal} />
 			</>
 		)
 	}

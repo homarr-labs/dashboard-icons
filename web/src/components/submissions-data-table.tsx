@@ -140,7 +140,7 @@ export function SubmissionsDataTable({
 		[userFilter],
 	)
 
-	const columns: ColumnDef<Submission>[] = [
+	const columns: ColumnDef<Submission>[] = React.useMemo(() => [
 		{
 			id: "expander",
 			header: () => null,
@@ -282,7 +282,7 @@ export function SubmissionsDataTable({
 				)
 			},
 		},
-	]
+	], [handleRowToggle, handleUserFilter, userFilter])
 
 	const table = useReactTable({
 		data: groupedData,
