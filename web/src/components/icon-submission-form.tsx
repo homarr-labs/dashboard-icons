@@ -66,7 +66,7 @@ export function IconSubmissionContent({ onClose }: { onClose?: () => void }) {
 		</div>
 	)
 }
-export function IconSubmissionForm({ trigger }: { trigger?: React.ReactNode }) {
+export function IconSubmissionForm({ trigger, onClick }: { trigger?: React.ReactNode, onClick?: () => void }) {
 	const [open, setOpen] = useState(false)
 
 	return (
@@ -74,7 +74,7 @@ export function IconSubmissionForm({ trigger }: { trigger?: React.ReactNode }) {
 			{trigger ? (
 				<DialogTrigger asChild>{trigger}</DialogTrigger>
 			) : (
-				<DialogTrigger asChild>
+				<DialogTrigger asChild onClick={onClick}>
 					<Button variant="outline" className="hidden md:inline-flex cursor-pointer transition-all duration-300 items-center gap-2">
 						<PlusCircle className="h-4 w-4 transition-all duration-300" /> Submit icon(s)
 					</Button>
