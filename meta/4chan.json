@@ -1,0 +1,17 @@
+{
+  "base": "svg",
+  "aliases": [
+    "chan",
+    "luck"
+  ],
+  "categories": [
+    "Communication"
+  ],
+  "update": {
+    "timestamp": "2025-10-04T13:23:43.208364",
+    "author": {
+      "id": 123755552,
+      "login": "jashanpbpb"
+    }
+  }
+}
