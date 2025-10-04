@@ -1,0 +1,52 @@
+<svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="cylinderGradient" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#6ba6cd"></stop>
+      <stop offset="50%" stop-color="#5a9fd4"></stop>
+      <stop offset="100%" stop-color="#4a8cc4"></stop>
+    </linearGradient>
+    <linearGradient id="topGradient" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#a2d2ff"></stop>
+      <stop offset="100%" stop-color="#6ba6cd"></stop>
+    </linearGradient>
+    <clipPath id="circleClip">
+      <circle cx="200" cy="200" r="200"></circle>
+    </clipPath>
+  </defs>
+
+  <circle cx="200" cy="200" r="200" fill="#e8e9ea"></circle>
+  <g clip-path="url(#circleClip)">
+    <!-- Bottom wave, exaggerated -->
+    <path d="M 0 140 Q 100 -20 200 140 T 400 140 L 400 400 L 0 400 Z" fill="#4c3fb8" opacity="0.9"></path>
+    <!-- Middle wave, exaggerated -->
+    <path d="M 0 180 Q 100 20 200 180 T 400 180 L 400 400 L 0 400 Z" fill="#3d32a6" opacity="0.7"></path>
+    <!-- Top wave, exaggerated -->
+    <path d="M 0 220 Q 100 60 200 220 T 400 220 L 400 400 L 0 400 Z" fill="#2e2594" opacity="0.5"></path>
+  </g>
+
+  <g transform="translate(200, 250) scale(1.3)">
+    <!-- Bottom layer -->
+    <ellipse cx="0" cy="30" rx="65" ry="18" fill="#4a8cc4"></ellipse>
+    <rect x="-65" y="12" width="130" height="18" fill="url(#cylinderGradient)"></rect>
+    <ellipse cx="0" cy="12" rx="65" ry="18" fill="url(#topGradient)"></ellipse>
+    <path d="M -65 30 A65 18 0 0 0 65 30 L65 12 A65 18 0 0 0 -65 12 Z" fill="none" stroke="black" stroke-width="2"></path>
+
+    <!-- Layer 2 -->
+    <ellipse cx="0" cy="0" rx="65" ry="18" fill="#4a8cc4"></ellipse>
+    <rect x="-65" y="-18" width="130" height="18" fill="url(#cylinderGradient)"></rect>
+    <ellipse cx="0" cy="-18" rx="65" ry="18" fill="url(#topGradient)"></ellipse>
+    <path d="M -65 0 A65 18 0 0 0 65 0 L65 -18 A65 18 0 0 0 -65 -18 Z" fill="none" stroke="black" stroke-width="2"></path>
+
+    <!-- Layer 3 -->
+    <ellipse cx="0" cy="-30" rx="65" ry="18" fill="#4a8cc4"></ellipse>
+    <rect x="-65" y="-48" width="130" height="18" fill="url(#cylinderGradient)"></rect>
+    <ellipse cx="0" cy="-48" rx="65" ry="18" fill="url(#topGradient)"></ellipse>
+    <path d="M -65 -30 A65 18 0 0 0 65 -30 L65 -48 A65 18 0 0 0 -65 -48 Z" fill="none" stroke="black" stroke-width="2"></path>
+
+    <!-- Top layer -->
+    <ellipse cx="0" cy="-60" rx="65" ry="18" fill="#4a8cc4"></ellipse>
+    <rect x="-65" y="-78" width="130" height="18" fill="url(#cylinderGradient)"></rect>
+    <ellipse cx="0" cy="-78" rx="65" ry="18" fill="url(#topGradient)"></ellipse>
+    <path d="M -65 -60 A65 18 0 0 0 65 -60 L65 -78 A65 18 0 0 0 -65 -78 Z" fill="none" stroke="black" stroke-width="2"></path>
+  </g>
+</svg>
