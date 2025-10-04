@@ -31580,6 +31580,30 @@
             }
         }
     },
+    "wero": {
+        "base": "svg",
+        "aliases": [
+            "epi",
+            "giropay",
+            "paylib",
+            "payconiq",
+            "ideal"
+        ],
+        "categories": [
+            "Finance"
+        ],
+        "update": {
+            "timestamp": "2025-10-04T14:01:22.391358",
+            "author": {
+                "id": 2644445,
+                "login": "SamuAlfageme"
+            }
+        },
+        "colors": {
+            "light": "wero",
+            "dark": "wero-dark"
+        }
+    },
     "postal": {
         "base": "svg",
         "aliases": [],
