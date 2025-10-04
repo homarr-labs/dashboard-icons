@@ -11375,6 +11375,20 @@
             }
         }
     },
+    "lite-speed": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "Cloud"
+        ],
+        "update": {
+            "timestamp": "2025-10-04T14:08:25.926798",
+            "author": {
+                "id": 72839683,
+                "login": "ryo9999"
+            }
+        }
+    },
     "immich-public-proxy": {
         "base": "svg",
         "aliases": [],
