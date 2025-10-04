@@ -20133,6 +20133,20 @@
             }
         }
     },
+    "jetbrains-toolbox": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "Development"
+        ],
+        "update": {
+            "timestamp": "2025-10-04T14:19:54.211970",
+            "author": {
+                "id": 23353799,
+                "login": "drdreo"
+            }
+        }
+    },
     "victron-energy": {
         "base": "svg",
         "aliases": [],
