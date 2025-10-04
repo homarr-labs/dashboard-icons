@@ -1,0 +1,17 @@
+{
+  "base": "svg",
+  "aliases": [
+    "autocad",
+    "autodesk"
+  ],
+  "categories": [
+    "Development"
+  ],
+  "update": {
+    "timestamp": "2025-10-04T13:20:51.894933",
+    "author": {
+      "id": 230745655,
+      "login": "stillkool"
+    }
+  }
+}
