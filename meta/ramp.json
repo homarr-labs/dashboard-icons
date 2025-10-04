@@ -1,0 +1,18 @@
+{
+  "base": "svg",
+  "aliases": [],
+  "categories": [
+    "Finance"
+  ],
+  "update": {
+    "timestamp": "2025-10-04T14:04:45.473628",
+    "author": {
+      "id": 204367648,
+      "login": "jamesyork-prog"
+    }
+  },
+  "colors": {
+    "light": "ramp",
+    "dark": "ramp-dark"
+  }
+}
