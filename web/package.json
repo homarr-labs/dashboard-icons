@@ -75,7 +75,7 @@
 		"@types/react-dom": "^19.1.9",
 		"tailwindcss": "^4.1.13",
 		"typescript": "^5.9.2",
-		"wrangler": "^4.35.0"
+		"wrangler": "^4.41.0"
 	},
 	"packageManager": "pnpm@10.15.1",
 	"pnpm": {
