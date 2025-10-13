@@ -4,7 +4,6 @@ import { Check, FileImage, FileType, Plus, X } from "lucide-react"
 import { useForm } from "@tanstack/react-form"
 import { toast } from "sonner"
 import { IconNameCombobox } from "@/components/icon-name-combobox"
-import { IconCard } from "@/components/icon-card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -100,7 +99,7 @@ export function AdvancedIconSubmissionFormTanStack() {
 	const [filePreviews, setFilePreviews] = useState<Record<string, string>>({})
 	const { data: existingIcons = [] } = useExistingIconNames()
 
-	const form = useForm<FormData>({
+	const form = useForm({
 		defaultValues: {
 			iconName: "",
 			selectedVariants: ["base"], // Base is always selected by default
@@ -110,22 +109,7 @@ export function AdvancedIconSubmissionFormTanStack() {
 			aliasInput: "",
 			categories: [],
 			description: "",
-		},
-		validators: {
-			onChange: ({ value }) => {
-				const errors: Partial<Record<keyof FormData, string>> = {}
-				
-				if (!value.files.base || value.files.base.length === 0) {
-					errors.files = "At least the base icon is required"
-				}
-				
-				if (value.categories.length === 0) {
-					errors.categories = "At least one category is required"
-				}
-				
-				return Object.keys(errors).length > 0 ? errors : undefined
-			},
-		},
+		} as FormData,
 		onSubmit: async ({ value }) => {
 			if (!pb.authStore.isValid) {
 				toast.error("You must be logged in to submit an icon")
@@ -588,11 +572,14 @@ export function AdvancedIconSubmissionFormTanStack() {
 								Clear Form
 							</Button>
 							<form.Subscribe
-								selector={(state) => [state.canSubmit, state.isSubmitting]}
+								selector={(state) => ({
+									canSubmit: state.canSubmit,
+									isSubmitting: state.isSubmitting,
+								})}
 							>
-								{([canSubmit, isSubmitting]: [boolean, boolean]) => (
-									<Button type="submit" disabled={!canSubmit || isSubmitting} size="lg">
-										{isSubmitting ? "Submitting..." : "Submit New Icon"}
+								{(state) => (
+									<Button type="submit" disabled={!state.canSubmit || state.isSubmitting} size="lg">
+										{state.isSubmitting ? "Submitting..." : "Submit New Icon"}
 									</Button>
 								)}
 							</form.Subscribe>
