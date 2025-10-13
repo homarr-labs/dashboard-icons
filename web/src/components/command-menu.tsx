@@ -69,7 +69,7 @@ export function CommandMenu({ icons, open: externalOpen, onOpenChange: externalO
 	return (
 		<CommandDialog open={isOpen} onOpenChange={setIsOpen} contentClassName="bg-background/90 backdrop-blur-sm border border-border/60">
 			<CommandInput
-				placeholder={`Search our collection of ${totalIcons} icons by name or category...`}
+				placeholder={`Search our collection of ${totalIcons} icons by name...`}
 				value={query}
 				onValueChange={setQuery}
 			/>
