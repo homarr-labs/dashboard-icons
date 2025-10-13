@@ -1,19 +1,20 @@
 "use client"
 
-import { AlertCircle, Check, Plus, X } from "lucide-react"
+import { Check, FileImage, FileType, Plus, X } from "lucide-react"
 import { useForm } from "@tanstack/react-form"
 import { toast } from "sonner"
 import { IconNameCombobox } from "@/components/icon-name-combobox"
-import { Alert, AlertDescription } from "@/components/ui/alert"
+import { IconCard } from "@/components/icon-card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Separator } from "@/components/ui/separator"
+import { MultiSelect, type MultiSelectOption } from "@/components/ui/multi-select"
 import { Dropzone, DropzoneContent, DropzoneEmptyState } from "@/components/ui/shadcn-io/dropzone"
 import { Textarea } from "@/components/ui/textarea"
 import { pb } from "@/lib/pb"
+import { useExistingIconNames } from "@/hooks/use-submissions"
 import { useState } from "react"
 
 interface VariantConfig {
@@ -56,6 +57,14 @@ const VARIANTS: VariantConfig[] = [
 	},
 ]
 
+// Convert VARIANTS to MultiSelect options
+const VARIANT_OPTIONS: MultiSelectOption[] = VARIANTS.map((variant) => ({
+	label: variant.label,
+	value: variant.id,
+	icon: variant.id === "base" ? FileImage : FileType,
+	disabled: variant.id === "base", // Base is always required
+}))
+
 const AVAILABLE_CATEGORIES = [
 	"automation",
 	"cloud",
@@ -78,8 +87,7 @@ const AVAILABLE_CATEGORIES = [
 
 interface FormData {
 	iconName: string
-	isExistingIcon: boolean
-	activeVariants: string[]
+	selectedVariants: string[]
 	files: Record<string, File[]>
 	filePreviews: Record<string, string>
 	aliases: string[]
@@ -90,12 +98,12 @@ interface FormData {
 
 export function AdvancedIconSubmissionFormTanStack() {
 	const [filePreviews, setFilePreviews] = useState<Record<string, string>>({})
+	const { data: existingIcons = [] } = useExistingIconNames()
 
 	const form = useForm<FormData>({
 		defaultValues: {
 			iconName: "",
-			isExistingIcon: false,
-			activeVariants: ["base"],
+			selectedVariants: ["base"], // Base is always selected by default
 			files: {},
 			filePreviews: {},
 			aliases: [],
@@ -106,12 +114,6 @@ export function AdvancedIconSubmissionFormTanStack() {
 		validators: {
 			onChange: ({ value }) => {
 				const errors: Partial<Record<keyof FormData, string>> = {}
-				
-				if (!value.iconName.trim()) {
-					errors.iconName = "Icon name is required"
-				} else if (!/^[a-z0-9-]+$/.test(value.iconName)) {
-					errors.iconName = "Icon name must contain only lowercase letters, numbers, and hyphens"
-				}
 				
 				if (!value.files.base || value.files.base.length === 0) {
 					errors.files = "At least the base icon is required"
@@ -182,10 +184,8 @@ export function AdvancedIconSubmissionFormTanStack() {
 
 				await pb.collection("submissions").create(submissionData)
 
-				toast.success(value.isExistingIcon ? "Icon update submitted!" : "Icon submitted!", {
-					description: value.isExistingIcon
-						? `Your update for "${value.iconName}" has been submitted for review`
-						: `Your icon "${value.iconName}" has been submitted for review`,
+				toast.success("Icon submitted!", {
+					description: `Your icon "${value.iconName}" has been submitted for review`,
 				})
 
 				// Reset form
@@ -200,27 +200,31 @@ export function AdvancedIconSubmissionFormTanStack() {
 		},
 	})
 
-	const handleAddVariant = (variantId: string) => {
-		const currentVariants = form.getFieldValue("activeVariants")
-		if (!currentVariants.includes(variantId)) {
-			form.setFieldValue("activeVariants", [...currentVariants, variantId])
-		}
-	}
-
 	const handleRemoveVariant = (variantId: string) => {
 		if (variantId !== "base") {
-			const currentVariants = form.getFieldValue("activeVariants")
-			form.setFieldValue("activeVariants", currentVariants.filter((id) => id !== variantId))
+			// Remove from selected variants
+			const currentVariants = form.getFieldValue("selectedVariants")
+			form.setFieldValue("selectedVariants", currentVariants.filter((v) => v !== variantId))
 			
+			// Remove files
 			const currentFiles = form.getFieldValue("files")
 			const newFiles = { ...currentFiles }
 			delete newFiles[variantId]
 			form.setFieldValue("files", newFiles)
 			
+			// Remove previews
 			const newPreviews = { ...filePreviews }
 			delete newPreviews[variantId]
 			setFilePreviews(newPreviews)
 		}
+	}
+
+	const handleVariantSelectionChange = (selectedValues: string[]) => {
+		// Ensure base is always included
+		const finalValues = selectedValues.includes("base") 
+			? selectedValues 
+			: ["base", ...selectedValues]
+		return finalValues
 	}
 
 	const handleFileDrop = (variantId: string, droppedFiles: File[]) => {
@@ -272,7 +276,7 @@ export function AdvancedIconSubmissionFormTanStack() {
 	}
 
 	return (
-		<div className="max-w-4xl mx-auto space-y-6">
+		<div className="max-w-4xl mx-auto">
 			<form
 				onSubmit={(e) => {
 					e.preventDefault()
@@ -280,290 +284,321 @@ export function AdvancedIconSubmissionFormTanStack() {
 					form.handleSubmit()
 				}}
 			>
-				{/* Icon Name Section */}
 				<Card>
 					<CardHeader>
-						<CardTitle>Icon Identification</CardTitle>
-						<CardDescription>Choose a unique identifier for your icon</CardDescription>
+						<CardTitle>Submit an Icon</CardTitle>
+						<CardDescription>Fill in the details below to submit your icon for review</CardDescription>
 					</CardHeader>
-					<CardContent className="space-y-4">
-						<form.Field
-							name="iconName"
-							validators={{
-								onChange: ({ value }) => {
-									if (!value) return "Icon name is required"
-									if (!/^[a-z0-9-]+$/.test(value)) {
-										return "Icon name must contain only lowercase letters, numbers, and hyphens"
-									}
-									return undefined
-								},
-							}}
-						>
-							{(field) => (
-								<div className="space-y-2">
-									<Label htmlFor="icon-name">Icon Name / ID</Label>
-									<IconNameCombobox 
-										value={field.state.value} 
-										onValueChange={field.handleChange} 
-										onIsExisting={(isExisting) => form.setFieldValue("isExistingIcon", isExisting)} 
-									/>
-									<p className="text-sm text-muted-foreground">Use lowercase letters, numbers, and hyphens only</p>
-									{!field.state.meta.isValid && field.state.meta.isTouched && (
-										<p className="text-sm text-destructive">{field.state.meta.errors.join(", ")}</p>
-									)}
-								</div>
-							)}
-						</form.Field>
-
-						<form.Field name="isExistingIcon">
-							{(field) => (
-								<>
-									{field.state.value && (
-										<Alert>
-											<AlertCircle className="h-4 w-4" />
-											<AlertDescription>
-												This icon ID already exists. Your submission will be treated as an <strong>update</strong> to the
-												existing icon.
-											</AlertDescription>
-										</Alert>
-									)}
-
-									{form.getFieldValue("iconName") && !field.state.value && (
-										<Alert className="border-green-500/50 bg-green-500/10">
-											<AlertDescription className="text-green-600 dark:text-green-400">
-												This is a new icon submission.
-											</AlertDescription>
-										</Alert>
-									)}
-								</>
-							)}
-						</form.Field>
-					</CardContent>
-				</Card>
-
-				{/* Icon Variants Section */}
-				<Card>
-					<CardHeader>
-						<div className="flex items-start justify-between">
+					<CardContent className="space-y-6">
+						{/* Icon Name Section */}
+						<div className="space-y-4">
 							<div>
-								<CardTitle>Icon Variants</CardTitle>
-								<CardDescription>Upload different versions of your icon</CardDescription>
+								<h3 className="text-lg font-semibold mb-1">Icon Identification</h3>
+								<p className="text-sm text-muted-foreground">Choose a unique identifier for your icon</p>
 							</div>
-						</div>
-					</CardHeader>
-					<CardContent className="space-y-6">
-						<form.Field name="activeVariants">
-							{(field) => (
-								<>
-									{field.state.value.map((variantId) => {
-										const variant = VARIANTS.find((v) => v.id === variantId)
-										if (!variant) return null
-
-										return (
-											<div key={variantId} className="space-y-3 p-4 border rounded-lg bg-background/50">
-												<div className="flex items-start justify-between">
-													<div>
-														<div className="flex items-center gap-2">
-															<Label className="text-base font-semibold">{variant.label}</Label>
-															{variant.id === "base" && <Badge variant="secondary">Required</Badge>}
-														</div>
-														<p className="text-sm text-muted-foreground mt-1">{variant.description}</p>
-													</div>
-													{variant.id !== "base" && (
-														<Button
-															type="button"
-															variant="ghost"
-															size="sm"
-															onClick={() => handleRemoveVariant(variantId)}
-															className="text-destructive"
-														>
-															<X className="h-4 w-4" />
-														</Button>
-													)}
-												</div>
-
-												<Dropzone
-													accept={{
-														"image/svg+xml": [".svg"],
-														"image/png": [".png"],
-														"image/webp": [".webp"],
-													}}
-													maxSize={1024 * 1024 * 5}
-													maxFiles={1}
-													onDrop={(droppedFiles) => handleFileDrop(variantId, droppedFiles)}
-													onError={(error) => toast.error(error.message)}
-													src={form.getFieldValue("files")[variantId]}
-												>
-													<DropzoneEmptyState />
-													<DropzoneContent>
-														{filePreviews[variantId] && (
-															<div className="h-[102px] w-full">
-																<img
-																	alt="Preview"
-																	className="absolute top-0 left-0 h-full w-full object-cover"
-																	src={filePreviews[variantId]}
-																/>
-															</div>
-														)}
-													</DropzoneContent>
-												</Dropzone>
-											</div>
-										)
-									})}
-								</>
-							)}
-						</form.Field>
-
-						<Separator />
-
-						<div className="flex flex-wrap gap-2">
-							<p className="text-sm text-muted-foreground w-full mb-2">Add variant:</p>
-							{VARIANTS.filter((v) => !form.getFieldValue("activeVariants").includes(v.id)).map((variant) => (
-								<Button
-									key={variant.id}
-									type="button"
-									variant="outline"
-									size="sm"
-									onClick={() => handleAddVariant(variant.id)}
-								>
-									<Plus className="h-4 w-4 mr-2" />
-									{variant.label}
-								</Button>
-							))}
-						</div>
-					</CardContent>
-				</Card>
-
-				{/* Metadata Section */}
-				<Card>
-					<CardHeader>
-						<CardTitle>Icon Metadata</CardTitle>
-						<CardDescription>Provide additional information about your icon</CardDescription>
-					</CardHeader>
-					<CardContent className="space-y-6">
-						{/* Categories */}
-						<form.Field name="categories">
-							{(field) => (
-								<div className="space-y-3">
-									<Label>Categories</Label>
-									<div className="flex flex-wrap gap-2">
-										{AVAILABLE_CATEGORIES.map((category) => (
-											<Badge
-												key={category}
-												variant={field.state.value.includes(category) ? "default" : "outline"}
-												className="cursor-pointer hover:bg-primary/80"
-												onClick={() => toggleCategory(category)}
-											>
-												{category.replace(/-/g, " ")}
-											</Badge>
-										))}
-									</div>
-									<p className="text-sm text-muted-foreground">Select all categories that apply to your icon</p>
-									{!field.state.meta.isValid && field.state.meta.isTouched && (
-										<p className="text-sm text-destructive">{field.state.meta.errors.join(", ")}</p>
-									)}
-								</div>
-							)}
-						</form.Field>
-
-						<Separator />
-
-						{/* Aliases */}
-						<div className="space-y-3">
-							<Label htmlFor="alias-input">Aliases</Label>
-							<form.Field name="aliasInput">
+							
+							<form.Field
+								name="iconName"
+								validators={{
+									onChange: ({ value }) => {
+										if (!value) return "Icon name is required"
+										if (!/^[a-z0-9-]+$/.test(value)) {
+											return "Icon name must contain only lowercase letters, numbers, and hyphens"
+										}
+										// Check if icon already exists
+										const iconExists = existingIcons.some((icon) => icon.value === value)
+										if (iconExists) {
+											return "This icon already exists. Icon updates are not yet supported. Please choose a different name."
+										}
+										return undefined
+									},
+								}}
+							>
 								{(field) => (
-									<div className="flex gap-2">
-										<Input
-											id="alias-input"
-											placeholder="Add alternative name..."
-											value={field.state.value}
-											onChange={(e) => field.handleChange(e.target.value)}
-											onKeyDown={(e) => {
-												if (e.key === "Enter") {
-													e.preventDefault()
-													handleAddAlias()
-												}
-											}}
+									<div className="space-y-2">
+										<Label htmlFor="icon-name">Icon Name / ID</Label>
+										<IconNameCombobox
+											value={field.state.value} 
+											onValueChange={field.handleChange}
+											error={field.state.meta.errors.join(", ")}
+											isInvalid={!field.state.meta.isValid && field.state.meta.isTouched}
 										/>
-										<Button type="button" onClick={handleAddAlias}>
-											<Plus className="h-4 w-4 mr-2" />
-											Add
-										</Button>
+										<p className="text-sm text-muted-foreground">Use lowercase letters, numbers, and hyphens only</p>
 									</div>
 								)}
 							</form.Field>
-							
-							<form.Field name="aliases">
+						</div>
+
+						{/* Icon Preview Section */}
+						{Object.keys(filePreviews).length > 0 && (
+							<form.Subscribe selector={(state) => ({ iconName: state.values.iconName, categories: state.values.categories })}>
+								{(state) => (
+									<div className="space-y-4">
+										<div>
+											<h3 className="text-lg font-semibold mb-1">Icon Preview</h3>
+											<p className="text-sm text-muted-foreground">How your icon will appear</p>
+										</div>
+										<div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+											{Object.entries(filePreviews).map(([variantId, preview]) => (
+												<div key={variantId} className="flex flex-col gap-2">
+													<div className="relative aspect-square rounded-lg border bg-card p-4 flex items-center justify-center">
+														<img
+															alt={`${variantId} preview`}
+															className="max-h-full max-w-full object-contain"
+															src={preview}
+														/>
+													</div>
+													<div className="text-center">
+														<p className="text-xs font-mono text-muted-foreground">{state.iconName || "preview"}</p>
+														<p className="text-xs text-muted-foreground capitalize">{variantId}</p>
+													</div>
+												</div>
+											))}
+										</div>
+									</div>
+								)}
+							</form.Subscribe>
+						)}
+
+						{/* Icon Variants Section */}
+						<div className="space-y-4">
+							<div>
+								<h3 className="text-lg font-semibold mb-1">Icon Variants</h3>
+								<p className="text-sm text-muted-foreground">Select which variants you want to upload</p>
+							</div>
+
+							<form.Field name="selectedVariants">
 								{(field) => (
 									<>
-										{field.state.value.length > 0 && (
-											<div className="flex flex-wrap gap-2 mt-2">
-												{field.state.value.map((alias) => (
-													<Badge key={alias} variant="secondary" className="flex items-center gap-1 pl-2 pr-1">
-														{alias}
-														<Button
-															type="button"
-															variant="ghost"
-															size="sm"
-															className="h-4 w-4 p-0 hover:bg-transparent"
-															onClick={() => handleRemoveAlias(alias)}
-														>
-															<X className="h-3 w-3" />
-														</Button>
-													</Badge>
-												))}
-											</div>
-										)}
+										<div className="space-y-3">
+											<Label>Variant Selection</Label>
+											<MultiSelect
+												options={VARIANT_OPTIONS}
+												defaultValue={field.state.value}
+												onValueChange={(values) => {
+													const finalValues = handleVariantSelectionChange(values)
+													field.handleChange(finalValues)
+												}}
+												placeholder="Select icon variants..."
+												maxCount={5}
+												searchable={false}
+												hideSelectAll={true}
+												resetOnDefaultValueChange={true}
+											/>
+											<p className="text-sm text-muted-foreground">
+												Base icon is required and cannot be removed. Select additional variants as needed.
+											</p>
+										</div>
+
+										{/* Upload zones for selected variants - using field.state.value for reactivity */}
+										<div className="grid gap-3 mt-4">
+											{field.state.value.map((variantId) => {
+												const variant = VARIANTS.find((v) => v.id === variantId)
+												if (!variant) return null
+
+												const hasFile = form.getFieldValue("files")[variant.id]?.length > 0
+												const isBase = variant.id === "base"
+
+												return (
+													<Card
+														key={variantId}
+														className={`relative transition-all ${
+															hasFile
+																? "border-primary bg-primary/5"
+																: "border-border"
+														}`}
+													>
+														{/* Remove button at top-right corner */}
+														{!isBase && (
+															<Button
+																type="button"
+																variant="ghost"
+																size="icon"
+																onClick={() => handleRemoveVariant(variant.id)}
+																className="absolute top-2 right-2 h-6 w-6 rounded-full hover:bg-destructive/10 hover:text-destructive z-10"
+																aria-label={`Remove ${variant.label}`}
+															>
+																<X className="h-4 w-4" />
+															</Button>
+														)}
+
+														<div className="p-4">
+															<div className="space-y-2">
+																<div className="flex items-center gap-2">
+																	<h4 className="text-sm font-semibold">{variant.label}</h4>
+																	{isBase && <Badge variant="secondary" className="text-xs">Required</Badge>}
+																	{hasFile && (
+																		<Badge variant="default" className="text-xs">
+																			<Check className="h-3 w-3 mr-1" />
+																			Uploaded
+																		</Badge>
+																	)}
+																</div>
+																<p className="text-xs text-muted-foreground">{variant.description}</p>
+																
+																<Dropzone
+																	accept={{
+																		"image/svg+xml": [".svg"],
+																		"image/png": [".png"],
+																		"image/webp": [".webp"],
+																	}}
+																	maxSize={1024 * 1024 * 5}
+																	maxFiles={1}
+																	onDrop={(droppedFiles) => handleFileDrop(variant.id, droppedFiles)}
+																	onError={(error) => toast.error(error.message)}
+																	src={form.getFieldValue("files")[variant.id]}
+																>
+																	<DropzoneEmptyState />
+																	<DropzoneContent>
+																		{filePreviews[variant.id] && (
+																			<div className="absolute inset-0 flex items-center justify-center p-2">
+																				<img
+																					alt={`${variant.label} preview`}
+																					className="max-h-full max-w-full object-contain"
+																					src={filePreviews[variant.id]}
+																				/>
+																			</div>
+																		)}
+																	</DropzoneContent>
+																</Dropzone>
+															</div>
+														</div>
+													</Card>
+												)
+											})}
+										</div>
 									</>
 								)}
 							</form.Field>
-							<p className="text-sm text-muted-foreground">Alternative names that users might search for</p>
 						</div>
 
-						<Separator />
+						{/* Metadata Section */}
+						<div className="space-y-4">
+							<div>
+								<h3 className="text-lg font-semibold mb-1">Icon Metadata</h3>
+								<p className="text-sm text-muted-foreground">Provide additional information about your icon</p>
+							</div>
 
-						{/* Description */}
-						<form.Field name="description">
-							{(field) => (
-								<div className="space-y-3">
-									<Label htmlFor="description">Description (Optional)</Label>
-									<Textarea
-										id="description"
-										placeholder="Brief description of the icon or service it represents..."
-										value={field.state.value}
-										onChange={(e) => field.handleChange(e.target.value)}
-										rows={3}
-									/>
-									<p className="text-sm text-muted-foreground">This helps reviewers understand your submission</p>
-								</div>
-							)}
-						</form.Field>
+							{/* Categories */}
+							<form.Field name="categories">
+								{(field) => (
+									<div className="space-y-3">
+										<Label>Categories</Label>
+										<div className="flex flex-wrap gap-2">
+											{AVAILABLE_CATEGORIES.map((category) => (
+												<Badge
+													key={category}
+													variant={field.state.value.includes(category) ? "default" : "outline"}
+													className="cursor-pointer hover:bg-primary/80"
+													onClick={() => toggleCategory(category)}
+												>
+													{category.replace(/-/g, " ")}
+												</Badge>
+											))}
+										</div>
+										<p className="text-sm text-muted-foreground">Select all categories that apply to your icon</p>
+										{!field.state.meta.isValid && field.state.meta.isTouched && (
+											<p className="text-sm text-destructive">{field.state.meta.errors.join(", ")}</p>
+										)}
+									</div>
+								)}
+							</form.Field>
+
+							{/* Aliases */}
+							<div className="space-y-3">
+								<Label htmlFor="alias-input">Aliases</Label>
+								<form.Field name="aliasInput">
+									{(field) => (
+										<div className="flex gap-2">
+											<Input
+												id="alias-input"
+												placeholder="Add alternative name..."
+												value={field.state.value}
+												onChange={(e) => field.handleChange(e.target.value)}
+												onKeyDown={(e) => {
+													if (e.key === "Enter") {
+														e.preventDefault()
+														handleAddAlias()
+													}
+												}}
+											/>
+											<Button type="button" onClick={handleAddAlias}>
+												<Plus className="h-4 w-4 mr-2" />
+												Add
+											</Button>
+										</div>
+									)}
+								</form.Field>
+								
+								<form.Field name="aliases">
+									{(field) => (
+										<>
+											{field.state.value.length > 0 && (
+												<div className="flex flex-wrap gap-2 mt-2">
+													{field.state.value.map((alias) => (
+														<Badge key={alias} variant="secondary" className="flex items-center gap-1 pl-2 pr-1">
+															{alias}
+															<Button
+																type="button"
+																variant="ghost"
+																size="sm"
+																className="h-4 w-4 p-0 hover:bg-transparent"
+																onClick={() => handleRemoveAlias(alias)}
+															>
+																<X className="h-3 w-3" />
+															</Button>
+														</Badge>
+													))}
+												</div>
+											)}
+										</>
+									)}
+								</form.Field>
+								<p className="text-sm text-muted-foreground">Alternative names that users might search for</p>
+							</div>
+
+							{/* Description */}
+							<form.Field name="description">
+								{(field) => (
+									<div className="space-y-3">
+										<Label htmlFor="description">Description (Optional)</Label>
+										<Textarea
+											id="description"
+											placeholder="Brief description of the icon or service it represents..."
+											value={field.state.value}
+											onChange={(e) => field.handleChange(e.target.value)}
+											rows={3}
+										/>
+										<p className="text-sm text-muted-foreground">This helps reviewers understand your submission</p>
+									</div>
+								)}
+							</form.Field>
+						</div>
+
+						{/* Submit Button */}
+						<div className="flex justify-end gap-4 pt-4">
+							<Button
+								type="button"
+								variant="outline"
+								onClick={() => {
+									form.reset()
+									setFilePreviews({})
+								}}
+							>
+								Clear Form
+							</Button>
+							<form.Subscribe
+								selector={(state) => [state.canSubmit, state.isSubmitting]}
+							>
+								{([canSubmit, isSubmitting]: [boolean, boolean]) => (
+									<Button type="submit" disabled={!canSubmit || isSubmitting} size="lg">
+										{isSubmitting ? "Submitting..." : "Submit New Icon"}
+									</Button>
+								)}
+							</form.Subscribe>
+						</div>
 					</CardContent>
 				</Card>
-
-				{/* Submit Button */}
-				<div className="flex justify-end gap-4">
-					<Button
-						type="button"
-						variant="outline"
-						onClick={() => {
-							form.reset()
-							setFilePreviews({})
-						}}
-					>
-						Clear Form
-					</Button>
-					<form.Subscribe
-						selector={(state) => [state.canSubmit, state.isSubmitting]}
-					>
-						{([canSubmit, isSubmitting]: [boolean, boolean]) => (
-							<Button type="submit" disabled={!canSubmit || isSubmitting} size="lg">
-								{isSubmitting ? "Submitting..." : form.getFieldValue("isExistingIcon") ? "Submit Update" : "Submit New Icon"}
-							</Button>
-						)}
-					</form.Subscribe>
-				</div>
 			</form>
 		</div>
 	)
