@@ -23,17 +23,6 @@ export default function NotFound({ error }: { error: Error & { digest?: string }
 						</Link>
 					</Button>
 				</div>
-
-				<div className="border-t border-border pt-8 mt-8">
-					<div className="text-center mb-6">
-						<h2 className="text-xl font-semibold">Missing an icon?</h2>
-						<p className="text-muted-foreground mt-2">Submit a new icon or suggest improvements to our collection.</p>
-					</div>
-
-					<div className="mt-6">
-						<IconSubmissionContent />
-					</div>
-				</div>
 			</div>
 		</div>
 	)
