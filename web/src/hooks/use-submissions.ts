@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { toast } from "sonner"
 import { pb, type Submission } from "@/lib/pb"
+import { getAllIcons } from "@/lib/api"
 
 // Query key factory
 export const submissionKeys = {
@@ -100,7 +101,7 @@ export function useRejectSubmission() {
 	})
 }
 
-// Fetch existing icon names for the combobox
+// Fetch existing icon names for the combobox + the metadata.json file
 export function useExistingIconNames() {
 	return useQuery({
 		queryKey: ["existing-icon-names"],
@@ -111,7 +112,12 @@ export function useExistingIconNames() {
 				requestKey: null,
 			})
 
-			const uniqueNames = Array.from(new Set(records.map((r) => r.name)))
+			const metadata = await getAllIcons()
+			const metadataNames = Object.keys(metadata)
+
+			const uniqueRecordsNames = Array.from(new Set(records.map((r) => r.name)))
+			const uniqueMetadataNames = Array.from(new Set(metadataNames.map((n) => n)))
+			const uniqueNames = Array.from(new Set(uniqueRecordsNames.concat(uniqueMetadataNames)))
 			return uniqueNames.map((name) => ({
 				label: name,
 				value: name,
