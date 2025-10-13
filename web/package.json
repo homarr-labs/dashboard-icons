@@ -65,6 +65,7 @@
 		"pocketbase": "^0.26.2",
 		"posthog-js": "^1.268.7",
 		"posthog-node": "^5.9.1",
+		"radix-ui": "^1.4.3",
 		"react": "^19.1.1",
 		"react-day-picker": "8.10.1",
 		"react-dom": "^19.1.1",
