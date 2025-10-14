@@ -16649,6 +16649,21 @@
             }
         }
     },
+    "the-onion": {
+        "base": "svg",
+        "aliases": [
+            "theonion",
+            "onion"
+        ],
+        "categories": [],
+        "update": {
+            "timestamp": "2025-10-14T20:13:02.145966",
+            "author": {
+                "id": 58250719,
+                "login": "Okaza03"
+            }
+        }
+    },
     "undb": {
         "base": "svg",
         "aliases": [],
@@ -19415,6 +19430,20 @@
             }
         }
     },
+    "lostack": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "Development"
+        ],
+        "update": {
+            "timestamp": "2025-10-04T13:33:06.573335",
+            "author": {
+                "id": 232986088,
+                "login": "LoStack"
+            }
+        }
+    },
     "wirenboard": {
         "base": "png",
         "aliases": [],
@@ -21229,20 +21258,6 @@
             "author": {
                 "id": 71191962,
                 "name": "walkxcode"
-            }
-        }
-    },
-    "lostack": {
-        "base": "svg",
-        "aliases": [],
-        "categories": [
-            "Development"
-        ],
-        "update": {
-            "timestamp": "2025-10-04T13:33:06.573335",
-            "author": {
-                "id": 232986088,
-                "login": "LoStack"
             }
         }
     },
