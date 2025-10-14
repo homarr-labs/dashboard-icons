@@ -1,0 +1,16 @@
+{
+  "base": "svg",
+  "aliases": [
+    "podcast"
+  ],
+  "categories": [
+    "Media"
+  ],
+  "update": {
+    "timestamp": "2025-10-14T20:36:03.418327",
+    "author": {
+      "id": 111296018,
+      "login": "ARandomPigeon"
+    }
+  }
+}
