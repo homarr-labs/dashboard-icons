@@ -15038,6 +15038,20 @@
             }
         }
     },
+    "gotenberg": {
+        "base": "png",
+        "aliases": [],
+        "categories": [
+            "Development"
+        ],
+        "update": {
+            "timestamp": "2025-10-14T19:39:38.027576",
+            "author": {
+                "id": 1355848,
+                "login": "Lachee"
+            }
+        }
+    },
     "plume": {
         "base": "svg",
         "aliases": [],
