@@ -1,0 +1,22 @@
+{
+  "base": "svg",
+  "aliases": [
+    "calendar",
+    "cal",
+    "private calendar",
+    "personal calendar",
+    "agenda",
+    "personal agenda",
+    "private agenda"
+  ],
+  "categories": [
+    "Organization"
+  ],
+  "update": {
+    "timestamp": "2025-10-14T19:35:52.250825",
+    "author": {
+      "id": 4064051,
+      "login": "FilTer87"
+    }
+  }
+}
