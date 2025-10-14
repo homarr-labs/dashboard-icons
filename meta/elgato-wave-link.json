@@ -1,0 +1,19 @@
+{
+  "base": "svg",
+  "aliases": [
+    "wavelink",
+    "elgato wavelink",
+    "wave link",
+    "elgato Wave link"
+  ],
+  "categories": [
+    "Communication"
+  ],
+  "update": {
+    "timestamp": "2025-10-14T19:56:23.248361",
+    "author": {
+      "id": 58250719,
+      "login": "Okaza03"
+    }
+  }
+}
