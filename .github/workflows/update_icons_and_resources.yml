@@ -17,7 +17,7 @@ jobs:
       - name: Set Up Python
         uses: actions/setup-python@v4
         with:
-          python-version: "3.13.7"
+          python-version: "3.14.0"
 
       - name: Install Dependencies
         run: |
@@ -50,7 +50,7 @@ jobs:
       - name: Set Up Python
         uses: actions/setup-python@v4
         with:
-          python-version: "3.13.7"
+          python-version: "3.14.0"
 
       - name: Commit and Push Changes
         run: |
@@ -75,7 +75,7 @@ jobs:
       - name: Set Up Python
         uses: actions/setup-python@v4
         with:
-          python-version: "3.13.7"
+          python-version: "3.14.0"
 
       - name: Commit and Push Changes
         run: |
