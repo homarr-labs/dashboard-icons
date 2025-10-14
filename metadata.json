@@ -27626,6 +27626,22 @@
             }
         }
     },
+    "blue-letter-bible": {
+        "base": "png",
+        "aliases": [
+            "bible-study"
+        ],
+        "categories": [
+            "Education"
+        ],
+        "update": {
+            "timestamp": "2025-10-14T19:49:57.787938",
+            "author": {
+                "id": 40521502,
+                "login": "TheArtForm"
+            }
+        }
+    },
     "chrome-devtools": {
         "base": "svg",
         "aliases": [
