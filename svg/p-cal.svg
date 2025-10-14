@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="16 16 480 480">
+  <defs>
+    <linearGradient id="calGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#6366f1;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#8b5cf6;stop-opacity:1"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background circle -->
+  <circle cx="256" cy="256" r="240" fill="url(#calGradient)"/>
+
+  <!-- Calendar base -->
+  <rect x="140" y="160" width="232" height="232" rx="20" fill="#ffffff" opacity="0.95"/>
+
+  <!-- Calendar header -->
+  <rect x="140" y="160" width="232" height="60" rx="20" fill="#ffffff"/>
+  <rect x="140" y="200" width="232" height="20" fill="url(#calGradient)"/>
+
+  <!-- Binding rings -->
+  <circle cx="190" cy="180" r="12" fill="url(#calGradient)"/>
+  <circle cx="256" cy="180" r="12" fill="url(#calGradient)"/>
+  <circle cx="322" cy="180" r="12" fill="url(#calGradient)"/>
+
+  <!-- Calendar grid dots (simplified dates) -->
+  <g fill="#6366f1" opacity="0.6">
+    <circle cx="175" cy="250" r="6"/>
+    <circle cx="210" cy="250" r="6"/>
+    <circle cx="245" cy="250" r="6"/>
+    <circle cx="280" cy="250" r="6"/>
+    <circle cx="315" cy="250" r="6"/>
+
+    <circle cx="175" cy="285" r="6"/>
+    <circle cx="210" cy="285" r="6"/>
+    <circle cx="245" cy="285" r="6"/>
+    <circle cx="280" cy="285" r="6"/>
+    <circle cx="315" cy="285" r="6"/>
+
+    <circle cx="175" cy="320" r="6"/>
+    <circle cx="210" cy="320" r="6"/>
+    <circle cx="245" cy="320" r="6"/>
+    <circle cx="280" cy="320" r="6"/>
+    <circle cx="315" cy="320" r="6"/>
+  </g>
+
+  <!-- Privacy shield overlay -->
+  <g transform="translate(300, 300)">
+    <path d="M 0,-45 L 25,-30 L 25,15 Q 25,35 0,50 Q -25,35 -25,15 L -25,-30 Z" fill="#ffffff" opacity="0.95" stroke="url(#calGradient)" stroke-width="3"/>
+    <path d="M -8,5 L -2,12 L 12,-8" fill="none" stroke="url(#calGradient)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+</svg>
