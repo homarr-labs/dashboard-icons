@@ -21232,7 +21232,7 @@
             }
         }
     },
-    "lo-stack": {
+    "lostack": {
         "base": "svg",
         "aliases": [],
         "categories": [
