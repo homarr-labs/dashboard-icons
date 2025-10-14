@@ -4319,6 +4319,20 @@
             }
         }
     },
+    "dynmap": {
+        "base": "png",
+        "aliases": [],
+        "categories": [
+            "Gaming"
+        ],
+        "update": {
+            "timestamp": "2025-10-14T20:46:12.596196",
+            "author": {
+                "id": 54281187,
+                "login": "cerebrosus"
+            }
+        }
+    },
     "steam": {
         "base": "svg",
         "aliases": [],
