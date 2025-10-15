@@ -1,0 +1,16 @@
+{
+  "base": "svg",
+  "aliases": [],
+  "categories": [],
+  "update": {
+    "timestamp": "2025-10-15T20:28:12.511970",
+    "author": {
+      "id": 159212504,
+      "login": "TrapNouz"
+    }
+  },
+  "colors": {
+    "light": "cap-cut",
+    "dark": "cap-cut-dark"
+  }
+}
