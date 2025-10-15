@@ -1,0 +1,18 @@
+{
+  "base": "svg",
+  "aliases": [
+    "zap"
+  ],
+  "categories": [],
+  "update": {
+    "timestamp": "2025-10-15T20:08:26.929388",
+    "author": {
+      "id": 204367648,
+      "login": "jamesyork-prog"
+    }
+  },
+  "colors": {
+    "light": "zapier",
+    "dark": "zapier-dark"
+  }
+}
