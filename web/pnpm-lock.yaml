@@ -132,8 +132,8 @@ importers:
         specifier: ^1.274.1
         version: 1.275.3
       posthog-node:
-        specifier: ^5.8.2
-        version: 5.8.2
+        specifier: ^5.9.5
+        version: 5.10.0
       react:
         specifier: ^19.1.1
         version: 19.1.1
@@ -794,9 +794,6 @@ packages:
 
   '@poppinss/exception@1.2.2':
     resolution: {integrity: sha512-m7bpKCD4QMlFCjA/nKTs23fuvoVFoA83brRKmObCUNmi/9tVu8Ve3w4YQAnJu4q3Tjf5fr685HYIC/IA2zHRSg==}
-
-  '@posthog/core@1.0.2':
-    resolution: {integrity: sha512-hWk3rUtJl2crQK0WNmwg13n82hnTwB99BT99/XI5gZSvIlYZ1TPmMZE8H2dhJJ98J/rm9vYJ/UXNzw3RV5HTpQ==}
 
   '@posthog/core@1.3.0':
     resolution: {integrity: sha512-hxLL8kZNHH098geedcxCz8y6xojkNYbmJEW+1vFXsmPcExyCXIUUJ/34X6xa9GcprKxd0Wsx3vfJQLQX4iVPhw==}
@@ -1999,8 +1996,8 @@ packages:
       rrweb-snapshot:
         optional: true
 
-  posthog-node@5.8.2:
-    resolution: {integrity: sha512-z3XRvYwnc3T/1999FKzv16YTpxERQqLunULl2vkOPfgbCXUGNyJWLgcbTcED2ZIDE11jjZhrSph4De6OSMLphw==}
+  posthog-node@5.10.0:
+    resolution: {integrity: sha512-uNN+YUuOdbDSbDMGk/Wq57o2YBEH0Unu1kEq2PuYmqFmnu+oYsKyJBrb58VNwEuYsaXVJmk4FtbD+Tl8BT69+w==}
     engines: {node: '>=20'}
 
   preact@10.26.5:
@@ -2675,8 +2672,6 @@ snapshots:
       supports-color: 10.2.2
 
   '@poppinss/exception@1.2.2': {}
-
-  '@posthog/core@1.0.2': {}
 
   '@posthog/core@1.3.0': {}
 
@@ -3839,9 +3834,9 @@ snapshots:
       preact: 10.26.5
       web-vitals: 4.2.4
 
-  posthog-node@5.8.2:
+  posthog-node@5.10.0:
     dependencies:
-      '@posthog/core': 1.0.2
+      '@posthog/core': 1.3.0
 
   preact@10.26.5: {}
 
