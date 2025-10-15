@@ -5638,6 +5638,24 @@
             }
         }
     },
+    "leetcode": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "Development"
+        ],
+        "update": {
+            "timestamp": "2025-10-15T20:06:08.978810",
+            "author": {
+                "id": 121769213,
+                "login": "avichaltomar15"
+            }
+        },
+        "colors": {
+            "light": "leetcode",
+            "dark": "leetcode-dark"
+        }
+    },
     "element": {
         "base": "svg",
         "aliases": [],
