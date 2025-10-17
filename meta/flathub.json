@@ -3,10 +3,14 @@
   "aliases": [],
   "categories": [],
   "update": {
-    "timestamp": "2023-04-13T20:27:58Z",
+    "timestamp": "2025-10-17T15:56:15.530358",
     "author": {
-      "id": 71191962,
-      "name": "walkxcode"
+      "id": 63889949,
+      "login": "InterstellarOne"
     }
+  },
+  "colors": {
+    "light": "flathub",
+    "dark": "flathub-dark"
   }
 }

@@ -1,0 +1,12 @@
+<svg xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg" version="1.1" id="svg10" sodipodi:docname="flathub-logomark.svg" inkscape:version="1.4.2 (ebf0e940d0, 2025-05-08)" inkscape:export-filename="flathub-logo.png" inkscape:export-xdpi="929.03229" inkscape:export-ydpi="929.03229" viewBox="0.04 -1.13 62.99 60.24">
+  <defs id="defs10"/>
+  <sodipodi:namedview id="namedview10" pagecolor="#ffffff" bordercolor="#000000" borderopacity="0.25" inkscape:showpageshadow="2" inkscape:pageopacity="0.0" inkscape:pagecheckerboard="0" inkscape:deskcolor="#d1d1d1" inkscape:zoom="2.8704015" inkscape:cx="42.851148" inkscape:cy="7.141858" inkscape:window-width="990" inkscape:window-height="1030" inkscape:window-x="0" inkscape:window-y="0" inkscape:window-maximized="1" inkscape:current-layer="g10"/>
+  <g transform="matrix(0.89089,0,0,0.89089,-2448.3,-532.77)" stroke-width="1.1225" id="g10">
+    <g transform="matrix(1.7622,0,0,1.7622,2470.4,445.42)" id="g9" style="fill:#ffffff">
+      <circle cx="166.69" cy="95.647003" r="9.0478001" stroke-width="0.63698" id="circle8" style="fill:#ffffff"/>
+      <rect x="158.75" y="108.33" width="15.875" height="15.875" rx="4.2333002" ry="4.2333002" stroke-width="0.63698" id="rect8" style="fill:#ffffff"/>
+      <path transform="matrix(0.91132,0.52615,0.52615,-0.91132,101.23,110.53)" d="m 69.514,58.833 h -1.7806 -10.247 a 2.4441,2.4441 60 0 1 -2.1167,-3.6662 l 6.0139,-10.416 a 2.4441,2.4441 2.522e-7 0 1 4.2333,0 l 6.0139,10.416 a 2.4441,2.4441 120 0 1 -2.1167,3.6662 z" stroke-width="0.60953" id="path8" style="fill:#ffffff"/>
+      <path transform="rotate(90)" d="m 116.31,-194.99 c 0.87946,0 1.5875,0.70801 1.5875,1.5875 v 12.7 c 0,0.87946 -0.70802,1.5875 -1.5875,1.5875 -0.87948,0 -1.5875,-0.70802 -1.5875,-1.5875 v -12.7 c 0,-0.87946 0.70801,-1.5875 1.5875,-1.5875 z m -7.9375,7.9375 c 0,-0.87946 0.70802,-1.5875 1.5875,-1.5875 h 12.7 c 0.87946,0 1.5875,0.70802 1.5875,1.5875 0,0.87947 -0.70802,1.5875 -1.5875,1.5875 h -12.7 c -0.87947,0 -1.5875,-0.70802 -1.5875,-1.5875 z" stroke-width="6.3698" id="path9" style="fill:#ffffff"/>
+    </g>
+  </g>
+</svg>
