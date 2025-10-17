@@ -1,0 +1,18 @@
+{
+  "base": "svg",
+  "aliases": [],
+  "categories": [
+    "Development"
+  ],
+  "update": {
+    "timestamp": "2025-10-17T16:34:21.585996",
+    "author": {
+      "id": 102434180,
+      "login": "carlospr-dev"
+    }
+  },
+  "colors": {
+    "light": "sst-dev",
+    "dark": "sst-dev-dark"
+  }
+}
