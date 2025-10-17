@@ -1,0 +1,17 @@
+{
+  "base": "svg",
+  "aliases": [
+    "Seznam - najdu tam",
+    "co neznam"
+  ],
+  "categories": [
+    "Search"
+  ],
+  "update": {
+    "timestamp": "2025-10-17T17:03:07.673550",
+    "author": {
+      "id": 96033925,
+      "login": "MerePebble"
+    }
+  }
+}
