@@ -1,0 +1,18 @@
+{
+  "base": "svg",
+  "aliases": [],
+  "categories": [
+    "Communication"
+  ],
+  "update": {
+    "timestamp": "2025-10-18T13:56:55.474295",
+    "author": {
+      "id": 5148859,
+      "login": "kldeb"
+    }
+  },
+  "colors": {
+    "light": "build-better",
+    "dark": "build-better-dark"
+  }
+}
