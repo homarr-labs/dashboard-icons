@@ -23579,6 +23579,20 @@
             "light": "oneuptime-light"
         }
     },
+    "ballerina": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "Development"
+        ],
+        "update": {
+            "timestamp": "2025-10-18T14:05:18.134102",
+            "author": {
+                "id": 74367192,
+                "login": "th33k"
+            }
+        }
+    },
     "firefox": {
         "base": "svg",
         "aliases": [
