@@ -187,7 +187,7 @@ importers:
         specifier: ^19.2.2
         version: 19.2.2
       '@types/react-dom':
-        specifier: ^19.2.1
+        specifier: ^19.2.2
         version: 19.2.2(@types/react@19.2.2)
       tailwindcss:
         specifier: ^4.1.13
