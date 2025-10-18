@@ -1,0 +1,18 @@
+{
+  "base": "svg",
+  "aliases": [],
+  "categories": [
+    "Gaming"
+  ],
+  "update": {
+    "timestamp": "2025-10-18T13:54:22.092868",
+    "author": {
+      "id": 59297745,
+      "login": "pgmdpfcon"
+    }
+  },
+  "colors": {
+    "light": "lichess",
+    "dark": "lichess-dark"
+  }
+}
