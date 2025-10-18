@@ -6074,6 +6074,20 @@
             "light": "deno-light"
         }
     },
+    "superlist": {
+        "base": "png",
+        "aliases": [],
+        "categories": [
+            "Organization"
+        ],
+        "update": {
+            "timestamp": "2025-10-18T13:28:44.053759",
+            "author": {
+                "id": 29355119,
+                "login": "slaynn"
+            }
+        }
+    },
     "mealie": {
         "base": "svg",
         "aliases": [
