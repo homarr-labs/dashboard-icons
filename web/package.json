@@ -70,7 +70,7 @@
 		"@biomejs/biome": "1.9.4",
 		"@tailwindcss/postcss": "^4.1.13",
 		"@types/canvas-confetti": "^1.9.0",
-		"@types/node": "^22.18.9",
+		"@types/node": "^22.18.10",
 		"@types/react": "^19.2.2",
 		"@types/react-dom": "^19.2.1",
 		"tailwindcss": "^4.1.13",
