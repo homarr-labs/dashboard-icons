@@ -1,0 +1,18 @@
+{
+  "base": "svg",
+  "aliases": [],
+  "categories": [
+    "Design"
+  ],
+  "update": {
+    "timestamp": "2025-10-22T13:54:31.722880",
+    "author": {
+      "id": 107573232,
+      "login": "ashtonggilmore"
+    }
+  },
+  "colors": {
+    "light": "onshape",
+    "dark": "onshape-dark"
+  }
+}
