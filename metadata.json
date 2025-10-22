@@ -14380,6 +14380,20 @@
             }
         }
     },
+    "jujutsu-vcs": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "Development"
+        ],
+        "update": {
+            "timestamp": "2025-10-22T13:46:23.824879",
+            "author": {
+                "id": 161993877,
+                "login": "solsystemlabs"
+            }
+        }
+    },
     "genius": {
         "base": "png",
         "aliases": [],
