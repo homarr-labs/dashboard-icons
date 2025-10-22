@@ -1,0 +1,18 @@
+{
+  "base": "svg",
+  "aliases": [],
+  "categories": [
+    "Education"
+  ],
+  "update": {
+    "timestamp": "2025-10-22T14:19:16.305175",
+    "author": {
+      "id": 53883366,
+      "login": "YehudaGurovich"
+    }
+  },
+  "colors": {
+    "light": "schedulearn",
+    "dark": "schedulearn-dark"
+  }
+}
