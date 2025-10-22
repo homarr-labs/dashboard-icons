@@ -13940,6 +13940,22 @@
             }
         }
     },
+    "tugtainer": {
+        "base": "png",
+        "aliases": [
+            "tugtainer"
+        ],
+        "categories": [
+            "Development"
+        ],
+        "update": {
+            "timestamp": "2025-10-22T14:24:46.890872",
+            "author": {
+                "id": 16245632,
+                "login": "Radotornado"
+            }
+        }
+    },
     "hostinger": {
         "base": "svg",
         "aliases": [],
