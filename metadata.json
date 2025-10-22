@@ -3047,6 +3047,20 @@
             }
         }
     },
+    "university-applied-sciences-brandenburg": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "Education"
+        ],
+        "update": {
+            "timestamp": "2025-10-22T13:43:05.434468",
+            "author": {
+                "id": 198079232,
+                "login": "ersterDetektiv"
+            }
+        }
+    },
     "i2pd": {
         "base": "svg",
         "aliases": [],
