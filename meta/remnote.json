@@ -1,0 +1,17 @@
+{
+  "base": "svg",
+  "aliases": [
+    "remnote",
+    "rem-note"
+  ],
+  "categories": [
+    "Education"
+  ],
+  "update": {
+    "timestamp": "2025-10-22T14:38:25.409582",
+    "author": {
+      "id": 133574070,
+      "login": "jalosom"
+    }
+  }
+}
