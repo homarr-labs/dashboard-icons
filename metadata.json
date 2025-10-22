@@ -2953,6 +2953,18 @@
             }
         }
     },
+    "sunsama": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2025-10-22T14:01:50.723433",
+            "author": {
+                "id": 208478076,
+                "login": "Dakpanbaviaan"
+            }
+        }
+    },
     "mumble": {
         "base": "svg",
         "aliases": [
