@@ -3998,6 +3998,20 @@
             }
         }
     },
+    "marimo": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "Development"
+        ],
+        "update": {
+            "timestamp": "2025-11-03T21:40:34.760022",
+            "author": {
+                "id": 104462012,
+                "login": "Deufel"
+            }
+        }
+    },
     "alloy": {
         "base": "svg",
         "aliases": [
