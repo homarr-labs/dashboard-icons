@@ -8463,6 +8463,20 @@
             }
         }
     },
+    "digikey": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "E-Commerce"
+        ],
+        "update": {
+            "timestamp": "2025-11-03T21:34:59.117885",
+            "author": {
+                "id": 6827059,
+                "login": "NoahStephens"
+            }
+        }
+    },
     "home-assistant": {
         "base": "svg",
         "aliases": [],
