@@ -1,0 +1,16 @@
+{
+  "base": "svg",
+  "aliases": [
+    "ideco-ngfw"
+  ],
+  "categories": [
+    "Security"
+  ],
+  "update": {
+    "timestamp": "2025-11-03T21:48:42.751304",
+    "author": {
+      "id": 240226970,
+      "login": "guridevatrin"
+    }
+  }
+}
