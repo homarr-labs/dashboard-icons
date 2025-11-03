@@ -439,6 +439,21 @@
             "light": "shell-light"
         }
     },
+    "distribution": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "Development",
+            "Cloud"
+        ],
+        "update": {
+            "timestamp": "2025-11-03T21:52:48.653792",
+            "author": {
+                "id": 240226970,
+                "login": "guridevatrin"
+            }
+        }
+    },
     "medusa": {
         "base": "svg",
         "aliases": [],
