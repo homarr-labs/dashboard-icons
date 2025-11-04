@@ -1,0 +1,15 @@
+{
+  "base": "svg",
+  "aliases": [
+    "whiteboard",
+    "app"
+  ],
+  "categories": [],
+  "update": {
+    "timestamp": "2025-11-04T05:53:50.616122",
+    "author": {
+      "id": 181640218,
+      "login": "codenibler"
+    }
+  }
+}
