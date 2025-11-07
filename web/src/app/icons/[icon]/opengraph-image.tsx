@@ -4,6 +4,8 @@ import { ImageResponse } from "next/og"
 import { getAllIcons } from "@/lib/api"
 
 export const dynamic = "force-static"
+export const revalidate = false
+
 
 export async function generateStaticParams() {
 	const iconsData = await getAllIcons()
@@ -72,7 +74,7 @@ export default async function Image({ params }: { params: Promise<{ icon: string
 	// Convert the image data to a data URL or use placeholder
 	const iconUrl = iconData
 		? `data:image/png;base64,${iconData.toString("base64")}`
-		: `https://placehold.co/600x400?text=${formattedIconName}`
+		: null
 
 	return new ImageResponse(
 		<div
@@ -157,7 +159,7 @@ export default async function Image({ params }: { params: Promise<{ icon: string
 						}}
 					/>
 					<img
-						src={iconUrl}
+						src={iconUrl || `https://placehold.co/600x400?text=${formattedIconName}`}
 						alt={formattedIconName}
 						width={260}
 						height={260}
