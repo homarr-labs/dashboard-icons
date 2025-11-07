@@ -4,8 +4,8 @@ import { AlertCircle } from "lucide-react"
 import { useEffect, useMemo, useState } from "react"
 import { Command, CommandEmpty, CommandGroup, CommandItem, CommandList } from "@/components/ui/command"
 import { Input } from "@/components/ui/input"
-import { cn } from "@/lib/utils"
 import { useExistingIconNames } from "@/hooks/use-submissions"
+import { cn } from "@/lib/utils"
 
 interface IconNameComboboxProps {
 	value: string
@@ -38,12 +38,9 @@ export function IconNameCombobox({ value, onValueChange, error, isInvalid }: Ico
 	const filteredIcons = useMemo(() => {
 		const searchTerm = rawInput || value
 		if (!searchTerm || !existingIcons.length) return []
-		
+
 		const lowerSearch = searchTerm.toLowerCase()
-		return existingIcons.filter((icon) => 
-			icon.value.toLowerCase().includes(lowerSearch) ||
-			icon.label.toLowerCase().includes(lowerSearch)
-		)
+		return existingIcons.filter((icon) => icon.value.toLowerCase().includes(lowerSearch) || icon.label.toLowerCase().includes(lowerSearch))
 	}, [rawInput, value, existingIcons])
 
 	const showSuggestions = isFocused && (rawInput || value) && filteredIcons.length > 0
@@ -69,10 +66,7 @@ export function IconNameCombobox({ value, onValueChange, error, isInvalid }: Ico
 					setTimeout(() => setIsFocused(false), 200)
 				}}
 				placeholder="Type new icon ID (e.g., my-app)..."
-				className={cn(
-					"font-mono",
-					isInvalid && "border-destructive focus-visible:ring-destructive/50"
-				)}
+				className={cn("font-mono", isInvalid && "border-destructive focus-visible:ring-destructive/50")}
 				aria-invalid={isInvalid}
 				aria-describedby={error ? "icon-name-error" : undefined}
 			/>
@@ -115,9 +109,7 @@ export function IconNameCombobox({ value, onValueChange, error, isInvalid }: Ico
 
 			{/* Helper text when no error */}
 			{!error && value && (
-				<p className="text-sm text-muted-foreground mt-1.5">
-					{loading ? "Checking availability..." : "✓ Available icon ID"}
-				</p>
+				<p className="text-sm text-muted-foreground mt-1.5">{loading ? "Checking availability..." : "✓ Available icon ID"}</p>
 			)}
 		</div>
 	)

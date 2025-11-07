@@ -2,19 +2,7 @@
 
 import confetti from "canvas-confetti"
 import { motion } from "framer-motion"
-import {
-	ArrowRight,
-	Check,
-	FileType,
-	Github,
-	Moon,
-	PaletteIcon,
-	Plus,
-	Sun,
-	Type,
-	Upload,
-	X,
-} from "lucide-react"
+import { ArrowRight, Check, FileType, Github, Moon, PaletteIcon, Plus, Sun, Type, Upload, X } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 import type React from "react"
@@ -28,11 +16,12 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { BASE_URL, REPO_PATH } from "@/constants"
+import { pb } from "@/lib/pb"
 import { formatIconName } from "@/lib/utils"
+import { revalidateAllSubmissions } from "@/app/actions/submissions"
 import { MagicCard } from "./magicui/magic-card"
 import { Badge } from "./ui/badge"
 import { Dropzone, DropzoneContent, DropzoneEmptyState } from "./ui/shadcn-io/dropzone"
-import { pb } from "@/lib/pb"
 
 interface VariantFile {
 	file: File
@@ -128,13 +117,7 @@ function AddVariantCard({ onAddVariant, existingTypes }: AddVariantCardProps) {
 									{label}
 								</Button>
 							))}
-							<Button
-								type="button"
-								variant="ghost"
-								size="sm"
-								className="w-full"
-								onClick={() => setShowOptions(false)}
-							>
+							<Button type="button" variant="ghost" size="sm" className="w-full" onClick={() => setShowOptions(false)}>
 								Cancel
 							</Button>
 						</div>
@@ -172,12 +155,7 @@ function VariantCard({ variant, onRemove, canRemove }: VariantCardProps) {
 						<TooltipTrigger asChild>
 							<div className="relative w-28 h-28 mb-3 rounded-xl overflow-hidden">
 								<div className="absolute inset-0 border-2 border-primary/20 rounded-xl z-10" />
-								<Image
-									src={variant.preview}
-									alt={`${variant.label} preview`}
-									fill
-									className="object-contain p-4"
-								/>
+								<Image src={variant.preview} alt={`${variant.label} preview`} fill className="object-contain p-4" />
 							</div>
 						</TooltipTrigger>
 						<TooltipContent>
@@ -186,9 +164,7 @@ function VariantCard({ variant, onRemove, canRemove }: VariantCardProps) {
 					</Tooltip>
 
 					<p className="text-sm font-medium">{variant.label}</p>
-					<p className="text-xs text-muted-foreground">
-						{variant.file.name.split(".").pop()?.toUpperCase()}
-					</p>
+					<p className="text-xs text-muted-foreground">{variant.file.name.split(".").pop()?.toUpperCase()}</p>
 				</div>
 			</MagicCard>
 		</TooltipProvider>
@@ -268,11 +244,7 @@ export function EditableIconDetails({ onSubmit, initialData }: EditableIconDetai
 	}
 
 	const toggleCategory = (category: string) => {
-		setCategories(
-			categories.includes(category)
-				? categories.filter((c) => c !== category)
-				: [...categories, category]
-		)
+		setCategories(categories.includes(category) ? categories.filter((c) => c !== category) : [...categories, category])
 	}
 
 	const handleAddAlias = () => {
@@ -365,12 +337,15 @@ export function EditableIconDetails({ onSubmit, initialData }: EditableIconDetai
 			const submissionData = {
 				name: iconName,
 				assets: assetFiles,
-				created_by: pb.authStore.model?.id,
+				created_by: pb.authStore.record?.id,
 				status: "pending",
 				extras: extras,
 			}
 
 			await pb.collection("submissions").create(submissionData)
+
+			// Revalidate Next.js cache for community pages
+			await revalidateAllSubmissions()
 
 			launchConfetti()
 			toast.success("Icon submitted!", {
@@ -443,10 +418,7 @@ export function EditableIconDetails({ onSubmit, initialData }: EditableIconDetai
 										<Label htmlFor="icon-name" className="text-sm font-medium mb-2 block">
 											Icon Name
 										</Label>
-										<IconNameCombobox
-											value={iconName}
-											onValueChange={setIconName}
-										/>
+										<IconNameCombobox value={iconName} onValueChange={setIconName} />
 									</div>
 								</div>
 							</CardHeader>
@@ -470,9 +442,7 @@ export function EditableIconDetails({ onSubmit, initialData }: EditableIconDetai
 												</Badge>
 											))}
 										</div>
-										{categories.length === 0 && (
-											<p className="text-xs text-destructive mt-2">At least one category required</p>
-										)}
+										{categories.length === 0 && <p className="text-xs text-destructive mt-2">At least one category required</p>}
 									</div>
 
 									{/* Aliases */}
@@ -498,17 +468,9 @@ export function EditableIconDetails({ onSubmit, initialData }: EditableIconDetai
 										{aliases.length > 0 && (
 											<div className="flex flex-wrap gap-2">
 												{aliases.map((alias) => (
-													<Badge
-														key={alias}
-														variant="secondary"
-														className="inline-flex items-center px-2.5 py-1 text-xs"
-													>
+													<Badge key={alias} variant="secondary" className="inline-flex items-center px-2.5 py-1 text-xs">
 														{alias}
-														<button
-															type="button"
-															onClick={() => handleRemoveAlias(alias)}
-															className="ml-1 hover:text-destructive"
-														>
+														<button type="button" onClick={() => handleRemoveAlias(alias)} className="ml-1 hover:text-destructive">
 															<X className="h-3 w-3" />
 														</button>
 													</Badge>
@@ -519,9 +481,7 @@ export function EditableIconDetails({ onSubmit, initialData }: EditableIconDetai
 
 									{/* About */}
 									<div>
-										<h3 className="text-sm font-semibold text-muted-foreground mb-2">
-											About this icon
-										</h3>
+										<h3 className="text-sm font-semibold text-muted-foreground mb-2">About this icon</h3>
 										<div className="text-xs text-muted-foreground space-y-2">
 											<p>
 												{variants.length > 0
@@ -560,9 +520,7 @@ export function EditableIconDetails({ onSubmit, initialData }: EditableIconDetai
 											<FileType className="w-4 h-4 text-blue-500" />
 											Icon Variants
 										</h3>
-										<p className="text-sm text-muted-foreground mb-4">
-											Upload your icon files. Base icon is required.
-										</p>
+										<p className="text-sm text-muted-foreground mb-4">Upload your icon files. Base icon is required.</p>
 										<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
 											{variants.map((variant, index) => (
 												<VariantCard
@@ -572,10 +530,7 @@ export function EditableIconDetails({ onSubmit, initialData }: EditableIconDetai
 													canRemove={variant.type !== "base" || variants.length > 1}
 												/>
 											))}
-											<AddVariantCard
-												onAddVariant={handleAddVariant}
-												existingTypes={variants.map((v) => v.type)}
-											/>
+											<AddVariantCard onAddVariant={handleAddVariant} existingTypes={variants.map((v) => v.type)} />
 										</div>
 									</div>
 
@@ -615,24 +570,17 @@ export function EditableIconDetails({ onSubmit, initialData }: EditableIconDetai
 										<div className="flex items-center gap-2">
 											<FileType className="w-4 h-4 text-blue-500" />
 											<div className="px-3 py-1.5 border border-border rounded-lg text-sm font-medium">
-												{baseVariant
-													? baseVariant.file.name.split(".").pop()?.toUpperCase()
-													: "N/A"}
+												{baseVariant ? baseVariant.file.name.split(".").pop()?.toUpperCase() : "N/A"}
 											</div>
 										</div>
 									</div>
 
 									{availableFormats.length > 0 && (
 										<div>
-											<h3 className="text-sm font-semibold text-muted-foreground mb-2">
-												Available Formats
-											</h3>
+											<h3 className="text-sm font-semibold text-muted-foreground mb-2">Available Formats</h3>
 											<div className="flex flex-wrap gap-2">
 												{availableFormats.map((format) => (
-													<div
-														key={format}
-														className="px-3 py-1.5 border border-border rounded-lg text-xs font-medium"
-													>
+													<div key={format} className="px-3 py-1.5 border border-border rounded-lg text-xs font-medium">
 														{format.toUpperCase()}
 													</div>
 												))}
@@ -642,21 +590,15 @@ export function EditableIconDetails({ onSubmit, initialData }: EditableIconDetai
 
 									{variants.some((v) => v.type === "light" || v.type === "dark") && (
 										<div>
-											<h3 className="text-sm font-semibold text-muted-foreground mb-2">
-												Color Variants
-											</h3>
+											<h3 className="text-sm font-semibold text-muted-foreground mb-2">Color Variants</h3>
 											<div className="space-y-2">
 												{variants
 													.filter((v) => v.type === "light" || v.type === "dark")
 													.map((variant, index) => (
 														<div key={index} className="flex items-center gap-2">
 															<PaletteIcon className="w-4 h-4 text-purple-500" />
-															<span className="capitalize font-medium text-sm">
-																{variant.type}:
-															</span>
-															<code className="border border-border px-2 py-0.5 rounded-lg text-xs">
-																{variant.file.name}
-															</code>
+															<span className="capitalize font-medium text-sm">{variant.type}:</span>
+															<code className="border border-border px-2 py-0.5 rounded-lg text-xs">{variant.file.name}</code>
 														</div>
 													))}
 											</div>
@@ -665,21 +607,15 @@ export function EditableIconDetails({ onSubmit, initialData }: EditableIconDetai
 
 									{variants.some((v) => v.type.startsWith("wordmark")) && (
 										<div>
-											<h3 className="text-sm font-semibold text-muted-foreground mb-2">
-												Wordmark Variants
-											</h3>
+											<h3 className="text-sm font-semibold text-muted-foreground mb-2">Wordmark Variants</h3>
 											<div className="space-y-2">
 												{variants
 													.filter((v) => v.type.startsWith("wordmark"))
 													.map((variant, index) => (
 														<div key={index} className="flex items-center gap-2">
 															<Type className="w-4 h-4 text-green-500" />
-															<span className="capitalize font-medium text-sm">
-																{variant.type.replace("wordmark-", "")}:
-															</span>
-															<code className="border border-border px-2 py-0.5 rounded-lg text-xs">
-																{variant.file.name}
-															</code>
+															<span className="capitalize font-medium text-sm">{variant.type.replace("wordmark-", "")}:</span>
+															<code className="border border-border px-2 py-0.5 rounded-lg text-xs">{variant.file.name}</code>
 														</div>
 													))}
 											</div>
@@ -714,6 +650,3 @@ export function EditableIconDetails({ onSubmit, initialData }: EditableIconDetai
 		</form>
 	)
 }
-
-
-

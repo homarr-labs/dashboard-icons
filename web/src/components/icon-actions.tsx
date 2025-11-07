@@ -91,18 +91,20 @@ export function IconActions({
 				</Tooltip>
 
 				{/* View on GitHub Button */}
-				<Tooltip>
-					<TooltipTrigger asChild>
-						<Button variant="outline" size="icon" className="h-8 w-8 rounded-lg" asChild>
-							<Link href={githubUrl} target="_blank" rel="noopener noreferrer" aria-label={`View ${iconName} ${format} file on GitHub`}>
-								<Github className="w-4 h-4" />
-							</Link>
-						</Button>
-					</TooltipTrigger>
-					<TooltipContent>
-						<p>View on GitHub</p>
-					</TooltipContent>
-				</Tooltip>
+				{githubUrl && (
+					<Tooltip>
+						<TooltipTrigger asChild>
+							<Button variant="outline" size="icon" className="h-8 w-8 rounded-lg" asChild>
+								<Link href={githubUrl} target="_blank" rel="noopener noreferrer" aria-label={`View ${iconName} ${format} file on GitHub`}>
+									<Github className="w-4 h-4" />
+								</Link>
+							</Button>
+						</TooltipTrigger>
+						<TooltipContent>
+							<p>View on GitHub</p>
+						</TooltipContent>
+					</Tooltip>
+				)}
 			</div>
 		</TooltipProvider>
 	)

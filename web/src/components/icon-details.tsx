@@ -121,9 +121,12 @@ export type IconDetailsProps = {
 	iconData: Icon
 	authorData: AuthorData
 	allIcons: IconFile
+	status?: string
+	statusDisplayName?: string
+	statusColor?: string
 }
 
-export function IconDetails({ icon, iconData, authorData, allIcons }: IconDetailsProps) {
+export function IconDetails({ icon, iconData, authorData, allIcons, status, statusDisplayName, statusColor }: IconDetailsProps) {
 	const authorName = authorData.name || authorData.login || ""
 	const _iconColorVariants = iconData.colors
 	const _iconWordmarkVariants = iconData.wordmark
@@ -133,7 +136,24 @@ export function IconDetails({ icon, iconData, authorData, allIcons }: IconDetail
 		year: "numeric",
 	})
 
+	const isCommunityIcon = !!(iconData as any).mainIconUrl || (typeof iconData.base === "string" && iconData.base.startsWith("http"))
+	const mainIconUrl = (iconData as any).mainIconUrl || (isCommunityIcon ? iconData.base : null)
+	const assetUrls = (iconData as any).assetUrls || []
+
 	const getAvailableFormats = () => {
+		if (isCommunityIcon) {
+			if (assetUrls.length > 0) {
+				return assetUrls.map((url: string) => {
+					const ext = url.split(".").pop()?.toLowerCase() || "svg"
+					return ext === "svg" ? "svg" : ext === "png" ? "png" : "webp"
+				})
+			}
+			if (mainIconUrl) {
+				const ext = mainIconUrl.split(".").pop()?.toLowerCase() || "svg"
+				return [ext === "svg" ? "svg" : ext === "png" ? "png" : "webp"]
+			}
+			return ["svg"]
+		}
 		switch (iconData.base) {
 			case "svg":
 				return ["svg", "png", "webp"]
@@ -299,8 +319,19 @@ export function IconDetails({ icon, iconData, authorData, allIcons }: IconDetail
 	}
 
 	const renderVariant = (format: string, iconName: string, theme?: "light" | "dark") => {
-		const imageUrl = `${BASE_URL}/${format}/${iconName}.${format}`
-		const githubUrl = `${REPO_PATH}/tree/main/${format}/${iconName}.${format}`
+		let imageUrl: string
+		let githubUrl: string
+
+		if (isCommunityIcon && mainIconUrl) {
+			const formatExt = format === "svg" ? "svg" : format === "png" ? "png" : "webp"
+			const matchingUrl = assetUrls.find((url: string) => url.toLowerCase().endsWith(`.${formatExt}`))
+			imageUrl = matchingUrl || mainIconUrl
+			githubUrl = ""
+		} else {
+			imageUrl = `${BASE_URL}/${format}/${iconName}.${format}`
+			githubUrl = `${REPO_PATH}/tree/main/${format}/${iconName}.${format}`
+		}
+
 		const variantKey = `${format}-${theme || "default"}`
 		const isCopied = copiedVariants[variantKey] || false
 
@@ -387,7 +418,11 @@ export function IconDetails({ icon, iconData, authorData, allIcons }: IconDetail
 							<div className="flex flex-col items-center">
 								<div className="relative w-32 h-32 rounded-xl overflow-hidden border flex items-center justify-center p-3">
 									<Image
-										src={`${BASE_URL}/${iconData.base}/${iconData.colors?.light || icon}.${iconData.base}`}
+										src={
+											isCommunityIcon && mainIconUrl
+												? mainIconUrl
+												: `${BASE_URL}/${iconData.base}/${iconData.colors?.light || icon}.${iconData.base}`
+										}
 										priority
 										width={96}
 										height={96}
@@ -478,7 +513,7 @@ export function IconDetails({ icon, iconData, authorData, allIcons }: IconDetail
 										<p>
 											Available in{" "}
 											{availableFormats.length > 1
-												? `${availableFormats.length} formats (${availableFormats.map((f) => f.toUpperCase()).join(", ")}) `
+												? `${availableFormats.length} formats (${availableFormats.map((f: string) => f.toUpperCase()).join(", ")}) `
 												: `${availableFormats[0].toUpperCase()} format `}
 											with a base format of {iconData.base.toUpperCase()}.
 											{iconData.colors && " Includes both light and dark theme variants for better integration with different UI designs."}
@@ -575,6 +610,14 @@ export function IconDetails({ icon, iconData, authorData, allIcons }: IconDetail
 						</CardHeader>
 						<CardContent>
 							<div className="space-y-6">
+								{status && statusDisplayName && statusColor && (
+									<div className="">
+										<h3 className="text-sm font-semibold text-muted-foreground mb-2">Status</h3>
+										<Badge variant="outline" className={statusColor}>
+											{statusDisplayName}
+										</Badge>
+									</div>
+								)}
 								<div className="">
 									<h3 className="text-sm font-semibold text-muted-foreground mb-2">Base format</h3>
 									<div className="flex items-center gap-2">
@@ -586,7 +629,7 @@ export function IconDetails({ icon, iconData, authorData, allIcons }: IconDetail
 								<div className="">
 									<h3 className="text-sm font-semibold text-muted-foreground mb-2">Available formats</h3>
 									<div className="flex flex-wrap gap-2">
-										{availableFormats.map((format) => (
+										{availableFormats.map((format: string) => (
 											<div key={format} className="px-3 py-1.5  border border-border rounded-lg text-xs font-medium">
 												{format.toUpperCase()}
 											</div>
@@ -631,15 +674,17 @@ export function IconDetails({ icon, iconData, authorData, allIcons }: IconDetail
 									</div>
 								)}
 
-								<div className="">
-									<h3 className="text-sm font-semibold text-muted-foreground mb-2">Source</h3>
-									<Button variant="outline" className="w-full" asChild>
-										<Link href={`${REPO_PATH}/blob/main/meta/${icon}.json`} target="_blank" rel="noopener noreferrer">
-											<Github className="w-4 h-4 mr-2" />
-											View on GitHub
-										</Link>
-									</Button>
-								</div>
+								{!isCommunityIcon && (
+									<div className="">
+										<h3 className="text-sm font-semibold text-muted-foreground mb-2">Source</h3>
+										<Button variant="outline" className="w-full" asChild>
+											<Link href={`${REPO_PATH}/blob/main/meta/${icon}.json`} target="_blank" rel="noopener noreferrer">
+												<Github className="w-4 h-4 mr-2" />
+												View on GitHub
+											</Link>
+										</Button>
+									</div>
+								)}
 							</div>
 						</CardContent>
 						<Carbon />
