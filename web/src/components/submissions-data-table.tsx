@@ -140,149 +140,152 @@ export function SubmissionsDataTable({
 		[userFilter],
 	)
 
-	const columns: ColumnDef<Submission>[] = React.useMemo(() => [
-		{
-			id: "expander",
-			header: () => null,
-			cell: ({ row }) => {
-				return (
-					<button
-						onClick={(e) => {
-							e.stopPropagation()
-							handleRowToggle(row.id, row.getIsExpanded())
-						}}
-						className="flex items-center justify-center w-8 h-8 hover:bg-muted rounded transition-colors"
-					>
-						{row.getIsExpanded() ? (
-							<ChevronDown className="h-4 w-4 text-muted-foreground" />
-						) : (
-							<ChevronRight className="h-4 w-4 text-muted-foreground" />
-						)}
-					</button>
-				)
-			},
-		},
-		{
-			accessorKey: "name",
-			header: ({ column }) => {
-				return (
-					<Button
-						variant="ghost"
-						onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-						className="h-auto p-0 font-semibold hover:bg-transparent"
-					>
-						Name
-						<SortDesc className="ml-2 h-4 w-4" />
-					</Button>
-				)
-			},
-			cell: ({ row }) => <div className="font-medium capitalize">{row.getValue("name")}</div>,
-		},
-		{
-			accessorKey: "status",
-			header: ({ column }) => {
-				return (
-					<Button
-						variant="ghost"
-						onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-						className="h-auto p-0 font-semibold hover:bg-transparent"
-					>
-						Status
-						<SortDesc className="ml-2 h-4 w-4" />
-					</Button>
-				)
-			},
-			cell: ({ row }) => {
-				const status = row.getValue("status") as Submission["status"]
-				return (
-					<Badge variant="outline" className={getStatusColor(status)}>
-						{getStatusDisplayName(status)}
-					</Badge>
-				)
-			},
-		},
-		{
-			accessorKey: "created_by",
-			header: ({ column }) => {
-				return (
-					<Button
-						variant="ghost"
-						onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-						className="h-auto p-0 font-semibold hover:bg-transparent"
-					>
-						Submitted By
-						<SortDesc className="ml-2 h-4 w-4" />
-					</Button>
-				)
-			},
-			cell: ({ row }) => {
-				const submission = row.original
-				const expandedData = (submission as any).expand
-				const displayName = getDisplayName(submission, expandedData)
-				const userId = submission.created_by
-
-				return (
-					<div className="flex items-center gap-1">
-						<UserDisplay
-							userId={userId}
-							avatar={expandedData.created_by.avatar}
-							displayName={displayName}
-							onClick={handleUserFilter}
-							size="md"
-						/>
-						{userFilter?.userId === userId && <X className="h-3 w-3 text-muted-foreground" />}
-					</div>
-				)
-			},
-		},
-		{
-			accessorKey: "updated",
-			header: ({ column }) => {
-				return (
-					<Button
-						variant="ghost"
-						onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-						className="h-auto p-0 font-semibold hover:bg-transparent"
-					>
-						Updated
-						<SortDesc className="ml-2 h-4 w-4" />
-					</Button>
-				)
-			},
-			cell: ({ row }) => {
-				const date = row.getValue("updated") as string
-				return (
-					<div className="text-sm text-muted-foreground" title={dayjs(date).format("MMMM D, YYYY h:mm A")}>
-						{dayjs(date).fromNow()}
-					</div>
-				)
-			},
-		},
-		{
-			accessorKey: "assets",
-			header: "Preview",
-			cell: ({ row }) => {
-				const assets = row.getValue("assets") as string[]
-				const name = row.getValue("name") as string
-				if (assets.length > 0) {
+	const columns: ColumnDef<Submission>[] = React.useMemo(
+		() => [
+			{
+				id: "expander",
+				header: () => null,
+				cell: ({ row }) => {
 					return (
-						<div className="w-12 h-12 rounded border flex items-center justify-center bg-background p-2">
-							<img
-								src={`${pb.baseUrl}/api/files/submissions/${row.original.id}/${assets[0]}?thumb=100x100` || "/placeholder.svg"}
-								alt={name}
-								className="w-full h-full object-contain"
+						<button
+							onClick={(e) => {
+								e.stopPropagation()
+								handleRowToggle(row.id, row.getIsExpanded())
+							}}
+							className="flex items-center justify-center w-8 h-8 hover:bg-muted rounded transition-colors"
+						>
+							{row.getIsExpanded() ? (
+								<ChevronDown className="h-4 w-4 text-muted-foreground" />
+							) : (
+								<ChevronRight className="h-4 w-4 text-muted-foreground" />
+							)}
+						</button>
+					)
+				},
+			},
+			{
+				accessorKey: "name",
+				header: ({ column }) => {
+					return (
+						<Button
+							variant="ghost"
+							onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+							className="h-auto p-0 font-semibold hover:bg-transparent"
+						>
+							Name
+							<SortDesc className="ml-2 h-4 w-4" />
+						</Button>
+					)
+				},
+				cell: ({ row }) => <div className="font-medium capitalize">{row.getValue("name")}</div>,
+			},
+			{
+				accessorKey: "status",
+				header: ({ column }) => {
+					return (
+						<Button
+							variant="ghost"
+							onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+							className="h-auto p-0 font-semibold hover:bg-transparent"
+						>
+							Status
+							<SortDesc className="ml-2 h-4 w-4" />
+						</Button>
+					)
+				},
+				cell: ({ row }) => {
+					const status = row.getValue("status") as Submission["status"]
+					return (
+						<Badge variant="outline" className={getStatusColor(status)}>
+							{getStatusDisplayName(status)}
+						</Badge>
+					)
+				},
+			},
+			{
+				accessorKey: "created_by",
+				header: ({ column }) => {
+					return (
+						<Button
+							variant="ghost"
+							onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+							className="h-auto p-0 font-semibold hover:bg-transparent"
+						>
+							Submitted By
+							<SortDesc className="ml-2 h-4 w-4" />
+						</Button>
+					)
+				},
+				cell: ({ row }) => {
+					const submission = row.original
+					const expandedData = (submission as any).expand
+					const displayName = getDisplayName(submission, expandedData)
+					const userId = submission.created_by
+
+					return (
+						<div className="flex items-center gap-1">
+							<UserDisplay
+								userId={userId}
+								avatar={expandedData.created_by.avatar}
+								displayName={displayName}
+								onClick={handleUserFilter}
+								size="md"
 							/>
+							{userFilter?.userId === userId && <X className="h-3 w-3 text-muted-foreground" />}
 						</div>
 					)
-				}
-				return (
-					<div className="w-12 h-12 rounded border flex items-center justify-center bg-muted">
-						<ImageIcon className="w-6 h-6 text-muted-foreground" />
-					</div>
-				)
+				},
 			},
-		},
-	], [handleRowToggle, handleUserFilter, userFilter])
+			{
+				accessorKey: "updated",
+				header: ({ column }) => {
+					return (
+						<Button
+							variant="ghost"
+							onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+							className="h-auto p-0 font-semibold hover:bg-transparent"
+						>
+							Updated
+							<SortDesc className="ml-2 h-4 w-4" />
+						</Button>
+					)
+				},
+				cell: ({ row }) => {
+					const date = row.getValue("updated") as string
+					return (
+						<div className="text-sm text-muted-foreground" title={dayjs(date).format("MMMM D, YYYY h:mm A")}>
+							{dayjs(date).fromNow()}
+						</div>
+					)
+				},
+			},
+			{
+				accessorKey: "assets",
+				header: "Preview",
+				cell: ({ row }) => {
+					const assets = row.getValue("assets") as string[]
+					const name = row.getValue("name") as string
+					if (assets.length > 0) {
+						return (
+							<div className="w-12 h-12 rounded border flex items-center justify-center bg-background p-2">
+								<img
+									src={`${pb.baseUrl}/api/files/submissions/${row.original.id}/${assets[0]}?thumb=100x100` || "/placeholder.svg"}
+									alt={name}
+									className="w-full h-full object-contain"
+								/>
+							</div>
+						)
+					}
+					return (
+						<div className="w-12 h-12 rounded border flex items-center justify-center bg-muted">
+							<ImageIcon className="w-6 h-6 text-muted-foreground" />
+						</div>
+					)
+				},
+			},
+		],
+		[handleRowToggle, handleUserFilter, userFilter],
+	)
 
 	const table = useReactTable({
 		data: groupedData,

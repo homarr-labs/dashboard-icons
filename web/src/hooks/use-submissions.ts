@@ -1,7 +1,8 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { toast } from "sonner"
-import { pb, type Submission } from "@/lib/pb"
 import { getAllIcons } from "@/lib/api"
+import { pb, type Submission } from "@/lib/pb"
+import { revalidateAllSubmissions } from "@/app/actions/submissions"
 
 // Query key factory
 export const submissionKeys = {
@@ -46,9 +47,12 @@ export function useApproveSubmission() {
 				},
 			)
 		},
-		onSuccess: (data) => {
+		onSuccess: async (data) => {
 			// Invalidate and refetch submissions
 			queryClient.invalidateQueries({ queryKey: submissionKeys.lists() })
+
+			// Revalidate Next.js cache for community pages
+			await revalidateAllSubmissions()
 
 			toast.success("Submission approved", {
 				description: "The submission has been approved successfully",
@@ -82,9 +86,12 @@ export function useRejectSubmission() {
 				},
 			)
 		},
-		onSuccess: () => {
+		onSuccess: async () => {
 			// Invalidate and refetch submissions
 			queryClient.invalidateQueries({ queryKey: submissionKeys.lists() })
+
+			// Revalidate Next.js cache for community pages
+			await revalidateAllSubmissions()
 
 			toast.success("Submission rejected", {
 				description: "The submission has been rejected",

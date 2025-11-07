@@ -1,7 +1,8 @@
 "use client"
 
-import { Check, FileImage, FileType, Plus, X } from "lucide-react"
 import { useForm } from "@tanstack/react-form"
+import { Check, FileImage, FileType, Plus, X } from "lucide-react"
+import { useState } from "react"
 import { toast } from "sonner"
 import { IconNameCombobox } from "@/components/icon-name-combobox"
 import { Badge } from "@/components/ui/badge"
@@ -12,9 +13,9 @@ import { Label } from "@/components/ui/label"
 import { MultiSelect, type MultiSelectOption } from "@/components/ui/multi-select"
 import { Dropzone, DropzoneContent, DropzoneEmptyState } from "@/components/ui/shadcn-io/dropzone"
 import { Textarea } from "@/components/ui/textarea"
-import { pb } from "@/lib/pb"
 import { useExistingIconNames } from "@/hooks/use-submissions"
-import { useState } from "react"
+import { pb } from "@/lib/pb"
+import { revalidateAllSubmissions } from "@/app/actions/submissions"
 
 interface VariantConfig {
 	id: string
@@ -168,6 +169,9 @@ export function AdvancedIconSubmissionFormTanStack() {
 
 				await pb.collection("submissions").create(submissionData)
 
+				// Revalidate Next.js cache for community pages
+				await revalidateAllSubmissions()
+
 				toast.success("Icon submitted!", {
 					description: `Your icon "${value.iconName}" has been submitted for review`,
 				})
@@ -188,14 +192,17 @@ export function AdvancedIconSubmissionFormTanStack() {
 		if (variantId !== "base") {
 			// Remove from selected variants
 			const currentVariants = form.getFieldValue("selectedVariants")
-			form.setFieldValue("selectedVariants", currentVariants.filter((v) => v !== variantId))
-			
+			form.setFieldValue(
+				"selectedVariants",
+				currentVariants.filter((v) => v !== variantId),
+			)
+
 			// Remove files
 			const currentFiles = form.getFieldValue("files")
 			const newFiles = { ...currentFiles }
 			delete newFiles[variantId]
 			form.setFieldValue("files", newFiles)
-			
+
 			// Remove previews
 			const newPreviews = { ...filePreviews }
 			delete newPreviews[variantId]
@@ -205,9 +212,7 @@ export function AdvancedIconSubmissionFormTanStack() {
 
 	const handleVariantSelectionChange = (selectedValues: string[]) => {
 		// Ensure base is always included
-		const finalValues = selectedValues.includes("base") 
-			? selectedValues 
-			: ["base", ...selectedValues]
+		const finalValues = selectedValues.includes("base") ? selectedValues : ["base", ...selectedValues]
 		return finalValues
 	}
 
@@ -217,12 +222,12 @@ export function AdvancedIconSubmissionFormTanStack() {
 			...currentFiles,
 			[variantId]: droppedFiles,
 		})
-		
+
 		// Generate preview for the first file
 		if (droppedFiles.length > 0) {
 			const reader = new FileReader()
 			reader.onload = (e) => {
-				if (typeof e.target?.result === 'string') {
+				if (typeof e.target?.result === "string") {
 					setFilePreviews({
 						...filePreviews,
 						[variantId]: e.target.result,
@@ -247,13 +252,19 @@ export function AdvancedIconSubmissionFormTanStack() {
 
 	const handleRemoveAlias = (alias: string) => {
 		const currentAliases = form.getFieldValue("aliases")
-		form.setFieldValue("aliases", currentAliases.filter((a) => a !== alias))
+		form.setFieldValue(
+			"aliases",
+			currentAliases.filter((a) => a !== alias),
+		)
 	}
 
 	const toggleCategory = (category: string) => {
 		const currentCategories = form.getFieldValue("categories")
 		if (currentCategories.includes(category)) {
-			form.setFieldValue("categories", currentCategories.filter((c) => c !== category))
+			form.setFieldValue(
+				"categories",
+				currentCategories.filter((c) => c !== category),
+			)
 		} else {
 			form.setFieldValue("categories", [...currentCategories, category])
 		}
@@ -280,7 +291,7 @@ export function AdvancedIconSubmissionFormTanStack() {
 								<h3 className="text-lg font-semibold mb-1">Icon Identification</h3>
 								<p className="text-sm text-muted-foreground">Choose a unique identifier for your icon</p>
 							</div>
-							
+
 							<form.Field
 								name="iconName"
 								validators={{
@@ -302,7 +313,7 @@ export function AdvancedIconSubmissionFormTanStack() {
 									<div className="space-y-2">
 										<Label htmlFor="icon-name">Icon Name / ID</Label>
 										<IconNameCombobox
-											value={field.state.value} 
+											value={field.state.value}
 											onValueChange={field.handleChange}
 											error={field.state.meta.errors.join(", ")}
 											isInvalid={!field.state.meta.isValid && field.state.meta.isTouched}
@@ -326,11 +337,7 @@ export function AdvancedIconSubmissionFormTanStack() {
 											{Object.entries(filePreviews).map(([variantId, preview]) => (
 												<div key={variantId} className="flex flex-col gap-2">
 													<div className="relative aspect-square rounded-lg border bg-card p-4 flex items-center justify-center">
-														<img
-															alt={`${variantId} preview`}
-															className="max-h-full max-w-full object-contain"
-															src={preview}
-														/>
+														<img alt={`${variantId} preview`} className="max-h-full max-w-full object-contain" src={preview} />
 													</div>
 													<div className="text-center">
 														<p className="text-xs font-mono text-muted-foreground">{state.iconName || "preview"}</p>
@@ -386,11 +393,7 @@ export function AdvancedIconSubmissionFormTanStack() {
 												return (
 													<Card
 														key={variantId}
-														className={`relative transition-all ${
-															hasFile
-																? "border-primary bg-primary/5"
-																: "border-border"
-														}`}
+														className={`relative transition-all ${hasFile ? "border-primary bg-primary/5" : "border-border"}`}
 													>
 														{/* Remove button at top-right corner */}
 														{!isBase && (
@@ -410,7 +413,11 @@ export function AdvancedIconSubmissionFormTanStack() {
 															<div className="space-y-2">
 																<div className="flex items-center gap-2">
 																	<h4 className="text-sm font-semibold">{variant.label}</h4>
-																	{isBase && <Badge variant="secondary" className="text-xs">Required</Badge>}
+																	{isBase && (
+																		<Badge variant="secondary" className="text-xs">
+																			Required
+																		</Badge>
+																	)}
 																	{hasFile && (
 																		<Badge variant="default" className="text-xs">
 																			<Check className="h-3 w-3 mr-1" />
@@ -419,7 +426,7 @@ export function AdvancedIconSubmissionFormTanStack() {
 																	)}
 																</div>
 																<p className="text-xs text-muted-foreground">{variant.description}</p>
-																
+
 																<Dropzone
 																	accept={{
 																		"image/svg+xml": [".svg"],
@@ -513,7 +520,7 @@ export function AdvancedIconSubmissionFormTanStack() {
 										</div>
 									)}
 								</form.Field>
-								
+
 								<form.Field name="aliases">
 									{(field) => (
 										<>

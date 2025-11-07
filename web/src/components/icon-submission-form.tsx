@@ -51,7 +51,7 @@ export function IconSubmissionContent({ onClose }: { onClose?: () => void }) {
 		if (files.length > 0) {
 			const reader = new FileReader()
 			reader.onload = (e) => {
-				if (typeof e.target?.result === 'string') {
+				if (typeof e.target?.result === "string") {
 					setFilePreview(e.target?.result)
 				}
 			}
@@ -65,7 +65,7 @@ export function IconSubmissionContent({ onClose }: { onClose?: () => void }) {
 			<div className="space-y-3">
 				<h3 className="text-sm font-medium">Upload Icon Files</h3>
 				<Dropzone
-					accept={{ 'image/*': ['.png', '.jpg', '.jpeg', '.svg', '.webp'] }}
+					accept={{ "image/*": [".png", ".jpg", ".jpeg", ".svg", ".webp"] }}
 					onDrop={handleDrop}
 					onError={console.error}
 					src={files}
@@ -76,20 +76,12 @@ export function IconSubmissionContent({ onClose }: { onClose?: () => void }) {
 					<DropzoneContent>
 						{filePreview && (
 							<div className="h-[102px] w-full">
-								<img
-									alt="Preview"
-									className="absolute top-0 left-0 h-full w-full object-cover"
-									src={filePreview}
-								/>
+								<img alt="Preview" className="absolute top-0 left-0 h-full w-full object-cover" src={filePreview} />
 							</div>
 						)}
 					</DropzoneContent>
 				</Dropzone>
-				{files && files.length > 0 && (
-					<div className="text-xs text-muted-foreground">
-						{files.length} file(s) selected
-					</div>
-				)}
+				{files && files.length > 0 && <div className="text-xs text-muted-foreground">{files.length} file(s) selected</div>}
 			</div>
 
 			{/* Divider */}
@@ -121,7 +113,7 @@ export function IconSubmissionContent({ onClose }: { onClose?: () => void }) {
 		</div>
 	)
 }
-export function IconSubmissionForm({ trigger, onClick }: { trigger?: React.ReactNode, onClick?: () => void }) {
+export function IconSubmissionForm({ trigger, onClick }: { trigger?: React.ReactNode; onClick?: () => void }) {
 	const [open, setOpen] = useState(false)
 
 	return (
