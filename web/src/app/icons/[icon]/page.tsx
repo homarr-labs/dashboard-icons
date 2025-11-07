@@ -3,6 +3,7 @@ import { notFound } from "next/navigation"
 import { IconDetails } from "@/components/icon-details"
 import { BASE_URL, WEB_URL } from "@/constants"
 import { getAllIcons, getAuthorData } from "@/lib/api"
+import { AuthorData } from "@/types"
 export const dynamicParams = false
 
 export async function generateStaticParams() {

@@ -24,8 +24,31 @@ export const size = {
 	width: 1200,
 	height: 630,
 }
-export default async function Image({ params }: { params: { icon: string } }) {
-	const { icon } = params
+export default async function Image({ params }: { params: Promise<{ icon: string }> }) {
+	const { icon } = await params
+	
+	if (!icon) {
+		console.error(`[Opengraph Image] Icon not found for ${icon}`)
+		return new ImageResponse(
+			<div
+				style={{
+					display: "flex",
+					width: "100%",
+					height: "100%",
+					alignItems: "center",
+					justifyContent: "center",
+					backgroundColor: "white",
+					fontSize: 48,
+					fontWeight: 600,
+					color: "#64748b",
+				}}
+			>
+				Icon not found
+			</div>,
+			{ ...size },
+		)
+	}
+	
 	const iconsData = await getAllIcons()
 	const totalIcons = Object.keys(iconsData).length
 	const index = Object.keys(iconsData).indexOf(icon)
