@@ -5,6 +5,7 @@ import type { IconWithName } from "@/types/icons"
 
 /**
  * Server-side utility functions for community gallery (public submissions view)
+ * Uses unstable_cache with tags for on-demand revalidation
  */
 
 /**
@@ -17,17 +18,25 @@ function createServerPB() {
 
 /**
  * Transform a CommunityGallery item to IconWithName format for use with IconSearch
+ * For community icons, base is the full HTTP URL to the main icon asset
+ * Additional assets are stored but not exposed in the standard Icon format
  */
 function transformGalleryToIcon(item: CommunityGallery): any {
 	const pbUrl = process.env.NEXT_PUBLIC_POCKETBASE_URL || "http://127.0.0.1:8090"
 
-	const fileUrl = item.assets?.[0] ? `${pbUrl}/api/files/community_gallery/${item.id}/${item.assets[0]}` : ""
+	const mainIcon = item.assets?.[0] ? `${pbUrl}/api/files/community_gallery/${item.id}/${item.assets[0]}` : ""
+
+	const mainAssetExt = item.assets?.[0]?.split(".").pop()?.toLowerCase() || "svg"
+	const baseFormat = mainAssetExt === "svg" ? "svg" : mainAssetExt === "png" ? "png" : "webp"
 
 	const transformed = {
 		name: item.name,
 		status: item.status,
 		data: {
-			base: fileUrl || "svg",
+			base: mainIcon || "svg",
+			baseFormat,
+			mainIconUrl: mainIcon,
+			assetUrls: item.assets?.map((asset) => `${pbUrl}/api/files/community_gallery/${item.id}/${asset}`) || [],
 			aliases: item.extras?.aliases || [],
 			categories: item.extras?.categories || [],
 			update: {
@@ -49,9 +58,8 @@ function transformGalleryToIcon(item: CommunityGallery): any {
  * Fetch community gallery items (not added to collection)
  * Uses the community_gallery view collection for public-facing data
  * This is the raw fetch function without caching
- * Filters out items without assets
  */
-export async function fetchCommunitySubmissions(): Promise<IconWithName[]> {
+async function fetchCommunitySubmissions(): Promise<IconWithName[]> {
 	try {
 		const pb = createServerPB()
 
@@ -70,9 +78,67 @@ export async function fetchCommunitySubmissions(): Promise<IconWithName[]> {
 /**
  * Cached version of fetchCommunitySubmissions
  * Uses unstable_cache with tags for on-demand revalidation
- * Revalidates every 600 seconds (10 minutes)
+ * Revalidates every 21600 seconds (6 hours) to match page revalidate time
+ * Can be invalidated on-demand using revalidateTag("community-gallery")
  */
-export const getCommunitySubmissions = unstable_cache(fetchCommunitySubmissions, ["community-gallery"], {
-	revalidate: 600,
+export const getCommunitySubmissions = unstable_cache(fetchCommunitySubmissions, ["community-submissions-list"], {
+	revalidate: 21600,
 	tags: ["community-gallery"],
 })
+
+/**
+ * Fetch a single community submission by name (raw function)
+ * Returns null if not found
+ */
+async function fetchCommunitySubmissionByName(name: string): Promise<IconWithName | null> {
+	try {
+		const pb = createServerPB()
+
+		const record = await pb.collection("community_gallery").getFirstListItem<CommunityGallery>(`name="${name}"`)
+		return transformGalleryToIcon(record)
+	} catch (error) {
+		console.error(`Error fetching community submission ${name}:`, error)
+		return null
+	}
+}
+
+/**
+ * Cached version of fetchCommunitySubmissionByName
+ * Uses unstable_cache with tags for on-demand revalidation
+ * Revalidates every 21600 seconds (6 hours)
+ * Cache key: community-submission-{name}
+ */
+export function getCommunitySubmissionByName(name: string): Promise<IconWithName | null> {
+	return unstable_cache(async () => fetchCommunitySubmissionByName(name), [`community-submission-${name}`], {
+		revalidate: 21600,
+		tags: ["community-gallery", "community-submission"],
+	})()
+}
+
+/**
+ * Fetch raw CommunityGallery record by name (raw function, for status checks)
+ */
+async function fetchCommunityGalleryRecord(name: string): Promise<CommunityGallery | null> {
+	try {
+		const pb = createServerPB()
+
+		const record = await pb.collection("community_gallery").getFirstListItem<CommunityGallery>(`name="${name}"`)
+		return record
+	} catch (error) {
+		console.error(`Error fetching community gallery record ${name}:`, error)
+		return null
+	}
+}
+
+/**
+ * Cached version of fetchCommunityGalleryRecord
+ * Uses unstable_cache with tags for on-demand revalidation
+ * Revalidates every 21600 seconds (6 hours)
+ * Cache key: community-gallery-record-{name}
+ */
+export function getCommunityGalleryRecord(name: string): Promise<CommunityGallery | null> {
+	return unstable_cache(async () => fetchCommunityGalleryRecord(name), [`community-gallery-record-${name}`], {
+		revalidate: 21600,
+		tags: ["community-gallery", "community-gallery-record"],
+	})()
+}

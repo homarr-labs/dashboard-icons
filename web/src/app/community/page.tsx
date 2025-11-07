@@ -38,8 +38,6 @@ export async function generateMetadata(): Promise<Metadata> {
 	}
 }
 
-export const revalidate = 600
-
 export default async function CommunityPage() {
 	const icons = await getCommunitySubmissions()
 	return (
