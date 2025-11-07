@@ -38,6 +38,7 @@ export function IconSearch({ icons }: IconSearchProps) {
 	const [selectedCategories, setSelectedCategories] = useState<string[]>(initialCategories ?? [])
 	const [sortOption, setSortOption] = useState<SortOption>(initialSort)
 	const timeoutRef = useRef<NodeJS.Timeout | null>(null)
+	const noIconsFoundTimeoutRef = useRef<NodeJS.Timeout | null>(null)
 	const { resolvedTheme } = useTheme()
 	const [isLazyRequestSubmitted, setIsLazyRequestSubmitted] = useState(false)
 
@@ -162,19 +163,36 @@ export function IconSearch({ icons }: IconSearchProps) {
 			if (timeoutRef.current) {
 				clearTimeout(timeoutRef.current)
 			}
+			if (noIconsFoundTimeoutRef.current) {
+				clearTimeout(noIconsFoundTimeoutRef.current)
+			}
 		}
 	}, [])
 
 	useEffect(() => {
-		if (filteredIcons.length === 0 && searchQuery) {
-			console.log("no icons found", {
-				query: searchQuery,
-			})
-			posthog.capture("no icons found", {
-				query: searchQuery,
-			})
+		if (noIconsFoundTimeoutRef.current) {
+			clearTimeout(noIconsFoundTimeoutRef.current)
 		}
-	}, [filteredIcons, searchQuery])
+
+		if (filteredIcons.length === 0 && debouncedQuery.trim().length >= 2) {
+			noIconsFoundTimeoutRef.current = setTimeout(() => {
+				if (filteredIcons.length === 0 && debouncedQuery.trim().length >= 2) {
+					console.log("no icons found", {
+						query: debouncedQuery,
+					})
+					posthog.capture("no icons found", {
+						query: debouncedQuery,
+					})
+				}
+			}, 500)
+		}
+
+		return () => {
+			if (noIconsFoundTimeoutRef.current) {
+				clearTimeout(noIconsFoundTimeoutRef.current)
+			}
+		}
+	}, [filteredIcons, debouncedQuery])
 
 	if (!searchParams) return null
 
