@@ -4,16 +4,25 @@ import { IconDetails } from "@/components/icon-details"
 import { BASE_URL, WEB_URL } from "@/constants"
 import { getAllIcons, getAuthorData } from "@/lib/api"
 import { AuthorData } from "@/types"
+
 export const dynamicParams = false
+export const revalidate = false
+export const dynamic = "force-static"
 
 export async function generateStaticParams() {
 	const iconsData = await getAllIcons()
+	if (process.env.CI_MODE === "false") {
+		// This is meant to speed up the build process in local development
+		return Object.keys(iconsData)
+			.slice(0, 5)
+			.map((icon) => ({
+				icon,
+			}))
+	}
 	return Object.keys(iconsData).map((icon) => ({
 		icon,
 	}))
 }
-
-export const dynamic = "force-static"
 
 type Props = {
 	params: Promise<{ icon: string }>
