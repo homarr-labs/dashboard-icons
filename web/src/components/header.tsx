@@ -2,8 +2,8 @@
 
 import { Github, LayoutDashboard, LogOut, PlusCircle, Search, Star } from "lucide-react"
 import Link from "next/link"
-import { useEffect, useState } from "react"
 import { usePostHog } from "posthog-js/react"
+import { useEffect, useState } from "react"
 import { LoginModal } from "@/components/login-modal"
 import { ThemeSwitcher } from "@/components/theme-switcher"
 import { REPO_NAME, REPO_PATH } from "@/constants"
@@ -110,10 +110,10 @@ export function Header() {
 				username: userData.username,
 			})
 		}
-		
+
 		// Clear PocketBase auth
 		pb.authStore.clear()
-		
+
 		// Reset PostHog identity to unlink future events from this user
 		// This is important for shared computers and follows PostHog best practices
 		resetPostHogIdentity(posthog)
@@ -185,13 +185,21 @@ export function Header() {
 
 					<div className="hidden md:flex items-center gap-2 md:gap-4">
 						{isLoggedIn ? (
-							<Button variant="outline" className="hidden md:inline-flex cursor-pointer transition-all duration-300 items-center gap-2" asChild>
+							<Button
+								variant="outline"
+								className="hidden md:inline-flex cursor-pointer transition-all duration-300 items-center gap-2"
+								asChild
+							>
 								<Link href="/submit">
 									<PlusCircle className="h-4 w-4 transition-all duration-300" /> Submit icon(s)
 								</Link>
 							</Button>
 						) : (
-							<Button variant="outline" className="hidden md:inline-flex cursor-pointer transition-all duration-300 items-center gap-2" onClick={handleSubmitClick}>
+							<Button
+								variant="outline"
+								className="hidden md:inline-flex cursor-pointer transition-all duration-300 items-center gap-2"
+								onClick={handleSubmitClick}
+							>
 								<PlusCircle className="h-4 w-4 transition-all duration-300" /> Submit icon(s)
 							</Button>
 						)}

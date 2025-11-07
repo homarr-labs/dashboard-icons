@@ -1,9 +1,9 @@
 "use client"
 
 import { Github, Loader2 } from "lucide-react"
+import { usePostHog } from "posthog-js/react"
 import type React from "react"
 import { useRef, useState } from "react"
-import { usePostHog } from "posthog-js/react"
 import { Button } from "@/components/ui/button"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
@@ -65,11 +65,11 @@ export function LoginModal({ open, onOpenChange }: LoginModalProps) {
 					passwordConfirm: confirmPassword,
 				})
 				await pb.collection("users").authWithPassword(email, password)
-				
+
 				// Identify user immediately after successful authentication
 				// This follows PostHog best practice of calling identify as soon as possible
 				identifyUserInPostHog(posthog)
-				
+
 				// Track registration event
 				posthog?.capture("user_registered", {
 					email: email.trim(),
@@ -78,11 +78,11 @@ export function LoginModal({ open, onOpenChange }: LoginModalProps) {
 			} else {
 				// Login
 				await pb.collection("users").authWithPassword(email, password)
-				
+
 				// Identify user immediately after successful authentication
 				// This follows PostHog best practice of calling identify as soon as possible
 				identifyUserInPostHog(posthog)
-				
+
 				// Track login event
 				posthog?.capture("user_logged_in", {
 					email: email.trim(),
@@ -110,14 +110,9 @@ export function LoginModal({ open, onOpenChange }: LoginModalProps) {
 		<Dialog open={open} onOpenChange={onOpenChange}>
 			<DialogContent className="w-full max-w-lg bg-background border shadow-2xl">
 				<DialogHeader className="text-center space-y-2 pb-4">
-					<DialogTitle className="text-3xl font-bold">
-						{isRegister ? "Create Account" : "Welcome Back"}
-					</DialogTitle>
+					<DialogTitle className="text-3xl font-bold">{isRegister ? "Create Account" : "Welcome Back"}</DialogTitle>
 					<DialogDescription className="text-lg text-muted-foreground">
-						{isRegister 
-							? "Join our community and start submitting icons" 
-							: "Sign in to submit and manage your icons"
-						}
+						{isRegister ? "Join our community and start submitting icons" : "Sign in to submit and manage your icons"}
 					</DialogDescription>
 				</DialogHeader>
 
@@ -137,12 +132,7 @@ export function LoginModal({ open, onOpenChange }: LoginModalProps) {
 					)}
 
 					{/* GitHub Button (Coming Soon) */}
-					<Button
-						type="button"
-						variant="outline"
-						className="w-full h-12 text-base font-medium cursor-not-allowed opacity-50"
-						disabled
-					>
+					<Button type="button" variant="outline" className="w-full h-12 text-base font-medium cursor-not-allowed opacity-50" disabled>
 						<Github className="h-5 w-5 mr-2" />
 						Continue with GitHub
 						<span className="ml-2 text-xs text-muted-foreground">(Coming soon)</span>
@@ -176,9 +166,7 @@ export function LoginModal({ open, onOpenChange }: LoginModalProps) {
 								required
 							/>
 							{isRegister && (
-								<p className="text-xs text-muted-foreground">
-									We'll only use this to send you updates about your submissions
-								</p>
+								<p className="text-xs text-muted-foreground">We'll only use this to send you updates about your submissions</p>
 							)}
 						</div>
 
@@ -198,9 +186,7 @@ export function LoginModal({ open, onOpenChange }: LoginModalProps) {
 									className="h-12 text-base"
 									required
 								/>
-								<p className="text-xs text-muted-foreground">
-									This will be displayed publicly with your submissions
-								</p>
+								<p className="text-xs text-muted-foreground">This will be displayed publicly with your submissions</p>
 							</div>
 						)}
 
@@ -242,11 +228,7 @@ export function LoginModal({ open, onOpenChange }: LoginModalProps) {
 					</div>
 
 					{/* Submit Button */}
-					<Button 
-						type="submit" 
-						className="w-full h-12 text-base font-semibold" 
-						disabled={isLoading}
-					>
+					<Button type="submit" className="w-full h-12 text-base font-semibold" disabled={isLoading}>
 						{isLoading ? (
 							<>
 								<Loader2 className="h-5 w-5 mr-2 animate-spin" />
@@ -264,10 +246,7 @@ export function LoginModal({ open, onOpenChange }: LoginModalProps) {
 							onClick={toggleMode}
 							className="text-sm text-muted-foreground hover:text-foreground transition-colors font-medium hover:underline underline-offset-4"
 						>
-							{isRegister 
-								? "Already have an account? Sign in" 
-								: "Don't have an account? Create one"
-							}
+							{isRegister ? "Already have an account? Sign in" : "Don't have an account? Create one"}
 						</button>
 					</div>
 				</form>

@@ -114,7 +114,7 @@ function ElegantShape({
 					y: [0, 15, 0],
 				}}
 				transition={{
-					duration: 8 + Math.random() * 4, // Random duration between 8-12s for varied movement
+					duration: 8,
 					repeat: Number.POSITIVE_INFINITY,
 					ease: "easeInOut",
 					repeatType: "reverse",
@@ -128,7 +128,7 @@ function ElegantShape({
 				<div
 					className={cn(
 						"absolute inset-0 rounded-full",
-						// Use primary 
+						// Use primary
 						"bg-gradient-to-r from-primary/[0.6] via-primary/[0.4] to-primary/[0.1]",
 						gradient,
 						"backdrop-blur-[3px]",

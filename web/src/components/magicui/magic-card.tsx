@@ -1,11 +1,10 @@
 "use client"
 
 import { motion, useMotionTemplate, useMotionValue } from "motion/react"
+import { useTheme } from "next-themes"
 import type React from "react"
 import { useCallback, useEffect, useRef, useState } from "react"
-
 import { cn } from "@/lib/utils"
-import { useTheme } from "next-themes"
 
 interface MagicCardProps {
 	children?: React.ReactNode
@@ -29,7 +28,6 @@ export function MagicCard({
 	const cardRef = useRef<HTMLDivElement>(null)
 	const mouseX = useMotionValue(-gradientSize)
 	const mouseY = useMotionValue(-gradientSize)
-	
 
 	const handleMouseMove = useCallback(
 		(e: MouseEvent) => {
@@ -85,10 +83,10 @@ export function MagicCard({
 
 	useEffect(() => {
 		if (theme === "dark") {
-			setFromColor("#ffb3c1")  // fallback for dark
+			setFromColor("#ffb3c1") // fallback for dark
 			setToColor("#ff75a0")
 		} else {
-			setFromColor("#1e9df1")  // fallback for light
+			setFromColor("#1e9df1") // fallback for light
 			setToColor("#8ed0f9")
 		}
 	}, [theme])
