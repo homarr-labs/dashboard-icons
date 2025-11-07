@@ -9,9 +9,7 @@ import type { AuthorData, IconFile, IconWithName } from "@/types/icons"
  */
 export async function getAllIcons(): Promise<IconFile> {
 	try {
-		const response = await fetch(METADATA_URL, {
-			next: { revalidate: 3600 },
-		})
+		const response = await fetch(METADATA_URL)
 
 		if (!response.ok) {
 			throw new ApiError(`Failed to fetch icons: ${response.statusText}`, response.status)
