@@ -8479,6 +8479,22 @@
             }
         }
     },
+    "jamf": {
+        "base": "svg",
+        "aliases": [
+            "jamf pro"
+        ],
+        "categories": [
+            "Organization"
+        ],
+        "update": {
+            "timestamp": "2025-11-11T19:02:16.597263",
+            "author": {
+                "id": 204798340,
+                "login": "sebgorgone"
+            }
+        }
+    },
     "heimdall": {
         "base": "svg",
         "aliases": [],
