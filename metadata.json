@@ -4869,6 +4869,20 @@
             }
         }
     },
+    "fidelity": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "Finance"
+        ],
+        "update": {
+            "timestamp": "2025-11-13T17:36:15.323255",
+            "author": {
+                "id": 38537903,
+                "login": "shalf-0"
+            }
+        }
+    },
     "reolink": {
         "base": "svg",
         "aliases": [],
