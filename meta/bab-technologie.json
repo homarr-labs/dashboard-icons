@@ -1,0 +1,16 @@
+{
+  "base": "svg",
+  "aliases": [],
+  "categories": [],
+  "update": {
+    "timestamp": "2025-11-13T16:51:18.349896",
+    "author": {
+      "id": 240226970,
+      "login": "guridevatrin"
+    }
+  },
+  "colors": {
+    "light": "bab-technologie",
+    "dark": "bab-technologie-dark"
+  }
+}
