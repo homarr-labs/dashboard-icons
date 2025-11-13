@@ -1,0 +1,15 @@
+{
+  "base": "svg",
+  "aliases": [],
+  "categories": [
+    "Security",
+    "Video"
+  ],
+  "update": {
+    "timestamp": "2025-11-13T16:39:03.319681",
+    "author": {
+      "id": 240226970,
+      "login": "guridevatrin"
+    }
+  }
+}
