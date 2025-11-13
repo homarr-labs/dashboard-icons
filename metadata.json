@@ -19383,6 +19383,22 @@
             }
         }
     },
+    "neon-tech": {
+        "base": "svg",
+        "aliases": [
+            "neon"
+        ],
+        "categories": [
+            "Development"
+        ],
+        "update": {
+            "timestamp": "2025-11-13T17:48:10.931330",
+            "author": {
+                "id": 54763188,
+                "login": "IgnacyWie"
+            }
+        }
+    },
     "sendinblue": {
         "base": "svg",
         "aliases": [],
