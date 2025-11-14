@@ -49,7 +49,7 @@
 		"input-otp": "^1.4.2",
 		"lucide-react": "^0.545.0",
 		"motion": "^12.23.24",
-		"next": "15.5.2",
+		"next": "15.5.6",
 		"next-themes": "^0.4.6",
 		"posthog-js": "^1.290.0",
 		"posthog-node": "^5.11.2",
