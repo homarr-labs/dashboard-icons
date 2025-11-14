@@ -25,7 +25,7 @@ jobs:
         run: python scripts/convert_svg_assets.py
 
       - name: Upload Converted Icons
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: converted-icons
           path: |
