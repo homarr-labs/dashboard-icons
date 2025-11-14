@@ -5,6 +5,17 @@ import { Check, FileImage, FileType, Plus, X } from "lucide-react"
 import { useState } from "react"
 import { toast } from "sonner"
 import { IconNameCombobox } from "@/components/icon-name-combobox"
+import { ExperimentalWarning } from "@/components/experimental-warning"
+import {
+	AlertDialog,
+	AlertDialogAction,
+	AlertDialogCancel,
+	AlertDialogContent,
+	AlertDialogDescription,
+	AlertDialogFooter,
+	AlertDialogHeader,
+	AlertDialogTitle,
+} from "@/components/ui/alert-dialog"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -98,6 +109,7 @@ interface FormData {
 
 export function AdvancedIconSubmissionFormTanStack() {
 	const [filePreviews, setFilePreviews] = useState<Record<string, string>>({})
+	const [showConfirmDialog, setShowConfirmDialog] = useState(false)
 	const { data: existingIcons = [] } = useExistingIconNames()
 
 	const form = useForm({
@@ -117,76 +129,83 @@ export function AdvancedIconSubmissionFormTanStack() {
 				return
 			}
 
-			try {
-				const assetFiles: File[] = []
-
-				// Add base file
-				if (value.files.base?.[0]) {
-					assetFiles.push(value.files.base[0])
-				}
-
-				// Build extras object
-				const extras: any = {
-					aliases: value.aliases,
-					categories: value.categories,
-					base: value.files.base[0]?.name.split(".").pop() || "svg",
-				}
-
-				// Add color variants if present
-				if (value.files.dark?.[0] || value.files.light?.[0]) {
-					extras.colors = {}
-					if (value.files.dark?.[0]) {
-						extras.colors.dark = value.files.dark[0].name
-						assetFiles.push(value.files.dark[0])
-					}
-					if (value.files.light?.[0]) {
-						extras.colors.light = value.files.light[0].name
-						assetFiles.push(value.files.light[0])
-					}
-				}
-
-				// Add wordmark variants if present
-				if (value.files.wordmark?.[0] || value.files.wordmark_dark?.[0]) {
-					extras.wordmark = {}
-					if (value.files.wordmark?.[0]) {
-						extras.wordmark.light = value.files.wordmark[0].name
-						assetFiles.push(value.files.wordmark[0])
-					}
-					if (value.files.wordmark_dark?.[0]) {
-						extras.wordmark.dark = value.files.wordmark_dark[0].name
-						assetFiles.push(value.files.wordmark_dark[0])
-					}
-				}
-
-				// Create submission
-				const submissionData = {
-					name: value.iconName,
-					assets: assetFiles,
-					created_by: pb.authStore.model?.id,
-					status: "pending",
-					extras: extras,
-				}
-
-				await pb.collection("submissions").create(submissionData)
-
-				// Revalidate Next.js cache for community pages
-				await revalidateAllSubmissions()
-
-				toast.success("Icon submitted!", {
-					description: `Your icon "${value.iconName}" has been submitted for review`,
-				})
-
-				// Reset form
-				form.reset()
-				setFilePreviews({})
-			} catch (error: any) {
-				console.error("Submission error:", error)
-				toast.error("Failed to submit icon", {
-					description: error?.message || "Please try again later",
-				})
-			}
+			setShowConfirmDialog(true)
 		},
 	})
+
+	const handleConfirmedSubmit = async () => {
+		const value = form.state.values
+		setShowConfirmDialog(false)
+
+		try {
+			const assetFiles: File[] = []
+
+			// Add base file
+			if (value.files.base?.[0]) {
+				assetFiles.push(value.files.base[0])
+			}
+
+			// Build extras object
+			const extras: any = {
+				aliases: value.aliases,
+				categories: value.categories,
+				base: value.files.base[0]?.name.split(".").pop() || "svg",
+			}
+
+			// Add color variants if present
+			if (value.files.dark?.[0] || value.files.light?.[0]) {
+				extras.colors = {}
+				if (value.files.dark?.[0]) {
+					extras.colors.dark = value.files.dark[0].name
+					assetFiles.push(value.files.dark[0])
+				}
+				if (value.files.light?.[0]) {
+					extras.colors.light = value.files.light[0].name
+					assetFiles.push(value.files.light[0])
+				}
+			}
+
+			// Add wordmark variants if present
+			if (value.files.wordmark?.[0] || value.files.wordmark_dark?.[0]) {
+				extras.wordmark = {}
+				if (value.files.wordmark?.[0]) {
+					extras.wordmark.light = value.files.wordmark[0].name
+					assetFiles.push(value.files.wordmark[0])
+				}
+				if (value.files.wordmark_dark?.[0]) {
+					extras.wordmark.dark = value.files.wordmark_dark[0].name
+					assetFiles.push(value.files.wordmark_dark[0])
+				}
+			}
+
+			// Create submission
+			const submissionData = {
+				name: value.iconName,
+				assets: assetFiles,
+				created_by: pb.authStore.model?.id,
+				status: "pending",
+				extras: extras,
+			}
+
+			await pb.collection("submissions").create(submissionData)
+
+			// Revalidate Next.js cache for community pages
+			await revalidateAllSubmissions()
+
+			toast.success("Icon submitted!", {
+				description: `Your icon "${value.iconName}" has been submitted for review`,
+			})
+
+			// Reset form
+			form.reset()
+			setFilePreviews({})
+		} catch (error: any) {
+			console.error("Submission error:", error)
+			toast.error("Failed to submit icon", {
+				description: error?.message || "Please try again later",
+			})
+		}
+	}
 
 	const handleRemoveVariant = (variantId: string) => {
 		if (variantId !== "base") {
@@ -272,6 +291,26 @@ export function AdvancedIconSubmissionFormTanStack() {
 
 	return (
 		<div className="max-w-4xl mx-auto">
+			<ExperimentalWarning message="This icon submission form is currently in an experimentation phase. Submissions will not be reviewed or processed at this time. We're gathering feedback to improve the experience." />
+
+			<AlertDialog open={showConfirmDialog} onOpenChange={setShowConfirmDialog}>
+				<AlertDialogContent>
+					<AlertDialogHeader>
+						<AlertDialogTitle>Confirm Submission</AlertDialogTitle>
+						<AlertDialogDescription>
+							This icon submission form is a work-in-progress and is currently in an experimentation phase. Your submission will not be reviewed or processed at this time. We're using this to gather feedback and improve the experience.
+							<br />
+							<br />
+							Do you still want to proceed with submitting your icon?
+						</AlertDialogDescription>
+					</AlertDialogHeader>
+					<AlertDialogFooter>
+						<AlertDialogCancel>Cancel</AlertDialogCancel>
+						<AlertDialogAction onClick={handleConfirmedSubmit}>Yes, Submit Anyway</AlertDialogAction>
+					</AlertDialogFooter>
+				</AlertDialogContent>
+			</AlertDialog>
+
 			<form
 				onSubmit={(e) => {
 					e.preventDefault()
