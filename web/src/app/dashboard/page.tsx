@@ -1,6 +1,7 @@
 "use client"
 
 import { AlertCircle, RefreshCw } from "lucide-react"
+import { ExperimentalWarning } from "@/components/experimental-warning"
 import { SubmissionsDataTable } from "@/components/submissions-data-table"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { Button } from "@/components/ui/button"
@@ -104,6 +105,7 @@ export default function DashboardPage() {
 	// Success state
 	return (
 		<main className="container mx-auto pt-12 pb-14 px-4 sm:px-6 lg:px-8">
+			<ExperimentalWarning message="The submissions dashboard is currently in an experimentation phase. Submissions will not be reviewed or processed at this time. We're gathering feedback to improve the experience." />
 			<Card className="bg-background/50 border-none shadow-lg">
 				<CardHeader>
 					<CardTitle>Submissions Dashboard</CardTitle>
