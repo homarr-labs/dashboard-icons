@@ -1,7 +1,7 @@
 import type { Metadata } from "next"
 import { Suspense } from "react"
-import { ExperimentalWarning } from "@/components/experimental-warning"
 import { CommunityIconSearch } from "@/components/community-icon-search"
+import { ExperimentalWarning } from "@/components/experimental-warning"
 import { BASE_URL } from "@/constants"
 import { getCommunitySubmissions } from "@/lib/community"
 

@@ -24,7 +24,7 @@ export const size = {
 
 export default async function Image({ params }: { params: Promise<{ icon: string }> }) {
 	const { icon } = await params
-	
+
 	if (!icon) {
 		return new ImageResponse(
 			<div
@@ -45,7 +45,7 @@ export default async function Image({ params }: { params: Promise<{ icon: string
 			{ ...size },
 		)
 	}
-	
+
 	const iconData = await getCommunitySubmissionByName(icon)
 
 	if (!iconData) {

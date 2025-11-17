@@ -1,8 +1,8 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { toast } from "sonner"
+import { revalidateAllSubmissions } from "@/app/actions/submissions"
 import { getAllIcons } from "@/lib/api"
 import { pb, type Submission } from "@/lib/pb"
-import { revalidateAllSubmissions } from "@/app/actions/submissions"
 
 // Query key factory
 export const submissionKeys = {

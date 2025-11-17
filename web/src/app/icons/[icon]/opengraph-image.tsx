@@ -6,7 +6,6 @@ import { getAllIcons } from "@/lib/api"
 export const dynamic = "force-static"
 export const revalidate = false
 
-
 export async function generateStaticParams() {
 	const iconsData = await getAllIcons()
 	if (process.env.CI_MODE === "false") {
@@ -28,7 +27,7 @@ export const size = {
 }
 export default async function Image({ params }: { params: Promise<{ icon: string }> }) {
 	const { icon } = await params
-	
+
 	if (!icon) {
 		console.error(`[Opengraph Image] Icon not found for ${icon}`)
 		return new ImageResponse(
@@ -50,7 +49,7 @@ export default async function Image({ params }: { params: Promise<{ icon: string
 			{ ...size },
 		)
 	}
-	
+
 	const iconsData = await getAllIcons()
 	const totalIcons = Object.keys(iconsData).length
 	const index = Object.keys(iconsData).indexOf(icon)
@@ -72,9 +71,7 @@ export default async function Image({ params }: { params: Promise<{ icon: string
 	}
 
 	// Convert the image data to a data URL or use placeholder
-	const iconUrl = iconData
-		? `data:image/png;base64,${iconData.toString("base64")}`
-		: null
+	const iconUrl = iconData ? `data:image/png;base64,${iconData.toString("base64")}` : null
 
 	return new ImageResponse(
 		<div

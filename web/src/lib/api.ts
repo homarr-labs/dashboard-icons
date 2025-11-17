@@ -127,19 +127,15 @@ async function fetchAuthorData(authorId: number) {
  * Uses unstable_cache with tags for on-demand revalidation
  * Revalidates every 86400 seconds (24 hours)
  * Cache key: author-{authorId}
- * 
+ *
  * This prevents hitting GitHub API rate limits by caching author data
  * across multiple page builds and requests.
  */
 export async function getAuthorData(authorId: number): Promise<AuthorData> {
-	return unstable_cache(
-		async () => await fetchAuthorData(authorId),
-		[`author-${authorId}`],
-		{
-			revalidate: 86400,
-			tags: ["authors", `author-${authorId}`],
-		}
-	)()
+	return unstable_cache(async () => await fetchAuthorData(authorId), [`author-${authorId}`], {
+		revalidate: 86400,
+		tags: ["authors", `author-${authorId}`],
+	})()
 }
 
 /**

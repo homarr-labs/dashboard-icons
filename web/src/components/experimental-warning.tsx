@@ -16,9 +16,7 @@ export function ExperimentalWarning({ message }: ExperimentalWarningProps) {
 			<AlertTriangle className="text-amber-600 dark:text-amber-500 size-8" />
 			<div className="col-start-2 space-y-4">
 				<AlertTitle className="text-amber-900 dark:text-amber-100 text-2xl font-bold">Experimental Feature</AlertTitle>
-				<AlertDescription className="text-amber-800 dark:text-amber-200 text-base leading-relaxed">
-					{defaultMessage}
-				</AlertDescription>
+				<AlertDescription className="text-amber-800 dark:text-amber-200 text-base leading-relaxed">{defaultMessage}</AlertDescription>
 				<Button className="feedback-button mt-4" variant="outline" size="lg">
 					Send feedback
 				</Button>
@@ -26,4 +24,3 @@ export function ExperimentalWarning({ message }: ExperimentalWarningProps) {
 		</Alert>
 	)
 }
-

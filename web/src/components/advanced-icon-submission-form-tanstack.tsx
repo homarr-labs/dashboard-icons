@@ -4,8 +4,9 @@ import { useForm } from "@tanstack/react-form"
 import { Check, FileImage, FileType, Plus, X } from "lucide-react"
 import { useState } from "react"
 import { toast } from "sonner"
-import { IconNameCombobox } from "@/components/icon-name-combobox"
+import { revalidateAllSubmissions } from "@/app/actions/submissions"
 import { ExperimentalWarning } from "@/components/experimental-warning"
+import { IconNameCombobox } from "@/components/icon-name-combobox"
 import {
 	AlertDialog,
 	AlertDialogAction,
@@ -26,7 +27,6 @@ import { Dropzone, DropzoneContent, DropzoneEmptyState } from "@/components/ui/s
 import { Textarea } from "@/components/ui/textarea"
 import { useExistingIconNames } from "@/hooks/use-submissions"
 import { pb } from "@/lib/pb"
-import { revalidateAllSubmissions } from "@/app/actions/submissions"
 
 interface VariantConfig {
 	id: string
@@ -298,7 +298,8 @@ export function AdvancedIconSubmissionFormTanStack() {
 					<AlertDialogHeader>
 						<AlertDialogTitle>Confirm Submission</AlertDialogTitle>
 						<AlertDialogDescription>
-							This icon submission form is a work-in-progress and is currently in an experimentation phase. Your submission will not be reviewed or processed at this time. We're using this to gather feedback and improve the experience.
+							This icon submission form is a work-in-progress and is currently in an experimentation phase. Your submission will not be
+							reviewed or processed at this time. We're using this to gather feedback and improve the experience.
 							<br />
 							<br />
 							Do you still want to proceed with submitting your icon?
