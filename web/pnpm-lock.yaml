@@ -181,8 +181,8 @@ importers:
         specifier: ^1.9.0
         version: 1.9.0
       '@types/node':
-        specifier: ^22.18.10
-        version: 22.18.10
+        specifier: ^22.19.1
+        version: 22.19.1
       '@types/react':
         specifier: ^19.2.2
         version: 19.2.2
@@ -795,9 +795,6 @@ packages:
 
   '@poppinss/exception@1.2.2':
     resolution: {integrity: sha512-m7bpKCD4QMlFCjA/nKTs23fuvoVFoA83brRKmObCUNmi/9tVu8Ve3w4YQAnJu4q3Tjf5fr685HYIC/IA2zHRSg==}
-
-  '@posthog/core@1.3.0':
-    resolution: {integrity: sha512-hxLL8kZNHH098geedcxCz8y6xojkNYbmJEW+1vFXsmPcExyCXIUUJ/34X6xa9GcprKxd0Wsx3vfJQLQX4iVPhw==}
 
   '@posthog/core@1.5.2':
     resolution: {integrity: sha512-iedUP3EnOPPxTA2VaIrsrd29lSZnUV+ZrMnvY56timRVeZAXoYCkmjfIs3KBAsF8OUT5h1GXLSkoQdrV0r31OQ==}
@@ -1554,8 +1551,8 @@ packages:
   '@types/d3-timer@3.0.2':
     resolution: {integrity: sha512-Ps3T8E8dZDam6fUyNiMkekK3XUsaUEik+idO9/YjPtfj2qruF8tFBXS7XhtE4iIXBLxhmLjP3SXpLhVf21I9Lw==}
 
-  '@types/node@22.18.10':
-    resolution: {integrity: sha512-anNG/V/Efn/YZY4pRzbACnKxNKoBng2VTFydVu8RRs5hQjikP8CQfaeAV59VFSCzKNp90mXiVXW2QzV56rwMrg==}
+  '@types/node@22.19.1':
+    resolution: {integrity: sha512-LCCV0HdSZZZb34qifBsyWlUmok6W7ouER+oQIGBScS8EsZsQbrtFTUrDX4hOl+CS6p7cnNC4td+qrSVGSCTUfQ==}
 
   '@types/react-dom@19.2.2':
     resolution: {integrity: sha512-9KQPoO6mZCi7jcIStSnlOWn2nEF3mNmyr3rIAsGnAbQKYbRLyqmeSc39EVgtxXVia+LMT8j3knZLAZAh+xLmrw==}
@@ -2662,8 +2659,6 @@ snapshots:
 
   '@poppinss/exception@1.2.2': {}
 
-  '@posthog/core@1.3.0': {}
-
   '@posthog/core@1.5.2':
     dependencies:
       cross-spawn: 7.0.6
@@ -3437,7 +3432,7 @@ snapshots:
 
   '@types/d3-timer@3.0.2': {}
 
-  '@types/node@22.18.10':
+  '@types/node@22.19.1':
     dependencies:
       undici-types: 6.21.0
 
