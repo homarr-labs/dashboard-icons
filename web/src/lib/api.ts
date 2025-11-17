@@ -1,15 +1,17 @@
 import { unstable_cache } from "next/cache"
+import { cache } from "react"
 import { METADATA_URL } from "@/constants"
 import { ApiError } from "@/lib/errors"
 import type { AuthorData, IconFile, IconWithName } from "@/types/icons"
 
 /**
- * Fetches all icon data from the metadata.json file
- * Uses fetch with revalidate for caching
+ * Raw fetch function for icon data (without caching)
  */
-export async function getAllIcons(): Promise<IconFile> {
+async function fetchAllIconsRaw(): Promise<IconFile> {
 	try {
-		const response = await fetch(METADATA_URL)
+		const response = await fetch(METADATA_URL, {
+			next: { revalidate: 3600 },
+		})
 
 		if (!response.ok) {
 			throw new ApiError(`Failed to fetch icons: ${response.statusText}`, response.status)
@@ -24,6 +26,24 @@ export async function getAllIcons(): Promise<IconFile> {
 		throw new ApiError("Failed to fetch icons data. Please try again later.")
 	}
 }
+
+/**
+ * Cached version using unstable_cache for build-time caching
+ * Revalidates every hour (3600 seconds)
+ */
+const getAllIconsCached = unstable_cache(async () => fetchAllIconsRaw(), ["all-icons"], {
+	revalidate: 3600,
+	tags: ["icons"],
+})
+
+/**
+ * Fetches all icon data from the metadata.json file
+ * Uses React cache() for request-level memoization and unstable_cache for build-level caching
+ * This prevents duplicate fetches within the same request and across builds
+ */
+export const getAllIcons = cache(async (): Promise<IconFile> => {
+	return getAllIconsCached()
+})
 
 /**
  * Gets a list of all icon names.
@@ -122,7 +142,7 @@ async function fetchAuthorData(authorId: number) {
 	}
 }
 
-const authorDataCache: Record<number, AuthorData> = {};
+const authorDataCache: Record<number, AuthorData> = {}
 
 /**
  * Cached version of fetchAuthorData
@@ -135,12 +155,12 @@ const authorDataCache: Record<number, AuthorData> = {};
  */
 export async function getAuthorData(authorId: number): Promise<AuthorData> {
 	if (authorDataCache[authorId]) {
-		return authorDataCache[authorId];
+		return authorDataCache[authorId]
 	}
 
-	const data = await fetchAuthorData(authorId);
-	authorDataCache[authorId] = data;
-	return data;
+	const data = await fetchAuthorData(authorId)
+	authorDataCache[authorId] = data
+	return data
 }
 
 /**

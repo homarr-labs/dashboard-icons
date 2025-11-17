@@ -135,9 +135,7 @@ export default async function Image({ params }: { params: Promise<{ icon: string
 		}
 	}
 
-	const iconUrl = iconDataBuffer
-		? `data:image/png;base64,${iconDataBuffer.toString("base64")}`
-		: `https://placehold.co/600x400?text=${formattedIconName}`
+	const iconUrl = iconDataBuffer ? `data:image/png;base64,${iconDataBuffer.toString("base64")}` : null
 
 	return new ImageResponse(
 		<div
@@ -242,18 +240,39 @@ export default async function Image({ params }: { params: Promise<{ icon: string
 							zIndex: 0,
 						}}
 					/>
-					<img
-						src={iconUrl}
-						alt={formattedIconName}
-						width={260}
-						height={260}
-						style={{
-							objectFit: "contain",
-							position: "relative",
-							zIndex: 1,
-							filter: "drop-shadow(0 10px 15px rgba(0, 0, 0, 0.1))",
-						}}
-					/>
+					{iconUrl ? (
+						<img
+							src={iconUrl}
+							alt={formattedIconName}
+							width={260}
+							height={260}
+							style={{
+								objectFit: "contain",
+								position: "relative",
+								zIndex: 1,
+								filter: "drop-shadow(0 10px 15px rgba(0, 0, 0, 0.1))",
+							}}
+						/>
+					) : (
+						<div
+							style={{
+								display: "flex",
+								alignItems: "center",
+								justifyContent: "center",
+								width: 260,
+								height: 260,
+								position: "relative",
+								zIndex: 1,
+								fontSize: 48,
+								fontWeight: 700,
+								color: "#94a3b8",
+								textAlign: "center",
+								wordBreak: "break-word",
+							}}
+						>
+							{formattedIconName}
+						</div>
+					)}
 				</div>
 
 				<div

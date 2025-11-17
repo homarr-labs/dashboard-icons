@@ -1,14 +1,12 @@
-import { readFile } from "node:fs/promises"
-import { join } from "node:path"
 import { ImageResponse } from "next/og"
 import { getAllIcons } from "@/lib/api"
+import { preloadAllIcons, readIconFile } from "@/lib/icon-cache"
 
 export const revalidate = false
 
 export async function generateStaticParams() {
 	const iconsData = await getAllIcons()
 	if (process.env.CI_MODE === "false") {
-		// This is meant to speed up the build process in local development
 		return Object.keys(iconsData)
 			.slice(0, 5)
 			.map((icon) => ({
@@ -49,27 +47,18 @@ export default async function Image({ params }: { params: Promise<{ icon: string
 		)
 	}
 
+	await preloadAllIcons()
+
 	const iconsData = await getAllIcons()
 	const totalIcons = Object.keys(iconsData).length
 	const index = Object.keys(iconsData).indexOf(icon)
 
-	// Format the icon name for display
 	const formattedIconName = icon
 		.split("-")
 		.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
 		.join(" ")
 
-	// Read the icon file from local filesystem
-	let iconData: Buffer | null = null
-	try {
-		const iconPath = join(process.cwd(), `../png/${icon}.png`)
-		console.log(`Generating opengraph image for ${icon} (${index + 1} / ${totalIcons}) from path ${iconPath}`)
-		iconData = await readFile(iconPath)
-	} catch (_error) {
-		console.error(`Icon ${icon} was not found locally`)
-	}
-
-	// Convert the image data to a data URL or use placeholder
+	const iconData = await readIconFile(icon)
 	const iconUrl = iconData ? `data:image/png;base64,${iconData.toString("base64")}` : null
 
 	return new ImageResponse(
@@ -154,18 +143,39 @@ export default async function Image({ params }: { params: Promise<{ icon: string
 							zIndex: 0,
 						}}
 					/>
-					<img
-						src={iconUrl || `https://placehold.co/600x400?text=${formattedIconName}`}
-						alt={formattedIconName}
-						width={260}
-						height={260}
-						style={{
-							objectFit: "contain",
-							position: "relative",
-							zIndex: 1,
-							filter: "drop-shadow(0 10px 15px rgba(0, 0, 0, 0.1))",
-						}}
-					/>
+					{iconUrl ? (
+						<img
+							src={iconUrl}
+							alt={formattedIconName}
+							width={260}
+							height={260}
+							style={{
+								objectFit: "contain",
+								position: "relative",
+								zIndex: 1,
+								filter: "drop-shadow(0 10px 15px rgba(0, 0, 0, 0.1))",
+							}}
+						/>
+					) : (
+						<div
+							style={{
+								display: "flex",
+								alignItems: "center",
+								justifyContent: "center",
+								width: 260,
+								height: 260,
+								position: "relative",
+								zIndex: 1,
+								fontSize: 48,
+								fontWeight: 700,
+								color: "#94a3b8",
+								textAlign: "center",
+								wordBreak: "break-word",
+							}}
+						>
+							{formattedIconName}
+						</div>
+					)}
 				</div>
 
 				{/* Text content */}

@@ -13,7 +13,8 @@
 		"ci": "biome check --write",
 		"backend:start": "cd backend && ./pocketbase serve",
 		"backend:download": "cd backend && curl -L -o pocketbase.zip https://github.com/pocketbase/pocketbase/releases/download/v0.30.0/pocketbase_0.30.0_darwin_arm64.zip && unzip pocketbase.zip && rm pocketbase.zip && rm CHANGELOG.md && rm LICENSE.md",
-		"seed": "bun run seed-db.ts"
+		"seed": "bun run seed-db.ts",
+		"benchmark:og": "bun run scripts/benchmark-og-images.tsx"
 	},
 	"dependencies": {
 		"@hookform/resolvers": "^5.2.1",
