@@ -122,6 +122,8 @@ async function fetchAuthorData(authorId: number) {
 	}
 }
 
+const authorDataCache: Record<number, AuthorData> = {};
+
 /**
  * Cached version of fetchAuthorData
  * Uses unstable_cache with tags for on-demand revalidation
@@ -132,10 +134,13 @@ async function fetchAuthorData(authorId: number) {
  * across multiple page builds and requests.
  */
 export async function getAuthorData(authorId: number): Promise<AuthorData> {
-	return unstable_cache(async () => await fetchAuthorData(authorId), [`author-${authorId}`], {
-		revalidate: 86400,
-		tags: ["authors", `author-${authorId}`],
-	})()
+	if (authorDataCache[authorId]) {
+		return authorDataCache[authorId];
+	}
+
+	const data = await fetchAuthorData(authorId);
+	authorDataCache[authorId] = data;
+	return data;
 }
 
 /**
