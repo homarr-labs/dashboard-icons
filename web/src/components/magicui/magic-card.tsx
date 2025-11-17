@@ -1,9 +1,9 @@
 "use client"
 
 import { motion, useMotionTemplate, useMotionValue } from "motion/react"
+import { useTheme } from "next-themes"
 import type React from "react"
-import { useCallback, useEffect, useRef } from "react"
-
+import { useCallback, useEffect, useRef, useState } from "react"
 import { cn } from "@/lib/utils"
 
 interface MagicCardProps {
@@ -76,6 +76,21 @@ export function MagicCard({
 		mouseY.set(-gradientSize)
 	}, [gradientSize, mouseX, mouseY])
 
+	const { theme } = useTheme() // "light" | "dark"
+
+	const [fromColor, setFromColor] = useState(gradientFrom)
+	const [toColor, setToColor] = useState(gradientTo)
+
+	useEffect(() => {
+		if (theme === "dark") {
+			setFromColor("#ffb3c1") // fallback for dark
+			setToColor("#ff75a0")
+		} else {
+			setFromColor("#1e9df1") // fallback for light
+			setToColor("#8ed0f9")
+		}
+	}, [theme])
+
 	return (
 		<div ref={cardRef} className={cn("group relative rounded-[inherit]", className)}>
 			<motion.div
@@ -83,8 +98,8 @@ export function MagicCard({
 				style={{
 					background: useMotionTemplate`
           radial-gradient(${gradientSize}px circle at ${mouseX}px ${mouseY}px,
-          ${gradientFrom}, 
-          ${gradientTo}, 
+          ${fromColor}, 
+          ${toColor}, 
           var(--border) 100%
           )
           `,

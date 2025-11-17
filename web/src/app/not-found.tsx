@@ -1,13 +1,9 @@
+import { AlertTriangle, ArrowLeft } from "lucide-react"
+import Link from "next/link"
 import { IconSubmissionContent } from "@/components/icon-submission-form"
 import { Button } from "@/components/ui/button"
-import { AlertTriangle, ArrowLeft, PlusCircle } from "lucide-react"
-import Link from "next/link"
 
-export default function NotFound({
-	error,
-}: {
-	error: Error & { digest?: string }
-}) {
+export default function NotFound({ error }: { error: Error & { digest?: string } }) {
 	return (
 		<div className="py-16 flex items-center justify-center">
 			<div className="text-center space-y-8 max-w-2xl mx-auto">
@@ -26,17 +22,6 @@ export default function NotFound({
 							Back to icons
 						</Link>
 					</Button>
-				</div>
-
-				<div className="border-t border-border pt-8 mt-8">
-					<div className="text-center mb-6">
-						<h2 className="text-xl font-semibold">Missing an icon?</h2>
-						<p className="text-muted-foreground mt-2">Submit a new icon or suggest improvements to our collection.</p>
-					</div>
-
-					<div className="mt-6">
-						<IconSubmissionContent />
-					</div>
 				</div>
 			</div>
 		</div>

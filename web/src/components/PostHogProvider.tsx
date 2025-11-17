@@ -4,6 +4,7 @@ import { usePathname, useSearchParams } from "next/navigation"
 import posthog from "posthog-js"
 import { PostHogProvider as PHProvider, usePostHog } from "posthog-js/react"
 import { Suspense, useEffect } from "react"
+import { usePostHogAuth } from "@/hooks/use-posthog-auth"
 
 export function PostHogProvider({ children }: { children: React.ReactNode }) {
 	useEffect(() => {
@@ -14,6 +15,7 @@ export function PostHogProvider({ children }: { children: React.ReactNode }) {
 			api_host: process.env.NEXT_PUBLIC_POSTHOG_HOST || "https://eu.i.posthog.com",
 			capture_pageview: false, // We capture pageviews manually
 			capture_pageleave: true, // Enable pageleave capture
+			person_profiles: "identified_only",
 			loaded(posthogInstance) {
 				// @ts-expect-error
 				window.posthog = posthogInstance
@@ -23,10 +25,16 @@ export function PostHogProvider({ children }: { children: React.ReactNode }) {
 
 	return (
 		<PHProvider client={posthog}>
+			<PostHogAuthHandler />
 			<SuspendedPostHogPageView />
 			{children}
 		</PHProvider>
 	)
+}
+
+function PostHogAuthHandler() {
+	usePostHogAuth()
+	return null
 }
 
 function PostHogPageView() {

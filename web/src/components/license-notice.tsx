@@ -1,11 +1,11 @@
 "use client"
 
-import { Button } from "@/components/ui/button"
-import { REPO_PATH } from "@/constants"
 import { AnimatePresence, motion } from "framer-motion"
 import { X } from "lucide-react"
 import Link from "next/link"
 import { useEffect, useState } from "react"
+import { Button } from "@/components/ui/button"
+import { REPO_PATH } from "@/constants"
 
 const LOCAL_STORAGE_KEY = "licenseNoticeDismissed"
 

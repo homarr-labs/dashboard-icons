@@ -1,21 +1,11 @@
+import { unstable_cache } from "next/cache"
 import { METADATA_URL } from "@/constants"
-import type { IconFile, IconWithName } from "@/types/icons"
-
-/**
- * Custom error class for API errors
- */
-export class ApiError extends Error {
-	status: number
-
-	constructor(message: string, status = 500) {
-		super(message)
-		this.name = "ApiError"
-		this.status = status
-	}
-}
+import { ApiError } from "@/lib/errors"
+import type { AuthorData, IconFile, IconWithName } from "@/types/icons"
 
 /**
  * Fetches all icon data from the metadata.json file
+ * Uses fetch with revalidate for caching
  */
 export async function getAllIcons(): Promise<IconFile> {
 	try {
@@ -93,16 +83,14 @@ export async function getIconData(iconName: string): Promise<IconWithName | null
 }
 
 /**
- * Fetches author data from GitHub API
+ * Fetch author data from GitHub API (raw function without caching)
  */
-export async function getAuthorData(authorId: number) {
+async function fetchAuthorData(authorId: number) {
 	try {
 		const response = await fetch(`https://api.github.com/user/${authorId}`, {
 			headers: {
 				Authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
-				"Cache-Control": "public, max-age=86400",
 			},
-			next: { revalidate: 86400 }, // Revalidate cache once a day
 		})
 
 		if (!response.ok) {
@@ -132,6 +120,22 @@ export async function getAuthorData(authorId: number) {
 			bio: null,
 		}
 	}
+}
+
+/**
+ * Cached version of fetchAuthorData
+ * Uses unstable_cache with tags for on-demand revalidation
+ * Revalidates every 86400 seconds (24 hours)
+ * Cache key: author-{authorId}
+ *
+ * This prevents hitting GitHub API rate limits by caching author data
+ * across multiple page builds and requests.
+ */
+export async function getAuthorData(authorId: number): Promise<AuthorData> {
+	return unstable_cache(async () => await fetchAuthorData(authorId), [`author-${authorId}`], {
+		revalidate: 86400,
+		tags: ["authors", `author-${authorId}`],
+	})()
 }
 
 /**

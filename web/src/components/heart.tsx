@@ -1,8 +1,7 @@
 "use client"
 
-import { Heart } from "lucide-react"
-
 import { motion } from "framer-motion"
+import { Heart } from "lucide-react"
 import { useState } from "react"
 
 export function HeartEasterEgg() {

@@ -1,13 +1,14 @@
-import { PostHogProvider } from "@/components/PostHogProvider"
-import { Footer } from "@/components/footer"
-import { HeaderWrapper } from "@/components/header-wrapper"
-import { LicenseNotice } from "@/components/license-notice"
-import { BASE_URL, WEB_URL, getDescription, websiteTitle } from "@/constants"
-import { getTotalIcons } from "@/lib/api"
 import type { Metadata, Viewport } from "next"
 import { Inter } from "next/font/google"
 import { Toaster } from "sonner"
+import { Footer } from "@/components/footer"
+import { HeaderWrapper } from "@/components/header-wrapper"
+import { LicenseNotice } from "@/components/license-notice"
+import { PostHogProvider } from "@/components/PostHogProvider"
+import { BASE_URL, getDescription, WEB_URL, websiteTitle } from "@/constants"
+import { getTotalIcons } from "@/lib/api"
 import "./globals.css"
+import { Providers } from "@/components/providers"
 import { ThemeProvider } from "./theme-provider"
 
 const inter = Inter({
@@ -85,15 +86,17 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
 	return (
 		<html lang="en" suppressHydrationWarning>
 			<body className={`${inter.variable} antialiased bg-background flex flex-col min-h-screen`}>
-				<PostHogProvider>
-					<ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-						<HeaderWrapper />
-						<main className="flex-grow">{children}</main>
-						<Footer />
-						<Toaster />
-						<LicenseNotice />
-					</ThemeProvider>
-				</PostHogProvider>
+				<Providers>
+					<PostHogProvider>
+						<ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+							<HeaderWrapper />
+							<main className="flex-grow">{children}</main>
+							<Footer />
+							<Toaster />
+							<LicenseNotice />
+						</ThemeProvider>
+					</PostHogProvider>
+				</Providers>
 			</body>
 		</html>
 	)

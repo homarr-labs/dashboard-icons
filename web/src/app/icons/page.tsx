@@ -1,7 +1,7 @@
+import type { Metadata } from "next"
 import { IconSearch } from "@/components/icon-search"
 import { BASE_URL } from "@/constants"
 import { getIconsArray } from "@/lib/api"
-import type { Metadata } from "next"
 
 export async function generateMetadata(): Promise<Metadata> {
 	const icons = await getIconsArray()

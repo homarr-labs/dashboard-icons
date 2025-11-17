@@ -1,13 +1,13 @@
 "use client"
 
-import { Badge } from "@/components/ui/badge"
-import { CommandDialog, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command"
-import { useMediaQuery } from "@/hooks/use-media-query"
-import { filterAndSortIcons, formatIconName, fuzzySearch } from "@/lib/utils"
-import type { IconWithName } from "@/types/icons"
 import { Info, Search as SearchIcon, Tag } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { useCallback, useEffect, useMemo, useState } from "react"
+import { Badge } from "@/components/ui/badge"
+import { CommandDialog, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command"
+import { useMediaQuery } from "@/hooks/use-media-query"
+import { filterAndSortIcons, formatIconName } from "@/lib/utils"
+import type { IconWithName } from "@/types/icons"
 
 interface CommandMenuProps {
 	icons: IconWithName[]
@@ -20,7 +20,7 @@ export function CommandMenu({ icons, open: externalOpen, onOpenChange: externalO
 	const router = useRouter()
 	const [internalOpen, setInternalOpen] = useState(false)
 	const [query, setQuery] = useState("")
-	const isDesktop = useMediaQuery("(min-width: 768px)")
+	const _isDesktop = useMediaQuery("(min-width: 768px)")
 
 	// Use either external or internal state for controlling open state
 	const isOpen = externalOpen !== undefined ? externalOpen : internalOpen
@@ -68,11 +68,7 @@ export function CommandMenu({ icons, open: externalOpen, onOpenChange: externalO
 
 	return (
 		<CommandDialog open={isOpen} onOpenChange={setIsOpen} contentClassName="bg-background/90 backdrop-blur-sm border border-border/60">
-			<CommandInput
-				placeholder={`Search our collection of ${totalIcons} icons by name or category...`}
-				value={query}
-				onValueChange={setQuery}
-			/>
+			<CommandInput placeholder={`Search our collection of ${totalIcons} icons by name...`} value={query} onValueChange={setQuery} />
 			<CommandList className="max-h-[300px]">
 				{/* Icon Results */}
 				<CommandGroup heading="Icons">

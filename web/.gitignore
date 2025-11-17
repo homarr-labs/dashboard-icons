@@ -43,3 +43,10 @@ next-env.d.ts
 # Cursor
 .cursor
 .env.local
+# Turborepo
+.turbo
+
+# Pocketbase
+backend/pocketbase
+backend/pb_data
+backend/pb_migrations

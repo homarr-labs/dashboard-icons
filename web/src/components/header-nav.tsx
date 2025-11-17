@@ -1,12 +1,18 @@
 "use client"
 
-import { cn } from "@/lib/utils"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
+import { cn } from "@/lib/utils"
 
-export function HeaderNav() {
+interface HeaderNavProps {
+	isLoggedIn?: boolean
+}
+
+export function HeaderNav({ isLoggedIn }: HeaderNavProps) {
 	const pathname = usePathname()
 	const isIconsActive = pathname === "/icons" || pathname.startsWith("/icons/")
+	const isCommunityActive = pathname === "/community" || pathname.startsWith("/community/")
+	const isDashboardActive = pathname === "/dashboard" || pathname.startsWith("/dashboard/")
 
 	return (
 		<nav className="flex flex-row md:items-center items-start gap-4 md:gap-6">
@@ -29,6 +35,27 @@ export function HeaderNav() {
 			>
 				Icons
 			</Link>
+			<Link
+				prefetch
+				href="/community"
+				className={cn(
+					"text-sm font-medium transition-colors  dark:hover:text-rose-400 cursor-pointer",
+					isCommunityActive && "text-primary font-semibold",
+				)}
+			>
+				Community
+			</Link>
+			{isLoggedIn && (
+				<Link
+					href="/dashboard"
+					className={cn(
+						"text-sm font-medium transition-colors  dark:hover:text-rose-400 cursor-pointer",
+						isDashboardActive && "text-primary font-semibold",
+					)}
+				>
+					Dashboard
+				</Link>
+			)}
 		</nav>
 	)
 }

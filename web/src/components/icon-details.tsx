@@ -1,13 +1,5 @@
 "use client"
 
-import { IconsGrid } from "@/components/icon-grid"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
-import { BASE_URL, REPO_PATH } from "@/constants"
-import { formatIconName } from "@/lib/utils"
-import type { AuthorData, Icon, IconFile } from "@/types/icons"
 import confetti from "canvas-confetti"
 import { motion } from "framer-motion"
 import { ArrowRight, Check, FileType, Github, Moon, PaletteIcon, Sun, Type } from "lucide-react"
@@ -16,16 +8,20 @@ import Link from "next/link"
 import type React from "react"
 import { useCallback, useState } from "react"
 import { toast } from "sonner"
+import { IconsGrid } from "@/components/icon-grid"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
+import { BASE_URL, REPO_PATH } from "@/constants"
+import { formatIconName } from "@/lib/utils"
+import type { AuthorData, Icon, IconFile } from "@/types/icons"
 import { Carbon } from "./carbon"
 import { IconActions } from "./icon-actions"
 import { MagicCard } from "./magicui/magic-card"
 import { Badge } from "./ui/badge"
 
-type RenderVariantFn = (
-	format: string,
-	iconName: string,
-	theme?: "light" | "dark"
-) => React.ReactNode
+type RenderVariantFn = (format: string, iconName: string, theme?: "light" | "dark") => React.ReactNode
 
 type IconVariantsSectionProps = {
 	title: string
@@ -76,11 +72,7 @@ type WordmarkSectionProps = {
 	renderVariant: RenderVariantFn
 }
 
-function WordmarkSection({
-	iconData,
-	aavailableFormats,
-	renderVariant,
-}: WordmarkSectionProps) {
+function WordmarkSection({ iconData, aavailableFormats, renderVariant }: WordmarkSectionProps) {
 	if (!iconData.wordmark) return null
 
 	return (
@@ -89,9 +81,7 @@ function WordmarkSection({
 				<Type className="w-4 h-4 text-green-500" />
 				Wordmark Variants
 			</h3>
-			<p className="text-sm text-muted-foreground mb-4">
-				Icon variants that include the brand name. Click to copy URL.
-			</p>
+			<p className="text-sm text-muted-foreground mb-4">Icon variants that include the brand name. Click to copy URL.</p>
 			<div className="space-y-6">
 				{iconData.wordmark.light && (
 					<div>
@@ -131,19 +121,39 @@ export type IconDetailsProps = {
 	iconData: Icon
 	authorData: AuthorData
 	allIcons: IconFile
+	status?: string
+	statusDisplayName?: string
+	statusColor?: string
 }
 
-export function IconDetails({ icon, iconData, authorData, allIcons }: IconDetailsProps) {
+export function IconDetails({ icon, iconData, authorData, allIcons, status, statusDisplayName, statusColor }: IconDetailsProps) {
 	const authorName = authorData.name || authorData.login || ""
-	const iconColorVariants = iconData.colors
-	const iconWordmarkVariants = iconData.wordmark
+	const _iconColorVariants = iconData.colors
+	const _iconWordmarkVariants = iconData.wordmark
 	const formattedDate = new Date(iconData.update.timestamp).toLocaleDateString("en-GB", {
 		day: "numeric",
 		month: "long",
 		year: "numeric",
 	})
-	
+
+	const isCommunityIcon = !!(iconData as any).mainIconUrl || (typeof iconData.base === "string" && iconData.base.startsWith("http"))
+	const mainIconUrl = (iconData as any).mainIconUrl || (isCommunityIcon ? iconData.base : null)
+	const assetUrls = (iconData as any).assetUrls || []
+
 	const getAvailableFormats = () => {
+		if (isCommunityIcon) {
+			if (assetUrls.length > 0) {
+				return assetUrls.map((url: string) => {
+					const ext = url.split(".").pop()?.toLowerCase() || "svg"
+					return ext === "svg" ? "svg" : ext === "png" ? "png" : "webp"
+				})
+			}
+			if (mainIconUrl) {
+				const ext = mainIconUrl.split(".").pop()?.toLowerCase() || "svg"
+				return [ext === "svg" ? "svg" : ext === "png" ? "png" : "webp"]
+			}
+			return ["svg"]
+		}
 		switch (iconData.base) {
 			case "svg":
 				return ["svg", "png", "webp"]
@@ -155,7 +165,7 @@ export function IconDetails({ icon, iconData, authorData, allIcons }: IconDetail
 	}
 
 	const availableFormats = getAvailableFormats()
-	const [copiedVariants, setCopiedVariants] = useState<Record<string, boolean>>({})
+	const [copiedVariants, _setCopiedVariants] = useState<Record<string, boolean>>({})
 	const [copiedUrlKey, setCopiedUrlKey] = useState<string | null>(null)
 	const [copiedImageKey, setCopiedImageKey] = useState<string | null>(null)
 
@@ -207,16 +217,11 @@ export function IconDetails({ icon, iconData, authorData, allIcons }: IconDetail
 		})
 	}
 
-	const handleCopyImage = async (
-		imageUrl: string,
-		format: string,
-		variantKey: string,
-		event?: React.MouseEvent
-	) => {
+	const handleCopyImage = async (imageUrl: string, format: string, variantKey: string, event?: React.MouseEvent) => {
 		try {
 			toast.loading("Copying image...")
 
-			if (format === 'svg') {
+			if (format === "svg") {
 				const response = await fetch(imageUrl)
 				if (!response.ok) {
 					throw new Error(`Failed to fetch SVG: ${response.statusText}`)
@@ -240,8 +245,7 @@ export function IconDetails({ icon, iconData, authorData, allIcons }: IconDetail
 				toast.success("SVG Markup Copied", {
 					description: "The SVG code has been copied to your clipboard.",
 				})
-
-			} else if (format === 'png' || format === 'webp') {
+			} else if (format === "png" || format === "webp") {
 				const mimeType = `image/${format}`
 				const response = await fetch(imageUrl)
 				if (!response.ok) {
@@ -250,10 +254,10 @@ export function IconDetails({ icon, iconData, authorData, allIcons }: IconDetail
 				const blob = await response.blob()
 
 				if (!blob) {
-					throw new Error('Failed to generate image blob')
+					throw new Error("Failed to generate image blob")
 				}
 
-				await navigator.clipboard.write([new ClipboardItem({ [mimeType]: blob })]);
+				await navigator.clipboard.write([new ClipboardItem({ [mimeType]: blob })])
 
 				setCopiedImageKey(variantKey)
 				setTimeout(() => {
@@ -270,11 +274,9 @@ export function IconDetails({ icon, iconData, authorData, allIcons }: IconDetail
 				toast.success("Image copied", {
 					description: `The ${format.toUpperCase()} image has been copied to your clipboard.`,
 				})
-
 			} else {
 				throw new Error(`Unsupported format for image copy: ${format}`)
 			}
-
 		} catch (error) {
 			console.error("Copy error:", error)
 			toast.dismiss()
@@ -317,8 +319,19 @@ export function IconDetails({ icon, iconData, authorData, allIcons }: IconDetail
 	}
 
 	const renderVariant = (format: string, iconName: string, theme?: "light" | "dark") => {
-		const imageUrl = `${BASE_URL}/${format}/${iconName}.${format}`
-		const githubUrl = `${REPO_PATH}/tree/main/${format}/${iconName}.${format}`
+		let imageUrl: string
+		let githubUrl: string
+
+		if (isCommunityIcon && mainIconUrl) {
+			const formatExt = format === "svg" ? "svg" : format === "png" ? "png" : "webp"
+			const matchingUrl = assetUrls.find((url: string) => url.toLowerCase().endsWith(`.${formatExt}`))
+			imageUrl = matchingUrl || mainIconUrl
+			githubUrl = ""
+		} else {
+			imageUrl = `${BASE_URL}/${format}/${iconName}.${format}`
+			githubUrl = `${REPO_PATH}/tree/main/${format}/${iconName}.${format}`
+		}
+
 		const variantKey = `${format}-${theme || "default"}`
 		const isCopied = copiedVariants[variantKey] || false
 
@@ -405,7 +418,11 @@ export function IconDetails({ icon, iconData, authorData, allIcons }: IconDetail
 							<div className="flex flex-col items-center">
 								<div className="relative w-32 h-32 rounded-xl overflow-hidden border flex items-center justify-center p-3">
 									<Image
-										src={`${BASE_URL}/${iconData.base}/${iconData.colors?.light || icon}.${iconData.base}`}
+										src={
+											isCommunityIcon && mainIconUrl
+												? mainIconUrl
+												: `${BASE_URL}/${iconData.base}/${iconData.colors?.light || icon}.${iconData.base}`
+										}
 										priority
 										width={96}
 										height={96}
@@ -445,9 +462,7 @@ export function IconDetails({ icon, iconData, authorData, allIcons }: IconDetail
 														{authorName}
 													</Link>
 												)}
-												{!authorData.html_url && (
-													<span className="text-sm">{authorName}</span>
-												)}
+												{!authorData.html_url && <span className="text-sm">{authorName}</span>}
 											</div>
 										</div>
 									</div>
@@ -498,7 +513,7 @@ export function IconDetails({ icon, iconData, authorData, allIcons }: IconDetail
 										<p>
 											Available in{" "}
 											{availableFormats.length > 1
-												? `${availableFormats.length} formats (${availableFormats.map((f) => f.toUpperCase()).join(", ")}) `
+												? `${availableFormats.length} formats (${availableFormats.map((f: string) => f.toUpperCase()).join(", ")}) `
 												: `${availableFormats[0].toUpperCase()} format `}
 											with a base format of {iconData.base.toUpperCase()}.
 											{iconData.colors && " Includes both light and dark theme variants for better integration with different UI designs."}
@@ -595,6 +610,14 @@ export function IconDetails({ icon, iconData, authorData, allIcons }: IconDetail
 						</CardHeader>
 						<CardContent>
 							<div className="space-y-6">
+								{status && statusDisplayName && statusColor && (
+									<div className="">
+										<h3 className="text-sm font-semibold text-muted-foreground mb-2">Status</h3>
+										<Badge variant="outline" className={statusColor}>
+											{statusDisplayName}
+										</Badge>
+									</div>
+								)}
 								<div className="">
 									<h3 className="text-sm font-semibold text-muted-foreground mb-2">Base format</h3>
 									<div className="flex items-center gap-2">
@@ -606,7 +629,7 @@ export function IconDetails({ icon, iconData, authorData, allIcons }: IconDetail
 								<div className="">
 									<h3 className="text-sm font-semibold text-muted-foreground mb-2">Available formats</h3>
 									<div className="flex flex-wrap gap-2">
-										{availableFormats.map((format) => (
+										{availableFormats.map((format: string) => (
 											<div key={format} className="px-3 py-1.5  border border-border rounded-lg text-xs font-medium">
 												{format.toUpperCase()}
 											</div>
@@ -651,15 +674,17 @@ export function IconDetails({ icon, iconData, authorData, allIcons }: IconDetail
 									</div>
 								)}
 
-								<div className="">
-									<h3 className="text-sm font-semibold text-muted-foreground mb-2">Source</h3>
-									<Button variant="outline" className="w-full" asChild>
-										<Link href={`${REPO_PATH}/blob/main/meta/${icon}.json`} target="_blank" rel="noopener noreferrer">
-											<Github className="w-4 h-4 mr-2" />
-											View on GitHub
-										</Link>
-									</Button>
-								</div>
+								{!isCommunityIcon && (
+									<div className="">
+										<h3 className="text-sm font-semibold text-muted-foreground mb-2">Source</h3>
+										<Button variant="outline" className="w-full" asChild>
+											<Link href={`${REPO_PATH}/blob/main/meta/${icon}.json`} target="_blank" rel="noopener noreferrer">
+												<Github className="w-4 h-4 mr-2" />
+												View on GitHub
+											</Link>
+										</Button>
+									</div>
+								)}
 							</div>
 						</CardContent>
 						<Carbon />
@@ -696,6 +721,7 @@ export function IconDetails({ icon, iconData, authorData, allIcons }: IconDetail
 							<Card className="bg-background/50 border shadow-lg">
 								<CardHeader>
 									<CardTitle>
+										{/** biome-ignore lint/correctness/useUniqueElementIds: I want the ID to be fixed */}
 										<h2 id="related-icons-title">Related Icons</h2>
 									</CardTitle>
 									<CardDescription>

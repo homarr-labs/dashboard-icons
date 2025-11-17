@@ -2,11 +2,10 @@
 
 import { Moon, Sun } from "lucide-react"
 import { useTheme } from "next-themes"
-
+import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
-import { useState } from "react"
 
 export function ThemeSwitcher() {
 	const { setTheme } = useTheme()

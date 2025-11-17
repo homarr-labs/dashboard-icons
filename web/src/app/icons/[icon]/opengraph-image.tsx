@@ -1,9 +1,10 @@
 import { readFile } from "node:fs/promises"
 import { join } from "node:path"
-import { getAllIcons } from "@/lib/api"
 import { ImageResponse } from "next/og"
+import { getAllIcons } from "@/lib/api"
 
 export const dynamic = "force-static"
+export const revalidate = false
 
 export async function generateStaticParams() {
 	const iconsData = await getAllIcons()
@@ -24,8 +25,31 @@ export const size = {
 	width: 1200,
 	height: 630,
 }
-export default async function Image({ params }: { params: { icon: string } }) {
-	const { icon } = params
+export default async function Image({ params }: { params: Promise<{ icon: string }> }) {
+	const { icon } = await params
+
+	if (!icon) {
+		console.error(`[Opengraph Image] Icon not found for ${icon}`)
+		return new ImageResponse(
+			<div
+				style={{
+					display: "flex",
+					width: "100%",
+					height: "100%",
+					alignItems: "center",
+					justifyContent: "center",
+					backgroundColor: "white",
+					fontSize: 48,
+					fontWeight: 600,
+					color: "#64748b",
+				}}
+			>
+				Icon not found
+			</div>,
+			{ ...size },
+		)
+	}
+
 	const iconsData = await getAllIcons()
 	const totalIcons = Object.keys(iconsData).length
 	const index = Object.keys(iconsData).indexOf(icon)
@@ -42,14 +66,12 @@ export default async function Image({ params }: { params: { icon: string } }) {
 		const iconPath = join(process.cwd(), `../png/${icon}.png`)
 		console.log(`Generating opengraph image for ${icon} (${index + 1} / ${totalIcons}) from path ${iconPath}`)
 		iconData = await readFile(iconPath)
-	} catch (error) {
+	} catch (_error) {
 		console.error(`Icon ${icon} was not found locally`)
 	}
 
 	// Convert the image data to a data URL or use placeholder
-	const iconUrl = iconData
-		? `data:image/png;base64,${iconData.toString("base64")}`
-		: `https://placehold.co/600x400?text=${formattedIconName}`
+	const iconUrl = iconData ? `data:image/png;base64,${iconData.toString("base64")}` : null
 
 	return new ImageResponse(
 		<div
@@ -134,7 +156,7 @@ export default async function Image({ params }: { params: { icon: string } }) {
 						}}
 					/>
 					<img
-						src={iconUrl}
+						src={iconUrl || `https://placehold.co/600x400?text=${formattedIconName}`}
 						alt={formattedIconName}
 						width={260}
 						height={260}

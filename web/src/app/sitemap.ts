@@ -1,6 +1,6 @@
+import type { MetadataRoute } from "next"
 import { BASE_URL, WEB_URL } from "@/constants"
 import { getAllIcons } from "@/lib/api"
-import type { MetadataRoute } from "next"
 
 export const dynamic = "force-static"
 

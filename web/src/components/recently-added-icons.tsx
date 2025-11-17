@@ -1,13 +1,13 @@
 "use client"
 
-import { Marquee } from "@/components/magicui/marquee"
-import { BASE_URL } from "@/constants"
-import { cn, formatIconName } from "@/lib/utils"
-import type { Icon, IconWithName } from "@/types/icons"
 import { format, isToday, isYesterday } from "date-fns"
 import { ArrowRight, Clock, ExternalLink } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
+import { Marquee } from "@/components/magicui/marquee"
+import { BASE_URL } from "@/constants"
+import { cn, formatIconName } from "@/lib/utils"
+import type { Icon, IconWithName } from "@/types/icons"
 
 function formatIconDate(timestamp: string): string {
 	const date = new Date(timestamp)
@@ -32,7 +32,7 @@ export function RecentlyAddedIcons({ icons }: { icons: IconWithName[] }) {
 
 			<div className="mx-auto px-6 lg:px-8">
 				<div className="mx-auto max-w-2xl text-center my-4">
-					<h2 className="text-3xl font-bold tracking-tight sm:text-4xl bg-clip-text text-transparent bg-gradient-to-r from-rose-600 to-rose-500  motion-safe:motion-preset-fade-lg motion-duration-500">
+					<h2 className="text-3xl font-bold tracking-tight sm:text-4xl bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary  motion-safe:motion-preset-fade-lg motion-duration-500">
 						Recently Added Icons
 					</h2>
 				</div>
@@ -71,13 +71,7 @@ export function RecentlyAddedIcons({ icons }: { icons: IconWithName[] }) {
 }
 
 // Marquee-compatible icon card
-function RecentIconCard({
-	name,
-	data,
-}: {
-	name: string
-	data: Icon
-}) {
+function RecentIconCard({ name, data }: { name: string; data: Icon }) {
 	const formattedIconName = formatIconName(name)
 	return (
 		<Link
@@ -85,12 +79,12 @@ function RecentIconCard({
 			href={`/icons/${name}`}
 			className={cn(
 				"flex flex-col items-center p-3 sm:p-4 rounded-xl border border-border",
-				"transition-all duration-300 hover:shadow-lg hover:shadow-rose-500/5 relative overflow-hidden hover-lift",
+				"transition-all duration-300 hover:shadow-lg hover:shadow-primary/5 relative overflow-hidden hover-lift",
 				"w-36 mx-2 group/item",
 			)}
 			aria-label={`View details for ${formattedIconName} icon`}
 		>
-			<div className="absolute inset-0 bg-gradient-to-br from-rose-500/5 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300" />
+			<div className="absolute inset-0 bg-gradient-to-b from-primary/15 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300" />
 
 			<div className="relative h-12 w-12 sm:h-16 sm:w-16 mb-2">
 				<Image
@@ -100,7 +94,7 @@ function RecentIconCard({
 					className="object-contain p-1 hover:scale-110 transition-transform duration-300"
 				/>
 			</div>
-			<span className="text-xs sm:text-sm text-center truncate w-full capitalize  dark:hover:text-rose-400 transition-colors duration-200 font-medium">
+			<span className="text-xs sm:text-sm text-center truncate w-full capitalize  dark:hover:text-primary transition-colors duration-200 font-medium">
 				{formattedIconName}
 			</span>
 			<div className="flex items-center justify-center mt-2 w-full">
