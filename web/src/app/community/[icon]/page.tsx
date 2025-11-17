@@ -92,6 +92,7 @@ export async function generateMetadata({ params }: Props, _parent: ResolvingMeta
 					width: 512,
 					height: 512,
 					alt: `${formattedIconName} icon`,
+					type: typeof mainIconUrl === "string" && mainIconUrl.endsWith(".png") ? "image/png" : typeof mainIconUrl === "string" && mainIconUrl.endsWith(".svg") ? "image/svg+xml" : "image/png",
 				},
 			],
 		},
@@ -99,6 +100,7 @@ export async function generateMetadata({ params }: Props, _parent: ResolvingMeta
 			card: "summary_large_image",
 			title: `${formattedIconName} Icon (Community) | Dashboard Icons`,
 			description: `Download the ${formattedIconName} community-submitted icon. Part of a collection of ${totalIcons} community icons awaiting review and addition to the Dashboard Icons collection.`,
+			images: [mainIconUrl],
 		},
 		alternates: {
 			canonical: `${WEB_URL}/community/${icon}`,

@@ -2,25 +2,15 @@ import { permanentRedirect, redirect } from "next/navigation"
 import { ImageResponse } from "next/og"
 import { getCommunityGalleryRecord, getCommunitySubmissionByName, getCommunitySubmissions } from "@/lib/community"
 
-export const revalidate = 21600 // 6 hours
-
-export async function generateStaticParams() {
-	const icons = await getCommunitySubmissions()
-	const validIcons = icons.filter((icon) => icon.name)
-	if (process.env.CI_MODE === "false") {
-		return validIcons.slice(0, 5).map((icon) => ({
-			icon: icon.name,
-		}))
-	}
-	return validIcons.map((icon) => ({
-		icon: icon.name,
-	}))
-}
+export const dynamic = "force-dynamic";
 
 export const size = {
 	width: 1200,
 	height: 630,
 }
+
+export const alt = "Community Icon Open Graph Image";
+export const contentType = "image/png";
 
 export default async function Image({ params }: { params: Promise<{ icon: string }> }) {
 	const { icon } = await params
@@ -137,7 +127,7 @@ export default async function Image({ params }: { params: Promise<{ icon: string
 
 	const iconUrl = iconDataBuffer
 		? `data:image/png;base64,${iconDataBuffer.toString("base64")}`
-		: `https://placehold.co/600x400?text=${formattedIconName}`
+		: `https://placehold.co/600x400?text=${formattedIconName}`;
 
 	return new ImageResponse(
 		<div
@@ -171,7 +161,8 @@ export default async function Image({ params }: { params: Promise<{ icon: string
 					fontSize: 20,
 					fontWeight: 700,
 					letterSpacing: "0.5px",
-					boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
+					boxShadow:
+						"0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
 					zIndex: 30,
 					textTransform: "uppercase",
 				}}
@@ -186,7 +177,8 @@ export default async function Image({ params }: { params: Promise<{ icon: string
 					width: 400,
 					height: 400,
 					borderRadius: "50%",
-					background: "linear-gradient(135deg, rgba(56, 189, 248, 0.1) 0%, rgba(59, 130, 246, 0.1) 100%)",
+					background:
+						"linear-gradient(135deg, rgba(56, 189, 248, 0.1) 0%, rgba(59, 130, 246, 0.1) 100%)",
 					filter: "blur(80px)",
 					zIndex: 2,
 				}}
@@ -199,7 +191,8 @@ export default async function Image({ params }: { params: Promise<{ icon: string
 					width: 500,
 					height: 500,
 					borderRadius: "50%",
-					background: "linear-gradient(135deg, rgba(249, 115, 22, 0.1) 0%, rgba(234, 88, 12, 0.1) 100%)",
+					background:
+						"linear-gradient(135deg, rgba(249, 115, 22, 0.1) 0%, rgba(234, 88, 12, 0.1) 100%)",
 					filter: "blur(100px)",
 					zIndex: 2,
 				}}
@@ -227,7 +220,8 @@ export default async function Image({ params }: { params: Promise<{ icon: string
 						height: 320,
 						borderRadius: 32,
 						background: "white",
-						boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0, 0, 0, 0.05)",
+						boxShadow:
+							"0 25px 50px -12px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0, 0, 0, 0.05)",
 						padding: 30,
 						flexShrink: 0,
 						position: "relative",
@@ -362,5 +356,5 @@ export default async function Image({ params }: { params: Promise<{ icon: string
 		{
 			...size,
 		},
-	)
+	);
 }
