@@ -3,7 +3,7 @@ import { join } from "node:path"
 import { ImageResponse } from "next/og"
 import { getAllIcons } from "@/lib/api"
 
-export const dynamic = "force-static"
+export const runtime = 'edge';
 export const revalidate = false
 
 export async function generateStaticParams() {
