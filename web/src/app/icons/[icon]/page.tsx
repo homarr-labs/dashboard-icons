@@ -80,10 +80,25 @@ export async function generateMetadata({ params, searchParams }: Props, _parent:
 			siteName: "Dashboard Icons",
 			images: [
 				{
+					url: `${BASE_URL}/png/${icon}.png`,
+					width: 512,
+					height: 512,
+					alt: `${formattedIconName} icon`,
+					type: "image/png",
+				},
+				{
 					url: `${BASE_URL}/webp/${icon}.webp`,
 					width: 512,
 					height: 512,
 					alt: `${formattedIconName} icon`,
+					type: "image/webp",
+				},
+				{
+					url: `${BASE_URL}/svg/${icon}.svg`,
+					width: 512,
+					height: 512,
+					alt: `${formattedIconName} icon`,
+					type: "image/svg+xml",
 				},
 			],
 		},
@@ -91,6 +106,7 @@ export async function generateMetadata({ params, searchParams }: Props, _parent:
 			card: "summary_large_image",
 			title: `${formattedIconName} Icon | Dashboard Icons`,
 			description: `Download the ${formattedIconName} icon in SVG, PNG, and WEBP formats for FREE. Part of a collection of ${totalIcons} curated icons for services, applications and tools, designed specifically for dashboards and app directories.`,
+			images: [`${BASE_URL}/png/${icon}.png`],
 		},
 		alternates: {
 			canonical: `${WEB_URL}/icons/${icon}`,

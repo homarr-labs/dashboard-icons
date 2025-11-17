@@ -1,17 +1,15 @@
 import { unstable_cache } from "next/cache";
-import { cache } from "react";
 import { METADATA_URL } from "@/constants";
 import { ApiError } from "@/lib/errors";
 import type { AuthorData, IconFile, IconWithName } from "@/types/icons";
 
 /**
- * Raw fetch function for icon data (without caching)
+ * Fetches all icon data from the metadata.json file
+ * Uses fetch with revalidate for caching
  */
-async function fetchAllIconsRaw(): Promise<IconFile> {
+export async function getAllIcons(): Promise<IconFile> {
 	try {
-		const response = await fetch(METADATA_URL, {
-			next: { revalidate: 3600 },
-		});
+		const response = await fetch(METADATA_URL);
 
 		if (!response.ok) {
 			throw new ApiError(
@@ -29,28 +27,6 @@ async function fetchAllIconsRaw(): Promise<IconFile> {
 		throw new ApiError("Failed to fetch icons data. Please try again later.");
 	}
 }
-
-/**
- * Cached version using unstable_cache for build-time caching
- * Revalidates every hour (3600 seconds)
- */
-const getAllIconsCached = unstable_cache(
-	async () => fetchAllIconsRaw(),
-	["all-icons"],
-	{
-		revalidate: 3600,
-		tags: ["icons"],
-	},
-);
-
-/**
- * Fetches all icon data from the metadata.json file
- * Uses React cache() for request-level memoization and unstable_cache for build-level caching
- * This prevents duplicate fetches within the same request and across builds
- */
-export const getAllIcons = cache(async (): Promise<IconFile> => {
-	return getAllIconsCached();
-});
 
 /**
  * Gets a list of all icon names.
