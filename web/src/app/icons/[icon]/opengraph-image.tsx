@@ -3,8 +3,6 @@ import { join } from "node:path";
 import { ImageResponse } from "next/og";
 import { getAllIcons } from "@/lib/api";
 
-export const dynamic = "force-dynamic";
-
 export const size = {
 	width: 1200,
 	height: 630,
