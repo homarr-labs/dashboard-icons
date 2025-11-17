@@ -3,7 +3,6 @@ import { join } from "node:path"
 import { ImageResponse } from "next/og"
 import { getAllIcons } from "@/lib/api"
 
-export const runtime = 'edge';
 export const revalidate = false
 
 export async function generateStaticParams() {

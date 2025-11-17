@@ -3,7 +3,6 @@ import { ImageResponse } from "next/og"
 import { getCommunityGalleryRecord, getCommunitySubmissionByName, getCommunitySubmissions } from "@/lib/community"
 
 export const revalidate = 21600 // 6 hours
-export const runtime = 'edge';
 
 export async function generateStaticParams() {
 	const icons = await getCommunitySubmissions()
