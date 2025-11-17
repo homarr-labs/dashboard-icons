@@ -2,8 +2,20 @@ import { permanentRedirect, redirect } from "next/navigation"
 import { ImageResponse } from "next/og"
 import { getCommunityGalleryRecord, getCommunitySubmissionByName, getCommunitySubmissions } from "@/lib/community"
 
-export const runtime = "edge";
 export const revalidate = 21600 // 6 hours
+
+export async function generateStaticParams() {
+	const icons = await getCommunitySubmissions()
+	const validIcons = icons.filter((icon) => icon.name)
+	if (process.env.CI_MODE === "false") {
+		return validIcons.slice(0, 5).map((icon) => ({
+			icon: icon.name,
+		}))
+	}
+	return validIcons.map((icon) => ({
+		icon: icon.name,
+	}))
+}
 
 export const size = {
 	width: 1200,
