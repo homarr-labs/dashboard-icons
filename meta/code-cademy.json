@@ -1,0 +1,18 @@
+{
+  "base": "svg",
+  "aliases": [],
+  "categories": [
+    "Education"
+  ],
+  "update": {
+    "timestamp": "2025-11-03T21:18:45.669300",
+    "author": {
+      "id": 143852263,
+      "login": "TISEPSE"
+    }
+  },
+  "colors": {
+    "light": "code-cademy",
+    "dark": "code-cademy-dark"
+  }
+}

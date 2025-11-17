@@ -1,0 +1,21 @@
+{
+  "base": "svg",
+  "aliases": [
+    "reader",
+    "readwise"
+  ],
+  "categories": [
+    "Media"
+  ],
+  "update": {
+    "timestamp": "2025-10-04T13:49:28.260423",
+    "author": {
+      "id": 312235,
+      "login": "AdamBuchweitz"
+    }
+  },
+  "colors": {
+    "light": "readwise-reader",
+    "dark": "readwise-reader-dark"
+  }
+}

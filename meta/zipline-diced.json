@@ -1,0 +1,18 @@
+{
+  "base": "svg",
+  "aliases": [
+    "diced-zipline",
+    "zipline-file"
+  ],
+  "categories": [
+    "Media",
+    "File"
+  ],
+  "update": {
+    "timestamp": "2025-10-15T20:23:47.801846",
+    "author": {
+      "id": 7953031,
+      "login": "Loapu"
+    }
+  }
+}

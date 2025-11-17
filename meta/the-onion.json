@@ -1,0 +1,15 @@
+{
+  "base": "svg",
+  "aliases": [
+    "theonion",
+    "onion"
+  ],
+  "categories": [],
+  "update": {
+    "timestamp": "2025-10-14T20:13:02.145966",
+    "author": {
+      "id": 58250719,
+      "login": "Okaza03"
+    }
+  }
+}

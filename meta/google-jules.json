@@ -1,0 +1,17 @@
+{
+  "base": "svg",
+  "aliases": [
+    "jules",
+    "google-jules"
+  ],
+  "categories": [
+    "Cloud"
+  ],
+  "update": {
+    "timestamp": "2025-10-15T20:20:13.349847",
+    "author": {
+      "id": 129430083,
+      "login": "willl182"
+    }
+  }
+}

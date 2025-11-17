@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="30.93 28.95 439.19 438.39">
+  <defs>
+    <linearGradient gradientUnits="userSpaceOnUse" x1="250.327" y1="80.739" x2="250.327" y2="489.397" id="gradient-0" spreadMethod="pad" gradientTransform="matrix(-1.001959, 0.003219, -0.002936, -0.899976, 501.384812, 486.45737)">
+      <stop offset="0" style="stop-color: rgb(5, 12, 28);"/>
+      <stop offset="1" style="stop-color: rgb(8, 12, 73);"/>
+    </linearGradient>
+  </defs>
+  <ellipse style="fill: rgb(194, 194, 194); stroke: rgb(194, 194, 194);" cx="250.527" cy="248.152" rx="219.096" ry="218.697"/>
+  <ellipse style="stroke: rgb(193, 193, 193); fill: url(&quot;#gradient-0&quot;); paint-order: fill;" cx="248.731" cy="250.348" rx="203.532" ry="203.132" transform="matrix(1, 0.000343, 0, 1, 0.39917, -2.480123)"/>
+  <polygon style="fill: rgb(216, 216, 216); stroke: rgb(0, 0, 0);" points="263.161 166.847 262.811 331.242 277.292 339.49 290.959 331.781 291.234 167.321 276.943 158.808"/>
+  <polygon style="fill: rgb(216, 216, 216); stroke: rgb(0, 0, 0);" points="317.737 186.204 304.638 194.451 303.83 303.441 318.545 311.526 331.967 303.117 332.29 194.774"/>
+  <polygon style="fill: rgb(216, 216, 216); stroke: rgb(0, 0, 0);" points="112.608 227.867 98.476 235.816 98.741 262.224 112.608 270.261 126.297 262.136 126.386 235.551"/>
+  <polygon style="fill: rgb(216, 216, 216); stroke: rgb(0, 0, 0);" points="153.193 214.143 139.715 221.793 139.23 276.186 153.314 283.835 167.277 275.943 167.398 222.278"/>
+  <polygon style="fill: rgb(216, 216, 216); stroke: rgb(0, 0, 0);" points="194.595 200.545 180.511 208.437 180.754 289.906 195.08 298.162 208.8 289.906 208.679 208.194"/>
+  <polygon style="fill: rgb(216, 216, 216); stroke: rgb(0, 0, 0);" points="235.39 228.349 222.156 236.241 222.156 261.738 235.633 269.751 249.353 262.102 249.11 235.998"/>
+  <polygon style="fill: rgb(216, 216, 216); stroke: rgb(0, 0, 0);" points="400.011 234.807 386.601 242.756 386.463 254.507 399.666 263.147 414.113 254.991 413.767 242.756"/>
+  <polygon style="fill: rgb(216, 216, 216); stroke: rgb(0, 0, 0);" points="358.952 214.139 345.542 222.157 345.266 276.004 359.09 284.506 373.053 275.797 372.915 222.641"/>
+</svg>

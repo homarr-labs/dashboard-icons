@@ -1,0 +1,22 @@
+{
+  "base": "svg",
+  "aliases": [
+    "trading",
+    "view",
+    "charts"
+  ],
+  "categories": [
+    "Finance"
+  ],
+  "update": {
+    "timestamp": "2025-10-18T14:02:05.338578",
+    "author": {
+      "id": 45579118,
+      "login": "jwmeidinger"
+    }
+  },
+  "colors": {
+    "light": "trading-view",
+    "dark": "trading-view-dark"
+  }
+}

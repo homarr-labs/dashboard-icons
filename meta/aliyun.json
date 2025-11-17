@@ -1,0 +1,18 @@
+{
+  "base": "svg",
+  "aliases": [
+    "ali-yun",
+    "alibaba",
+    "cloud"
+  ],
+  "categories": [
+    "Cloud"
+  ],
+  "update": {
+    "timestamp": "2025-10-22T14:29:45.111918",
+    "author": {
+      "id": 177024972,
+      "login": "AaronYang0628"
+    }
+  }
+}

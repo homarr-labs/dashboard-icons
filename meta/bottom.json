@@ -1,0 +1,20 @@
+{
+  "base": "svg",
+  "aliases": [
+    "btm"
+  ],
+  "categories": [
+    "Development"
+  ],
+  "update": {
+    "timestamp": "2025-11-13T17:28:46.549922",
+    "author": {
+      "id": 432230,
+      "login": "lavaeater"
+    }
+  },
+  "colors": {
+    "light": "bottom",
+    "dark": "bottom-dark"
+  }
+}

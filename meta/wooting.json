@@ -1,0 +1,21 @@
+{
+  "base": "svg",
+  "aliases": [
+    "keyboard",
+    "wootility"
+  ],
+  "categories": [
+    "Hardware"
+  ],
+  "update": {
+    "timestamp": "2025-11-04T05:52:37.718228",
+    "author": {
+      "id": 235840100,
+      "login": "kaerst82"
+    }
+  },
+  "colors": {
+    "light": "wooting",
+    "dark": "wooting-dark"
+  }
+}
