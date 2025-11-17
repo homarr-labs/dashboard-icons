@@ -202,7 +202,7 @@ importers:
         specifier: 2.2.4
         version: 2.2.4
       '@tailwindcss/postcss':
-        specifier: ^4.1.13
+        specifier: ^4.1.17
         version: 4.1.17
       '@types/canvas-confetti':
         specifier: ^1.9.0
@@ -217,7 +217,7 @@ importers:
         specifier: ^19.2.3
         version: 19.2.3(@types/react@19.2.5)
       tailwindcss:
-        specifier: ^4.1.13
+        specifier: ^4.1.17
         version: 4.1.17
       typescript:
         specifier: ^5.9.2
