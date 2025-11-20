@@ -8,15 +8,6 @@ import { getCommunityGalleryRecord, getCommunitySubmissionByName, getCommunitySu
 export const dynamicParams = false
 export const revalidate = 21600 // 6 hours
 
-export async function generateStaticParams() {
-	const icons = await getCommunitySubmissions()
-	return icons
-		.filter((icon) => icon.name)
-		.map((icon) => ({
-			icon: icon.name,
-		}))
-}
-
 type Props = {
 	params: Promise<{ icon: string }>
 	searchParams: Promise<{ [key: string]: string | string[] | undefined }>
@@ -49,8 +40,10 @@ export async function generateMetadata({ params }: Props, _parent: ResolvingMeta
 		.join(" ")
 
 	const mainIconUrl =
-		typeof iconData.data.base === "string" && iconData.data.base.startsWith("http") ? iconData.data.base : `${BASE_URL}/svg/${icon}.svg`
-
+		typeof iconData.data.base === "string" &&
+		iconData.data.base.startsWith("http")
+			? iconData.data.base
+			: (iconData.data as any).mainIconUrl || `${BASE_URL}/svg/${icon}.svg`;
 	return {
 		title: `${formattedIconName} Icon (Community) | Dashboard Icons`,
 		description: `Download the ${formattedIconName} community-submitted icon. Part of a collection of ${totalIcons} community icons awaiting review and addition to the Dashboard Icons collection.`,
@@ -86,26 +79,16 @@ export async function generateMetadata({ params }: Props, _parent: ResolvingMeta
 			type: "website",
 			url: pageUrl,
 			siteName: "Dashboard Icons",
-			images: [
-				{
-					url: mainIconUrl,
-					width: 512,
-					height: 512,
-					alt: `${formattedIconName} icon`,
-					type: typeof mainIconUrl === "string" && mainIconUrl.endsWith(".png") ? "image/png" : typeof mainIconUrl === "string" && mainIconUrl.endsWith(".svg") ? "image/svg+xml" : "image/png",
-				},
-			],
 		},
 		twitter: {
 			card: "summary_large_image",
 			title: `${formattedIconName} Icon (Community) | Dashboard Icons`,
 			description: `Download the ${formattedIconName} community-submitted icon. Part of a collection of ${totalIcons} community icons awaiting review and addition to the Dashboard Icons collection.`,
-			images: [mainIconUrl],
 		},
 		alternates: {
 			canonical: `${WEB_URL}/community/${icon}`,
 		},
-	}
+	};
 }
 
 export default async function CommunityIconPage({ params }: { params: Promise<{ icon: string }> }) {

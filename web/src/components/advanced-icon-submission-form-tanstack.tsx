@@ -187,7 +187,41 @@ export function AdvancedIconSubmissionFormTanStack() {
 				extras: extras,
 			}
 
-			await pb.collection("submissions").create(submissionData)
+			const record = await pb.collection("submissions").create(submissionData)
+
+			// Update extras with real filenames from PocketBase response
+			// PocketBase sanitizes and renames files, so we need to update our references
+			if (record.assets && record.assets.length > 0) {
+				const updatedExtras = JSON.parse(JSON.stringify(extras))
+				let assetIndex = 0
+
+				// Skip base icon (first asset) as we track it by 'base' format string only
+				assetIndex++
+
+				if (value.files.dark?.[0] && updatedExtras.colors) {
+					updatedExtras.colors.dark = record.assets[assetIndex]
+					assetIndex++
+				}
+
+				if (value.files.light?.[0] && updatedExtras.colors) {
+					updatedExtras.colors.light = record.assets[assetIndex]
+					assetIndex++
+				}
+
+				if (value.files.wordmark?.[0] && updatedExtras.wordmark) {
+					updatedExtras.wordmark.light = record.assets[assetIndex]
+					assetIndex++
+				}
+
+				if (value.files.wordmark_dark?.[0] && updatedExtras.wordmark) {
+					updatedExtras.wordmark.dark = record.assets[assetIndex]
+					assetIndex++
+				}
+
+				await pb.collection("submissions").update(record.id, {
+					extras: updatedExtras,
+				})
+			}
 
 			// Revalidate Next.js cache for community pages
 			await revalidateAllSubmissions()

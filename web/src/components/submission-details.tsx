@@ -1,6 +1,6 @@
 "use client"
 
-import { Calendar, Check, Download, ExternalLink, FileType, FolderOpen, Palette, Tag, User as UserIcon, X } from "lucide-react"
+import { Calendar, Check, Download, ExternalLink, FileType, FolderOpen, Palette, Tag, User as UserIcon, X, Eye } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 import { IconCard } from "@/components/icon-card"
@@ -193,40 +193,48 @@ export function SubmissionDetails({
 								<Tag className="w-5 h-5" />
 								Submission Details
 							</CardTitle>
-							{(onApprove || onReject) && (
-								<div className="flex gap-2">
-									{onApprove && (
-										<Button
-											size="sm"
-											color="green"
-											variant="outline"
-											onClick={(e) => {
-												e.stopPropagation()
-												onApprove()
-											}}
-											disabled={isApproving || isRejecting}
-										>
-											<Check className="w-4 h-4 mr-2" />
-											{isApproving ? "Approving..." : "Approve"}
-										</Button>
-									)}
-									{onReject && (
-										<Button
-											size="sm"
-											color="red"
-											variant="destructive"
-											onClick={(e) => {
-												e.stopPropagation()
-												onReject()
-											}}
-											disabled={isApproving || isRejecting}
-										>
-											<X className="w-4 h-4 mr-2" />
-											{isRejecting ? "Rejecting..." : "Reject"}
-										</Button>
-									)}
-								</div>
-							)}
+							<div className="flex gap-2">
+								<Button asChild size="sm" variant="outline">
+									<Link href={`/community/${submission.name}`} target="_blank">
+										<Eye className="w-4 h-4 mr-2" />
+										Preview
+									</Link>
+								</Button>
+								{(onApprove || onReject) && (
+									<>
+										{onApprove && (
+											<Button
+												size="sm"
+												color="green"
+												variant="outline"
+												onClick={(e) => {
+													e.stopPropagation()
+													onApprove()
+												}}
+												disabled={isApproving || isRejecting}
+											>
+												<Check className="w-4 h-4 mr-2" />
+												{isApproving ? "Approving..." : "Approve"}
+											</Button>
+										)}
+										{onReject && (
+											<Button
+												size="sm"
+												color="red"
+												variant="destructive"
+												onClick={(e) => {
+													e.stopPropagation()
+													onReject()
+												}}
+												disabled={isApproving || isRejecting}
+											>
+												<X className="w-4 h-4 mr-2" />
+												{isRejecting ? "Rejecting..." : "Reject"}
+											</Button>
+										)}
+									</>
+								)}
+							</div>
 						</div>
 					</CardHeader>
 					<CardContent className="pt-0">

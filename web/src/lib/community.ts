@@ -17,6 +17,42 @@ function createServerPB() {
 }
 
 /**
+ * Helper to find the best matching asset filename for a given original filename
+ * PocketBase sanitizes filenames and appends a random suffix.
+ * This function attempts to map the stored original filename (in extras) to the actual sanitized filename (in assets).
+ */
+function findBestMatchingAsset(originalName: string, assets: string[]): string {
+	if (!originalName || !assets || assets.length === 0) return originalName
+
+	// 1. Exact match
+	if (assets.includes(originalName)) return originalName
+
+	// 2. Normalized match
+	// Normalize: remove non-alphanumeric, lowercase
+	const normalize = (s: string) => s.replace(/[^a-z0-9]/gi, "").toLowerCase()
+
+	// Remove extension for comparison
+	const originalBase = originalName.substring(0, originalName.lastIndexOf(".")) || originalName
+	const normalizedOriginal = normalize(originalBase)
+
+	// Check against assets
+	for (const asset of assets) {
+		const assetBase = asset.substring(0, asset.lastIndexOf(".")) || asset
+		const normalizedAsset = normalize(assetBase)
+
+		// Check if normalized asset STARTS with normalized original
+		// PocketBase usually appends `_` + random chars, which normalize removes or appends to end
+		// "langsmith (2)" -> "langsmith2"
+		// "langsmith_2_8tf..." -> "langsmith28tf..."
+		if (normalizedAsset.startsWith(normalizedOriginal)) {
+			return asset
+		}
+	}
+
+	return originalName // Fallback to original if no match found
+}
+
+/**
  * Transform a CommunityGallery item to IconWithName format for use with IconSearch
  * For community icons, base is the full HTTP URL to the main icon asset
  * Additional assets are stored but not exposed in the standard Icon format
@@ -28,6 +64,27 @@ function transformGalleryToIcon(item: CommunityGallery): any {
 
 	const mainAssetExt = item.assets?.[0]?.split(".").pop()?.toLowerCase() || "svg"
 	const baseFormat = mainAssetExt === "svg" ? "svg" : mainAssetExt === "png" ? "png" : "webp"
+
+	// Process and fix file mappings in extras
+	const colors = item.extras?.colors ? { ...item.extras.colors } : undefined
+	if (colors && item.assets) {
+		Object.keys(colors).forEach((key) => {
+			const k = key as keyof typeof colors
+			if (colors[k]) {
+				colors[k] = findBestMatchingAsset(colors[k]!, item.assets || [])
+			}
+		})
+	}
+
+	const wordmark = item.extras?.wordmark ? { ...item.extras.wordmark } : undefined
+	if (wordmark && item.assets) {
+		Object.keys(wordmark).forEach((key) => {
+			const k = key as keyof typeof wordmark
+			if (wordmark[k]) {
+				wordmark[k] = findBestMatchingAsset(wordmark[k]!, item.assets || [])
+			}
+		})
+	}
 
 	const transformed = {
 		name: item.name,
@@ -46,8 +103,8 @@ function transformGalleryToIcon(item: CommunityGallery): any {
 					name: item.created_by || "Community",
 				},
 			},
-			colors: item.extras?.colors,
-			wordmark: item.extras?.wordmark,
+			colors: colors,
+			wordmark: wordmark,
 		},
 	}
 
@@ -81,10 +138,14 @@ async function fetchCommunitySubmissions(): Promise<IconWithName[]> {
  * Revalidates every 21600 seconds (6 hours) to match page revalidate time
  * Can be invalidated on-demand using revalidateTag("community-gallery")
  */
-export const getCommunitySubmissions = unstable_cache(fetchCommunitySubmissions, ["community-submissions-list"], {
-	revalidate: 21600,
-	tags: ["community-gallery"],
-})
+export const getCommunitySubmissions = unstable_cache(
+	fetchCommunitySubmissions,
+	["community-submissions-list-v2"],
+	{
+		revalidate: 21600,
+		tags: ["community-gallery"],
+	},
+);
 
 /**
  * Fetch a single community submission by name (raw function)
@@ -92,10 +153,17 @@ export const getCommunitySubmissions = unstable_cache(fetchCommunitySubmissions,
  */
 async function fetchCommunitySubmissionByName(name: string): Promise<IconWithName | null> {
 	try {
-		const pb = createServerPB()
+		const pb = createServerPB();
 
-		const record = await pb.collection("community_gallery").getFirstListItem<CommunityGallery>(`name="${name}"`)
-		return transformGalleryToIcon(record)
+		const record = await pb
+			.collection("community_gallery")
+			.getFirstListItem<CommunityGallery>(`name="${name}"`);
+		const transformed = transformGalleryToIcon(record);
+		console.log(
+			`[Community] Fetched ${name}, colors:`,
+			transformed.data.colors,
+		);
+		return transformed;
 	} catch (error) {
 		console.error(`Error fetching community submission ${name}:`, error)
 		return null
@@ -109,10 +177,14 @@ async function fetchCommunitySubmissionByName(name: string): Promise<IconWithNam
  * Cache key: community-submission-{name}
  */
 export function getCommunitySubmissionByName(name: string): Promise<IconWithName | null> {
-	return unstable_cache(async () => fetchCommunitySubmissionByName(name), [`community-submission-${name}`], {
-		revalidate: 21600,
-		tags: ["community-gallery", "community-submission"],
-	})()
+	return unstable_cache(
+		async () => fetchCommunitySubmissionByName(name),
+		[`community-submission-${name}-v2`],
+		{
+			revalidate: 21600,
+			tags: ["community-gallery", "community-submission"],
+		},
+	)();
 }
 
 /**
