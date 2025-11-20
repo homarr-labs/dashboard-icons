@@ -17,6 +17,42 @@ function createServerPB() {
 }
 
 /**
+ * Helper to find the best matching asset filename for a given original filename
+ * PocketBase sanitizes filenames and appends a random suffix.
+ * This function attempts to map the stored original filename (in extras) to the actual sanitized filename (in assets).
+ */
+function findBestMatchingAsset(originalName: string, assets: string[]): string {
+	if (!originalName || !assets || assets.length === 0) return originalName
+
+	// 1. Exact match
+	if (assets.includes(originalName)) return originalName
+
+	// 2. Normalized match
+	// Normalize: remove non-alphanumeric, lowercase
+	const normalize = (s: string) => s.replace(/[^a-z0-9]/gi, "").toLowerCase()
+
+	// Remove extension for comparison
+	const originalBase = originalName.substring(0, originalName.lastIndexOf(".")) || originalName
+	const normalizedOriginal = normalize(originalBase)
+
+	// Check against assets
+	for (const asset of assets) {
+		const assetBase = asset.substring(0, asset.lastIndexOf(".")) || asset
+		const normalizedAsset = normalize(assetBase)
+
+		// Check if normalized asset STARTS with normalized original
+		// PocketBase usually appends `_` + random chars, which normalize removes or appends to end
+		// "langsmith (2)" -> "langsmith2"
+		// "langsmith_2_8tf..." -> "langsmith28tf..."
+		if (normalizedAsset.startsWith(normalizedOriginal)) {
+			return asset
+		}
+	}
+
+	return originalName // Fallback to original if no match found
+}
+
+/**
  * Transform a CommunityGallery item to IconWithName format for use with IconSearch
  * For community icons, base is the full HTTP URL to the main icon asset
  * Additional assets are stored but not exposed in the standard Icon format
@@ -28,6 +64,27 @@ function transformGalleryToIcon(item: CommunityGallery): any {
 
 	const mainAssetExt = item.assets?.[0]?.split(".").pop()?.toLowerCase() || "svg"
 	const baseFormat = mainAssetExt === "svg" ? "svg" : mainAssetExt === "png" ? "png" : "webp"
+
+	// Process and fix file mappings in extras
+	const colors = item.extras?.colors ? { ...item.extras.colors } : undefined
+	if (colors && item.assets) {
+		Object.keys(colors).forEach((key) => {
+			const k = key as keyof typeof colors
+			if (colors[k]) {
+				colors[k] = findBestMatchingAsset(colors[k]!, item.assets || [])
+			}
+		})
+	}
+
+	const wordmark = item.extras?.wordmark ? { ...item.extras.wordmark } : undefined
+	if (wordmark && item.assets) {
+		Object.keys(wordmark).forEach((key) => {
+			const k = key as keyof typeof wordmark
+			if (wordmark[k]) {
+				wordmark[k] = findBestMatchingAsset(wordmark[k]!, item.assets || [])
+			}
+		})
+	}
 
 	const transformed = {
 		name: item.name,
@@ -46,8 +103,8 @@ function transformGalleryToIcon(item: CommunityGallery): any {
 					name: item.created_by || "Community",
 				},
 			},
-			colors: item.extras?.colors,
-			wordmark: item.extras?.wordmark,
+			colors: colors,
+			wordmark: wordmark,
 		},
 	}
 
