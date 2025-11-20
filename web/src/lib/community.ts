@@ -138,10 +138,14 @@ async function fetchCommunitySubmissions(): Promise<IconWithName[]> {
  * Revalidates every 21600 seconds (6 hours) to match page revalidate time
  * Can be invalidated on-demand using revalidateTag("community-gallery")
  */
-export const getCommunitySubmissions = unstable_cache(fetchCommunitySubmissions, ["community-submissions-list"], {
-	revalidate: 21600,
-	tags: ["community-gallery"],
-})
+export const getCommunitySubmissions = unstable_cache(
+	fetchCommunitySubmissions,
+	["community-submissions-list-v2"],
+	{
+		revalidate: 21600,
+		tags: ["community-gallery"],
+	},
+);
 
 /**
  * Fetch a single community submission by name (raw function)
@@ -149,10 +153,17 @@ export const getCommunitySubmissions = unstable_cache(fetchCommunitySubmissions,
  */
 async function fetchCommunitySubmissionByName(name: string): Promise<IconWithName | null> {
 	try {
-		const pb = createServerPB()
+		const pb = createServerPB();
 
-		const record = await pb.collection("community_gallery").getFirstListItem<CommunityGallery>(`name="${name}"`)
-		return transformGalleryToIcon(record)
+		const record = await pb
+			.collection("community_gallery")
+			.getFirstListItem<CommunityGallery>(`name="${name}"`);
+		const transformed = transformGalleryToIcon(record);
+		console.log(
+			`[Community] Fetched ${name}, colors:`,
+			transformed.data.colors,
+		);
+		return transformed;
 	} catch (error) {
 		console.error(`Error fetching community submission ${name}:`, error)
 		return null
@@ -166,10 +177,14 @@ async function fetchCommunitySubmissionByName(name: string): Promise<IconWithNam
  * Cache key: community-submission-{name}
  */
 export function getCommunitySubmissionByName(name: string): Promise<IconWithName | null> {
-	return unstable_cache(async () => fetchCommunitySubmissionByName(name), [`community-submission-${name}`], {
-		revalidate: 21600,
-		tags: ["community-gallery", "community-submission"],
-	})()
+	return unstable_cache(
+		async () => fetchCommunitySubmissionByName(name),
+		[`community-submission-${name}-v2`],
+		{
+			revalidate: 21600,
+			tags: ["community-gallery", "community-submission"],
+		},
+	)();
 }
 
 /**

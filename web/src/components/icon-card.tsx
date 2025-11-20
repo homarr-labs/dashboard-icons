@@ -20,6 +20,7 @@ export function IconCard({ name, data: iconData, matchedAlias }: { name: string;
 						src={imageUrl}
 						alt={`${name} icon`}
 						fill
+						sizes="32px 32px"
 						className="object-contain p-1 group-hover:scale-110 transition-transform duration-300"
 					/>
 				</div>
