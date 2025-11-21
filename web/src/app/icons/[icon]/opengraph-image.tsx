@@ -3,6 +3,22 @@ import { join } from "node:path";
 import { ImageResponse } from "next/og";
 import { getAllIcons } from "@/lib/api";
 
+export const revalidate = false;
+export async function generateStaticParams() {
+	const iconsData = await getAllIcons();
+	if (process.env.CI_MODE === "false") {
+		// This is meant to speed up the build process in local development
+		return Object.keys(iconsData)
+			.slice(0, 5)
+			.map((icon) => ({
+				icon,
+			}));
+	}
+	return Object.keys(iconsData).map((icon) => ({
+		icon,
+	}));
+}
+
 export const size = {
 	width: 1200,
 	height: 630,
@@ -151,21 +167,42 @@ export default async function Image({
 							zIndex: 0,
 						}}
 					/>
-					<img
-						src={
-							iconUrl ||
-							`https://placehold.co/600x400?text=${formattedIconName}`
-						}
-						alt={formattedIconName}
-						width={260}
-						height={260}
-						style={{
-							objectFit: "contain",
-							position: "relative",
-							zIndex: 1,
-							filter: "drop-shadow(0 10px 15px rgba(0, 0, 0, 0.1))",
-						}}
-					/>
+					{iconUrl && (
+						// biome-ignore lint/performance/noImgElement: Not using nextjs here
+						<img
+							src={iconUrl}
+							alt={formattedIconName}
+							width={260}
+							height={260}
+							style={{
+								objectFit: "contain",
+								position: "relative",
+								zIndex: 1,
+								filter: "drop-shadow(0 10px 15px rgba(0, 0, 0, 0.1))",
+							}}
+						/>
+					)}
+					{!iconUrl && (
+						<div
+							style={{
+								display: "flex",
+								alignItems: "center",
+								justifyContent: "center",
+								width: 260,
+								height: 260,
+								backgroundColor: "#f1f5f9",
+								color: "#475569",
+								border: "2px solid #e2e8f0",
+								borderRadius: 12,
+								padding: "8px 16px",
+								fontSize: 18,
+								fontWeight: 600,
+								boxShadow: "0 1px 2px rgba(0, 0, 0, 0.05)",
+							}}
+						>
+							{formattedIconName}
+						</div>
+					)}
 				</div>
 
 				{/* Text content */}
