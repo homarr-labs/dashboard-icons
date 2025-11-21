@@ -1,0 +1,24 @@
+<svg version="1.2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" width="1000" height="1000">
+	<defs>
+		<linearGradient id="g1" x2="1" gradientUnits="userSpaceOnUse" gradientTransform="matrix(749.981,0,0,314.57,125.01,950)">
+			<stop offset="0" stop-color="#8930fd"/>
+			<stop offset="1" stop-color="#49ccf9"/>
+		</linearGradient>
+		<linearGradient id="g2" x2="1" gradientUnits="userSpaceOnUse" gradientTransform="matrix(718.593,0,0,442.909,141.343,492.909)">
+			<stop offset="0" stop-color="#ff02f0"/>
+			<stop offset="1" stop-color="#ffc800"/>
+		</linearGradient>
+	</defs>
+	<style>
+		.s0 { fill: url(#g1) } 
+		.s1 { fill: url(#g2) } 
+	</style>
+	<g id="Layer 1">
+		<g id="&lt;Group&gt;">
+		</g>
+		<g id="&lt;Group&gt;">
+			<path id="&lt;Path&gt;" class="s0" d="m125.01 741.45l138.39-106.02c73.53 95.96 151.65 140.2 238.61 140.2 86.48 0 162.4-43.71 232.61-138.92l140.37 103.46c-101.31 137.29-227.21 209.83-372.98 209.83-145.32 0-272.43-72.07-377-208.55z"/>
+			<path id="&lt;Path&gt;" class="s1" d="m501.54 280.64l-246.33 212.27-113.87-132.06 360.72-310.85 357.88 311.08-114.39 131.6z"/>
+		</g>
+	</g>
+</svg>
