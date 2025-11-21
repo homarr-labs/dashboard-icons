@@ -20725,6 +20725,22 @@
             }
         }
     },
+    "ruby-on-rails": {
+        "base": "png",
+        "aliases": [
+            "rails"
+        ],
+        "categories": [
+            "Development"
+        ],
+        "update": {
+            "timestamp": "2025-11-21T16:12:07.288503",
+            "author": {
+                "id": 33139500,
+                "login": "barcellos-pedro"
+            }
+        }
+    },
     "surveymonkey": {
         "base": "svg",
         "aliases": [
