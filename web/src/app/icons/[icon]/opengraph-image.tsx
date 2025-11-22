@@ -2,6 +2,7 @@ import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { ImageResponse } from "next/og";
 import { getAllIcons } from "@/lib/api";
+import { BASE_URL } from "@/constants";
 
 export const revalidate = false;
 export async function generateStaticParams() {
@@ -66,21 +67,19 @@ export default async function Image({
 		.join(" ");
 
 	// Read the icon file from local filesystem
-	let iconData: Buffer | null = null;
+	let iconData: ArrayBuffer | null = null;
 	try {
-		const iconPath = join(process.cwd(), `../png/${icon}.png`);
-		console.log(
-			`Generating opengraph image for ${icon} (${index + 1} / ${totalIcons}) from path ${iconPath}`,
-		);
-		iconData = await readFile(iconPath);
+		const fetchedIcon = await fetch(`${BASE_URL}/png/${icon}.png`);
+		if (!fetchedIcon.ok) {
+			throw new Error(`Failed to fetch icon ${icon} from CDN`);
+		}
+		iconData = await fetchedIcon.arrayBuffer();
 	} catch (_error) {
-		console.error(`Icon ${icon} was not found locally`);
+		console.error(`Icon ${icon} was not found. Using placeholder instead.`);
 	}
 
 	// Convert the image data to a data URL or use placeholder
-	const iconUrl = iconData
-		? `data:image/png;base64,${iconData.toString("base64")}`
-		: null;
+	const iconUrl = iconData ? `data:image/png;base64,${Buffer.from(iconData).toString("base64")}` : null;
 
 	return new ImageResponse(
 		<div
