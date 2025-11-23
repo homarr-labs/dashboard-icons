@@ -1,0 +1,20 @@
+{
+  "base": "svg",
+  "aliases": [
+    "verriflo-live"
+  ],
+  "categories": [
+    "Development"
+  ],
+  "update": {
+    "timestamp": "2025-11-23T09:26:15.070982",
+    "author": {
+      "id": 79579459,
+      "login": "sadiq-farhan"
+    }
+  },
+  "colors": {
+    "light": "verriflo",
+    "dark": "verriflo-dark"
+  }
+}
