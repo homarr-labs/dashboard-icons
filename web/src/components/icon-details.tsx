@@ -634,7 +634,7 @@ export function IconDetails({ icon, iconData, authorData, allIcons, status, stat
 								{shouldShowBaseIcon() && (
 									<IconVariantsSection
 										title="Base Icon"
-										description="Original icon version. Click to copy URL."
+										description="Original icon version"
 										iconElement={<FileType className="w-4 h-4 text-blue-500" />}
 										aavailableFormats={availableFormats}
 										icon={icon}
@@ -649,7 +649,7 @@ export function IconDetails({ icon, iconData, authorData, allIcons, status, stat
 								{iconData.colors?.light && (
 									<IconVariantsSection
 										title="Light theme"
-										description="Icon variants optimized for light backgrounds (typically lighter icon colors). Click to copy URL."
+										description="Icon variants optimized for light backgrounds (typically darker icon colors)"
 										iconElement={<Sun className="w-4 h-4 text-amber-500" />}
 										aavailableFormats={availableFormats}
 										icon={icon}
@@ -665,7 +665,7 @@ export function IconDetails({ icon, iconData, authorData, allIcons, status, stat
 								{iconData.colors?.dark && (
 									<IconVariantsSection
 										title="Dark theme"
-										description="Icon variants optimized for dark backgrounds (typically darker icon colors). Click to copy URL."
+										description="Icon variants optimized for dark backgrounds (typically lighter icon colors)"
 										iconElement={<Moon className="w-4 h-4 text-indigo-500" />}
 										aavailableFormats={availableFormats}
 										icon={icon}
