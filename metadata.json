@@ -26871,6 +26871,24 @@
             "light": "notesnook-light"
         }
     },
+    "zashboard": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "Communication"
+        ],
+        "update": {
+            "timestamp": "2025-11-23T08:24:27.462584",
+            "author": {
+                "id": 6201785,
+                "login": "eachgo"
+            }
+        },
+        "colors": {
+            "light": "zashboard",
+            "dark": "zashboard-dark"
+        }
+    },
     "etesync": {
         "base": "svg",
         "aliases": [],
