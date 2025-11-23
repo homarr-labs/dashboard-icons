@@ -1,0 +1,18 @@
+{
+  "base": "svg",
+  "aliases": [],
+  "categories": [
+    "Education"
+  ],
+  "update": {
+    "timestamp": "2025-11-23T08:08:19.686235",
+    "author": {
+      "id": 103865507,
+      "login": "nzgl-g"
+    }
+  },
+  "colors": {
+    "light": "oreilly",
+    "dark": "oreilly-dark"
+  }
+}
