@@ -121,7 +121,7 @@ onRecordUpdate((e) => {
 
 		// Construct email based on status
 		if (newStatus === "approved") {
-			subject = `dashboardicons.com - Submission approved: "${submissionName}"`;
+			subject = `dashboardicons - Submission approved: "${submissionName}"`;
 			contentBody = `
                 <h2 style="color: ${successColor}; margin-top: 0;">Congratulations!</h2>
                 <p style="font-size: 16px; line-height: 1.5; color: #374151;">Hello ${userName},</p>
