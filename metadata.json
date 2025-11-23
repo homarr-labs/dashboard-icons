@@ -10096,6 +10096,20 @@
             }
         }
     },
+    "flowtunes": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "Music"
+        ],
+        "update": {
+            "timestamp": "2025-11-23T08:32:29.649733",
+            "author": {
+                "id": 94133410,
+                "login": "Nanjiifr"
+            }
+        }
+    },
     "barcodebuddy": {
         "base": "png",
         "aliases": [],
