@@ -1,0 +1,17 @@
+{
+  "base": "svg",
+  "aliases": [
+    "tmm"
+  ],
+  "categories": [
+    "Video",
+    "Media"
+  ],
+  "update": {
+    "timestamp": "2025-11-23T08:30:53.857111",
+    "author": {
+      "id": 38686640,
+      "login": "Antroxin"
+    }
+  }
+}
