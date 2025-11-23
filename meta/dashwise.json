@@ -1,0 +1,18 @@
+{
+  "base": "svg",
+  "aliases": [
+    "homelab-dashboard",
+    "server-dashboard",
+    "application-launcher"
+  ],
+  "categories": [
+    "Organization"
+  ],
+  "update": {
+    "timestamp": "2025-11-23T08:15:03.696826",
+    "author": {
+      "id": 75847494,
+      "login": "andreasmolnardev"
+    }
+  }
+}
