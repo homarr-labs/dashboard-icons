@@ -36,6 +36,8 @@ export interface Submission {
 	}
 	created: string
 	updated: string
+	admin_comment: string,
+	description: string,
 }
 
 export interface CommunityGallery {
