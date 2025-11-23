@@ -1,0 +1,17 @@
+{
+  "base": "svg",
+  "aliases": [
+    "bunny-net",
+    "bunny-cdn"
+  ],
+  "categories": [
+    "Animal"
+  ],
+  "update": {
+    "timestamp": "2025-11-23T08:27:44.183943",
+    "author": {
+      "id": 7747985,
+      "login": "yeenbean"
+    }
+  }
+}
