@@ -1,0 +1,16 @@
+{
+  "base": "svg",
+  "aliases": [],
+  "categories": [],
+  "update": {
+    "timestamp": "2025-11-23T09:19:23.365073",
+    "author": {
+      "id": 4215150,
+      "login": "tsunulukai"
+    }
+  },
+  "colors": {
+    "light": "networking-toolbox",
+    "dark": "networking-toolbox-dark"
+  }
+}
