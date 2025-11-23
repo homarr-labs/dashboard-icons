@@ -5,8 +5,16 @@ import { BASE_URL, WEB_URL } from "@/constants"
 import { getAllIcons } from "@/lib/api"
 import { getCommunityGalleryRecord, getCommunitySubmissionByName, getCommunitySubmissions } from "@/lib/community"
 
-export const dynamicParams = false
+export const dynamicParams = true;
 export const revalidate = 21600 // 6 hours
+export const dynamic = "force-static";
+
+export async function generateStaticParams() {
+	const icons = await getCommunitySubmissions();
+	return icons.map((icon) => ({
+		icon: icon.name,
+	}));
+}
 
 type Props = {
 	params: Promise<{ icon: string }>
