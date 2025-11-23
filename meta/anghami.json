@@ -1,0 +1,17 @@
+{
+  "base": "png",
+  "aliases": [
+    "music",
+    "arabic"
+  ],
+  "categories": [
+    "Music"
+  ],
+  "update": {
+    "timestamp": "2025-11-23T16:03:48.272512",
+    "author": {
+      "id": 153842391,
+      "login": "A55AF"
+    }
+  }
+}
