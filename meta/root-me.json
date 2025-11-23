@@ -1,0 +1,18 @@
+{
+  "base": "svg",
+  "aliases": [
+    "rm-icon"
+  ],
+  "categories": [],
+  "update": {
+    "timestamp": "2025-11-23T09:30:59.735855",
+    "author": {
+      "id": 60667857,
+      "login": "Vivien-Chambe"
+    }
+  },
+  "colors": {
+    "light": "root-me",
+    "dark": "root-me-dark"
+  }
+}
