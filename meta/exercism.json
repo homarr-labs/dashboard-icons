@@ -1,0 +1,18 @@
+{
+  "base": "svg",
+  "aliases": [],
+  "categories": [
+    "Education"
+  ],
+  "update": {
+    "timestamp": "2025-11-23T07:59:06.737666",
+    "author": {
+      "id": 124405596,
+      "login": "DanielLob-o"
+    }
+  },
+  "colors": {
+    "light": "exercism",
+    "dark": "exercism-dark"
+  }
+}
