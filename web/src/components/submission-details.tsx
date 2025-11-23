@@ -8,6 +8,7 @@ import {
 	Eye,
 	FileType,
 	FolderOpen,
+	MessageSquare,
 	Palette,
 	Tag,
 	User as UserIcon,
@@ -17,6 +18,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { IconCard } from "@/components/icon-card";
 import { MagicCard } from "@/components/magicui/magic-card";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -408,6 +410,20 @@ export function SubmissionDetails({
 									<p className="text-sm">{formattedUpdated}</p>
 								</div>
 							</div>
+
+							{submission.admin_comment?.trim() && (
+								<Alert
+									variant={
+										submission.status === "rejected" ? "destructive" : "default"
+									}
+								>
+									<MessageSquare className="h-4 w-4" />
+									<AlertTitle>Admin Comment</AlertTitle>
+									<AlertDescription className="mt-2 whitespace-pre-wrap">
+										{submission.admin_comment}
+									</AlertDescription>
+								</Alert>
+							)}
 
 							<Separator />
 

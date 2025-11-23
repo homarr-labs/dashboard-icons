@@ -74,12 +74,13 @@ export function useRejectSubmission() {
 	const queryClient = useQueryClient()
 
 	return useMutation({
-		mutationFn: async (submissionId: string) => {
+		mutationFn: async ({ submissionId, adminComment }: { submissionId: string; adminComment?: string }) => {
 			return await pb.collection("submissions").update(
 				submissionId,
 				{
 					status: "rejected",
 					approved_by: pb.authStore.record?.id || "",
+					admin_comment: adminComment || "",
 				},
 				{
 					requestKey: null,
