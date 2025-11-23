@@ -1,0 +1,16 @@
+{
+  "base": "svg",
+  "aliases": [],
+  "categories": [],
+  "update": {
+    "timestamp": "2025-11-23T08:20:07.072595",
+    "author": {
+      "id": 56053,
+      "login": "meceo"
+    }
+  },
+  "colors": {
+    "light": "toggl",
+    "dark": "toggl-dark"
+  }
+}
