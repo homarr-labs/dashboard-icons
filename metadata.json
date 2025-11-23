@@ -5584,6 +5584,24 @@
             }
         }
     },
+    "springboot-initializer": {
+        "base": "svg",
+        "aliases": [
+            "spring",
+            "springboot",
+            "initializer"
+        ],
+        "categories": [
+            "Development"
+        ],
+        "update": {
+            "timestamp": "2025-11-23T09:39:19.907952",
+            "author": {
+                "id": 34664839,
+                "login": "mohsabkha"
+            }
+        }
+    },
     "sphinx-relay": {
         "base": "svg",
         "aliases": [],
