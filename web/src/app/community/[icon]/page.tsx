@@ -79,11 +79,22 @@ export async function generateMetadata({ params }: Props, _parent: ResolvingMeta
 			type: "website",
 			url: pageUrl,
 			siteName: "Dashboard Icons",
+			locale: "en_US",
+			images: [
+				{
+					url: mainIconUrl,
+					width: 512,
+					height: 512,
+					alt: `${formattedIconName} icon`,
+					type: mainIconUrl.endsWith(".svg") ? "image/svg+xml" : mainIconUrl.endsWith(".webp") ? "image/webp" : "image/png",
+				},
+			],
 		},
 		twitter: {
 			card: "summary_large_image",
 			title: `${formattedIconName} Icon (Community) | Dashboard Icons`,
 			description: `Download the ${formattedIconName} community-submitted icon. Part of a collection of ${totalIcons} community icons awaiting review and addition to the Dashboard Icons collection.`,
+			images: [mainIconUrl],
 		},
 		alternates: {
 			canonical: `${WEB_URL}/community/${icon}`,

@@ -77,6 +77,7 @@ export async function generateMetadata({ params, searchParams }: Props, _parent:
 			type: "website",
 			url: pageUrl,
 			siteName: "Dashboard Icons",
+			locale: "en_US",
 			images: [
 				{
 					url: `${BASE_URL}/png/${icon}.png`,
