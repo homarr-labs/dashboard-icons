@@ -12830,6 +12830,20 @@
             }
         }
     },
+    "infinite-craft": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "Gaming"
+        ],
+        "update": {
+            "timestamp": "2025-11-23T21:09:57.858803",
+            "author": {
+                "id": 245531535,
+                "login": "hencohere"
+            }
+        }
+    },
     "authentik": {
         "base": "svg",
         "aliases": [],
