@@ -350,14 +350,11 @@ export function AdvancedIconSubmissionFormTanStack() {
 						<AlertDialogDescription>
 							This icon submission form is a work-in-progress and is currently
 							in an experimentation phase. If you want a faster review, please
-							submit your icon to the{" "}
-							<Link
-								className="text-primary hover:underline"
-								href={REPO_PATH}
-								target="_blank"
-							>
-								github repository
-							</Link>{" "}
+							submit your icon to the dashboard icons{" "}
+							<a href={REPO_PATH} target="_blank">
+								{" "}
+								github repository{" "}
+							</a>{" "}
 							instead.
 							<br />
 							<br />
