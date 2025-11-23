@@ -1,12 +1,13 @@
 "use client";
 
 import { useForm } from "@tanstack/react-form";
-import { Check, FileImage, FileType, Link, Plus, X } from "lucide-react";
+import { Check, FileImage, FileType, Plus, X } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 import { revalidateAllSubmissions } from "@/app/actions/submissions";
 import { ExperimentalWarning } from "@/components/experimental-warning";
 import { IconNameCombobox } from "@/components/icon-name-combobox";
+import { IconSubmissionGuidelines } from "@/components/icon-submission-guidelines";
 import {
 	AlertDialog,
 	AlertDialogAction,
@@ -489,24 +490,7 @@ export function AdvancedIconSubmissionFormTanStack() {
 								</p>
 							</div>
 
-							<div className="rounded-lg border border-amber-500/50 bg-amber-500/10 p-4 space-y-2">
-								<p className="text-sm font-semibold text-amber-700 dark:text-amber-400">
-									File Format Requirements
-								</p>
-								<ul className="text-sm text-amber-700/90 dark:text-amber-400/90 space-y-1 list-disc list-inside">
-									<li>
-										<strong>SVG format is strongly preferred</strong> over PNG
-										or WebP for better scalability and quality
-									</li>
-									<li>
-										<strong>
-											All icons must have a transparent background
-										</strong>{" "}
-										- submissions with opaque or colored backgrounds will be
-										rejected
-									</li>
-								</ul>
-							</div>
+							<IconSubmissionGuidelines />
 
 							<form.Field name="selectedVariants">
 								{(field) => (
