@@ -21480,6 +21480,18 @@
             }
         }
     },
+    "netvisor": {
+        "base": "png",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2025-11-25T05:54:57.523245",
+            "author": {
+                "id": 149651416,
+                "login": "jimmy-tr33"
+            }
+        }
+    },
     "honeygain": {
         "base": "png",
         "aliases": [],
