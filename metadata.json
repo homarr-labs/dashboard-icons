@@ -7403,6 +7403,20 @@
             "light": "haptic-light"
         }
     },
+    "cloudreve": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "File"
+        ],
+        "update": {
+            "timestamp": "2025-11-25T05:31:17.093531",
+            "author": {
+                "id": 1967616,
+                "login": "stormtroopercs"
+            }
+        }
+    },
     "home-assistant-alt": {
         "base": "svg",
         "aliases": [
