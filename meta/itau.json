@@ -1,0 +1,17 @@
+{
+  "base": "png",
+  "aliases": [
+    "banco-itau",
+    "itau-unibanco"
+  ],
+  "categories": [
+    "Finance"
+  ],
+  "update": {
+    "timestamp": "2025-11-25T06:13:45.007753",
+    "author": {
+      "id": 33139500,
+      "login": "barcellos-pedro"
+    }
+  }
+}
