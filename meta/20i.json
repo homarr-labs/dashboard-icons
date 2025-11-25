@@ -1,0 +1,21 @@
+{
+  "base": "svg",
+  "aliases": [
+    "twenty",
+    "twenty-i"
+  ],
+  "categories": [
+    "Development"
+  ],
+  "update": {
+    "timestamp": "2025-11-25T05:52:17.015884",
+    "author": {
+      "id": 253237,
+      "login": "Jamesking56"
+    }
+  },
+  "colors": {
+    "light": "20i",
+    "dark": "20i-dark"
+  }
+}
