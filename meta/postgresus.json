@@ -1,0 +1,14 @@
+{
+  "base": "svg",
+  "aliases": [],
+  "categories": [
+    "Cloud"
+  ],
+  "update": {
+    "timestamp": "2025-11-25T05:41:36.430244",
+    "author": {
+      "id": 60519482,
+      "login": "luke-beep"
+    }
+  }
+}
