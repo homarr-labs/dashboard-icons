@@ -1,5 +1,5 @@
 [tools]
-biome = "latest"
-node = "latest"
-pnpm = "latest"
-"ubi:railwayapp/railpack" = "latest"
+biome = "2.3.7"
+node = "25.1.0"
+pnpm = "10.18.2"
+"ubi:railwayapp/railpack" = "0.14.0"
