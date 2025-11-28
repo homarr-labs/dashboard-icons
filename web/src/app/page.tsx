@@ -14,7 +14,7 @@ async function getGitHubStars() {
 
 export default async function Home() {
 	const { totalIcons } = await getTotalIcons()
-	const recentIcons = await getRecentlyAddedIcons(10)
+	const recentIcons = await getRecentlyAddedIcons(20)
 	const stars = await getGitHubStars()
 
 	return (

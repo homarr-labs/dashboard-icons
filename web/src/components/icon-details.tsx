@@ -512,15 +512,13 @@ export function IconDetails({ icon, iconData, authorData, allIcons, status, stat
 										<div className="flex items-center gap-2">
 											<div className="flex items-center gap-2">
 												<p className="text-sm font-medium">By:</p>
-												<Avatar className="h-5 w-5 border">
+												<Avatar className="h-6 w-6 border">
 													<AvatarImage
 														src={authorData.avatar_url}
 														alt={`${authorName}'s avatar`}
 													/>
 													<AvatarFallback>
-														{authorName
-															? authorName.slice(0, 2).toUpperCase()
-															: "??"}
+														{authorName?.slice(0, 1).toUpperCase()}
 													</AvatarFallback>
 												</Avatar>
 												{authorData.html_url && (
