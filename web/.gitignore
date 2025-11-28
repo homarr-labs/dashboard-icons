@@ -49,4 +49,3 @@ next-env.d.ts
 # Pocketbase
 backend/pocketbase
 backend/pb_data
-backend/pb_migrations
