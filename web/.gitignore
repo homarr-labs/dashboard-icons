@@ -49,3 +49,4 @@ next-env.d.ts
 # Pocketbase
 backend/pocketbase
 backend/pb_data
+scripts

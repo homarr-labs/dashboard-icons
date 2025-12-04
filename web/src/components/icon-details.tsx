@@ -477,7 +477,7 @@ export function IconDetails({ icon, iconData, authorData, allIcons, status, stat
 					<Card className="h-full bg-background/50 border shadow-lg">
 						<CardHeader className="pb-4">
 							<div className="flex flex-col items-center">
-								<div className="relative w-32 h-32 rounded-xl overflow-hidden border flex items-center justify-center p-3">
+								<div className="relative w-32 h-32 rounded-xl overflow-hidden flex items-center justify-center p-3">
 									<Image
 										src={
 											isCommunityIcon && mainIconUrl
