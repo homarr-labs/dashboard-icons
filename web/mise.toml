@@ -1,4 +1,4 @@
 [tools]
-node = "25.1.0"
+node = "25.2.1"
 pnpm = "10.18.2"
 "ubi:railwayapp/railpack" = "0.14.0"
