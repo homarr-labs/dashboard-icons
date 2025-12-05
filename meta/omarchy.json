@@ -1,0 +1,16 @@
+{
+  "base": "png",
+  "aliases": [
+    "distro"
+  ],
+  "categories": [
+    "Development"
+  ],
+  "update": {
+    "timestamp": "2025-11-21T16:11:44.926039",
+    "author": {
+      "id": 33139500,
+      "login": "barcellos-pedro"
+    }
+  }
+}
