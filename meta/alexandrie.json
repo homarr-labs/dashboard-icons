@@ -1,0 +1,16 @@
+{
+  "base": "svg",
+  "aliases": [],
+  "categories": [],
+  "update": {
+    "timestamp": "2025-12-07T15:39:11.434760",
+    "author": {
+      "id": 30108182,
+      "login": "GB238"
+    }
+  },
+  "colors": {
+    "light": "alexandrie",
+    "dark": "alexandrie-dark"
+  }
+}
