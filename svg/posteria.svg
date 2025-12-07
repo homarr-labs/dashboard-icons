@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="40 35 110 130">
+                    <g transform="translate(40, 35)">
+                        <rect x="0" y="0" width="70" height="100" rx="6" fill="#E5A00D" opacity="0.4"/>
+                        <rect x="20" y="15" width="70" height="100" rx="6" fill="#E5A00D" opacity="0.7"/>
+                        <rect x="40" y="30" width="70" height="100" rx="6" fill="#E5A00D"/>
+                        <circle cx="75" cy="80" r="25" fill="white"/>
+                        <path d="M65 65 L95 80 L65 95 Z" fill="#E5A00D"/>
+                    </g>
+                </svg>
