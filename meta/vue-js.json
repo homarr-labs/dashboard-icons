@@ -1,0 +1,17 @@
+{
+  "base": "svg",
+  "aliases": [
+    "vue",
+    "vuejs"
+  ],
+  "categories": [
+    "Development"
+  ],
+  "update": {
+    "timestamp": "2025-12-07T16:13:39.183811",
+    "author": {
+      "id": 101410098,
+      "login": "juronja"
+    }
+  }
+}
