@@ -20972,6 +20972,24 @@
             "light": "tube-archivist-light"
         }
     },
+    "okta": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "Security"
+        ],
+        "update": {
+            "timestamp": "2025-12-07T15:24:21.576213",
+            "author": {
+                "id": 34304594,
+                "login": "vijhhh2"
+            }
+        },
+        "colors": {
+            "light": "okta",
+            "dark": "okta-dark"
+        }
+    },
     "linkding": {
         "base": "svg",
         "aliases": [],
