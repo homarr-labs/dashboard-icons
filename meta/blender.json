@@ -1,0 +1,14 @@
+{
+  "base": "svg",
+  "aliases": [],
+  "categories": [
+    "Development"
+  ],
+  "update": {
+    "timestamp": "2025-12-07T16:05:07.217137",
+    "author": {
+      "id": 514903,
+      "login": "fnuecke"
+    }
+  }
+}
