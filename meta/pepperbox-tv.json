@@ -1,0 +1,18 @@
+{
+  "base": "svg",
+  "aliases": [
+    "pepperbox"
+  ],
+  "categories": [],
+  "update": {
+    "timestamp": "2025-12-07T15:18:42.205790",
+    "author": {
+      "id": 243823654,
+      "login": "Dusty1-1"
+    }
+  },
+  "colors": {
+    "light": "pepperbox-tv",
+    "dark": "pepperbox-tv-dark"
+  }
+}
