@@ -1,0 +1,16 @@
+{
+  "base": "svg",
+  "aliases": [
+    "rails"
+  ],
+  "categories": [
+    "Development"
+  ],
+  "update": {
+    "timestamp": "2025-12-07T15:53:03.924405",
+    "author": {
+      "id": 33139500,
+      "login": "barcellos-pedro"
+    }
+  }
+}
