@@ -87,6 +87,7 @@ jobs:
           # Cache Next.js build output
           path: |
             ${{ github.workspace }}/web/.next/cache
+          key: ${{ runner.os }}-nextjs-${{ hashFiles('./web/pnpm-lock.yaml') }}-${{ hashFiles('./web/**.[jt]s', './web/**.[jt]sx') }}
           # If source files changed but packages didn't, rebuild from a prior cache.
           restore-keys: |
             ${{ runner.os }}-nextjs-${{ hashFiles('./web/pnpm-lock.yaml') }}-
