@@ -82,7 +82,7 @@
 		"zod": "^4.1.12"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "2.3.7",
+		"@biomejs/biome": "2.3.8",
 		"@tailwindcss/postcss": "^4.1.13",
 		"@types/canvas-confetti": "^1.9.0",
 		"@types/node": "^24.10.1",
