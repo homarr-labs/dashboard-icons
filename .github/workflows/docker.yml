@@ -1,0 +1,120 @@
+name: Main CI
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+on:
+  push:
+    branches: [main]
+    
+  # Daily schedule at midnight (00:00 UTC)
+  schedule:
+    - cron: '0 0 * * *'
+    
+  workflow_dispatch:
+
+env:
+  # Use docker.io for Docker Hub if empty
+  REGISTRY: ghcr.io
+  # github.repository as <account>/<repo>
+  IMAGE_NAME: ${{ github.repository }}
+  # PNPM store location
+
+  PNPM_STORE_PATH: ~/.local/share/pnpm/store
+
+jobs:
+  # Push image to GitHub Packages.
+  # See also https://docs.docker.com/docker-hub/builds/
+  build-and-push:
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+      contents: read
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0  # Fetch all history for git diff checking
+
+      # Setup Node.js with pnpm
+      - name: Setup Node.js with pnpm
+        uses: actions/setup-node@v3
+        with:
+          node-version: '25.2.1'
+
+      # Install pnpm if not already available
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4.2.0
+
+      # Cache pnpm store (much faster installs)
+      - name: Cache pnpm store
+        uses: actions/cache@v3
+        with:
+          path: ${{ env.PNPM_STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('./web/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+
+
+      - name: Restore NextJS cache
+        uses: actions/cache@v3
+        with:
+          # Cache Next.js build output
+          path: |
+            ${{ github.workspace }}/web/.next/cache
+          key: ${{ runner.os }}-nextjs-${{ hashFiles('./web/pnpm-lock.yaml') }}-${{ hashFiles('./web/**.[jt]s', './web/**.[jt]sx') }}
+          # If source files changed but packages didn't, rebuild from a prior cache.
+          restore-keys: |
+            ${{ runner.os }}-nextjs-${{ hashFiles('./web/pnpm-lock.yaml') }}-
+
+      # Install dependencies with pnpm in ./web folder
+      - name: Install dependencies with pnpm
+        working-directory: ./web
+        run: |
+          pnpm install --frozen-lockfile --prefer-offline
+
+      # Build with pnpm in ./web folder
+      - name: Build with pnpm
+        working-directory: ./web
+        run: |
+          pnpm run build  # or pnpm turbo build if using Turborepo
+
+      - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v4
+        with:
+          # list of Docker images to use as base name for tags
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          # generate Docker tags based on the following events/attributes
+          tags: |
+            type=raw,value=latest
+            type=semver,pattern={{version}}
+            # Add date-based tag for scheduled builds
+            type=schedule,pattern={{date 'YYYY.MM.DD'}},enable=${{ github.event_name == 'schedule' }}
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Login to GHCR
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push
+        uses: docker/build-push-action@v4
+        with:
+          platforms: linux/amd64
+          context: .
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
