@@ -39,52 +39,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      # Setup Node.js with pnpm
-      - name: Setup Node.js with pnpm
-        uses: actions/setup-node@v3
-        with:
-          node-version: '25.2.1'
-
-      # Install pnpm if not already available
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4.2.0
-        with:
-          version: '10.18.2'
-
-      # Cache pnpm store (much faster installs)
-      - name: Cache pnpm store
-        uses: actions/cache@v3
-        with:
-          path: ${{ env.PNPM_STORE_PATH }}
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('./web/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-store-
-
-
-
-      - name: Restore NextJS cache
-        uses: actions/cache@v3
-        with:
-          # Cache Next.js build output
-          path: |
-            ${{ github.workspace }}/web/.next/cache
-          key: ${{ runner.os }}-nextjs-${{ hashFiles('./web/pnpm-lock.yaml') }}-${{ hashFiles('./web/**.[jt]s', './web/**.[jt]sx') }}
-          # If source files changed but packages didn't, rebuild from a prior cache.
-          restore-keys: |
-            ${{ runner.os }}-nextjs-${{ hashFiles('./web/pnpm-lock.yaml') }}-
-
-      # Install dependencies with pnpm in ./web folder
-      - name: Install dependencies with pnpm
-        working-directory: ./web
-        run: |
-          pnpm install --frozen-lockfile --prefer-offline
-
-      # Build with pnpm in ./web folder
-      - name: Build with pnpm
-        working-directory: ./web
-        run: |
-          pnpm run build  # or pnpm turbo build if using Turborepo
-
       - name: Docker meta
         id: meta
         uses: docker/metadata-action@v4
@@ -115,10 +69,12 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           platforms: linux/amd64
-          context: .
+          context: ./web
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+          secrets: |
+            "github_token=${{ secrets.GITHUB_TOKEN }}"
 
