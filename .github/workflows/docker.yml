@@ -48,8 +48,6 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '25.2.1'
-          cache: 'pnpm'
-          cache-dependency-path: './web/pnpm-lock.yaml'
 
       # Install pnpm if not already available
       - name: Setup pnpm
