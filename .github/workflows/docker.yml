@@ -38,21 +38,6 @@ jobs:
       contents: read
     
     steps:
-      # Check for changes in the last 24 hours (for scheduled runs)
-      - name: Check for recent changes
-        if: github.event_name == 'schedule'
-        id: check_changes
-        run: |
-          # Check if there were any commits in the last 24 hours
-          COMMIT_COUNT=$(git log --oneline --since="24 hours ago" | wc -l)
-          if [ $COMMIT_COUNT -gt 0 ]; then
-            echo "has_changes=true" >> $GITHUB_OUTPUT
-            echo "Found $COMMIT_COUNT commits in the last 24 hours"
-          else
-            echo "has_changes=false" >> $GITHUB_OUTPUT
-            echo "No commits in the last 24 hours"
-          fi
-
       - name: Checkout
         uses: actions/checkout@v3
         with:
