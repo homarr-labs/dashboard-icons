@@ -37,7 +37,7 @@ jobs:
     
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v6
 
       # Setup Node.js with pnpm
       - name: Setup Node.js with pnpm
