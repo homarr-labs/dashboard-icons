@@ -41,7 +41,7 @@ jobs:
 
       # Setup Node.js with pnpm
       - name: Setup Node.js with pnpm
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v6
         with:
           node-version: '25.2.1'
 
