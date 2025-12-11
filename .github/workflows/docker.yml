@@ -112,7 +112,7 @@ jobs:
           # generate Docker tags based on the following events/attributes
           tags: |
             type=raw,value=latest
-            type=pep440,pattern={{version}}
+            type=semver,pattern={{version}}
             # Add date-based tag for scheduled builds
             type=schedule,pattern={{date 'YYYY.MM.DD'}},enable=${{ github.event_name == 'schedule' }}
 
