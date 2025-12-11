@@ -53,7 +53,7 @@ jobs:
 
       # Cache pnpm store (much faster installs)
       - name: Cache pnpm store
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ${{ env.PNPM_STORE_PATH }}
           key: ${{ runner.os }}-pnpm-store-${{ hashFiles('./web/pnpm-lock.yaml') }}
@@ -63,7 +63,7 @@ jobs:
 
 
       - name: Restore NextJS cache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           # Cache Next.js build output
           path: |
