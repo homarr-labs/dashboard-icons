@@ -26,12 +26,6 @@ jobs:
   # Push image to GitHub Packages.
   # See also https://docs.docker.com/docker-hub/builds/
   build-and-push:
-    # Only run on schedule if there have been changes in the last 24 hours
-    if: |
-      github.event_name == 'workflow_dispatch' ||
-      github.event_name == 'push' ||
-      (github.event_name == 'schedule' && steps.check_changes.outputs.has_changes == 'true')
-    
     runs-on: ubuntu-latest
     permissions:
       packages: write
