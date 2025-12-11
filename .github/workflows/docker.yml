@@ -80,13 +80,6 @@ jobs:
             ${{ runner.os }}-pnpm-store-
 
       # Cache pnpm modules
-      - name: Cache pnpm modules
-        uses: actions/cache@v3
-        with:
-          path: ./web/node_modules
-          key: ${{ runner.os }}-pnpm-${{ hashFiles('./web/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-
 
       - name: Restore NextJS cache
         uses: actions/cache@v3
