@@ -19,7 +19,7 @@ env:
   # github.repository as <account>/<repo>
   IMAGE_NAME: ${{ github.repository }}
   # PNPM store location
-  PNPM_CACHE_DIR: ~/.pnpm-store
+
   PNPM_STORE_PATH: ~/.local/share/pnpm/store
 
 jobs:
@@ -56,7 +56,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
 
-      # Cache pnpm modules
+
 
       - name: Restore NextJS cache
         uses: actions/cache@v3
@@ -117,4 +117,4 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
-          network: host
+
