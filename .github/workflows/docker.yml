@@ -70,7 +70,7 @@ jobs:
         env:
           NEXT_PUBLIC_POCKETBASE_URL: ${{ env.NEXT_PUBLIC_POCKETBASE_URL }}
         with:
-          platforms: linux/amd64,linux/arm64
+          platforms: linux/amd64
           context: ./web
           push: true
           tags: ${{ steps.meta.outputs.tags }}
