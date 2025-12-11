@@ -150,8 +150,8 @@ importers:
         specifier: ^0.4.6
         version: 0.4.6(react-dom@19.2.1(react@19.2.1))(react@19.2.1)
       pocketbase:
-        specifier: ^0.26.4
-        version: 0.26.4
+        specifier: ^0.26.5
+        version: 0.26.5
       posthog-js:
         specifier: ^1.301.1
         version: 1.301.1
@@ -1981,8 +1981,8 @@ packages:
   picocolors@1.1.1:
     resolution: {integrity: sha512-xceH2snhtb5M9liqDsmEw56le376mTZkEX/jEb/RxNFyegNul7eNslCXP9FDj/Lcu0X8KEyMceP2ntpaHrDEVA==}
 
-  pocketbase@0.26.4:
-    resolution: {integrity: sha512-r3JL7Lq7TfMSn0cWHD6RL27HM6BXGI3He4CgdX526nPhvacIMMKHONNh2Myuf+hineoeFXGf/BnrViH9V4TzEQ==}
+  pocketbase@0.26.5:
+    resolution: {integrity: sha512-SXcq+sRvVpNxfLxPB1C+8eRatL7ZY4o3EVl/0OdE3MeR9fhPyZt0nmmxLqYmkLvXCN9qp3lXWV/0EUYb3MmMXQ==}
 
   postcss@8.4.31:
     resolution: {integrity: sha512-PS08Iboia9mts/2ygV3eLpY5ghnUcfLV/EXTOW1E2qYxJKGGBUtNjN76FYHnMs36RmARn41bC0AZmn+rR0OVpQ==}
@@ -3924,7 +3924,7 @@ snapshots:
 
   picocolors@1.1.1: {}
 
-  pocketbase@0.26.4: {}
+  pocketbase@0.26.5: {}
 
   postcss@8.4.31:
     dependencies:
