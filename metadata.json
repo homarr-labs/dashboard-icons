@@ -14327,6 +14327,24 @@
             }
         }
     },
+    "endel": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "Health"
+        ],
+        "update": {
+            "timestamp": "2025-12-12T09:44:25.156388",
+            "author": {
+                "id": 3502902,
+                "login": "mattrayner"
+            }
+        },
+        "colors": {
+            "light": "endel",
+            "dark": "endel-dark"
+        }
+    },
     "synology-video-station": {
         "base": "png",
         "aliases": [
