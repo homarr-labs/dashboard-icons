@@ -86,7 +86,7 @@
 		"@tailwindcss/postcss": "^4.1.13",
 		"@types/canvas-confetti": "^1.9.0",
 		"@types/node": "^24.10.1",
-		"@types/react": "^19.2.5",
+		"@types/react": "^19.2.7",
 		"@types/react-dom": "^19.2.3",
 		"baseline-browser-mapping": "^2.8.32",
 		"tailwindcss": "^4.1.13",
