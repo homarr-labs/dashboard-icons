@@ -12,8 +12,8 @@ importers:
         specifier: ^5.2.1
         version: 5.2.1(react-hook-form@7.68.0(react@19.2.1))
       '@posthog/nextjs-config':
-        specifier: ^1.6.3
-        version: 1.6.3(next@16.0.9(react-dom@19.2.1(react@19.2.1))(react@19.2.1))
+        specifier: ^1.6.4
+        version: 1.6.4(next@16.0.9(react-dom@19.2.1(react@19.2.1))(react@19.2.1))
       '@radix-ui/react-accordion':
         specifier: ^1.2.12
         version: 1.2.12(@types/react-dom@19.2.3(@types/react@19.2.5))(@types/react@19.2.5)(react-dom@19.2.1(react@19.2.1))(react@19.2.1)
@@ -538,14 +538,17 @@ packages:
   '@posthog/core@1.7.0':
     resolution: {integrity: sha512-d6ZV4grpzeH/6/LP8quMVpSjY1puRkrqfwcPvGRKUAX7tb7YHyp/zMiTDuJmOFbpUxAMBXH5nDwcPiyCY2WGzA==}
 
-  '@posthog/nextjs-config@1.6.3':
-    resolution: {integrity: sha512-fETw0RRUVH4mKyvkidoHWJ07d+CjGjEppFT3DPpq0y2WxvxDMzkMcdNqvlkAIM1j3bLxyfPor7+YL277XkA1Gw==}
+  '@posthog/core@1.7.1':
+    resolution: {integrity: sha512-kjK0eFMIpKo9GXIbts8VtAknsoZ18oZorANdtuTj1CbgS28t4ZVq//HAWhnxEuXRTrtkd+SUJ6Ux3j2Af8NCuA==}
+
+  '@posthog/nextjs-config@1.6.4':
+    resolution: {integrity: sha512-N1MmP4Hh1Jp2PRSUrhQfj6t9CvTkZR4xeu+vZcyv/ZPU7yef8ZSF8cfzChyWt/IeoCX7bR4DpXnWtngfvX/nvw==}
     engines: {node: '>=20'}
     peerDependencies:
       next: '>12.1.0'
 
-  '@posthog/webpack-plugin@1.1.3':
-    resolution: {integrity: sha512-nWnYAjXaJyU/OvnFlCbe+Bxm/qVCHDLJhZ7QcmTWjnS2eeiMRasYCUagqfGxoEF9ihMLPom3Swhv8QzAGjkczw==}
+  '@posthog/webpack-plugin@1.1.4':
+    resolution: {integrity: sha512-bT2XDydzOccrSpe2x9dh+UtSoikXXdDcYKFaj62WcN5o+j6a6bpxwRRezfVT5EtRazQoPNtl7vEsCTVyAgkrbw==}
 
   '@radix-ui/number@1.1.1':
     resolution: {integrity: sha512-MkKCwxlXTgz6CFoJx3pCwn07GKp36+aZyu/u2Ln2VrA5DcdyCZkASEDBTd8x5whTQQL5CiYf4prXKLcgQdv29g==}
@@ -1945,6 +1948,7 @@ packages:
   next@16.0.9:
     resolution: {integrity: sha512-Xk5x/wEk6ADIAtQECLo1uyE5OagbQCiZ+gW4XEv24FjQ3O2PdSkvgsn22aaseSXC7xg84oONvQjFbSTX5YsMhQ==}
     engines: {node: '>=20.9.0'}
+    deprecated: This version has a security vulnerability. Please upgrade to a patched version. See https://nextjs.org/blog/security-update-2025-12-11 for more details.
     hasBin: true
     peerDependencies:
       '@opentelemetry/api': ^1.1.0
@@ -2525,20 +2529,24 @@ snapshots:
     dependencies:
       cross-spawn: 7.0.6
 
-  '@posthog/nextjs-config@1.6.3(next@16.0.9(react-dom@19.2.1(react@19.2.1))(react@19.2.1))':
+  '@posthog/core@1.7.1':
+    dependencies:
+      cross-spawn: 7.0.6
+
+  '@posthog/nextjs-config@1.6.4(next@16.0.9(react-dom@19.2.1(react@19.2.1))(react@19.2.1))':
     dependencies:
       '@posthog/cli': 0.5.16
-      '@posthog/core': 1.7.0
-      '@posthog/webpack-plugin': 1.1.3
+      '@posthog/core': 1.7.1
+      '@posthog/webpack-plugin': 1.1.4
       next: 16.0.9(react-dom@19.2.1(react@19.2.1))(react@19.2.1)
       semver: 7.7.3
     transitivePeerDependencies:
       - debug
 
-  '@posthog/webpack-plugin@1.1.3':
+  '@posthog/webpack-plugin@1.1.4':
     dependencies:
       '@posthog/cli': 0.5.16
-      '@posthog/core': 1.7.0
+      '@posthog/core': 1.7.1
     transitivePeerDependencies:
       - debug
 
