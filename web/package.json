@@ -90,7 +90,7 @@
 		"@types/react-dom": "^19.2.3",
 		"baseline-browser-mapping": "^2.8.32",
 		"tailwindcss": "^4.1.13",
-		"typescript": "^5.9.2"
+		"typescript": "^5.9.3"
 	},
 	"packageManager": "pnpm@10.18.2",
 	"pnpm": {
