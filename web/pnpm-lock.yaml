@@ -205,7 +205,7 @@ importers:
         specifier: 2.3.7
         version: 2.3.7
       '@tailwindcss/postcss':
-        specifier: ^4.1.13
+        specifier: ^4.1.17
         version: 4.1.17
       '@types/canvas-confetti':
         specifier: ^1.9.0
@@ -223,7 +223,7 @@ importers:
         specifier: ^2.8.32
         version: 2.8.32
       tailwindcss:
-        specifier: ^4.1.13
+        specifier: ^4.1.17
         version: 4.1.17
       typescript:
         specifier: ^5.9.2
@@ -1945,6 +1945,7 @@ packages:
   next@16.0.9:
     resolution: {integrity: sha512-Xk5x/wEk6ADIAtQECLo1uyE5OagbQCiZ+gW4XEv24FjQ3O2PdSkvgsn22aaseSXC7xg84oONvQjFbSTX5YsMhQ==}
     engines: {node: '>=20.9.0'}
+    deprecated: This version has a security vulnerability. Please upgrade to a patched version. See https://nextjs.org/blog/security-update-2025-12-11 for more details.
     hasBin: true
     peerDependencies:
       '@opentelemetry/api': ^1.1.0
