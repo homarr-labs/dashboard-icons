@@ -70,7 +70,7 @@ jobs:
           git commit -m "feat(icons): update ${{ steps.extract_icon_name.outputs.ICON_NAME }}"
 
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v7
+        uses: peter-evans/create-pull-request@v8
         with:
           token: ${{ steps.obtainToken.outputs.token }}
           branch: icons/update-${{steps.extract_icon_name.outputs.ICON_NAME}}
