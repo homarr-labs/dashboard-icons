@@ -153,8 +153,8 @@ importers:
         specifier: ^0.26.4
         version: 0.26.4
       posthog-js:
-        specifier: ^1.301.1
-        version: 1.301.1
+        specifier: ^1.303.1
+        version: 1.306.1
       posthog-node:
         specifier: ^5.17.0
         version: 5.17.0
@@ -537,6 +537,9 @@ packages:
 
   '@posthog/core@1.7.0':
     resolution: {integrity: sha512-d6ZV4grpzeH/6/LP8quMVpSjY1puRkrqfwcPvGRKUAX7tb7YHyp/zMiTDuJmOFbpUxAMBXH5nDwcPiyCY2WGzA==}
+
+  '@posthog/core@1.7.1':
+    resolution: {integrity: sha512-kjK0eFMIpKo9GXIbts8VtAknsoZ18oZorANdtuTj1CbgS28t4ZVq//HAWhnxEuXRTrtkd+SUJ6Ux3j2Af8NCuA==}
 
   '@posthog/nextjs-config@1.6.3':
     resolution: {integrity: sha512-fETw0RRUVH4mKyvkidoHWJ07d+CjGjEppFT3DPpq0y2WxvxDMzkMcdNqvlkAIM1j3bLxyfPor7+YL277XkA1Gw==}
@@ -1945,6 +1948,7 @@ packages:
   next@16.0.9:
     resolution: {integrity: sha512-Xk5x/wEk6ADIAtQECLo1uyE5OagbQCiZ+gW4XEv24FjQ3O2PdSkvgsn22aaseSXC7xg84oONvQjFbSTX5YsMhQ==}
     engines: {node: '>=20.9.0'}
+    deprecated: This version has a security vulnerability. Please upgrade to a patched version. See https://nextjs.org/blog/security-update-2025-12-11 for more details.
     hasBin: true
     peerDependencies:
       '@opentelemetry/api': ^1.1.0
@@ -1992,8 +1996,8 @@ packages:
     resolution: {integrity: sha512-dle9A3yYxlBSrt8Fu+IpjGT8SY8hN0mlaA6GY8t0P5PjIOZemULz/E2Bnm/2dcUOena75OTNkHI76uZBNUUq3A==}
     engines: {node: ^10 || ^12 || >=14}
 
-  posthog-js@1.301.1:
-    resolution: {integrity: sha512-ikkW716dfO1RkLREq5nrVDmcfQTrQfk3sAcP0ExuvSJ9NWOsvA2hz75bgV3GcHqG9xYlSm7Qe6Fzbn5kzx6MiQ==}
+  posthog-js@1.306.1:
+    resolution: {integrity: sha512-wO7bliv/5tlAlfoKCUzwkGXZVNexk0dHigMf9tNp0q1rzs62wThogREY7Tz7h/iWKYiuXy1RumtVlTmHuBXa1w==}
 
   posthog-node@5.17.0:
     resolution: {integrity: sha512-M+ftj0kLJk6wVF1xW5cStSany0LBC6YDVO7RPma2poo+PrpeiTk+ovhqcIqWAySDdTcBHJfBV9aIFYWPl2y6kg==}
@@ -2522,6 +2526,10 @@ snapshots:
       - debug
 
   '@posthog/core@1.7.0':
+    dependencies:
+      cross-spawn: 7.0.6
+
+  '@posthog/core@1.7.1':
     dependencies:
       cross-spawn: 7.0.6
 
@@ -3938,9 +3946,9 @@ snapshots:
       picocolors: 1.1.1
       source-map-js: 1.2.1
 
-  posthog-js@1.301.1:
+  posthog-js@1.306.1:
     dependencies:
-      '@posthog/core': 1.7.0
+      '@posthog/core': 1.7.1
       core-js: 3.41.0
       fflate: 0.4.8
       preact: 10.26.5
