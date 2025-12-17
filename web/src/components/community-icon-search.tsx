@@ -352,7 +352,7 @@ export function CommunityIconSearch({ icons }: CommunityIconSearchProps) {
 						<div className="flex flex-wrap gap-2">
 							{selectedCategories.map((category) => (
 								<Badge key={category} variant="secondary" className="flex items-center gap-1 pl-2 pr-1">
-									{category.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase())}
+									{category.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase())} ({filteredIcons.find((icon) => icon.data.categories.includes(category)) ? filteredIcons.filter((icon) => icon.data.categories.includes(category)).length : 0})
 									<Button
 										variant="ghost"
 										size="sm"
