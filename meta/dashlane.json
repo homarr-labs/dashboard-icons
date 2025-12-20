@@ -1,0 +1,14 @@
+{
+  "base": "png",
+  "aliases": [],
+  "categories": [
+    "Security"
+  ],
+  "update": {
+    "timestamp": "2025-12-20T18:12:04.648132",
+    "author": {
+      "id": 1595680,
+      "login": "HackXIt"
+    }
+  }
+}
