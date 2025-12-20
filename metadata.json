@@ -21981,14 +21981,14 @@
         }
     },
     "netvisor": {
-        "base": "png",
+        "base": "svg",
         "aliases": [],
         "categories": [],
         "update": {
-            "timestamp": "2025-11-25T05:54:57.523245",
+            "timestamp": "2025-12-20T17:53:18.360932",
             "author": {
-                "id": 149651416,
-                "login": "jimmy-tr33"
+                "id": 120260648,
+                "login": "mayanayza"
             }
         }
     },
