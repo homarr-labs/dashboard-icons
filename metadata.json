@@ -17033,6 +17033,18 @@
             }
         }
     },
+    "mail-archiver": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2025-12-20T16:49:00.989369",
+            "author": {
+                "id": 48109134,
+                "login": "jdcool00"
+            }
+        }
+    },
     "dell": {
         "base": "svg",
         "aliases": [],
