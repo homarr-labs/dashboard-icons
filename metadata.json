@@ -18336,6 +18336,24 @@
             "light": "1password"
         }
     },
+    "mubi": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "Media"
+        ],
+        "update": {
+            "timestamp": "2025-12-20T17:33:43.936912",
+            "author": {
+                "id": 33139500,
+                "login": "barcellos-pedro"
+            }
+        },
+        "colors": {
+            "light": "mubi",
+            "dark": "mubi-dark"
+        }
+    },
     "mousehole": {
         "base": "svg",
         "aliases": [],
