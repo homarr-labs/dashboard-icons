@@ -28891,6 +28891,22 @@
             }
         }
     },
+    "libretranslate": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2025-12-20T18:07:16.610850",
+            "author": {
+                "id": 17731202,
+                "login": "Kvanrooyen"
+            }
+        },
+        "colors": {
+            "light": "libretranslate",
+            "dark": "libretranslate-dark"
+        }
+    },
     "ezbookkeeping": {
         "base": "png",
         "aliases": [],
