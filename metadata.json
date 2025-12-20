@@ -23905,6 +23905,24 @@
             }
         }
     },
+    "unreal-engine": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "Gaming"
+        ],
+        "update": {
+            "timestamp": "2025-12-20T16:36:24.786977",
+            "author": {
+                "id": 43233260,
+                "login": "Maski0"
+            }
+        },
+        "colors": {
+            "light": "unreal-engine",
+            "dark": "unreal-engine-dark"
+        }
+    },
     "keila": {
         "base": "svg",
         "aliases": [],
