@@ -1,0 +1,16 @@
+{
+  "base": "svg",
+  "aliases": [],
+  "categories": [],
+  "update": {
+    "timestamp": "2025-12-20T17:37:43.987979",
+    "author": {
+      "id": 10255587,
+      "login": "SteffeyDev"
+    }
+  },
+  "colors": {
+    "light": "rybbit",
+    "dark": "rybbit-dark"
+  }
+}
