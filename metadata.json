@@ -23155,6 +23155,18 @@
             }
         }
     },
+    "plane-finder": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2025-12-20T16:55:03.605694",
+            "author": {
+                "id": 25563515,
+                "login": "apo-mak"
+            }
+        }
+    },
     "betanin": {
         "base": "png",
         "aliases": [],
