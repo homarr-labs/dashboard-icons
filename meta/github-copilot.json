@@ -1,0 +1,18 @@
+{
+  "base": "svg",
+  "aliases": [],
+  "categories": [
+    "Development"
+  ],
+  "update": {
+    "timestamp": "2025-12-20T17:42:07.195000",
+    "author": {
+      "id": 17213165,
+      "login": "marshalhayes"
+    }
+  },
+  "colors": {
+    "light": "github-copilot",
+    "dark": "github-copilot-dark"
+  }
+}
