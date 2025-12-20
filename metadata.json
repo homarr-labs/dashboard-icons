@@ -14564,6 +14564,18 @@
             }
         }
     },
+    "boeing": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2025-12-20T17:02:29.256834",
+            "author": {
+                "id": 173467191,
+                "login": "Dikshith-Manjunath"
+            }
+        }
+    },
     "eblocker": {
         "base": "svg",
         "aliases": [
