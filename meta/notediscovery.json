@@ -1,0 +1,17 @@
+{
+  "base": "svg",
+  "aliases": [
+    "note-discovery",
+    "Note Discovery"
+  ],
+  "categories": [
+    "Organization"
+  ],
+  "update": {
+    "timestamp": "2025-12-20T17:44:42.763345",
+    "author": {
+      "id": 9968384,
+      "login": "gamosoft"
+    }
+  }
+}
