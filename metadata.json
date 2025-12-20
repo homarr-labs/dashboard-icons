@@ -17574,6 +17574,18 @@
             "light": "zyxel-communications-light"
         }
     },
+    "netronome": {
+        "base": "png",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2025-12-20T17:04:00.792021",
+            "author": {
+                "id": 188731162,
+                "login": "4dg11a"
+            }
+        }
+    },
     "floorp": {
         "base": "svg",
         "aliases": [],
