@@ -1,0 +1,16 @@
+{
+  "base": "svg",
+  "aliases": [
+    "keeper"
+  ],
+  "categories": [
+    "Security"
+  ],
+  "update": {
+    "timestamp": "2025-12-20T17:05:32.938673",
+    "author": {
+      "id": 2262308,
+      "login": "theFuribundi"
+    }
+  }
+}
