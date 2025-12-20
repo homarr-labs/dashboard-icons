@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="8 4 48 56">
+  <!-- Background shield shape -->
+  <path d="M32 4L8 14v18c0 14 10 24 24 28 14-4 24-14 24-28V14L32 4z" fill="#0B1A2E"/>
+  <!-- Inner shield -->
+  <path d="M32 8L12 16v14c0 12 8.5 20.5 20 24 11.5-3.5 20-12 20-24V16L32 8z" fill="#162840"/>
+  <!-- T-path stylized -->
+  <path d="M22 24h20v4H34v16h-4V28H22v-4z" fill="#18D1E7"/>
+  <!-- Radar arcs -->
+  <path d="M32 20a16 16 0 0 1 11.3 4.7" stroke="#18D1E7" stroke-width="2" stroke-linecap="round" fill="none" opacity="0.6"/>
+  <path d="M32 16a20 20 0 0 1 14.1 5.9" stroke="#18D1E7" stroke-width="2" stroke-linecap="round" fill="none" opacity="0.4"/>
+  <path d="M32 12a24 24 0 0 1 17 7" stroke="#18D1E7" stroke-width="2" stroke-linecap="round" fill="none" opacity="0.2"/>
+  <!-- Glow effect -->
+  <defs>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="1" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  <path d="M22 24h20v4H34v16h-4V28H22v-4z" fill="#18D1E7" filter="url(#glow)"/>
+</svg>
