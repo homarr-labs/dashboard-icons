@@ -1,0 +1,18 @@
+{
+  "base": "svg",
+  "aliases": [],
+  "categories": [
+    "Development"
+  ],
+  "update": {
+    "timestamp": "2025-12-20T16:58:18.772722",
+    "author": {
+      "id": 33139500,
+      "login": "barcellos-pedro"
+    }
+  },
+  "colors": {
+    "light": "laracasts",
+    "dark": "laracasts-dark"
+  }
+}
