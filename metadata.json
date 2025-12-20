@@ -21033,6 +21033,22 @@
             "dark": "zen-browser-dark"
         }
     },
+    "capjs": {
+        "base": "png",
+        "aliases": [
+            "cap"
+        ],
+        "categories": [
+            "Development"
+        ],
+        "update": {
+            "timestamp": "2025-12-20T18:05:03.150581",
+            "author": {
+                "id": 3414502,
+                "login": "John222"
+            }
+        }
+    },
     "pritunl": {
         "base": "svg",
         "aliases": [
