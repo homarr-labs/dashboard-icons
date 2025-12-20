@@ -1,0 +1,18 @@
+{
+  "base": "png",
+  "aliases": [],
+  "categories": [
+    "Organization"
+  ],
+  "update": {
+    "timestamp": "2025-12-20T17:51:04.091034",
+    "author": {
+      "id": 3957092,
+      "login": "mxdevmanuel"
+    }
+  },
+  "colors": {
+    "light": "tududi",
+    "dark": "tududi-dark"
+  }
+}
