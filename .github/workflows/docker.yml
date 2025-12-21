@@ -23,8 +23,12 @@ env:
   # github.repository as <account>/<repo>
   IMAGE_NAME: ${{ github.repository }}
   # PNPM store location
-
   PNPM_STORE_PATH: ~/.local/share/pnpm/store
+  NEXT_PUBLIC_POSTHOG_KEY: phc_fNHNUqEQJHL2DHlwyaPniHOcpEwe8rFPeJEcPbuifC6
+  NEXT_PUBLIC_POSTHOG_HOST: https://hog.ajnart.dev
+  NEXT_PUBLIC_DISABLE_POSTHOG: false
+  NEXT_PUBLIC_POCKETBASE_URL: https://pb.dashboardicons.com
+  CI_MODE: true
 
 jobs:
   # Push image to GitHub Packages.
@@ -76,6 +80,12 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           no-cache: true
+          build-args: |
+            NEXT_PUBLIC_POSTHOG_KEY=${{ env.NEXT_PUBLIC_POSTHOG_KEY }}
+            NEXT_PUBLIC_POSTHOG_HOST=${{ env.NEXT_PUBLIC_POSTHOG_HOST }}
+            NEXT_PUBLIC_DISABLE_POSTHOG=${{ env.NEXT_PUBLIC_DISABLE_POSTHOG }}
+            NEXT_PUBLIC_POCKETBASE_URL=${{ env.NEXT_PUBLIC_POCKETBASE_URL }}
+            CI_MODE=${{ env.CI_MODE }}
           secrets: |
             "github_token=${{ secrets.GITHUB_TOKEN }}"
 
