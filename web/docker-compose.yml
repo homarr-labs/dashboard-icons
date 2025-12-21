@@ -1,0 +1,23 @@
+services:
+  backend:
+    image: ghcr.io/muchobien/pocketbase:latest
+    ports:
+      - "8080:8080"
+    volumes:
+      - pb_data:/pb_data
+      - ./backend/pb_hooks:/pb_hooks
+      - ./backend/pb_public:/pb_public
+      - ./backend/pb_migrations:/pb_migrations
+
+  web:
+    image: ghcr.io/homarr-labs/dashboard-icons:latest
+    depends_on:
+      - backend
+    environment:
+      NODE_ENV: production
+    ports:
+      - "3000:3000"
+
+volumes:
+  pb_data:
+
