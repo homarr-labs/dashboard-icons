@@ -11685,6 +11685,18 @@
             }
         }
     },
+    "zerobyte": {
+        "base": "png",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2025-12-21T10:17:34.269535",
+            "author": {
+                "id": 949587,
+                "login": "janreinhardt"
+            }
+        }
+    },
     "axis": {
         "base": "svg",
         "aliases": [
