@@ -30336,6 +30336,22 @@
             }
         }
     },
+    "openarchiver": {
+        "base": "svg",
+        "aliases": [
+            "open-archiver"
+        ],
+        "categories": [
+            "Communication"
+        ],
+        "update": {
+            "timestamp": "2025-12-21T10:18:31.531176",
+            "author": {
+                "id": 38960053,
+                "login": "gunrunner20"
+            }
+        }
+    },
     "shinobi": {
         "base": "png",
         "aliases": [
