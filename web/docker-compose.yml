@@ -6,9 +6,9 @@ services:
       - "8090:8090"
     volumes:
       - pb_data:/pb_data
-      - ./web/backend/pb_hooks:/pb_hooks
-      - ./web/backend/pb_public:/pb_public
-      - ./web/backend/pb_migrations:/pb_migrations
+      - ./backend/pb_hooks:/pb_hooks
+      - ./backend/pb_public:/pb_public
+      - ./backend/pb_migrations:/pb_migrations
 
   web:
     restart: always
