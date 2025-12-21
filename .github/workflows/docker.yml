@@ -13,6 +13,10 @@ on:
     
   workflow_dispatch:
 
+defaults:
+  run:
+    working-directory: ./web
+
 env:
   # Use docker.io for Docker Hub if empty
   REGISTRY: ghcr.io
@@ -63,15 +67,15 @@ jobs:
 
       - name: Build and push
         uses: docker/build-push-action@v4
+        env:
+          NEXT_PUBLIC_POCKETBASE_URL: ${{ env.NEXT_PUBLIC_POCKETBASE_URL }}
         with:
           platforms: linux/amd64
-          context: .
-          file: ./web/Dockerfile
+          context: ./web
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+          no-cache: true
           secrets: |
             "github_token=${{ secrets.GITHUB_TOKEN }}"
 
