@@ -402,7 +402,7 @@ export function IconDetails({ icon, iconData, authorData, allIcons, status, stat
 						<Tooltip>
 							<TooltipTrigger asChild>
 								<motion.div
-									className="relative w-28 h-28 mb-3 cursor-pointer rounded-xl overflow-hidden group"
+									className="relative w-28 h-28 mb-3 ring-1 ring-white/5 dark:ring-white/10 bg-primary/15 dark:bg-secondary/10 cursor-pointer rounded-xl overflow-hidden group"
 									whileHover={{ scale: 1.05 }}
 									whileTap={{ scale: 0.95 }}
 									onClick={(e) => handleCopyUrl(imageUrl, variantKey, e)}
@@ -476,8 +476,8 @@ export function IconDetails({ icon, iconData, authorData, allIcons, status, stat
 				<div className="lg:col-span-1">
 					<Card className="h-full bg-background/50 border shadow-lg">
 						<CardHeader className="pb-4">
-							<div className="flex flex-col items-center">
-								<div className="relative w-32 h-32 rounded-xl overflow-hidden flex items-center justify-center p-3">
+							<div className="flex flex-col items-center bg-background">
+								<div className="relative w-32 h-32 rounded-xl ring-1 ring-white/5 dark:ring-white/10 bg-primary/15 dark:bg-secondary/10 overflow-hidden flex items-center justify-center p-3">
 									<Image
 										src={
 											isCommunityIcon && mainIconUrl
