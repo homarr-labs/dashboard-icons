@@ -197,8 +197,9 @@ export function AdvancedIconSubmissionFormTanStack() {
 			const submissionData = {
 				name: value.iconName,
 				assets: assetFiles,
-				created_by: pb.authStore.model?.id,
+				created_by: pb.authStore.record?.id,
 				status: "pending",
+				description: value.description,
 				extras: extras,
 			};
 
