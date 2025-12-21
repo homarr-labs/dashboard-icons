@@ -2,7 +2,7 @@ services:
   backend:
     image: ghcr.io/muchobien/pocketbase:latest
     ports:
-      - "8080:8080"
+      - "8090:8090"
     volumes:
       - pb_data:/pb_data
       - ./backend/pb_hooks:/pb_hooks
