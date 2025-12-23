@@ -34410,18 +34410,5 @@
                 "login": "taodo2291"
             }
         }
-    },
-    "test": {
-        "base": "png",
-        "aliases": [],
-        "categories": [],
-        "update": {
-            "timestamp": "2025-12-23T10:48:35.364Z",
-            "author": {
-                "id": "65rhkhm8i3f9slq",
-                "name": "ajnart",
-                "login": "thomascamlong@gmail.com"
-            }
-        }
     }
 }
