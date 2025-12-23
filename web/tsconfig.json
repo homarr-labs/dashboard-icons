@@ -1,8 +1,5 @@
 {
   "compilerOptions": {
-    "types": [
-      "bun-types"
-    ],
     "target": "ES2017",
     "lib": [
       "dom",
