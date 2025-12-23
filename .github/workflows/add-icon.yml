@@ -1,0 +1,91 @@
+name: Add Icon to Collection
+
+on:
+  workflow_call:
+    inputs:
+      submissionId:
+        description: ID of the PocketBase submission to import
+        required: true
+        type: string
+      dryRun:
+        description: When true, skip writes/commit/PocketBase status update
+        required: false
+        default: false
+        type: boolean
+    secrets:
+      PB_URL:
+        required: true
+      PB_ADMIN_TOKEN:
+        required: true
+  workflow_dispatch:
+    inputs:
+      submissionId:
+        description: ID of the PocketBase submission to import
+        required: true
+        type: string
+      dryRun:
+        description: When true, skip writes/commit/PocketBase status update
+        required: false
+        default: false
+        type: boolean
+
+jobs:
+  add-icon:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v1
+
+      - name: Import icon from PocketBase submission
+        id: import
+        env:
+          PB_URL: ${{ secrets.PB_URL }}
+          PB_ADMIN_TOKEN: ${{ secrets.PB_ADMIN_TOKEN }}
+        run: |
+          ARGS=(--submission-id "${{ inputs.submissionId }}")
+          if [ "${{ inputs.dryRun }}" = "true" ]; then
+            ARGS+=("--dry-run")
+          fi
+          ARGS+=("--gha-output" "$GITHUB_OUTPUT")
+          bun run scripts/import-icon.ts "${ARGS[@]}"
+
+      - name: Check for changes
+        id: git-diff
+        run: |
+          if git diff --quiet; then
+            echo "has_changes=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "has_changes=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Configure git user
+        if: ${{ !inputs.dryRun && steps.git-diff.outputs.has_changes == 'true' }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Commit changes
+        if: ${{ !inputs.dryRun && steps.git-diff.outputs.has_changes == 'true' }}
+        run: |
+          submission_name="${{ steps.import.outputs.submission_name }}"
+          if [ -z "$submission_name" ]; then
+            submission_name="${{ inputs.submissionId }}"
+          fi
+          approver="${{ steps.import.outputs.approver }}"
+          if [ -z "$approver" ]; then
+            approver="unknown"
+          fi
+          git add .
+          git commit -m "chore: add icon \"${submission_name}\" (submission ${{ inputs.submissionId }}, approved by ${approver})"
+
+      - name: Push changes
+        if: ${{ !inputs.dryRun && steps.git-diff.outputs.has_changes == 'true' }}
+        run: git push
+

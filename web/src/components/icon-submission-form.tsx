@@ -1,9 +1,75 @@
-"use client"
+"use client";
 
 import { ExternalLink } from "lucide-react";
 import Link from "next/link";
+import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { REPO_PATH } from "@/constants";
+
+const userSchema = z.object({
+	id: z.string(),
+	username: z.string(),
+	email: z.string().email(),
+	admin: z.boolean().optional(),
+	avatar: z.string().optional(),
+	created: z.string(),
+	updated: z.string(),
+});
+
+const submissionExtrasSchema = z.object({
+	aliases: z.array(z.string()).default([]),
+	categories: z.array(z.string()).default([]),
+	base: z.string().optional(),
+	colors: z
+		.object({
+			dark: z.string().optional(),
+			light: z.string().optional(),
+		})
+		.optional(),
+	wordmark: z
+		.object({
+			dark: z.string().optional(),
+			light: z.string().optional(),
+		})
+		.optional(),
+});
+
+export const submissionSchema = z.object({
+	id: z.string().optional(),
+	name: z.string().min(1, "Icon name is required"),
+	assets: z
+		.array(
+			z.union([
+				z.string(),
+				// Accept File objects while data is still client-side
+				z.instanceof(File),
+			]),
+		)
+		.min(1, "At least one asset is required"),
+	created_by: z.string().optional(),
+	status: z
+		.enum(["approved", "rejected", "pending", "added_to_collection"])
+		.default("pending"),
+	approved_by: z.string().optional(),
+	extras: submissionExtrasSchema.default({
+		aliases: [],
+		categories: [],
+	}),
+	expand: z
+		.object({
+			created_by: userSchema.optional(),
+			approved_by: userSchema.optional(),
+		})
+		.optional(),
+	created: z.string().optional(),
+	updated: z.string().optional(),
+	admin_comment: z.string().optional().default(""),
+	description: z.string().optional().default(""),
+});
+
+export type SubmissionInput = z.infer<typeof submissionSchema>;
+export const parseSubmission = (input: unknown) =>
+	submissionSchema.parse(input);
 
 export const ISSUE_TEMPLATES = [
 	{
