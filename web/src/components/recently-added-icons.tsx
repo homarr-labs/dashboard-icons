@@ -78,7 +78,7 @@ function RecentIconCard({ name, data }: { name: string; data: Icon }) {
 			prefetch={false}
 			href={`/icons/${name}`}
 			className={cn(
-				"flex flex-col items-center p-3 sm:p-4 rounded-xl border border-border",
+				"flex flex-col items-center p-3 sm:p-4 rounded-xl ring-1 ring-white/5 dark:ring-white/10 dark:bg-input/30 border border-border",
 				"transition-all duration-300 hover:shadow-lg hover:shadow-primary/5 relative overflow-hidden hover-lift",
 				"w-36 mx-2 group/item",
 			)}
