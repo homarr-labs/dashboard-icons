@@ -11,7 +11,7 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { Label } from "@/components/ui/label"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Textarea } from "@/components/ui/textarea"
-import { useApproveSubmission, useAuth, useRejectSubmission, useSubmissions } from "@/hooks/use-submissions"
+import { useApproveSubmission, useAuth, useRejectSubmission, useSubmissions, useTriggerWorkflow } from "@/hooks/use-submissions"
 
 export default function DashboardPage() {
 	// Fetch auth status
@@ -23,6 +23,10 @@ export default function DashboardPage() {
 	// Mutations
 	const approveMutation = useApproveSubmission()
 	const rejectMutation = useRejectSubmission()
+	const workflowMutation = useTriggerWorkflow()
+
+	// Track workflow URL for showing link after trigger
+	const [workflowUrl, setWorkflowUrl] = React.useState<string | undefined>()
 
 	// Rejection dialog state
 	const [rejectDialogOpen, setRejectDialogOpen] = React.useState(false)
@@ -42,6 +46,17 @@ export default function DashboardPage() {
 		setRejectingSubmissionId(submissionId)
 		setAdminComment("")
 		setRejectDialogOpen(true)
+	}
+
+	const handleTriggerWorkflow = (submissionId: string) => {
+		workflowMutation.mutate(
+			{ submissionId },
+			{
+				onSuccess: (data) => {
+					setWorkflowUrl(data.workflowUrl)
+				},
+			},
+		)
 	}
 
 	const handleRejectSubmit = () => {
@@ -158,8 +173,11 @@ export default function DashboardPage() {
 							currentUserId={currentUserId}
 							onApprove={handleApprove}
 							onReject={handleReject}
+							onTriggerWorkflow={handleTriggerWorkflow}
 							isApproving={approveMutation.isPending}
 							isRejecting={rejectMutation.isPending}
+							isTriggeringWorkflow={workflowMutation.isPending}
+							workflowUrl={workflowUrl}
 						/>
 					</CardContent>
 				</Card>
