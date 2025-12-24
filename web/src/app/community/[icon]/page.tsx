@@ -205,7 +205,7 @@ export default async function CommunityIconPage({ params }: { params: Promise<{ 
 				authorData={authorData}
 				allIcons={allIcons}
 				status={status}
-				rejectionReason={rejectionReason}
+				rejectionReason={rejectionReason ?? undefined}
 				statusDisplayName={statusDisplayName}
 				statusColor={statusColor}
 			/>
