@@ -20921,14 +20921,21 @@
         "base": "svg",
         "aliases": [],
         "categories": [
-            "Cloud"
+            "cloud",
+            "network",
+            "tools"
         ],
         "update": {
-            "timestamp": "2025-12-07T15:26:26.285091",
+            "timestamp": "2025-12-24T15:02:48.180Z",
             "author": {
-                "id": 106110283,
-                "login": "Hotrod-Linc"
+                "id": "2m91qygzd1dqj3h",
+                "name": "Hotrod-Linc",
+                "login": "lincoln@linktechlab.net"
             }
+        },
+        "colors": {
+            "light": "mantrae-light",
+            "dark": "mantrae-dark"
         }
     },
     "lostack": {
