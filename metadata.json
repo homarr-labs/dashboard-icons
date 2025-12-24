@@ -34410,5 +34410,31 @@
                 "login": "taodo2291"
             }
         }
+    },
+    "sourcehut": {
+        "base": "svg",
+        "aliases": [
+            "sr"
+        ],
+        "categories": [
+            "development",
+            "monitoring",
+            "tools"
+        ],
+        "update": {
+            "timestamp": "2025-12-24T10:15:14.326Z",
+            "author": {
+                "id": "un29yzs9dpnol9b",
+                "name": "thual",
+                "login": "tlabartbarnagaud@protonmail.com"
+            }
+        },
+        "colors": {
+            "dark": "sourcehut-dark"
+        },
+        "wordmark": {
+            "light": "sourcehut-wordmark-light",
+            "dark": "sourcehut-wordmark-dark"
+        }
     }
 }

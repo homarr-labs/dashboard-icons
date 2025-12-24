@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="300"
+   height="80"
+   viewBox="0 0 79.375001 21.166666"
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.1 (c68e22c387, 2021-05-23)"
+   sodipodi:docname="sourcehut-black.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#505050"
+     bordercolor="#ffffff"
+     borderopacity="1"
+     inkscape:pageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="1"
+     inkscape:document-units="px"
+     showgrid="false"
+     units="px"
+     height="80px"
+     inkscape:zoom="3.0930415"
+     inkscape:cx="152.6006"
+     inkscape:cy="77.75518"
+     inkscape:window-width="1920"
+     inkscape:window-height="1059"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs2">
+    <rect
+       x="72.43578"
+       y="4.989779"
+       width="233.3009"
+       height="93.363552"
+       id="rect22993" />
+    <rect
+       x="76.460692"
+       y="7.5029808"
+       width="210.43456"
+       height="46.880685"
+       id="rect5098" />
+  </defs>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       d="m 10.58314,1.3501934 c -5.1005652,0 -9.23314,4.1325746 -9.23314,9.2331386 0,5.100566 4.1325748,9.233141 9.23314,9.233141 5.100565,0 9.23314,-4.132575 9.23314,-9.233141 0,-5.100564 -4.132575,-9.2331386 -9.23314,-9.2331386 z m 0,16.6792216 c -4.1139596,0 -7.4460807,-3.332121 -7.4460807,-7.446083 0,-4.1139582 3.3321211,-7.4460793 7.4460807,-7.4460793 4.11396,0 7.446082,3.3321211 7.446082,7.4460793 0,4.113962 -3.332122,7.446083 -7.446082,7.446083 z"
+       id="path49"
+       style="stroke-width:0.0372303" />
+    <text
+       xml:space="preserve"
+       transform="scale(0.26458333)"
+       id="text22991"
+       style="fill:black;fill-opacity:1;line-height:1.25;stroke:none;font-family:sans-serif;font-style:normal;font-weight:normal;font-size:40px;white-space:pre;shape-inside:url(#rect22993)" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:11.2889px;line-height:1.25;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       x="22.349714"
+       y="13.896598"
+       id="text29885"><tspan
+         sodipodi:role="line"
+         id="tspan29883"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:11.2889px;font-family:'DejaVu Sans';-inkscape-font-specification:'DejaVu Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.264583"
+         x="22.349714"
+         y="13.896598">sourcehut</tspan></text>
+  </g>
+</svg>
