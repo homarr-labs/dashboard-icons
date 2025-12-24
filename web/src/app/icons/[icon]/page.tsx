@@ -26,7 +26,8 @@ export async function generateMetadata({ params, searchParams }: Props, _parent:
 	if (!iconsData[icon]) {
 		notFound()
 	}
-	const authorData = await getAuthorData(iconsData[icon].update.author.id)
+	const author = iconsData[icon].update.author
+	const authorData = await getAuthorData(author.id, { name: author.name, login: author.login })
 	const authorName = authorData.name || authorData.login
 	const updateDate = new Date(iconsData[icon].update.timestamp)
 	const totalIcons = Object.keys(iconsData).length
@@ -127,7 +128,8 @@ export default async function IconPage({ params }: { params: Promise<{ icon: str
 		notFound()
 	}
 
-	const authorData = await getAuthorData(originalIconData.update.author.id)
+	const author = originalIconData.update.author
+	const authorData = await getAuthorData(author.id, { name: author.name, login: author.login })
 
 	return (
 		<>

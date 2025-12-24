@@ -84,7 +84,7 @@ export async function getIconData(iconName: string): Promise<IconWithName | null
 /**
  * Fetch author data from GitHub API (raw function without caching)
  */
-async function fetchAuthorData(authorId: number) {
+async function fetchGitHubAuthorData(authorId: number) {
 	try {
 		const response = await fetch(`https://api.github.com/user/${authorId}`, {
 			headers: {
@@ -121,24 +121,53 @@ async function fetchAuthorData(authorId: number) {
 	}
 }
 
-const authorDataCache: Record<number, AuthorData> = {}
+const authorDataCache: Record<string | number, AuthorData> = {}
+
+/**
+ * Build author data from internal (PocketBase) user metadata
+ * These users don't have GitHub profiles, so we construct a local AuthorData object
+ */
+function buildInternalAuthorData(author: { id: string | number; name?: string; login?: string }): AuthorData {
+	return {
+		id: author.id,
+		name: author.name || "Community Contributor",
+		login: author.login || author.name || "contributor",
+		avatar_url: "https://avatars.githubusercontent.com/u/0",
+		html_url: "https://github.com",
+	}
+}
 
 /**
  * Cached version of fetchAuthorData
- * Uses unstable_cache with tags for on-demand revalidation
- * Revalidates every 86400 seconds (24 hours)
- * Cache key: author-{authorId}
+ * Supports both GitHub users (numeric IDs) and internal PocketBase users (string IDs)
+ *
+ * For GitHub users: fetches from GitHub API
+ * For internal users: constructs AuthorData from the embedded metadata
  *
  * This prevents hitting GitHub API rate limits by caching author data
  * across multiple page builds and requests.
  */
-export async function getAuthorData(authorId: number): Promise<AuthorData> {
-	if (authorDataCache[authorId]) {
-		return authorDataCache[authorId]
+export async function getAuthorData(
+	authorId: number | string,
+	authorMeta?: { name?: string; login?: string },
+): Promise<AuthorData> {
+	const cacheKey = String(authorId)
+
+	if (authorDataCache[cacheKey]) {
+		return authorDataCache[cacheKey]
 	}
 
-	const data = await fetchAuthorData(authorId)
-	authorDataCache[authorId] = data
+	let data: AuthorData
+
+	// If authorId is a string, it's an internal PocketBase user
+	if (typeof authorId === "string") {
+		data = buildInternalAuthorData({ id: authorId, ...authorMeta })
+	} else {
+		// Numeric ID = GitHub user
+		data = await fetchGitHubAuthorData(authorId)
+	}
+
+	authorDataCache[cacheKey] = data
 	return data
 }
 
