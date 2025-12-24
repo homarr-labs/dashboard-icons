@@ -1,19 +1,19 @@
 import type { Metadata, ResolvingMetadata } from "next"
-import { notFound, permanentRedirect, redirect } from "next/navigation"
+import { notFound, permanentRedirect } from "next/navigation"
 import { IconDetails } from "@/components/icon-details"
 import { BASE_URL, WEB_URL } from "@/constants"
 import { getAllIcons } from "@/lib/api"
 import { getCommunityGalleryRecord, getCommunitySubmissionByName, getCommunitySubmissions } from "@/lib/community"
 
-export const dynamicParams = true;
+export const dynamicParams = true
 export const revalidate = 21600 // 6 hours
-export const dynamic = "force-static";
+export const dynamic = "force-static"
 
 export async function generateStaticParams() {
-	const icons = await getCommunitySubmissions();
+	const icons = await getCommunitySubmissions()
 	return icons.map((icon) => ({
 		icon: icon.name,
-	}));
+	}))
 }
 
 type Props = {
@@ -48,10 +48,9 @@ export async function generateMetadata({ params }: Props, _parent: ResolvingMeta
 		.join(" ")
 
 	const mainIconUrl =
-		typeof iconData.data.base === "string" &&
-		iconData.data.base.startsWith("http")
+		typeof iconData.data.base === "string" && iconData.data.base.startsWith("http")
 			? iconData.data.base
-			: (iconData.data as any).mainIconUrl || `${BASE_URL}/svg/${icon}.svg`;
+			: (iconData.data as any).mainIconUrl || `${BASE_URL}/svg/${icon}.svg`
 	return {
 		title: `${formattedIconName} Icon (Community) | Dashboard Icons`,
 		description: `Download the ${formattedIconName} community-submitted icon. Part of a collection of ${totalIcons} community icons awaiting review and addition to the Dashboard Icons collection.`,
@@ -107,7 +106,7 @@ export async function generateMetadata({ params }: Props, _parent: ResolvingMeta
 		alternates: {
 			canonical: `${WEB_URL}/community/${icon}`,
 		},
-	};
+	}
 }
 
 export default async function CommunityIconPage({ params }: { params: Promise<{ icon: string }> }) {
@@ -146,6 +145,7 @@ export default async function CommunityIconPage({ params }: { params: Promise<{ 
 	}
 
 	const status = record?.status || "pending"
+	const rejectionReason = status === "rejected" ? record?.admin_comment : null
 
 	const getStatusDisplayName = (status: string) => {
 		switch (status) {
@@ -205,6 +205,7 @@ export default async function CommunityIconPage({ params }: { params: Promise<{ 
 				authorData={authorData}
 				allIcons={allIcons}
 				status={status}
+				rejectionReason={rejectionReason}
 				statusDisplayName={statusDisplayName}
 				statusColor={statusColor}
 			/>
