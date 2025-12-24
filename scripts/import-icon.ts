@@ -77,8 +77,28 @@ interface VariantTarget {
 
 const PB_URL = process.env.PB_URL;
 const PB_ADMIN_TOKEN = process.env.PB_ADMIN_TOKEN;
-const ICONS_DIR = path.resolve(process.cwd(), "icons");
-const METADATA_PATH = path.resolve(process.cwd(), "metadata.json");
+const ROOT_DIR = process.cwd();
+const METADATA_PATH = path.resolve(ROOT_DIR, "metadata.json");
+
+/**
+ * Get the destination directory based on file extension
+ * SVG files go to svg/, PNG files go to png/, WEBP files go to webp/
+ */
+function getExtensionDir(filename: string): string {
+	const ext = path.extname(filename).replace(".", "").toLowerCase();
+	switch (ext) {
+		case "svg":
+			return path.resolve(ROOT_DIR, "svg");
+		case "png":
+			return path.resolve(ROOT_DIR, "png");
+		case "webp":
+			return path.resolve(ROOT_DIR, "webp");
+		default:
+			// Fallback to svg for unknown extensions
+			console.warn(`[import-icon] Unknown extension "${ext}", defaulting to svg/`);
+			return path.resolve(ROOT_DIR, "svg");
+	}
+}
 
 function parseArgs(argv: string[]): Args {
 	let submissionId: string | undefined;
@@ -369,7 +389,9 @@ async function persistAssets(
 			continue;
 		}
 
-		const destPath = path.join(ICONS_DIR, target.destFilename);
+		// Determine destination directory based on file extension
+		const destDir = getExtensionDir(target.destFilename);
+		const destPath = path.join(destDir, target.destFilename);
 		console.log(
 			`[import-icon] Handling asset ${target.sourceAsset} -> ${destPath} (variant ${target.key})`,
 		);
@@ -386,7 +408,7 @@ async function persistAssets(
 			continue;
 		}
 
-		await ensureDir(ICONS_DIR);
+		await ensureDir(destDir);
 		await downloadAsset(pbUrl, submission.id, target.sourceAsset, destPath);
 		console.log(`Downloaded ${target.sourceAsset} -> ${destPath}`);
 	}
@@ -437,7 +459,7 @@ async function main() {
 	requireEnv("PB_ADMIN_TOKEN", PB_ADMIN_TOKEN);
 
 	console.log(
-		`[import-icon] Starting import submissionId=${args.submissionId} dryRun=${args.dryRun} iconsDir=${ICONS_DIR} metadata=${METADATA_PATH}`,
+		`[import-icon] Starting import submissionId=${args.submissionId} dryRun=${args.dryRun} rootDir=${ROOT_DIR} metadata=${METADATA_PATH}`,
 	);
 
 	console.log(`Fetching submission ${args.submissionId}...`);
