@@ -1,4 +1,4 @@
-"use client";
+"use client"
 
 import {
 	Calendar,
@@ -13,51 +13,47 @@ import {
 	Tag,
 	User as UserIcon,
 	X,
-} from "lucide-react";
-import Image from "next/image";
-import Link from "next/link";
-import { IconCard } from "@/components/icon-card";
-import { MagicCard } from "@/components/magicui/magic-card";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
-import { UserDisplay } from "@/components/user-display";
-import { pb, type Submission, type User } from "@/lib/pb";
-import { formatIconName } from "@/lib/utils";
-import type { Icon } from "@/types/icons";
+} from "lucide-react"
+import Image from "next/image"
+import Link from "next/link"
+import { MagicCard } from "@/components/magicui/magic-card"
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
+import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Separator } from "@/components/ui/separator"
+import { UserDisplay } from "@/components/user-display"
+import { pb, type Submission, type User } from "@/lib/pb"
+import { formatIconName } from "@/lib/utils"
+import type { Icon } from "@/types/icons"
 
 // Utility function to get display name with priority: username > email > created_by field
-const getDisplayName = (
-	submission: Submission,
-	expandedData?: { created_by: User; approved_by: User },
-): string => {
+const getDisplayName = (submission: Submission, expandedData?: { created_by: User; approved_by: User }): string => {
 	// Check if we have expanded user data
-	if (expandedData && expandedData.created_by) {
-		const user = expandedData.created_by;
+	if (expandedData?.created_by) {
+		const user = expandedData.created_by
 
 		// Priority: username > email
 		if (user.username) {
-			return user.username;
+			return user.username
 		}
 		if (user.email) {
-			return user.email;
+			return user.email
 		}
 	}
 
 	// Fallback to created_by field (could be user ID or username)
-	return submission.created_by;
-};
+	return submission.created_by
+}
 
 interface SubmissionDetailsProps {
-	submission: Submission;
-	isAdmin: boolean;
-	onUserClick?: (userId: string, displayName: string) => void;
-	onApprove?: () => void;
-	onReject?: () => void;
-	isApproving?: boolean;
-	isRejecting?: boolean;
+	submission: Submission
+	isAdmin: boolean
+	onUserClick?: (userId: string, displayName: string) => void
+	onApprove?: () => void
+	onReject?: () => void
+	isApproving?: boolean
+	isRejecting?: boolean
 }
 
 export function SubmissionDetails({
@@ -69,8 +65,8 @@ export function SubmissionDetails({
 	isApproving,
 	isRejecting,
 }: SubmissionDetailsProps) {
-	const expandedData = submission.expand;
-	const displayName = getDisplayName(submission, expandedData);
+	const expandedData = submission.expand
+	const displayName = getDisplayName(submission, expandedData)
 
 	// Sanitize extras to ensure we have safe defaults
 	const sanitizedExtras = {
@@ -79,32 +75,26 @@ export function SubmissionDetails({
 		categories: submission.extras?.categories || [],
 		colors: submission.extras?.colors || null,
 		wordmark: submission.extras?.wordmark || null,
-	};
+	}
 
-	const formattedCreated = new Date(submission.created).toLocaleDateString(
-		"en-GB",
-		{
-			day: "numeric",
-			month: "long",
-			year: "numeric",
-			hour: "2-digit",
-			minute: "2-digit",
-		},
-	);
+	const formattedCreated = new Date(submission.created).toLocaleDateString("en-GB", {
+		day: "numeric",
+		month: "long",
+		year: "numeric",
+		hour: "2-digit",
+		minute: "2-digit",
+	})
 
-	const formattedUpdated = new Date(submission.updated).toLocaleDateString(
-		"en-GB",
-		{
-			day: "numeric",
-			month: "long",
-			year: "numeric",
-			hour: "2-digit",
-			minute: "2-digit",
-		},
-	);
+	const formattedUpdated = new Date(submission.updated).toLocaleDateString("en-GB", {
+		day: "numeric",
+		month: "long",
+		year: "numeric",
+		hour: "2-digit",
+		minute: "2-digit",
+	})
 
 	// Create a mock Icon object for the IconCard component
-	const mockIconData: Icon = {
+	const _mockIconData: Icon = {
 		base: sanitizedExtras.base,
 		aliases: sanitizedExtras.aliases,
 		categories: sanitizedExtras.categories,
@@ -127,24 +117,24 @@ export function SubmissionDetails({
 					light: sanitizedExtras.wordmark.light,
 				}
 			: undefined,
-	};
+	}
 
 	const handleDownload = async (url: string, filename: string) => {
 		try {
-			const response = await fetch(url);
-			const blob = await response.blob();
-			const blobUrl = URL.createObjectURL(blob);
-			const link = document.createElement("a");
-			link.href = blobUrl;
-			link.download = filename;
-			document.body.appendChild(link);
-			link.click();
-			document.body.removeChild(link);
-			setTimeout(() => URL.revokeObjectURL(blobUrl), 100);
+			const response = await fetch(url)
+			const blob = await response.blob()
+			const blobUrl = URL.createObjectURL(blob)
+			const link = document.createElement("a")
+			link.href = blobUrl
+			link.download = filename
+			document.body.appendChild(link)
+			link.click()
+			document.body.removeChild(link)
+			setTimeout(() => URL.revokeObjectURL(blobUrl), 100)
 		} catch (error) {
-			console.error("Download error:", error);
+			console.error("Download error:", error)
 		}
-	};
+	}
 
 	return (
 		<div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -164,10 +154,7 @@ export function SubmissionDetails({
 									<div className="relative">
 										<div className="aspect-square rounded-lg border flex items-center justify-center p-8 bg-muted/30">
 											<Image
-												src={
-													`${pb.baseURL}/api/files/submissions/${submission.id}/${asset}` ||
-													"/placeholder.svg"
-												}
+												src={`${pb.baseURL}/api/files/submissions/${submission.id}/${asset}` || "/placeholder.svg"}
 												alt={`${submission.name} asset ${index + 1}`}
 												width={200}
 												height={200}
@@ -180,11 +167,8 @@ export function SubmissionDetails({
 												variant="secondary"
 												className="h-8 w-8 p-0"
 												onClick={(e) => {
-													e.stopPropagation();
-													window.open(
-														`${pb.baseUrl}/api/files/submissions/${submission.id}/${asset}`,
-														"_blank",
-													);
+													e.stopPropagation()
+													window.open(`${pb.baseUrl}/api/files/submissions/${submission.id}/${asset}`, "_blank")
 												}}
 											>
 												<ExternalLink className="h-3 w-3" />
@@ -194,11 +178,11 @@ export function SubmissionDetails({
 												variant="secondary"
 												className="h-8 w-8 p-0"
 												onClick={(e) => {
-													e.stopPropagation();
+													e.stopPropagation()
 													handleDownload(
 														`${pb.baseUrl}/api/files/submissions/${submission.id}/${asset}`,
 														`${submission.name}-${index + 1}.${sanitizedExtras.base}`,
-													);
+													)
 												}}
 											>
 												<Download className="h-3 w-3" />
@@ -207,11 +191,7 @@ export function SubmissionDetails({
 									</div>
 								</MagicCard>
 							))}
-							{submission.assets.length === 0 && (
-								<div className="text-center py-8 text-muted-foreground text-sm">
-									No assets available
-								</div>
-							)}
+							{submission.assets.length === 0 && <div className="text-center py-8 text-muted-foreground text-sm">No assets available</div>}
 						</div>
 					</CardContent>
 				</Card>
@@ -241,8 +221,8 @@ export function SubmissionDetails({
 												color="green"
 												variant="outline"
 												onClick={(e) => {
-													e.stopPropagation();
-													onApprove();
+													e.stopPropagation()
+													onApprove()
 												}}
 												disabled={isApproving || isRejecting}
 											>
@@ -256,8 +236,8 @@ export function SubmissionDetails({
 												color="red"
 												variant="destructive"
 												onClick={(e) => {
-													e.stopPropagation();
-													onReject();
+													e.stopPropagation()
+													onReject()
 												}}
 												disabled={isApproving || isRejecting}
 											>
@@ -277,12 +257,8 @@ export function SubmissionDetails({
 									<FileType className="w-4 h-4" />
 									Icon Name
 								</h3>
-								<p className="text-lg font-medium capitalize">
-									{formatIconName(submission.name)}
-								</p>
-								<p className="text-sm text-muted-foreground mt-1">
-									Filename: {submission.name}
-								</p>
+								<p className="text-lg font-medium capitalize">{formatIconName(submission.name)}</p>
+								<p className="text-sm text-muted-foreground mt-1">Filename: {submission.name}</p>
 							</div>
 
 							<div>
@@ -295,69 +271,51 @@ export function SubmissionDetails({
 								</Badge>
 							</div>
 
-							{sanitizedExtras.colors &&
-								Object.keys(sanitizedExtras.colors).length > 0 && (
-									<div>
-										<h3 className="text-sm font-semibold text-muted-foreground mb-2 flex items-center gap-2">
-											<Palette className="w-4 h-4" />
-											Color Variants
-										</h3>
-										<div className="space-y-2">
-											{sanitizedExtras.colors.dark && (
-												<div className="flex items-center gap-2">
-													<span className="text-sm text-muted-foreground min-w-12">
-														Dark:
-													</span>
-													<code className="text-xs bg-muted px-2 py-1 rounded font-mono">
-														{sanitizedExtras.colors.dark}
-													</code>
-												</div>
-											)}
-											{sanitizedExtras.colors.light && (
-												<div className="flex items-center gap-2">
-													<span className="text-sm text-muted-foreground min-w-12">
-														Light:
-													</span>
-													<code className="text-xs bg-muted px-2 py-1 rounded font-mono">
-														{sanitizedExtras.colors.light}
-													</code>
-												</div>
-											)}
-										</div>
+							{sanitizedExtras.colors && Object.keys(sanitizedExtras.colors).length > 0 && (
+								<div>
+									<h3 className="text-sm font-semibold text-muted-foreground mb-2 flex items-center gap-2">
+										<Palette className="w-4 h-4" />
+										Color Variants
+									</h3>
+									<div className="space-y-2">
+										{sanitizedExtras.colors.dark && (
+											<div className="flex items-center gap-2">
+												<span className="text-sm text-muted-foreground min-w-12">Dark:</span>
+												<code className="text-xs bg-muted px-2 py-1 rounded font-mono">{sanitizedExtras.colors.dark}</code>
+											</div>
+										)}
+										{sanitizedExtras.colors.light && (
+											<div className="flex items-center gap-2">
+												<span className="text-sm text-muted-foreground min-w-12">Light:</span>
+												<code className="text-xs bg-muted px-2 py-1 rounded font-mono">{sanitizedExtras.colors.light}</code>
+											</div>
+										)}
 									</div>
-								)}
+								</div>
+							)}
 
-							{sanitizedExtras.wordmark &&
-								Object.keys(sanitizedExtras.wordmark).length > 0 && (
-									<div>
-										<h3 className="text-sm font-semibold text-muted-foreground mb-2 flex items-center gap-2">
-											<FileType className="w-4 h-4" />
-											Wordmark Variants
-										</h3>
-										<div className="space-y-2">
-											{sanitizedExtras.wordmark.dark && (
-												<div className="flex items-center gap-2">
-													<span className="text-sm text-muted-foreground min-w-12">
-														Dark:
-													</span>
-													<code className="text-xs bg-muted px-2 py-1 rounded font-mono">
-														{sanitizedExtras.wordmark.dark}
-													</code>
-												</div>
-											)}
-											{sanitizedExtras.wordmark.light && (
-												<div className="flex items-center gap-2">
-													<span className="text-sm text-muted-foreground min-w-12">
-														Light:
-													</span>
-													<code className="text-xs bg-muted px-2 py-1 rounded font-mono">
-														{sanitizedExtras.wordmark.light}
-													</code>
-												</div>
-											)}
-										</div>
+							{sanitizedExtras.wordmark && Object.keys(sanitizedExtras.wordmark).length > 0 && (
+								<div>
+									<h3 className="text-sm font-semibold text-muted-foreground mb-2 flex items-center gap-2">
+										<FileType className="w-4 h-4" />
+										Wordmark Variants
+									</h3>
+									<div className="space-y-2">
+										{sanitizedExtras.wordmark.dark && (
+											<div className="flex items-center gap-2">
+												<span className="text-sm text-muted-foreground min-w-12">Dark:</span>
+												<code className="text-xs bg-muted px-2 py-1 rounded font-mono">{sanitizedExtras.wordmark.dark}</code>
+											</div>
+										)}
+										{sanitizedExtras.wordmark.light && (
+											<div className="flex items-center gap-2">
+												<span className="text-sm text-muted-foreground min-w-12">Light:</span>
+												<code className="text-xs bg-muted px-2 py-1 rounded font-mono">{sanitizedExtras.wordmark.light}</code>
+											</div>
+										)}
 									</div>
-								)}
+								</div>
+							)}
 
 							<div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
 								<div>
@@ -378,9 +336,7 @@ export function SubmissionDetails({
 									<div>
 										<h3 className="text-sm font-semibold text-muted-foreground mb-2 flex items-center gap-2">
 											<UserIcon className="w-4 h-4" />
-											{submission.status === "approved"
-												? "Approved By"
-												: "Reviewed By"}
+											{submission.status === "approved" ? "Approved By" : "Reviewed By"}
 										</h3>
 
 										<UserDisplay
@@ -412,16 +368,10 @@ export function SubmissionDetails({
 							</div>
 
 							{submission.admin_comment?.trim() && (
-								<Alert
-									variant={
-										submission.status === "rejected" ? "destructive" : "default"
-									}
-								>
+								<Alert variant={submission.status === "rejected" ? "destructive" : "default"}>
 									<MessageSquare className="h-4 w-4" />
 									<AlertTitle>Admin Comment</AlertTitle>
-									<AlertDescription className="mt-2 whitespace-pre-wrap">
-										{submission.admin_comment}
-									</AlertDescription>
+									<AlertDescription className="mt-2 whitespace-pre-wrap">{submission.admin_comment}</AlertDescription>
 								</Alert>
 							)}
 
@@ -436,25 +386,16 @@ export function SubmissionDetails({
 									{sanitizedExtras.categories.length > 0 ? (
 										<div className="flex flex-wrap gap-2">
 											{sanitizedExtras.categories.map((category) => (
-												<Badge
-													key={category}
-													variant="outline"
-													className="border-primary/20 hover:border-primary"
-												>
+												<Badge key={category} variant="outline" className="border-primary/20 hover:border-primary">
 													{category
 														.split("-")
-														.map(
-															(word) =>
-																word.charAt(0).toUpperCase() + word.slice(1),
-														)
+														.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
 														.join(" ")}
 												</Badge>
 											))}
 										</div>
 									) : (
-										<p className="text-sm text-muted-foreground">
-											No categories assigned
-										</p>
+										<p className="text-sm text-muted-foreground">No categories assigned</p>
 									)}
 								</div>
 
@@ -466,31 +407,21 @@ export function SubmissionDetails({
 									{sanitizedExtras.aliases.length > 0 ? (
 										<div className="flex flex-wrap gap-2">
 											{sanitizedExtras.aliases.map((alias) => (
-												<Badge
-													key={alias}
-													variant="outline"
-													className="text-xs font-mono"
-												>
+												<Badge key={alias} variant="outline" className="text-xs font-mono">
 													{alias}
 												</Badge>
 											))}
 										</div>
 									) : (
-										<p className="text-sm text-muted-foreground">
-											No aliases assigned
-										</p>
+										<p className="text-sm text-muted-foreground">No aliases assigned</p>
 									)}
 								</div>
 							</div>
 
 							{isAdmin && (
 								<div>
-									<h3 className="text-sm font-semibold text-muted-foreground mb-2">
-										Submission ID
-									</h3>
-									<code className="bg-muted px-2 py-1 rounded block break-all font-mono">
-										{submission.id}
-									</code>
+									<h3 className="text-sm font-semibold text-muted-foreground mb-2">Submission ID</h3>
+									<code className="bg-muted px-2 py-1 rounded block break-all font-mono">{submission.id}</code>
 								</div>
 							)}
 						</div>
@@ -498,5 +429,5 @@ export function SubmissionDetails({
 				</Card>
 			</div>
 		</div>
-	);
+	)
 }
