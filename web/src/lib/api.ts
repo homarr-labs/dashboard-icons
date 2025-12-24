@@ -126,14 +126,16 @@ const authorDataCache: Record<string | number, AuthorData> = {}
 /**
  * Build author data from internal (PocketBase) user metadata
  * These users don't have GitHub profiles, so we construct a local AuthorData object
+ * - No html_url so the component won't render a link
+ * - Uses a generic avatar placeholder
  */
 function buildInternalAuthorData(author: { id: string | number; name?: string; login?: string }): AuthorData {
 	return {
 		id: author.id,
 		name: author.name || "Community Contributor",
 		login: author.login || author.name || "contributor",
-		avatar_url: "https://avatars.githubusercontent.com/u/0",
-		html_url: "https://github.com",
+		avatar_url: "", // Empty = will use fallback avatar in component
+		html_url: "", // Empty = no link will be rendered
 	}
 }
 
