@@ -2,7 +2,7 @@
 
 import confetti from "canvas-confetti"
 import { motion } from "framer-motion"
-import { ArrowRight, Check, FileType, Github, Moon, PaletteIcon, Sun, Type } from "lucide-react"
+import { AlertTriangle, ArrowRight, Check, FileType, Github, Moon, PaletteIcon, Sun, Type } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 import type React from "react"
@@ -117,16 +117,26 @@ function WordmarkSection({ iconData, aavailableFormats, renderVariant }: Wordmar
 }
 
 export type IconDetailsProps = {
-	icon: string
-	iconData: Icon
-	authorData: AuthorData
-	allIcons: IconFile
-	status?: string
-	statusDisplayName?: string
-	statusColor?: string
-}
+		icon: string
+		iconData: Icon
+		authorData: AuthorData
+		allIcons: IconFile
+		status?: string
+		statusDisplayName?: string
+		statusColor?: string
+		rejectionReason?: string
+	}
 
-export function IconDetails({ icon, iconData, authorData, allIcons, status, statusDisplayName, statusColor }: IconDetailsProps) {
+export function IconDetails({
+	icon,
+	iconData,
+	authorData,
+	allIcons,
+	status,
+	statusDisplayName,
+	statusColor,
+	rejectionReason,
+}: IconDetailsProps) {
 	const authorName = authorData.name || authorData.login || ""
 	const _iconColorVariants = iconData.colors
 	const _iconWordmarkVariants = iconData.wordmark
@@ -662,11 +672,16 @@ export function IconDetails({ icon, iconData, authorData, allIcons, status, stat
 						<CardContent>
 							<div className="space-y-6">
 								{status && statusDisplayName && statusColor && (
-									<div className="">
+									<div className="space-y-2">
 										<h3 className="text-sm font-semibold text-muted-foreground mb-2">Status</h3>
 										<Badge variant="outline" className={statusColor}>
 											{statusDisplayName}
 										</Badge>
+										{status === "rejected" && rejectionReason && (
+											<div className="rounded-md border border-primary/30 bg-primary/10 px-3 py-2 text-sm text-primary dark:border-primary/20 dark:text-primary">
+												<p className="whitespace-pre-line break-words leading-relaxed">Rejected: {rejectionReason}</p>
+											</div>
+										)}
 									</div>
 								)}
 								<div className="">
