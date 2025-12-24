@@ -212,7 +212,6 @@ export function LoginPopup({ trigger, isLoggedIn = false, userData, onSignOut }:
 								<Input
 									id="email"
 									autoFocus
-									tabIndex="0"
 									name="email"
 									type="email"
 									autoComplete="email"
@@ -229,7 +228,6 @@ export function LoginPopup({ trigger, isLoggedIn = false, userData, onSignOut }:
 									<Label htmlFor="username">Username</Label>
 									<Input
 										id="username"
-										tabIndex="0"
 										name="username"
 										type="text"
 										autoComplete="username"
@@ -262,7 +260,6 @@ export function LoginPopup({ trigger, isLoggedIn = false, userData, onSignOut }:
 									<Label htmlFor="confirmPassword">Confirm Password</Label>
 									<Input
 										id="confirmPassword"
-										tabIndex="0"
 										name="confirmPassword"
 										type="password"
 										autoComplete="new-password"
