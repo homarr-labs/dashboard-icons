@@ -1,6 +1,6 @@
 "use client"
 
-import { Github, LayoutDashboard, LogOut, PlusCircle, Search, Star } from "lucide-react"
+import { Github, LayoutDashboard, LogOut, PlusCircle, Search } from "lucide-react"
 import Link from "next/link"
 import { usePostHog } from "posthog-js/react"
 import { useEffect, useState } from "react"
@@ -209,11 +209,7 @@ export function Header() {
 									<Button variant="ghost" className="rounded-lg cursor-pointer transition-all duration-300 hover:ring-2 gap-1.5" asChild>
 										<Link href={REPO_PATH} target="_blank" className="group flex items-center">
 											<Github className="h-5 w-5 group-hover: transition-all duration-300" />
-											{stars > 0 && (
-												<>
-													<span className="text-xs font-medium text-muted-foreground">{formatStars(stars)}</span>
-												</>
-											)}
+											{stars > 0 && <span className="text-xs font-medium text-muted-foreground">{formatStars(stars)}</span>}
 											<span className="sr-only">View on GitHub</span>
 										</Link>
 									</Button>

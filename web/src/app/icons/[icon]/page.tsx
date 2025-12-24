@@ -3,7 +3,6 @@ import { notFound } from "next/navigation"
 import { IconDetails } from "@/components/icon-details"
 import { BASE_URL, WEB_URL } from "@/constants"
 import { getAllIcons, getAuthorData } from "@/lib/api"
-import { AuthorData } from "@/types"
 
 export const dynamicParams = false
 export const revalidate = false
@@ -38,7 +37,7 @@ export async function generateMetadata({ params, searchParams }: Props, _parent:
 	const formattedIconName = icon
 		.split("-")
 		.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-		.join(" ");
+		.join(" ")
 	return {
 		title: `${formattedIconName} Icon | Dashboard Icons`,
 		description: `Download the ${formattedIconName} icon in SVG, PNG, and WEBP formats for FREE. Part of a collection of ${totalIcons} curated icons for services, applications and tools, designed specifically for dashboards and app directories.`,

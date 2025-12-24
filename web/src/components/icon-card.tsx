@@ -14,10 +14,7 @@ export function IconCard({ name, data: iconData, matchedAlias }: { name: string;
 	const linkHref = isCommunityIcon ? `/community/${name}` : `/icons/${name}`
 	return (
 		<MagicCard className="rounded-md shadow-md">
-			<Link
-				prefetch={false}
-				href={linkHref}
-				className="group flex flex-col items-center p-3 sm:p-4 cursor-pointer">
+			<Link prefetch={false} href={linkHref} className="group flex flex-col items-center p-3 sm:p-4 cursor-pointer">
 				<div className="relative h-16 w-16 mb-2 rounded-lg ring-1 ring-white/5 dark:ring-white/10 bg-primary/15 dark:bg-secondary/10">
 					<Image
 						src={imageUrl}
@@ -32,5 +29,5 @@ export function IconCard({ name, data: iconData, matchedAlias }: { name: string;
 				</span>
 			</Link>
 		</MagicCard>
-	);
+	)
 }

@@ -2,26 +2,22 @@
 
 import confetti from "canvas-confetti"
 import { motion } from "framer-motion"
-import { ArrowRight, Check, FileType, Github, Moon, PaletteIcon, Plus, Sun, Type, Upload, X } from "lucide-react"
+import { FileType, Moon, PaletteIcon, Plus, Sun, Type, Upload, X } from "lucide-react"
 import Image from "next/image"
-import Link from "next/link"
 import type React from "react"
 import { useCallback, useState } from "react"
 import { toast } from "sonner"
 import { revalidateAllSubmissions } from "@/app/actions/submissions"
 import { IconNameCombobox } from "@/components/icon-name-combobox"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
-import { BASE_URL, REPO_PATH } from "@/constants"
 import { pb } from "@/lib/pb"
 import { formatIconName } from "@/lib/utils"
 import { MagicCard } from "./magicui/magic-card"
 import { Badge } from "./ui/badge"
-import { Dropzone, DropzoneContent, DropzoneEmptyState } from "./ui/shadcn-io/dropzone"
 
 interface VariantFile {
 	file: File

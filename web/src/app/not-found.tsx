@@ -1,6 +1,5 @@
 import { AlertTriangle, ArrowLeft } from "lucide-react"
 import Link from "next/link"
-import { IconSubmissionContent } from "@/components/icon-submission-form"
 import { Button } from "@/components/ui/button"
 
 export default function NotFound({ error }: { error: Error & { digest?: string } }) {
