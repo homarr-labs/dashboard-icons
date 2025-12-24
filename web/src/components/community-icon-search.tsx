@@ -120,7 +120,7 @@ export function CommunityIconSearch({ icons }: CommunityIconSearchProps) {
 	}, [icons, debouncedQuery, selectedCategories, sortOption])
 
 	const groupedIcons = useMemo(() => {
-		const statusPriority = { pending: 0, approved: 1, rejected: 2, added_to_collection: 3 }
+		const statusPriority = { pending: 0, approved: 2, rejected: 3, added_to_collection: 1 }
 
 		const groups: Record<string, IconWithStatus[]> = {}
 

@@ -121,8 +121,7 @@ async function fetchCommunitySubmissions(): Promise<IconWithName[]> {
 		const pb = createServerPB()
 
 		const records = await pb.collection("community_gallery").getFullList<CommunityGallery>({
-			filter: 'status != "added_to_collection"',
-			sort: "-created",
+			sort: "-updated",
 		})
 
 		return records.filter((item) => item.assets && item.assets.length > 0).map(transformGalleryToIcon)
