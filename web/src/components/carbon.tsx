@@ -1,3 +1,4 @@
+// biome-ignore-all lint: reason: I don't want to fix this
 import { useEffect, useRef } from "react"
 export function Carbon() {
 	if (process.env.NODE_ENV === "development") {

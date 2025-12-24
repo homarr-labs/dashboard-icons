@@ -199,7 +199,7 @@ export function LoginPopup({ trigger, isLoggedIn = false, userData, onSignOut }:
 							<span className="opacity-40">Sign in with GitHub</span>
 						</div>
 
-						<div role="separator" aria-label="or" className="relative">
+						<div role="presentation" aria-hidden="true" className="relative">
 							<Separator />
 							<span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-popover px-2 text-xs text-muted-foreground uppercase">
 								or
@@ -212,7 +212,6 @@ export function LoginPopup({ trigger, isLoggedIn = false, userData, onSignOut }:
 								<Input
 									id="email"
 									autoFocus
-									tabIndex={1}
 									name="email"
 									type="email"
 									autoComplete="email"
@@ -229,7 +228,6 @@ export function LoginPopup({ trigger, isLoggedIn = false, userData, onSignOut }:
 									<Label htmlFor="username">Username</Label>
 									<Input
 										id="username"
-										tabIndex={2}
 										name="username"
 										type="text"
 										autoComplete="username"
@@ -262,7 +260,6 @@ export function LoginPopup({ trigger, isLoggedIn = false, userData, onSignOut }:
 									<Label htmlFor="confirmPassword">Confirm Password</Label>
 									<Input
 										id="confirmPassword"
-										tabIndex={4}
 										name="confirmPassword"
 										type="password"
 										autoComplete="new-password"

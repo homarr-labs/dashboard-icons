@@ -14,7 +14,7 @@ import {
 } from "@tanstack/react-table"
 import dayjs from "dayjs"
 import relativeTime from "dayjs/plugin/relativeTime"
-import { Check, ChevronDown, ChevronRight, Filter, ImageIcon, Search, SortDesc, X } from "lucide-react"
+import { ChevronDown, ChevronRight, Filter, ImageIcon, Search, SortDesc, X } from "lucide-react"
 import * as React from "react"
 import { SubmissionDetails } from "@/components/submission-details"
 import { Badge } from "@/components/ui/badge"
@@ -31,7 +31,7 @@ dayjs.extend(relativeTime)
 // Utility function to get display name with priority: username > email > created_by field
 const getDisplayName = (submission: Submission, expandedData?: any): string => {
 	// Check if we have expanded user data
-	if (expandedData && expandedData.created_by) {
+	if (expandedData?.created_by) {
 		const user = expandedData.created_by
 
 		// Priority: username > email
@@ -53,8 +53,11 @@ interface SubmissionsDataTableProps {
 	currentUserId: string
 	onApprove: (id: string) => void
 	onReject: (id: string) => void
+	onTriggerWorkflow?: (id: string) => void
 	isApproving?: boolean
 	isRejecting?: boolean
+	isTriggeringWorkflow?: boolean
+	workflowUrl?: string
 }
 
 // Group submissions by status with priority order
@@ -107,8 +110,11 @@ export function SubmissionsDataTable({
 	currentUserId,
 	onApprove,
 	onReject,
+	onTriggerWorkflow,
 	isApproving,
 	isRejecting,
+	isTriggeringWorkflow,
+	workflowUrl,
 }: SubmissionsDataTableProps) {
 	const [sorting, setSorting] = React.useState<SortingState>([])
 	const [expanded, setExpanded] = React.useState<ExpandedState>({})
@@ -148,6 +154,7 @@ export function SubmissionsDataTable({
 				cell: ({ row }) => {
 					return (
 						<button
+							type="button"
 							onClick={(e) => {
 								e.stopPropagation()
 								handleRowToggle(row.id, row.getIsExpanded())
@@ -305,7 +312,7 @@ export function SubmissionsDataTable({
 			globalFilter,
 		},
 		getRowCanExpand: () => true,
-		globalFilterFn: (row, columnId, value) => {
+		globalFilterFn: (row, _columnId, value) => {
 			const searchValue = value.toLowerCase()
 			const name = row.getValue("name") as string
 			const status = row.getValue("status") as string
@@ -377,7 +384,7 @@ export function SubmissionsDataTable({
 						{table.getRowModel().rows?.length ? (
 							(() => {
 								let lastStatus: string | null = null
-								return table.getRowModel().rows.map((row, index) => {
+								return table.getRowModel().rows.map((row, _index) => {
 									const currentStatus = row.original.status
 									const showStatusHeader = currentStatus !== lastStatus
 									lastStatus = currentStatus
@@ -419,8 +426,15 @@ export function SubmissionsDataTable({
 															onUserClick={handleUserFilter}
 															onApprove={row.original.status === "pending" && isAdmin ? () => onApprove(row.original.id) : undefined}
 															onReject={row.original.status === "pending" && isAdmin ? () => onReject(row.original.id) : undefined}
+															onTriggerWorkflow={
+																row.original.status === "approved" && isAdmin && onTriggerWorkflow
+																	? () => onTriggerWorkflow(row.original.id)
+																	: undefined
+															}
 															isApproving={isApproving}
 															isRejecting={isRejecting}
+															isTriggeringWorkflow={isTriggeringWorkflow}
+															workflowUrl={workflowUrl}
 														/>
 													</TableCell>
 												</TableRow>

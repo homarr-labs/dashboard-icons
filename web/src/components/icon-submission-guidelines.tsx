@@ -1,26 +1,21 @@
-"use client";
+"use client"
 
-import { Check, ChevronDown, X } from "lucide-react";
-import { useState } from "react";
-import {
-	Collapsible,
-	CollapsibleContent,
-	CollapsibleTrigger,
-} from "@/components/ui/collapsible";
-import { Button } from "@/components/ui/button";
+import { Check, ChevronDown, X } from "lucide-react"
+import { useState } from "react"
+import { Button } from "@/components/ui/button"
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible"
 
 interface GuidelineItem {
-	type: "do" | "dont";
-	title: string;
-	description: string;
+	type: "do" | "dont"
+	title: string
+	description: string
 }
 
 const GUIDELINES: GuidelineItem[] = [
 	{
 		type: "do",
 		title: "Submit SVG files",
-		description:
-			"We strongly prefer SVG format for all icons. We'll automatically transform them into PNG and WebP formats as well.",
+		description: "We strongly prefer SVG format for all icons. We'll automatically transform them into PNG and WebP formats as well.",
 	},
 	{
 		type: "do",
@@ -31,8 +26,7 @@ const GUIDELINES: GuidelineItem[] = [
 	{
 		type: "do",
 		title: "Ensure transparent backgrounds",
-		description:
-			"All icons must have transparent backgrounds. Icons with opaque or colored backgrounds will be rejected.",
+		description: "All icons must have transparent backgrounds. Icons with opaque or colored backgrounds will be rejected.",
 	},
 	{
 		type: "dont",
@@ -43,16 +37,15 @@ const GUIDELINES: GuidelineItem[] = [
 	{
 		type: "dont",
 		title: "Don't use PNG-to-SVG converter tools",
-		description:
-			"If an SVG version exists, use that instead. PNG-to-SVG converters produce poor quality results and should be avoided.",
+		description: "If an SVG version exists, use that instead. PNG-to-SVG converters produce poor quality results and should be avoided.",
 	},
-];
+]
 
 export function IconSubmissionGuidelines() {
-	const [isOpen, setIsOpen] = useState(false);
+	const [isOpen, setIsOpen] = useState(false)
 
-	const doItems = GUIDELINES.filter((item) => item.type === "do");
-	const dontItems = GUIDELINES.filter((item) => item.type === "dont");
+	const doItems = GUIDELINES.filter((item) => item.type === "do")
+	const dontItems = GUIDELINES.filter((item) => item.type === "dont")
 
 	return (
 		<div className="rounded-lg border border-blue-500/50 bg-blue-500/10 dark:bg-blue-500/5">
@@ -60,12 +53,8 @@ export function IconSubmissionGuidelines() {
 				<div className="p-4">
 					<div className="flex items-center justify-between gap-4">
 						<div className="flex-1">
-							<p className="text-sm font-semibold text-blue-700 dark:text-blue-300">
-								Icon Submission Guidelines
-							</p>
-							<p className="text-sm text-blue-700/90 dark:text-blue-300/80 mt-1">
-								Review these important guidelines before submitting
-							</p>
+							<p className="text-sm font-semibold text-blue-700 dark:text-blue-300">Icon Submission Guidelines</p>
+							<p className="text-sm text-blue-700/90 dark:text-blue-300/80 mt-1">Review these important guidelines before submitting</p>
 						</div>
 						<CollapsibleTrigger asChild>
 							<Button
@@ -75,11 +64,7 @@ export function IconSubmissionGuidelines() {
 								aria-label={isOpen ? "Hide guidelines" : "Show guidelines"}
 							>
 								{isOpen ? "Hide" : "Show"} Details
-								<ChevronDown
-									className={`ml-2 h-4 w-4 transition-transform duration-200 ${
-										isOpen ? "rotate-180" : ""
-									}`}
-								/>
+								<ChevronDown className={`ml-2 h-4 w-4 transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`} />
 							</Button>
 						</CollapsibleTrigger>
 					</div>
@@ -94,25 +79,16 @@ export function IconSubmissionGuidelines() {
 									<div className="p-1.5 rounded-full bg-green-500/20 dark:bg-green-500/30">
 										<Check className="h-4 w-4 text-green-600 dark:text-green-400" />
 									</div>
-									<h4 className="text-sm font-semibold text-green-700 dark:text-green-300">
-										DO
-									</h4>
+									<h4 className="text-sm font-semibold text-green-700 dark:text-green-300">DO</h4>
 								</div>
 								<div className="space-y-3">
 									{doItems.map((item, index) => (
-										<div
-											key={index}
-											className="rounded-lg border border-green-500/30 bg-green-500/5 dark:bg-green-500/10 p-3"
-										>
+										<div key={index} className="rounded-lg border border-green-500/30 bg-green-500/5 dark:bg-green-500/10 p-3">
 											<div className="flex gap-3">
 												<Check className="h-4 w-4 text-green-600 dark:text-green-400 mt-0.5 flex-shrink-0" />
 												<div className="min-w-0 flex-1">
-													<p className="text-sm font-medium text-foreground">
-														{item.title}
-													</p>
-													<p className="text-xs text-muted-foreground mt-1 leading-relaxed">
-														{item.description}
-													</p>
+													<p className="text-sm font-medium text-foreground">{item.title}</p>
+													<p className="text-xs text-muted-foreground mt-1 leading-relaxed">{item.description}</p>
 												</div>
 											</div>
 										</div>
@@ -126,25 +102,16 @@ export function IconSubmissionGuidelines() {
 									<div className="p-1.5 rounded-full bg-red-500/20 dark:bg-red-500/30">
 										<X className="h-4 w-4 text-red-600 dark:text-red-400" />
 									</div>
-									<h4 className="text-sm font-semibold text-red-700 dark:text-red-300">
-										DON'T
-									</h4>
+									<h4 className="text-sm font-semibold text-red-700 dark:text-red-300">DON'T</h4>
 								</div>
 								<div className="space-y-3">
 									{dontItems.map((item, index) => (
-										<div
-											key={index}
-											className="rounded-lg border border-red-500/30 bg-red-500/5 dark:bg-red-500/10 p-3"
-										>
+										<div key={index} className="rounded-lg border border-red-500/30 bg-red-500/5 dark:bg-red-500/10 p-3">
 											<div className="flex gap-3">
 												<X className="h-4 w-4 text-red-600 dark:text-red-400 mt-0.5 flex-shrink-0" />
 												<div className="min-w-0 flex-1">
-													<p className="text-sm font-medium text-foreground">
-														{item.title}
-													</p>
-													<p className="text-xs text-muted-foreground mt-1 leading-relaxed">
-														{item.description}
-													</p>
+													<p className="text-sm font-medium text-foreground">{item.title}</p>
+													<p className="text-xs text-muted-foreground mt-1 leading-relaxed">{item.description}</p>
 												</div>
 											</div>
 										</div>
@@ -156,5 +123,5 @@ export function IconSubmissionGuidelines() {
 				</CollapsibleContent>
 			</Collapsible>
 		</div>
-	);
+	)
 }
