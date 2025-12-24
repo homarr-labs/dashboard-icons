@@ -47,7 +47,7 @@ export function useApproveSubmission() {
 				},
 			)
 		},
-		onSuccess: async (data) => {
+		onSuccess: async (_data) => {
 			// Invalidate and refetch submissions
 			queryClient.invalidateQueries({ queryKey: submissionKeys.lists() })
 
