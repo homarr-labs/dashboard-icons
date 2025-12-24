@@ -1,11 +1,19 @@
 name: Update Icons and Resources
 
 on:
-  workflow_dispatch:
+  workflow_dispatch:  # Keep manual trigger
+  workflow_run:
+    workflows: ["Add Icon to Collection"]
+    types:
+      - completed
+    branches:
+      - main
 
 jobs:
   convert_assets:
     runs-on: ubuntu-latest
+    # Only run if manually triggered OR if the add-icon workflow succeeded
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
     permissions:
       contents: write
     steps:
