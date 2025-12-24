@@ -8,6 +8,7 @@ import {
 	Eye,
 	FileType,
 	FolderOpen,
+	Github,
 	MessageSquare,
 	Palette,
 	Tag,
@@ -52,8 +53,11 @@ interface SubmissionDetailsProps {
 	onUserClick?: (userId: string, displayName: string) => void
 	onApprove?: () => void
 	onReject?: () => void
+	onTriggerWorkflow?: () => void
 	isApproving?: boolean
 	isRejecting?: boolean
+	isTriggeringWorkflow?: boolean
+	workflowUrl?: string
 }
 
 export function SubmissionDetails({
@@ -62,8 +66,11 @@ export function SubmissionDetails({
 	onUserClick,
 	onApprove,
 	onReject,
+	onTriggerWorkflow,
 	isApproving,
 	isRejecting,
+	isTriggeringWorkflow,
+	workflowUrl,
 }: SubmissionDetailsProps) {
 	const expandedData = submission.expand
 	const displayName = getDisplayName(submission, expandedData)
@@ -246,6 +253,28 @@ export function SubmissionDetails({
 											</Button>
 										)}
 									</>
+								)}
+								{onTriggerWorkflow && submission.status === "approved" && isAdmin && (
+									<Button
+										size="sm"
+										variant="default"
+										onClick={(e) => {
+											e.stopPropagation()
+											onTriggerWorkflow()
+										}}
+										disabled={isTriggeringWorkflow}
+									>
+										<Github className="w-4 h-4 mr-2" />
+										{isTriggeringWorkflow ? "Starting..." : "Run GitHub CI"}
+									</Button>
+								)}
+								{workflowUrl && (
+									<Button asChild size="sm" variant="outline">
+										<a href={workflowUrl} target="_blank" rel="noopener noreferrer">
+											<ExternalLink className="w-4 h-4 mr-2" />
+											View Workflow
+										</a>
+									</Button>
 								)}
 							</div>
 						</div>

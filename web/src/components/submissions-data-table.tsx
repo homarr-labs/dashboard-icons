@@ -53,8 +53,11 @@ interface SubmissionsDataTableProps {
 	currentUserId: string
 	onApprove: (id: string) => void
 	onReject: (id: string) => void
+	onTriggerWorkflow?: (id: string) => void
 	isApproving?: boolean
 	isRejecting?: boolean
+	isTriggeringWorkflow?: boolean
+	workflowUrl?: string
 }
 
 // Group submissions by status with priority order
@@ -107,8 +110,11 @@ export function SubmissionsDataTable({
 	currentUserId,
 	onApprove,
 	onReject,
+	onTriggerWorkflow,
 	isApproving,
 	isRejecting,
+	isTriggeringWorkflow,
+	workflowUrl,
 }: SubmissionsDataTableProps) {
 	const [sorting, setSorting] = React.useState<SortingState>([])
 	const [expanded, setExpanded] = React.useState<ExpandedState>({})
@@ -420,8 +426,15 @@ export function SubmissionsDataTable({
 															onUserClick={handleUserFilter}
 															onApprove={row.original.status === "pending" && isAdmin ? () => onApprove(row.original.id) : undefined}
 															onReject={row.original.status === "pending" && isAdmin ? () => onReject(row.original.id) : undefined}
+															onTriggerWorkflow={
+																row.original.status === "approved" && isAdmin && onTriggerWorkflow
+																	? () => onTriggerWorkflow(row.original.id)
+																	: undefined
+															}
 															isApproving={isApproving}
 															isRejecting={isRejecting}
+															isTriggeringWorkflow={isTriggeringWorkflow}
+															workflowUrl={workflowUrl}
 														/>
 													</TableCell>
 												</TableRow>
