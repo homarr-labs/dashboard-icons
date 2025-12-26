@@ -1,7 +1,6 @@
 import type { Metadata } from "next"
 import { Suspense } from "react"
 import { CommunityIconSearch } from "@/components/community-icon-search"
-import { ExperimentalWarning } from "@/components/experimental-warning"
 import { BASE_URL } from "@/constants"
 import { getCommunitySubmissions } from "@/lib/community"
 
@@ -43,7 +42,6 @@ export default async function CommunityPage() {
 	const icons = await getCommunitySubmissions()
 	return (
 		<div className="isolate overflow-hidden p-2 mx-auto max-w-7xl">
-			<ExperimentalWarning message="The community icon submission system is currently in an experimentation phase. Submissions shown here will not be reviewed or processed at this time. We're gathering feedback to improve the experience." />
 			<div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
 				<div>
 					<h1 className="text-3xl font-bold">Browse community icons</h1>
