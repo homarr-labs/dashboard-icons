@@ -569,7 +569,7 @@ export function IconDetails({
 	const canCustomize =
 		svgUrl !== null &&
 		availableFormats.includes("svg") &&
-		hasGradients !== true;
+		hasGradients === false;
 
 	return (
 		<main className="container mx-auto pt-12 pb-14 px-4 sm:px-6 lg:px-8">
