@@ -19,7 +19,8 @@
     "test:e2e:debug": "playwright test --debug",
     "test:e2e:chromium": "playwright test --project=chromium",
     "test:e2e:headed": "playwright test --headed",
-    "test:e2e:report": "playwright show-report"
+    "test:e2e:report": "playwright show-report",
+    "screenshots": "node tests/take-screenshots.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.1",
