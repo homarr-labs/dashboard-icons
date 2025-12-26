@@ -84,7 +84,7 @@ export function CommunityIconSearch({ icons }: CommunityIconSearchProps) {
 		const categories = new Set<string>()
 		for (const icon of icons) {
 			for (const category of icon.data.categories) {
-				categories.add(category)
+				categories.add(category.toLowerCase());
 			}
 		}
 		return Array.from(categories).sort()
@@ -175,12 +175,17 @@ export function CommunityIconSearch({ icons }: CommunityIconSearchProps) {
 
 	const handleCategoryChange = useCallback(
 		(category: string) => {
+			const normalizedCategory = category.toLowerCase();
 			let newCategories: string[]
 
-			if (selectedCategories.includes(category)) {
-				newCategories = selectedCategories.filter((c) => c !== category)
+			if (
+				selectedCategories.some((c) => c.toLowerCase() === normalizedCategory)
+			) {
+				newCategories = selectedCategories.filter(
+					(c) => c.toLowerCase() !== normalizedCategory,
+				);
 			} else {
-				newCategories = [...selectedCategories, category]
+				newCategories = [...selectedCategories, normalizedCategory];
 			}
 
 			setSelectedCategories(newCategories)
@@ -263,7 +268,11 @@ export function CommunityIconSearch({ icons }: CommunityIconSearchProps) {
 				<div className="flex flex-wrap gap-2 justify-start">
 					<DropdownMenu>
 						<DropdownMenuTrigger asChild>
-							<Button variant="outline" size="sm" className="flex-1 sm:flex-none cursor-pointer bg-background border-border shadow-sm">
+							<Button
+								variant="outline"
+								size="sm"
+								className="flex-1 sm:flex-none cursor-pointer bg-background border-border shadow-sm"
+							>
 								<Filter className="h-4 w-4 mr-2" />
 								<span>Filter</span>
 								{selectedCategories.length > 0 && (
@@ -274,18 +283,24 @@ export function CommunityIconSearch({ icons }: CommunityIconSearchProps) {
 							</Button>
 						</DropdownMenuTrigger>
 						<DropdownMenuContent align="start" className="w-64 sm:w-56">
-							<DropdownMenuLabel className="font-semibold">Select Categories</DropdownMenuLabel>
+							<DropdownMenuLabel className="font-semibold">
+								Select Categories
+							</DropdownMenuLabel>
 							<DropdownMenuSeparator />
 
 							<div className="max-h-[40vh] overflow-y-auto p-1">
 								{allCategories.map((category) => (
 									<DropdownMenuCheckboxItem
 										key={category}
-										checked={selectedCategories.includes(category)}
+										checked={selectedCategories.some(
+											(c) => c.toLowerCase() === category.toLowerCase(),
+										)}
 										onCheckedChange={() => handleCategoryChange(category)}
 										className="cursor-pointer capitalize"
 									>
-										{category.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase())}
+										{category
+											.replace(/-/g, " ")
+											.replace(/\b\w/g, (c) => c.toUpperCase())}
 									</DropdownMenuCheckboxItem>
 								))}
 							</div>
@@ -295,8 +310,8 @@ export function CommunityIconSearch({ icons }: CommunityIconSearchProps) {
 									<DropdownMenuSeparator />
 									<DropdownMenuItem
 										onClick={() => {
-											setSelectedCategories([])
-											updateResults(searchQuery, [], sortOption)
+											setSelectedCategories([]);
+											updateResults(searchQuery, [], sortOption);
 										}}
 										className="cursor-pointer focus:bg-rose-50 dark:focus:bg-rose-950/20"
 									>
@@ -309,28 +324,49 @@ export function CommunityIconSearch({ icons }: CommunityIconSearchProps) {
 
 					<DropdownMenu>
 						<DropdownMenuTrigger asChild>
-							<Button variant="outline" size="sm" className="flex-1 sm:flex-none cursor-pointer bg-background border-border shadow-sm">
+							<Button
+								variant="outline"
+								size="sm"
+								className="flex-1 sm:flex-none cursor-pointer bg-background border-border shadow-sm"
+							>
 								{getSortIcon(sortOption)}
 								<span className="ml-2">{getSortLabel(sortOption)}</span>
 							</Button>
 						</DropdownMenuTrigger>
 						<DropdownMenuContent align="start" className="w-56">
-							<DropdownMenuLabel className="font-semibold">Sort By</DropdownMenuLabel>
+							<DropdownMenuLabel className="font-semibold">
+								Sort By
+							</DropdownMenuLabel>
 							<DropdownMenuSeparator />
-							<DropdownMenuRadioGroup value={sortOption} onValueChange={(value) => handleSortChange(value as SortOption)}>
-								<DropdownMenuRadioItem value="relevance" className="cursor-pointer">
+							<DropdownMenuRadioGroup
+								value={sortOption}
+								onValueChange={(value) => handleSortChange(value as SortOption)}
+							>
+								<DropdownMenuRadioItem
+									value="relevance"
+									className="cursor-pointer"
+								>
 									<Search className="h-4 w-4 mr-2" />
 									Relevance
 								</DropdownMenuRadioItem>
-								<DropdownMenuRadioItem value="alphabetical-asc" className="cursor-pointer">
+								<DropdownMenuRadioItem
+									value="alphabetical-asc"
+									className="cursor-pointer"
+								>
 									<ArrowDownAZ className="h-4 w-4 mr-2" />
 									Name (A-Z)
 								</DropdownMenuRadioItem>
-								<DropdownMenuRadioItem value="alphabetical-desc" className="cursor-pointer">
+								<DropdownMenuRadioItem
+									value="alphabetical-desc"
+									className="cursor-pointer"
+								>
 									<ArrowUpZA className="h-4 w-4 mr-2" />
 									Name (Z-A)
 								</DropdownMenuRadioItem>
-								<DropdownMenuRadioItem value="newest" className="cursor-pointer">
+								<DropdownMenuRadioItem
+									value="newest"
+									className="cursor-pointer"
+								>
 									<Calendar className="h-4 w-4 mr-2" />
 									Newest first
 								</DropdownMenuRadioItem>
@@ -338,8 +374,15 @@ export function CommunityIconSearch({ icons }: CommunityIconSearchProps) {
 						</DropdownMenuContent>
 					</DropdownMenu>
 
-					{(searchQuery || selectedCategories.length > 0 || sortOption !== "relevance") && (
-						<Button variant="outline" size="sm" onClick={clearFilters} className="flex-1 sm:flex-none cursor-pointer bg-background">
+					{(searchQuery ||
+						selectedCategories.length > 0 ||
+						sortOption !== "relevance") && (
+						<Button
+							variant="outline"
+							size="sm"
+							onClick={clearFilters}
+							className="flex-1 sm:flex-none cursor-pointer bg-background"
+						>
 							<X className="h-4 w-4 mr-2" />
 							<span>Reset all</span>
 						</Button>
@@ -351,8 +394,14 @@ export function CommunityIconSearch({ icons }: CommunityIconSearchProps) {
 						<span className="text-sm text-muted-foreground">Selected:</span>
 						<div className="flex flex-wrap gap-2">
 							{selectedCategories.map((category) => (
-								<Badge key={category} variant="secondary" className="flex items-center gap-1 pl-2 pr-1">
-									{category.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase())}
+								<Badge
+									key={category}
+									variant="secondary"
+									className="flex items-center gap-1 pl-2 pr-1"
+								>
+									{category
+										.replace(/-/g, " ")
+										.replace(/\b\w/g, (c) => c.toUpperCase())}
 									<Button
 										variant="ghost"
 										size="sm"
@@ -369,8 +418,8 @@ export function CommunityIconSearch({ icons }: CommunityIconSearchProps) {
 							variant="ghost"
 							size="sm"
 							onClick={() => {
-								setSelectedCategories([])
-								updateResults(searchQuery, [], sortOption)
+								setSelectedCategories([]);
+								updateResults(searchQuery, [], sortOption);
 							}}
 							className="text-xs h-7 px-2 cursor-pointer"
 						>
@@ -385,8 +434,12 @@ export function CommunityIconSearch({ icons }: CommunityIconSearchProps) {
 			{filteredIcons.length === 0 ? (
 				<div className="flex flex-col gap-8 py-12 px-2 w-full max-w-full sm:max-w-2xl mx-auto items-center overflow-x-hidden">
 					<div className="text-center w-full">
-						<h2 className="text-3xl sm:text-5xl font-semibold">No icons found</h2>
-						<p className="text-lg text-muted-foreground mt-2">Try adjusting your search or filters</p>
+						<h2 className="text-3xl sm:text-5xl font-semibold">
+							No icons found
+						</h2>
+						<p className="text-lg text-muted-foreground mt-2">
+							Try adjusting your search or filters
+						</p>
 					</div>
 				</div>
 			) : (
@@ -414,7 +467,10 @@ export function CommunityIconSearch({ icons }: CommunityIconSearchProps) {
 							</div>
 							<Card className="bg-background/50 border shadow-lg">
 								<CardContent>
-									<IconsGrid filteredIcons={items} matchedAliases={matchedAliases} />
+									<IconsGrid
+										filteredIcons={items}
+										matchedAliases={matchedAliases}
+									/>
 								</CardContent>
 							</Card>
 						</section>
@@ -422,5 +478,5 @@ export function CommunityIconSearch({ icons }: CommunityIconSearchProps) {
 				</div>
 			)}
 		</>
-	)
+	);
 }

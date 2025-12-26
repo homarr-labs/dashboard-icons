@@ -549,12 +549,12 @@ export function IconDetails({
 						<CardHeader className="pb-4">
 							<div className="flex flex-col items-center bg-background">
 								<div className="relative w-32 h-32 rounded-xl ring-1 ring-white/5 dark:ring-white/10 bg-primary/15 dark:bg-secondary/10 overflow-hidden flex items-center justify-center p-3">
-									<Image
-										src={
-											isCommunityIcon && mainIconUrl
-												? mainIconUrl
-												: `${BASE_URL}/${iconData.base}/${iconData.colors?.light || icon}.${iconData.base}`
-										}
+								<Image
+									src={
+										isCommunityIcon && mainIconUrl
+											? mainIconUrl
+											: `${BASE_URL}/${iconData.base}/${icon}.${iconData.base}`
+									}
 										priority
 										width={96}
 										height={96}

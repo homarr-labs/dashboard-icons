@@ -9,7 +9,7 @@ export function IconCard({ name, data: iconData, matchedAlias }: { name: string;
 	const formatedIconName = formatIconName(name)
 
 	const isCommunityIcon = iconData.base.startsWith("http")
-	const imageUrl = isCommunityIcon ? iconData.base : `${BASE_URL}/${iconData.base}/${iconData.colors?.light || name}.${iconData.base}`
+	const imageUrl = isCommunityIcon ? iconData.base : `${BASE_URL}/${iconData.base}/${name}.${iconData.base}`
 
 	const linkHref = isCommunityIcon ? `/community/${name}` : `/icons/${name}`
 	return (
