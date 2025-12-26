@@ -209,28 +209,41 @@ export function IconCustomizerInline({ svgUrl, iconName, onClose }: IconCustomiz
 					<Label className="text-sm font-semibold">Customize Colors</Label>
 					<Popover>
 						<PopoverTrigger asChild>
-							<Button variant="ghost" size="sm" className="h-5 w-5 p-0" aria-label="Learn more about color customization">
+							<Button
+								variant="ghost"
+								size="sm"
+								className="h-5 w-5 p-0"
+								aria-label="Learn more about color customization"
+							>
 								<Info className="h-4 w-4 text-muted-foreground" />
 							</Button>
 						</PopoverTrigger>
 						<PopoverContent className="w-80" align="center">
 							<p className="text-sm text-muted-foreground">
-								This feature extracts and allows you to customize fill and stroke colors found in the SVG. Colors can be defined in various
-								ways: as attributes (fill="white"), inline styles (style="fill:#2396ed"), or within style tags. Each unique color gets its
-								own color picker for easy customization.
+								This feature extracts and allows you to customize fill and
+								stroke colors found in the SVG. Colors can be defined in various
+								ways: as attributes (fill="white"), inline styles
+								(style="fill:#2396ed"), or within style tags. Each unique color
+								gets its own color picker for easy customization.
 							</p>
 						</PopoverContent>
 					</Popover>
 				</div>
-				<Button id="close-customizer" variant="ghost" size="sm" onClick={onClose} className="h-6 w-6 p-0">
+				<Button
+					id="close-customizer"
+					variant="ghost"
+					size="sm"
+					onClick={onClose}
+					className="h-6 w-6 p-0"
+				>
 					<X className="h-4 w-4" />
 				</Button>
 			</div>
 
 			<div className="space-y-4">
 				{originalColors.map((originalColor, index) => {
-					const currentColor = colorMappings[originalColor] || originalColor
-					const hslColor = hexToHsl(currentColor)
+					const currentColor = colorMappings[originalColor] || originalColor;
+					const hslColor = hexToHsl(currentColor);
 
 					return (
 						<div key={originalColor} className="space-y-2">
@@ -240,17 +253,19 @@ export function IconCustomizerInline({ svgUrl, iconName, onClose }: IconCustomiz
 									style={{ backgroundColor: originalColor }}
 									title={`Original: ${originalColor}`}
 								/>
-								<Label className="text-xs text-muted-foreground">Color {index + 1}</Label>
+								<Label className="text-xs text-muted-foreground">
+									Color {index + 1}
+								</Label>
 							</div>
 							<ColorPicker
 								color={hslColor}
 								onChange={(newColor) => {
-									const hex = hslToHex(newColor)
-									handleColorChange(originalColor, hex)
+									const hex = hslToHex(newColor);
+									handleColorChange(originalColor, hex);
 								}}
 							/>
 						</div>
-					)
+					);
 				})}
 			</div>
 
@@ -262,17 +277,24 @@ export function IconCustomizerInline({ svgUrl, iconName, onClose }: IconCustomiz
 			>
 				{customizedSvg ? (
 					<div
-						className="w-full max-w-[120px] h-[120px] flex items-center justify-center overflow-hidden [&_svg]:w-full [&_svg]:h-full [&_svg]:max-w-full [&_svg]:max-h-full [&_svg]:object-contain [&_svg]:flex-shrink-0"
+						className="w-[120px] h-[120px]"
 						// biome-ignore lint/security/noDangerouslySetInnerHtml: We need to render the customized SVG
 						dangerouslySetInnerHTML={{ __html: customizedSvg }}
 					/>
 				) : (
-					<div className="text-muted-foreground text-xs">Preview loading...</div>
+					<div className="text-muted-foreground text-xs">
+						Preview loading...
+					</div>
 				)}
 			</div>
 
 			<div className="grid grid-cols-2 gap-2">
-				<Button onClick={handleCopySvg} variant="outline" className="w-full" size="sm">
+				<Button
+					onClick={handleCopySvg}
+					variant="outline"
+					className="w-full"
+					size="sm"
+				>
 					<Copy className="w-4 h-4 mr-2" />
 					Copy
 				</Button>
@@ -282,5 +304,5 @@ export function IconCustomizerInline({ svgUrl, iconName, onClose }: IconCustomiz
 				</Button>
 			</div>
 		</motion.div>
-	)
+	);
 }
