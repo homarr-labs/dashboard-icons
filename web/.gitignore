@@ -50,3 +50,12 @@ next-env.d.ts
 backend/pocketbase
 backend/pb_data
 scripts
+
+# Playwright
+node_modules/
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+/playwright/.auth/
+package-lock.json
