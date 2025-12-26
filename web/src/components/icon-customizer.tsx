@@ -1,24 +1,14 @@
-"use client";
+"use client"
 
-import confetti from "canvas-confetti";
-import { ChevronDown, Copy, Palette } from "lucide-react";
-import { useCallback, useEffect, useState } from "react";
-import { toast } from "sonner";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import {
-	Modal,
-	ModalContent,
-	ModalDescription,
-	ModalHeader,
-	ModalTitle,
-} from "@/components/ui/modal";
-import {
-	Popover,
-	PopoverContent,
-	PopoverTrigger,
-} from "@/components/ui/popover";
+import confetti from "canvas-confetti"
+import { ChevronDown, Copy, Palette } from "lucide-react"
+import { useCallback, useEffect, useState } from "react"
+import { toast } from "sonner"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Modal, ModalContent, ModalDescription, ModalHeader, ModalTitle } from "@/components/ui/modal"
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import {
 	applyColorMappingsToSvg,
 	type ColorMapping,
@@ -26,7 +16,7 @@ import {
 	hexToRgb,
 	isClipboardAvailable,
 	rgbToHex,
-} from "@/lib/svg-color-utils";
+} from "@/lib/svg-color-utils"
 
 const TAILWIND_COLORS = [
 	{ name: "Red", value: "#ef4444", class: "bg-red-500" },
@@ -53,74 +43,69 @@ const TAILWIND_COLORS = [
 	{ name: "Stone", value: "#78716c", class: "bg-stone-500" },
 	{ name: "Black", value: "#000000", class: "bg-black" },
 	{ name: "White", value: "#ffffff", class: "bg-white border" },
-];
+]
 
 type RGB = {
-	r: number;
-	g: number;
-	b: number;
-};
+	r: number
+	g: number
+	b: number
+}
 
 type IconCustomizerProps = {
-	open: boolean;
-	onOpenChange: (open: boolean) => void;
-	svgUrl: string;
-	iconName: string;
-};
+	open: boolean
+	onOpenChange: (open: boolean) => void
+	svgUrl: string
+	iconName: string
+}
 
 type ColorPickerProps = {
-	originalColor: string;
-	currentColor: string;
-	onColorChange: (color: string) => void;
-	index: number;
-};
+	originalColor: string
+	currentColor: string
+	onColorChange: (color: string) => void
+	index: number
+}
 
-function ColorPicker({
-	originalColor,
-	currentColor,
-	onColorChange,
-	index,
-}: ColorPickerProps) {
+function ColorPicker({ originalColor, currentColor, onColorChange, index }: ColorPickerProps) {
 	const [rgb, setRgb] = useState<RGB>(() => {
-		const rgbValue = hexToRgb(currentColor);
-		return rgbValue || { r: 0, g: 0, b: 0 };
-	});
-	const [customHex, setCustomHex] = useState(currentColor);
-	const [isPopoverOpen, setIsPopoverOpen] = useState(false);
+		const rgbValue = hexToRgb(currentColor)
+		return rgbValue || { r: 0, g: 0, b: 0 }
+	})
+	const [customHex, setCustomHex] = useState(currentColor)
+	const [isPopoverOpen, setIsPopoverOpen] = useState(false)
 
 	useEffect(() => {
-		const newRgb = hexToRgb(currentColor);
+		const newRgb = hexToRgb(currentColor)
 		if (newRgb) {
-			setRgb(newRgb);
-			setCustomHex(currentColor);
+			setRgb(newRgb)
+			setCustomHex(currentColor)
 		}
-	}, [currentColor]);
+	}, [currentColor])
 
 	const handleRgbChange = (component: "r" | "g" | "b", value: string) => {
-		const numValue = Math.max(0, Math.min(255, parseInt(value, 10) || 0));
-		const newRgb = { ...rgb, [component]: numValue };
-		setRgb(newRgb);
-		const hex = rgbToHex(newRgb.r, newRgb.g, newRgb.b);
-		setCustomHex(hex);
-		onColorChange(hex);
-	};
+		const numValue = Math.max(0, Math.min(255, parseInt(value, 10) || 0))
+		const newRgb = { ...rgb, [component]: numValue }
+		setRgb(newRgb)
+		const hex = rgbToHex(newRgb.r, newRgb.g, newRgb.b)
+		setCustomHex(hex)
+		onColorChange(hex)
+	}
 
 	const handleHexChange = (value: string) => {
-		setCustomHex(value);
+		setCustomHex(value)
 		// Validate hex format (3 or 6 digits)
 		if (/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/.test(value)) {
-			const newRgb = hexToRgb(value);
+			const newRgb = hexToRgb(value)
 			if (newRgb) {
-				setRgb(newRgb);
-				onColorChange(value);
+				setRgb(newRgb)
+				onColorChange(value)
 			}
 		}
-	};
+	}
 
 	const handlePaletteSelect = (color: string) => {
-		onColorChange(color);
-		setIsPopoverOpen(false);
-	};
+		onColorChange(color)
+		setIsPopoverOpen(false)
+	}
 
 	return (
 		<div className="space-y-4 p-4 border rounded-lg bg-card">
@@ -132,17 +117,13 @@ function ColorPicker({
 				/>
 				<div className="flex-1">
 					<Label className="text-sm font-semibold">Color {index + 1}</Label>
-					{originalColor !== currentColor && (
-						<p className="text-xs text-muted-foreground">Customized</p>
-					)}
+					{originalColor !== currentColor && <p className="text-xs text-muted-foreground">Customized</p>}
 				</div>
 			</div>
 
 			<div className="space-y-3">
 				<div>
-					<Label className="text-xs text-muted-foreground mb-2 block">
-						Current Color
-					</Label>
+					<Label className="text-xs text-muted-foreground mb-2 block">Current Color</Label>
 					<div className="flex items-center gap-2">
 						<div
 							className="w-12 h-12 rounded-md border-2 border-border flex-shrink-0 shadow-sm"
@@ -161,15 +142,10 @@ function ColorPicker({
 				</div>
 
 				<div>
-					<Label className="text-xs text-muted-foreground mb-2 block">
-						RGB Values
-					</Label>
+					<Label className="text-xs text-muted-foreground mb-2 block">RGB Values</Label>
 					<div className="grid grid-cols-3 gap-2">
 						<div>
-							<Label
-								htmlFor={`r-${index}`}
-								className="text-xs text-muted-foreground"
-							>
+							<Label htmlFor={`r-${index}`} className="text-xs text-muted-foreground">
 								R
 							</Label>
 							<Input
@@ -183,10 +159,7 @@ function ColorPicker({
 							/>
 						</div>
 						<div>
-							<Label
-								htmlFor={`g-${index}`}
-								className="text-xs text-muted-foreground"
-							>
+							<Label htmlFor={`g-${index}`} className="text-xs text-muted-foreground">
 								G
 							</Label>
 							<Input
@@ -200,10 +173,7 @@ function ColorPicker({
 							/>
 						</div>
 						<div>
-							<Label
-								htmlFor={`b-${index}`}
-								className="text-xs text-muted-foreground"
-							>
+							<Label htmlFor={`b-${index}`} className="text-xs text-muted-foreground">
 								B
 							</Label>
 							<Input
@@ -220,9 +190,7 @@ function ColorPicker({
 				</div>
 
 				<div>
-					<Label className="text-xs text-muted-foreground mb-2 block">
-						Color Picker
-					</Label>
+					<Label className="text-xs text-muted-foreground mb-2 block">Color Picker</Label>
 					<input
 						type="color"
 						value={currentColor}
@@ -232,17 +200,12 @@ function ColorPicker({
 				</div>
 
 				<div>
-					<Label className="text-xs text-muted-foreground mb-2 block">
-						Tailwind Palette
-					</Label>
+					<Label className="text-xs text-muted-foreground mb-2 block">Tailwind Palette</Label>
 					<Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
 						<PopoverTrigger asChild>
 							<Button variant="outline" className="w-full justify-between">
 								<span className="flex items-center gap-2">
-									<div
-										className="w-4 h-4 rounded border"
-										style={{ backgroundColor: currentColor }}
-									/>
+									<div className="w-4 h-4 rounded border" style={{ backgroundColor: currentColor }} />
 									Select from palette
 								</span>
 								<ChevronDown className="h-4 w-4 opacity-50" />
@@ -270,139 +233,121 @@ function ColorPicker({
 				</div>
 			</div>
 		</div>
-	);
+	)
 }
 
-export function IconCustomizer({
-	open,
-	onOpenChange,
-	svgUrl,
-	iconName,
-}: IconCustomizerProps) {
-	const [svgContent, setSvgContent] = useState<string>("");
-	const [originalColors, setOriginalColors] = useState<string[]>([]);
-	const [colorMappings, setColorMappings] = useState<ColorMapping>({});
-	const [isLoading, setIsLoading] = useState(false);
-	const [customizedSvg, setCustomizedSvg] = useState<string>("");
+export function IconCustomizer({ open, onOpenChange, svgUrl, iconName }: IconCustomizerProps) {
+	const [svgContent, setSvgContent] = useState<string>("")
+	const [originalColors, setOriginalColors] = useState<string[]>([])
+	const [colorMappings, setColorMappings] = useState<ColorMapping>({})
+	const [isLoading, setIsLoading] = useState(false)
+	const [customizedSvg, setCustomizedSvg] = useState<string>("")
 
 	const fetchSvgContent = useCallback(async () => {
 		if (!svgUrl) {
 			toast.error("Invalid SVG URL", {
 				description: "No SVG URL provided.",
-			});
-			return;
+			})
+			return
 		}
 
-		setIsLoading(true);
+		setIsLoading(true)
 		try {
-			const response = await fetch(svgUrl);
+			const response = await fetch(svgUrl)
 			if (!response.ok) {
-				throw new Error(
-					`Failed to fetch SVG: ${response.status} ${response.statusText}`,
-				);
+				throw new Error(`Failed to fetch SVG: ${response.status} ${response.statusText}`)
 			}
-			const text = await response.text();
+			const text = await response.text()
 			if (!text || text.trim().length === 0) {
-				throw new Error("SVG content is empty");
+				throw new Error("SVG content is empty")
 			}
-			setSvgContent(text);
+			setSvgContent(text)
 		} catch (error) {
-			console.error("Error fetching SVG:", error);
-			const errorMessage =
-				error instanceof Error ? error.message : "Unknown error occurred";
+			console.error("Error fetching SVG:", error)
+			const errorMessage = error instanceof Error ? error.message : "Unknown error occurred"
 			toast.error("Failed to load SVG", {
 				description: `Could not load the icon: ${errorMessage}`,
-			});
-			setSvgContent("");
+			})
+			setSvgContent("")
 		} finally {
-			setIsLoading(false);
+			setIsLoading(false)
 		}
-	}, [svgUrl]);
+	}, [svgUrl])
 
 	useEffect(() => {
 		if (open && svgUrl) {
-			fetchSvgContent();
+			fetchSvgContent()
 		} else {
-			setSvgContent("");
-			setOriginalColors([]);
-			setColorMappings({});
-			setCustomizedSvg("");
+			setSvgContent("")
+			setOriginalColors([])
+			setColorMappings({})
+			setCustomizedSvg("")
 		}
-	}, [open, svgUrl, fetchSvgContent]);
+	}, [open, svgUrl, fetchSvgContent])
 
 	useEffect(() => {
 		if (svgContent) {
-			const colors = extractColorsFromSvg(svgContent);
-			setOriginalColors(colors);
+			const colors = extractColorsFromSvg(svgContent)
+			setOriginalColors(colors)
 
-			const initialMappings: ColorMapping = {};
+			const initialMappings: ColorMapping = {}
 			colors.forEach((color) => {
-				initialMappings[color] = color;
-			});
-			setColorMappings(initialMappings);
+				initialMappings[color] = color
+			})
+			setColorMappings(initialMappings)
 		}
-	}, [svgContent]);
+	}, [svgContent])
 
 	useEffect(() => {
 		if (svgContent && Object.keys(colorMappings).length > 0) {
-			const customized = applyColorMappingsToSvg(svgContent, colorMappings);
-			setCustomizedSvg(customized);
+			const customized = applyColorMappingsToSvg(svgContent, colorMappings)
+			setCustomizedSvg(customized)
 		} else {
-			setCustomizedSvg("");
+			setCustomizedSvg("")
 		}
-	}, [colorMappings, svgContent]);
+	}, [colorMappings, svgContent])
 
 	const handleColorChange = (originalColor: string, newColor: string) => {
 		setColorMappings((prev) => ({
 			...prev,
 			[originalColor]: newColor,
-		}));
-	};
+		}))
+	}
 
 	const handleCopySvg = async () => {
 		if (!customizedSvg) {
 			toast.error("No SVG to copy", {
 				description: "Please wait for the SVG to load.",
-			});
-			return;
+			})
+			return
 		}
 
 		if (!isClipboardAvailable()) {
 			toast.error("Clipboard not available", {
-				description:
-					"Your browser does not support clipboard operations. Please copy manually.",
-			});
-			return;
+				description: "Your browser does not support clipboard operations. Please copy manually.",
+			})
+			return
 		}
 
 		try {
-			await navigator.clipboard.writeText(customizedSvg);
+			await navigator.clipboard.writeText(customizedSvg)
 			toast.success("SVG Copied", {
-				description:
-					"The customized SVG code has been copied to your clipboard.",
-			});
+				description: "The customized SVG code has been copied to your clipboard.",
+			})
 			confetti({
 				particleCount: 50,
 				spread: 180,
 				origin: { x: 0.5, y: 0.5 },
-				colors: [
-					"#ff0a54",
-					"#ff477e",
-					"#ff7096",
-					"#ff85a1",
-					"#fbb1bd",
-					"#f9bec7",
-				],
-			});
+				colors: ["#ff0a54", "#ff477e", "#ff7096", "#ff85a1", "#fbb1bd", "#f9bec7"],
+			})
 		} catch (error) {
-			console.error("Error copying SVG:", error);
-			const errorMessage =
-				error instanceof Error ? error.message : "Unknown error";
+			console.error("Error copying SVG:", error)
+			const errorMessage = error instanceof Error ? error.message : "Unknown error"
 			toast.error("Copy Failed", {
 				description: `Could not copy the SVG to clipboard: ${errorMessage}`,
-			});
+			})
 		}
-	};
+	}
 
 	return (
 		<Modal open={open} onOpenChange={onOpenChange}>
@@ -413,8 +358,7 @@ export function IconCustomizer({
 						Customize {iconName}
 					</ModalTitle>
 					<ModalDescription className="text-base">
-						Customize each color found in the icon. Each unique fill color has
-						its own color picker (up to 5 colors).
+						Customize each color found in the icon. Each unique fill color has its own color picker (up to 5 colors).
 					</ModalDescription>
 				</ModalHeader>
 
@@ -426,31 +370,24 @@ export function IconCustomizer({
 					) : originalColors.length === 0 ? (
 						<div className="col-span-2 flex items-center justify-center">
 							<div className="text-muted-foreground text-center">
-								<p className="text-lg mb-2">
-									No fill colors found in this SVG.
-								</p>
-								<p className="text-sm">
-									This icon may use strokes or other styling methods.
-								</p>
+								<p className="text-lg mb-2">No fill colors found in this SVG.</p>
+								<p className="text-sm">This icon may use strokes or other styling methods.</p>
 							</div>
 						</div>
 					) : (
 						<>
 							<div className="border-r overflow-y-auto p-6 space-y-4 bg-muted/20">
 								{originalColors.map((originalColor, index) => {
-									const currentColor =
-										colorMappings[originalColor] || originalColor;
+									const currentColor = colorMappings[originalColor] || originalColor
 									return (
 										<ColorPicker
 											key={originalColor}
 											originalColor={originalColor}
 											currentColor={currentColor}
-											onColorChange={(newColor) =>
-												handleColorChange(originalColor, newColor)
-											}
+											onColorChange={(newColor) => handleColorChange(originalColor, newColor)}
 											index={index + 1}
 										/>
-									);
+									)
 								})}
 							</div>
 
@@ -465,11 +402,7 @@ export function IconCustomizer({
 									</div>
 
 									<div className="flex justify-center">
-										<Button
-											onClick={handleCopySvg}
-											size="lg"
-											className="min-w-[200px]"
-										>
+										<Button onClick={handleCopySvg} size="lg" className="min-w-[200px]">
 											<Copy className="w-5 h-5 mr-2" />
 											Copy Customized SVG
 										</Button>
@@ -481,5 +414,5 @@ export function IconCustomizer({
 				</div>
 			</ModalContent>
 		</Modal>
-	);
+	)
 }
