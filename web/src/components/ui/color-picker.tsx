@@ -35,6 +35,18 @@ export function ColorPicker({
   }, [color])
 
   const handleColorChange = (newColor: string) => {
+    // If the color is already in HSL format, parse it directly
+    if (newColor.startsWith("hsl")) {
+      const hslValues = newColor.match(/\d+(\.\d+)?/g)?.map(Number) || [0, 0, 0]
+      if (hslValues.length >= 3) {
+        const [h, s, l] = hslValues
+        setHsl([h, s, l])
+        setColorInput(newColor)
+        onChange(`hsl(${h.toFixed(1)}, ${s.toFixed(1)}%, ${l.toFixed(1)}%)`)
+        return
+      }
+    }
+
     const normalizedColor = normalizeColorUtil(newColor)
     if (!normalizedColor) return
     
