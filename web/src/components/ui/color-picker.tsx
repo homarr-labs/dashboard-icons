@@ -134,7 +134,7 @@ export function ColorPicker({
     setColorInput(newColor)
     if (
       /^#[0-9A-Fa-f]{6}$/.test(newColor) ||
-      /^hsl$$\d+,\s*\d+%,\s*\d+%$$$/.test(newColor)
+      /^hsl\(\d+,\s*\d+%,\s*\d+%\)$/.test(newColor)
     ) {
       handleColorChange(newColor)
     }
