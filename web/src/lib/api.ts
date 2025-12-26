@@ -149,10 +149,7 @@ function buildInternalAuthorData(author: { id: string | number; name?: string; l
  * This prevents hitting GitHub API rate limits by caching author data
  * across multiple page builds and requests.
  */
-export async function getAuthorData(
-	authorId: number | string,
-	authorMeta?: { name?: string; login?: string },
-): Promise<AuthorData> {
+export async function getAuthorData(authorId: number | string, authorMeta?: { name?: string; login?: string }): Promise<AuthorData> {
 	const cacheKey = String(authorId)
 
 	if (authorDataCache[cacheKey]) {

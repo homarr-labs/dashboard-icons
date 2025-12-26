@@ -1,8 +1,8 @@
 "use client"
 
 import confetti from "canvas-confetti"
-import { motion } from "framer-motion"
-import { AlertTriangle, ArrowRight, Check, FileType, Github, Moon, PaletteIcon, Sun, Type } from "lucide-react"
+import { AnimatePresence, motion } from "framer-motion"
+import { ArrowRight, Check, FileType, Github, Moon, Palette, PaletteIcon, Sun, Type } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 import type React from "react"
@@ -14,12 +14,15 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { BASE_URL, REPO_PATH } from "@/constants"
+import { isClipboardAvailable } from "@/lib/svg-color-utils"
 import { formatIconName } from "@/lib/utils"
 import type { AuthorData, Icon, IconFile } from "@/types/icons"
 import { Carbon } from "./carbon"
 import { IconActions } from "./icon-actions"
+import { IconCustomizerInline } from "./icon-customizer-inline"
 import { MagicCard } from "./magicui/magic-card"
 import { Badge } from "./ui/badge"
+import { Separator } from "./ui/separator"
 
 type RenderVariantFn = (format: string, iconName: string, theme?: "light" | "dark") => React.ReactNode
 
@@ -117,15 +120,15 @@ function WordmarkSection({ iconData, aavailableFormats, renderVariant }: Wordmar
 }
 
 export type IconDetailsProps = {
-		icon: string
-		iconData: Icon
-		authorData: AuthorData
-		allIcons: IconFile
-		status?: string
-		statusDisplayName?: string
-		statusColor?: string
-		rejectionReason?: string
-	}
+	icon: string
+	iconData: Icon
+	authorData: AuthorData
+	allIcons: IconFile
+	status?: string
+	statusDisplayName?: string
+	statusColor?: string
+	rejectionReason?: string
+}
 
 export function IconDetails({
 	icon,
@@ -146,35 +149,41 @@ export function IconDetails({
 		year: "numeric",
 	})
 
-	const isCommunityIcon = !!(iconData as any).mainIconUrl || (typeof iconData.base === "string" && iconData.base.startsWith("http"))
-	const mainIconUrl = (iconData as any).mainIconUrl || (isCommunityIcon ? iconData.base : null)
-	const assetUrls = (iconData as any).assetUrls || []
+	type CommunityIconData = Icon & {
+		mainIconUrl?: string
+		assetUrls?: string[]
+	}
+
+	const communityData = iconData as CommunityIconData
+	const isCommunityIcon = !!communityData.mainIconUrl || (typeof iconData.base === "string" && iconData.base.startsWith("http"))
+	const mainIconUrl = communityData.mainIconUrl || (isCommunityIcon ? iconData.base : null)
+	const assetUrls = communityData.assetUrls || []
 
 	const shouldShowBaseIcon = () => {
 		if (!iconData.colors) return true
 
-		// For regular icons, check if base icon name matches any variant name
 		if (!isCommunityIcon) {
+			// For regular icons, check if base icon name matches any variant name
 			const darkIconName = iconData.colors.dark
 			const lightIconName = iconData.colors.light
 
-			// Don't show base icon if it's the same as dark or light variant
 			if (icon === darkIconName || icon === lightIconName) {
+				// Don't show base icon if it's the same as dark or light variant
 				return false
 			}
 		}
 
-		// For community icons, check if base icon matches any variant
 		if (isCommunityIcon && mainIconUrl && assetUrls.length > 0) {
+			// For community icons, check if base icon matches any variant
 			// Find the actual URLs for dark and light variants
 			const darkFilename = iconData.colors.dark
 			const lightFilename = iconData.colors.light
 
-			const darkUrl = darkFilename ? assetUrls.find((url: string) => url.includes(darkFilename)) : null
-			const lightUrl = lightFilename ? assetUrls.find((url: string) => url.includes(lightFilename)) : null
+			const darkUrl = darkFilename ? assetUrls.find((url: string) => typeof url === "string" && url.includes(darkFilename)) : null
+			const lightUrl = lightFilename ? assetUrls.find((url: string) => typeof url === "string" && url.includes(lightFilename)) : null
 
-			// Don't show base icon if it's the same as dark or light variant
 			if (mainIconUrl === darkUrl || mainIconUrl === lightUrl) {
+				// Don't show base icon if it's the same as dark or light variant
 				return false
 			}
 		}
@@ -185,10 +194,12 @@ export function IconDetails({
 	const getAvailableFormats = (): string[] => {
 		if (isCommunityIcon) {
 			if (assetUrls.length > 0) {
-				const formats = assetUrls.map((url: string) => {
-					const ext = url.split(".").pop()?.toLowerCase() || "svg"
-					return ext === "svg" ? "svg" : ext === "png" ? "png" : "webp"
-				})
+				const formats = assetUrls
+					.filter((url): url is string => typeof url === "string")
+					.map((url: string) => {
+						const ext = url.split(".").pop()?.toLowerCase() || "svg"
+						return ext === "svg" ? "svg" : ext === "png" ? "png" : "webp"
+					})
 				// Deduplicate formats to avoid duplicate keys
 				return Array.from(new Set(formats))
 			}
@@ -212,6 +223,7 @@ export function IconDetails({
 	const [copiedVariants, _setCopiedVariants] = useState<Record<string, boolean>>({})
 	const [copiedUrlKey, setCopiedUrlKey] = useState<string | null>(null)
 	const [copiedImageKey, setCopiedImageKey] = useState<string | null>(null)
+	const [isCustomizerOpen, setIsCustomizerOpen] = useState(false)
 
 	const launchConfetti = useCallback((originX?: number, originY?: number) => {
 		if (typeof confetti !== "function") return
@@ -243,34 +255,59 @@ export function IconDetails({
 		}
 	}, [])
 
-	const handleCopyUrl = (url: string, variantKey: string, event?: React.MouseEvent) => {
-		navigator.clipboard.writeText(url)
-		setCopiedUrlKey(variantKey)
-		setTimeout(() => {
-			setCopiedUrlKey(null)
-		}, 2000)
-
-		if (event) {
-			launchConfetti(event.clientX, event.clientY)
-		} else {
-			launchConfetti()
+	const handleCopyUrl = async (url: string, variantKey: string, event?: React.MouseEvent) => {
+		if (!isClipboardAvailable()) {
+			toast.error("Clipboard not available", {
+				description: "Your browser does not support clipboard operations. Please copy manually.",
+			})
+			return
 		}
 
-		toast.success("URL copied", {
-			description: "The icon URL has been copied to your clipboard. Ready to use!",
-		})
+		try {
+			await navigator.clipboard.writeText(url)
+			setCopiedUrlKey(variantKey)
+			setTimeout(() => {
+				setCopiedUrlKey(null)
+			}, 2000)
+
+			if (event) {
+				launchConfetti(event.clientX, event.clientY)
+			} else {
+				launchConfetti()
+			}
+
+			toast.success("URL copied", {
+				description: "The icon URL has been copied to your clipboard. Ready to use!",
+			})
+		} catch (error) {
+			console.error("Error copying URL:", error)
+			const errorMessage = error instanceof Error ? error.message : "Unknown error"
+			toast.error("Copy failed", {
+				description: `Could not copy URL: ${errorMessage}`,
+			})
+		}
 	}
 
 	const handleCopyImage = async (imageUrl: string, format: string, variantKey: string, event?: React.MouseEvent) => {
+		if (!isClipboardAvailable()) {
+			toast.error("Clipboard not available", {
+				description: "Your browser does not support clipboard operations. Please copy manually.",
+			})
+			return
+		}
+
 		try {
 			toast.loading("Copying image...")
 
 			if (format === "svg") {
 				const response = await fetch(imageUrl)
 				if (!response.ok) {
-					throw new Error(`Failed to fetch SVG: ${response.statusText}`)
+					throw new Error(`Failed to fetch SVG: ${response.status} ${response.statusText}`)
 				}
 				const svgText = await response.text()
+				if (!svgText || svgText.trim().length === 0) {
+					throw new Error("SVG content is empty")
+				}
 
 				await navigator.clipboard.writeText(svgText)
 
@@ -293,12 +330,12 @@ export function IconDetails({
 				const mimeType = `image/${format}`
 				const response = await fetch(imageUrl)
 				if (!response.ok) {
-					throw new Error(`Failed to fetch image: ${response.statusText}`)
+					throw new Error(`Failed to fetch image: ${response.status} ${response.statusText}`)
 				}
 				const blob = await response.blob()
 
-				if (!blob) {
-					throw new Error("Failed to generate image blob")
+				if (!blob || blob.size === 0) {
+					throw new Error("Failed to generate image blob or blob is empty")
 				}
 
 				await navigator.clipboard.write([new ClipboardItem({ [mimeType]: blob })])
@@ -324,11 +361,10 @@ export function IconDetails({
 		} catch (error) {
 			console.error("Copy error:", error)
 			toast.dismiss()
-			let description = "Could not copy. Check console for details."
-			if (error instanceof Error) {
-				description = error.message
-			}
-			toast.error("Copy failed", { description })
+			const errorMessage = error instanceof Error ? error.message : "Unknown error occurred"
+			toast.error("Copy failed", {
+				description: `Could not copy image: ${errorMessage}`,
+			})
 		}
 	}
 
@@ -339,11 +375,23 @@ export function IconDetails({
 		try {
 			toast.loading("Preparing download...")
 			const response = await fetch(url)
+			if (!response.ok) {
+				throw new Error(`Failed to fetch file: ${response.status} ${response.statusText}`)
+			}
 			const blob = await response.blob()
+			if (!blob || blob.size === 0) {
+				throw new Error("Downloaded file is empty")
+			}
+
 			const blobUrl = URL.createObjectURL(blob)
 			const link = document.createElement("a")
 			link.href = blobUrl
-			link.download = filename
+			// Sanitize filename
+			const sanitizedFilename = filename
+				.replace(/[^a-z0-9.-]/gi, "-")
+				.replace(/-+/g, "-")
+				.replace(/^-+|-+$/g, "")
+			link.download = sanitizedFilename || "icon"
 			document.body.appendChild(link)
 			link.click()
 			document.body.removeChild(link)
@@ -356,8 +404,9 @@ export function IconDetails({
 		} catch (error) {
 			console.error("Download error:", error)
 			toast.dismiss()
+			const errorMessage = error instanceof Error ? error.message : "Unknown error occurred"
 			toast.error("Download failed", {
-				description: "There was an error downloading the file. Please try again.",
+				description: `There was an error downloading the file: ${errorMessage}`,
 			})
 		}
 	}
@@ -375,12 +424,14 @@ export function IconDetails({
 
 			if (theme && iconName && iconName !== icon) {
 				// If a theme is specified, iconName holds the specific filename for that variant
-				matchingUrl = assetUrls.find((url: string) => url.includes(iconName) && url.toLowerCase().endsWith(`.${formatExt}`))
+				matchingUrl = assetUrls.find(
+					(url: string) => typeof url === "string" && url.includes(iconName) && url.toLowerCase().endsWith(`.${formatExt}`),
+				)
 			}
 
 			if (!matchingUrl) {
 				// Fallback: find any asset with the matching extension
-				matchingUrl = assetUrls.find((url: string) => url.toLowerCase().endsWith(`.${formatExt}`))
+				matchingUrl = assetUrls.find((url: string) => typeof url === "string" && url.toLowerCase().endsWith(`.${formatExt}`))
 			}
 
 			const _variantKey = `${format}-${theme || "default"}`
@@ -469,6 +520,26 @@ export function IconDetails({
 	}
 
 	const formatedIconName = formatIconName(icon)
+
+	const getSvgUrl = (): string | null => {
+		if (isCommunityIcon && mainIconUrl) {
+			if (mainIconUrl.toLowerCase().endsWith(".svg")) {
+				return mainIconUrl
+			}
+			const svgUrl = assetUrls.find((url: string) => typeof url === "string" && url.toLowerCase().endsWith(".svg"))
+			return svgUrl || null
+		}
+		if (iconData.base === "svg") {
+			const iconName = iconData.colors?.light || icon
+			if (iconName) {
+				return `${BASE_URL}/svg/${iconName}.svg`
+			}
+		}
+		return null
+	}
+
+	const svgUrl = getSvgUrl()
+	const canCustomize = svgUrl !== null && availableFormats.includes("svg")
 
 	return (
 		<main className="container mx-auto pt-12 pb-14 px-4 sm:px-6 lg:px-8">
@@ -751,6 +822,42 @@ export function IconDetails({
 										</Button>
 									</div>
 								)}
+
+								{canCustomize && svgUrl && (
+									<>
+										<Separator />
+										<AnimatePresence mode="wait">
+											{isCustomizerOpen ? (
+												<IconCustomizerInline
+													key="customizer"
+													svgUrl={svgUrl}
+													iconName={formatedIconName}
+													onClose={() => setIsCustomizerOpen(false)}
+												/>
+											) : (
+												<motion.div
+													key="button"
+													initial={{ opacity: 0 }}
+													animate={{ opacity: 1 }}
+													transition={{ duration: 0.2 }}
+													exit={{ opacity: 0 }}
+													className="relative"
+												>
+													<Button onClick={() => setIsCustomizerOpen(true)} variant="outline" className="w-full" size="sm">
+														<Palette className="w-4 h-4 mr-2" />
+														Customize Icon
+													</Button>
+													<Badge
+														variant="default"
+														className="absolute -top-2 -right-2 h-5 px-1.5 text-[10px] font-bold bg-primary text-primary-foreground shadow-md"
+													>
+														NEW
+													</Badge>
+												</motion.div>
+											)}
+										</AnimatePresence>
+									</>
+								)}
 							</div>
 						</CardContent>
 						<Carbon />
@@ -787,7 +894,6 @@ export function IconDetails({
 							<Card className="bg-background/50 border shadow-lg">
 								<CardHeader>
 									<CardTitle>
-										{/** biome-ignore lint/correctness/useUniqueElementIds: I want the ID to be fixed */}
 										<h2 id="related-icons-title">Related Icons</h2>
 									</CardTitle>
 									<CardDescription>
