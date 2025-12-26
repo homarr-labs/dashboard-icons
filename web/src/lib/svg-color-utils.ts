@@ -2,12 +2,12 @@
  * Shared utilities for SVG color manipulation and processing
  */
 
-export const MAX_EXTRACTED_COLORS = 5;
-export const DEFAULT_VIEWBOX = "0 0 24 24";
+export const MAX_EXTRACTED_COLORS = 5
+export const DEFAULT_VIEWBOX = "0 0 24 24"
 
 export type ColorMapping = {
-	[key: string]: string;
-};
+	[key: string]: string
+}
 
 /**
  * CSS named colors mapping to hex values
@@ -162,72 +162,65 @@ const CSS_NAMED_COLORS: Record<string, string> = {
 	whitesmoke: "#f5f5f5",
 	yellow: "#ffff00",
 	yellowgreen: "#9acd32",
-};
+}
 
 /**
  * Normalizes a color string to a standard hex format
  * Handles hex, rgb, rgba, CSS named colors, and special values (none, transparent, currentColor)
  */
 export function normalizeColor(color: string): string {
-	if (
-		!color ||
-		color === "none" ||
-		color === "transparent" ||
-		color === "currentColor"
-	) {
-		return "";
+	if (!color || color === "none" || color === "transparent" || color === "currentColor") {
+		return ""
 	}
 
-	const trimmed = color.trim().toLowerCase();
+	const trimmed = color.trim().toLowerCase()
 
 	// Handle hex colors
 	if (trimmed.startsWith("#")) {
 		// Expand short hex (#abc -> #aabbcc)
 		if (trimmed.length === 4) {
-			return `#${trimmed[1]}${trimmed[1]}${trimmed[2]}${trimmed[2]}${trimmed[3]}${trimmed[3]}`;
+			return `#${trimmed[1]}${trimmed[1]}${trimmed[2]}${trimmed[2]}${trimmed[3]}${trimmed[3]}`
 		}
 		// Validate full hex
 		if (/^#[0-9a-f]{6}$/i.test(trimmed)) {
-			return trimmed;
+			return trimmed
 		}
-		return "";
+		return ""
 	}
 
 	// Handle rgb/rgba colors
 	if (trimmed.startsWith("rgb")) {
-		const match = trimmed.match(/\d+/g);
+		const match = trimmed.match(/\d+/g)
 		if (match && match.length >= 3) {
-			const r = Math.max(0, Math.min(255, parseInt(match[0], 10)));
-			const g = Math.max(0, Math.min(255, parseInt(match[1], 10)));
-			const b = Math.max(0, Math.min(255, parseInt(match[2], 10)));
-			return `#${r.toString(16).padStart(2, "0")}${g.toString(16).padStart(2, "0")}${b.toString(16).padStart(2, "0")}`;
+			const r = Math.max(0, Math.min(255, parseInt(match[0], 10)))
+			const g = Math.max(0, Math.min(255, parseInt(match[1], 10)))
+			const b = Math.max(0, Math.min(255, parseInt(match[2], 10)))
+			return `#${r.toString(16).padStart(2, "0")}${g.toString(16).padStart(2, "0")}${b.toString(16).padStart(2, "0")}`
 		}
 	}
 
 	// Handle CSS named colors
 	if (CSS_NAMED_COLORS[trimmed]) {
-		return CSS_NAMED_COLORS[trimmed];
+		return CSS_NAMED_COLORS[trimmed]
 	}
 
 	// Fallback: try to use browser's built-in color parsing
 	// This handles any valid CSS color that the browser recognizes
 	if (typeof document !== "undefined") {
 		try {
-			const tempElement = document.createElement("div");
-			tempElement.style.color = trimmed;
-			const computedColor = tempElement.style.color;
+			const tempElement = document.createElement("div")
+			tempElement.style.color = trimmed
+			const computedColor = tempElement.style.color
 			if (computedColor && computedColor !== trimmed) {
 				// Browser recognized the color, now convert it
-				tempElement.style.color = "";
-				tempElement.style.color = trimmed;
-				const rgbMatch = window
-					.getComputedStyle(tempElement)
-					.color.match(/\d+/g);
+				tempElement.style.color = ""
+				tempElement.style.color = trimmed
+				const rgbMatch = window.getComputedStyle(tempElement).color.match(/\d+/g)
 				if (rgbMatch && rgbMatch.length >= 3) {
-					const r = parseInt(rgbMatch[0], 10);
-					const g = parseInt(rgbMatch[1], 10);
-					const b = parseInt(rgbMatch[2], 10);
-					return `#${r.toString(16).padStart(2, "0")}${g.toString(16).padStart(2, "0")}${b.toString(16).padStart(2, "0")}`;
+					const r = parseInt(rgbMatch[0], 10)
+					const g = parseInt(rgbMatch[1], 10)
+					const b = parseInt(rgbMatch[2], 10)
+					return `#${r.toString(16).padStart(2, "0")}${g.toString(16).padStart(2, "0")}${b.toString(16).padStart(2, "0")}`
 				}
 			}
 		} catch {
@@ -235,100 +228,96 @@ export function normalizeColor(color: string): string {
 		}
 	}
 
-	return "";
+	return ""
 }
 
 /**
  * Converts hex color to HSL string
  */
 export function hexToHsl(hex: string): string {
-	const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-	if (!result) return "hsl(0, 0%, 0%)";
+	const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex)
+	if (!result) return "hsl(0, 0%, 0%)"
 
-	const r = parseInt(result[1], 16) / 255;
-	const g = parseInt(result[2], 16) / 255;
-	const b = parseInt(result[3], 16) / 255;
+	const r = parseInt(result[1], 16) / 255
+	const g = parseInt(result[2], 16) / 255
+	const b = parseInt(result[3], 16) / 255
 
-	const max = Math.max(r, g, b);
-	const min = Math.min(r, g, b);
-	let h = 0;
-	let s = 0;
-	const l = (max + min) / 2;
+	const max = Math.max(r, g, b)
+	const min = Math.min(r, g, b)
+	let h = 0
+	let s = 0
+	const l = (max + min) / 2
 
 	if (max !== min) {
-		const d = max - min;
-		s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+		const d = max - min
+		s = l > 0.5 ? d / (2 - max - min) : d / (max + min)
 		switch (max) {
 			case r:
-				h = (g - b) / d + (g < b ? 6 : 0);
-				break;
+				h = (g - b) / d + (g < b ? 6 : 0)
+				break
 			case g:
-				h = (b - r) / d + 2;
-				break;
+				h = (b - r) / d + 2
+				break
 			case b:
-				h = (r - g) / d + 4;
-				break;
+				h = (r - g) / d + 4
+				break
 		}
-		h /= 6;
+		h /= 6
 	}
 
-	const hDeg = Math.round(h * 360);
-	const sPercent = Math.round(s * 100);
-	const lPercent = Math.round(l * 100);
+	const hDeg = Math.round(h * 360)
+	const sPercent = Math.round(s * 100)
+	const lPercent = Math.round(l * 100)
 
-	return `hsl(${hDeg}, ${sPercent}%, ${lPercent}%)`;
+	return `hsl(${hDeg}, ${sPercent}%, ${lPercent}%)`
 }
 
 /**
  * Converts HSL string to hex color
  */
 export function hslToHex(hsl: string): string {
-	let match = hsl.match(
-		/hsl\((\d+(?:\.\d+)?),\s*(\d+(?:\.\d+)?)%,\s*(\d+(?:\.\d+)?)%\)/i,
-	);
+	let match = hsl.match(/hsl\((\d+(?:\.\d+)?),\s*(\d+(?:\.\d+)?)%,\s*(\d+(?:\.\d+)?)%\)/i)
 	if (!match) {
-		match = hsl.match(/(\d+(?:\.\d+)?)\s+(\d+(?:\.\d+)?)%\s+(\d+(?:\.\d+)?)%/);
+		match = hsl.match(/(\d+(?:\.\d+)?)\s+(\d+(?:\.\d+)?)%\s+(\d+(?:\.\d+)?)%/)
 	}
-	if (!match) return "#000000";
+	if (!match) return "#000000"
 
-	const h = parseFloat(match[1]) / 360;
-	const s = parseFloat(match[2]) / 100;
-	const l = parseFloat(match[3]) / 100;
+	const h = parseFloat(match[1]) / 360
+	const s = parseFloat(match[2]) / 100
+	const l = parseFloat(match[3]) / 100
 
-	const a = s * Math.min(l, 1 - l);
+	const a = s * Math.min(l, 1 - l)
 	const f = (n: number) => {
-		const k = (n + h * 12) % 12;
-		const color = l - a * Math.max(Math.min(k - 3, 9 - k, 1), -1);
+		const k = (n + h * 12) % 12
+		const color = l - a * Math.max(Math.min(k - 3, 9 - k, 1), -1)
 		return Math.round(255 * color)
 			.toString(16)
-			.padStart(2, "0");
-	};
+			.padStart(2, "0")
+	}
 
-	return `#${f(0)}${f(8)}${f(4)}`;
+	return `#${f(0)}${f(8)}${f(4)}`
 }
 
 /**
  * Converts hex color to RGB object
  */
 export function hexToRgb(hex: string): { r: number; g: number; b: number } | null {
-	const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+	const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex)
 	return result
 		? {
 				r: parseInt(result[1], 16),
 				g: parseInt(result[2], 16),
 				b: parseInt(result[3], 16),
 			}
-		: null;
+		: null
 }
 
 /**
  * Converts RGB values to hex color
  */
 export function rgbToHex(r: number, g: number, b: number): string {
-	const clamp = (value: number) => Math.max(0, Math.min(255, value));
-	return `#${[r, g, b]
-		.map((x) => clamp(x).toString(16).padStart(2, "0"))
-		.join("")}`;
+	const clamp = (value: number) => Math.max(0, Math.min(255, value))
+	return `#${[r, g, b].map((x) => clamp(x).toString(16).padStart(2, "0")).join("")}`
 }
 
 /**
@@ -336,71 +325,69 @@ export function rgbToHex(r: number, g: number, b: number): string {
  * Returns up to MAX_EXTRACTED_COLORS normalized hex colors
  */
 export function extractColorsFromSvg(svg: string): string[] {
-	const colors = new Set<string>();
+	const colors = new Set<string>()
 
 	if (!svg || typeof svg !== "string") {
-		return [];
+		return []
 	}
 
 	try {
-		const parser = new DOMParser();
-		const svgDoc = parser.parseFromString(svg, "image/svg+xml");
-		const svgElement = svgDoc.documentElement;
+		const parser = new DOMParser()
+		const svgDoc = parser.parseFromString(svg, "image/svg+xml")
+		const svgElement = svgDoc.documentElement
 
 		// Check for parsing errors
-		const parserError = svgDoc.querySelector("parsererror");
+		const parserError = svgDoc.querySelector("parsererror")
 		if (parserError || !svgElement) {
-			console.warn("Failed to parse SVG document");
-			return [];
+			console.warn("Failed to parse SVG document")
+			return []
 		}
 
 		// Extract fill colors from element attributes and inline styles
 		const extractFill = (element: Element) => {
 			// Extract from fill attribute
-			const fill = element.getAttribute("fill");
+			const fill = element.getAttribute("fill")
 			if (fill) {
-				const normalized = normalizeColor(fill);
+				const normalized = normalizeColor(fill)
 				if (normalized) {
-					colors.add(normalized);
+					colors.add(normalized)
 				}
 			}
 
 			// Extract from stroke attribute
-			const stroke = element.getAttribute("stroke");
+			const stroke = element.getAttribute("stroke")
 			if (stroke) {
-				const normalized = normalizeColor(stroke);
+				const normalized = normalizeColor(stroke)
 				if (normalized) {
-					colors.add(normalized);
+					colors.add(normalized)
 				}
 			}
 
 			// Extract from inline style attribute (e.g., style="fill:#2396ed")
-			const styleAttr = element.getAttribute("style");
+			const styleAttr = element.getAttribute("style")
 			if (styleAttr) {
 				// Match fill and stroke in inline styles
-				const fillColorRegex =
-					/fill\s*:\s*(#[0-9a-fA-F]{3,6}|rgb\([^)]+\)|rgba\([^)]+\)|[a-z]+)/gi;
-				const strokeColorRegex =
-					/stroke\s*:\s*(#[0-9a-fA-F]{3,6}|rgb\([^)]+\)|rgba\([^)]+\)|[a-z]+)/gi;
+				const fillColorRegex = /fill\s*:\s*(#[0-9a-fA-F]{3,6}|rgb\([^)]+\)|rgba\([^)]+\)|[a-z]+)/gi
+				const strokeColorRegex = /stroke\s*:\s*(#[0-9a-fA-F]{3,6}|rgb\([^)]+\)|rgba\([^)]+\)|[a-z]+)/gi
 
-				const fillMatches = styleAttr.matchAll(fillColorRegex);
+				const fillMatches = styleAttr.matchAll(fillColorRegex)
 				for (const match of fillMatches) {
-					const color = match[1];
+					const color = match[1]
 					if (color) {
-						const normalized = normalizeColor(color);
+						const normalized = normalizeColor(color)
 						if (normalized) {
-							colors.add(normalized);
+							colors.add(normalized)
 						}
 					}
 				}
 
-				const strokeMatches = styleAttr.matchAll(strokeColorRegex);
+				const strokeMatches = styleAttr.matchAll(strokeColorRegex)
 				for (const match of strokeMatches) {
-					const color = match[1];
+					const color = match[1]
 					if (color) {
-						const normalized = normalizeColor(color);
+						const normalized = normalizeColor(color)
 						if (normalized) {
-							colors.add(normalized);
+							colors.add(normalized)
 						}
 					}
 				}
@@ -408,35 +395,34 @@ export function extractColorsFromSvg(svg: string): string[] {
 
 			// Recursively process children
 			for (let i = 0; i < element.children.length; i++) {
-				extractFill(element.children[i]);
+				extractFill(element.children[i])
 			}
-		};
+		}
 
-		extractFill(svgElement);
+		extractFill(svgElement)
 
 		// Extract colors from style tags
-		const styleTags = svgElement.getElementsByTagName("style");
+		const styleTags = svgElement.getElementsByTagName("style")
 		for (let i = 0; i < styleTags.length; i++) {
-			const styleContent = styleTags[i].textContent || "";
+			const styleContent = styleTags[i].textContent || ""
 			// Updated regex to also match CSS named colors (word characters)
-			const fillColorRegex =
-				/fill\s*:\s*(#[0-9a-fA-F]{3,6}|rgb\([^)]+\)|rgba\([^)]+\)|[a-z]+)/gi;
-			const matches = styleContent.matchAll(fillColorRegex);
+			const fillColorRegex = /fill\s*:\s*(#[0-9a-fA-F]{3,6}|rgb\([^)]+\)|rgba\([^)]+\)|[a-z]+)/gi
+			const matches = styleContent.matchAll(fillColorRegex)
 			for (const match of matches) {
-				const color = match[1];
+				const color = match[1]
 				if (color) {
-					const normalized = normalizeColor(color);
+					const normalized = normalizeColor(color)
 					if (normalized) {
-						colors.add(normalized);
+						colors.add(normalized)
 					}
 				}
 			}
 		}
 
-		return Array.from(colors).slice(0, MAX_EXTRACTED_COLORS);
+		return Array.from(colors).slice(0, MAX_EXTRACTED_COLORS)
 	} catch (error) {
-		console.error("Error extracting colors from SVG:", error);
-		return [];
+		console.error("Error extracting colors from SVG:", error)
+		return []
 	}
 }
 
@@ -444,151 +430,117 @@ export function extractColorsFromSvg(svg: string): string[] {
  * Applies color mappings to an SVG string
  * Replaces fill colors in both attributes and style tags
  */
-export function applyColorMappingsToSvg(
-	svg: string,
-	mappings: ColorMapping,
-): string {
+export function applyColorMappingsToSvg(svg: string, mappings: ColorMapping): string {
 	if (!svg || typeof svg !== "string") {
-		return svg;
+		return svg
 	}
 
 	if (!mappings || Object.keys(mappings).length === 0) {
-		return svg;
+		return svg
 	}
 
 	try {
-		const parser = new DOMParser();
-		const svgDoc = parser.parseFromString(svg, "image/svg+xml");
-		const svgElement = svgDoc.documentElement;
+		const parser = new DOMParser()
+		const svgDoc = parser.parseFromString(svg, "image/svg+xml")
+		const svgElement = svgDoc.documentElement
 
 		if (!svgElement) {
-			return svg;
+			return svg
 		}
 
 		// Check for parsing errors
-		const parserError = svgDoc.querySelector("parsererror");
+		const parserError = svgDoc.querySelector("parsererror")
 		if (parserError) {
-			console.warn("Failed to parse SVG for color mapping");
-			return svg;
+			console.warn("Failed to parse SVG for color mapping")
+			return svg
 		}
 
 		// Apply mappings to element fill and stroke attributes, including inline styles
 		const applyMappings = (element: Element) => {
 			// Handle fill attribute
-			const fill = element.getAttribute("fill");
+			const fill = element.getAttribute("fill")
 			if (fill) {
-				const normalized = normalizeColor(fill);
+				const normalized = normalizeColor(fill)
 				if (normalized) {
 					// Case-insensitive matching
-					const matchingKey = Object.keys(mappings).find(
-						(key) => key.toLowerCase() === normalized.toLowerCase(),
-					);
+					const matchingKey = Object.keys(mappings).find((key) => key.toLowerCase() === normalized.toLowerCase())
 					if (matchingKey && mappings[matchingKey]) {
-						element.setAttribute("fill", mappings[matchingKey]);
+						element.setAttribute("fill", mappings[matchingKey])
 					}
 				}
 			}
 
 			// Handle stroke attribute
-			const stroke = element.getAttribute("stroke");
+			const stroke = element.getAttribute("stroke")
 			if (stroke) {
-				const normalized = normalizeColor(stroke);
+				const normalized = normalizeColor(stroke)
 				if (normalized) {
 					// Case-insensitive matching
-					const matchingKey = Object.keys(mappings).find(
-						(key) => key.toLowerCase() === normalized.toLowerCase(),
-					);
+					const matchingKey = Object.keys(mappings).find((key) => key.toLowerCase() === normalized.toLowerCase())
 					if (matchingKey && mappings[matchingKey]) {
-						element.setAttribute("stroke", mappings[matchingKey]);
+						element.setAttribute("stroke", mappings[matchingKey])
 					}
 				}
 			}
 
 			// Handle inline style attribute (e.g., style="fill:#2396ed")
-			const styleAttr = element.getAttribute("style");
+			const styleAttr = element.getAttribute("style")
 			if (styleAttr) {
-				let updatedStyle = styleAttr;
+				let updatedStyle = styleAttr
 
 				Object.keys(mappings).forEach((originalColorKey) => {
-					const newColor = mappings[originalColorKey];
-					if (
-						originalColorKey.toLowerCase() !== newColor.toLowerCase() &&
-						newColor
-					) {
+					const newColor = mappings[originalColorKey]
+					if (originalColorKey.toLowerCase() !== newColor.toLowerCase() && newColor) {
 						// Escape special regex characters
-						const escapedColor = originalColorKey.replace(
-							/[.*+?^${}()|[\]\\]/g,
-							"\\$&",
-						);
+						const escapedColor = originalColorKey.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")
 						// Case-insensitive replacement for both fill and stroke in inline styles
-						const fillRegex = new RegExp(
-							`fill\\s*:\\s*${escapedColor}`,
-							"gi",
-						);
-						const strokeRegex = new RegExp(
-							`stroke\\s*:\\s*${escapedColor}`,
-							"gi",
-						);
-						updatedStyle = updatedStyle.replace(fillRegex, `fill:${newColor}`);
-						updatedStyle = updatedStyle.replace(
-							strokeRegex,
-							`stroke:${newColor}`,
-						);
+						const fillRegex = new RegExp(`fill\\s*:\\s*${escapedColor}`, "gi")
+						const strokeRegex = new RegExp(`stroke\\s*:\\s*${escapedColor}`, "gi")
+						updatedStyle = updatedStyle.replace(fillRegex, `fill:${newColor}`)
+						updatedStyle = updatedStyle.replace(strokeRegex, `stroke:${newColor}`)
 					}
-				});
+				})
 
 				if (updatedStyle !== styleAttr) {
-					element.setAttribute("style", updatedStyle);
+					element.setAttribute("style", updatedStyle)
 				}
 			}
 
 			// Recursively process children
 			for (let i = 0; i < element.children.length; i++) {
-				applyMappings(element.children[i]);
+				applyMappings(element.children[i])
 			}
-		};
-
-		applyMappings(svgElement);
-
-		// Apply mappings to style tags
-		const styleTags = svgElement.getElementsByTagName("style");
-		for (let i = 0; i < styleTags.length; i++) {
-			const styleElement = styleTags[i];
-			let styleContent = styleElement.textContent || "";
-
-			Object.keys(mappings).forEach((originalColorKey) => {
-				const newColor = mappings[originalColorKey];
-				if (
-					originalColorKey.toLowerCase() !== newColor.toLowerCase() &&
-					newColor
-				) {
-					// Escape special regex characters
-					const escapedColor = originalColorKey.replace(
-						/[.*+?^${}()|[\]\\]/g,
-						"\\$&",
-					);
-					// Case-insensitive replacement for both fill and stroke
-					const fillRegex = new RegExp(
-						`fill\\s*:\\s*${escapedColor}`,
-						"gi",
-					);
-					const strokeRegex = new RegExp(
-						`stroke\\s*:\\s*${escapedColor}`,
-						"gi",
-					);
-					styleContent = styleContent.replace(fillRegex, `fill:${newColor}`);
-					styleContent = styleContent.replace(strokeRegex, `stroke:${newColor}`);
-				}
-			});
-
-			styleElement.textContent = styleContent;
 		}
 
-		const serializer = new XMLSerializer();
-		return serializer.serializeToString(svgElement);
+		applyMappings(svgElement)
+
+		// Apply mappings to style tags
+		const styleTags = svgElement.getElementsByTagName("style")
+		for (let i = 0; i < styleTags.length; i++) {
+			const styleElement = styleTags[i]
+			let styleContent = styleElement.textContent || ""
+
+			Object.keys(mappings).forEach((originalColorKey) => {
+				const newColor = mappings[originalColorKey]
+				if (originalColorKey.toLowerCase() !== newColor.toLowerCase() && newColor) {
+					// Escape special regex characters
+					const escapedColor = originalColorKey.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")
+					// Case-insensitive replacement for both fill and stroke
+					const fillRegex = new RegExp(`fill\\s*:\\s*${escapedColor}`, "gi")
+					const strokeRegex = new RegExp(`stroke\\s*:\\s*${escapedColor}`, "gi")
+					styleContent = styleContent.replace(fillRegex, `fill:${newColor}`)
+					styleContent = styleContent.replace(strokeRegex, `stroke:${newColor}`)
+				}
+			})
+
+			styleElement.textContent = styleContent
+		}
+
+		const serializer = new XMLSerializer()
+		return serializer.serializeToString(svgElement)
 	} catch (error) {
-		console.error("Error applying color mappings to SVG:", error);
-		return svg;
+		console.error("Error applying color mappings to SVG:", error)
+		return svg
 	}
 }
 
@@ -596,46 +548,40 @@ export function applyColorMappingsToSvg(
  * Ensures SVG has required attributes (viewBox, width, height)
  * Returns the processed SVG string
  */
-export function ensureSvgAttributes(
-	svg: string,
-	viewBox: string = DEFAULT_VIEWBOX,
-): string {
+export function ensureSvgAttributes(svg: string, viewBox: string = DEFAULT_VIEWBOX): string {
 	if (!svg || typeof svg !== "string") {
-		return svg;
+		return svg
 	}
 
 	try {
-		const parser = new DOMParser();
-		const svgDoc = parser.parseFromString(svg, "image/svg+xml");
-		const svgElement = svgDoc.documentElement;
+		const parser = new DOMParser()
+		const svgDoc = parser.parseFromString(svg, "image/svg+xml")
+		const svgElement = svgDoc.documentElement
 
 		if (!svgElement) {
-			return svg;
+			return svg
 		}
 
 		// Add viewBox if missing
-		if (
-			!svgElement.getAttribute("viewBox") &&
-			!svgElement.getAttribute("width")
-		) {
-			svgElement.setAttribute("viewBox", viewBox);
+		if (!svgElement.getAttribute("viewBox") && !svgElement.getAttribute("width")) {
+			svgElement.setAttribute("viewBox", viewBox)
 		}
 
 		// Add width if missing
 		if (!svgElement.getAttribute("width")) {
-			svgElement.setAttribute("width", "100%");
+			svgElement.setAttribute("width", "100%")
 		}
 
 		// Add height if missing
 		if (!svgElement.getAttribute("height")) {
-			svgElement.setAttribute("height", "100%");
+			svgElement.setAttribute("height", "100%")
 		}
 
-		const serializer = new XMLSerializer();
-		return serializer.serializeToString(svgElement);
+		const serializer = new XMLSerializer()
+		return serializer.serializeToString(svgElement)
 	} catch (error) {
-		console.error("Error ensuring SVG attributes:", error);
-		return svg;
+		console.error("Error ensuring SVG attributes:", error)
+		return svg
 	}
 }
 
@@ -643,10 +589,5 @@ export function ensureSvgAttributes(
  * Validates if clipboard API is available
  */
 export function isClipboardAvailable(): boolean {
-	return (
-		typeof navigator !== "undefined" &&
-		navigator.clipboard !== undefined &&
-		navigator.clipboard.writeText !== undefined
-	);
+	return typeof navigator !== "undefined" && navigator.clipboard !== undefined && navigator.clipboard.writeText !== undefined
 }
-
