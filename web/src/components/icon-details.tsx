@@ -6,7 +6,7 @@ import { ArrowRight, Check, FileType, Github, Moon, Palette, PaletteIcon, Sun, T
 import Image from "next/image"
 import Link from "next/link"
 import type React from "react"
-import { useCallback, useState } from "react"
+import { useCallback, useEffect, useState } from "react";
 import { toast } from "sonner"
 import { IconsGrid } from "@/components/icon-grid"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
@@ -224,6 +224,7 @@ export function IconDetails({
 	const [copiedUrlKey, setCopiedUrlKey] = useState<string | null>(null)
 	const [copiedImageKey, setCopiedImageKey] = useState<string | null>(null)
 	const [isCustomizerOpen, setIsCustomizerOpen] = useState(false)
+	const [hasGradients, setHasGradients] = useState<boolean | null>(null);
 
 	const launchConfetti = useCallback((originX?: number, originY?: number) => {
 		if (typeof confetti !== "function") return
@@ -539,7 +540,36 @@ export function IconDetails({
 	}
 
 	const svgUrl = getSvgUrl()
-	const canCustomize = svgUrl !== null && availableFormats.includes("svg")
+
+	useEffect(() => {
+		if (!svgUrl) {
+			setHasGradients(null);
+			return;
+		}
+
+		const checkForGradients = async () => {
+			try {
+				const response = await fetch(svgUrl);
+				if (!response.ok) {
+					setHasGradients(null);
+					return;
+				}
+				const text = await response.text();
+				const hasLinearGradient = /<linearGradient[\s\/>]/i.test(text);
+				const hasRadialGradient = /<radialGradient[\s\/>]/i.test(text);
+				setHasGradients(hasLinearGradient || hasRadialGradient);
+			} catch {
+				setHasGradients(null);
+			}
+		};
+
+		checkForGradients();
+	}, [svgUrl]);
+
+	const canCustomize =
+		svgUrl !== null &&
+		availableFormats.includes("svg") &&
+		hasGradients === false;
 
 	return (
 		<main className="container mx-auto pt-12 pb-14 px-4 sm:px-6 lg:px-8">
