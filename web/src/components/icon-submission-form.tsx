@@ -106,10 +106,10 @@ export function IconSubmissionContent() {
 		<div className="flex flex-col gap-6">
 			<div className="text-center space-y-2">
 				<p className="text-muted-foreground">
-					Submissions are currently handled via GitHub issues, but we are experimenting with uploading icons directly on the website.
+					If you would like to help us expand our collection, you can submit your icons using our submission form or by creating an issue on Github
 				</p>
 				<Button variant="link" asChild className="text-primary">
-					<Link href="/submit">Try the experimental submission form &rarr;</Link>
+					<Link href="/submit">Submit using the submission form &rarr;</Link>
 				</Button>
 			</div>
 

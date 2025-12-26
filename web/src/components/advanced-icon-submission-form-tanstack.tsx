@@ -5,7 +5,6 @@ import { Check, FileImage, FileType, Plus, X } from "lucide-react"
 import { useState } from "react"
 import { toast } from "sonner"
 import { revalidateAllSubmissions } from "@/app/actions/submissions"
-import { ExperimentalWarning } from "@/components/experimental-warning"
 import { IconNameCombobox } from "@/components/icon-name-combobox"
 import { IconSubmissionGuidelines } from "@/components/icon-submission-guidelines"
 import {
@@ -328,7 +327,6 @@ export function AdvancedIconSubmissionFormTanStack() {
 
 	return (
 		<div className="max-w-4xl mx-auto">
-			<ExperimentalWarning message="This icon submission form is currently in an experimentation phase. Submissions will not be reviewed or processed at this time. We're gathering feedback to improve the experience." />
 
 			<AlertDialog open={showConfirmDialog} onOpenChange={setShowConfirmDialog}>
 				<AlertDialogContent className="bg-background">
