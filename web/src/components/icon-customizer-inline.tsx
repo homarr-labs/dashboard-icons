@@ -222,7 +222,7 @@ export function IconCustomizerInline({ svgUrl, iconName, onClose }: IconCustomiz
 						</PopoverContent>
 					</Popover>
 				</div>
-				<Button variant="ghost" size="sm" onClick={onClose} className="h-6 w-6 p-0">
+				<Button id="close-customizer" variant="ghost" size="sm" onClick={onClose} className="h-6 w-6 p-0">
 					<X className="h-4 w-4" />
 				</Button>
 			</div>
@@ -256,7 +256,10 @@ export function IconCustomizerInline({ svgUrl, iconName, onClose }: IconCustomiz
 
 			<Separator />
 
-			<div className="flex flex-col items-center justify-center p-4 bg-muted/30 rounded-lg border min-h-[120px]">
+			<div
+				id="customized-svg-preview"
+				className="flex flex-col items-center justify-center p-4 bg-muted/30 rounded-lg border min-h-[120px]"
+			>
 				{customizedSvg ? (
 					<div
 						className="w-full max-w-[120px] h-[120px] flex items-center justify-center overflow-hidden [&_svg]:w-full [&_svg]:h-full [&_svg]:max-w-full [&_svg]:max-h-full [&_svg]:object-contain [&_svg]:flex-shrink-0"
