@@ -1,52 +1,48 @@
-"use server";
+"use server"
 
-import PocketBase from "pocketbase";
+import PocketBase from "pocketbase"
 
-const GITHUB_OWNER = "homarr-labs";
-const GITHUB_REPO = "dashboard-icons";
-const WORKFLOW_FILE = "add-icon.yml";
+const GITHUB_OWNER = "homarr-labs"
+const GITHUB_REPO = "dashboard-icons"
+const WORKFLOW_FILE = "add-icon.yml"
 
 interface TriggerWorkflowResult {
-	success: boolean;
-	error?: string;
-	workflowUrl?: string;
+	success: boolean
+	error?: string
+	workflowUrl?: string
 }
 
 /**
  * Verify the provided auth token belongs to an admin user
  * The token is passed from the client since auth is stored in localStorage
  */
-async function verifyAdmin(
-	authToken: string,
-): Promise<{ isAdmin: boolean; error?: string }> {
+async function verifyAdmin(authToken: string): Promise<{ isAdmin: boolean; error?: string }> {
 	if (!authToken) {
-		return { isAdmin: false, error: "Not authenticated" };
+		return { isAdmin: false, error: "Not authenticated" }
 	}
 
 	try {
-		const pb = new PocketBase(
-			process.env.NEXT_PUBLIC_POCKETBASE_URL || "http://127.0.0.1:8090",
-		);
+		const pb = new PocketBase(process.env.NEXT_PUBLIC_POCKETBASE_URL || "http://127.0.0.1:8090")
 
 		// Validate the token by refreshing auth
 		// This will fail if the token is invalid/expired
-		pb.authStore.save(authToken, null);
+		pb.authStore.save(authToken, null)
 
-		const authData = await pb.collection("users").authRefresh();
+		const authData = await pb.collection("users").authRefresh()
 
 		if (!authData?.record) {
-			return { isAdmin: false, error: "Invalid authentication" };
+			return { isAdmin: false, error: "Invalid authentication" }
 		}
 
 		// Check if user is admin
 		if (!authData.record.admin) {
-			return { isAdmin: false, error: "User is not an admin" };
+			return { isAdmin: false, error: "User is not an admin" }
 		}
 
-		return { isAdmin: true };
+		return { isAdmin: true }
 	} catch (error) {
-		console.error("Error verifying admin:", error);
-		return { isAdmin: false, error: "Failed to verify admin status" };
+		console.error("Error verifying admin:", error)
+		return { isAdmin: false, error: "Failed to verify admin status" }
 	}
 }
 
@@ -57,21 +53,17 @@ async function verifyAdmin(
  * @param submissionId - The ID of the submission to add
  * @param dryRun - If true, skip actual writes (for testing)
  */
-export async function triggerAddIconWorkflow(
-	authToken: string,
-	submissionId: string,
-	dryRun = false,
-): Promise<TriggerWorkflowResult> {
+export async function triggerAddIconWorkflow(authToken: string, submissionId: string, dryRun = false): Promise<TriggerWorkflowResult> {
 	// Verify admin status using the provided token
-	const { isAdmin, error: authError } = await verifyAdmin(authToken);
+	const { isAdmin, error: authError } = await verifyAdmin(authToken)
 	if (!isAdmin) {
-		return { success: false, error: authError || "Unauthorized" };
+		return { success: false, error: authError || "Unauthorized" }
 	}
 
 	// Check for GitHub token
-	const githubToken = process.env.GITHUB_TOKEN;
+	const githubToken = process.env.GITHUB_TOKEN
 	if (!githubToken) {
-		return { success: false, error: "GitHub token not configured" };
+		return { success: false, error: "GitHub token not configured" }
 	}
 
 	try {
@@ -93,31 +85,30 @@ export async function triggerAddIconWorkflow(
 					},
 				}),
 			},
-		);
+		)
 
 		if (!response.ok) {
-			const errorText = await response.text();
-			console.error("GitHub API error:", response.status, errorText);
+			const errorText = await response.text()
+			console.error("GitHub API error:", response.status, errorText)
 			return {
 				success: false,
 				error: `GitHub API error: ${response.status} - ${errorText}`,
-			};
+			}
 		}
 
 		// The dispatch endpoint returns 204 No Content on success
 		// Construct a URL to the workflow runs page
-		const workflowUrl = `https://github.com/${GITHUB_OWNER}/${GITHUB_REPO}/actions/workflows/${WORKFLOW_FILE}`;
+		const workflowUrl = `https://github.com/${GITHUB_OWNER}/${GITHUB_REPO}/actions/workflows/${WORKFLOW_FILE}`
 
 		return {
 			success: true,
 			workflowUrl,
-		};
+		}
 	} catch (error) {
-		console.error("Error triggering workflow:", error);
+		console.error("Error triggering workflow:", error)
 		return {
 			success: false,
-			error:
-				error instanceof Error ? error.message : "Failed to trigger workflow",
-		};
+			error: error instanceof Error ? error.message : "Failed to trigger workflow",
+		}
 	}
 }
