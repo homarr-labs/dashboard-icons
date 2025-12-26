@@ -35,3 +35,4 @@ Temporary Items
 __pycache__/
 
 node_modules/
+.cursor/commands
