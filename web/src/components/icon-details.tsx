@@ -555,8 +555,8 @@ export function IconDetails({
 					return;
 				}
 				const text = await response.text();
-				const hasLinearGradient = /<linearGradient[\s>]/i.test(text);
-				const hasRadialGradient = /<radialGradient[\s>]/i.test(text);
+				const hasLinearGradient = /<linearGradient[\s\/>]/i.test(text);
+				const hasRadialGradient = /<radialGradient[\s\/>]/i.test(text);
 				setHasGradients(hasLinearGradient || hasRadialGradient);
 			} catch {
 				setHasGradients(null);
