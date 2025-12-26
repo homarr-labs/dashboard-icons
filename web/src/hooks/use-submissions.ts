@@ -23,9 +23,6 @@ export function useSubmissions() {
 				requestKey: null,
 			})
 
-			if (records.length > 0) {
-			}
-
 			return records
 		},
 	})

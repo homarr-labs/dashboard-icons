@@ -1,6 +1,7 @@
 "use client"
 
 import confetti from "canvas-confetti"
+import DOMPurify from "dompurify"
 import { motion } from "framer-motion"
 import { Copy, Download, Info, X } from "lucide-react"
 import { useCallback, useEffect, useMemo, useState } from "react"
@@ -222,7 +223,7 @@ export function IconCustomizerInline({ svgUrl, iconName, onClose }: IconCustomiz
 						</PopoverContent>
 					</Popover>
 				</div>
-				<Button variant="ghost" size="sm" onClick={onClose} className="h-6 w-6 p-0">
+				<Button variant="ghost" size="sm" onClick={onClose} className="h-6 w-6 p-0" aria-label="Close customizer">
 					<X className="h-4 w-4" />
 				</Button>
 			</div>
@@ -260,8 +261,8 @@ export function IconCustomizerInline({ svgUrl, iconName, onClose }: IconCustomiz
 				{customizedSvg ? (
 					<div
 						className="w-full max-w-[120px] h-[120px] flex items-center justify-center overflow-hidden [&_svg]:w-full [&_svg]:h-full [&_svg]:max-w-full [&_svg]:max-h-full [&_svg]:object-contain [&_svg]:flex-shrink-0"
-						// biome-ignore lint/security/noDangerouslySetInnerHtml: We need to render the customized SVG
-						dangerouslySetInnerHTML={{ __html: customizedSvg }}
+						// biome-ignore lint/security/noDangerouslySetInnerHtml: SVG is sanitized with DOMPurify before rendering
+						dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(customizedSvg) }}
 					/>
 				) : (
 					<div className="text-muted-foreground text-xs">Preview loading...</div>

@@ -1,6 +1,7 @@
 "use client"
 
 import confetti from "canvas-confetti"
+import DOMPurify from "dompurify"
 import { ChevronDown, Copy, Palette } from "lucide-react"
 import { useCallback, useEffect, useState } from "react"
 import { toast } from "sonner"
@@ -396,8 +397,8 @@ export function IconCustomizer({ open, onOpenChange, svgUrl, iconName }: IconCus
 									<div className="flex flex-col items-center justify-center p-12 bg-background/50 rounded-xl border-2 border-dashed min-h-[400px] shadow-lg">
 										<div
 											className="w-full max-w-md h-96 flex items-center justify-center [&_svg]:w-full [&_svg]:h-full [&_svg]:max-w-full [&_svg]:max-h-full"
-											// biome-ignore lint/security/noDangerouslySetInnerHtml: We need to render the customized SVG
-											dangerouslySetInnerHTML={{ __html: customizedSvg }}
+											// biome-ignore lint/security/noDangerouslySetInnerHtml: SVG is sanitized with DOMPurify before rendering
+											dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(customizedSvg) }}
 										/>
 									</div>
 

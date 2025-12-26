@@ -493,11 +493,12 @@ export function applyColorMappingsToSvg(svg: string, mappings: ColorMapping): st
 					if (originalColorKey.toLowerCase() !== newColor.toLowerCase() && newColor) {
 						// Escape special regex characters
 						const escapedColor = originalColorKey.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")
-						// Case-insensitive replacement for both fill and stroke in inline styles
-						const fillRegex = new RegExp(`fill\\s*:\\s*${escapedColor}`, "gi")
-						const strokeRegex = new RegExp(`stroke\\s*:\\s*${escapedColor}`, "gi")
-						updatedStyle = updatedStyle.replace(fillRegex, `fill:${newColor}`)
-						updatedStyle = updatedStyle.replace(strokeRegex, `stroke:${newColor}`)
+						// Case-insensitive replacement for both fill and stroke in inline styles.
+						// Ensure we only match complete color values (not substrings of longer values).
+						const fillRegex = new RegExp(`(fill\\s*:\\s*)${escapedColor}(?![A-Za-z0-9-])`, "gi")
+						const strokeRegex = new RegExp(`(stroke\\s*:\\s*)${escapedColor}(?![A-Za-z0-9-])`, "gi")
+						updatedStyle = updatedStyle.replace(fillRegex, `$1${newColor}`)
+						updatedStyle = updatedStyle.replace(strokeRegex, `$1${newColor}`)
 					}
 				})
 
@@ -525,11 +526,12 @@ export function applyColorMappingsToSvg(svg: string, mappings: ColorMapping): st
 				if (originalColorKey.toLowerCase() !== newColor.toLowerCase() && newColor) {
 					// Escape special regex characters
 					const escapedColor = originalColorKey.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")
-					// Case-insensitive replacement for both fill and stroke
-					const fillRegex = new RegExp(`fill\\s*:\\s*${escapedColor}`, "gi")
-					const strokeRegex = new RegExp(`stroke\\s*:\\s*${escapedColor}`, "gi")
-					styleContent = styleContent.replace(fillRegex, `fill:${newColor}`)
-					styleContent = styleContent.replace(strokeRegex, `stroke:${newColor}`)
+					// Case-insensitive replacement for both fill and stroke.
+					// Ensure we only match complete color values (not substrings of longer values).
+					const fillRegex = new RegExp(`(fill\\s*:\\s*)${escapedColor}(?![A-Za-z0-9-])`, "gi")
+					const strokeRegex = new RegExp(`(stroke\\s*:\\s*)${escapedColor}(?![A-Za-z0-9-])`, "gi")
+					styleContent = styleContent.replace(fillRegex, `$1${newColor}`)
+					styleContent = styleContent.replace(strokeRegex, `$1${newColor}`)
 				}
 			})
 
