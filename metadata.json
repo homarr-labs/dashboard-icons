@@ -34459,5 +34459,27 @@
                 "login": "greez2k5@googlemail.com"
             }
         }
+    },
+    "tether": {
+        "base": "svg",
+        "aliases": [
+            "usdt"
+        ],
+        "categories": [],
+        "update": {
+            "timestamp": "2025-12-27T23:23:30.181Z",
+            "author": {
+                "id": "r3sl3nq666gskj1",
+                "name": "filogif403",
+                "login": "filogif403@httpsu.com"
+            }
+        },
+        "colors": {
+            "dark": "tether-dark"
+        },
+        "wordmark": {
+            "light": "tether-wordmark-light",
+            "dark": "tether-wordmark-dark"
+        }
     }
 }
