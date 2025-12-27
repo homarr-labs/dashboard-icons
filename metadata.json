@@ -34443,5 +34443,21 @@
             "light": "sourcehut-wordmark-light",
             "dark": "sourcehut-wordmark-dark"
         }
+    },
+    "protondb": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "gaming",
+            "database"
+        ],
+        "update": {
+            "timestamp": "2025-12-27T23:20:20.469Z",
+            "author": {
+                "id": "fei5mlde4bg3kfo",
+                "name": "Greez2k5",
+                "login": "greez2k5@googlemail.com"
+            }
+        }
     }
 }
