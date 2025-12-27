@@ -84,7 +84,9 @@ jobs:
           fi
           git add .
           git commit -m "chore: add icon \"${submission_name}\" (submission ${{ inputs.submissionId }}, approved by ${approver})"
-
+      - name: Pull before push
+        if: ${{ !inputs.dryRun && steps.git-diff.outputs.has_changes == 'true' }}
+        run: git pull --rebase origin main
       - name: Push changes
         if: ${{ !inputs.dryRun && steps.git-diff.outputs.has_changes == 'true' }}
         run: git push
