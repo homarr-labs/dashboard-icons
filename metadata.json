@@ -34500,5 +34500,21 @@
                 "login": "bjoern.ebbrecht@gmail.com"
             }
         }
+    },
+    "lact": {
+        "base": "svg",
+        "aliases": [
+            "Linux GPU Control Application",
+            "LACT"
+        ],
+        "categories": [],
+        "update": {
+            "timestamp": "2025-12-27T23:28:14.823Z",
+            "author": {
+                "id": "r3sl3nq666gskj1",
+                "name": "filogif403",
+                "login": "filogif403@httpsu.com"
+            }
+        }
     }
 }
