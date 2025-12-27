@@ -34481,5 +34481,24 @@
             "light": "tether-wordmark-light",
             "dark": "tether-wordmark-dark"
         }
+    },
+    "invoiceplane": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "cloud",
+            "database",
+            "finance",
+            "tools",
+            "utility"
+        ],
+        "update": {
+            "timestamp": "2025-12-27T23:24:21.128Z",
+            "author": {
+                "id": "evklyvl78ht1ydq",
+                "name": "bjoern",
+                "login": "bjoern.ebbrecht@gmail.com"
+            }
+        }
     }
 }
