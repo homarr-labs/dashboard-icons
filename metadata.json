@@ -34516,5 +34516,31 @@
                 "login": "filogif403@httpsu.com"
             }
         }
+    },
+    "helix": {
+        "base": "svg",
+        "aliases": [
+            "Helix editor",
+            "helix-editor"
+        ],
+        "categories": [
+            "tools"
+        ],
+        "update": {
+            "timestamp": "2025-12-29T10:09:55.830Z",
+            "author": {
+                "id": "r3sl3nq666gskj1",
+                "name": "filogif403",
+                "login": "filogif403@httpsu.com"
+            }
+        },
+        "colors": {
+            "light": "helix-light",
+            "dark": "helix-dark"
+        },
+        "wordmark": {
+            "light": "helix-wordmark-light",
+            "dark": "helix-wordmark-dark"
+        }
     }
 }
