@@ -34606,5 +34606,21 @@
             "light": "niri-wordmark-light",
             "dark": "niri-wordmark-dark"
         }
+    },
+    "isc-kea": {
+        "base": "png",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2025-12-29T10:35:36.230Z",
+            "author": {
+                "id": "rq613ure6ykbdhv",
+                "name": "pouley",
+                "login": "pierre@bellemainp.fr"
+            }
+        },
+        "colors": {
+            "light": "isc-kea-light"
+        }
     }
 }
