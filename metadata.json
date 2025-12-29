@@ -34635,5 +34635,25 @@
                 "login": "chandrapalgond@outlook.com"
             }
         }
+    },
+    "cronmaster": {
+        "base": "svg",
+        "aliases": [
+            "cr*nmaster"
+        ],
+        "categories": [
+            "automation",
+            "monitoring",
+            "tools",
+            "utility"
+        ],
+        "update": {
+            "timestamp": "2025-12-29T10:35:38.161Z",
+            "author": {
+                "id": "tfj1oyvti4bkyzo",
+                "name": "fccview",
+                "login": "comm.campione@gmail.com"
+            }
+        }
     }
 }
