@@ -34534,10 +34534,6 @@
                 "login": "filogif403@httpsu.com"
             }
         },
-        "colors": {
-            "light": "helix-light",
-            "dark": "helix-dark"
-        },
         "wordmark": {
             "light": "helix-wordmark-light",
             "dark": "helix-wordmark-dark"

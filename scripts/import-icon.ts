@@ -171,10 +171,10 @@ function buildTargets(submission: Submission): VariantTarget[] {
 	const assetsLower = submission.assets.map((a) => a.toLowerCase());
 	const hasLight =
 		submission.extras?.colors?.light ||
-		assetsLower.some((a) => a.includes("light"));
+		assetsLower.some((a) => a.includes("light") && !a.includes("wordmark"));
 	const hasDark =
 		submission.extras?.colors?.dark ||
-		assetsLower.some((a) => a.includes("dark"));
+		assetsLower.some((a) => a.includes("dark") && !a.includes("wordmark"));
 	const hasWordmark =
 		submission.extras?.wordmark ||
 		assetsLower.some((a) => a.includes("wordmark"));
