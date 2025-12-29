@@ -10,7 +10,7 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { Label } from "@/components/ui/label"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Textarea } from "@/components/ui/textarea"
-import { useApproveSubmission, useAuth, useRejectSubmission, useSubmissions, useTriggerWorkflow } from "@/hooks/use-submissions"
+import { useApproveSubmission, useAuth, useBulkTriggerWorkflow, useRejectSubmission, useSubmissions, useTriggerWorkflow } from "@/hooks/use-submissions"
 
 export default function DashboardPage() {
 	// Fetch auth status
@@ -23,6 +23,7 @@ export default function DashboardPage() {
 	const approveMutation = useApproveSubmission()
 	const rejectMutation = useRejectSubmission()
 	const workflowMutation = useTriggerWorkflow()
+	const bulkWorkflowMutation = useBulkTriggerWorkflow()
 
 	// Track workflow URL for showing link after trigger
 	const [workflowUrl, setWorkflowUrl] = React.useState<string | undefined>()
@@ -50,6 +51,17 @@ export default function DashboardPage() {
 	const handleTriggerWorkflow = (submissionId: string) => {
 		workflowMutation.mutate(
 			{ submissionId },
+			{
+				onSuccess: (data) => {
+					setWorkflowUrl(data.workflowUrl)
+				},
+			},
+		)
+	}
+
+	const handleBulkTriggerWorkflow = (submissionIds: string[]) => {
+		bulkWorkflowMutation.mutate(
+			{ submissionIds },
 			{
 				onSuccess: (data) => {
 					setWorkflowUrl(data.workflowUrl)
@@ -172,9 +184,11 @@ export default function DashboardPage() {
 							onApprove={handleApprove}
 							onReject={handleReject}
 							onTriggerWorkflow={handleTriggerWorkflow}
+							onBulkTriggerWorkflow={handleBulkTriggerWorkflow}
 							isApproving={approveMutation.isPending}
 							isRejecting={rejectMutation.isPending}
 							isTriggeringWorkflow={workflowMutation.isPending}
+							isBulkTriggeringWorkflow={bulkWorkflowMutation.isPending}
 							workflowUrl={workflowUrl}
 						/>
 					</CardContent>
