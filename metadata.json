@@ -34559,5 +34559,18 @@
         "colors": {
             "light": "isc-bind9-light"
         }
+    },
+    "mediafire": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2025-12-29T10:33:03.394Z",
+            "author": {
+                "id": "7ksqurcelxqenqb",
+                "name": "nguyentkge123@gmail.com",
+                "login": "nguyentkge123@gmail.com"
+            }
+        }
     }
 }
