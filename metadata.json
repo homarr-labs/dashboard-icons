@@ -34572,5 +34572,18 @@
                 "login": "nguyentkge123@gmail.com"
             }
         }
+    },
+    "behance": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2025-12-29T10:33:04.645Z",
+            "author": {
+                "id": "qnf6scp5rf6zflm",
+                "name": "freeqrcodegenerator",
+                "login": "chandrapalgond@outlook.com"
+            }
+        }
     }
 }
