@@ -34622,5 +34622,18 @@
         "colors": {
             "light": "isc-kea-light"
         }
+    },
+    "weibo": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2025-12-29T10:35:37.048Z",
+            "author": {
+                "id": "qnf6scp5rf6zflm",
+                "name": "freeqrcodegenerator",
+                "login": "chandrapalgond@outlook.com"
+            }
+        }
     }
 }
