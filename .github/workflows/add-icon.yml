@@ -29,10 +29,6 @@ on:
         default: false
         type: boolean
 
-concurrency:
-  group: add-icon-queue
-  cancel-in-progress: false
-
 jobs:
   add-icon:
     runs-on: ubuntu-latest
@@ -90,5 +86,7 @@ jobs:
           git commit -m "chore: add icon \"${submission_name}\" (submission ${{ inputs.submissionId }}, approved by ${approver})"
       - name: Push changes
         if: ${{ !inputs.dryRun && steps.git-diff.outputs.has_changes == 'true' }}
-        run: git push
+        run: |
+          git pull --rebase origin main
+          git push
 
