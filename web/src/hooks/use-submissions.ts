@@ -224,37 +224,25 @@ export function useBulkTriggerWorkflow() {
 			}
 
 			const result = await triggerBulkAddIconWorkflow(authToken, submissionIds, dryRun)
+			if (!result.success) {
+				throw new Error(result.error || "Failed to trigger workflow")
+			}
 			return result
 		},
 		onSuccess: (data) => {
-			const successCount = data.results.filter((r) => r.success).length
-			const failCount = data.results.filter((r) => !r.success).length
-
-			if (failCount === 0) {
-				toast.success(`Triggered ${successCount} workflow(s)`, {
-					description: "All icon workflows have been queued. They will run sequentially.",
-					action: data.workflowUrl
-						? {
-								label: "View on GitHub",
-								onClick: () => window.open(data.workflowUrl, "_blank"),
-							}
-						: undefined,
-				})
-			} else {
-				toast.warning(`Triggered ${successCount} of ${data.results.length} workflows`, {
-					description: `${failCount} workflow(s) failed to trigger`,
-					action: data.workflowUrl
-						? {
-								label: "View on GitHub",
-								onClick: () => window.open(data.workflowUrl, "_blank"),
-							}
-						: undefined,
-				})
-			}
+			toast.success(`Workflow triggered for ${data.submissionCount} icon(s)`, {
+				description: "All icons will be processed sequentially in a single workflow run.",
+				action: data.workflowUrl
+					? {
+							label: "View on GitHub",
+							onClick: () => window.open(data.workflowUrl, "_blank"),
+						}
+					: undefined,
+			})
 		},
 		onError: (error: Error) => {
-			console.error("Error triggering bulk workflows:", error)
-			toast.error("Failed to trigger workflows", {
+			console.error("Error triggering bulk workflow:", error)
+			toast.error("Failed to trigger workflow", {
 				description: error.message || "An error occurred",
 			})
 		},

@@ -51,15 +51,15 @@ async function verifyAdmin(
 }
 
 /**
- * Trigger the "Add Icon to Collection" GitHub workflow for a submission
+ * Trigger the "Add Icon to Collection" GitHub workflow for one or more submissions
  * Only admins can trigger this action
  * @param authToken - The PocketBase auth token from the client
- * @param submissionId - The ID of the submission to add
+ * @param submissionIds - Single ID or comma-separated IDs of submissions to add
  * @param dryRun - If true, skip actual writes (for testing)
  */
 export async function triggerAddIconWorkflow(
 	authToken: string,
-	submissionId: string,
+	submissionIds: string,
 	dryRun = false,
 ): Promise<TriggerWorkflowResult> {
 	// Verify admin status using the provided token
@@ -88,7 +88,7 @@ export async function triggerAddIconWorkflow(
 				body: JSON.stringify({
 					ref: "main",
 					inputs: {
-						submissionId: submissionId,
+						submissionIds: submissionIds,
 						dryRun: dryRun.toString(),
 					},
 				}),
@@ -122,21 +122,16 @@ export async function triggerAddIconWorkflow(
 	}
 }
 
-interface BulkTriggerResult {
-	submissionId: string;
-	success: boolean;
-	error?: string;
-}
-
 interface BulkTriggerWorkflowResult {
 	success: boolean;
-	results: BulkTriggerResult[];
+	error?: string;
 	workflowUrl?: string;
+	submissionCount: number;
 }
 
 /**
  * Trigger the "Add Icon to Collection" GitHub workflow for multiple submissions
- * Workflows are triggered sequentially with a small delay to avoid rate limiting
+ * All submissions are processed in a single workflow run to avoid concurrency issues
  * @param authToken - The PocketBase auth token from the client
  * @param submissionIds - Array of submission IDs to add
  * @param dryRun - If true, skip actual writes (for testing)
@@ -146,88 +141,22 @@ export async function triggerBulkAddIconWorkflow(
 	submissionIds: string[],
 	dryRun = false,
 ): Promise<BulkTriggerWorkflowResult> {
-	const { isAdmin, error: authError } = await verifyAdmin(authToken);
-	if (!isAdmin) {
+	if (submissionIds.length === 0) {
 		return {
 			success: false,
-			results: submissionIds.map((id) => ({
-				submissionId: id,
-				success: false,
-				error: authError || "Unauthorized",
-			})),
+			error: "No submission IDs provided",
+			submissionCount: 0,
 		};
 	}
 
-	const githubToken = process.env.GITHUB_TOKEN;
-	if (!githubToken) {
-		return {
-			success: false,
-			results: submissionIds.map((id) => ({
-				submissionId: id,
-				success: false,
-				error: "GitHub token not configured",
-			})),
-		};
-	}
-
-	const results: BulkTriggerResult[] = [];
-
-	for (const submissionId of submissionIds) {
-		try {
-			const response = await fetch(
-				`https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/actions/workflows/${WORKFLOW_FILE}/dispatches`,
-				{
-					method: "POST",
-					headers: {
-						Accept: "application/vnd.github+json",
-						Authorization: `Bearer ${githubToken}`,
-						"X-GitHub-Api-Version": "2022-11-28",
-					},
-					body: JSON.stringify({
-						ref: "main",
-						inputs: {
-							submissionId: submissionId,
-							dryRun: dryRun.toString(),
-						},
-					}),
-				},
-			);
-
-			if (!response.ok) {
-				const errorText = await response.text();
-				console.error(
-					`GitHub API error for ${submissionId}:`,
-					response.status,
-					errorText,
-				);
-				results.push({
-					submissionId,
-					success: false,
-					error: `GitHub API error: ${response.status}`,
-				});
-			} else {
-				results.push({ submissionId, success: true });
-			}
-
-			// Small delay between requests to avoid rate limiting
-			await new Promise((resolve) => setTimeout(resolve, 500));
-		} catch (error) {
-			console.error(`Error triggering workflow for ${submissionId}:`, error);
-			results.push({
-				submissionId,
-				success: false,
-				error:
-					error instanceof Error ? error.message : "Failed to trigger workflow",
-			});
-		}
-	}
-
-	const allSucceeded = results.every((r) => r.success);
-	const workflowUrl = `https://github.com/${GITHUB_OWNER}/${GITHUB_REPO}/actions/workflows/${WORKFLOW_FILE}`;
+	// Join all IDs with commas and trigger a single workflow
+	const commaSeparatedIds = submissionIds.join(",");
+	const result = await triggerAddIconWorkflow(authToken, commaSeparatedIds, dryRun);
 
 	return {
-		success: allSucceeded,
-		results,
-		workflowUrl,
+		success: result.success,
+		error: result.error,
+		workflowUrl: result.workflowUrl,
+		submissionCount: submissionIds.length,
 	};
 }
