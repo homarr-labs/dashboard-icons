@@ -87,6 +87,15 @@ jobs:
       - name: Push changes
         if: ${{ !inputs.dryRun && steps.git-diff.outputs.has_changes == 'true' }}
         run: |
-          git pull --rebase origin main
-          git push
+          MAX_RETRIES=5
+          RETRY_COUNT=0
+          until git push; do
+            RETRY_COUNT=$((RETRY_COUNT + 1))
+            if [ $RETRY_COUNT -ge $MAX_RETRIES ]; then
+              echo "Failed to push after $MAX_RETRIES attempts"
+              exit 1
+            fi
+            echo "Push failed, pulling latest changes and retrying (attempt $RETRY_COUNT/$MAX_RETRIES)..."
+            git pull --rebase origin main
+          done
 
