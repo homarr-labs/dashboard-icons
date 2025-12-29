@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { toast } from "sonner"
-import { triggerAddIconWorkflow } from "@/app/actions/github"
+import { triggerAddIconWorkflow, triggerBulkAddIconWorkflow } from "@/app/actions/github"
 import { revalidateAllSubmissions } from "@/app/actions/submissions"
 import { getAllIcons } from "@/lib/api"
 import { pb, type Submission } from "@/lib/pb"
@@ -208,6 +208,53 @@ export function useTriggerWorkflow() {
 		onError: (error: Error) => {
 			console.error("Error triggering workflow:", error)
 			toast.error("Failed to trigger workflow", {
+				description: error.message || "An error occurred",
+			})
+		},
+	})
+}
+
+// Trigger GitHub workflow for multiple submissions (bulk action)
+export function useBulkTriggerWorkflow() {
+	return useMutation({
+		mutationFn: async ({ submissionIds, dryRun = false }: { submissionIds: string[]; dryRun?: boolean }) => {
+			const authToken = pb.authStore.token
+			if (!authToken) {
+				throw new Error("Not authenticated")
+			}
+
+			const result = await triggerBulkAddIconWorkflow(authToken, submissionIds, dryRun)
+			return result
+		},
+		onSuccess: (data) => {
+			const successCount = data.results.filter((r) => r.success).length
+			const failCount = data.results.filter((r) => !r.success).length
+
+			if (failCount === 0) {
+				toast.success(`Triggered ${successCount} workflow(s)`, {
+					description: "All icon workflows have been queued. They will run sequentially.",
+					action: data.workflowUrl
+						? {
+								label: "View on GitHub",
+								onClick: () => window.open(data.workflowUrl, "_blank"),
+							}
+						: undefined,
+				})
+			} else {
+				toast.warning(`Triggered ${successCount} of ${data.results.length} workflows`, {
+					description: `${failCount} workflow(s) failed to trigger`,
+					action: data.workflowUrl
+						? {
+								label: "View on GitHub",
+								onClick: () => window.open(data.workflowUrl, "_blank"),
+							}
+						: undefined,
+				})
+			}
+		},
+		onError: (error: Error) => {
+			console.error("Error triggering bulk workflows:", error)
+			toast.error("Failed to trigger workflows", {
 				description: error.message || "An error occurred",
 			})
 		},
