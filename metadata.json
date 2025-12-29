@@ -34585,5 +34585,26 @@
                 "login": "chandrapalgond@outlook.com"
             }
         }
+    },
+    "niri": {
+        "base": "svg",
+        "aliases": [
+            "A scrollable-tiling Wayland compositor"
+        ],
+        "categories": [
+            "other"
+        ],
+        "update": {
+            "timestamp": "2025-12-29T10:35:34.705Z",
+            "author": {
+                "id": "r3sl3nq666gskj1",
+                "name": "filogif403",
+                "login": "filogif403@httpsu.com"
+            }
+        },
+        "wordmark": {
+            "light": "niri-wordmark-light",
+            "dark": "niri-wordmark-dark"
+        }
     }
 }
