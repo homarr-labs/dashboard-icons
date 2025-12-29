@@ -29,6 +29,10 @@ on:
         default: false
         type: boolean
 
+concurrency:
+  group: add-icon-queue
+  cancel-in-progress: false
+
 jobs:
   add-icon:
     runs-on: ubuntu-latest
@@ -39,11 +43,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          ref: main
-
-      - name: Pull latest changes
-        run: |
-          git pull origin main
 
       - name: Setup Bun
         uses: oven-sh/setup-bun@v1
@@ -89,47 +88,7 @@ jobs:
           fi
           git add .
           git commit -m "chore: add icon \"${submission_name}\" (submission ${{ inputs.submissionId }}, approved by ${approver})"
-      - name: Push changes with retry
+      - name: Push changes
         if: ${{ !inputs.dryRun && steps.git-diff.outputs.has_changes == 'true' }}
-        env:
-          PB_URL: ${{ secrets.PB_URL }}
-          PB_ADMIN_TOKEN: ${{ secrets.PB_ADMIN_TOKEN }}
-        run: |
-          for i in 1 2 3 4 5; do
-            echo "=== Push attempt $i ==="
-            if git push; then
-              echo "Push successful!"
-              exit 0
-            fi
-            
-            echo "Push failed, fetching latest changes..."
-            git fetch origin main
-            
-            # Reset to remote and re-apply our changes
-            echo "Resetting to origin/main and re-running import..."
-            git reset --hard origin/main
-            
-            # Re-run the import script (it skips existing files)
-            bun run scripts/import-icon.ts --submission-id "${{ inputs.submissionId }}"
-            
-            # Check if there are changes to commit
-            if git diff --quiet; then
-              echo "No changes after re-import (icon already exists)"
-              exit 0
-            fi
-            
-            # Re-commit
-            git add .
-            submission_name="${{ steps.import.outputs.submission_name }}"
-            if [ -z "$submission_name" ]; then
-              submission_name="${{ inputs.submissionId }}"
-            fi
-            approver="${{ steps.import.outputs.approver }}"
-            if [ -z "$approver" ]; then
-              approver="unknown"
-            fi
-            git commit -m "chore: add icon \"${submission_name}\" (submission ${{ inputs.submissionId }}, approved by ${approver})"
-          done
-          echo "Failed to push after 5 attempts"
-          exit 1
+        run: git push
 
