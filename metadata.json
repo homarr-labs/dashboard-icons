@@ -34538,5 +34538,26 @@
             "light": "helix-wordmark-light",
             "dark": "helix-wordmark-dark"
         }
+    },
+    "isc-bind9": {
+        "base": "png",
+        "aliases": [
+            "bind9",
+            "bind"
+        ],
+        "categories": [
+            "network"
+        ],
+        "update": {
+            "timestamp": "2025-12-29T10:33:02.087Z",
+            "author": {
+                "id": "rq613ure6ykbdhv",
+                "name": "pouley",
+                "login": "pierre@bellemainp.fr"
+            }
+        },
+        "colors": {
+            "light": "isc-bind9-light"
+        }
     }
 }
