@@ -3,8 +3,8 @@ name: Add Icon to Collection
 on:
   workflow_call:
     inputs:
-      submissionId:
-        description: ID of the PocketBase submission to import
+      submissionIds:
+        description: Comma-separated IDs of the PocketBase submissions to import
         required: true
         type: string
       dryRun:
@@ -19,8 +19,8 @@ on:
         required: true
   workflow_dispatch:
     inputs:
-      submissionId:
-        description: ID of the PocketBase submission to import
+      submissionIds:
+        description: Comma-separated IDs of the PocketBase submissions to import
         required: true
         type: string
       dryRun:
@@ -47,48 +47,50 @@ jobs:
       - name: Setup Bun
         uses: oven-sh/setup-bun@v1
 
-      - name: Import icon from PocketBase submission
-        id: import
-        env:
-          PB_URL: ${{ secrets.PB_URL }}
-          PB_ADMIN_TOKEN: ${{ secrets.PB_ADMIN_TOKEN }}
-        run: |
-          ARGS=(--submission-id "${{ inputs.submissionId }}")
-          if [ "${{ inputs.dryRun }}" = "true" ]; then
-            ARGS+=("--dry-run")
-          fi
-          ARGS+=("--gha-output" "$GITHUB_OUTPUT")
-          bun run scripts/import-icon.ts "${ARGS[@]}"
-
-      - name: Check for changes
-        id: git-diff
-        run: |
-          if git diff --quiet; then
-            echo "has_changes=false" >> "$GITHUB_OUTPUT"
-          else
-            echo "has_changes=true" >> "$GITHUB_OUTPUT"
-          fi
-
       - name: Configure git user
-        if: ${{ !inputs.dryRun && steps.git-diff.outputs.has_changes == 'true' }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-      - name: Commit changes
-        if: ${{ !inputs.dryRun && steps.git-diff.outputs.has_changes == 'true' }}
+      - name: Import icons from PocketBase submissions
+        env:
+          PB_URL: ${{ secrets.PB_URL }}
+          PB_ADMIN_TOKEN: ${{ secrets.PB_ADMIN_TOKEN }}
+          DRY_RUN: ${{ inputs.dryRun }}
         run: |
-          submission_name="${{ steps.import.outputs.submission_name }}"
-          if [ -z "$submission_name" ]; then
-            submission_name="${{ inputs.submissionId }}"
-          fi
-          approver="${{ steps.import.outputs.approver }}"
-          if [ -z "$approver" ]; then
-            approver="unknown"
-          fi
-          git add .
-          git commit -m "chore: add icon \"${submission_name}\" (submission ${{ inputs.submissionId }}, approved by ${approver})"
+          IFS=',' read -ra IDS <<< "${{ inputs.submissionIds }}"
+          for submission_id in "${IDS[@]}"; do
+            submission_id=$(echo "$submission_id" | xargs)
+            if [ -z "$submission_id" ]; then
+              continue
+            fi
+            echo "::group::Processing submission $submission_id"
+            
+            ARGS=(--submission-id "$submission_id")
+            if [ "$DRY_RUN" = "true" ]; then
+              ARGS+=("--dry-run")
+            fi
+            ARGS+=("--gha-output" "import_output_$submission_id.txt")
+            
+            bun run scripts/import-icon.ts "${ARGS[@]}"
+            
+            if [ "$DRY_RUN" != "true" ] && ! git diff --quiet; then
+              source "import_output_$submission_id.txt" 2>/dev/null || true
+              name="${submission_name:-$submission_id}"
+              approver_name="${approver:-unknown}"
+              git add .
+              git commit -m "chore: add icon \"${name}\" (submission ${submission_id}, approved by ${approver_name})"
+            fi
+            
+            echo "::endgroup::"
+          done
+
       - name: Push changes
-        if: ${{ !inputs.dryRun && steps.git-diff.outputs.has_changes == 'true' }}
-        run: git push
+        if: ${{ !inputs.dryRun }}
+        run: |
+          if [ "$(git rev-list --count HEAD ^origin/main)" -gt 0 ]; then
+            git push
+          else
+            echo "No commits to push"
+          fi
 
