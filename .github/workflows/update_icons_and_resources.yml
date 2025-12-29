@@ -9,6 +9,10 @@ on:
     branches:
       - main
 
+concurrency:
+  group: update-icons-resources
+  cancel-in-progress: true
+
 jobs:
   convert_assets:
     runs-on: ubuntu-latest

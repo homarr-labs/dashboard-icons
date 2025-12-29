@@ -29,6 +29,10 @@ on:
         default: false
         type: boolean
 
+concurrency:
+  group: add-icon-queue
+  cancel-in-progress: false
+
 jobs:
   add-icon:
     runs-on: ubuntu-latest
