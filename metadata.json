@@ -34655,5 +34655,28 @@
                 "login": "comm.campione@gmail.com"
             }
         }
+    },
+    "maltego": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "security"
+        ],
+        "update": {
+            "timestamp": "2025-12-31T11:31:59.394Z",
+            "author": {
+                "id": "sowxli2ysgkofo9",
+                "name": "0xb0ec1d",
+                "login": "fechten.52luffas@icloud.com"
+            }
+        },
+        "colors": {
+            "light": "maltego-light",
+            "dark": "maltego-dark"
+        },
+        "wordmark": {
+            "light": "maltego-wordmark-light",
+            "dark": "maltego-wordmark-dark"
+        }
     }
 }
