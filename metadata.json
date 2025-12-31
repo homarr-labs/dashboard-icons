@@ -34746,5 +34746,29 @@
             "light": "tensorflow-wordmark-light",
             "dark": "tensorflow-wordmark-dark"
         }
+    },
+    "ddev": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "automation",
+            "cloud",
+            "development"
+        ],
+        "update": {
+            "timestamp": "2025-12-31T11:32:13.797Z",
+            "author": {
+                "id": "0ml01v6bsmuecev",
+                "name": "oussema_harrabi",
+                "login": "harrabi.oussema6@hotmail.fr"
+            }
+        },
+        "colors": {
+            "dark": "ddev-dark"
+        },
+        "wordmark": {
+            "light": "ddev-wordmark-light",
+            "dark": "ddev-wordmark-dark"
+        }
     }
 }
