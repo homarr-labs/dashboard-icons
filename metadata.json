@@ -34699,5 +34699,29 @@
             "light": "pypi-wordmark-light",
             "dark": "pypi-wordmark-dark"
         }
+    },
+    "virustotal": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "security",
+            "cloud"
+        ],
+        "update": {
+            "timestamp": "2025-12-31T11:32:06.972Z",
+            "author": {
+                "id": "sowxli2ysgkofo9",
+                "name": "0xb0ec1d",
+                "login": "fechten.52luffas@icloud.com"
+            }
+        },
+        "colors": {
+            "light": "virustotal-light",
+            "dark": "virustotal-dark"
+        },
+        "wordmark": {
+            "light": "virustotal-wordmark-light",
+            "dark": "virustotal-wordmark-dark"
+        }
     }
 }
