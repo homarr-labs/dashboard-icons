@@ -34678,5 +34678,26 @@
             "light": "maltego-wordmark-light",
             "dark": "maltego-wordmark-dark"
         }
+    },
+    "pypi": {
+        "base": "svg",
+        "aliases": [
+            "Python Package Index"
+        ],
+        "categories": [
+            "development"
+        ],
+        "update": {
+            "timestamp": "2025-12-31T11:32:03.010Z",
+            "author": {
+                "id": "sowxli2ysgkofo9",
+                "name": "0xb0ec1d",
+                "login": "fechten.52luffas@icloud.com"
+            }
+        },
+        "wordmark": {
+            "light": "pypi-wordmark-light",
+            "dark": "pypi-wordmark-dark"
+        }
     }
 }
