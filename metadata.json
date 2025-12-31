@@ -34535,8 +34535,8 @@
             }
         },
         "wordmark": {
-            "light": "helix-wordmark-light",
-            "dark": "helix-wordmark-dark"
+            "light": "helix-light",
+            "dark": "helix-dark"
         }
     },
     "isc-bind9": {
