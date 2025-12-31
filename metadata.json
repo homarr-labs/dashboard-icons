@@ -34723,5 +34723,28 @@
             "light": "virustotal-wordmark-light",
             "dark": "virustotal-wordmark-dark"
         }
+    },
+    "tensorflow": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "development"
+        ],
+        "update": {
+            "timestamp": "2025-12-31T11:32:11.010Z",
+            "author": {
+                "id": "sowxli2ysgkofo9",
+                "name": "0xb0ec1d",
+                "login": "fechten.52luffas@icloud.com"
+            }
+        },
+        "colors": {
+            "light": "tensorflow-light",
+            "dark": "tensorflow-dark"
+        },
+        "wordmark": {
+            "light": "tensorflow-wordmark-light",
+            "dark": "tensorflow-wordmark-dark"
+        }
     }
 }
