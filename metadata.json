@@ -34788,5 +34788,23 @@
                 "login": "mr.drodel@gmail.com"
             }
         }
+    },
+    "shokoanime": {
+        "base": "svg",
+        "aliases": [
+            "shoko"
+        ],
+        "categories": [
+            "media",
+            "utility"
+        ],
+        "update": {
+            "timestamp": "2025-12-31T11:32:18.565Z",
+            "author": {
+                "id": "fv4b2sznnm5rt2c",
+                "name": "makinori",
+                "login": "maki+dashboardicons@hotmilk.space"
+            }
+        }
     }
 }
