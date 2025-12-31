@@ -34770,5 +34770,23 @@
             "light": "ddev-wordmark-light",
             "dark": "ddev-wordmark-dark"
         }
+    },
+    "kinopub": {
+        "base": "svg",
+        "aliases": [
+            "kinopub"
+        ],
+        "categories": [
+            "entertainment",
+            "media"
+        ],
+        "update": {
+            "timestamp": "2025-12-31T11:32:16.113Z",
+            "author": {
+                "id": "om4r2kuu9b9mc9n",
+                "name": "drodel",
+                "login": "mr.drodel@gmail.com"
+            }
+        }
     }
 }
