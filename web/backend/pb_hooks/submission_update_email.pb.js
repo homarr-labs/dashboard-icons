@@ -96,6 +96,17 @@ onRecordUpdate((e) => {
 		const neutralColor = "#4b5563"; // Gray-600
 		const lightBg = "#f3f4f6";      // Gray-100
 
+		const buildAdminCommentSection = (accentColor, backgroundColor, title = "Admin Comment") => {
+			if (!adminComment) return "";
+
+			return `
+                <div style="margin: 20px 0; padding: 15px; background-color: ${backgroundColor}; border-left: 4px solid ${accentColor}; border-radius: 4px;">
+                    <h3 style="margin-top: 0; color: ${accentColor}; font-size: 14px; text-transform: uppercase;">${title}</h3>
+                    <p style="margin-bottom: 0; white-space: pre-wrap; color: #1f2937;">${adminComment}</p>
+                </div>
+            `;
+		};
+
 		// Email Template Helpers
 		const header = `
             <div style="background-color: #111827; padding: 20px; text-align: center; border-radius: 8px 8px 0 0;">
@@ -131,6 +142,7 @@ onRecordUpdate((e) => {
                 <p style="font-size: 16px; line-height: 1.5; color: #374151;">
                     Thank you for your contribution to the icon collection. Your work helps make Dashboard Icons better for everyone.
                 </p>
+                ${buildAdminCommentSection(successColor, "#ecfdf3")}
                 <div style="margin: 25px 0; text-align: center;">
                     <a href="${dashboardLink}" style="background-color: ${successColor}; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: bold; display: inline-block;">View in Dashboard</a>
                 </div>
@@ -167,6 +179,7 @@ onRecordUpdate((e) => {
                 <p style="font-size: 16px; line-height: 1.5; color: #374151;">
                     It is now available for the community to use and fully added to the collection. We appreciate your quality contribution.
                 </p>
+                ${buildAdminCommentSection(primaryColor, "#eff6ff")}
                 <div style="margin: 25px 0; text-align: center;">
                     <a href="${dashboardLink}" style="background-color: ${primaryColor}; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: bold; display: inline-block;">See Your Icon</a>
                 </div>
