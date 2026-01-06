@@ -28,6 +28,11 @@ export default function DashboardPage() {
 	// Track workflow URL for showing link after trigger
 	const [workflowUrl, setWorkflowUrl] = React.useState<string | undefined>()
 
+	// Approval dialog state
+	const [approveDialogOpen, setApproveDialogOpen] = React.useState(false)
+	const [approvingSubmissionId, setApprovingSubmissionId] = React.useState<string | null>(null)
+	const [approveAdminComment, setApproveAdminComment] = React.useState("")
+
 	// Rejection dialog state
 	const [rejectDialogOpen, setRejectDialogOpen] = React.useState(false)
 	const [rejectingSubmissionId, setRejectingSubmissionId] = React.useState<string | null>(null)
@@ -39,7 +44,9 @@ export default function DashboardPage() {
 	const currentUserId = auth?.userId ?? ""
 
 	const handleApprove = (submissionId: string) => {
-		approveMutation.mutate(submissionId)
+		setApprovingSubmissionId(submissionId)
+		setApproveAdminComment("")
+		setApproveDialogOpen(true)
 	}
 
 	const handleReject = (submissionId: string) => {
@@ -92,6 +99,30 @@ export default function DashboardPage() {
 		setRejectDialogOpen(false)
 		setRejectingSubmissionId(null)
 		setAdminComment("")
+	}
+
+	const handleApproveSubmit = () => {
+		if (approvingSubmissionId) {
+			approveMutation.mutate(
+				{
+					submissionId: approvingSubmissionId,
+					adminComment: approveAdminComment.trim() || undefined,
+				},
+				{
+					onSuccess: () => {
+						setApproveDialogOpen(false)
+						setApprovingSubmissionId(null)
+						setApproveAdminComment("")
+					},
+				},
+			)
+		}
+	}
+
+	const handleApproveDialogClose = () => {
+		setApproveDialogOpen(false)
+		setApprovingSubmissionId(null)
+		setApproveAdminComment("")
 	}
 
 	// Not authenticated
@@ -194,6 +225,37 @@ export default function DashboardPage() {
 					</CardContent>
 				</Card>
 			</main>
+
+			<Dialog open={approveDialogOpen} onOpenChange={handleApproveDialogClose}>
+				<DialogContent>
+					<DialogHeader>
+						<DialogTitle>Approve Submission</DialogTitle>
+						<DialogDescription>
+							Optional: add a note for the submitter. This will appear in the approval email.
+						</DialogDescription>
+					</DialogHeader>
+					<div className="space-y-4 py-4">
+						<div className="space-y-2">
+							<Label htmlFor="approve-admin-comment">Admin Comment</Label>
+							<Textarea
+								id="approve-admin-comment"
+								placeholder="Add an optional note for the approval email..."
+								value={approveAdminComment}
+								onChange={(e) => setApproveAdminComment(e.target.value)}
+								rows={4}
+							/>
+						</div>
+					</div>
+					<DialogFooter>
+						<Button variant="outline" onClick={handleApproveDialogClose} disabled={approveMutation.isPending}>
+							Cancel
+						</Button>
+						<Button onClick={handleApproveSubmit} disabled={approveMutation.isPending}>
+							{approveMutation.isPending ? "Approving..." : "Approve Submission"}
+						</Button>
+					</DialogFooter>
+				</DialogContent>
+			</Dialog>
 
 			<Dialog open={rejectDialogOpen} onOpenChange={handleRejectDialogClose}>
 				<DialogContent>

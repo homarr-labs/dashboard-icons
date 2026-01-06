@@ -36,12 +36,13 @@ export function useApproveSubmission() {
 	const queryClient = useQueryClient()
 
 	return useMutation({
-		mutationFn: async (submissionId: string) => {
+		mutationFn: async ({ submissionId, adminComment }: { submissionId: string; adminComment?: string }) => {
 			return await pb.collection("submissions").update(
 				submissionId,
 				{
 					status: "approved",
 					approved_by: pb.authStore.record?.id || "",
+					admin_comment: adminComment || "",
 				},
 				{
 					requestKey: null,
