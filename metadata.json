@@ -34819,5 +34819,29 @@
                 "login": "hello.kaziir@gmail.com"
             }
         }
+    },
+    "pytorch": {
+        "base": "svg",
+        "aliases": [
+            "torch"
+        ],
+        "categories": [
+            "development"
+        ],
+        "update": {
+            "timestamp": "2026-01-07T16:15:43.051Z",
+            "author": {
+                "id": "sowxli2ysgkofo9",
+                "name": "0xb0ec1d",
+                "login": "fechten.52luffas@icloud.com"
+            }
+        },
+        "colors": {
+            "light": "pytorch-light"
+        },
+        "wordmark": {
+            "light": "pytorch-wordmark-light",
+            "dark": "pytorch-wordmark-dark"
+        }
     }
 }
