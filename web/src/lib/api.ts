@@ -158,8 +158,23 @@ export async function getAuthorData(authorId: number | string, authorMeta?: { na
 
 	let data: AuthorData
 
-	// If authorId is a string, it's an internal PocketBase user
-	if (typeof authorId === "string") {
+	// If authorId is a numeric string, treat it as a GitHub user ID.
+	if (typeof authorId === "string" && /^\d+$/.test(authorId)) {
+		const ghId = Number(authorId)
+		data = await fetchGitHubAuthorData(ghId)
+
+		// If GitHub API fails (rate-limited, no token, etc.), fall back to authorMeta.login to still render a link.
+		if (authorMeta?.login && (data.login === "unknown" || !data.html_url)) {
+			data = {
+				...data,
+				login: authorMeta.login,
+				name: data.name || authorMeta.name || authorMeta.login,
+				html_url: `https://github.com/${authorMeta.login}`,
+				avatar_url: data.avatar_url || `https://github.com/${authorMeta.login}.png`,
+			}
+		}
+	} else if (typeof authorId === "string") {
+		// Non-numeric string => internal PocketBase user
 		data = buildInternalAuthorData({ id: authorId, ...authorMeta })
 	} else {
 		// Numeric ID = GitHub user
