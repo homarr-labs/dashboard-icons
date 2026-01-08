@@ -1,5 +1,6 @@
 export type IconAuthor = {
 	id: number | string
+	github_id?: string
 	name?: string
 	login?: string
 }
