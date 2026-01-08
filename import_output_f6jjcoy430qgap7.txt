@@ -1,2 +1,0 @@
-submission_name=gitam-university
-approver=lammersbjorn

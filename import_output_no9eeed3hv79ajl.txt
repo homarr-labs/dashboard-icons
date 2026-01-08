@@ -1,2 +1,0 @@
-submission_name=kinopub
-approver=lammersbjorn
