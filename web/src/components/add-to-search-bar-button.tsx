@@ -1,11 +1,11 @@
 "use client"
 
-import { useState } from "react"
 import { Check, Copy, Globe2, Search, Sparkles } from "lucide-react"
-import { RainbowButton } from "@/components/ui/rainbow-button"
+import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
+import { RainbowButton } from "@/components/ui/rainbow-button"
 import { Separator } from "@/components/ui/separator"
 import { cn } from "@/lib/utils"
 
@@ -54,13 +54,7 @@ const instructions: Array<{ browser: string; steps: string[] }> = [
 	},
 ]
 
-export function AddToSearchBarButton({
-	size = "default",
-	className,
-}: {
-	size?: "sm" | "default" | "lg"
-	className?: string
-}) {
+export function AddToSearchBarButton({ size = "default", className }: { size?: "sm" | "default" | "lg"; className?: string }) {
 	const [copied, setCopied] = useState(false)
 
 	const handleCopy = async () => {
@@ -76,14 +70,7 @@ export function AddToSearchBarButton({
 	return (
 		<Dialog>
 			<DialogTrigger asChild>
-				<RainbowButton
-					variant="outline"
-					size={size}
-					className={cn(
-						"shadow-sm",
-						className,
-					)}
-				>
+				<RainbowButton variant="outline" size={size} className={cn("shadow-sm", className)}>
 					<Search className="h-4 w-4" />
 					<span className="hidden sm:inline text-foreground group-hover:scale-105 transition-all duration-300">Add to browser search</span>
 					<span className="sm:hidden">Add to search</span>
@@ -105,13 +92,7 @@ export function AddToSearchBarButton({
 					<p className="text-sm font-medium text-muted-foreground">Search URL (schema)</p>
 					<div className="flex flex-col gap-2 sm:flex-row sm:items-center">
 						<Input readOnly value={SEARCH_SCHEMA} className="font-mono text-xs" />
-						<Button
-							variant="secondary"
-							size="sm"
-							className="flex items-center gap-2"
-							type="button"
-							onClick={handleCopy}
-						>
+						<Button variant="secondary" size="sm" className="flex items-center gap-2" type="button" onClick={handleCopy}>
 							{copied ? (
 								<>
 									<Check className="h-4 w-4" /> Copied
