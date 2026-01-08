@@ -4,6 +4,7 @@ export interface User {
 	id: string
 	username: string
 	email: string
+	github_id?: string
 	admin?: boolean
 	avatar?: string
 	created: string
@@ -46,6 +47,7 @@ export interface CommunityGallery {
 	created_by: string
 	approved_by?: string
 	description?: string
+	created_by_github_id?: string
 	status: "approved" | "rejected" | "pending" | "added_to_collection"
 	assets: string[]
 	admin_comment?: string

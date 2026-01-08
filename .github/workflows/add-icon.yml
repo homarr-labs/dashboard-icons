@@ -70,17 +70,20 @@ jobs:
             if [ "$DRY_RUN" = "true" ]; then
               ARGS+=("--dry-run")
             fi
-            ARGS+=("--gha-output" "import_output_$submission_id.txt")
+            output_file="$(mktemp)"
+            ARGS+=("--gha-output" "$output_file")
             
             bun run scripts/import-icon.ts "${ARGS[@]}"
             
             if [ "$DRY_RUN" != "true" ] && ! git diff --quiet; then
-              source "import_output_$submission_id.txt" 2>/dev/null || true
+              source "$output_file" 2>/dev/null || true
               name="${submission_name:-$submission_id}"
               approver_name="${approver:-unknown}"
               git add .
               git commit -m "chore: add icon \"${name}\" (submission ${submission_id}, approved by ${approver_name})"
             fi
+
+            rm -f "$output_file" || true
             
             echo "::endgroup::"
           done

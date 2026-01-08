@@ -1,2 +1,0 @@
-submission_name=shokoanime
-approver=lammersbjorn

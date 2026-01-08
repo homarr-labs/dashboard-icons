@@ -2,6 +2,7 @@
 
 import { useForm } from "@tanstack/react-form"
 import { Check, FileImage, FileType, Plus, X } from "lucide-react"
+import { useRouter } from "next/navigation"
 import { useState } from "react"
 import { toast } from "sonner"
 import { revalidateAllSubmissions } from "@/app/actions/submissions"
@@ -112,6 +113,7 @@ export function AdvancedIconSubmissionFormTanStack() {
 	const [filePreviews, setFilePreviews] = useState<Record<string, string>>({})
 	const [showConfirmDialog, setShowConfirmDialog] = useState(false)
 	const { data: existingIcons = [] } = useExistingIconNames()
+	const router = useRouter()
 
 	const form = useForm({
 		defaultValues: {
@@ -183,7 +185,7 @@ export function AdvancedIconSubmissionFormTanStack() {
 			const submissionData = {
 				name: value.iconName,
 				assets: assetFiles,
-				created_by: pb.authStore.record?.id,
+				created_by: (pb.authStore.record as any)?.id ?? pb.authStore.record?.id,
 				status: "pending",
 				description: value.description,
 				extras: extras,
@@ -231,6 +233,8 @@ export function AdvancedIconSubmissionFormTanStack() {
 			toast.success("Icon submitted!", {
 				description: `Your icon "${value.iconName}" has been submitted for review`,
 			})
+
+			router.push(`/community/${encodeURIComponent(record.name || value.iconName)}`)
 
 			// Reset form
 			form.reset()

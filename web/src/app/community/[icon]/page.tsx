@@ -2,7 +2,7 @@ import type { Metadata, ResolvingMetadata } from "next"
 import { notFound, permanentRedirect } from "next/navigation"
 import { IconDetails } from "@/components/icon-details"
 import { BASE_URL, WEB_URL } from "@/constants"
-import { getAllIcons } from "@/lib/api"
+import { getAllIcons, getAuthorData } from "@/lib/api"
 import { getCommunityGalleryRecord, getCommunitySubmissionByName, getCommunitySubmissions } from "@/lib/community"
 
 export const dynamicParams = true
@@ -124,13 +124,63 @@ export default async function CommunityIconPage({ params }: { params: Promise<{ 
 
 	const allIcons = await getAllIcons()
 
-	const authorData = {
-		id: 0,
-		name: iconData.data.update.author.name || "Community",
-		login: iconData.data.update.author.name || "community",
-		avatar_url: "",
-		html_url: "",
+	const author = iconData.data.update.author as any
+	const githubId = author?.github_id
+	const authorMetaLogin = author?.login || author?.name
+
+	let authorData:
+		| {
+				id: number | string
+				name?: string
+				login: string
+				avatar_url: string
+				html_url: string
+		  }
+		| undefined
+
+	if (githubId && /^\d+$/.test(String(githubId))) {
+		authorData = await getAuthorData(String(githubId), { login: authorMetaLogin, name: author?.name })
+	} else if (authorMetaLogin && authorMetaLogin !== "community" && authorMetaLogin !== "Community") {
+		// Fallback: resolve by GitHub username if we don't have github_id in the community_gallery view.
+		// This avoids losing the GitHub link when PB doesn't expose github_id in the view.
+		try {
+			const headers: Record<string, string> = {}
+			if (process.env.GITHUB_TOKEN) {
+				headers.Authorization = `Bearer ${process.env.GITHUB_TOKEN}`
+			}
+			const res = await fetch(`https://api.github.com/users/${encodeURIComponent(authorMetaLogin)}`, { headers })
+			if (res.ok) {
+				const gh = await res.json()
+				authorData = {
+					id: gh?.id ?? 0,
+					name: gh?.name ?? authorMetaLogin,
+					login: gh?.login ?? authorMetaLogin,
+					avatar_url: gh?.avatar_url ?? "",
+					html_url: gh?.html_url ?? "",
+				}
+			}
+		} catch (err) {
+			console.log("[CommunityPage] GitHub username fallback failed:", { icon, login: authorMetaLogin, err })
+		}
 	}
+
+	if (!authorData) {
+		authorData = {
+			id: 0,
+			name: author?.name || "Community",
+			login: authorMetaLogin || "community",
+			avatar_url: "",
+			html_url: "",
+		}
+	}
+	console.log("[CommunityPage] resolved authorData:", {
+		icon,
+		id: authorData.id,
+		login: authorData.login,
+		html_url: authorData.html_url,
+		avatar_url: authorData.avatar_url,
+	})
+	console.log(iconData.data)
 
 	const mainIconUrl =
 		typeof iconData.data.base === "string" && iconData.data.base.startsWith("http")

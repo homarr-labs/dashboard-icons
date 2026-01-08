@@ -101,6 +101,8 @@ function transformGalleryToIcon(item: CommunityGallery): any {
 				author: {
 					id: 0,
 					name: item.created_by || "Community",
+					login: item.created_by || undefined,
+					github_id: item.created_by_github_id,
 				},
 			},
 			colors: colors,
@@ -151,6 +153,11 @@ async function fetchCommunitySubmissionByName(name: string): Promise<IconWithNam
 		const pb = createServerPB()
 
 		const record = await pb.collection("community_gallery").getFirstListItem<CommunityGallery>(`name="${name}"`)
+		console.log("[Community] Record author fields:", {
+			name,
+			created_by: record.created_by,
+			created_by_github_id: record.created_by_github_id,
+		})
 		const transformed = transformGalleryToIcon(record)
 		console.log(`[Community] Fetched ${name}, colors:`, transformed.data.colors)
 		return transformed

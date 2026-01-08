@@ -1,2 +1,0 @@
-submission_name=pytorch
-approver=ajnart
