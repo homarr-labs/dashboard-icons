@@ -130,7 +130,19 @@ export function LoginModal({ open, onOpenChange }: LoginModalProps) {
 			resetForm()
 		} catch (err: any) {
 			console.error("GitHub OAuth error:", err)
-			setError(err?.message || "GitHub authentication failed. Please try again.")
+
+			// Provide specific error messages based on the error type
+			let errorMessage = "GitHub authentication failed. Please try again."
+
+			if (err?.message?.includes("popup") || err?.message?.includes("blocked")) {
+				errorMessage = "Popup was blocked. Please allow popups for this site and try again."
+			} else if (err?.message?.includes("cancelled") || err?.message?.includes("closed")) {
+				errorMessage = "Authentication was cancelled. Please try again if you want to sign in with GitHub."
+			} else if (err?.message) {
+				errorMessage = err.message
+			}
+
+			setError(errorMessage)
 		} finally {
 			setIsLoading(false)
 		}
@@ -208,6 +220,7 @@ export function LoginModal({ open, onOpenChange }: LoginModalProps) {
 								value={email}
 								onChange={(e) => setEmail(e.target.value)}
 								className="h-12 text-base"
+								disabled={isLoading}
 								required
 							/>
 							{isRegister && (
@@ -229,6 +242,7 @@ export function LoginModal({ open, onOpenChange }: LoginModalProps) {
 									value={username}
 									onChange={(e) => setUsername(e.target.value)}
 									className="h-12 text-base"
+									disabled={isLoading}
 									required
 								/>
 								<p className="text-xs text-muted-foreground">This will be displayed publicly with your submissions</p>
@@ -248,6 +262,7 @@ export function LoginModal({ open, onOpenChange }: LoginModalProps) {
 								value={password}
 								onChange={(e) => setPassword(e.target.value)}
 								className="h-12 text-base"
+								disabled={isLoading}
 								required
 							/>
 						</div>
@@ -266,6 +281,7 @@ export function LoginModal({ open, onOpenChange }: LoginModalProps) {
 									value={confirmPassword}
 									onChange={(e) => setConfirmPassword(e.target.value)}
 									className="h-12 text-base"
+									disabled={isLoading}
 									required
 								/>
 							</div>
