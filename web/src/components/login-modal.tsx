@@ -106,6 +106,48 @@ export function LoginModal({ open, onOpenChange }: LoginModalProps) {
 		setTimeout(() => emailRef.current?.focus(), 100)
 	}
 
+	const handleGitHubLogin = async () => {
+		setError("")
+		setIsLoading(true)
+
+		try {
+			// Authenticate with GitHub OAuth2 using PocketBase's popup-based flow
+			await pb.collection("users").authWithOAuth2({
+				provider: "github",
+			})
+
+			// Identify user immediately after successful authentication
+			// This follows PostHog best practice of calling identify as soon as possible
+			identifyUserInPostHog(posthog)
+
+			// Track OAuth login event
+			posthog?.capture("user_oauth_login", {
+				provider: "github",
+			})
+
+			// Success
+			onOpenChange(false)
+			resetForm()
+		} catch (err: any) {
+			console.error("GitHub OAuth error:", err)
+
+			// Provide specific error messages based on the error type
+			let errorMessage = "GitHub authentication failed. Please try again."
+
+			if (err?.message?.includes("popup") || err?.message?.includes("blocked")) {
+				errorMessage = "Popup was blocked. Please allow popups for this site and try again."
+			} else if (err?.message?.includes("cancelled") || err?.message?.includes("closed")) {
+				errorMessage = "Authentication was cancelled. Please try again if you want to sign in with GitHub."
+			} else if (err?.message) {
+				errorMessage = err.message
+			}
+
+			setError(errorMessage)
+		} finally {
+			setIsLoading(false)
+		}
+	}
+
 	return (
 		<Dialog open={open} onOpenChange={onOpenChange}>
 			<DialogContent className="w-full max-w-lg bg-background border shadow-2xl">
@@ -132,11 +174,25 @@ export function LoginModal({ open, onOpenChange }: LoginModalProps) {
 						</div>
 					)}
 
-					{/* GitHub Button (Coming Soon) */}
-					<Button type="button" variant="outline" className="w-full h-12 text-base font-medium cursor-not-allowed opacity-50" disabled>
-						<Github className="h-5 w-5 mr-2" />
-						Continue with GitHub
-						<span className="ml-2 text-xs text-muted-foreground">(Coming soon)</span>
+					{/* GitHub Button */}
+					<Button
+						type="button"
+						variant="outline"
+						className="w-full h-12 text-base font-medium"
+						onClick={handleGitHubLogin}
+						disabled={isLoading}
+					>
+						{isLoading ? (
+							<>
+								<Loader2 className="h-5 w-5 mr-2 animate-spin" />
+								Connecting to GitHub...
+							</>
+						) : (
+							<>
+								<Github className="h-5 w-5 mr-2" />
+								Continue with GitHub
+							</>
+						)}
 					</Button>
 
 					{/* Divider */}
@@ -164,6 +220,7 @@ export function LoginModal({ open, onOpenChange }: LoginModalProps) {
 								value={email}
 								onChange={(e) => setEmail(e.target.value)}
 								className="h-12 text-base"
+								disabled={isLoading}
 								required
 							/>
 							{isRegister && (
@@ -185,6 +242,7 @@ export function LoginModal({ open, onOpenChange }: LoginModalProps) {
 									value={username}
 									onChange={(e) => setUsername(e.target.value)}
 									className="h-12 text-base"
+									disabled={isLoading}
 									required
 								/>
 								<p className="text-xs text-muted-foreground">This will be displayed publicly with your submissions</p>
@@ -204,6 +262,7 @@ export function LoginModal({ open, onOpenChange }: LoginModalProps) {
 								value={password}
 								onChange={(e) => setPassword(e.target.value)}
 								className="h-12 text-base"
+								disabled={isLoading}
 								required
 							/>
 						</div>
@@ -222,6 +281,7 @@ export function LoginModal({ open, onOpenChange }: LoginModalProps) {
 									value={confirmPassword}
 									onChange={(e) => setConfirmPassword(e.target.value)}
 									className="h-12 text-base"
+									disabled={isLoading}
 									required
 								/>
 							</div>

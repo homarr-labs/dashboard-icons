@@ -4,12 +4,12 @@ import {
 	type ColumnDef,
 	type ColumnFiltersState,
 	type ExpandedState,
-	type RowSelectionState,
 	flexRender,
 	getCoreRowModel,
 	getExpandedRowModel,
 	getFilteredRowModel,
 	getSortedRowModel,
+	type RowSelectionState,
 	type SortingState,
 	useReactTable,
 } from "@tanstack/react-table"
@@ -438,12 +438,7 @@ export function SubmissionsDataTable({
 						<Button variant="ghost" size="sm" onClick={() => setRowSelection({})}>
 							Clear selection
 						</Button>
-						<Button
-							size="sm"
-							onClick={handleBulkTrigger}
-							disabled={isBulkTriggeringWorkflow}
-							className="bg-blue-600 hover:bg-blue-700"
-						>
+						<Button size="sm" onClick={handleBulkTrigger} disabled={isBulkTriggeringWorkflow} className="bg-blue-600 hover:bg-blue-700">
 							<Github className="w-4 h-4 mr-2" />
 							{isBulkTriggeringWorkflow ? "Triggering..." : `Trigger All (${selectedSubmissionIds.length})`}
 						</Button>

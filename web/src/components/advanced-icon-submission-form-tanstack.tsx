@@ -327,7 +327,6 @@ export function AdvancedIconSubmissionFormTanStack() {
 
 	return (
 		<div className="max-w-4xl mx-auto">
-
 			<AlertDialog open={showConfirmDialog} onOpenChange={setShowConfirmDialog}>
 				<AlertDialogContent className="bg-background">
 					<AlertDialogHeader>
