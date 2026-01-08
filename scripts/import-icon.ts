@@ -11,6 +11,7 @@ interface PBUser {
 	id: string;
 	username?: string;
 	email?: string;
+	github_id?: string;
 }
 
 interface SubmissionExtras {
@@ -299,10 +300,19 @@ function buildAuthor(submission: Submission): MetadataAuthor {
 		return { id: submission.created_by };
 	}
 
+	if (creator.github_id) {
+		const githubId = Number(creator.github_id);
+		if (Number.isFinite(githubId) && githubId > 0) {
+			return {
+				id: githubId,
+				...(creator.username ? { login: creator.username } : {}),
+			};
+		}
+	}
+
 	return {
 		id: creator.id,
 		...(creator.username ? { name: creator.username } : {}),
-		...(creator.email ? { login: creator.email } : {}),
 	};
 }
 
