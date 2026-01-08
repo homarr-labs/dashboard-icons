@@ -36,3 +36,6 @@ __pycache__/
 
 node_modules/
 .cursor/commands
+
+# GitHub Actions output artifacts (should never be committed)
+import_output_*.txt
