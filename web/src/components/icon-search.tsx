@@ -5,9 +5,9 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import { useTheme } from "next-themes"
 import posthog from "posthog-js"
 import { useCallback, useEffect, useMemo, useRef, useState } from "react"
-import { toast } from "sonner"
 import { VirtualizedIconsGrid } from "@/components/icon-grid"
 import { IconSubmissionContent } from "@/components/icon-submission-form"
+import { AddToSearchBarButton } from "@/components/add-to-search-bar-button"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import {
@@ -324,6 +324,8 @@ export function IconSearch({ icons }: IconSearchProps) {
 							</DropdownMenuRadioGroup>
 						</DropdownMenuContent>
 					</DropdownMenu>
+
+					<AddToSearchBarButton size="sm" className="flex-1 sm:flex-none" />
 
 					{/* Clear all button */}
 					{(searchQuery || selectedCategories.length > 0 || sortOption !== "relevance") && (
