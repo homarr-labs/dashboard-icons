@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { Check, Copy, Globe2, Search, Sparkles } from "lucide-react"
-import { RainbowButton } from "@/registry/magicui/rainbow-button"
+import { RainbowButton } from "@/components/ui/rainbow-button"
 import { Button } from "@/components/ui/button"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
@@ -80,18 +80,17 @@ export function AddToSearchBarButton({
 					variant="outline"
 					size={size}
 					className={cn(
-						"shadow-md px-5 hover:shadow-primary/30 active:scale-[0.99]",
+						"shadow-sm",
 						className,
 					)}
 				>
 					<Search className="h-4 w-4" />
-					<span className="hidden sm:inline">Add to browser search</span>
+					<span className="hidden sm:inline text-foreground group-hover:scale-105 transition-all duration-300">Add to browser search</span>
 					<span className="sm:hidden">Add to search</span>
-					<Sparkles className="h-4 w-4 text-primary" />
 				</RainbowButton>
 			</DialogTrigger>
 
-			<DialogContent className="sm:max-w-xl">
+			<DialogContent className="sm:max-w-5xl">
 				<DialogHeader className="space-y-1">
 					<DialogTitle className="flex items-center gap-2 text-lg sm:text-xl">
 						<Globe2 className="h-5 w-5 text-primary" />

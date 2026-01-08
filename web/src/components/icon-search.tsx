@@ -325,7 +325,7 @@ export function IconSearch({ icons }: IconSearchProps) {
 						</DropdownMenuContent>
 					</DropdownMenu>
 
-					<AddToSearchBarButton size="sm" className="flex-1 sm:flex-none" />
+					<AddToSearchBarButton className="flex-1 sm:flex-none rounded-sm" />
 
 					{/* Clear all button */}
 					{(searchQuery || selectedCategories.length > 0 || sortOption !== "relevance") && (
