@@ -2,7 +2,9 @@ import type { Metadata } from "next"
 import { Suspense } from "react"
 import { CommunityIconSearch } from "@/components/community-icon-search"
 import { BASE_URL } from "@/constants"
-import { getCommunitySubmissions } from "@/lib/community"
+import { fetchCommunitySubmissions, getCommunitySubmissions } from "@/lib/community"
+
+export const revalidate = 300
 
 export async function generateMetadata(): Promise<Metadata> {
 	const icons = await getCommunitySubmissions()
@@ -39,7 +41,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function CommunityPage() {
-	const icons = await getCommunitySubmissions()
+	const icons = await fetchCommunitySubmissions();
 	return (
 		<div className="isolate overflow-hidden p-2 mx-auto max-w-7xl">
 			<div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">

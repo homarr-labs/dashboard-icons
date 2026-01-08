@@ -118,7 +118,7 @@ function transformGalleryToIcon(item: CommunityGallery): any {
  * Uses the community_gallery view collection for public-facing data
  * This is the raw fetch function without caching
  */
-async function fetchCommunitySubmissions(): Promise<IconWithName[]> {
+export async function fetchCommunitySubmissions(): Promise<IconWithName[]> {
 	try {
 		const pb = createServerPB()
 
