@@ -46,10 +46,10 @@ const instructions: Array<{ browser: string; steps: string[] }> = [
 		browser: "Safari",
 		steps: [
 			"Open Settings → Search and enable “Quick Website Search”",
-			"Visit dashboardicons.com and run any search once",
-			"Soon Safari will suggest “dashboardicons” as a quick search option",
-			"Type dashboardicons + Space in the Smart Search field to search directly",
-			"If not suggested, add a Shortcut via Settings → Search → Manage Websites",
+			"Visit dashboardicons.com and perform one search so Safari learns it",
+			"Open Settings → Search → Quick Website Search → Manage Websites",
+			"Confirm dashboardicons is listed or add a shortcut if missing",
+			"Type dashboardicons + Space (or your shortcut) in the Smart Search field to search",
 		],
 	},
 ]
@@ -80,7 +80,7 @@ export function AddToSearchBarButton({
 					variant="outline"
 					size={size}
 					className={cn(
-						"shadow-sm px-5 hover:shadow-[0_10px_40px_-20px_rgba(99,102,241,0.6)] active:scale-[0.99]",
+						"shadow-md px-5 hover:shadow-primary/30 active:scale-[0.99]",
 						className,
 					)}
 				>
@@ -98,7 +98,7 @@ export function AddToSearchBarButton({
 						Add dashboardicons to your browser search bar
 					</DialogTitle>
 					<DialogDescription>
-						Drop this search URL into your browser&apos;s custom search engines so you can type once and jump straight to the right icon.
+						Add this search URL to your browser&apos;s custom search engines to search dashboard icons directly from your address bar.
 					</DialogDescription>
 				</DialogHeader>
 
