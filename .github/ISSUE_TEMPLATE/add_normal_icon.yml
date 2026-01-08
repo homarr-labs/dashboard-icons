@@ -6,8 +6,29 @@ body:
   - type: markdown
     attributes:
       value: |
+        > [!NOTE]
+        > You can now submit new icon requests and updates directly using the form available at [dashboardicons.com](https://dashboardicons.com). This is the preferred way to make submissions and allows us to instantly receive and process icon contributions. Submissions can be directly approved and published by admins or contributors of Homarr Labs.
+
+        > [!TIP]
+        > Use the dashboardicons.com submission form for faster review, approval, and publishing of your icon contributions—no need to open GitHub issues!
+
+        > [!IMPORTANT]
+        > If you would like to help review, approve, or reject icon submissions, contact us:
+        > - **Discord:** https://discord.com/invite/aCsmEV5RgA
+        > - **Email:** homarr-labs@proton.me
+        >
+        > If you want to be an admin for dashboardicons.com, tell us (via Discord or email) why you'd like to help and what you bring to the project!
+
+        > [!WARNING]
+        > If you choose to submit an "old" issue in GitHub (instead of using the dashboardicons.com form), your request may take significantly longer to be reviewed and processed.
+
+        > [!CAUTION]
+        > The current GitHub issue templates for icon submission/update are being migrated. Please use the dashboardicons.com web form for all future contributions. Submissions made via GitHub issue templates may be delayed and are not the preferred channel.
+
+        ---
+
         Hello and thank you for contributing to the project! Please fill out the following information to add a new icon to the project.
-        Once you've submitted the issue, sombody from the team will review it, before adding a label which automatically creates a pull request with the other filetypes.
+        Once you've submitted the issue, somebody from the team will review it, before adding a label which automatically creates a pull request with the other filetypes.
         If you submit a PNG icon, please note, that the SVG can not be generated from it.
   - type: input
     id: name

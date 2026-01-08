@@ -56,7 +56,37 @@ For monochrome or single-color icons:
 
 ## Requesting New Icons
 
-To request a new icon:
+> [!NOTE]
+> You can now submit new icon requests and updates directly using the form available at [dashboardicons.com](https://dashboardicons.com). This is the preferred way to make submissions and allows us to instantly receive and process icon contributions. Submissions can be directly approved and published by admins or contributors of Homarr Labs.
+
+> [!TIP]
+> Use the dashboardicons.com submission form for faster review, approval, and publishing of your icon contributions—no need to open GitHub issues!
+
+> [!IMPORTANT]
+> If you would like to help review, approve, or reject icon submissions, contact us:
+> - **Discord:** https://discord.com/invite/aCsmEV5RgA
+> - **Email:** homarr-labs@proton.me
+>
+> If you want to be an admin for dashboardicons.com, tell us (via Discord or email) why you'd like to help and what you bring to the project!
+
+> [!WARNING]
+> If you choose to submit an "old" issue in GitHub (instead of using the dashboardicons.com form), your request may take significantly longer to be reviewed and processed.
+
+> [!CAUTION]
+> The current GitHub issue templates for icon submission/update are being migrated. Please use the dashboardicons.com web form for all future contributions. Submissions made via GitHub issue templates may be delayed and are not the preferred channel.
+
+---
+
+### Preferred Method: Using dashboardicons.com (Recommended)
+
+1. **Visit the Website**: Go to [dashboardicons.com](https://dashboardicons.com)
+2. **Use the Submission Form**: Fill out the online form with your icon details
+3. **Quick Review**: Admins can instantly review and approve submissions
+4. **Fast Publishing**: Approved icons are published immediately
+
+### Alternative Method: Using GitHub Issues (Slower)
+
+To request a new icon via GitHub:
 
 1. **Create an Issue**:
    - Use the appropriate [issue template](https://github.com/homarr-labs/dashboard-icons/issues/new/choose)
@@ -75,6 +105,7 @@ To request a new icon:
    - Our team will review your request
    - We may request adjustments if needed
    - Once approved, we'll add the icon to the collection
+   - **Note**: GitHub submissions may take longer to process
 
 ## Improving the Repository
 
