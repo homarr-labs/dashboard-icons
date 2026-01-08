@@ -25,6 +25,7 @@ import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { cn } from "@/lib/utils"
+import { AddToSearchBarButton } from "./add-to-search-bar-button"
 import { AuroraText } from "./magicui/aurora-text"
 import { InteractiveHoverButton } from "./magicui/interactive-hover-button"
 import { NumberTicker } from "./magicui/number-ticker"
@@ -232,6 +233,9 @@ export function HeroSection({ totalIcons, stars }: { totalIcons: number; stars: 
 							<GiveUsAStarButton stars={stars} />
 							<GiveUsMoneyButton />
 							<GiveUsLoveButton />
+						</div>
+						<div className="flex justify-center">
+							<AddToSearchBarButton size="lg" />
 						</div>
 					</div>
 				</div>
