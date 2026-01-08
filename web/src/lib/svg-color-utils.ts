@@ -549,48 +549,45 @@ export function applyColorMappingsToSvg(svg: string, mappings: ColorMapping): st
  * Forces width/height to 100% for proper scaling within containers
  * Returns the processed SVG string
  */
-export function ensureSvgAttributes(
-	svg: string,
-	viewBox: string = DEFAULT_VIEWBOX,
-): string {
+export function ensureSvgAttributes(svg: string, viewBox: string = DEFAULT_VIEWBOX): string {
 	if (!svg || typeof svg !== "string") {
-		return svg;
+		return svg
 	}
 
 	try {
-		const parser = new DOMParser();
-		const svgDoc = parser.parseFromString(svg, "image/svg+xml");
-		const svgElement = svgDoc.documentElement;
+		const parser = new DOMParser()
+		const svgDoc = parser.parseFromString(svg, "image/svg+xml")
+		const svgElement = svgDoc.documentElement
 
 		if (!svgElement) {
-			return svg;
+			return svg
 		}
 
 		// If no viewBox exists, try to create one from width/height attributes
 		if (!svgElement.getAttribute("viewBox")) {
-			const width = svgElement.getAttribute("width");
-			const height = svgElement.getAttribute("height");
+			const width = svgElement.getAttribute("width")
+			const height = svgElement.getAttribute("height")
 
 			if (width && height) {
-				const numWidth = parseFloat(width);
-				const numHeight = parseFloat(height);
+				const numWidth = parseFloat(width)
+				const numHeight = parseFloat(height)
 				if (!isNaN(numWidth) && !isNaN(numHeight)) {
-					svgElement.setAttribute("viewBox", `0 0 ${numWidth} ${numHeight}`);
+					svgElement.setAttribute("viewBox", `0 0 ${numWidth} ${numHeight}`)
 				}
 			} else {
-				svgElement.setAttribute("viewBox", viewBox);
+				svgElement.setAttribute("viewBox", viewBox)
 			}
 		}
 
 		// Always set width and height to 100% for proper scaling
-		svgElement.setAttribute("width", "100%");
-		svgElement.setAttribute("height", "100%");
+		svgElement.setAttribute("width", "100%")
+		svgElement.setAttribute("height", "100%")
 
-		const serializer = new XMLSerializer();
-		return serializer.serializeToString(svgElement);
+		const serializer = new XMLSerializer()
+		return serializer.serializeToString(svgElement)
 	} catch (error) {
-		console.error("Error ensuring SVG attributes:", error);
-		return svg;
+		console.error("Error ensuring SVG attributes:", error)
+		return svg
 	}
 }
 

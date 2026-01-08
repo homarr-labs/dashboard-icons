@@ -10,7 +10,14 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { Label } from "@/components/ui/label"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Textarea } from "@/components/ui/textarea"
-import { useApproveSubmission, useAuth, useBulkTriggerWorkflow, useRejectSubmission, useSubmissions, useTriggerWorkflow } from "@/hooks/use-submissions"
+import {
+	useApproveSubmission,
+	useAuth,
+	useBulkTriggerWorkflow,
+	useRejectSubmission,
+	useSubmissions,
+	useTriggerWorkflow,
+} from "@/hooks/use-submissions"
 
 export default function DashboardPage() {
 	// Fetch auth status
@@ -230,9 +237,7 @@ export default function DashboardPage() {
 				<DialogContent>
 					<DialogHeader>
 						<DialogTitle>Approve Submission</DialogTitle>
-						<DialogDescription>
-							Optional: add a note for the submitter. This will appear in the approval email.
-						</DialogDescription>
+						<DialogDescription>Optional: add a note for the submitter. This will appear in the approval email.</DialogDescription>
 					</DialogHeader>
 					<div className="space-y-4 py-4">
 						<div className="space-y-2">
