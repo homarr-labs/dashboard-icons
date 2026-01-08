@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="1000" height="1000"><style>
+    #light-icon {
+      display: inline;
+    }
+    #dark-icon {
+      display: none;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      #light-icon {
+        display: none;
+      }
+      #dark-icon {
+        display: inline;
+      }
+    }
+  </style><g id="light-icon"><svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="1000" height="1000"><g><g transform="matrix(1.953125,0,0,1.953125,0,0)"><svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="512" height="512"><svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 232 232" role="img" aria-label="dashboard-icons logo">
+  <rect x="4" y="4" width="224" height="224" rx="32" fill="none" stroke="#000" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"></rect>
+  <g fill="none" stroke="#ccc" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="24" y="24" width="48" height="48" rx="8" stroke="#FB7185"></rect>
+    <rect x="92" y="24" width="48" height="48" rx="8" fill="#FDBA74"></rect>
+    <rect x="92" y="92" width="48" height="48" rx="8" stroke="#C4B5FD"></rect>
+    <rect x="160" y="92" width="48" height="48" rx="8"></rect>
+    <rect x="92" y="160" width="48" height="48" rx="8"></rect>
+    <rect x="160" y="160" width="48" height="48" rx="8" fill="#93C5FD"></rect>
+  </g>
+  <circle cx="184" cy="48" r="26" fill="#86EFAC"></circle>
+  <circle cx="48" cy="116" r="26" fill="#93C5FD"></circle>
+  <rect x="24" y="160" width="48" height="48" rx="8" fill="#FDE68A"></rect>
+</svg></svg></g></g></svg></g><g id="dark-icon"><svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="1000" height="1000"><g><g transform="matrix(1.953125,0,0,1.953125,0,0)"><svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="512" height="512"><svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 232 232" role="img" aria-label="dashboard-icons logo">
+  <rect x="4" y="4" width="224" height="224" rx="32" fill="none" stroke="#fff" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"></rect>
+  <g fill="none" stroke="#ccc" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="24" y="24" width="48" height="48" rx="8" stroke="#FB7185"></rect>
+    <rect x="92" y="24" width="48" height="48" rx="8" fill="#FDBA74"></rect>
+    <rect x="92" y="92" width="48" height="48" rx="8" stroke="#C4B5FD"></rect>
+    <rect x="160" y="92" width="48" height="48" rx="8"></rect>
+    <rect x="92" y="160" width="48" height="48" rx="8"></rect>
+    <rect x="160" y="160" width="48" height="48" rx="8" fill="#93C5FD"></rect>
+  </g>
+  <circle cx="184" cy="48" r="26" fill="#86EFAC"></circle>
+  <circle cx="48" cy="116" r="26" fill="#93C5FD"></circle>
+  <rect x="24" y="160" width="48" height="48" rx="8" fill="#FDE68A"></rect>
+</svg></svg></g></g></svg></g></svg>
