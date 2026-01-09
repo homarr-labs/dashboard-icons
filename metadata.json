@@ -35019,5 +35019,19 @@
             "light": "solarwinds-wordmark-light",
             "dark": "solarwinds-wordmark-dark"
         }
+    },
+    "freshbooks": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "finance"
+        ],
+        "update": {
+            "timestamp": "2026-01-09T00:10:35.548Z",
+            "author": {
+                "id": "0876gmv58gt9upk",
+                "name": "mwksl"
+            }
+        }
     }
 }
