@@ -290,6 +290,16 @@ export function SubmissionDetails({
 								<p className="text-sm text-muted-foreground mt-1">Filename: {submission.name}</p>
 							</div>
 
+							{submission.description?.trim() && (
+								<div>
+									<h3 className="text-sm font-semibold text-muted-foreground mb-2 flex items-center gap-2">
+										<MessageSquare className="w-4 h-4" />
+										Description
+									</h3>
+									<p className="text-sm whitespace-pre-wrap">{submission.description}</p>
+								</div>
+							)}
+
 							<div>
 								<h3 className="text-sm font-semibold text-muted-foreground mb-2 flex items-center gap-2">
 									<FileType className="w-4 h-4" />
