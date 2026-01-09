@@ -65,7 +65,7 @@ export function IconNameCombobox({ value, onValueChange, error, isInvalid }: Ico
 					// Delay to allow clicking on suggestions
 					setTimeout(() => setIsFocused(false), 200)
 				}}
-				placeholder="Type new icon ID (e.g., my-app)..."
+				placeholder="Type icon ID (new or existing, e.g., my-app)..."
 				className={cn("font-mono", isInvalid && "border-destructive focus-visible:ring-destructive/50")}
 				aria-invalid={isInvalid}
 				aria-describedby={error ? "icon-name-error" : undefined}
@@ -77,7 +77,7 @@ export function IconNameCombobox({ value, onValueChange, error, isInvalid }: Ico
 					<Command className="rounded-md">
 						<CommandList className="max-h-[300px] overflow-y-auto">
 							<CommandEmpty>No existing icons found</CommandEmpty>
-							<CommandGroup heading={`⚠️ Existing Icons (${filteredIcons.length} matches - Not Allowed)`}>
+							<CommandGroup heading={`Existing Icons (${filteredIcons.length} matches)`}>
 								{filteredIcons.slice(0, 50).map((icon) => (
 									<CommandItem
 										key={icon.value}
@@ -87,9 +87,8 @@ export function IconNameCombobox({ value, onValueChange, error, isInvalid }: Ico
 											onValueChange(selectedValue)
 											setIsFocused(false)
 										}}
-										className="cursor-pointer opacity-60"
+										className="cursor-pointer"
 									>
-										<AlertCircle className="h-3.5 w-3.5 text-destructive mr-2 flex-shrink-0" />
 										<span className="font-mono text-sm">{icon.label}</span>
 									</CommandItem>
 								))}
@@ -109,7 +108,9 @@ export function IconNameCombobox({ value, onValueChange, error, isInvalid }: Ico
 
 			{/* Helper text when no error */}
 			{!error && value && (
-				<p className="text-sm text-muted-foreground mt-1.5">{loading ? "Checking availability..." : "✓ Available icon ID"}</p>
+				<p className="text-sm text-muted-foreground mt-1.5">
+					{loading ? "Loading icon names..." : "Select an existing icon to update or enter a new ID"}
+				</p>
 			)}
 		</div>
 	)

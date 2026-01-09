@@ -27,7 +27,6 @@ import { MultiSelect, type MultiSelectOption } from "@/components/ui/multi-selec
 import { Dropzone, DropzoneContent, DropzoneEmptyState } from "@/components/ui/shadcn-io/dropzone"
 import { Textarea } from "@/components/ui/textarea"
 import { REPO_PATH } from "@/constants"
-import { useExistingIconNames } from "@/hooks/use-submissions"
 import { pb } from "@/lib/pb"
 
 interface VariantConfig {
@@ -112,7 +111,6 @@ interface FormData {
 export function AdvancedIconSubmissionFormTanStack() {
 	const [filePreviews, setFilePreviews] = useState<Record<string, string>>({})
 	const [showConfirmDialog, setShowConfirmDialog] = useState(false)
-	const { data: existingIcons = [] } = useExistingIconNames()
 	const router = useRouter()
 
 	const form = useForm({
@@ -382,11 +380,6 @@ export function AdvancedIconSubmissionFormTanStack() {
 										if (!value) return "Icon name is required"
 										if (!/^[a-z0-9-]+$/.test(value)) {
 											return "Icon name must contain only lowercase letters, numbers, and hyphens"
-										}
-										// Check if icon already exists
-										const iconExists = existingIcons.some((icon) => icon.value === value)
-										if (iconExists) {
-											return "This icon already exists. Icon updates are not yet supported. Please choose a different name."
 										}
 										return undefined
 									},
@@ -676,7 +669,7 @@ export function AdvancedIconSubmissionFormTanStack() {
 							>
 								{(state) => (
 									<Button type="submit" disabled={!state.canSubmit || state.isSubmitting} size="lg">
-										{state.isSubmitting ? "Submitting..." : "Submit New Icon"}
+										{state.isSubmitting ? "Submitting..." : "Submit Icon"}
 									</Button>
 								)}
 							</form.Subscribe>

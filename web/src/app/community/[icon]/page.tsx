@@ -5,6 +5,14 @@ import { BASE_URL, WEB_URL } from "@/constants"
 import { getAllIcons, getAuthorData } from "@/lib/api"
 import { getCommunityGalleryRecord, getCommunitySubmissionByName, getCommunitySubmissions } from "@/lib/community"
 
+function isIconAddedToCollection(
+	record: Awaited<ReturnType<typeof getCommunityGalleryRecord>>,
+	collectionIcons: Record<string, unknown>,
+	icon: string,
+) {
+	return record?.status === "added_to_collection" && Object.hasOwn(collectionIcons, icon)
+}
+
 export const dynamicParams = true
 export const revalidate = 21600 // 6 hours
 export const dynamic = "force-static"
@@ -30,7 +38,10 @@ export async function generateMetadata({ params }: Props, _parent: ResolvingMeta
 	}
 
 	const record = await getCommunityGalleryRecord(icon)
-	if (record?.status === "added_to_collection") {
+	const collectionIcons = await getAllIcons()
+	const isInCollection = isIconAddedToCollection(record, collectionIcons, icon)
+
+	if (isInCollection) {
 		permanentRedirect(`/icons/${icon}`)
 	}
 
@@ -118,11 +129,11 @@ export default async function CommunityIconPage({ params }: { params: Promise<{ 
 	}
 
 	const record = await getCommunityGalleryRecord(icon)
-	if (record?.status === "added_to_collection") {
+	const allIcons = await getAllIcons()
+	const isInCollection = isIconAddedToCollection(record, allIcons, icon)
+	if (isInCollection) {
 		permanentRedirect(`/icons/${icon}`)
 	}
-
-	const allIcons = await getAllIcons()
 
 	const author = iconData.data.update.author as any
 	const githubId = author?.github_id
