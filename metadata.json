@@ -34823,5 +34823,27 @@
             "light": "pytorch-wordmark-light",
             "dark": "pytorch-wordmark-dark"
         }
+    },
+    "deq": {
+        "base": "svg",
+        "aliases": [
+            "DeQ",
+            "deqrocks"
+        ],
+        "categories": [
+            "automation",
+            "monitoring",
+            "network",
+            "tools",
+            "utility",
+            "home-automation"
+        ],
+        "update": {
+            "timestamp": "2026-01-09T00:10:07.825Z",
+            "author": {
+                "id": "2afhvkw6cc0isme",
+                "name": "deqrocks"
+            }
+        }
     }
 }
