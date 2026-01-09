@@ -34970,5 +34970,33 @@
                 "name": "0xb0ec1d"
             }
         }
+    },
+    "broadcom": {
+        "base": "svg",
+        "aliases": [
+            "VMware",
+            "Brocade",
+            "Symantec"
+        ],
+        "categories": [
+            "cloud",
+            "security",
+            "network",
+            "storage"
+        ],
+        "update": {
+            "timestamp": "2026-01-09T00:10:30.608Z",
+            "author": {
+                "id": "sowxli2ysgkofo9",
+                "name": "0xb0ec1d"
+            }
+        },
+        "colors": {
+            "dark": "broadcom-dark"
+        },
+        "wordmark": {
+            "light": "broadcom-wordmark-light",
+            "dark": "broadcom-wordmark-dark"
+        }
     }
 }
