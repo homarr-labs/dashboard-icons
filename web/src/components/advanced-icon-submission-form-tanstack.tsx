@@ -57,8 +57,8 @@ const VARIANTS: VariantConfig[] = [
 	},
 	{
 		id: "wordmark",
-		label: "Wordmark",
-		description: "Logo with text/wordmark",
+		label: "Wordmark Light",
+		description: "Wordmark optimized for light backgrounds",
 		field: "wordmark",
 	},
 	{
