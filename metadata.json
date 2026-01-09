@@ -34998,5 +34998,26 @@
             "light": "broadcom-wordmark-light",
             "dark": "broadcom-wordmark-dark"
         }
+    },
+    "solarwinds": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "network",
+            "monitoring",
+            "security",
+            "database"
+        ],
+        "update": {
+            "timestamp": "2026-01-09T00:10:33.308Z",
+            "author": {
+                "id": "sowxli2ysgkofo9",
+                "name": "0xb0ec1d"
+            }
+        },
+        "wordmark": {
+            "light": "solarwinds-wordmark-light",
+            "dark": "solarwinds-wordmark-dark"
+        }
     }
 }
