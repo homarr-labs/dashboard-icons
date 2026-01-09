@@ -34877,5 +34877,17 @@
                 "name": "bel.cou.act@gmail.com"
             }
         }
+    },
+    "qbitmanage": {
+        "base": "png",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-01-09T00:10:16.343Z",
+            "author": {
+                "id": "k7fvsx3yfgz070a",
+                "name": "Sioul"
+            }
+        }
     }
 }
