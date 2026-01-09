@@ -72,7 +72,7 @@ type VariantKey =
 interface VariantTarget {
 	key: VariantKey;
 	destFilename: string;
-	matchers: string[]; // lowercase substrings to prefer when selecting assets
+	exactFilename?: string; // exact filename to match (from extras.wordmark or extras.colors)
 	sourceAsset?: string; // chosen source asset name
 }
 
@@ -169,59 +169,42 @@ function inferBase(assets: string[], extrasBase?: string) {
 function buildTargets(submission: Submission): VariantTarget[] {
 	const iconId = submission.name;
 	const ext = inferBase(submission.assets, submission.extras?.base);
-	const assetsLower = submission.assets.map((a) => a.toLowerCase());
-	const hasLight =
-		submission.extras?.colors?.light ||
-		assetsLower.some((a) => a.includes("light") && !a.includes("wordmark"));
-	const hasDark =
-		submission.extras?.colors?.dark ||
-		assetsLower.some((a) => a.includes("dark") && !a.includes("wordmark"));
-	const hasWordmark =
-		submission.extras?.wordmark ||
-		assetsLower.some((a) => a.includes("wordmark"));
-	const hasWordmarkLight =
-		submission.extras?.wordmark?.light ||
-		assetsLower.some((a) => a.includes("wordmark") && a.includes("light"));
-	const hasWordmarkDark =
-		submission.extras?.wordmark?.dark ||
-		assetsLower.some((a) => a.includes("wordmark") && a.includes("dark"));
 
 	const targets: VariantTarget[] = [
-		{ key: "base", destFilename: `${iconId}.${ext}`, matchers: [] },
+		{ key: "base", destFilename: `${iconId}.${ext}` },
 	];
 
-	if (hasLight) {
+	// Only create variants that are explicitly defined in extras
+	if (submission.extras?.colors?.light) {
 		targets.push({
 			key: "light",
 			destFilename: `${iconId}-light.${ext}`,
-			matchers: ["light"],
+			exactFilename: submission.extras.colors.light,
 		});
 	}
 
-	if (hasDark) {
+	if (submission.extras?.colors?.dark) {
 		targets.push({
 			key: "dark",
 			destFilename: `${iconId}-dark.${ext}`,
-			matchers: ["dark"],
+			exactFilename: submission.extras.colors.dark,
 		});
 	}
 
-	if (hasWordmark || hasWordmarkLight || hasWordmarkDark) {
-		if (hasWordmarkLight || hasWordmark) {
-			targets.push({
-				key: "wordmark-light",
-				destFilename: `${iconId}-wordmark-light.${ext}`,
-				matchers: ["wordmark", "light"],
-			});
-		}
+	if (submission.extras?.wordmark?.light) {
+		targets.push({
+			key: "wordmark-light",
+			destFilename: `${iconId}-wordmark-light.${ext}`,
+			exactFilename: submission.extras.wordmark.light,
+		});
+	}
 
-		if (hasWordmarkDark || hasWordmark) {
-			targets.push({
-				key: "wordmark-dark",
-				destFilename: `${iconId}-wordmark-dark.${ext}`,
-				matchers: ["wordmark", "dark"],
-			});
-		}
+	if (submission.extras?.wordmark?.dark) {
+		targets.push({
+			key: "wordmark-dark",
+			destFilename: `${iconId}-wordmark-dark.${ext}`,
+			exactFilename: submission.extras.wordmark.dark,
+		});
 	}
 
 	return targets;
@@ -233,11 +216,9 @@ function assignAssetsToTargets(
 ): VariantTarget[] {
 	const remaining = new Set(assets);
 
-	const takeMatching = (matchers: string[]): string | undefined => {
+	const takeExact = (exactFilename: string): string | undefined => {
 		for (const asset of remaining) {
-			const lower = asset.toLowerCase();
-			const allMatch = matchers.every((m) => lower.includes(m));
-			if (allMatch) {
+			if (asset === exactFilename) {
 				remaining.delete(asset);
 				return asset;
 			}
@@ -251,11 +232,36 @@ function assignAssetsToTargets(
 		return first;
 	};
 
-	return targets.map((t) => {
-		const matched = t.matchers.length ? takeMatching(t.matchers) : takeAny();
-		const fallback = matched ?? takeAny();
-		return { ...t, sourceAsset: fallback };
-	});
+	// Process variants with exact filenames first to reserve them
+	// Then process the base icon to take any remaining asset
+	const assignments = new Map<VariantTarget, string | undefined>();
+	
+	// First pass: assign variants with exact filenames
+	for (const t of targets) {
+		if (t.exactFilename) {
+			const exact = takeExact(t.exactFilename);
+			assignments.set(t, exact);
+		}
+	}
+	
+	// Second pass: assign base icon and any remaining targets
+	for (const t of targets) {
+		if (!assignments.has(t)) {
+			if (t.key === "base") {
+				const asset = takeAny();
+				assignments.set(t, asset);
+			} else {
+				// Should not reach here if logic is correct
+				assignments.set(t, undefined);
+			}
+		}
+	}
+	
+	// Return in original order
+	return targets.map((t) => ({
+		...t,
+		sourceAsset: assignments.get(t),
+	}));
 }
 
 async function downloadAsset(
@@ -321,6 +327,11 @@ function buildMetadataVariants(assignments: VariantTarget[]) {
 	const wordmark: IconWordmark = {};
 
 	for (const v of assignments) {
+		// Only include variants that actually have a source asset assigned
+		if (!v.sourceAsset) {
+			continue;
+		}
+		
 		const baseName = v.destFilename.replace(/\.[^.]+$/, "");
 		if (v.key === "light") {
 			colors.light = baseName;

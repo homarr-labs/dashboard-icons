@@ -34991,12 +34991,9 @@
                 "name": "0xb0ec1d"
             }
         },
-        "colors": {
-            "dark": "broadcom-dark"
-        },
         "wordmark": {
             "light": "broadcom-wordmark-light",
-            "dark": "broadcom-wordmark-dark"
+            "dark": "broadcom-dark"
         }
     },
     "solarwinds": {
