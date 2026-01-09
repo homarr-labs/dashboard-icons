@@ -10106,12 +10106,15 @@
     "fladder": {
         "base": "svg",
         "aliases": [],
-        "categories": [],
+        "categories": [
+            "entertainment",
+            "media"
+        ],
         "update": {
-            "timestamp": "2024-10-20T17:24:03Z",
+            "timestamp": "2026-01-09T14:19:30.680Z",
             "author": {
-                "id": 71191962,
-                "name": "walkxcode"
+                "id": 72495210,
+                "login": "v3DJG6GL"
             }
         }
     },
