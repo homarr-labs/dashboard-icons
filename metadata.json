@@ -13268,19 +13268,22 @@
         }
     },
     "archivebox": {
-        "base": "png",
-        "aliases": [
-            "web-archiver",
-            "site-scraper"
-        ],
+        "base": "svg",
+        "aliases": [],
         "categories": [
-            "Developer-Tools"
+            "cloud",
+            "media",
+            "network",
+            "storage",
+            "tools",
+            "utility",
+            "database"
         ],
         "update": {
-            "timestamp": "2024-10-20T19:32:46Z",
+            "timestamp": "2026-01-09T00:10:04.824Z",
             "author": {
-                "id": 71191962,
-                "name": "walkxcode"
+                "id": "pikfs74uzq6ksg9",
+                "name": "javiercastrode"
             }
         }
     },
