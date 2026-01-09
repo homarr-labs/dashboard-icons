@@ -34917,5 +34917,21 @@
                 "name": "SuFxDBI"
             }
         }
+    },
+    "aliasvault": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "utility",
+            "security",
+            "tools"
+        ],
+        "update": {
+            "timestamp": "2026-01-09T00:10:23.451Z",
+            "author": {
+                "id": "o0zlzqagyymj3y3",
+                "name": "sn0wf4ll"
+            }
+        }
     }
 }
