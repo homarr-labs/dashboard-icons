@@ -34845,5 +34845,23 @@
                 "name": "deqrocks"
             }
         }
+    },
+    "fastapi": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "development"
+        ],
+        "update": {
+            "timestamp": "2026-01-09T00:10:10.470Z",
+            "author": {
+                "id": "sowxli2ysgkofo9",
+                "name": "0xb0ec1d"
+            }
+        },
+        "wordmark": {
+            "light": "fastapi-wordmark-light",
+            "dark": "fastapi-wordmark-dark"
+        }
     }
 }
