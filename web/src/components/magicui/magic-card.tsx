@@ -76,20 +76,20 @@ export function MagicCard({
 		mouseY.set(-gradientSize)
 	}, [gradientSize, mouseX, mouseY])
 
-	const { theme } = useTheme() // "light" | "dark"
+	const { resolvedTheme } = useTheme()
 
 	const [fromColor, setFromColor] = useState(gradientFrom)
 	const [toColor, setToColor] = useState(gradientTo)
 
 	useEffect(() => {
-		if (theme === "dark") {
-			setFromColor("#ffb3c1") // fallback for dark
+		if (resolvedTheme === "dark") {
+			setFromColor("#ffb3c1")
 			setToColor("#ff75a0")
-		} else {
-			setFromColor("#1e9df1") // fallback for light
+		} else if (resolvedTheme === "light") {
+			setFromColor("#1e9df1")
 			setToColor("#8ed0f9")
 		}
-	}, [theme])
+	}, [resolvedTheme])
 
 	return (
 		<div ref={cardRef} className={cn("group relative rounded-[inherit]", className)}>
