@@ -35069,5 +35069,20 @@
             "light": "comfyui-wordmark-light",
             "dark": "comfyui-wordmark-dark"
         }
+    },
+    "streamyfin": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "media",
+            "entertainment"
+        ],
+        "update": {
+            "timestamp": "2026-01-09T14:19:33.284Z",
+            "author": {
+                "id": 72495210,
+                "login": "v3DJG6GL"
+            }
+        }
     }
 }
