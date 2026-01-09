@@ -35033,5 +35033,21 @@
                 "name": "mwksl"
             }
         }
+    },
+    "apache-iceberg": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "cloud",
+            "database",
+            "tools"
+        ],
+        "update": {
+            "timestamp": "2026-01-09T00:10:37.820Z",
+            "author": {
+                "id": "iq37xkubfmfm13x",
+                "name": "b.vrublevsky"
+            }
+        }
     }
 }
