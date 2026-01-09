@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button"
 import { ColorPicker } from "@/components/ui/color-picker"
 import { Label } from "@/components/ui/label"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Separator } from "@/components/ui/separator"
 import {
 	applyColorMappingsToSvg,
@@ -20,13 +21,29 @@ import {
 	isClipboardAvailable,
 } from "@/lib/svg-color-utils"
 
+type VariantOption = {
+	value: string
+	label: string
+	iconName: string
+}
+
 type IconCustomizerInlineProps = {
 	svgUrl: string
 	iconName: string
 	onClose: () => void
+	availableVariants?: VariantOption[]
+	selectedVariant?: string
+	onVariantChange?: (variant: string) => void
 }
 
-export function IconCustomizerInline({ svgUrl, iconName, onClose }: IconCustomizerInlineProps) {
+export function IconCustomizerInline({
+	svgUrl,
+	iconName,
+	onClose,
+	availableVariants = [],
+	selectedVariant,
+	onVariantChange,
+}: IconCustomizerInlineProps) {
 	const [svgContent, setSvgContent] = useState<string>("")
 	const [originalColors, setOriginalColors] = useState<string[]>([])
 	const [colorMappings, setColorMappings] = useState<ColorMapping>({})
@@ -226,6 +243,26 @@ export function IconCustomizerInline({ svgUrl, iconName, onClose }: IconCustomiz
 					<X className="h-4 w-4" />
 				</Button>
 			</div>
+
+			{availableVariants.length > 1 && selectedVariant && onVariantChange && (
+				<div className="space-y-2">
+					<Label htmlFor="variant-select" className="text-sm font-semibold text-muted-foreground">
+						Select Icon Variant
+					</Label>
+					<Select value={selectedVariant} onValueChange={onVariantChange}>
+						<SelectTrigger id="variant-select" className="w-full" size="sm">
+							<SelectValue />
+						</SelectTrigger>
+						<SelectContent>
+							{availableVariants.map((variant) => (
+								<SelectItem key={variant.value} value={variant.value}>
+									{variant.label}
+								</SelectItem>
+							))}
+						</SelectContent>
+					</Select>
+				</div>
+			)}
 
 			<div className="space-y-4">
 				{originalColors.map((originalColor, index) => {

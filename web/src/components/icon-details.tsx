@@ -6,12 +6,20 @@ import { ArrowRight, Check, FileType, Github, Moon, Palette, PaletteIcon, Sun, T
 import Image from "next/image"
 import Link from "next/link"
 import type React from "react"
-import { useCallback, useEffect, useState } from "react"
+import { useCallback, useEffect, useMemo, useState } from "react"
 import { toast } from "sonner"
 import { IconsGrid } from "@/components/icon-grid"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Label } from "@/components/ui/label"
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from "@/components/ui/select"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { BASE_URL, REPO_PATH } from "@/constants"
 import { isClipboardAvailable } from "@/lib/svg-color-utils"
@@ -225,6 +233,7 @@ export function IconDetails({
 	const [copiedImageKey, setCopiedImageKey] = useState<string | null>(null)
 	const [isCustomizerOpen, setIsCustomizerOpen] = useState(false)
 	const [hasGradients, setHasGradients] = useState<boolean | null>(null)
+	const [selectedVariant, setSelectedVariant] = useState<string>("base")
 
 	const launchConfetti = useCallback((originX?: number, originY?: number) => {
 		if (typeof confetti !== "function") return
@@ -522,24 +531,173 @@ export function IconDetails({
 
 	const formatedIconName = formatIconName(icon)
 
-	const getSvgUrl = (): string | null => {
-		if (isCommunityIcon && mainIconUrl) {
-			if (mainIconUrl.toLowerCase().endsWith(".svg")) {
-				return mainIconUrl
+	type VariantOption = {
+		value: string
+		label: string
+		iconName: string
+	}
+
+	const getAvailableSvgVariants = (): VariantOption[] => {
+		const variants: VariantOption[] = []
+
+		if (isCommunityIcon) {
+			const baseSvg = assetUrls.find((url: string) => typeof url === "string" && url.toLowerCase().endsWith(".svg"))
+			if (baseSvg || (mainIconUrl && mainIconUrl.toLowerCase().endsWith(".svg"))) {
+				variants.push({
+					value: "base",
+					label: "Base Icon",
+					iconName: icon,
+				})
 			}
-			const svgUrl = assetUrls.find((url: string) => typeof url === "string" && url.toLowerCase().endsWith(".svg"))
-			return svgUrl || null
+
+			const lightVariant = iconData.colors?.light
+			if (lightVariant) {
+				const lightSvg = assetUrls.find(
+					(url: string) =>
+						typeof url === "string" &&
+						url.toLowerCase().endsWith(".svg") &&
+						url.includes(lightVariant),
+				)
+				if (lightSvg) {
+					variants.push({
+						value: "light",
+						label: "Light Variant",
+						iconName: lightVariant,
+					})
+				}
+			}
+
+			const darkVariant = iconData.colors?.dark
+			if (darkVariant) {
+				const darkSvg = assetUrls.find(
+					(url: string) =>
+						typeof url === "string" &&
+						url.toLowerCase().endsWith(".svg") &&
+						url.includes(darkVariant),
+				)
+				if (darkSvg) {
+					variants.push({
+						value: "dark",
+						label: "Dark Variant",
+						iconName: darkVariant,
+					})
+				}
+			}
+
+			const wordmarkLight = iconData.wordmark?.light
+			if (wordmarkLight) {
+				const wordmarkLightSvg = assetUrls.find(
+					(url: string) =>
+						typeof url === "string" &&
+						url.toLowerCase().endsWith(".svg") &&
+						url.includes(wordmarkLight),
+				)
+				if (wordmarkLightSvg) {
+					variants.push({
+						value: "wordmark-light",
+						label: "Wordmark Light",
+						iconName: wordmarkLight,
+					})
+				}
+			}
+
+			const wordmarkDark = iconData.wordmark?.dark
+			if (wordmarkDark) {
+				const wordmarkDarkSvg = assetUrls.find(
+					(url: string) =>
+						typeof url === "string" &&
+						url.toLowerCase().endsWith(".svg") &&
+						url.includes(wordmarkDark),
+				)
+				if (wordmarkDarkSvg) {
+					variants.push({
+						value: "wordmark-dark",
+						label: "Wordmark Dark",
+						iconName: wordmarkDark,
+					})
+				}
+			}
+		} else {
+			if (iconData.base === "svg") {
+				variants.push({
+					value: "base",
+					label: "Base Icon",
+					iconName: icon,
+				})
+			}
+
+			if (iconData.colors?.light && iconData.base === "svg") {
+				variants.push({
+					value: "light",
+					label: "Light Variant",
+					iconName: iconData.colors.light,
+				})
+			}
+
+			if (iconData.colors?.dark && iconData.base === "svg") {
+				variants.push({
+					value: "dark",
+					label: "Dark Variant",
+					iconName: iconData.colors.dark,
+				})
+			}
+
+			if (iconData.wordmark?.light && iconData.base === "svg") {
+				variants.push({
+					value: "wordmark-light",
+					label: "Wordmark Light",
+					iconName: iconData.wordmark.light,
+				})
+			}
+
+			if (iconData.wordmark?.dark && iconData.base === "svg") {
+				variants.push({
+					value: "wordmark-dark",
+					label: "Wordmark Dark",
+					iconName: iconData.wordmark.dark,
+				})
+			}
 		}
+
+		return variants
+	}
+
+	const availableVariants = getAvailableSvgVariants()
+
+	const getSvgUrl = (variantValue?: string): string | null => {
+		const variant = variantValue || selectedVariant
+		const variantOption = availableVariants.find((v) => v.value === variant)
+
+		if (!variantOption) {
+			return null
+		}
+
+		if (isCommunityIcon) {
+			if (variant === "base") {
+				if (mainIconUrl && mainIconUrl.toLowerCase().endsWith(".svg")) {
+					return mainIconUrl
+				}
+				const svgUrl = assetUrls.find((url: string) => typeof url === "string" && url.toLowerCase().endsWith(".svg"))
+				return svgUrl || null
+			}
+
+			const matchingUrl = assetUrls.find(
+				(url: string) =>
+					typeof url === "string" &&
+					url.toLowerCase().endsWith(".svg") &&
+					url.includes(variantOption.iconName),
+			)
+			return matchingUrl || null
+		}
+
 		if (iconData.base === "svg") {
-			const iconName = iconData.colors?.light || icon
-			if (iconName) {
-				return `${BASE_URL}/svg/${iconName}.svg`
-			}
+			return `${BASE_URL}/svg/${variantOption.iconName}.svg`
 		}
+
 		return null
 	}
 
-	const svgUrl = getSvgUrl()
+	const svgUrl = useMemo(() => getSvgUrl(selectedVariant), [selectedVariant, availableVariants, isCommunityIcon, mainIconUrl, assetUrls, iconData, icon])
 
 	useEffect(() => {
 		if (!svgUrl) {
@@ -566,7 +724,13 @@ export function IconDetails({
 		checkForGradients()
 	}, [svgUrl])
 
-	const canCustomize = svgUrl !== null && availableFormats.includes("svg") && hasGradients === false
+	useEffect(() => {
+		if (availableVariants.length > 0 && !availableVariants.find((v) => v.value === selectedVariant)) {
+			setSelectedVariant(availableVariants[0].value)
+		}
+	}, [availableVariants, selectedVariant])
+
+	const canCustomize = svgUrl !== null && availableFormats.includes("svg") && hasGradients === false && availableVariants.length > 0
 
 	return (
 		<main className="container mx-auto pt-12 pb-14 px-4 sm:px-6 lg:px-8">
@@ -852,10 +1016,13 @@ export function IconDetails({
 										<AnimatePresence mode="wait">
 											{isCustomizerOpen ? (
 												<IconCustomizerInline
-													key="customizer"
+													key={`customizer-${selectedVariant}`}
 													svgUrl={svgUrl}
 													iconName={formatedIconName}
 													onClose={() => setIsCustomizerOpen(false)}
+													availableVariants={availableVariants}
+													selectedVariant={selectedVariant}
+													onVariantChange={setSelectedVariant}
 												/>
 											) : (
 												<motion.div
