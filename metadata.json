@@ -34889,5 +34889,21 @@
                 "name": "Sioul"
             }
         }
+    },
+    "erugo": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "storage",
+            "tools",
+            "utility"
+        ],
+        "update": {
+            "timestamp": "2026-01-09T00:10:18.831Z",
+            "author": {
+                "id": "509o8mac5tnfu9u",
+                "name": "deandeandean"
+            }
+        }
     }
 }
