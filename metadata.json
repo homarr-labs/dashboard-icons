@@ -34951,5 +34951,24 @@
                 "name": "anoniemerd"
             }
         }
+    },
+    "svg": {
+        "base": "svg",
+        "aliases": [
+            "Scalable Vector Graphics",
+            "image/svg+xml",
+            "W3C SVG"
+        ],
+        "categories": [
+            "media",
+            "development"
+        ],
+        "update": {
+            "timestamp": "2026-01-09T00:10:27.898Z",
+            "author": {
+                "id": "sowxli2ysgkofo9",
+                "name": "0xb0ec1d"
+            }
+        }
     }
 }
