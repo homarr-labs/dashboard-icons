@@ -35046,5 +35046,25 @@
                 "name": "b.vrublevsky"
             }
         }
+    },
+    "comfyui": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-01-09T14:19:27.322Z",
+            "author": {
+                "id": 72495210,
+                "login": "v3DJG6GL"
+            }
+        },
+        "colors": {
+            "light": "comfyui-light",
+            "dark": "comfyui-dark"
+        },
+        "wordmark": {
+            "light": "comfyui-wordmark-light",
+            "dark": "comfyui-wordmark-dark"
+        }
     }
 }
