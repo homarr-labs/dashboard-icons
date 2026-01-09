@@ -34933,5 +34933,23 @@
                 "name": "sn0wf4ll"
             }
         }
+    },
+    "prunemate": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "storage",
+            "tools",
+            "utility",
+            "other",
+            "automation"
+        ],
+        "update": {
+            "timestamp": "2026-01-09T00:10:25.658Z",
+            "author": {
+                "id": "0bagu87a1mx9g7g",
+                "name": "anoniemerd"
+            }
+        }
     }
 }
