@@ -418,8 +418,7 @@ async function persistAssets(
 		);
 		const exists = await fileExists(destPath);
 		if (exists) {
-			console.log(`Skipping existing asset ${destPath}`);
-			continue;
+			console.log(`Overwriting existing asset ${destPath}`);
 		}
 
 		if (dryRun) {
