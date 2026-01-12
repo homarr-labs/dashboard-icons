@@ -5,10 +5,12 @@ import subprocess
 import argparse
 import tempfile
 import urllib.request
+import shutil
 from pathlib import Path
 from PIL import Image
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from threading import Lock
+from urllib.parse import urlparse
 import xml.etree.ElementTree as ET
 
 # Try to import cairosvg, but make it optional
@@ -155,13 +157,13 @@ def convert_svg_to_png(svg_path, png_path, use_inkscape=False, force=False):
             temp_svg_created = processed_svg != svg_path
             
             try:
-                result = subprocess.run(
+                subprocess.run(
                     [
                         'inkscape',
                         '--export-type=png',
-                        f'--export-filename={png_path}',
+                        f'--export-filename={png_path.resolve()}',
                         '--export-height=512',
-                        str(processed_svg)
+                        str(processed_svg.resolve())
                     ],
                     capture_output=True,
                     text=True,
@@ -197,6 +199,11 @@ def convert_svg_to_png(svg_path, png_path, use_inkscape=False, force=False):
 
     except subprocess.CalledProcessError as e:
         print(f"Failed to convert {svg_path} to PNG using Inkscape: {e.stderr}")
+        with stats_lock:
+            failed_files.append(svg_path)
+        return False
+    except (ImportError, OSError) as e:
+        print(f"Failed to convert {svg_path} to PNG: {e}")
         with stats_lock:
             failed_files.append(svg_path)
         return False
@@ -303,8 +310,15 @@ if __name__ == "__main__":
     if single_file:
         temp_file = None
         try:
-            # Check if it's a URL
+            # Check if it's a URL with allowed schemes
+            ALLOWED_URL_SCHEMES = {'http', 'https'}
             if single_file.startswith('http://') or single_file.startswith('https://'):
+                # Validate URL scheme
+                parsed_url = urlparse(single_file)
+                if parsed_url.scheme not in ALLOWED_URL_SCHEMES:
+                    print(f"Error: URL scheme '{parsed_url.scheme}' is not allowed. Only http and https are supported.")
+                    exit(1)
+                
                 # Download to temp file first
                 temp_file = tempfile.NamedTemporaryFile(delete=False, suffix='.svg')
                 temp_file.close()
@@ -319,7 +333,6 @@ if __name__ == "__main__":
             # Determine output name from URL or file
             if single_file.startswith('http://') or single_file.startswith('https://'):
                 # Extract name from URL
-                from urllib.parse import urlparse
                 parsed_url = urlparse(single_file)
                 url_path = parsed_url.path
                 # Get filename from path, handling query params
@@ -335,10 +348,8 @@ if __name__ == "__main__":
             if temp_file or not svg_file.parent.samefile(SVG_DIR):
                 target_svg = SVG_DIR / f"{output_name}.svg"
                 if temp_file:
-                    import shutil
                     shutil.move(str(svg_file), str(target_svg))
                 else:
-                    import shutil
                     shutil.copy2(str(svg_file), str(target_svg))
                 svg_file = target_svg
 
@@ -367,10 +378,6 @@ if __name__ == "__main__":
             if png_path.exists():
                 convert_image_to_webp(png_path, webp_path, force)
 
-            # Clean up temp file if it exists
-            if temp_file and Path(temp_file.name).exists():
-                Path(temp_file.name).unlink()
-
             # Display summary for single file
             print(f"\nConverted {converted_pngs} PNG and {converted_webps} WEBP from 1 file.")
             if failed_files:
@@ -381,8 +388,6 @@ if __name__ == "__main__":
 
         except Exception as e:
             print(f"Error processing file: {e}")
-            if temp_file and Path(temp_file.name).exists():
-                Path(temp_file.name).unlink()
             exit(1)
     else:
         # Collect all SVG files first for faster startup
