@@ -1,2 +1,4 @@
 [tools]
 act = "latest"
+node = "latest"
+python = "latest"
