@@ -45,9 +45,9 @@ jobs:
       - name: Run SVG to PNG and WEBP Conversion
         run: |
           if [ -n "${{ github.event.inputs.force_retry_icon }}" ]; then
-            python scripts/convert_svg_assets.py --use-inkscape --force-retry "${{ github.event.inputs.force_retry_icon }}"
+            python scripts/convert_svg_assets.py --force-retry "${{ github.event.inputs.force_retry_icon }}"
           else
-            python scripts/convert_svg_assets.py --use-inkscape
+            python scripts/convert_svg_assets.py
           fi
 
       - name: Commit and Push Changes
