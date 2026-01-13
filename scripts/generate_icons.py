@@ -1,10 +1,18 @@
 from icons import IssueFormType, checkAction, iconFactory, checkType
 import os
 import sys
+import subprocess
 from pathlib import Path
 import requests
 from PIL import Image
-import cairosvg
+
+# Try to import cairosvg, but make it optional
+try:
+    import cairosvg
+    CAIROSVG_AVAILABLE = True
+except (ImportError, OSError, Exception):
+    CAIROSVG_AVAILABLE = False
+    cairosvg = None
 
 ISSUE_FORM_ENV_VAR = "INPUT_ISSUE_FORM"
 
@@ -26,10 +34,31 @@ def save_image(image: bytes, path: Path):
     with open(path, 'wb') as f:
         f.write(image)
 
-def convert_svg_to_png(svg_path: Path) -> bytes:
-    """Convert SVG to PNG."""
+def convert_svg_to_png(svg_path: Path, png_path: Path, use_inkscape: bool = True) -> bytes:
+    """Convert SVG to PNG using Inkscape or cairosvg."""
     try:
-        return cairosvg.svg2png(url=str(svg_path), output_height=512)
+        if use_inkscape:
+            # Use Inkscape CLI
+            result = subprocess.run(
+                [
+                    'inkscape',
+                    '--export-type=png',
+                    f'--export-filename={png_path}',
+                    '--export-height=512',
+                    str(svg_path)
+                ],
+                capture_output=True,
+                text=True,
+                check=True
+            )
+            
+            # Read the PNG file and return as bytes
+            with open(png_path, 'rb') as f:
+                return f.read()
+        else:
+            if not CAIROSVG_AVAILABLE:
+                raise ImportError("cairosvg is not available. Use Inkscape instead.")
+            return cairosvg.svg2png(url=str(svg_path), output_height=512)
 
     except Exception as e:
         print(f"Failed to convert {svg_path} to PNG: {e}")
@@ -60,7 +89,8 @@ def main(type: str, action: IssueFormType, issue_form: str):
             save_image(imageBytes, svg_path)
             print(f"Downloaded SVG: {svg_path}")
 
-            png_data = convert_svg_to_png(svg_path)
+            # Use Inkscape by default
+            png_data = convert_svg_to_png(svg_path, png_path, use_inkscape=True)
             save_image(png_data, png_path)
             print(f"Converted PNG: {png_path}")
 

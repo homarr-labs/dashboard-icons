@@ -29,9 +29,9 @@ jobs:
           python-version: "3.14.0"
       - name: Install Dependencies
         run: |
-          pip install cairosvg pillow requests
+          pip install pillow requests
           sudo apt-get update
-          sudo apt-get install -y zopfli webp
+          sudo apt-get install -y zopfli webp inkscape
       - name: Parse issue form
         id: parse_issue_form
         run: echo "ISSUE_FORM=$(python scripts/parse_issue_form.py)" >> "$GITHUB_OUTPUT"

@@ -2,6 +2,11 @@ name: Update Icons and Resources
 
 on:
   workflow_dispatch:  # Keep manual trigger
+    inputs:
+      force_retry_icon:
+        description: 'Icon name to force retry (without extension)'
+        required: false
+        type: string
   workflow_run:
     workflows: ["Add Icon to Collection"]
     types:
@@ -33,10 +38,17 @@ jobs:
 
       - name: Install Dependencies
         run: |
-          pip install cairosvg pillow
+          pip install pillow
+          sudo apt-get update
+          sudo apt-get install -y inkscape
 
       - name: Run SVG to PNG and WEBP Conversion
-        run: python scripts/convert_svg_assets.py
+        run: |
+          if [ -n "${{ github.event.inputs.force_retry_icon }}" ]; then
+            python scripts/convert_svg_assets.py --use-inkscape --force-retry "${{ github.event.inputs.force_retry_icon }}"
+          else
+            python scripts/convert_svg_assets.py --use-inkscape
+          fi
 
       - name: Commit and Push Changes
         run: |
