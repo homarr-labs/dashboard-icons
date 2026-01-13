@@ -12,15 +12,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from threading import Lock
 import xml.etree.ElementTree as ET
 
-# Try to import cairosvg, but make it optional
-# Catch any exception (ImportError, OSError, etc.) since cairosvg may fail
-# to load if the cairo library is not available
-try:
-    import cairosvg
-    CAIROSVG_AVAILABLE = True
-except (ImportError, OSError, Exception):
-    CAIROSVG_AVAILABLE = False
-    cairosvg = None
+# Inkscape is now the default and only method for SVG conversion
 
 # Define paths
 ROOT_DIR = Path(__file__).resolve().parent.parent
@@ -165,7 +157,7 @@ def preprocess_svg_for_inkscape(svg_path):
         print(f"Warning: Failed to preprocess SVG {svg_path}: {e}")
         return svg_path
 
-def needs_conversion(svg_path, output_file, use_inkscape=False, force=False):
+def needs_conversion(svg_path, output_file, use_inkscape=True, force=False):
     """Check if a file needs to be converted or overwritten."""
     if force:
         return True
@@ -173,21 +165,16 @@ def needs_conversion(svg_path, output_file, use_inkscape=False, force=False):
     if not output_file.exists():
         return True
     
-    if use_inkscape:
-        # For Inkscape, compare modification times
-        # If SVG is newer than PNG, it needs conversion
-        try:
-            svg_mtime = svg_path.stat().st_mtime
-            png_mtime = output_file.stat().st_mtime
-            return svg_mtime > png_mtime
-        except (OSError, FileNotFoundError):
-            return True
-    else:
-        # For cairosvg, we'll check hash after generating data
+    # Compare modification times - if SVG is newer than PNG, it needs conversion
+    try:
+        svg_mtime = svg_path.stat().st_mtime
+        png_mtime = output_file.stat().st_mtime
+        return svg_mtime > png_mtime
+    except (OSError, FileNotFoundError):
         return True
 
-def convert_svg_to_png(svg_path, png_path, use_inkscape=False, force=False):
-    """Convert SVG to PNG using cairosvg or Inkscape CLI."""
+def convert_svg_to_png(svg_path, png_path, use_inkscape=True, force=False):
+    """Convert SVG to PNG using Inkscape CLI."""
     global converted_pngs
     
     # Skip if not needed and not forced
@@ -195,54 +182,37 @@ def convert_svg_to_png(svg_path, png_path, use_inkscape=False, force=False):
         return True
     
     try:
-        if use_inkscape:
-            # Preprocess SVG to resolve CSS variables and fix dimension issues
-            processed_svg = preprocess_svg_for_inkscape(svg_path)
-            temp_svg_created = processed_svg != svg_path
+        # Preprocess SVG to resolve CSS variables and fix dimension issues
+        processed_svg = preprocess_svg_for_inkscape(svg_path)
+        temp_svg_created = processed_svg != svg_path
+        
+        try:
+            result = subprocess.run(
+                [
+                    'inkscape',
+                    '--export-type=png',
+                    f'--export-filename={png_path}',
+                    '--export-height=512',
+                    '--export-background-opacity=0',  # Transparent background
+                    str(processed_svg)
+                ],
+                capture_output=True,
+                text=True,
+                check=True
+            )
             
-            try:
-                result = subprocess.run(
-                    [
-                        'inkscape',
-                        '--export-type=png',
-                        f'--export-filename={png_path}',
-                        '--export-height=512',
-                        '--export-background-opacity=0',  # Transparent background
-                        str(processed_svg)
-                    ],
-                    capture_output=True,
-                    text=True,
-                    check=True
-                )
-                
-                if png_path.exists():
-                    file_size = png_path.stat().st_size
-                    with stats_lock:
-                        converted_pngs += 1
-                    print(f"Converted PNG (Inkscape): {png_path.name} ({file_size_readable(file_size)})")
-                    if file_size < 5000:
-                        print(f"  ⚠ Warning: PNG is very small ({file_size} bytes), might be transparent")
-            finally:
-                # Clean up temporary SVG file if created
-                if temp_svg_created and processed_svg.exists():
-                    processed_svg.unlink()
-        else:
-            if not CAIROSVG_AVAILABLE:
-                raise ImportError(
-                    "cairosvg is not available. Please install it with 'pip install cairosvg' "
-                    "or use --use-inkscape flag to use Inkscape CLI instead."
-                )
-            
-            png_data = cairosvg.svg2png(url=str(svg_path), output_height=512)
-
-            if force or needs_conversion(svg_path, png_path, use_inkscape, force):
-                with open(png_path, 'wb') as f:
-                    f.write(png_data)
+            if png_path.exists():
+                file_size = png_path.stat().st_size
                 with stats_lock:
                     converted_pngs += 1
-                print(f"Converted PNG: {png_path.name} ({file_size_readable(png_path.stat().st_size)})")
-            else:
-                print(f"PNG already up-to-date: {png_path.name}")
+                print(f"Converted PNG: {png_path.name} ({file_size_readable(file_size)})")
+                if file_size < 5000:
+                    print(f"  ⚠ Warning: PNG is very small ({file_size} bytes), might be transparent")
+        finally:
+            # Clean up temporary SVG file if created
+            if temp_svg_created and processed_svg.exists():
+                processed_svg.unlink()
+        
         return True
 
     except subprocess.CalledProcessError as e:
@@ -365,12 +335,12 @@ def get_all_variant_names(metadata):
     
     return all_names
 
-def process_single_icon(svg_path, png_path, webp_path, use_inkscape, force, icon_name=None):
+def process_single_icon(svg_path, png_path, webp_path, force, icon_name=None):
     """Process a single icon: convert SVG to PNG and PNG to WEBP."""
     icon_name = icon_name or svg_path.stem
     
-    # Convert SVG to PNG
-    png_success = convert_svg_to_png(svg_path, png_path, use_inkscape, force)
+    # Convert SVG to PNG using Inkscape
+    png_success = convert_svg_to_png(svg_path, png_path, use_inkscape=True, force=force)
     
     # Convert PNG to WEBP if PNG conversion succeeded
     if png_success and png_path.exists():
@@ -379,9 +349,7 @@ def process_single_icon(svg_path, png_path, webp_path, use_inkscape, force, icon
     return png_success
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='Convert SVG files to PNG and WEBP formats')
-    parser.add_argument('--use-inkscape', action='store_true', 
-                       help='Use Inkscape CLI instead of cairosvg for SVG to PNG conversion')
+    parser = argparse.ArgumentParser(description='Convert SVG files to PNG and WEBP formats using Inkscape')
     parser.add_argument('--force-retry', type=str, metavar='ICON_NAME',
                        help='Force retry conversion for a specific icon by name (without extension)')
     parser.add_argument('--threads', type=int, default=4,
@@ -390,7 +358,8 @@ if __name__ == "__main__":
                        help='Optional: Path to a single SVG file or URL to process')
     args = parser.parse_args()
 
-    use_inkscape = args.use_inkscape
+    # Inkscape is now the default and only method
+    use_inkscape = True
     single_file = args.file
     force_retry_icon = args.force_retry
     num_threads = args.threads
@@ -423,19 +392,13 @@ if __name__ == "__main__":
             force_retry_variants.add(force_retry_icon.lower())
             print(f"Force retry enabled for '{force_retry_icon}' (not found in metadata, using exact match)")
 
-    # Check if Inkscape is available when --use-inkscape is specified
-    if use_inkscape:
-        try:
-            subprocess.run(['inkscape', '--version'], capture_output=True, check=True)
-        except (subprocess.CalledProcessError, FileNotFoundError):
-            print("Error: Inkscape is not available. Please install Inkscape or use the default cairosvg method.")
-            print("On macOS, install with: brew install inkscape")
-            exit(1)
-    
-    # Warn if cairosvg is not available and not using Inkscape
-    if not use_inkscape and not CAIROSVG_AVAILABLE:
-        print("Warning: cairosvg is not available. Use --use-inkscape to use Inkscape CLI instead.")
-        print("Or install cairosvg dependencies. On macOS: brew install cairo")
+    # Check if Inkscape is available (required)
+    try:
+        subprocess.run(['inkscape', '--version'], capture_output=True, check=True)
+    except (subprocess.CalledProcessError, FileNotFoundError):
+        print("Error: Inkscape is required but not available.")
+        print("On macOS, install with: brew install inkscape")
+        print("On Ubuntu/Debian, install with: sudo apt-get install -y inkscape")
         exit(1)
 
     # Track valid basenames (from SVG and PNG files)
@@ -503,7 +466,7 @@ if __name__ == "__main__":
             force = force_retry_icon and (svg_path.stem.lower() in {v.lower() for v in force_retry_variants})
 
             # Convert SVG to PNG
-            convert_svg_to_png(svg_path, png_path, use_inkscape, force)
+            convert_svg_to_png(svg_path, png_path, use_inkscape=True, force=force)
 
             # Convert PNG to WEBP
             if png_path.exists():
@@ -585,7 +548,7 @@ if __name__ == "__main__":
         print(f"Processing with {num_threads} threads...")
         with ThreadPoolExecutor(max_workers=num_threads) as executor:
             futures = {
-                executor.submit(process_single_icon, svg_path, png_path, webp_path, use_inkscape, force, svg_path.stem): 
+                executor.submit(process_single_icon, svg_path, png_path, webp_path, force, svg_path.stem): 
                 (svg_path, png_path, webp_path) 
                 for svg_path, png_path, webp_path, force in tasks
             }
