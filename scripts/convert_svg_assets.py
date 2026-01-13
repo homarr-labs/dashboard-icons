@@ -5,6 +5,7 @@ import subprocess
 import argparse
 import tempfile
 import urllib.request
+import json
 from pathlib import Path
 from PIL import Image
 from concurrent.futures import ThreadPoolExecutor, as_completed
@@ -26,6 +27,7 @@ ROOT_DIR = Path(__file__).resolve().parent.parent
 SVG_DIR = ROOT_DIR / "svg"
 PNG_DIR = ROOT_DIR / "png"
 WEBP_DIR = ROOT_DIR / "webp"
+METADATA_FILE = ROOT_DIR / "metadata.json"
 
 # Ensure the output folders exist
 PNG_DIR.mkdir(parents=True, exist_ok=True)
@@ -96,24 +98,68 @@ def resolve_css_variables(svg_content):
     return resolved
 
 def preprocess_svg_for_inkscape(svg_path):
-    """Preprocess SVG to resolve CSS variables for Inkscape compatibility."""
+    """Preprocess SVG to resolve CSS variables and fix dimension issues for Inkscape compatibility."""
     try:
         with open(svg_path, 'r', encoding='utf-8') as f:
             svg_content = f.read()
         
+        needs_processing = False
+        processed_content = svg_content
+        
         # Check if SVG contains CSS variables
         if 'var(' in svg_content:
             # Resolve CSS variables
-            processed_content = resolve_css_variables(svg_content)
-            
-            # Create a temporary file with processed SVG
+            processed_content = resolve_css_variables(processed_content)
+            needs_processing = True
+        
+        # Fix relative units (1em, etc.) - replace with viewBox-based dimensions or remove
+        # Extract viewBox if present
+        viewbox_match = re.search(r'viewBox=["\']([^"\']+)["\']', processed_content)
+        if viewbox_match:
+            viewbox_values = viewbox_match.group(1).split()
+            if len(viewbox_values) >= 4:
+                width = viewbox_values[2]
+                height = viewbox_values[3]
+                
+                # Replace relative units in width/height attributes
+                # Pattern: width="1em" or width='1em' or width="100%" etc.
+                width_pattern = r'width=["\']([^"\']*em[^"\']*|100%)["\']'
+                height_pattern = r'height=["\']([^"\']*em[^"\']*|100%)["\']'
+                
+                if re.search(width_pattern, processed_content, re.IGNORECASE):
+                    processed_content = re.sub(width_pattern, f'width="{width}"', processed_content, flags=re.IGNORECASE)
+                    needs_processing = True
+                
+                if re.search(height_pattern, processed_content, re.IGNORECASE):
+                    processed_content = re.sub(height_pattern, f'height="{height}"', processed_content, flags=re.IGNORECASE)
+                    needs_processing = True
+        
+        # Remove problematic CSS properties that Inkscape doesn't understand
+        # Remove flex, line-height, etc. from style attributes
+        style_pattern = r'style=["\']([^"\']*)["\']'
+        def clean_style(match):
+            style_content = match.group(1)
+            # Remove flex, line-height, and other problematic properties
+            cleaned = re.sub(r'flex[^:;]*:[^;]+;?', '', style_content)
+            cleaned = re.sub(r'line-height[^:;]*:[^;]+;?', '', cleaned)
+            cleaned = re.sub(r';\s*;+', ';', cleaned)  # Remove double semicolons
+            cleaned = cleaned.strip('; ')
+            if cleaned:
+                return f'style="{cleaned}"'
+            return ''  # Remove style attribute if empty
+        
+        if re.search(style_pattern, processed_content):
+            processed_content = re.sub(style_pattern, clean_style, processed_content)
+            needs_processing = True
+        
+        # Create a temporary file with processed SVG if needed
+        if needs_processing:
             temp_svg = tempfile.NamedTemporaryFile(mode='w', suffix='.svg', delete=False, encoding='utf-8')
             temp_svg.write(processed_content)
             temp_svg.close()
-            
             return Path(temp_svg.name)
         
-        # No CSS variables, return original path
+        # No processing needed, return original path
         return svg_path
     except Exception as e:
         print(f"Warning: Failed to preprocess SVG {svg_path}: {e}")
@@ -150,7 +196,7 @@ def convert_svg_to_png(svg_path, png_path, use_inkscape=False, force=False):
     
     try:
         if use_inkscape:
-            # Preprocess SVG to resolve CSS variables
+            # Preprocess SVG to resolve CSS variables and fix dimension issues
             processed_svg = preprocess_svg_for_inkscape(svg_path)
             temp_svg_created = processed_svg != svg_path
             
@@ -161,6 +207,7 @@ def convert_svg_to_png(svg_path, png_path, use_inkscape=False, force=False):
                         '--export-type=png',
                         f'--export-filename={png_path}',
                         '--export-height=512',
+                        '--export-background-opacity=0',  # Transparent background
                         str(processed_svg)
                     ],
                     capture_output=True,
@@ -169,9 +216,12 @@ def convert_svg_to_png(svg_path, png_path, use_inkscape=False, force=False):
                 )
                 
                 if png_path.exists():
+                    file_size = png_path.stat().st_size
                     with stats_lock:
                         converted_pngs += 1
-                    print(f"Converted PNG (Inkscape): {png_path.name} ({file_size_readable(png_path.stat().st_size)})")
+                    print(f"Converted PNG (Inkscape): {png_path.name} ({file_size_readable(file_size)})")
+                    if file_size < 5000:
+                        print(f"  ⚠ Warning: PNG is very small ({file_size} bytes), might be transparent")
             finally:
                 # Clean up temporary SVG file if created
                 if temp_svg_created and processed_svg.exists():
@@ -251,6 +301,70 @@ def download_file(url, output_path):
     urllib.request.urlretrieve(url, output_path)
     return output_path
 
+def load_metadata():
+    """Load metadata.json and return a dictionary of icon data."""
+    try:
+        if METADATA_FILE.exists():
+            with open(METADATA_FILE, 'r', encoding='utf-8') as f:
+                return json.load(f)
+    except Exception as e:
+        print(f"Warning: Could not load metadata.json: {e}")
+    return {}
+
+def get_all_icon_variants(metadata):
+    """Extract all variant names for each icon from metadata."""
+    variants_by_icon = {}
+    
+    for icon_name, icon_data in metadata.items():
+        if icon_name in EXCLUDED_FILES:
+            continue
+            
+        variants = [icon_name]  # Always include base icon name
+        
+        # Add color variants
+        if 'colors' in icon_data:
+            if 'light' in icon_data['colors']:
+                variants.append(icon_data['colors']['light'])
+            if 'dark' in icon_data['colors']:
+                variants.append(icon_data['colors']['dark'])
+        
+        # Add wordmark variants
+        if 'wordmark' in icon_data:
+            if 'light' in icon_data['wordmark']:
+                variants.append(icon_data['wordmark']['light'])
+            if 'dark' in icon_data['wordmark']:
+                variants.append(icon_data['wordmark']['dark'])
+        
+        variants_by_icon[icon_name] = variants
+    
+    return variants_by_icon
+
+def get_all_variant_names(metadata):
+    """Get a set of all variant names (base + all variants) from metadata."""
+    all_names = set()
+    
+    for icon_name, icon_data in metadata.items():
+        if icon_name in EXCLUDED_FILES:
+            continue
+            
+        all_names.add(icon_name)  # Base icon
+        
+        # Add color variants
+        if 'colors' in icon_data and isinstance(icon_data['colors'], dict):
+            if 'light' in icon_data['colors']:
+                all_names.add(icon_data['colors']['light'])
+            if 'dark' in icon_data['colors']:
+                all_names.add(icon_data['colors']['dark'])
+        
+        # Add wordmark variants
+        if 'wordmark' in icon_data and isinstance(icon_data['wordmark'], dict):
+            if 'light' in icon_data['wordmark']:
+                all_names.add(icon_data['wordmark']['light'])
+            if 'dark' in icon_data['wordmark']:
+                all_names.add(icon_data['wordmark']['dark'])
+    
+    return all_names
+
 def process_single_icon(svg_path, png_path, webp_path, use_inkscape, force, icon_name=None):
     """Process a single icon: convert SVG to PNG and PNG to WEBP."""
     icon_name = icon_name or svg_path.stem
@@ -280,6 +394,34 @@ if __name__ == "__main__":
     single_file = args.file
     force_retry_icon = args.force_retry
     num_threads = args.threads
+    
+    # If force-retry is specified, get all variants for that icon from metadata
+    force_retry_variants = set()
+    if force_retry_icon:
+        metadata = load_metadata()
+        if metadata and force_retry_icon in metadata:
+            icon_data = metadata[force_retry_icon]
+            force_retry_variants.add(force_retry_icon)  # Base icon
+            
+            # Add color variants
+            if 'colors' in icon_data and isinstance(icon_data['colors'], dict):
+                if 'light' in icon_data['colors']:
+                    force_retry_variants.add(icon_data['colors']['light'])
+                if 'dark' in icon_data['colors']:
+                    force_retry_variants.add(icon_data['colors']['dark'])
+            
+            # Add wordmark variants
+            if 'wordmark' in icon_data and isinstance(icon_data['wordmark'], dict):
+                if 'light' in icon_data['wordmark']:
+                    force_retry_variants.add(icon_data['wordmark']['light'])
+                if 'dark' in icon_data['wordmark']:
+                    force_retry_variants.add(icon_data['wordmark']['dark'])
+            
+            print(f"Force retry enabled for icon '{force_retry_icon}' and its {len(force_retry_variants) - 1} variants: {', '.join(sorted(force_retry_variants))}")
+        else:
+            # If not found in metadata, just use the exact name
+            force_retry_variants.add(force_retry_icon.lower())
+            print(f"Force retry enabled for '{force_retry_icon}' (not found in metadata, using exact match)")
 
     # Check if Inkscape is available when --use-inkscape is specified
     if use_inkscape:
@@ -357,8 +499,8 @@ if __name__ == "__main__":
             png_path = PNG_DIR / f"{svg_path.stem}.png"
             webp_path = WEBP_DIR / f"{svg_path.stem}.webp"
 
-            # Check if this is the icon to force retry
-            force = force_retry_icon and (force_retry_icon.lower() == svg_path.stem.lower())
+            # Check if this is the icon to force retry (or any of its variants)
+            force = force_retry_icon and (svg_path.stem.lower() in {v.lower() for v in force_retry_variants})
 
             # Convert SVG to PNG
             convert_svg_to_png(svg_path, png_path, use_inkscape, force)
@@ -385,15 +527,40 @@ if __name__ == "__main__":
                 Path(temp_file.name).unlink()
             exit(1)
     else:
-        # Collect all SVG files first for faster startup
+        # Load metadata to get all icon variants
+        print("Loading metadata...")
+        metadata = load_metadata()
+        
+        if metadata:
+            all_variant_names = get_all_variant_names(metadata)
+            print(f"Found {len(all_variant_names)} icon variants in metadata")
+        else:
+            print("Warning: metadata.json not found, processing all SVG files")
+            all_variant_names = None
+        
+        # Collect all SVG files
         print("Scanning SVG files...")
-        svg_files = [f for f in SVG_DIR.glob("*.svg") if f.stem not in EXCLUDED_FILES]
-        total_icons = len(svg_files)
-        print(f"Found {total_icons} SVG files to process")
+        all_svg_files = {f.stem: f for f in SVG_DIR.glob("*.svg") if f.stem not in EXCLUDED_FILES}
+        
+        # Process variants from metadata if available, otherwise process all SVGs
+        if all_variant_names:
+            variant_svgs = {}
+            for variant_name in all_variant_names:
+                if variant_name in all_svg_files:
+                    variant_svgs[variant_name] = all_svg_files[variant_name]
+                else:
+                    # Variant listed in metadata but SVG doesn't exist - skip silently
+                    pass
+        else:
+            # Fallback: process all SVG files
+            variant_svgs = all_svg_files
+        
+        total_icons = len(variant_svgs)
+        print(f"Processing {total_icons} icon variants")
         
         # Prepare tasks
         tasks = []
-        for svg_file in svg_files:
+        for variant_name, svg_file in variant_svgs.items():
             # Ensure the filename is in kebab-case
             try:
                 svg_path = rename_if_needed(svg_file)
@@ -409,8 +576,8 @@ if __name__ == "__main__":
             png_path = PNG_DIR / f"{svg_path.stem}.png"
             webp_path = WEBP_DIR / f"{svg_path.stem}.webp"
             
-            # Check if this is the icon to force retry
-            force = force_retry_icon and (force_retry_icon.lower() == svg_path.stem.lower())
+            # Check if this is the icon to force retry (or any of its variants)
+            force = force_retry_icon and (svg_path.stem.lower() in {v.lower() for v in force_retry_variants})
             
             tasks.append((svg_path, png_path, webp_path, force))
         
@@ -455,8 +622,8 @@ if __name__ == "__main__":
             # Set path for WEBP
             webp_path = WEBP_DIR / f"{png_path.stem}.webp"
             
-            # Check if this is the icon to force retry
-            force = force_retry_icon and (force_retry_icon.lower() == png_path.stem.lower())
+            # Check if this is the icon to force retry (or any of its variants)
+            force = force_retry_icon and (png_path.stem.lower() in {v.lower() for v in force_retry_variants})
             
             png_only_tasks.append((png_path, webp_path, force))
     
@@ -480,10 +647,19 @@ if __name__ == "__main__":
                         failed_files.append(png_path)
 
     # Clean up unused files in PNG and WEBP directories
-    # Include all SVG stems (except excluded) in valid basenames for cleanup
-    all_svg_stems = {p.stem for p in SVG_DIR.glob("*.svg") if p.stem not in EXCLUDED_FILES}
-    removed_pngs = clean_up_files(PNG_DIR, valid_basenames.union(all_svg_stems))
-    removed_webps = clean_up_files(WEBP_DIR, valid_basenames.union(all_svg_stems))
+    # Use metadata variants for cleanup if available
+    metadata = load_metadata()
+    if metadata:
+        all_variant_names = get_all_variant_names(metadata)
+        # Include all variant names from metadata in valid basenames
+        valid_basenames = valid_basenames.union(all_variant_names)
+    else:
+        # Fallback: use all SVG stems if metadata not available
+        all_svg_stems = {p.stem for p in SVG_DIR.glob("*.svg") if p.stem not in EXCLUDED_FILES}
+        valid_basenames = valid_basenames.union(all_svg_stems)
+    
+    removed_pngs = clean_up_files(PNG_DIR, valid_basenames)
+    removed_webps = clean_up_files(WEBP_DIR, valid_basenames)
 
     # Display summary
     if converted_pngs == 0 and converted_webps == 0 and removed_pngs == 0 and removed_webps == 0:
