@@ -6,9 +6,9 @@ export function Carbon() {
 	const [isDismissed, setIsDismissed] = useState(false)
 	const ref = useRef<HTMLDivElement>(null!)
 
-	// if (process.env.NODE_ENV === "development") {
-	// 	return null
-	// }
+	if (process.env.NODE_ENV === "development") {
+		return null
+	}
 
 	useEffect(() => {
 		// Check for cookie
