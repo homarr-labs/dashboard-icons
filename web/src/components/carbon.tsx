@@ -1,21 +1,72 @@
 // biome-ignore-all lint: reason: I don't want to fix this
-import { useEffect, useRef } from "react"
+import { useEffect, useRef, useState } from "react"
+
 export function Carbon() {
-	if (process.env.NODE_ENV === "development") {
-		return null
-	}
+	const [isBlocked, setIsBlocked] = useState(false)
+	const [isDismissed, setIsDismissed] = useState(false)
+	const ref = useRef<HTMLDivElement>(null!)
+
+	// if (process.env.NODE_ENV === "development") {
+	// 	return null
+	// }
 
 	useEffect(() => {
+		// Check for cookie
+		const isDismissedCookie = document.cookie
+			.split("; ")
+			.find((row) => row.startsWith("carbon-ads-dismissed="))
+			?.split("=")[1]
+
+		if (isDismissedCookie === "true") {
+			setIsDismissed(true)
+		}
+
 		const serve = "CW7IKKQM"
 		const placement = "dashboardiconscom"
-		ref.current.innerHTML = ""
-		const s = document.createElement("script")
-		s.id = "_carbonads_js"
-		s.src = `//cdn.carbonads.com/carbon.js?serve=${serve}&placement=${placement}`
-		ref.current.appendChild(s)
+
+		if (ref.current) {
+			ref.current.innerHTML = ""
+			const s = document.createElement("script")
+			s.id = "_carbonads_js"
+			s.src = `//cdn.carbonads.com/carbon.js?serve=${serve}&placement=${placement}`
+			s.onerror = () => {
+				setIsBlocked(true)
+			}
+			ref.current.appendChild(s)
+
+			const timeout = setTimeout(() => {
+				const ads = ref.current?.querySelector("#carbonads")
+				if (!ads) {
+					setIsBlocked(true)
+				}
+			}, 3000)
+
+			return () => clearTimeout(timeout)
+		}
 	}, [])
 
-	const ref = useRef<HTMLDivElement>(null!)
+	const handleDismiss = () => {
+		setIsDismissed(true)
+		// Set cookie for 7 days
+		const date = new Date()
+		date.setTime(date.getTime() + 7 * 24 * 60 * 60 * 1000)
+		document.cookie = `carbon-ads-dismissed=true; expires=${date.toUTCString()}; path=/`
+	}
+
+	if (isBlocked && !isDismissed) {
+		return (
+			<div className="flex flex-col items-center justify-center gap-2">
+				<img loading="lazy" src="/ad-blocker.webp" height={500} width={300} alt="Anti ad-blocker ad" />
+				<button
+					type="button"
+					onClick={handleDismiss}
+					className="text-xs text-muted-foreground hover:text-foreground underline transition-colors cursor-pointer"
+				>
+					Dismiss this message
+				</button>
+			</div>
+		)
+	}
 
 	return (
 		<>
