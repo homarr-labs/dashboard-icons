@@ -50,7 +50,7 @@ export function Carbon() {
 		// Set cookie for 7 days
 		const date = new Date()
 		date.setTime(date.getTime() + 7 * 24 * 60 * 60 * 1000)
-		document.cookie = `carbon-ads-dismissed=true; expires=${date.toUTCString()}; path=/`
+		document.cookie = `carbon-ads-dismissed=true; expires=${date.toUTCString()}; path=/; SameSite=Lax`
 	}
 
 	if (isBlocked && !isDismissed) {
