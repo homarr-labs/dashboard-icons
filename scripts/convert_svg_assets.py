@@ -164,7 +164,7 @@ def needs_conversion(svg_path, output_file, use_inkscape=True, force=False):
     
     if not output_file.exists():
         return True
-    
+
     # Compare modification times - if SVG is newer than PNG, it needs conversion
     try:
         svg_mtime = svg_path.stat().st_mtime
@@ -518,6 +518,26 @@ if __name__ == "__main__":
             # Fallback: process all SVG files
             variant_svgs = all_svg_files
         
+        # If force-retry is specified, ONLY process those specific icons
+        if force_retry_icon and force_retry_variants:
+            filtered_svgs = {}
+            for variant_name in force_retry_variants:
+                if variant_name in variant_svgs:
+                    filtered_svgs[variant_name] = variant_svgs[variant_name]
+                elif variant_name.lower() in {k.lower(): k for k in variant_svgs}:
+                    # Case-insensitive match
+                    for k, v in variant_svgs.items():
+                        if k.lower() == variant_name.lower():
+                            filtered_svgs[k] = v
+                            break
+            
+            if not filtered_svgs:
+                print(f"Warning: No SVG files found for '{force_retry_icon}' or its variants")
+                print(f"Searched for: {', '.join(sorted(force_retry_variants))}")
+            else:
+                variant_svgs = filtered_svgs
+                print(f"Processing only {len(variant_svgs)} files for '{force_retry_icon}': {', '.join(sorted(variant_svgs.keys()))}")
+        
         total_icons = len(variant_svgs)
         print(f"Processing {total_icons} icon variants")
         
@@ -538,12 +558,12 @@ if __name__ == "__main__":
             # Set paths for PNG and WEBP
             png_path = PNG_DIR / f"{svg_path.stem}.png"
             webp_path = WEBP_DIR / f"{svg_path.stem}.webp"
-            
+
             # Check if this is the icon to force retry (or any of its variants)
             force = force_retry_icon and (svg_path.stem.lower() in {v.lower() for v in force_retry_variants})
             
             tasks.append((svg_path, png_path, webp_path, force))
-        
+
         # Process in parallel
         print(f"Processing with {num_threads} threads...")
         with ThreadPoolExecutor(max_workers=num_threads) as executor:
@@ -563,10 +583,15 @@ if __name__ == "__main__":
                     with stats_lock:
                         failed_files.append(svg_path)
 
-    # Process PNG-only files
+    # Process PNG-only files (skip if force-retry is specified for a different icon)
     png_only_tasks = []
     for png_file in PNG_DIR.glob("*.png"):
         if png_file.stem not in valid_basenames:
+            # If force-retry is specified, skip PNG-only files not in the variants list
+            if force_retry_icon and force_retry_variants:
+                if png_file.stem.lower() not in {v.lower() for v in force_retry_variants}:
+                    continue
+            
             # Ensure the filename is in kebab-case
             try:
                 png_path = rename_if_needed(png_file)
@@ -584,7 +609,7 @@ if __name__ == "__main__":
 
             # Set path for WEBP
             webp_path = WEBP_DIR / f"{png_path.stem}.webp"
-            
+
             # Check if this is the icon to force retry (or any of its variants)
             force = force_retry_icon and (png_path.stem.lower() in {v.lower() for v in force_retry_variants})
             
@@ -610,19 +635,23 @@ if __name__ == "__main__":
                         failed_files.append(png_path)
 
     # Clean up unused files in PNG and WEBP directories
-    # Use metadata variants for cleanup if available
-    metadata = load_metadata()
-    if metadata:
-        all_variant_names = get_all_variant_names(metadata)
-        # Include all variant names from metadata in valid basenames
-        valid_basenames = valid_basenames.union(all_variant_names)
-    else:
-        # Fallback: use all SVG stems if metadata not available
-        all_svg_stems = {p.stem for p in SVG_DIR.glob("*.svg") if p.stem not in EXCLUDED_FILES}
-        valid_basenames = valid_basenames.union(all_svg_stems)
-    
-    removed_pngs = clean_up_files(PNG_DIR, valid_basenames)
-    removed_webps = clean_up_files(WEBP_DIR, valid_basenames)
+    # Skip cleanup when force-retry is specified (we're only targeting specific icons)
+    removed_pngs = 0
+    removed_webps = 0
+    if not force_retry_icon:
+        # Use metadata variants for cleanup if available
+        metadata = load_metadata()
+        if metadata:
+            all_variant_names = get_all_variant_names(metadata)
+            # Include all variant names from metadata in valid basenames
+            valid_basenames = valid_basenames.union(all_variant_names)
+        else:
+            # Fallback: use all SVG stems if metadata not available
+            all_svg_stems = {p.stem for p in SVG_DIR.glob("*.svg") if p.stem not in EXCLUDED_FILES}
+            valid_basenames = valid_basenames.union(all_svg_stems)
+        
+        removed_pngs = clean_up_files(PNG_DIR, valid_basenames)
+        removed_webps = clean_up_files(WEBP_DIR, valid_basenames)
 
     # Display summary
     if converted_pngs == 0 and converted_webps == 0 and removed_pngs == 0 and removed_webps == 0:
