@@ -19155,20 +19155,28 @@
     },
     "opencode": {
         "base": "svg",
-        "aliases": [],
+        "aliases": [
+            "open code"
+        ],
         "categories": [
-            "Development"
+            "tools",
+            "development",
+            "utility"
         ],
         "update": {
-            "timestamp": "2025-09-06T18:30:18.556348",
+            "timestamp": "2026-01-17T22:14:30.988Z",
             "author": {
-                "id": 11842502,
-                "login": "ZainW"
+                "id": 690217,
+                "login": "tomups"
             }
         },
         "colors": {
-            "light": "opencode",
+            "light": "opencode-light",
             "dark": "opencode-dark"
+        },
+        "wordmark": {
+            "light": "opencode-wordmark-light",
+            "dark": "opencode-wordmark-dark"
         }
     },
     "nextcloud-white": {
