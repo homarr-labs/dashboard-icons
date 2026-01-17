@@ -29712,19 +29712,27 @@
         }
     },
     "perplexity": {
-        "base": "svg",
+        "base": "png",
         "aliases": [],
-        "categories": [],
+        "categories": [
+            "cloud",
+            "tools",
+            "utility"
+        ],
         "update": {
-            "timestamp": "2025-02-07T08:49:00Z",
+            "timestamp": "2026-01-17T22:42:03.357Z",
             "author": {
-                "id": 120187197,
-                "name": "janmile"
+                "id": "exekrnseogirbfd",
+                "name": "kylefox"
             }
         },
         "colors": {
-            "dark": "perplexity-dark",
-            "light": "perplexity-light"
+            "light": "perplexity-light",
+            "dark": "perplexity-dark"
+        },
+        "wordmark": {
+            "light": "perplexity-wordmark-light",
+            "dark": "perplexity-wordmark-dark"
         }
     },
     "yarn-social": {
