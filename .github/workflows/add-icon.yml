@@ -92,6 +92,7 @@ jobs:
         if: ${{ !inputs.dryRun }}
         run: |
           if [ "$(git rev-list --count HEAD ^origin/main)" -gt 0 ]; then
+            git pull --rebase
             git push
           else
             echo "No commits to push"

@@ -215,6 +215,30 @@ export function SubmissionsDataTable({
 				},
 			},
 			{
+				accessorKey: "assets",
+				header: "Preview",
+				cell: ({ row }) => {
+					const assets = row.getValue("assets") as string[]
+					const name = row.getValue("name") as string
+					if (assets.length > 0) {
+						return (
+							<div className="w-12 h-12 rounded border flex items-center justify-center bg-background p-2">
+								<img
+									src={`${pb.baseURL}/api/files/submissions/${row.original.id}/${assets[0]}?thumb=100x100` || "/placeholder.svg"}
+									alt={name}
+									className="w-full h-full object-contain"
+								/>
+							</div>
+						)
+					}
+					return (
+						<div className="w-12 h-12 rounded border flex items-center justify-center bg-muted">
+							<ImageIcon className="w-6 h-6 text-muted-foreground" />
+						</div>
+					)
+				},
+			},
+			{
 				accessorKey: "name",
 				header: ({ column }) => {
 					return (
@@ -306,30 +330,6 @@ export function SubmissionsDataTable({
 					return (
 						<div className="text-sm text-muted-foreground" title={dayjs(date).format("MMMM D, YYYY h:mm A")}>
 							{dayjs(date).fromNow()}
-						</div>
-					)
-				},
-			},
-			{
-				accessorKey: "assets",
-				header: "Preview",
-				cell: ({ row }) => {
-					const assets = row.getValue("assets") as string[]
-					const name = row.getValue("name") as string
-					if (assets.length > 0) {
-						return (
-							<div className="w-12 h-12 rounded border flex items-center justify-center bg-background p-2">
-								<img
-									src={`${pb.baseUrl}/api/files/submissions/${row.original.id}/${assets[0]}?thumb=100x100` || "/placeholder.svg"}
-									alt={name}
-									className="w-full h-full object-contain"
-								/>
-							</div>
-						)
-					}
-					return (
-						<div className="w-12 h-12 rounded border flex items-center justify-center bg-muted">
-							<ImageIcon className="w-6 h-6 text-muted-foreground" />
 						</div>
 					)
 				},
