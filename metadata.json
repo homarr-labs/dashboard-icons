@@ -28402,15 +28402,15 @@
         "aliases": [],
         "categories": [],
         "update": {
-            "timestamp": "2024-10-20T18:15:41Z",
+            "timestamp": "2026-01-17T22:29:03.148Z",
             "author": {
-                "id": 71191962,
-                "name": "walkxcode"
+                "id": "5o7q58fw0yf76z0",
+                "name": "Skyearli"
             }
         },
         "colors": {
-            "dark": "claude-ai",
-            "light": "claude-ai-light"
+            "light": "claude-ai-light",
+            "dark": "claude-ai-dark"
         }
     },
     "flightradar24": {
