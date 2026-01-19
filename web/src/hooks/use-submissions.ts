@@ -111,13 +111,31 @@ export function useRejectSubmission() {
 	})
 }
 
+// Type for icon name options with source and status info
+export type IconNameOption = {
+	label: string
+	value: string
+	source: "collection" | "community"
+	status?: "pending" | "approved" | "rejected" | "added_to_collection"
+	isOwner?: boolean
+	submissionId?: string
+	createdBy?: string
+}
+
 // Fetch existing icon names for the combobox + the metadata.json file
 export function useExistingIconNames() {
+	const currentUserId = pb.authStore.record?.id
+
 	return useQuery({
-		queryKey: ["existing-icon-names"],
+		queryKey: ["existing-icon-names", currentUserId],
 		queryFn: async () => {
-			const records = await pb.collection("community_gallery").getFullList({
-				fields: "name",
+			const records = await pb.collection("community_gallery").getFullList<{
+				id: string
+				name: string
+				status: "pending" | "approved" | "rejected" | "added_to_collection"
+				created_by: string
+			}>({
+				fields: "id,name,status,created_by",
 				sort: "name",
 				requestKey: null,
 			})
@@ -125,16 +143,59 @@ export function useExistingIconNames() {
 			const metadata = await getAllIcons()
 			const metadataNames = Object.keys(metadata)
 
-			const uniqueRecordsNames = Array.from(new Set(records.map((r) => r.name)))
-			const uniqueMetadataNames = Array.from(new Set(metadataNames.map((n) => n)))
-			const uniqueNames = Array.from(new Set(uniqueRecordsNames.concat(uniqueMetadataNames)))
-			return uniqueNames.map((name) => ({
-				label: name,
-				value: name,
-			}))
+			const result: IconNameOption[] = []
+			const seenNames = new Set<string>()
+
+			for (const record of records) {
+				if (!seenNames.has(record.name)) {
+					seenNames.add(record.name)
+					result.push({
+						label: record.name,
+						value: record.name,
+						source: "community",
+						status: record.status,
+						isOwner: currentUserId ? record.created_by === currentUserId : false,
+						submissionId: record.id,
+						createdBy: record.created_by,
+					})
+				}
+			}
+
+			for (const name of metadataNames) {
+				if (!seenNames.has(name)) {
+					seenNames.add(name)
+					result.push({
+						label: name,
+						value: name,
+						source: "collection",
+					})
+				}
+			}
+
+			return result.sort((a, b) => a.label.localeCompare(b.label))
 		},
 		staleTime: 5 * 60 * 1000, // 5 minutes
 		retry: false,
+	})
+}
+
+// Fetch a single submission by name
+export function useSubmissionByName(name: string) {
+	return useQuery({
+		queryKey: ["submission-by-name", name],
+		queryFn: async () => {
+			try {
+				const record = await pb.collection("submissions").getFirstListItem<Submission>(`name="${name}"`, {
+					requestKey: null,
+				})
+				return record
+			} catch {
+				return null
+			}
+		},
+		enabled: !!name && name.length > 0,
+		retry: false,
+		staleTime: 30 * 1000, // 30 seconds
 	})
 }
 
