@@ -1,12 +1,12 @@
 "use client"
 
-import { AlertCircle, CheckCircle2, Clock, Library, Users, XCircle } from "lucide-react"
+import { AlertCircle } from "lucide-react"
 import { useEffect, useMemo, useState } from "react"
-import { Badge } from "@/components/ui/badge"
 import { Command, CommandEmpty, CommandGroup, CommandItem, CommandList } from "@/components/ui/command"
 import { Input } from "@/components/ui/input"
 import { type IconNameOption, useExistingIconNames } from "@/hooks/use-submissions"
 import { cn } from "@/lib/utils"
+import { StatusBadge } from "@/components/status-badge"
 
 interface IconNameComboboxProps {
 	value: string
@@ -14,55 +14,6 @@ interface IconNameComboboxProps {
 	onIconSelected?: (icon: IconNameOption | null) => void
 	error?: string
 	isInvalid?: boolean
-}
-
-const getStatusBadge = (icon: IconNameOption) => {
-	if (icon.source === "collection") {
-		return (
-			<Badge variant="outline" className="ml-2 text-xs bg-green-500/10 text-green-600 border-green-500/20">
-				<Library className="h-3 w-3 mr-1" />
-				Collection
-			</Badge>
-		)
-	}
-
-	switch (icon.status) {
-		case "pending":
-			return (
-				<Badge variant="outline" className="ml-2 text-xs bg-yellow-500/10 text-yellow-600 border-yellow-500/20">
-					<Clock className="h-3 w-3 mr-1" />
-					Pending
-				</Badge>
-			)
-		case "approved":
-			return (
-				<Badge variant="outline" className="ml-2 text-xs bg-blue-500/10 text-blue-600 border-blue-500/20">
-					<CheckCircle2 className="h-3 w-3 mr-1" />
-					Approved
-				</Badge>
-			)
-		case "rejected":
-			return (
-				<Badge variant="outline" className="ml-2 text-xs bg-red-500/10 text-red-600 border-red-500/20">
-					<XCircle className="h-3 w-3 mr-1" />
-					Rejected
-				</Badge>
-			)
-		case "added_to_collection":
-			return (
-				<Badge variant="outline" className="ml-2 text-xs bg-green-500/10 text-green-600 border-green-500/20">
-					<Library className="h-3 w-3 mr-1" />
-					In Collection
-				</Badge>
-			)
-		default:
-			return (
-				<Badge variant="outline" className="ml-2 text-xs bg-gray-500/10 text-gray-600 border-gray-500/20">
-					<Users className="h-3 w-3 mr-1" />
-					Community
-				</Badge>
-			)
-	}
 }
 
 export function IconNameCombobox({ value, onValueChange, onIconSelected, error, isInvalid }: IconNameComboboxProps) {
@@ -146,7 +97,7 @@ export function IconNameCombobox({ value, onValueChange, onIconSelected, error, 
 									>
 										<div className="flex items-center">
 											<span className="font-mono text-sm">{icon.label}</span>
-											{getStatusBadge(icon)}
+											<StatusBadge icon={icon} showCollectionStatus className="ml-2" />
 										</div>
 										{icon.isOwner && icon.status === "rejected" && (
 											<span className="text-xs text-muted-foreground">Your submission</span>

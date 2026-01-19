@@ -26,6 +26,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { UserDisplay } from "@/components/user-display"
 import { pb, type Submission } from "@/lib/pb"
 import { cn } from "@/lib/utils"
+import { StatusBadge, getStatusColor, getStatusDisplayName } from "@/components/status-badge"
 
 // Initialize dayjs relative time plugin
 dayjs.extend(relativeTime)
@@ -76,36 +77,6 @@ const groupAndSortSubmissions = (submissions: Submission[]): Submission[] => {
 		// Within same status, sort by updated time (most recent first)
 		return new Date(b.updated).getTime() - new Date(a.updated).getTime()
 	})
-}
-
-const getStatusColor = (status: Submission["status"]) => {
-	switch (status) {
-		case "approved":
-			return "bg-blue-500/10 text-blue-400 font-bold border-blue-500/20"
-		case "rejected":
-			return "bg-red-500/10 text-red-500 border-red-500/20"
-		case "pending":
-			return "bg-yellow-500/10 text-yellow-500 border-yellow-500/20"
-		case "added_to_collection":
-			return "bg-green-500/10 text-green-500 border-green-500/20"
-		default:
-			return "bg-gray-500/10 text-gray-500 border-gray-500/20"
-	}
-}
-
-const getStatusDisplayName = (status: Submission["status"]) => {
-	switch (status) {
-		case "pending":
-			return "Pending"
-		case "approved":
-			return "Approved"
-		case "rejected":
-			return "Rejected"
-		case "added_to_collection":
-			return "Added to Collection"
-		default:
-			return status
-	}
 }
 
 export function SubmissionsDataTable({
@@ -271,9 +242,7 @@ export function SubmissionsDataTable({
 				cell: ({ row }) => {
 					const status = row.getValue("status") as Submission["status"]
 					return (
-						<Badge variant="outline" className={getStatusColor(status)}>
-							{getStatusDisplayName(status)}
-						</Badge>
+						<StatusBadge status={status} showIcon={false} showCollectionStatus />
 					)
 				},
 			},

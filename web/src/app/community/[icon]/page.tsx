@@ -4,6 +4,7 @@ import { IconDetails } from "@/components/icon-details"
 import { BASE_URL, WEB_URL } from "@/constants"
 import { getAllIcons, getAuthorData } from "@/lib/api"
 import { getCommunityGalleryRecord, getCommunitySubmissionByName, getCommunitySubmissions } from "@/lib/community"
+import { getStatusDisplayName, getStatusColor } from "@/components/status-badge"
 
 function isIconAddedToCollection(
 	record: Awaited<ReturnType<typeof getCommunityGalleryRecord>>,
@@ -207,36 +208,6 @@ export default async function CommunityIconPage({ params }: { params: Promise<{ 
 
 	const status = record?.status || "pending"
 	const rejectionReason = status === "rejected" ? record?.admin_comment : null
-
-	const getStatusDisplayName = (status: string) => {
-		switch (status) {
-			case "pending":
-				return "Awaiting Review"
-			case "approved":
-				return "Approved"
-			case "rejected":
-				return "Rejected"
-			case "added_to_collection":
-				return "Added to Collection"
-			default:
-				return "Awaiting Review"
-		}
-	}
-
-	const getStatusColor = (status: string) => {
-		switch (status) {
-			case "approved":
-				return "bg-blue-500/10 text-blue-400 font-bold border-blue-500/20"
-			case "rejected":
-				return "bg-red-500/10 text-red-500 border-red-500/20"
-			case "pending":
-				return "bg-yellow-500/10 text-yellow-500 border-yellow-500/20"
-			case "added_to_collection":
-				return "bg-green-500/10 text-green-500 border-green-500/20"
-			default:
-				return "bg-gray-500/10 text-gray-500 border-gray-500/20"
-		}
-	}
 
 	const statusDisplayName = getStatusDisplayName(status)
 	const statusColor = getStatusColor(status)

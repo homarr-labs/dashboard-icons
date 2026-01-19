@@ -1,59 +1,21 @@
 "use client"
 
-import { CheckCircle2, Clock, Info, Library, Tag, Users, XCircle } from "lucide-react"
+import { Info, Library, Tag, Users } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { useCallback, useEffect, useMemo, useState } from "react"
 import { Badge } from "@/components/ui/badge"
 import { CommandDialog, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command"
 import { useMediaQuery } from "@/hooks/use-media-query"
-import { type IconNameOption, useExistingIconNames } from "@/hooks/use-submissions"
+import { useExistingIconNames } from "@/hooks/use-submissions"
 import { filterAndSortIcons, formatIconName } from "@/lib/utils"
 import type { IconWithName } from "@/types/icons"
+import { StatusBadge } from "@/components/status-badge"
 
 interface CommandMenuProps {
 	icons: IconWithName[]
 	triggerButtonId?: string
 	open?: boolean
 	onOpenChange?: (open: boolean) => void
-}
-
-const getStatusBadge = (icon: IconNameOption) => {
-	if (icon.source === "collection") {
-		return null
-	}
-
-	switch (icon.status) {
-		case "pending":
-			return (
-				<Badge variant="outline" className="text-xs bg-yellow-500/10 text-yellow-600 border-yellow-500/20">
-					<Clock className="h-3 w-3 mr-1" />
-					Pending
-				</Badge>
-			)
-		case "approved":
-			return (
-				<Badge variant="outline" className="text-xs bg-blue-500/10 text-blue-600 border-blue-500/20">
-					<CheckCircle2 className="h-3 w-3 mr-1" />
-					Approved
-				</Badge>
-			)
-		case "rejected":
-			return (
-				<Badge variant="outline" className="text-xs bg-red-500/10 text-red-600 border-red-500/20">
-					<XCircle className="h-3 w-3 mr-1" />
-					Rejected
-				</Badge>
-			)
-		case "added_to_collection":
-			return null
-		default:
-			return (
-				<Badge variant="outline" className="text-xs bg-gray-500/10 text-gray-600 border-gray-500/20">
-					<Users className="h-3 w-3 mr-1" />
-					Community
-				</Badge>
-			)
-	}
 }
 
 export function CommandMenu({ icons, open: externalOpen, onOpenChange: externalOnOpenChange }: CommandMenuProps) {
@@ -181,7 +143,6 @@ export function CommandMenu({ icons, open: externalOpen, onOpenChange: externalO
 					<CommandGroup heading="Community Submissions">
 						{filteredCommunityIcons.map((icon) => {
 							const formatedIconName = formatIconName(icon.value)
-							const statusBadge = getStatusBadge(icon)
 
 							return (
 								<CommandItem
@@ -196,7 +157,7 @@ export function CommandMenu({ icons, open: externalOpen, onOpenChange: externalO
 										</div>
 									</div>
 									<span className="flex-grow capitalize font-medium text-sm">{formatedIconName}</span>
-									{statusBadge}
+									<StatusBadge icon={icon} />
 								</CommandItem>
 							)
 						})}
