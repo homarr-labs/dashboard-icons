@@ -27,6 +27,7 @@ import { MultiSelect, type MultiSelectOption } from "@/components/ui/multi-selec
 import { Dropzone, DropzoneContent, DropzoneEmptyState } from "@/components/ui/shadcn-io/dropzone"
 import { Textarea } from "@/components/ui/textarea"
 import { REPO_PATH } from "@/constants"
+import { type IconNameOption } from "@/hooks/use-submissions"
 import { pb } from "@/lib/pb"
 
 interface VariantConfig {
@@ -111,7 +112,12 @@ interface FormData {
 export function AdvancedIconSubmissionFormTanStack() {
 	const [filePreviews, setFilePreviews] = useState<Record<string, string>>({})
 	const [showConfirmDialog, setShowConfirmDialog] = useState(false)
+	const [selectedExistingIcon, setSelectedExistingIcon] = useState<IconNameOption | null>(null)
 	const router = useRouter()
+
+	const canUpdateExisting = selectedExistingIcon?.source === "community" && 
+		selectedExistingIcon?.status === "rejected" && 
+		selectedExistingIcon?.isOwner
 
 	const form = useForm({
 		defaultValues: {
@@ -142,11 +148,9 @@ export function AdvancedIconSubmissionFormTanStack() {
 			const assetFiles: File[] = []
 
 			if (value.files.base?.[0]) {
-				// Add base file
 				assetFiles.push(value.files.base[0])
 			}
 
-			// Build extras object
 			const extras: any = {
 				aliases: value.aliases,
 				categories: value.categories,
@@ -154,7 +158,6 @@ export function AdvancedIconSubmissionFormTanStack() {
 			}
 
 			if (value.files.dark?.[0] || value.files.light?.[0]) {
-				// Add color variants if present
 				extras.colors = {}
 				if (value.files.dark?.[0]) {
 					extras.colors.dark = value.files.dark[0].name
@@ -167,7 +170,6 @@ export function AdvancedIconSubmissionFormTanStack() {
 			}
 
 			if (value.files.wordmark?.[0] || value.files.wordmark_dark?.[0]) {
-				// Add wordmark variants if present
 				extras.wordmark = {}
 				if (value.files.wordmark?.[0]) {
 					extras.wordmark.light = value.files.wordmark[0].name
@@ -179,25 +181,43 @@ export function AdvancedIconSubmissionFormTanStack() {
 				}
 			}
 
-			// Create submission
-			const submissionData = {
-				name: value.iconName,
-				assets: assetFiles,
-				created_by: (pb.authStore.record as any)?.id ?? pb.authStore.record?.id,
-				status: "pending",
-				description: value.description,
-				extras: extras,
+			let record: any
+
+			if (canUpdateExisting && selectedExistingIcon?.submissionId) {
+				const updateData = {
+					assets: assetFiles,
+					status: "pending",
+					description: value.description,
+					extras: extras,
+					admin_comment: "",
+				}
+
+				record = await pb.collection("submissions").update(selectedExistingIcon.submissionId, updateData)
+
+				toast.success("Submission updated!", {
+					description: `Your rejected submission "${value.iconName}" has been updated and resubmitted for review`,
+				})
+			} else {
+				const submissionData = {
+					name: value.iconName,
+					assets: assetFiles,
+					created_by: (pb.authStore.record as any)?.id ?? pb.authStore.record?.id,
+					status: "pending",
+					description: value.description,
+					extras: extras,
+				}
+
+				record = await pb.collection("submissions").create(submissionData)
+
+				toast.success("Icon submitted!", {
+					description: `Your icon "${value.iconName}" has been submitted for review`,
+				})
 			}
 
-			const record = await pb.collection("submissions").create(submissionData)
-
 			if (record.assets && record.assets.length > 0) {
-				// Update extras with real filenames from PocketBase response
-				// PocketBase sanitizes and renames files, so we need to update our references
 				const updatedExtras = JSON.parse(JSON.stringify(extras))
 				let assetIndex = 0
 
-				// Skip base icon (first asset) as we track it by 'base' format string only
 				assetIndex++
 
 				if (value.files.dark?.[0] && updatedExtras.colors) {
@@ -225,18 +245,13 @@ export function AdvancedIconSubmissionFormTanStack() {
 				})
 			}
 
-			// Revalidate Next.js cache for community pages
 			await revalidateAllSubmissions()
-
-			toast.success("Icon submitted!", {
-				description: `Your icon "${value.iconName}" has been submitted for review`,
-			})
 
 			router.push(`/community/${encodeURIComponent(record.name || value.iconName)}`)
 
-			// Reset form
 			form.reset()
 			setFilePreviews({})
+			setSelectedExistingIcon(null)
 		} catch (error: any) {
 			console.error("Submission error:", error)
 			toast.error("Failed to submit icon", {
@@ -332,23 +347,39 @@ export function AdvancedIconSubmissionFormTanStack() {
 			<AlertDialog open={showConfirmDialog} onOpenChange={setShowConfirmDialog}>
 				<AlertDialogContent className="bg-background">
 					<AlertDialogHeader>
-						<AlertDialogTitle>Confirm Submission</AlertDialogTitle>
+						<AlertDialogTitle>
+							{canUpdateExisting ? "Update Rejected Submission" : "Confirm Submission"}
+						</AlertDialogTitle>
 						<AlertDialogDescription>
-							This icon submission form is a work-in-progress and is currently in an experimentation phase. If you want a faster review,
-							please submit your icon to the dashboard icons{" "}
-							<a href={REPO_PATH} target="_blank">
-								{" "}
-								github repository{" "}
-							</a>{" "}
-							instead.
-							<br />
-							<br />
-							Do you still want to proceed with submitting your icon?
+							{canUpdateExisting ? (
+								<>
+									You are about to update your previously rejected submission. The new files will replace the old ones and
+									the submission will be resubmitted for review.
+									<br />
+									<br />
+									Do you want to proceed with updating your submission?
+								</>
+							) : (
+								<>
+									This icon submission form is a work-in-progress and is currently in an experimentation phase. If you want a faster review,
+									please submit your icon to the dashboard icons{" "}
+									<a href={REPO_PATH} target="_blank">
+										{" "}
+										github repository{" "}
+									</a>{" "}
+									instead.
+									<br />
+									<br />
+									Do you still want to proceed with submitting your icon?
+								</>
+							)}
 						</AlertDialogDescription>
 					</AlertDialogHeader>
 					<AlertDialogFooter>
 						<AlertDialogCancel>Cancel</AlertDialogCancel>
-						<AlertDialogAction onClick={handleConfirmedSubmit}>Yes, Submit Anyway</AlertDialogAction>
+						<AlertDialogAction onClick={handleConfirmedSubmit}>
+							{canUpdateExisting ? "Yes, Update Submission" : "Yes, Submit Anyway"}
+						</AlertDialogAction>
 					</AlertDialogFooter>
 				</AlertDialogContent>
 			</AlertDialog>
@@ -391,6 +422,7 @@ export function AdvancedIconSubmissionFormTanStack() {
 										<IconNameCombobox
 											value={field.state.value}
 											onValueChange={field.handleChange}
+											onIconSelected={setSelectedExistingIcon}
 											error={field.state.meta.errors.join(", ")}
 											isInvalid={!field.state.meta.isValid && field.state.meta.isTouched}
 										/>
@@ -514,7 +546,6 @@ export function AdvancedIconSubmissionFormTanStack() {
 																	accept={{
 																		"image/svg+xml": [".svg"],
 																		"image/png": [".png"],
-																		"image/webp": [".webp"],
 																	}}
 																	maxSize={1024 * 1024 * 5}
 																	maxFiles={1}
@@ -657,6 +688,7 @@ export function AdvancedIconSubmissionFormTanStack() {
 								onClick={() => {
 									form.reset()
 									setFilePreviews({})
+									setSelectedExistingIcon(null)
 								}}
 							>
 								Clear Form
@@ -669,7 +701,9 @@ export function AdvancedIconSubmissionFormTanStack() {
 							>
 								{(state) => (
 									<Button type="submit" disabled={!state.canSubmit || state.isSubmitting} size="lg">
-										{state.isSubmitting ? "Submitting..." : "Submit Icon"}
+										{state.isSubmitting 
+											? (canUpdateExisting ? "Updating..." : "Submitting...") 
+											: (canUpdateExisting ? "Update Submission" : "Submit Icon")}
 									</Button>
 								)}
 							</form.Subscribe>
