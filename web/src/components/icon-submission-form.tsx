@@ -154,6 +154,8 @@ export function IconSubmissionForm() {
 																type="button"
 																disabled={isBase}
 																onClick={() => !isBase && (isSelected ? handleRemoveVariant(variant.id) : addVariant(variant.id))}
+																aria-label={isBase ? `${variant.label} - Required` : `Select ${variant.label}`}
+																aria-pressed={isSelected}
 																className={cn(
 																	"inline-flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium transition-all cursor-pointer",
 																	isSelected
@@ -189,7 +191,7 @@ export function IconSubmissionForm() {
 																className={cn(
 																	"relative p-4 transition-all",
 																	hasFile
-																		? "bg-linear-to-br from-primary/10 to-primary/5 ring-1 ring-primary/20"
+																		? "bg-gradient-to-br from-primary/10 to-primary/5 ring-1 ring-primary/20"
 																		: "bg-muted/30 ring-1 ring-border"
 																)}
 															>
@@ -266,6 +268,8 @@ export function IconSubmissionForm() {
 															key={category}
 															type="button"
 															onClick={() => toggleCategory(category)}
+															aria-pressed={isSelected}
+															aria-label={`${category.replace(/-/g, " ")} category`}
 															className={cn(
 																"px-3 py-1.5 text-sm transition-all cursor-pointer",
 																isSelected
@@ -401,7 +405,7 @@ export function IconSubmissionForm() {
 												type="button"
 												onClick={() => form.handleSubmit()}
 												disabled={!canSubmit || !hasBaseFile || isSubmitting}
-												className="w-full gap-2 bg-linear-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70"
+												className="w-full gap-2 bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70"
 											>
 												<Send className="h-4 w-4" />
 												{isSubmitting ? "Submitting..." : "Submit Icon"}
