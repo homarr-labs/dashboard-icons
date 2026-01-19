@@ -35184,5 +35184,23 @@
             "light": "black-forest-labs-wordmark-light",
             "dark": "black-forest-labs-wordmark-dark"
         }
+    },
+    "thread": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "home-automation",
+            "network"
+        ],
+        "update": {
+            "timestamp": "2026-01-19T17:51:04.436Z",
+            "author": {
+                "id": 12561505,
+                "login": "yutamago"
+            }
+        },
+        "wordmark": {
+            "dark": "thread-wordmark-dark"
+        }
     }
 }
