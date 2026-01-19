@@ -35094,5 +35094,26 @@
                 "login": "HattaPauzi"
             }
         }
+    },
+    "av1": {
+        "base": "svg",
+        "aliases": [
+            "AOMedia Video 1",
+            "video/AV1"
+        ],
+        "categories": [
+            "media"
+        ],
+        "update": {
+            "timestamp": "2026-01-19T17:50:51.126Z",
+            "author": {
+                "id": "sowxli2ysgkofo9",
+                "name": "0xb0ec1d"
+            }
+        },
+        "colors": {
+            "light": "av1-light",
+            "dark": "av1-dark"
+        }
     }
 }
