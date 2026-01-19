@@ -335,6 +335,20 @@ def get_all_variant_names(metadata):
     
     return all_names
 
+def outputs_exist_and_current(svg_path, png_path, webp_path):
+    """Check if both PNG and WEBP outputs exist and are up-to-date with the SVG source."""
+    if not png_path.exists() or not webp_path.exists():
+        return False
+    
+    try:
+        svg_mtime = svg_path.stat().st_mtime
+        png_mtime = png_path.stat().st_mtime
+        webp_mtime = webp_path.stat().st_mtime
+        # Both outputs must be newer than the source SVG
+        return svg_mtime <= png_mtime and svg_mtime <= webp_mtime
+    except (OSError, FileNotFoundError):
+        return False
+
 def process_single_icon(svg_path, png_path, webp_path, force, icon_name=None):
     """Process a single icon: convert SVG to PNG and PNG to WEBP."""
     icon_name = icon_name or svg_path.stem
@@ -543,6 +557,7 @@ if __name__ == "__main__":
         
         # Prepare tasks
         tasks = []
+        skipped_count = 0
         for variant_name, svg_file in variant_svgs.items():
             # Ensure the filename is in kebab-case
             try:
@@ -562,10 +577,22 @@ if __name__ == "__main__":
             # Check if this is the icon to force retry (or any of its variants)
             force = force_retry_icon and (svg_path.stem.lower() in {v.lower() for v in force_retry_variants})
             
+            # Skip early if outputs already exist and are up-to-date (unless forced)
+            if not force and outputs_exist_and_current(svg_path, png_path, webp_path):
+                skipped_count += 1
+                continue
+            
             tasks.append((svg_path, png_path, webp_path, force))
+        
+        if skipped_count > 0:
+            print(f"Skipped {skipped_count} icons (outputs already exist and up-to-date)")
 
         # Process in parallel
-        print(f"Processing with {num_threads} threads...")
+        if tasks:
+            print(f"Processing {len(tasks)} icons with {num_threads} threads...")
+        else:
+            print("No icons need processing.")
+        
         with ThreadPoolExecutor(max_workers=num_threads) as executor:
             futures = {
                 executor.submit(process_single_icon, svg_path, png_path, webp_path, force, svg_path.stem): 
@@ -585,6 +612,7 @@ if __name__ == "__main__":
 
     # Process PNG-only files (skip if force-retry is specified for a different icon)
     png_only_tasks = []
+    png_only_skipped = 0
     for png_file in PNG_DIR.glob("*.png"):
         if png_file.stem not in valid_basenames:
             # If force-retry is specified, skip PNG-only files not in the variants list
@@ -613,7 +641,21 @@ if __name__ == "__main__":
             # Check if this is the icon to force retry (or any of its variants)
             force = force_retry_icon and (png_path.stem.lower() in {v.lower() for v in force_retry_variants})
             
+            # Skip early if WEBP already exists and is up-to-date (unless forced)
+            if not force and webp_path.exists():
+                try:
+                    png_mtime = png_path.stat().st_mtime
+                    webp_mtime = webp_path.stat().st_mtime
+                    if png_mtime <= webp_mtime:
+                        png_only_skipped += 1
+                        continue
+                except (OSError, FileNotFoundError):
+                    pass
+            
             png_only_tasks.append((png_path, webp_path, force))
+    
+    if png_only_skipped > 0:
+        print(f"Skipped {png_only_skipped} PNG-only files (WEBP already exists and up-to-date)")
     
     # Process PNG-only files in parallel
     if png_only_tasks:
