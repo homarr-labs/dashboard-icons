@@ -35100,5 +35100,19 @@
                 "login": "v3DJG6GL"
             }
         }
+    },
+    "duolingo": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "other"
+        ],
+        "update": {
+            "timestamp": "2026-01-19T10:41:56.518Z",
+            "author": {
+                "id": 97221303,
+                "login": "HattaPauzi"
+            }
+        }
     }
 }
