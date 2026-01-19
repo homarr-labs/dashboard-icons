@@ -35115,5 +35115,25 @@
             "light": "av1-light",
             "dark": "av1-dark"
         }
+    },
+    "flutter": {
+        "base": "svg",
+        "aliases": [
+            "Google Flutter"
+        ],
+        "categories": [
+            "development"
+        ],
+        "update": {
+            "timestamp": "2026-01-19T17:50:54.599Z",
+            "author": {
+                "id": "sowxli2ysgkofo9",
+                "name": "0xb0ec1d"
+            }
+        },
+        "wordmark": {
+            "light": "flutter-wordmark-light",
+            "dark": "flutter-wordmark-dark"
+        }
     }
 }
