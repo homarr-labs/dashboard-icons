@@ -35135,5 +35135,28 @@
             "light": "flutter-wordmark-light",
             "dark": "flutter-wordmark-dark"
         }
+    },
+    "bitly": {
+        "base": "svg",
+        "aliases": [
+            "bit.ly"
+        ],
+        "categories": [
+            "cloud"
+        ],
+        "update": {
+            "timestamp": "2026-01-19T17:50:57.965Z",
+            "author": {
+                "id": "sowxli2ysgkofo9",
+                "name": "0xb0ec1d"
+            }
+        },
+        "colors": {
+            "light": "bitly-light",
+            "dark": "bitly-dark"
+        },
+        "wordmark": {
+            "light": "bitly-wordmark-light"
+        }
     }
 }
