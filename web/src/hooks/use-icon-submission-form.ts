@@ -175,6 +175,9 @@ export function useIconSubmissionForm() {
 					const updatedExtras = JSON.parse(JSON.stringify(extras))
 					let assetIndex = 0
 
+					// Skip base file at index 0, as it's already handled above
+					// The order of asset files matches the order they were pushed to assetFiles array:
+					// base (index 0), dark (if exists), light (if exists), wordmark (if exists), wordmark_dark (if exists)
 					assetIndex++
 
 					if (value.files.dark?.[0] && updatedExtras.colors) {
