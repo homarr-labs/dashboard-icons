@@ -376,8 +376,7 @@ export function IconSearch({ icons }: IconSearchProps) {
 			{filteredIcons.length === 0 ? (
 				<div className="flex flex-col gap-8 py-12 px-2 w-full max-w-full sm:max-w-2xl mx-auto items-center overflow-x-hidden">
 					<div className="text-center w-full">
-						<h2 className="text-3xl sm:text-5xl font-semibold">Icon not found</h2>
-						<p className="text-lg text-muted-foreground mt-2">Help us expand our collection</p>
+						<h2 className="text-3xl sm:text-5xl font-semibold">404: Not Found</h2>
 					</div>
 					<div className="flex flex-col gap-4 items-center w-full">
 						{/** biome-ignore lint/correctness/useUniqueElementIds: I want the ID to be fixed */}

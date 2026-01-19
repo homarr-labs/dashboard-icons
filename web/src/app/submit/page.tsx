@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { AdvancedIconSubmissionFormTanStack } from "@/components/advanced-icon-submission-form-tanstack"
+import { IconSubmissionForm } from "@/components/icon-submission-form"
 import { LoginModal } from "@/components/login-modal"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -81,7 +81,7 @@ export default function SubmitPage() {
 				</p>
 			</div>
 
-			<AdvancedIconSubmissionFormTanStack />
+			<IconSubmissionForm />
 		</div>
 	)
 }
