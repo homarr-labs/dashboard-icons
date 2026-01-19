@@ -2,13 +2,13 @@
 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="598" height="598">
     <style>
         .color-1 {
-            fill: #C6C7D5;
+            fill: #46425F;
         }
         .color-2 {
-            fill: #ACACBD;
+            fill: #646178ff;
         }
         .color-3 {
-            fill: #46425F;
+            fill: #C6C7D5;
         }
     </style>
     <path class="color-1" d="M0 0 C197.34 0 394.68 0 598 0 C598 197.34 598 394.68 598 598 C400.66 598 203.32 598 0 598 C0 400.66 0 203.32 0 0 Z " transform="translate(0,0)"/>

@@ -34630,21 +34630,18 @@
     },
     "cronmaster": {
         "base": "svg",
-        "aliases": [
-            "cr*nmaster"
-        ],
-        "categories": [
-            "automation",
-            "monitoring",
-            "tools",
-            "utility"
-        ],
+        "aliases": [],
+        "categories": [],
         "update": {
-            "timestamp": "2025-12-29T10:35:38.161Z",
+            "timestamp": "2026-01-19T17:26:11.310Z",
             "author": {
                 "id": "tfj1oyvti4bkyzo",
                 "name": "fccview"
             }
+        },
+        "colors": {
+            "light": "cronmaster-light",
+            "dark": "cronmaster-dark"
         }
     },
     "maltego": {
