@@ -485,6 +485,19 @@ async function main() {
 	console.log(`Fetching submission ${args.submissionId}...`);
 	const submission = await fetchSubmission(pbUrl, args.submissionId);
 
+	// Check if icon already exists in metadata - skip if so
+	const existingMetadata = await readMetadata();
+	if (existingMetadata[submission.name]) {
+		console.log(
+			`[import-icon] Icon "${submission.name}" already exists in metadata. Skipping import.`,
+		);
+		// Still mark as added_to_collection if not already
+		if (submission.status !== "added_to_collection") {
+			await markSubmissionAdded(pbUrl, args.submissionId, args.dryRun);
+		}
+		return;
+	}
+
 	const approver =
 		submission.expand?.approved_by?.username ||
 		submission.expand?.approved_by?.email ||
