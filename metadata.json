@@ -29712,18 +29712,17 @@
         }
     },
     "perplexity": {
-        "base": "png",
-        "aliases": [],
-        "categories": [
-            "cloud",
-            "tools",
-            "utility"
+        "base": "svg",
+        "aliases": [
+            "perplexity-ai",
+            "perplexity-book"
         ],
+        "categories": [],
         "update": {
-            "timestamp": "2026-01-17T22:42:03.357Z",
+            "timestamp": "2026-01-19T11:16:02.345Z",
             "author": {
-                "id": "exekrnseogirbfd",
-                "name": "kylefox"
+                "id": 49837342,
+                "login": "ajnart"
             }
         },
         "colors": {
