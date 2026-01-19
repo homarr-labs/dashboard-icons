@@ -35158,5 +35158,31 @@
         "wordmark": {
             "light": "bitly-wordmark-light"
         }
+    },
+    "black-forest-labs": {
+        "base": "svg",
+        "aliases": [
+            "bfl",
+            "flux"
+        ],
+        "categories": [
+            "cloud",
+            "development"
+        ],
+        "update": {
+            "timestamp": "2026-01-19T17:51:01.794Z",
+            "author": {
+                "id": "sowxli2ysgkofo9",
+                "name": "0xb0ec1d"
+            }
+        },
+        "colors": {
+            "light": "black-forest-labs-light",
+            "dark": "black-forest-labs-dark"
+        },
+        "wordmark": {
+            "light": "black-forest-labs-wordmark-light",
+            "dark": "black-forest-labs-wordmark-dark"
+        }
     }
 }
