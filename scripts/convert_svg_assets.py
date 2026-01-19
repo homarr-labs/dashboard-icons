@@ -335,17 +335,21 @@ def get_all_variant_names(metadata):
     
     return all_names
 
-def outputs_exist_and_current(svg_path, png_path, webp_path):
-    """Check if both PNG and WEBP outputs exist and are up-to-date with the SVG source."""
+def outputs_exist_and_valid(png_path, webp_path):
+    """Check if both PNG and WEBP outputs exist and are non-empty.
+    
+    Note: We don't check modification times because in CI environments (GitHub Actions),
+    git checkout resets all file mtimes to the checkout time, making SVG files appear
+    newer than existing outputs even when they haven't changed.
+    """
     if not png_path.exists() or not webp_path.exists():
         return False
     
     try:
-        svg_mtime = svg_path.stat().st_mtime
-        png_mtime = png_path.stat().st_mtime
-        webp_mtime = webp_path.stat().st_mtime
-        # Both outputs must be newer than the source SVG
-        return svg_mtime <= png_mtime and svg_mtime <= webp_mtime
+        # Check that files exist and have non-zero size
+        png_size = png_path.stat().st_size
+        webp_size = webp_path.stat().st_size
+        return png_size > 0 and webp_size > 0
     except (OSError, FileNotFoundError):
         return False
 
@@ -577,15 +581,15 @@ if __name__ == "__main__":
             # Check if this is the icon to force retry (or any of its variants)
             force = force_retry_icon and (svg_path.stem.lower() in {v.lower() for v in force_retry_variants})
             
-            # Skip early if outputs already exist and are up-to-date (unless forced)
-            if not force and outputs_exist_and_current(svg_path, png_path, webp_path):
+            # Skip early if outputs already exist and are valid (unless forced)
+            if not force and outputs_exist_and_valid(png_path, webp_path):
                 skipped_count += 1
                 continue
             
             tasks.append((svg_path, png_path, webp_path, force))
         
         if skipped_count > 0:
-            print(f"Skipped {skipped_count} icons (outputs already exist and up-to-date)")
+            print(f"Skipped {skipped_count} icons (PNG and WEBP already exist)")
 
         # Process in parallel
         if tasks:
