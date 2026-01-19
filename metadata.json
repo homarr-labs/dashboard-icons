@@ -35202,5 +35202,25 @@
         "wordmark": {
             "dark": "thread-wordmark-dark"
         }
+    },
+    "rackula": {
+        "base": "svg",
+        "aliases": [
+            "rackarr"
+        ],
+        "categories": [
+            "tools"
+        ],
+        "update": {
+            "timestamp": "2026-01-19T20:10:51.245Z",
+            "author": {
+                "id": 162880856,
+                "login": "RioLi08123"
+            }
+        },
+        "colors": {
+            "light": "rackula-light",
+            "dark": "rackula-dark"
+        }
     }
 }

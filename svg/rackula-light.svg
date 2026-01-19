@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 88 88">
+  <!-- Generator: Adobe Illustrator 29.8.2, SVG Export Plug-In . SVG Version: 2.1.1 Build 3)  -->
+  <defs>
+    <style>
+      .st0 {
+        fill: #fffbeb;
+      }
+
+      .st1 {
+        fill: #644ac9;
+      }
+    </style>
+  </defs>
+  <rect class="st1" x="8" y="0" width="72" height="88"/>
+  <rect class="st0" x="18" y="10" width="52" height="20">
+    <animate accumulate="none" additive="replace" attributeName="fill" begin="0s" calcMode="linear" dur="4s" fill="remove" repeatCount="indefinite" restart="always" values="#FFFBEB;#036A96;#FFFBEB"/>
+  </rect>
+  <rect class="st0" x="18" y="34" width="52" height="20">
+    <animate accumulate="none" additive="replace" attributeName="fill" begin="0.5s" calcMode="linear" dur="4s" fill="remove" repeatCount="indefinite" restart="always" values="#FFFBEB;#14710A;#FFFBEB"/>
+  </rect>
+  <rect class="st0" x="18" y="58" width="52" height="20">
+    <animate accumulate="none" additive="replace" attributeName="fill" begin="1s" calcMode="linear" dur="4s" fill="remove" repeatCount="indefinite" restart="always" values="#FFFBEB;#A3144D;#FFFBEB"/>
+  </rect>
+</svg>
