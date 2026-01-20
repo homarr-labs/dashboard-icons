@@ -35554,5 +35554,22 @@
                 "login": "heathaolson"
             }
         }
+    },
+    "fail2ban": {
+        "base": "png",
+        "aliases": [],
+        "categories": [
+            "security",
+            "tools",
+            "utility",
+            "network"
+        ],
+        "update": {
+            "timestamp": "2026-01-20T12:24:28.355Z",
+            "author": {
+                "id": 61244159,
+                "login": "giannf"
+            }
+        }
     }
 }
