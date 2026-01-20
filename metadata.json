@@ -35370,5 +35370,25 @@
                 "login": "b-Tomas"
             }
         }
+    },
+    "elabftw": {
+        "base": "svg",
+        "aliases": [
+            "elabftw",
+            "eLabFTW"
+        ],
+        "categories": [
+            "database",
+            "other",
+            "tools",
+            "utility"
+        ],
+        "update": {
+            "timestamp": "2026-01-20T12:24:00.881Z",
+            "author": {
+                "id": 57649463,
+                "login": "doctordarko"
+            }
+        }
     }
 }
