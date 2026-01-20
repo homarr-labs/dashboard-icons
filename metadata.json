@@ -35305,5 +35305,25 @@
                 "login": "krier-julien"
             }
         }
+    },
+    "databricks": {
+        "base": "svg",
+        "aliases": [
+            "spark",
+            "data-analytics",
+            "lakehouse"
+        ],
+        "categories": [
+            "cloud",
+            "database",
+            "development"
+        ],
+        "update": {
+            "timestamp": "2026-01-20T12:23:52.160Z",
+            "author": {
+                "id": 94511260,
+                "login": "treenod-trudy"
+            }
+        }
     }
 }
