@@ -35355,5 +35355,20 @@
                 "login": "101br03k"
             }
         }
+    },
+    "lunch-money": {
+        "base": "png",
+        "aliases": [],
+        "categories": [
+            "finance",
+            "tools"
+        ],
+        "update": {
+            "timestamp": "2026-01-20T12:23:58.715Z",
+            "author": {
+                "id": 41840767,
+                "login": "b-Tomas"
+            }
+        }
     }
 }
