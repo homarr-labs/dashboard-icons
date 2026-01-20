@@ -35479,5 +35479,25 @@
                 "name": "Shimakaze"
             }
         }
+    },
+    "google-ai-studio": {
+        "base": "png",
+        "aliases": [
+            "Google AI Studio",
+            "AI Studio"
+        ],
+        "categories": [
+            "tools",
+            "utility",
+            "cloud",
+            "development"
+        ],
+        "update": {
+            "timestamp": "2026-01-20T12:24:17.181Z",
+            "author": {
+                "id": "47qf4zkbou5ag6s",
+                "name": "ahFzxpiuMUqMe5-2N4Uaa"
+            }
+        }
     }
 }
