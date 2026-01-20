@@ -35465,5 +35465,19 @@
                 "login": "nicktheone"
             }
         }
+    },
+    "danmaku": {
+        "base": "png",
+        "aliases": [],
+        "categories": [
+            "entertainment"
+        ],
+        "update": {
+            "timestamp": "2026-01-20T12:24:15.014Z",
+            "author": {
+                "id": "ldqkzxa6vg9mqs1",
+                "name": "Shimakaze"
+            }
+        }
     }
 }
