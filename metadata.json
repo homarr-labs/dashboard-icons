@@ -35449,5 +35449,23 @@
             "light": "ibm-light",
             "dark": "ibm-dark"
         }
+    },
+    "dockhand": {
+        "base": "png",
+        "aliases": [],
+        "categories": [
+            "monitoring",
+            "automation",
+            "network",
+            "tools",
+            "utility"
+        ],
+        "update": {
+            "timestamp": "2026-01-20T12:24:10.551Z",
+            "author": {
+                "id": 33779326,
+                "login": "nicktheone"
+            }
+        }
     }
 }
