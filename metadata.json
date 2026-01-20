@@ -35390,5 +35390,23 @@
                 "login": "doctordarko"
             }
         }
+    },
+    "json": {
+        "base": "svg",
+        "aliases": [
+            "JavaScript Object Notation",
+            "application/json",
+            "RFC 8259"
+        ],
+        "categories": [
+            "development"
+        ],
+        "update": {
+            "timestamp": "2026-01-20T12:24:03.042Z",
+            "author": {
+                "id": "sowxli2ysgkofo9",
+                "name": "0xb0ec1d"
+            }
+        }
     }
 }
