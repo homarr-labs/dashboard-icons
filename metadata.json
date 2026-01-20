@@ -35408,5 +35408,23 @@
                 "name": "0xb0ec1d"
             }
         }
+    },
+    "servicenow": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "cloud"
+        ],
+        "update": {
+            "timestamp": "2026-01-20T12:24:05.759Z",
+            "author": {
+                "id": "sowxli2ysgkofo9",
+                "name": "0xb0ec1d"
+            }
+        },
+        "wordmark": {
+            "light": "servicenow-wordmark-light",
+            "dark": "servicenow-wordmark-dark"
+        }
     }
 }
