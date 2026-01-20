@@ -35275,5 +35275,23 @@
         "wordmark": {
             "light": "check-point-wordmark-light"
         }
+    },
+    "godoxy": {
+        "base": "png",
+        "aliases": [
+            "go-doxy",
+            "go doxy"
+        ],
+        "categories": [
+            "network",
+            "security"
+        ],
+        "update": {
+            "timestamp": "2026-01-20T12:23:47.668Z",
+            "author": {
+                "id": 29818713,
+                "login": "Zareix"
+            }
+        }
     }
 }
