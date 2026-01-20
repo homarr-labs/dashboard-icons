@@ -35254,5 +35254,26 @@
         "wordmark": {
             "light": "booklore-wordmark-light"
         }
+    },
+    "check-point": {
+        "base": "svg",
+        "aliases": [
+            "Checkpoint",
+            "Check Point Software"
+        ],
+        "categories": [
+            "security",
+            "network"
+        ],
+        "update": {
+            "timestamp": "2026-01-20T12:23:45.116Z",
+            "author": {
+                "id": "sowxli2ysgkofo9",
+                "name": "0xb0ec1d"
+            }
+        },
+        "wordmark": {
+            "light": "check-point-wordmark-light"
+        }
     }
 }
