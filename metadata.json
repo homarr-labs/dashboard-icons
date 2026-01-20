@@ -35426,5 +35426,28 @@
             "light": "servicenow-wordmark-light",
             "dark": "servicenow-wordmark-dark"
         }
+    },
+    "ibm": {
+        "base": "svg",
+        "aliases": [
+            "International Business Machines Corporation"
+        ],
+        "categories": [
+            "cloud",
+            "storage",
+            "security",
+            "network"
+        ],
+        "update": {
+            "timestamp": "2026-01-20T12:24:08.291Z",
+            "author": {
+                "id": "sowxli2ysgkofo9",
+                "name": "0xb0ec1d"
+            }
+        },
+        "colors": {
+            "light": "ibm-light",
+            "dark": "ibm-dark"
+        }
     }
 }
