@@ -35571,5 +35571,22 @@
                 "login": "giannf"
             }
         }
+    },
+    "lenovo": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "other"
+        ],
+        "update": {
+            "timestamp": "2026-01-20T12:24:30.865Z",
+            "author": {
+                "id": 48501111,
+                "login": "mattxcnm"
+            }
+        },
+        "colors": {
+            "light": "lenovo-light"
+        }
     }
 }
