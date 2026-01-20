@@ -35341,5 +35341,19 @@
                 "login": "zhorvath83"
             }
         }
+    },
+    "statistics-for-strava": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "other"
+        ],
+        "update": {
+            "timestamp": "2026-01-20T12:23:56.478Z",
+            "author": {
+                "id": 59868436,
+                "login": "101br03k"
+            }
+        }
     }
 }
