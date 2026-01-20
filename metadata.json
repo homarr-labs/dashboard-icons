@@ -17260,11 +17260,14 @@
         "aliases": [],
         "categories": [],
         "update": {
-            "timestamp": "2023-04-13T13:56:18Z",
+            "timestamp": "2026-01-20T12:24:33.315Z",
             "author": {
-                "id": 71191962,
-                "name": "walkxcode"
+                "id": 48501111,
+                "login": "mattxcnm"
             }
+        },
+        "colors": {
+            "light": "dell-light"
         }
     },
     "graylog": {
