@@ -31721,16 +31721,14 @@
         }
     },
     "brick-tracker": {
-        "base": "svg",
+        "base": "png",
         "aliases": [],
-        "categories": [
-            "Logistics"
-        ],
+        "categories": [],
         "update": {
-            "timestamp": "2025-05-08T20:55:30.191802",
+            "timestamp": "2026-01-20T12:24:12.840Z",
             "author": {
-                "id": 31495062,
-                "login": "jeremywillans"
+                "id": 59868436,
+                "login": "101br03k"
             }
         }
     },
