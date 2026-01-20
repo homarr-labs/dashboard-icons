@@ -35525,5 +35525,17 @@
                 "name": "jan_reinhardt"
             }
         }
+    },
+    "nutify": {
+        "base": "png",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-01-20T12:24:24.005Z",
+            "author": {
+                "id": 167335399,
+                "login": "heathaolson"
+            }
+        }
     }
 }
