@@ -35236,5 +35236,23 @@
                 "login": "mattxcnm"
             }
         }
+    },
+    "booklore": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "media",
+            "utility"
+        ],
+        "update": {
+            "timestamp": "2026-01-20T12:23:41.766Z",
+            "author": {
+                "id": 1108200,
+                "login": "rgooler"
+            }
+        },
+        "wordmark": {
+            "light": "booklore-wordmark-light"
+        }
     }
 }
