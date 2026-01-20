@@ -35325,5 +35325,21 @@
                 "login": "treenod-trudy"
             }
         }
+    },
+    "paperless-gpt": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "automation",
+            "media",
+            "tools"
+        ],
+        "update": {
+            "timestamp": "2026-01-20T12:23:54.342Z",
+            "author": {
+                "id": 14909916,
+                "login": "zhorvath83"
+            }
+        }
     }
 }
