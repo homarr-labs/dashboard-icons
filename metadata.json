@@ -35499,5 +35499,17 @@
                 "name": "ahFzxpiuMUqMe5-2N4Uaa"
             }
         }
+    },
+    "libreelec": {
+        "base": "png",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-01-20T12:24:19.349Z",
+            "author": {
+                "id": 94646007,
+                "login": "lukasheinz92"
+            }
+        }
     }
 }
