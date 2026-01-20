@@ -35293,5 +35293,17 @@
                 "login": "Zareix"
             }
         }
+    },
+    "nzbdav": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-01-20T12:23:49.816Z",
+            "author": {
+                "id": 145717983,
+                "login": "krier-julien"
+            }
+        }
     }
 }
