@@ -35511,5 +35511,19 @@
                 "login": "lukasheinz92"
             }
         }
+    },
+    "filerise": {
+        "base": "png",
+        "aliases": [],
+        "categories": [
+            "tools"
+        ],
+        "update": {
+            "timestamp": "2026-01-20T12:24:21.555Z",
+            "author": {
+                "id": "awgqe6prb1kj5xc",
+                "name": "jan_reinhardt"
+            }
+        }
     }
 }
