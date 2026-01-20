@@ -35222,5 +35222,19 @@
             "light": "rackula-light",
             "dark": "rackula-dark"
         }
+    },
+    "anytype": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "tools"
+        ],
+        "update": {
+            "timestamp": "2026-01-20T10:51:27.450Z",
+            "author": {
+                "id": 48501111,
+                "login": "mattxcnm"
+            }
+        }
     }
 }
