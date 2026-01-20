@@ -17,6 +17,7 @@ import dayjs from "dayjs"
 import relativeTime from "dayjs/plugin/relativeTime"
 import { ChevronDown, ChevronRight, Filter, Github, ImageIcon, Search, SortDesc, X } from "lucide-react"
 import * as React from "react"
+import { StatusBadge } from "@/components/status-badge"
 import { SubmissionDetails } from "@/components/submission-details"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -78,35 +79,6 @@ const groupAndSortSubmissions = (submissions: Submission[]): Submission[] => {
 	})
 }
 
-const getStatusColor = (status: Submission["status"]) => {
-	switch (status) {
-		case "approved":
-			return "bg-blue-500/10 text-blue-400 font-bold border-blue-500/20"
-		case "rejected":
-			return "bg-red-500/10 text-red-500 border-red-500/20"
-		case "pending":
-			return "bg-yellow-500/10 text-yellow-500 border-yellow-500/20"
-		case "added_to_collection":
-			return "bg-green-500/10 text-green-500 border-green-500/20"
-		default:
-			return "bg-gray-500/10 text-gray-500 border-gray-500/20"
-	}
-}
-
-const getStatusDisplayName = (status: Submission["status"]) => {
-	switch (status) {
-		case "pending":
-			return "Pending"
-		case "approved":
-			return "Approved"
-		case "rejected":
-			return "Rejected"
-		case "added_to_collection":
-			return "Added to Collection"
-		default:
-			return status
-	}
-}
 
 export function SubmissionsDataTable({
 	data,
@@ -270,11 +242,7 @@ export function SubmissionsDataTable({
 				},
 				cell: ({ row }) => {
 					const status = row.getValue("status") as Submission["status"]
-					return (
-						<Badge variant="outline" className={getStatusColor(status)}>
-							{getStatusDisplayName(status)}
-						</Badge>
-					)
+					return <StatusBadge status={status} showCollectionStatus />
 				},
 			},
 			{
@@ -477,9 +445,7 @@ export function SubmissionsDataTable({
 												<TableRow className="bg-muted/40 hover:bg-muted/40">
 													<TableCell colSpan={columns.length} className="py-2 font-semibold text-sm">
 														<div className="flex items-center gap-2">
-															<Badge variant="outline" className={getStatusColor(currentStatus)}>
-																{getStatusDisplayName(currentStatus)}
-															</Badge>
+															<StatusBadge status={currentStatus} showCollectionStatus />
 															<span className="text-xs text-muted-foreground">
 																{table.getRowModel().rows.filter((r) => r.original.status === currentStatus).length}
 																{table.getRowModel().rows.filter((r) => r.original.status === currentStatus).length === 1

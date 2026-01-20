@@ -72,8 +72,8 @@ export function AddToSearchBarButton({ size = "default", className }: { size?: "
 			<DialogTrigger asChild>
 				<RainbowButton variant="outline" size={size} className={cn("shadow-sm", className)}>
 					<Search className="h-4 w-4" />
-					<span className="hidden sm:inline text-foreground group-hover:scale-105 transition-all duration-300">Add to browser search</span>
-					<span className="sm:hidden">Add to search</span>
+					<span className="hidden sm:inline text-foreground transition-all duration-300 group-hover:scale-105">Search icons directly from your browser</span>
+					<span className="sm:hidden">Browser search</span>
 				</RainbowButton>
 			</DialogTrigger>
 

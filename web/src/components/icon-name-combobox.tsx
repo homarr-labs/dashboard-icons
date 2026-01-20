@@ -2,19 +2,21 @@
 
 import { AlertCircle } from "lucide-react"
 import { useEffect, useMemo, useState } from "react"
+import { SourceBadge, StatusBadge } from "@/components/status-badge"
 import { Command, CommandEmpty, CommandGroup, CommandItem, CommandList } from "@/components/ui/command"
 import { Input } from "@/components/ui/input"
-import { useExistingIconNames } from "@/hooks/use-submissions"
+import { type IconNameOption, useExistingIconNames } from "@/hooks/use-submissions"
 import { cn } from "@/lib/utils"
 
 interface IconNameComboboxProps {
 	value: string
 	onValueChange: (value: string) => void
+	onIconSelected?: (icon: IconNameOption | null) => void
 	error?: string
 	isInvalid?: boolean
 }
 
-export function IconNameCombobox({ value, onValueChange, error, isInvalid }: IconNameComboboxProps) {
+export function IconNameCombobox({ value, onValueChange, onIconSelected, error, isInvalid }: IconNameComboboxProps) {
 	const { data: existingIcons = [], isLoading: loading } = useExistingIconNames()
 	const [isFocused, setIsFocused] = useState(false)
 	const [rawInput, setRawInput] = useState(value)
@@ -29,12 +31,12 @@ export function IconNameCombobox({ value, onValueChange, error, isInvalid }: Ico
 
 	const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const raw = e.target.value
-		setRawInput(raw) // Track raw input for immediate filtering
+		setRawInput(raw)
 		const sanitized = sanitizeIconName(raw)
 		onValueChange(sanitized)
+		onIconSelected?.(null)
 	}
 
-	// Filter existing icons based on EITHER raw input OR sanitized value - show ALL matches
 	const filteredIcons = useMemo(() => {
 		const searchTerm = rawInput || value
 		if (!searchTerm || !existingIcons.length) return []
@@ -45,7 +47,6 @@ export function IconNameCombobox({ value, onValueChange, error, isInvalid }: Ico
 
 	const showSuggestions = isFocused && (rawInput || value) && filteredIcons.length > 0
 
-	// Sync rawInput with external value changes (form reset, etc.)
 	useEffect(() => {
 		if (!isFocused) {
 			setRawInput(value)
@@ -85,11 +86,18 @@ export function IconNameCombobox({ value, onValueChange, error, isInvalid }: Ico
 										onSelect={(selectedValue) => {
 											setRawInput(selectedValue)
 											onValueChange(selectedValue)
+											onIconSelected?.(icon)
 											setIsFocused(false)
 										}}
-										className="cursor-pointer"
+										className="cursor-pointer flex items-center justify-between"
 									>
 										<span className="font-mono text-sm">{icon.label}</span>
+										<div className="flex items-center gap-1">
+											<SourceBadge source={icon.source} showIcon={false} />
+											{icon.source === "community" && icon.status && (
+												<StatusBadge status={icon.status} showIcon={false} />
+											)}
+										</div>
 									</CommandItem>
 								))}
 							</CommandGroup>

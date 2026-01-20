@@ -4,6 +4,7 @@ import { ArrowDownAZ, ArrowUpZA, Calendar, Filter, Search, SortAsc, X } from "lu
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { IconsGrid } from "@/components/icon-grid"
+import { StatusBadge } from "@/components/status-badge"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
@@ -27,36 +28,6 @@ type IconWithStatus = IconWithName & { status: string }
 
 interface CommunityIconSearchProps {
 	icons: IconWithStatus[]
-}
-
-const getStatusColor = (status: string) => {
-	switch (status) {
-		case "approved":
-			return "bg-blue-500/10 text-blue-400 font-bold border-blue-500/20"
-		case "rejected":
-			return "bg-red-500/10 text-red-500 border-red-500/20"
-		case "pending":
-			return "bg-yellow-500/10 text-yellow-500 border-yellow-500/20"
-		case "added_to_collection":
-			return "bg-green-500/10 text-green-500 border-green-500/20"
-		default:
-			return "bg-gray-500/10 text-gray-500 border-gray-500/20"
-	}
-}
-
-const getStatusDisplayName = (status: string) => {
-	switch (status) {
-		case "pending":
-			return "Pending Review"
-		case "approved":
-			return "Approved"
-		case "rejected":
-			return "Rejected"
-		case "added_to_collection":
-			return "Added to Collection"
-		default:
-			return status
-	}
 }
 
 export function CommunityIconSearch({ icons }: CommunityIconSearchProps) {
@@ -406,9 +377,7 @@ export function CommunityIconSearch({ icons }: CommunityIconSearchProps) {
 					{groupedIcons.map(({ status, items }) => (
 						<section key={status} className="space-y-4">
 							<div className="flex items-center gap-3">
-								<Badge variant="outline" className={getStatusColor(status)}>
-									{getStatusDisplayName(status)}
-								</Badge>
+								<StatusBadge status={status} showCollectionStatus />
 								<span className="text-sm text-muted-foreground">
 									{items.length} {items.length === 1 ? "icon" : "icons"}
 								</span>

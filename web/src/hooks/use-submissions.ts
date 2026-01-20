@@ -111,13 +111,23 @@ export function useRejectSubmission() {
 	})
 }
 
+export type IconSource = "collection" | "community"
+export type IconStatus = "pending" | "approved" | "rejected" | "added_to_collection"
+
+export interface IconNameOption {
+	label: string
+	value: string
+	source: IconSource
+	status?: IconStatus
+}
+
 // Fetch existing icon names for the combobox + the metadata.json file
 export function useExistingIconNames() {
 	return useQuery({
 		queryKey: ["existing-icon-names"],
-		queryFn: async () => {
-			const records = await pb.collection("community_gallery").getFullList({
-				fields: "name",
+		queryFn: async (): Promise<IconNameOption[]> => {
+			const records = await pb.collection("community_gallery").getFullList<{ name: string; status: string }>({
+				fields: "name,status",
 				sort: "name",
 				requestKey: null,
 			})
@@ -125,13 +135,33 @@ export function useExistingIconNames() {
 			const metadata = await getAllIcons()
 			const metadataNames = Object.keys(metadata)
 
-			const uniqueRecordsNames = Array.from(new Set(records.map((r) => r.name)))
-			const uniqueMetadataNames = Array.from(new Set(metadataNames.map((n) => n)))
-			const uniqueNames = Array.from(new Set(uniqueRecordsNames.concat(uniqueMetadataNames)))
-			return uniqueNames.map((name) => ({
-				label: name,
-				value: name,
-			}))
+			const iconMap = new Map<string, IconNameOption>()
+
+			for (const name of metadataNames) {
+				iconMap.set(name, {
+					label: name,
+					value: name,
+					source: "collection",
+				})
+			}
+
+			for (const record of records) {
+				const existing = iconMap.get(record.name)
+				if (existing) {
+					if (record.status === "pending" || record.status === "approved" || record.status === "rejected") {
+						existing.status = record.status as IconStatus
+					}
+				} else {
+					iconMap.set(record.name, {
+						label: record.name,
+						value: record.name,
+						source: "community",
+						status: record.status as IconStatus,
+					})
+				}
+			}
+
+			return Array.from(iconMap.values()).sort((a, b) => a.label.localeCompare(b.label))
 		},
 		staleTime: 5 * 60 * 1000, // 5 minutes
 		retry: false,
