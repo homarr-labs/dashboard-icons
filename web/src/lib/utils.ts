@@ -11,6 +11,14 @@ export function formatIconName(name: string) {
 }
 
 /**
+ * Normalize a string for search by removing dashes and spaces
+ * This allows "homeassistant" to match "home-assistant" and "home assistant"
+ */
+export function normalizeForSearch(str: string): string {
+	return str.toLowerCase().replace(/[-\s]/g, "")
+}
+
+/**
  * Calculate Levenshtein distance between two strings
  */
 export function levenshteinDistance(a: string, b: string): number {
@@ -97,13 +105,17 @@ export function fuzzySearch(text: string, query: string): number {
 
 	const normalizedText = text.toLowerCase()
 	const normalizedQuery = query.toLowerCase()
+	
+	// Also create versions without dashes/spaces for matching "homeassistant" -> "home-assistant"
+	const strippedText = normalizeForSearch(text)
+	const strippedQuery = normalizeForSearch(query)
 
 	let score = 0
 
-	// Bonuses for strong matches
-	if (normalizedText === normalizedQuery) score += 1.0
-	else if (normalizedText.startsWith(normalizedQuery)) score += 0.85
-	else if (normalizedText.includes(normalizedQuery)) score += 0.7
+	// Bonuses for strong matches (check both normal and stripped versions)
+	if (normalizedText === normalizedQuery || strippedText === strippedQuery) score += 1.0
+	else if (normalizedText.startsWith(normalizedQuery) || strippedText.startsWith(strippedQuery)) score += 0.85
+	else if (normalizedText.includes(normalizedQuery) || strippedText.includes(strippedQuery)) score += 0.7
 
 	// Sequence, similarity, word match
 	const sequenceScore = containsCharsInOrder(normalizedText, normalizedQuery)
@@ -198,12 +210,21 @@ export function filterAndSortIcons({
 				const finalScore = onlyCategoryMatch ? maxScore * CATEGORY_PENALTY : maxScore
 
 				// Require all query words to be present in at least one field
-				const allWordsPresent = queryWords.every(
-					(word) =>
+				// Also check with normalized strings (no dashes/spaces) for matches like "homeassistant" -> "home-assistant"
+				const normalizedName = normalizeForSearch(icon.name)
+				const normalizedAliases = icon.data.aliases.map(normalizeForSearch)
+				const normalizedCategories = icon.data.categories.map(normalizeForSearch)
+				const allWordsPresent = queryWords.every((word) => {
+					const normalizedWord = normalizeForSearch(word)
+					return (
 						icon.name.toLowerCase().includes(word) ||
+						normalizedName.includes(normalizedWord) ||
 						icon.data.aliases.some((alias) => alias.toLowerCase().includes(word)) ||
-						icon.data.categories.some((cat) => cat.toLowerCase().includes(word)),
-				)
+						normalizedAliases.some((alias) => alias.includes(normalizedWord)) ||
+						icon.data.categories.some((cat) => cat.toLowerCase().includes(word)) ||
+						normalizedCategories.some((cat) => cat.includes(normalizedWord))
+					)
+				})
 
 				return { icon, score: allWordsPresent ? finalScore : finalScore * 0.4 }
 			})

@@ -23,7 +23,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Input } from "@/components/ui/input"
 import { Separator } from "@/components/ui/separator"
-import { filterAndSortIcons, type SortOption } from "@/lib/utils"
+import { filterAndSortIcons, normalizeForSearch, type SortOption } from "@/lib/utils"
 import type { IconSearchProps } from "@/types/icons"
 
 export function IconSearch({ icons }: IconSearchProps) {
@@ -66,12 +66,18 @@ export function IconSearch({ icons }: IconSearchProps) {
 		if (!searchQuery.trim()) return {}
 
 		const q = searchQuery.toLowerCase()
+		const qNormalized = normalizeForSearch(searchQuery)
 		const matches: Record<string, string> = {}
 
 		for (const { name, data } of icons) {
-			// If name doesn't match but an alias does, store the first matching alias
-			if (!name.toLowerCase().includes(q)) {
-				const matchingAlias = data.aliases.find((alias) => alias.toLowerCase().includes(q))
+			const nameNormalized = normalizeForSearch(name)
+			// If name doesn't match (including normalized), but an alias does, store the first matching alias
+			if (!name.toLowerCase().includes(q) && !nameNormalized.includes(qNormalized)) {
+				const matchingAlias = data.aliases.find((alias) => {
+					const aliasLower = alias.toLowerCase()
+					const aliasNormalized = normalizeForSearch(alias)
+					return aliasLower.includes(q) || aliasNormalized.includes(qNormalized)
+				})
 				if (matchingAlias) {
 					matches[name] = matchingAlias
 				}
