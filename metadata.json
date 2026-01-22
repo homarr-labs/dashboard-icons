@@ -35612,5 +35612,24 @@
             "light": "pvy-base-wordmark-light",
             "dark": "pvy-base-wordmark-dark"
         }
+    },
+    "pvy-backup": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-01-22T13:25:03.353Z",
+            "author": {
+                "id": "twc3018b3j6v3db",
+                "name": "Guido F"
+            }
+        },
+        "colors": {
+            "dark": "pvy-backup-dark"
+        },
+        "wordmark": {
+            "light": "pvy-backup-wordmark-light",
+            "dark": "pvy-backup-wordmark-dark"
+        }
     }
 }
