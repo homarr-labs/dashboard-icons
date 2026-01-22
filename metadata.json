@@ -35591,5 +35591,26 @@
         "colors": {
             "light": "lenovo-light"
         }
+    },
+    "pvy-base": {
+        "base": "svg",
+        "aliases": [
+            "pvy.swiss"
+        ],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-01-22T13:24:58.362Z",
+            "author": {
+                "id": "twc3018b3j6v3db",
+                "name": "Guido F"
+            }
+        },
+        "colors": {
+            "dark": "pvy-base-dark"
+        },
+        "wordmark": {
+            "light": "pvy-base-wordmark-light",
+            "dark": "pvy-base-wordmark-dark"
+        }
     }
 }
