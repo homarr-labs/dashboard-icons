@@ -35999,5 +35999,26 @@
             "light": "pvy-localize-wordmark-light",
             "dark": "pvy-localize-wordmark-dark"
         }
+    },
+    "pvy-local": {
+        "base": "svg",
+        "aliases": [
+            "pvy.swiss"
+        ],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-01-22T16:43:23.682Z",
+            "author": {
+                "id": "twc3018b3j6v3db",
+                "name": "Guido F"
+            }
+        },
+        "colors": {
+            "dark": "pvy-local-dark"
+        },
+        "wordmark": {
+            "light": "pvy-local-wordmark-light",
+            "dark": "pvy-local-wordmark-dark"
+        }
     }
 }
