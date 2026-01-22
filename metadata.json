@@ -36102,5 +36102,26 @@
             "light": "pvy-gtd-wordmark-light",
             "dark": "pvy-gtd-wordmark-dark"
         }
+    },
+    "pvy-groupware": {
+        "base": "svg",
+        "aliases": [
+            "pvy.swiss"
+        ],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-01-22T16:43:41.008Z",
+            "author": {
+                "id": "twc3018b3j6v3db",
+                "name": "Guido F"
+            }
+        },
+        "colors": {
+            "dark": "pvy-groupware-dark"
+        },
+        "wordmark": {
+            "light": "pvy-groupware-wordmark-light",
+            "dark": "pvy-groupware-wordmark-dark"
+        }
     }
 }
