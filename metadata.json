@@ -36083,5 +36083,24 @@
             "light": "pvy-homeassistant-wordmark-light",
             "dark": "pvy-homeassistant-wordmark-dark"
         }
+    },
+    "pvy-gtd": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-01-22T16:43:37.569Z",
+            "author": {
+                "id": "twc3018b3j6v3db",
+                "name": "Guido F"
+            }
+        },
+        "colors": {
+            "dark": "pvy-gtd-dark"
+        },
+        "wordmark": {
+            "light": "pvy-gtd-wordmark-light",
+            "dark": "pvy-gtd-wordmark-dark"
+        }
     }
 }
