@@ -35856,5 +35856,26 @@
             "light": "pvy-meeting-wordmark-light",
             "dark": "pvy-meeting-wordmark-dark"
         }
+    },
+    "pvy-mediahub": {
+        "base": "svg",
+        "aliases": [
+            "pvy.swiss"
+        ],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-01-22T16:42:58.507Z",
+            "author": {
+                "id": "twc3018b3j6v3db",
+                "name": "Guido F"
+            }
+        },
+        "colors": {
+            "dark": "pvy-mediahub-dark"
+        },
+        "wordmark": {
+            "light": "pvy-mediahub-wordmark-light",
+            "dark": "pvy-mediahub-wordmark-dark"
+        }
     }
 }
