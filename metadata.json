@@ -35694,5 +35694,26 @@
             "light": "pvy-archiver-wordmark-light",
             "dark": "pvy-archiver-wordmark-dark"
         }
+    },
+    "pvy-appstore": {
+        "base": "svg",
+        "aliases": [
+            "pvy.swiss"
+        ],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-01-22T13:25:20.854Z",
+            "author": {
+                "id": "twc3018b3j6v3db",
+                "name": "Guido F"
+            }
+        },
+        "colors": {
+            "dark": "pvy-appstore-dark"
+        },
+        "wordmark": {
+            "light": "pvy-appstore-wordmark-light",
+            "dark": "pvy-appstore-wordmark-dark"
+        }
     }
 }
