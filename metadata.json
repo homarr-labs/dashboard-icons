@@ -36411,5 +36411,26 @@
             "light": "pvy-bookmarks-wordmark-light",
             "dark": "pvy-bookmarks-wordmark-dark"
         }
+    },
+    "pvy-wiki": {
+        "base": "svg",
+        "aliases": [
+            "pvy.swiss"
+        ],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-01-23T12:59:49.401Z",
+            "author": {
+                "id": "twc3018b3j6v3db",
+                "name": "Guido F"
+            }
+        },
+        "colors": {
+            "dark": "pvy-wiki-dark"
+        },
+        "wordmark": {
+            "light": "pvy-wiki-wordmark-light",
+            "dark": "pvy-wiki-wordmark-dark"
+        }
     }
 }
