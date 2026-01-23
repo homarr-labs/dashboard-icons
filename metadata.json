@@ -36453,5 +36453,26 @@
             "light": "pvy-webcall-wordmark-light",
             "dark": "pvy-webcall-wordmark-dark"
         }
+    },
+    "pvy-vpn": {
+        "base": "svg",
+        "aliases": [
+            "pvy.swiss"
+        ],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-01-23T13:00:05.369Z",
+            "author": {
+                "id": "twc3018b3j6v3db",
+                "name": "Guido F"
+            }
+        },
+        "colors": {
+            "dark": "pvy-vpn-dark"
+        },
+        "wordmark": {
+            "light": "pvy-vpn-wordmark-light",
+            "dark": "pvy-vpn-wordmark-dark"
+        }
     }
 }
