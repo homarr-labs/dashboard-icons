@@ -36642,5 +36642,26 @@
             "light": "pvy-servicedesk-wordmark-light",
             "dark": "pvy-servicedesk-wordmark-dark"
         }
+    },
+    "pvy-search": {
+        "base": "svg",
+        "aliases": [
+            "pvy.swiss"
+        ],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-01-23T13:00:46.854Z",
+            "author": {
+                "id": "twc3018b3j6v3db",
+                "name": "Guido F"
+            }
+        },
+        "colors": {
+            "dark": "pvy-search-dark"
+        },
+        "wordmark": {
+            "light": "pvy-search-wordmark-light",
+            "dark": "pvy-search-wordmark-dark"
+        }
     }
 }
