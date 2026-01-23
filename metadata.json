@@ -8790,12 +8790,14 @@
     "kanidm": {
         "base": "svg",
         "aliases": [],
-        "categories": [],
+        "categories": [
+            "security"
+        ],
         "update": {
-            "timestamp": "2024-10-20T17:24:03Z",
+            "timestamp": "2026-01-23T13:01:26.964Z",
             "author": {
-                "id": 71191962,
-                "name": "walkxcode"
+                "id": 49837342,
+                "login": "ajnart"
             }
         }
     },
