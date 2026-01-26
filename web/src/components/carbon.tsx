@@ -1,10 +1,13 @@
 // biome-ignore-all lint: reason: I don't want to fix this
 import { useEffect, useRef, useState } from "react"
+import { usePostHog } from "posthog-js/react"
 
 export function Carbon() {
 	const [isBlocked, setIsBlocked] = useState(false)
 	const [isDismissed, setIsDismissed] = useState(false)
+	const [showSurvey, setShowSurvey] = useState(false)
 	const ref = useRef<HTMLDivElement>(null!)
+	const posthog = usePostHog()
 
 	if (process.env.NODE_ENV === "development") {
 		return null
@@ -46,8 +49,24 @@ export function Carbon() {
 	}, [])
 
 	const handleDismiss = () => {
+		setShowSurvey(true)
+	}
+
+	const handleSurveyResponse = (response: string) => {
+		// Capture the survey response to PostHog
+		posthog?.capture("survey sent", {
+			$survey_id: "019bf9d4-0a9b-0000-2c54-e10ca4ecb9d9",
+			$survey_questions: [
+				{
+					id: "7e3edab2-57b5-436f-86e2-969ab5b66523",
+					question: "Did you like this AD within the website or was it annoying ?",
+				},
+			],
+			$survey_response_7e3edab2_57b5_436f_86e2_969ab5b66523: response,
+		})
+
+		// Set dismissed state and cookie
 		setIsDismissed(true)
-		// Set cookie for 7 days
 		const date = new Date()
 		date.setTime(date.getTime() + 7 * 24 * 60 * 60 * 1000)
 		document.cookie = `carbon-ads-dismissed=true; expires=${date.toUTCString()}; path=/; SameSite=Lax`
@@ -57,13 +76,37 @@ export function Carbon() {
 		return (
 			<div className="flex flex-col items-center justify-center gap-2">
 				<img loading="lazy" src="/ad-blocker.webp" height={500} width={300} alt="Anti ad-blocker ad" />
-				<button
-					type="button"
-					onClick={handleDismiss}
-					className="text-xs text-muted-foreground hover:text-foreground underline transition-colors cursor-pointer"
-				>
-					Dismiss this message
-				</button>
+				{!showSurvey ? (
+					<button
+						type="button"
+						onClick={handleDismiss}
+						className="text-xs text-muted-foreground hover:text-foreground underline transition-colors cursor-pointer"
+					>
+						Dismiss this message
+					</button>
+				) : (
+					<div className="flex flex-col items-center gap-2">
+						<p className="text-xs text-muted-foreground">
+							Did you think this AD for ad-blocker was funny or annoying?
+						</p>
+						<div className="flex gap-2">
+							<button
+								type="button"
+								onClick={() => handleSurveyResponse("Like it (it's funny)")}
+								className="text-xs px-3 py-1.5 rounded bg-green-600 hover:bg-green-700 text-white transition-colors cursor-pointer"
+							>
+								Like it (it's funny)
+							</button>
+							<button
+								type="button"
+								onClick={() => handleSurveyResponse("Hate it (I want absolutely NO ADS)")}
+								className="text-xs px-3 py-1.5 rounded bg-red-600 hover:bg-red-700 text-white transition-colors cursor-pointer"
+							>
+								Hate it (I want absolutely NO ADS)
+							</button>
+						</div>
+					</div>
+				)}
 			</div>
 		)
 	}
