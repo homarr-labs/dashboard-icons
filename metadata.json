@@ -36833,5 +36833,17 @@
             "light": "pvy-news-wordmark-light",
             "dark": "pvy-news-wordmark-dark"
         }
+    },
+    "itop": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-01-26T13:04:45.510Z",
+            "author": {
+                "id": 97460839,
+                "login": "horned1"
+            }
+        }
     }
 }
