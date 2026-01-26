@@ -59,7 +59,7 @@ export function Carbon() {
 			$survey_questions: [
 				{
 					id: "7e3edab2-57b5-436f-86e2-969ab5b66523",
-					question: "Did you like this AD within the website or was it annoying ?",
+					question: "Did you like this ad within the website or was it annoying?",
 				},
 			],
 			$survey_response_7e3edab2_57b5_436f_86e2_969ab5b66523: response,
@@ -87,7 +87,7 @@ export function Carbon() {
 				) : (
 					<div className="flex flex-col items-center gap-2">
 						<p className="text-xs text-muted-foreground">
-							Did you think this AD for ad-blocker was funny or annoying?
+							Did you think this ad for ad-blocker was funny or annoying?
 						</p>
 						<div className="flex gap-2">
 							<button
