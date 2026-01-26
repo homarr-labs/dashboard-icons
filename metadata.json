@@ -36861,5 +36861,23 @@
                 "name": "Sbog"
             }
         }
+    },
+    "sponsorblock": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "social",
+            "tools",
+            "utility",
+            "automation",
+            "entertainment"
+        ],
+        "update": {
+            "timestamp": "2026-01-26T13:04:52.332Z",
+            "author": {
+                "id": 111227405,
+                "login": "bheyne666"
+            }
+        }
     }
 }
