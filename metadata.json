@@ -36879,5 +36879,21 @@
                 "login": "bheyne666"
             }
         }
+    },
+    "fortran": {
+        "base": "svg",
+        "aliases": [
+            "Fortran Programming Language"
+        ],
+        "categories": [
+            "development"
+        ],
+        "update": {
+            "timestamp": "2026-01-26T13:04:54.768Z",
+            "author": {
+                "id": "sowxli2ysgkofo9",
+                "name": "0xb0ec1d"
+            }
+        }
     }
 }
