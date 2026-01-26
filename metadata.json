@@ -36845,5 +36845,21 @@
                 "login": "horned1"
             }
         }
+    },
+    "sharewood": {
+        "base": "svg",
+        "aliases": [
+            "torrent"
+        ],
+        "categories": [
+            "media"
+        ],
+        "update": {
+            "timestamp": "2026-01-26T13:04:49.597Z",
+            "author": {
+                "id": "9y34g6yccnw9k2i",
+                "name": "Sbog"
+            }
+        }
     }
 }
