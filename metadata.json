@@ -37061,5 +37061,19 @@
                 "login": "GioSalvador"
             }
         }
+    },
+    "rustfs": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "storage"
+        ],
+        "update": {
+            "timestamp": "2026-02-02T10:41:55.139Z",
+            "author": {
+                "id": "om0u0kgta39laxz",
+                "name": "rustfs"
+            }
+        }
     }
 }
