@@ -37075,5 +37075,17 @@
                 "name": "rustfs"
             }
         }
+    },
+    "proton": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-02-02T10:41:57.831Z",
+            "author": {
+                "id": 165878227,
+                "login": "Zain3967"
+            }
+        }
     }
 }
