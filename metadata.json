@@ -36960,5 +36960,27 @@
             "light": "dvd-light",
             "dark": "dvd-dark"
         }
+    },
+    "cd": {
+        "base": "svg",
+        "aliases": [
+            "compact disc",
+            "disc"
+        ],
+        "categories": [
+            "media",
+            "storage"
+        ],
+        "update": {
+            "timestamp": "2026-02-02T10:41:36.147Z",
+            "author": {
+                "id": "sowxli2ysgkofo9",
+                "name": "0xb0ec1d"
+            }
+        },
+        "colors": {
+            "light": "cd-light",
+            "dark": "cd-dark"
+        }
     }
 }
