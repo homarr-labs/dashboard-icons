@@ -36938,5 +36938,27 @@
                 "name": "0xb0ec1d"
             }
         }
+    },
+    "dvd": {
+        "base": "svg",
+        "aliases": [
+            "digital video disc",
+            "digital versatile disc"
+        ],
+        "categories": [
+            "storage",
+            "media"
+        ],
+        "update": {
+            "timestamp": "2026-02-02T10:41:32.559Z",
+            "author": {
+                "id": "sowxli2ysgkofo9",
+                "name": "0xb0ec1d"
+            }
+        },
+        "colors": {
+            "light": "dvd-light",
+            "dark": "dvd-dark"
+        }
     }
 }
