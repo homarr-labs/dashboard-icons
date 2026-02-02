@@ -37033,5 +37033,19 @@
                 "login": "MarkRamiel"
             }
         }
+    },
+    "homehub": {
+        "base": "svg",
+        "aliases": [
+            "home-hub"
+        ],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-02-02T10:41:50.026Z",
+            "author": {
+                "id": 112346609,
+                "login": "gaby7129"
+            }
+        }
     }
 }

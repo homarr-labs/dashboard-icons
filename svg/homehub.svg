@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none"
+  xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">HomeHub Icon (no padding)</title>
+  <desc id="desc">Full-bleed rounded blue tile with a white house silhouette and a hub of connected dots inside, representing a family home hub.</desc>
+
+  <defs>
+    <!-- Brand gradient -->
+    <linearGradient id="bg" x1="0" y1="0" x2="512" y2="512" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#1d4ed8"/>
+      <stop offset="1" stop-color="#2563eb"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Full-bleed rounded background -->
+  <rect x="0" y="0" width="512" height="512" rx="104" fill="url(#bg)"/>
+
+  <!-- House silhouette -->
+  <path
+    d="
+      M256 112
+      L112 236
+      L144 236
+      L144 376
+      Q144 392 160 392
+      L352 392
+      Q368 392 368 376
+      L368 236
+      L400 236
+      Z
+    "
+    fill="#ffffff"
+  />
+
+  <!-- Hub symbol -->
+  <line x1="256" y1="288" x2="256" y2="220" stroke="#1d4ed8" stroke-width="16" stroke-linecap="round"/>
+  <line x1="256" y1="288" x2="198" y2="320" stroke="#1d4ed8" stroke-width="16" stroke-linecap="round"/>
+  <line x1="256" y1="288" x2="314" y2="320" stroke="#1d4ed8" stroke-width="16" stroke-linecap="round"/>
+
+  <circle cx="256" cy="288" r="16" fill="#1d4ed8"/>
+  <circle cx="256" cy="220" r="12" fill="#1d4ed8"/>
+  <circle cx="198" cy="320" r="12" fill="#1d4ed8"/>
+  <circle cx="314" cy="320" r="12" fill="#1d4ed8"/>
+</svg>
