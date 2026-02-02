@@ -36997,5 +36997,27 @@
                 "name": "0xb0ec1d"
             }
         }
+    },
+    "dependency-track": {
+        "base": "svg",
+        "aliases": [
+            "OWASP dependency track"
+        ],
+        "categories": [
+            "monitoring",
+            "security",
+            "development"
+        ],
+        "update": {
+            "timestamp": "2026-02-02T10:41:44.350Z",
+            "author": {
+                "id": "sowxli2ysgkofo9",
+                "name": "0xb0ec1d"
+            }
+        },
+        "wordmark": {
+            "light": "dependency-track-wordmark-light",
+            "dark": "dependency-track-wordmark-dark"
+        }
     }
 }
