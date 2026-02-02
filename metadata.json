@@ -36982,5 +36982,20 @@
             "light": "cd-light",
             "dark": "cd-dark"
         }
+    },
+    "uefi": {
+        "base": "svg",
+        "aliases": [
+            "The UEFI Forum",
+            "BIOS"
+        ],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-02-02T10:41:40.686Z",
+            "author": {
+                "id": "sowxli2ysgkofo9",
+                "name": "0xb0ec1d"
+            }
+        }
     }
 }
