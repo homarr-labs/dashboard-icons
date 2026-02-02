@@ -36895,5 +36895,27 @@
                 "name": "0xb0ec1d"
             }
         }
+    },
+    "blu-ray-3d": {
+        "base": "svg",
+        "aliases": [
+            "3d",
+            "blue ray",
+            "disc",
+            "cd",
+            "dvd"
+        ],
+        "categories": [
+            "entertainment",
+            "media",
+            "storage"
+        ],
+        "update": {
+            "timestamp": "2026-02-02T10:41:25.796Z",
+            "author": {
+                "id": "sowxli2ysgkofo9",
+                "name": "0xb0ec1d"
+            }
+        }
     }
 }
