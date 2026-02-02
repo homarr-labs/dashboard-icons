@@ -37047,5 +37047,19 @@
                 "login": "gaby7129"
             }
         }
+    },
+    "cypress": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "utility"
+        ],
+        "update": {
+            "timestamp": "2026-02-02T10:41:52.572Z",
+            "author": {
+                "id": 207097691,
+                "login": "GioSalvador"
+            }
+        }
     }
 }
