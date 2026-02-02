@@ -37019,5 +37019,19 @@
             "light": "dependency-track-wordmark-light",
             "dark": "dependency-track-wordmark-dark"
         }
+    },
+    "9anime": {
+        "base": "png",
+        "aliases": [],
+        "categories": [
+            "media"
+        ],
+        "update": {
+            "timestamp": "2026-02-02T10:41:47.282Z",
+            "author": {
+                "id": 248841200,
+                "login": "MarkRamiel"
+            }
+        }
     }
 }
