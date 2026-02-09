@@ -37267,5 +37267,21 @@
                 "login": "TornaxO7"
             }
         }
+    },
+    "paperless-ai": {
+        "base": "png",
+        "aliases": [
+            "PaperlessAI"
+        ],
+        "categories": [
+            "tools"
+        ],
+        "update": {
+            "timestamp": "2026-02-09T12:17:59.913Z",
+            "author": {
+                "id": 48501111,
+                "login": "mattxcnm"
+            }
+        }
     }
 }
