@@ -37145,5 +37145,29 @@
                 "login": "sloraris"
             }
         }
+    },
+    "questarr": {
+        "base": "png",
+        "aliases": [
+            "arr"
+        ],
+        "categories": [
+            "automation",
+            "entertainment",
+            "gaming",
+            "media",
+            "monitoring",
+            "tools"
+        ],
+        "update": {
+            "timestamp": "2026-02-09T12:17:33.538Z",
+            "author": {
+                "id": 71935902,
+                "login": "BLACK4585"
+            }
+        },
+        "wordmark": {
+            "light": "questarr-wordmark-light"
+        }
     }
 }
