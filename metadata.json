@@ -37250,5 +37250,20 @@
                 "name": "ValleBL"
             }
         }
+    },
+    "anubis": {
+        "base": "png",
+        "aliases": [],
+        "categories": [
+            "security",
+            "network"
+        ],
+        "update": {
+            "timestamp": "2026-02-09T12:17:54.558Z",
+            "author": {
+                "id": 50843046,
+                "login": "TornaxO7"
+            }
+        }
     }
 }
