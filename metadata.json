@@ -37126,5 +37126,24 @@
                 "login": "BLACK4585"
             }
         }
+    },
+    "t-pot": {
+        "base": "png",
+        "aliases": [
+            "tpotce",
+            "tpot"
+        ],
+        "categories": [
+            "security",
+            "network",
+            "monitoring"
+        ],
+        "update": {
+            "timestamp": "2026-02-09T12:17:29.761Z",
+            "author": {
+                "id": 97694636,
+                "login": "sloraris"
+            }
+        }
     }
 }
