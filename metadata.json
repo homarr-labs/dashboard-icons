@@ -15049,14 +15049,16 @@
         }
     },
     "feishin": {
-        "base": "png",
+        "base": "svg",
         "aliases": [],
-        "categories": [],
+        "categories": [
+            "media"
+        ],
         "update": {
-            "timestamp": "2025-01-07T17:54:03Z",
+            "timestamp": "2026-02-09T12:17:57.200Z",
             "author": {
-                "id": 71191962,
-                "name": "walkxcode"
+                "id": 31820255,
+                "login": "UtkarshVerma"
             }
         }
     },
