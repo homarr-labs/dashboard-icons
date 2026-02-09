@@ -37196,5 +37196,19 @@
                 "login": "mains-hum"
             }
         }
+    },
+    "pure-storage": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "storage"
+        ],
+        "update": {
+            "timestamp": "2026-02-09T12:17:41.879Z",
+            "author": {
+                "id": "s5u2z1081bah740",
+                "name": "junkratt"
+            }
+        }
     }
 }
