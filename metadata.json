@@ -37087,5 +37087,23 @@
                 "login": "Zain3967"
             }
         }
+    },
+    "databasus": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "database",
+            "automation",
+            "monitoring",
+            "tools",
+            "utility"
+        ],
+        "update": {
+            "timestamp": "2026-02-09T12:17:23.244Z",
+            "author": {
+                "id": 35038928,
+                "login": "blackstormlab"
+            }
+        }
     }
 }
