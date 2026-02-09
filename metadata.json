@@ -37181,5 +37181,20 @@
                 "login": "RioLi08123"
             }
         }
+    },
+    "void-linux": {
+        "base": "svg",
+        "aliases": [
+            "voidlinux",
+            "linux"
+        ],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-02-09T12:17:39.205Z",
+            "author": {
+                "id": 233751021,
+                "login": "mains-hum"
+            }
+        }
     }
 }
