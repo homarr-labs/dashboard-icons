@@ -37105,5 +37105,26 @@
                 "login": "blackstormlab"
             }
         }
+    },
+    "streamystats": {
+        "base": "svg",
+        "aliases": [
+            "jellyfin",
+            "jellystats",
+            "jellystat"
+        ],
+        "categories": [
+            "monitoring",
+            "entertainment",
+            "media",
+            "tools"
+        ],
+        "update": {
+            "timestamp": "2026-02-09T12:17:26.487Z",
+            "author": {
+                "id": 71935902,
+                "login": "BLACK4585"
+            }
+        }
     }
 }
