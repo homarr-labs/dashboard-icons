@@ -37307,5 +37307,21 @@
                 "login": "joikokira"
             }
         }
+    },
+    "openclaw": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "automation",
+            "tools",
+            "utility"
+        ],
+        "update": {
+            "timestamp": "2026-02-09T12:18:08.500Z",
+            "author": {
+                "id": "mxpjgxtay10n02u",
+                "name": "JustAGod"
+            }
+        }
     }
 }
