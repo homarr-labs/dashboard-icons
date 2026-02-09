@@ -19284,21 +19284,19 @@
         }
     },
     "cloudflare-zero-trust": {
-        "base": "svg",
+        "base": "png",
         "aliases": [
             "zero-trust-network",
             "secure-access-service"
         ],
         "categories": [
-            "Security",
-            "Cloud-Computing",
-            "Networking-Tools"
+            "cloud"
         ],
         "update": {
-            "timestamp": "2023-04-13T13:56:18Z",
+            "timestamp": "2026-02-09T12:18:11.193Z",
             "author": {
-                "id": 71191962,
-                "name": "walkxcode"
+                "id": 143962583,
+                "login": "julie-dujardin"
             }
         }
     },
