@@ -37283,5 +37283,17 @@
                 "login": "mattxcnm"
             }
         }
+    },
+    "citrix": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-02-09T12:18:02.692Z",
+            "author": {
+                "id": 97460839,
+                "login": "horned1"
+            }
+        }
     }
 }
