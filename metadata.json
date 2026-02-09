@@ -37210,5 +37210,17 @@
                 "name": "junkratt"
             }
         }
+    },
+    "home-assistant-time-machine": {
+        "base": "png",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-02-09T12:17:45.412Z",
+            "author": {
+                "id": 243903136,
+                "login": "bobbydd021-code"
+            }
+        }
     }
 }
