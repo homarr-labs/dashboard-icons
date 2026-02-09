@@ -37295,5 +37295,17 @@
                 "login": "horned1"
             }
         }
+    },
+    "kickstarter": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-02-09T12:18:05.763Z",
+            "author": {
+                "id": 13136819,
+                "login": "joikokira"
+            }
+        }
     }
 }
