@@ -37169,5 +37169,17 @@
         "wordmark": {
             "light": "questarr-wordmark-light"
         }
+    },
+    "squarespace": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-02-09T12:17:36.522Z",
+            "author": {
+                "id": 162880856,
+                "login": "RioLi08123"
+            }
+        }
     }
 }
