@@ -37600,5 +37600,20 @@
                 "login": "PotatyCode"
             }
         }
+    },
+    "pluto-tv": {
+        "base": "png",
+        "aliases": [],
+        "categories": [
+            "entertainment",
+            "media"
+        ],
+        "update": {
+            "timestamp": "2026-02-10T18:42:13.656Z",
+            "author": {
+                "id": "3cejunnjjjl23sx",
+                "name": "barcellos-pedro"
+            }
+        }
     }
 }
