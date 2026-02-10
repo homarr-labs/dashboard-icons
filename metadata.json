@@ -37588,5 +37588,17 @@
                 "login": "mendes-jose"
             }
         }
+    },
+    "super-productivity": {
+        "base": "png",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-02-10T18:42:10.973Z",
+            "author": {
+                "id": 219528050,
+                "login": "PotatyCode"
+            }
+        }
     }
 }
