@@ -37656,5 +37656,17 @@
                 "login": "Zain3967"
             }
         }
+    },
+    "jumpserver": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-02-10T18:42:25.912Z",
+            "author": {
+                "id": 2274859,
+                "login": "kenshaw"
+            }
+        }
     }
 }
