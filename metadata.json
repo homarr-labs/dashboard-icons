@@ -37758,5 +37758,31 @@
                 "name": "ValleBL"
             }
         }
+    },
+    "mediathekarr": {
+        "base": "png",
+        "aliases": [
+            "mediathek",
+            "arr",
+            "servarr",
+            "sonarr",
+            "radarr",
+            "ard",
+            "zdf"
+        ],
+        "categories": [
+            "automation",
+            "entertainment",
+            "media",
+            "tools",
+            "utility"
+        ],
+        "update": {
+            "timestamp": "2026-02-10T18:42:44.423Z",
+            "author": {
+                "id": 71935902,
+                "login": "BLACK4585"
+            }
+        }
     }
 }
