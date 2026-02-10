@@ -37814,5 +37814,22 @@
                 "login": "arialhamed"
             }
         }
+    },
+    "loggifly": {
+        "base": "png",
+        "aliases": [],
+        "categories": [
+            "monitoring",
+            "social",
+            "automation",
+            "security"
+        ],
+        "update": {
+            "timestamp": "2026-02-10T18:42:52.478Z",
+            "author": {
+                "id": 26867706,
+                "login": "frabnet"
+            }
+        }
     }
 }
