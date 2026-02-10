@@ -37717,5 +37717,20 @@
                 "login": "mattxcnm"
             }
         }
+    },
+    "barrage": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "utility",
+            "tools"
+        ],
+        "update": {
+            "timestamp": "2026-02-10T18:42:36.509Z",
+            "author": {
+                "id": 111227405,
+                "login": "bheyne666"
+            }
+        }
     }
 }
