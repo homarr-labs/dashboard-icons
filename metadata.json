@@ -37988,5 +37988,21 @@
                 "login": "andymcmillan"
             }
         }
+    },
+    "itch": {
+        "base": "png",
+        "aliases": [],
+        "categories": [
+            "gaming",
+            "social",
+            "development"
+        ],
+        "update": {
+            "timestamp": "2026-02-10T18:43:23.350Z",
+            "author": {
+                "id": 5590010,
+                "login": "brianpmaher"
+            }
+        }
     }
 }
