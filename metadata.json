@@ -37573,5 +37573,20 @@
                 "login": "laughingman-hass"
             }
         }
+    },
+    "everhour": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "tools",
+            "utility"
+        ],
+        "update": {
+            "timestamp": "2026-02-10T18:42:08.382Z",
+            "author": {
+                "id": 6586365,
+                "login": "mendes-jose"
+            }
+        }
     }
 }
