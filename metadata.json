@@ -37545,5 +37545,19 @@
         "wordmark": {
             "light": "twake-mail-wordmark-light"
         }
+    },
+    "journiv": {
+        "base": "png",
+        "aliases": [],
+        "categories": [
+            "social"
+        ],
+        "update": {
+            "timestamp": "2026-02-10T18:42:03.236Z",
+            "author": {
+                "id": 7321259,
+                "login": "michaelkrieger"
+            }
+        }
     }
 }
