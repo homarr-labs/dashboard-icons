@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  CrossWatch primary icon
+  - Monitor + checkmark only, no wordmark text.
+  - Intended for app chrome, launcher icons, toolbars, and small-brand spots.
+  - Gradient matches the main CrossWatch branding used in the UI.
+-->
+<svg xmlns="http://www.w3.org/2000/svg"
+     width="90" height="90" viewBox="0 0 24 24"
+     role="img" aria-label="CrossWatch icon">
+  <defs>
+    <linearGradient id="cw-g" x1="0" y1="0" x2="24" y2="24" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#2de2ff"/>
+      <stop offset=".5" stop-color="#7c5cff"/>
+      <stop offset="1" stop-color="#ff7ae0"/>
+    </linearGradient>
+  </defs>
+  <g id="cw-icon">
+    <rect x="3" y="4" width="18" height="12" rx="2" ry="2"
+          fill="none" stroke="url(#cw-g)" stroke-width="1.7"/>
+    <rect x="8" y="18" width="8" height="1.6" rx=".8"
+          fill="url(#cw-g)"/>
+    <circle cx="8" cy="9" r="1" fill="url(#cw-g)"/>
+    <circle cx="12" cy="11" r="1" fill="url(#cw-g)"/>
+    <circle cx="16" cy="8" r="1" fill="url(#cw-g)"/>
+    <path d="M8 9 L12 11 L16 8"
+          fill="none" stroke="url(#cw-g)"
+          stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+</svg>
