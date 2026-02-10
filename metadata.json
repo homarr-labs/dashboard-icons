@@ -37744,5 +37744,19 @@
                 "login": "Barry0901C"
             }
         }
+    },
+    "yopass": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "security"
+        ],
+        "update": {
+            "timestamp": "2026-02-10T18:42:41.844Z",
+            "author": {
+                "id": "wp3i3blorbl7ums",
+                "name": "ValleBL"
+            }
+        }
     }
 }
