@@ -37454,5 +37454,21 @@
                 "login": "cocco3"
             }
         }
+    },
+    "thehive": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "security",
+            "network",
+            "automation"
+        ],
+        "update": {
+            "timestamp": "2026-02-10T18:41:45.980Z",
+            "author": {
+                "id": 97460839,
+                "login": "horned1"
+            }
+        }
     }
 }
