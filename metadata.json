@@ -37877,5 +37877,17 @@
                 "login": "Shino-Song"
             }
         }
+    },
+    "cleanuparr": {
+        "base": "png",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-02-10T18:43:03.285Z",
+            "author": {
+                "id": 14542280,
+                "login": "kjetilfr"
+            }
+        }
     }
 }
