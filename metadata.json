@@ -37527,5 +37527,23 @@
                 "login": "laughingman-hass"
             }
         }
+    },
+    "twake-mail": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "other",
+            "tools"
+        ],
+        "update": {
+            "timestamp": "2026-02-10T18:42:00.649Z",
+            "author": {
+                "id": 75285213,
+                "login": "chachoCL"
+            }
+        },
+        "wordmark": {
+            "light": "twake-mail-wordmark-light"
+        }
     }
 }
