@@ -37889,5 +37889,17 @@
                 "login": "kjetilfr"
             }
         }
+    },
+    "configarr": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-02-10T18:43:05.880Z",
+            "author": {
+                "id": 14542280,
+                "login": "kjetilfr"
+            }
+        }
     }
 }
