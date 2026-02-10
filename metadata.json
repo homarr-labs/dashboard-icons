@@ -37685,5 +37685,23 @@
                 "name": "nakedroboticcore"
             }
         }
+    },
+    "genua": {
+        "base": "svg",
+        "aliases": [
+            "genuscreen",
+            "genugate"
+        ],
+        "categories": [
+            "security",
+            "network"
+        ],
+        "update": {
+            "timestamp": "2026-02-10T18:42:31.064Z",
+            "author": {
+                "id": "3qg229wub43kcsv",
+                "name": "Menom"
+            }
+        }
     }
 }
