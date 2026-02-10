@@ -37959,5 +37959,19 @@
             "light": "kirby-wordmark-light",
             "dark": "kirby-wordmark-dark"
         }
+    },
+    "byparr": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "media"
+        ],
+        "update": {
+            "timestamp": "2026-02-10T18:43:17.840Z",
+            "author": {
+                "id": 318022,
+                "login": "ajtatum"
+            }
+        }
     }
 }
