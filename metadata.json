@@ -37784,5 +37784,17 @@
                 "login": "BLACK4585"
             }
         }
+    },
+    "burpsuite": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-02-10T18:42:47.018Z",
+            "author": {
+                "id": 123322448,
+                "login": "caussao"
+            }
+        }
     }
 }
