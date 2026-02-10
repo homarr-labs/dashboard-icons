@@ -37668,5 +37668,22 @@
                 "login": "kenshaw"
             }
         }
+    },
+    "pigeonpod": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "automation",
+            "utility",
+            "tools",
+            "media"
+        ],
+        "update": {
+            "timestamp": "2026-02-10T18:42:28.517Z",
+            "author": {
+                "id": "gapdsyqoniks0i5",
+                "name": "nakedroboticcore"
+            }
+        }
     }
 }
