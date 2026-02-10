@@ -37732,5 +37732,17 @@
                 "login": "bheyne666"
             }
         }
+    },
+    "floorplanner": {
+        "base": "png",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-02-10T18:42:39.055Z",
+            "author": {
+                "id": 106197499,
+                "login": "Barry0901C"
+            }
+        }
     }
 }
