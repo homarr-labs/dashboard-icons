@@ -37901,5 +37901,19 @@
                 "login": "kjetilfr"
             }
         }
+    },
+    "homematic-ip": {
+        "base": "png",
+        "aliases": [],
+        "categories": [
+            "home-automation"
+        ],
+        "update": {
+            "timestamp": "2026-02-10T18:43:08.693Z",
+            "author": {
+                "id": 13781985,
+                "login": "elmars"
+            }
+        }
     }
 }
