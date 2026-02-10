@@ -37498,5 +37498,20 @@
                 "login": "michaelkrieger"
             }
         }
+    },
+    "dnsimple": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "cloud",
+            "tools"
+        ],
+        "update": {
+            "timestamp": "2026-02-10T18:41:55.088Z",
+            "author": {
+                "id": "s5u2z1081bah740",
+                "name": "junkratt"
+            }
+        }
     }
 }
