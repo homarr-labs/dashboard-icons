@@ -38018,5 +38018,22 @@
                 "login": "TheDidek"
             }
         }
+    },
+    "tyepcho": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "media"
+        ],
+        "update": {
+            "timestamp": "2026-02-10T18:43:29.094Z",
+            "author": {
+                "id": 35884432,
+                "login": "hxhwing0522"
+            }
+        },
+        "wordmark": {
+            "light": "tyepcho-wordmark-light"
+        }
     }
 }
