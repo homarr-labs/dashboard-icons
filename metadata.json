@@ -37440,5 +37440,19 @@
                 "login": "nicktheone"
             }
         }
+    },
+    "shelfmark": {
+        "base": "png",
+        "aliases": [],
+        "categories": [
+            "media"
+        ],
+        "update": {
+            "timestamp": "2026-02-10T18:41:43.412Z",
+            "author": {
+                "id": 1775017,
+                "login": "cocco3"
+            }
+        }
     }
 }
