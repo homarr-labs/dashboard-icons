@@ -37931,5 +37931,33 @@
                 "login": "badlydrawnface"
             }
         }
+    },
+    "kirby": {
+        "base": "svg",
+        "aliases": [
+            "Kirby",
+            "Kirby CMS"
+        ],
+        "categories": [
+            "development",
+            "media",
+            "tools",
+            "cloud",
+            "utility"
+        ],
+        "update": {
+            "timestamp": "2026-02-10T18:43:15.093Z",
+            "author": {
+                "id": 82413245,
+                "login": "Reacien"
+            }
+        },
+        "colors": {
+            "light": "kirby-light"
+        },
+        "wordmark": {
+            "light": "kirby-wordmark-light",
+            "dark": "kirby-wordmark-dark"
+        }
     }
 }
