@@ -28293,14 +28293,16 @@
         }
     },
     "awx": {
-        "base": "png",
+        "base": "svg",
         "aliases": [],
-        "categories": [],
+        "categories": [
+            "automation"
+        ],
         "update": {
-            "timestamp": "2024-10-20T19:32:46Z",
+            "timestamp": "2026-02-10T18:41:35.398Z",
             "author": {
-                "id": 71191962,
-                "name": "walkxcode"
+                "id": 240995441,
+                "login": "n3562216-oss"
             }
         }
     },
