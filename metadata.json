@@ -38004,5 +38004,19 @@
                 "login": "brianpmaher"
             }
         }
+    },
+    "sillytavern": {
+        "base": "png",
+        "aliases": [],
+        "categories": [
+            "tools"
+        ],
+        "update": {
+            "timestamp": "2026-02-10T18:43:26.095Z",
+            "author": {
+                "id": 145149410,
+                "login": "TheDidek"
+            }
+        }
     }
 }
