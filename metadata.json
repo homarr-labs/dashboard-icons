@@ -37348,5 +37348,19 @@
                 "login": "MemeFormer"
             }
         }
+    },
+    "roon": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "media"
+        ],
+        "update": {
+            "timestamp": "2026-02-10T18:41:24.476Z",
+            "author": {
+                "id": 36221724,
+                "login": "misway"
+            }
+        }
     }
 }
