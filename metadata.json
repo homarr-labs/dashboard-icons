@@ -37915,5 +37915,21 @@
                 "login": "elmars"
             }
         }
+    },
+    "nikku": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "tools",
+            "gaming",
+            "media"
+        ],
+        "update": {
+            "timestamp": "2026-02-10T18:43:11.299Z",
+            "author": {
+                "id": 53501005,
+                "login": "badlydrawnface"
+            }
+        }
     }
 }
