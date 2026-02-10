@@ -37615,5 +37615,17 @@
                 "name": "barcellos-pedro"
             }
         }
+    },
+    "storyteller": {
+        "base": "png",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-02-10T18:42:17.085Z",
+            "author": {
+                "id": 106197499,
+                "login": "Barry0901C"
+            }
+        }
     }
 }
