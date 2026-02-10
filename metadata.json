@@ -37858,5 +37858,24 @@
                 "login": "heathaolson"
             }
         }
+    },
+    "chzzk": {
+        "base": "png",
+        "aliases": [
+            "치지직"
+        ],
+        "categories": [
+            "entertainment",
+            "social",
+            "media",
+            "gaming"
+        ],
+        "update": {
+            "timestamp": "2026-02-10T18:43:00.704Z",
+            "author": {
+                "id": 218600788,
+                "login": "Shino-Song"
+            }
+        }
     }
 }
