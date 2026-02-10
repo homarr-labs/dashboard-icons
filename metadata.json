@@ -37641,5 +37641,20 @@
                 "name": "ValleBL"
             }
         }
+    },
+    "catppuccin": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "utility",
+            "development"
+        ],
+        "update": {
+            "timestamp": "2026-02-10T18:42:23.247Z",
+            "author": {
+                "id": 165878227,
+                "login": "Zain3967"
+            }
+        }
     }
 }
