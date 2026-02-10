@@ -37513,5 +37513,19 @@
                 "name": "junkratt"
             }
         }
+    },
+    "squadrats": {
+        "base": "png",
+        "aliases": [],
+        "categories": [
+            "other"
+        ],
+        "update": {
+            "timestamp": "2026-02-10T18:41:57.670Z",
+            "author": {
+                "id": 9951907,
+                "login": "laughingman-hass"
+            }
+        }
     }
 }
