@@ -37796,5 +37796,23 @@
                 "login": "caussao"
             }
         }
+    },
+    "carousell": {
+        "base": "svg",
+        "aliases": [
+            "shop",
+            "shopping",
+            "e-commerce",
+            "buy",
+            "sell"
+        ],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-02-10T18:42:49.574Z",
+            "author": {
+                "id": 46643158,
+                "login": "arialhamed"
+            }
+        }
     }
 }
