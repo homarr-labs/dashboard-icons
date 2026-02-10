@@ -37390,5 +37390,25 @@
                 "login": "RioLi08123"
             }
         }
+    },
+    "simkl": {
+        "base": "svg",
+        "aliases": [
+            "Simkl tracking",
+            "www.simkl.com"
+        ],
+        "categories": [
+            "entertainment",
+            "media",
+            "utility",
+            "tools"
+        ],
+        "update": {
+            "timestamp": "2026-02-10T18:41:32.852Z",
+            "author": {
+                "id": 258461935,
+                "login": "homelabenthu"
+            }
+        }
     }
 }
