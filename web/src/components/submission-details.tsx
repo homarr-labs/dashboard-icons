@@ -159,7 +159,7 @@ export function SubmissionDetails({
 							{submission.assets.map((asset, index) => (
 								<MagicCard key={index} className="p-0 rounded-md">
 									<div className="relative">
-										<div className="aspect-square rounded-lg border flex items-center justify-center p-8 bg-muted/30">
+										<div className="aspect-square rounded-lg border flex items-center justify-center p-4 sm:p-8 bg-muted/30">
 											<Image
 												src={`${pb.baseURL}/api/files/submissions/${submission.id}/${asset}` || "/placeholder.svg"}
 												alt={`${submission.name} asset ${index + 1}`}
@@ -172,18 +172,18 @@ export function SubmissionDetails({
 											<Button
 												size="sm"
 												variant="secondary"
-												className="h-8 w-8 p-0"
+												className="h-9 w-9 sm:h-8 sm:w-8 p-0"
 												onClick={(e) => {
 													e.stopPropagation()
 													window.open(`${pb.baseUrl}/api/files/submissions/${submission.id}/${asset}`, "_blank")
 												}}
 											>
-												<ExternalLink className="h-3 w-3" />
+												<ExternalLink className="h-3.5 w-3.5 sm:h-3 sm:w-3" />
 											</Button>
 											<Button
 												size="sm"
 												variant="secondary"
-												className="h-8 w-8 p-0"
+												className="h-9 w-9 sm:h-8 sm:w-8 p-0"
 												onClick={(e) => {
 													e.stopPropagation()
 													handleDownload(
@@ -192,7 +192,7 @@ export function SubmissionDetails({
 													)
 												}}
 											>
-												<Download className="h-3 w-3" />
+												<Download className="h-3.5 w-3.5 sm:h-3 sm:w-3" />
 											</Button>
 										</div>
 									</div>
@@ -208,13 +208,13 @@ export function SubmissionDetails({
 			<div className="lg:col-span-2">
 				<Card className="h-full bg-background/50 border">
 					<CardHeader className="pb-3">
-						<div className="flex items-center justify-between">
+						<div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
 							<CardTitle className="text-lg flex items-center gap-2">
 								<Tag className="w-5 h-5" />
 								Submission Details
 							</CardTitle>
-							<div className="flex gap-2">
-								<Button asChild size="sm" variant="outline">
+							<div className="flex flex-wrap gap-2">
+								<Button asChild size="sm" variant="outline" className="w-full sm:w-auto">
 									<Link href={`/community/${submission.name}`} target="_blank">
 										<Eye className="w-4 h-4 mr-2" />
 										Preview
@@ -227,6 +227,7 @@ export function SubmissionDetails({
 												size="sm"
 												color="green"
 												variant="outline"
+												className="flex-1 sm:flex-none"
 												onClick={(e) => {
 													e.stopPropagation()
 													onApprove()
@@ -242,6 +243,7 @@ export function SubmissionDetails({
 												size="sm"
 												color="red"
 												variant="destructive"
+												className="flex-1 sm:flex-none"
 												onClick={(e) => {
 													e.stopPropagation()
 													onReject()
@@ -254,22 +256,22 @@ export function SubmissionDetails({
 										)}
 									</>
 								)}
-								{onTriggerWorkflow && submission.status === "approved" && isAdmin && (
-									<Button
-										size="sm"
-										variant="default"
-										onClick={(e) => {
-											e.stopPropagation()
-											onTriggerWorkflow()
-										}}
-										disabled={isTriggeringWorkflow}
-									>
-										<Github className="w-4 h-4 mr-2" />
-										{isTriggeringWorkflow ? "Starting..." : "Run GitHub CI"}
-									</Button>
-								)}
+							{onTriggerWorkflow && submission.status === "approved" && isAdmin && (
+								<Button
+									size="sm"
+									className="w-full sm:w-auto bg-green-600 hover:bg-green-700 text-white"
+									onClick={(e) => {
+										e.stopPropagation()
+										onTriggerWorkflow()
+									}}
+									disabled={isTriggeringWorkflow}
+								>
+									<Github className="w-4 h-4 mr-2" />
+									{isTriggeringWorkflow ? "Starting..." : "Run GitHub CI"}
+								</Button>
+							)}
 								{workflowUrl && (
-									<Button asChild size="sm" variant="outline">
+									<Button asChild size="sm" variant="outline" className="w-full sm:w-auto">
 										<a href={workflowUrl} target="_blank" rel="noopener noreferrer">
 											<ExternalLink className="w-4 h-4 mr-2" />
 											View Workflow

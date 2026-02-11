@@ -13,6 +13,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Dropzone, DropzoneContent, DropzoneEmptyState } from "@/components/ui/shadcn-io/dropzone"
 import { Textarea } from "@/components/ui/textarea"
+import { useIsMobile } from "@/hooks/use-mobile"
 import {
 	ACCEPTED_FILE_TYPES,
 	AVAILABLE_CATEGORIES,
@@ -39,6 +40,7 @@ export function IconSubmissionContent() {
 }
 
 export function IconSubmissionForm() {
+	const isMobile = useIsMobile()
 	const {
 		form,
 		filePreviews,
@@ -62,7 +64,7 @@ export function IconSubmissionForm() {
 	const hasAnyPreview = Object.keys(filePreviews).length > 0
 
 	return (
-		<div className="w-full max-w-7xl mx-auto">
+		<div className={cn("w-full max-w-7xl mx-auto", isMobile && "pb-24")}>
 			<div className="grid lg:grid-cols-4 gap-6">
 				<div className="lg:col-span-3 space-y-6">
 					<form
@@ -74,18 +76,18 @@ export function IconSubmissionForm() {
 						className="space-y-6"
 					>
 						<Card className="group hover:shadow-xl transition-all duration-300 border-0 shadow-lg overflow-hidden border-t-4 border-t-primary rounded-none">
-							<CardHeader>
+							<CardHeader className="px-4 sm:px-6">
 								<div className="flex items-center gap-3">
-									<div className="h-10 w-10 bg-primary/10 flex items-center justify-center">
-										<Sparkles className="h-5 w-5 text-primary" />
+									<div className="h-8 w-8 sm:h-10 sm:w-10 bg-primary/10 flex items-center justify-center shrink-0">
+										<Sparkles className="h-4 w-4 sm:h-5 sm:w-5 text-primary" />
 									</div>
 									<div>
-										<CardTitle className="text-xl">Icon Identity</CardTitle>
-										<CardDescription>Choose a unique identifier for your icon submission</CardDescription>
+										<CardTitle className="text-lg sm:text-xl">Icon Identity</CardTitle>
+										<CardDescription className="text-xs sm:text-sm">Choose a unique identifier for your icon submission</CardDescription>
 									</div>
 								</div>
 							</CardHeader>
-							<CardContent className="space-y-4">
+							<CardContent className="space-y-4 px-4 sm:px-6">
 								<form.Field name="iconName" validators={{ onChange: iconNameValidator }}>
 									{(field) => (
 										<div className="space-y-2">
@@ -124,18 +126,18 @@ export function IconSubmissionForm() {
 						</Card>
 
 						<Card className="group hover:shadow-xl transition-all duration-300 border-0 shadow-lg overflow-hidden border-t-4 border-t-blue-500 rounded-none">
-							<CardHeader>
+							<CardHeader className="px-4 sm:px-6">
 								<div className="flex items-center gap-3">
-									<div className="h-10 w-10 bg-blue-500/10 flex items-center justify-center">
-										<FileType className="h-5 w-5 text-blue-500" />
+									<div className="h-8 w-8 sm:h-10 sm:w-10 bg-blue-500/10 flex items-center justify-center shrink-0">
+										<FileType className="h-4 w-4 sm:h-5 sm:w-5 text-blue-500" />
 									</div>
 									<div>
-										<CardTitle className="text-xl">File Uploads</CardTitle>
-										<CardDescription>Upload your icon files in SVG or PNG format (max 5MB each)</CardDescription>
+										<CardTitle className="text-lg sm:text-xl">File Uploads</CardTitle>
+										<CardDescription className="text-xs sm:text-sm">Upload SVG or PNG icons (max 5MB each)</CardDescription>
 									</div>
 								</div>
 							</CardHeader>
-							<CardContent className="space-y-4">
+							<CardContent className="space-y-4 px-4 sm:px-6">
 								<IconSubmissionGuidelines />
 
 								<form.Field name="selectedVariants">
@@ -177,7 +179,7 @@ export function IconSubmissionForm() {
 
 											<div className="space-y-2">
 												<Label className="text-sm font-medium">Upload Files</Label>
-												<div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
+												<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
 													{field.state.value.map((variantId) => {
 														const variant = VARIANTS.find((v) => v.id === variantId)
 														if (!variant) return null
@@ -201,9 +203,9 @@ export function IconSubmissionForm() {
 																		variant="ghost"
 																		size="icon"
 																		onClick={() => handleRemoveVariant(variant.id)}
-																		className="absolute top-2 right-2 h-6 w-6 hover:bg-destructive/10 hover:text-destructive"
+																		className="absolute top-1 right-1 h-8 w-8 sm:h-6 sm:w-6 hover:bg-destructive/10 hover:text-destructive"
 																	>
-																		<X className="h-3 w-3" />
+																		<X className="h-4 w-4 sm:h-3 sm:w-3" />
 																	</Button>
 																)}
 
@@ -241,18 +243,18 @@ export function IconSubmissionForm() {
 						</Card>
 
 						<Card className="group hover:shadow-xl transition-all duration-300 border-0 shadow-lg overflow-hidden border-t-4 border-t-emerald-500 rounded-none">
-							<CardHeader>
+							<CardHeader className="px-4 sm:px-6">
 								<div className="flex items-center gap-3">
-									<div className="h-10 w-10 bg-emerald-500/10 flex items-center justify-center">
-										<Tag className="h-5 w-5 text-emerald-500" />
+									<div className="h-8 w-8 sm:h-10 sm:w-10 bg-emerald-500/10 flex items-center justify-center shrink-0">
+										<Tag className="h-4 w-4 sm:h-5 sm:w-5 text-emerald-500" />
 									</div>
 									<div>
-										<CardTitle className="text-xl">Metadata</CardTitle>
-										<CardDescription>Add categories and aliases to help users discover your icon</CardDescription>
+										<CardTitle className="text-lg sm:text-xl">Metadata</CardTitle>
+										<CardDescription className="text-xs sm:text-sm">Add categories and aliases for discoverability</CardDescription>
 									</div>
 								</div>
 							</CardHeader>
-							<CardContent className="space-y-6">
+							<CardContent className="space-y-6 px-4 sm:px-6">
 								<form.Field name="categories">
 									{(field) => (
 										<div className="space-y-3">
@@ -298,7 +300,7 @@ export function IconSubmissionForm() {
 										{(field) => (
 											<div className="flex gap-2">
 												<Input
-													placeholder="Add alternative names users might search for..."
+													placeholder="Add alternative names..."
 													value={field.state.value}
 													onChange={(e) => field.handleChange(e.target.value)}
 													onKeyDown={(e) => {
@@ -348,8 +350,8 @@ export function IconSubmissionForm() {
 					</form>
 				</div>
 
-				<div className="lg:col-span-1">
-					<div className="sticky top-20 space-y-6">
+			<div className="lg:col-span-1">
+				<div className={cn("space-y-6", !isMobile && "sticky top-20")}>
 						<Card className="border-0 shadow-lg overflow-hidden border-t-4 border-t-violet-500 rounded-none">
 							<CardHeader>
 								<div className="flex items-center gap-3">
@@ -366,7 +368,10 @@ export function IconSubmissionForm() {
 								{hasAnyPreview ? (
 									<form.Subscribe selector={(state) => state.values.iconName}>
 										{(iconName) => (
-											<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 2xl:grid-cols-1 gap-3">
+											<div className={cn(
+												"grid gap-3",
+												isMobile ? "grid-cols-2" : "grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 2xl:grid-cols-1"
+											)}>
 												{Object.entries(filePreviews).map(([variantId, preview]) => {
 													const variant = VARIANTS.find((v) => v.id === variantId)
 													return (
@@ -393,34 +398,62 @@ export function IconSubmissionForm() {
 							</CardContent>
 						</Card>
 
-						<Card className="border-0 shadow-lg overflow-hidden border-t-4 border-t-primary p-2 rounded-none">
-							<CardContent className="px-2">
-								<div className="flex flex-col gap-3">
-									<form.Subscribe selector={(state) => ({
-										canSubmit: state.canSubmit,
-										hasBaseFile: Boolean(state.values.files.base?.[0]),
-									})}>
-										{({ canSubmit, hasBaseFile }) => (
-											<Button
-												type="button"
-												onClick={() => form.handleSubmit()}
-												disabled={!canSubmit || !hasBaseFile || isSubmitting}
-												className="w-full gap-2 bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70"
-											>
-												<Send className="h-4 w-4" />
-												{isSubmitting ? "Submitting..." : "Submit Icon"}
-											</Button>
-										)}
-									</form.Subscribe>
-									<Button type="button" variant="outline" onClick={resetForm} className="w-full" disabled={isSubmitting}>
-										Clear Form
-									</Button>
-								</div>
-							</CardContent>
-						</Card>
+						{!isMobile && (
+							<Card className="border-0 shadow-lg overflow-hidden border-t-4 border-t-primary p-2 rounded-none">
+								<CardContent className="px-2">
+									<div className="flex flex-col gap-3">
+										<form.Subscribe selector={(state) => ({
+											canSubmit: state.canSubmit,
+											hasBaseFile: Boolean(state.values.files.base?.[0]),
+										})}>
+											{({ canSubmit, hasBaseFile }) => (
+												<Button
+													type="button"
+													onClick={() => form.handleSubmit()}
+													disabled={!canSubmit || !hasBaseFile || isSubmitting}
+													className="w-full gap-2 bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70"
+												>
+													<Send className="h-4 w-4" />
+													{isSubmitting ? "Submitting..." : "Submit Icon"}
+												</Button>
+											)}
+										</form.Subscribe>
+										<Button type="button" variant="outline" onClick={resetForm} className="w-full" disabled={isSubmitting}>
+											Clear Form
+										</Button>
+									</div>
+								</CardContent>
+							</Card>
+						)}
 					</div>
 				</div>
 			</div>
+
+			{isMobile && (
+				<div className="fixed bottom-0 left-0 right-0 z-50 border-t bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80 p-3">
+					<div className="flex gap-2 max-w-7xl mx-auto">
+						<Button type="button" variant="outline" onClick={resetForm} disabled={isSubmitting} className="shrink-0">
+							Clear
+						</Button>
+						<form.Subscribe selector={(state) => ({
+							canSubmit: state.canSubmit,
+							hasBaseFile: Boolean(state.values.files.base?.[0]),
+						})}>
+							{({ canSubmit, hasBaseFile }) => (
+								<Button
+									type="button"
+									onClick={() => form.handleSubmit()}
+									disabled={!canSubmit || !hasBaseFile || isSubmitting}
+									className="flex-1 gap-2 bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70"
+								>
+									<Send className="h-4 w-4" />
+									{isSubmitting ? "Submitting..." : "Submit Icon"}
+								</Button>
+							)}
+						</form.Subscribe>
+					</div>
+				</div>
+			)}
 		</div>
 	)
 }
