@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "turbo run dev:backend dev:web --ui tui",
     "dev:backend": "cd backend && ./pocketbase serve",
-    "dev:web": "next dev --turbopack",
+    "dev:web": "next dev --turbopack --port 3005",
     "build": "next build",
     "start": "next start",
     "format": "biome check --write",
