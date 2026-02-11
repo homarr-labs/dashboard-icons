@@ -39,3 +39,12 @@ node_modules/
 
 # GitHub Actions output artifacts (should never be committed)
 import_output_*.txt
+
+# Playwright MCP artifacts
+.playwright-mcp/
+
+# Stray screenshots from testing
+*.png
+!svg/**/*.png
+!png/**/*.png
+!webp/**/*.webp
