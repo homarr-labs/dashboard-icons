@@ -155,6 +155,7 @@ export default function DashboardPage() {
 				<Card className="bg-background/50 border shadow-lg w-full max-w-md">
 					<CardContent className="pt-6 sm:pt-8 pb-6 px-4 sm:px-6">
 						<LoginModalContent
+							autoFocus={false}
 							onSuccess={() => {
 								queryClient.invalidateQueries({ queryKey: ["auth"] })
 								queryClient.invalidateQueries({ queryKey: ["submissions"] })

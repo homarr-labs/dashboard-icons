@@ -5,7 +5,7 @@ import { usePostHog } from "posthog-js/react"
 import type React from "react"
 import { useRef, useState } from "react"
 import { Button } from "@/components/ui/button"
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Separator } from "@/components/ui/separator"
@@ -14,9 +14,10 @@ import { identifyUserInPostHog } from "@/lib/posthog-utils"
 
 interface LoginModalContentProps {
 	onSuccess?: () => void
+	autoFocus?: boolean
 }
 
-export function LoginModalContent({ onSuccess }: LoginModalContentProps) {
+export function LoginModalContent({ onSuccess, autoFocus = true }: LoginModalContentProps) {
 	const [isRegister, setIsRegister] = useState(false)
 	const [email, setEmail] = useState("")
 	const [username, setUsername] = useState("")
@@ -38,23 +39,26 @@ export function LoginModalContent({ onSuccess }: LoginModalContentProps) {
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault()
 		setError("")
+
+		if (isRegister) {
+			if (password !== confirmPassword) {
+				setError("Passwords do not match")
+				return
+			}
+			if (!username.trim()) {
+				setError("Username is required")
+				return
+			}
+			if (!email.trim()) {
+				setError("Email is required")
+				return
+			}
+		}
+
 		setIsLoading(true)
 
 		try {
 			if (isRegister) {
-				if (password !== confirmPassword) {
-					setError("Passwords do not match")
-					return
-				}
-				if (!username.trim()) {
-					setError("Username is required")
-					return
-				}
-				if (!email.trim()) {
-					setError("Email is required")
-					return
-				}
-
 				await pb.collection("users").create({
 					username: username.trim(),
 					email: email.trim(),
@@ -190,7 +194,7 @@ export function LoginModalContent({ onSuccess }: LoginModalContentProps) {
 						<Input
 							id="email"
 							ref={emailRef}
-							autoFocus
+							autoFocus={autoFocus}
 							type="text"
 							autoComplete="username"
 							placeholder={`Enter your email${isRegister ? "" : " or username"}`}
@@ -297,10 +301,9 @@ interface LoginModalProps {
 export function LoginModal({ open, onOpenChange }: LoginModalProps) {
 	return (
 		<Dialog open={open} onOpenChange={onOpenChange}>
-			<DialogContent className="w-full max-w-lg bg-background border shadow-2xl">
+			<DialogContent className="w-full max-w-lg bg-background border shadow-2xl" aria-describedby={undefined}>
 				<DialogHeader className="sr-only">
 					<DialogTitle>Sign In</DialogTitle>
-					<DialogDescription>Sign in to submit and manage your icons</DialogDescription>
 				</DialogHeader>
 				<LoginModalContent onSuccess={() => onOpenChange(false)} />
 			</DialogContent>

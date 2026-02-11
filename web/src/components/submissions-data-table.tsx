@@ -267,7 +267,7 @@ export function SubmissionsDataTable({
 				},
 				cell: ({ row }) => {
 					const submission = row.original
-					const expandedData = (submission as any).expand
+					const expandedData = submission.expand
 					const displayName = getDisplayName(submission, expandedData)
 					const userId = submission.created_by
 
@@ -339,7 +339,7 @@ export function SubmissionsDataTable({
 			const name = row.getValue("name") as string
 			const status = row.getValue("status") as string
 			const submission = row.original
-			const expandedData = (submission as any).expand
+			const expandedData = submission.expand
 			const displayName = getDisplayName(submission, expandedData)
 
 			return (
@@ -378,7 +378,7 @@ export function SubmissionsDataTable({
 		if (globalFilter) {
 			const searchValue = globalFilter.toLowerCase()
 			filtered = filtered.filter((submission) => {
-				const expandedData = (submission as any).expand
+				const expandedData = submission.expand
 				const displayName = getDisplayName(submission, expandedData)
 				return (
 					submission.name.toLowerCase().includes(searchValue) ||
@@ -485,7 +485,7 @@ export function SubmissionsDataTable({
 									const showStatusHeader = currentStatus !== lastStatus
 									lastStatus = currentStatus
 									const assets = submission.assets
-									const expandedData = (submission as any).expand
+									const expandedData = submission.expand
 									const displayName = getDisplayName(submission, expandedData)
 									const isSelected = !!rowSelection[submission.id]
 									const isApproved = submission.status === "approved"
