@@ -43,6 +43,10 @@ import_output_*.txt
 # Playwright MCP artifacts
 .playwright-mcp/
 
+# Test environment (credentials)
+.env.test
+web/.env.test
+
 # Stray screenshots from testing
 *.png
 !svg/**/*.png

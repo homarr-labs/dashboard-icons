@@ -1,41 +1,30 @@
 import { expect, test } from "@playwright/test"
-
-const ADMIN_EMAIL = "admin@dashboardicons.com"
-const ADMIN_PASSWORD = "playwright"
+import { ADMIN_EMAIL, ADMIN_PASSWORD } from "./helpers/auth"
 
 test.describe("Authentication Flow", () => {
 	test("should login via the login modal from header", async ({ page }) => {
 		await page.goto("/")
 
-		// Click submit button in header to trigger login
 		const submitButton = page.getByRole("button", {
 			name: /Submit icon/,
 		})
 		await submitButton.click()
 
-		// Login modal should appear
 		await expect(
 			page.getByRole("heading", { name: "Welcome Back" }),
 		).toBeVisible()
 
-		// Fill in credentials
 		await page
 			.getByPlaceholder("Enter your email or username")
 			.fill(ADMIN_EMAIL)
 		await page.getByPlaceholder("Enter your password").fill(ADMIN_PASSWORD)
 
-		// Submit
 		await page.getByRole("button", { name: "Sign In" }).click()
 
-		// Wait for login to complete
-		await page.waitForTimeout(2000)
-
-		// User menu should appear in header
 		await expect(
 			page.getByRole("button", { name: /User menu/ }),
-		).toBeVisible()
+		).toBeVisible({ timeout: 10000 })
 
-		// Dashboard link should appear in nav
 		await expect(
 			page.getByRole("link", { name: "Dashboard", exact: true }),
 		).toBeVisible()
@@ -54,7 +43,6 @@ test.describe("Authentication Flow", () => {
 		await page.getByPlaceholder("Enter your password").fill("wrongpassword")
 		await page.getByRole("button", { name: "Sign In" }).click()
 
-		// Error message container should appear (the bg-destructive/10 div)
 		const errorContainer = page.locator("[class*='bg-destructive']")
 		await expect(errorContainer).toBeVisible({ timeout: 10000 })
 	})
@@ -73,14 +61,14 @@ test.describe("Authentication Flow", () => {
 		await page.getByPlaceholder("Enter your password").fill(ADMIN_PASSWORD)
 		await page.getByRole("button", { name: "Sign In" }).click()
 
-		await page.waitForTimeout(2000)
+		await expect(
+			page.getByRole("link", { name: "Dashboard", exact: true }),
+		).toBeVisible({ timeout: 10000 })
 
-		// Navigate to dashboard
 		await page.getByRole("link", { name: "Dashboard", exact: true }).click()
-		await page.waitForSelector("text=Submissions Dashboard", {
+		await expect(page.getByText("Submissions Dashboard")).toBeVisible({
 			timeout: 10000,
 		})
-		await expect(page.getByText("Submissions Dashboard")).toBeVisible()
 	})
 
 	test("should redirect to submit form after login from submit page", async ({
@@ -97,7 +85,6 @@ test.describe("Authentication Flow", () => {
 		await page.getByPlaceholder("Enter your password").fill(ADMIN_PASSWORD)
 		await page.getByRole("button", { name: "Sign In" }).click()
 
-		// After login, the form should be visible
 		await expect(page.getByText("Icon Identity")).toBeVisible({
 			timeout: 10000,
 		})
@@ -125,7 +112,6 @@ test.describe("Authentication Flow - Mobile", () => {
 			.getByRole("button", { name: "Sign In to Submit" })
 			.click()
 
-		// Modal should be visible on mobile
 		await expect(
 			page.getByRole("heading", { name: "Welcome Back" }),
 		).toBeVisible()

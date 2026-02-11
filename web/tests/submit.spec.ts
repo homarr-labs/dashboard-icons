@@ -1,18 +1,5 @@
-import { expect, test, type Page } from "@playwright/test"
-
-const ADMIN_EMAIL = "admin@dashboardicons.com"
-const ADMIN_PASSWORD = "playwright"
-
-async function loginViaUI(page: Page) {
-	await page.goto("/submit")
-	await page.getByRole("button", { name: "Sign In to Submit" }).click()
-	await page
-		.getByPlaceholder("Enter your email or username")
-		.fill(ADMIN_EMAIL)
-	await page.getByPlaceholder("Enter your password").fill(ADMIN_PASSWORD)
-	await page.getByRole("button", { name: "Sign In" }).click()
-	await page.waitForSelector("text=Icon Identity", { timeout: 15000 })
-}
+import { expect, test } from "@playwright/test"
+import { loginViaUI } from "./helpers/auth"
 
 test.describe("Submit Page - Unauthenticated", () => {
 	test("should show login prompt when not authenticated", async ({
@@ -143,7 +130,6 @@ test.describe("Submit Page - Authenticated", () => {
 		await expect(
 			page.getByRole("button", { name: "Submit Icon" }),
 		).toBeVisible()
-		// On mobile, the button says "Clear"; on desktop, "Clear Form"
 		const isMobileViewport = (viewport?.width ?? 1280) < 768
 		const clearButton = isMobileViewport
 			? page.getByRole("button", { name: "Clear", exact: true })
@@ -156,10 +142,8 @@ test.describe("Submit Page - Authenticated", () => {
 		await aliasInput.fill("test-alias")
 		await aliasInput.press("Enter")
 
-		// Alias badge should appear
 		await expect(page.getByText("test-alias")).toBeVisible()
 
-		// Add another
 		await aliasInput.fill("another-alias")
 		await aliasInput.press("Enter")
 		await expect(page.getByText("another-alias")).toBeVisible()
@@ -177,7 +161,6 @@ test.describe("Submit Page - Authenticated", () => {
 	})
 
 	test("should add optional variants", async ({ page }) => {
-		// Click on "Dark" variant to add it
 		const darkVariant = page
 			.locator("button")
 			.filter({ hasText: "Dark" })
@@ -185,7 +168,6 @@ test.describe("Submit Page - Authenticated", () => {
 		if (await darkVariant.isVisible()) {
 			await darkVariant.click()
 
-			// Should now show upload area for Dark variant
 			await expect(page.getByText("Dark").first()).toBeVisible()
 		}
 	})
@@ -219,7 +201,6 @@ test.describe("Submit Page - Mobile", () => {
 		await page.goto("/submit")
 		await page.waitForSelector("text=Icon Identity", { timeout: 10000 })
 
-		// Sticky bottom bar should be visible
 		const stickyBar = page.locator(".fixed.bottom-0")
 		await expect(stickyBar).toBeVisible()
 		await expect(
@@ -235,7 +216,6 @@ test.describe("Submit Page - Mobile", () => {
 		await page.goto("/submit")
 		await page.waitForSelector("text=Icon Identity", { timeout: 10000 })
 
-		// The sticky desktop submit card should not be visible
 		const desktopSubmitCards = page.locator(".sticky.top-20 .border-t-primary")
 		await expect(desktopSubmitCards).not.toBeVisible()
 	})
@@ -247,14 +227,11 @@ test.describe("Submit Page - Mobile", () => {
 		await page.goto("/submit")
 		await page.waitForSelector("text=Icon Identity", { timeout: 10000 })
 
-		// Verify the form sections are all visible and accessible
 		await expect(page.getByText("Icon Identity")).toBeVisible()
 
-		// Scroll to file uploads
 		await page.getByText("File Uploads").scrollIntoViewIfNeeded()
 		await expect(page.getByText("File Uploads")).toBeVisible()
 
-		// Scroll to metadata
 		await page.getByText("Metadata").scrollIntoViewIfNeeded()
 		await expect(page.getByText("Metadata")).toBeVisible()
 	})
