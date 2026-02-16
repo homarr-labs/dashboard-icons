@@ -173,8 +173,10 @@ export function useIconSubmissionForm() {
 				// If so, update it instead of creating a new one (database RLS allows this)
 				let record
 				try {
+					// Escape the icon name to prevent filter injection
+					const escapedName = value.iconName.replace(/\\/g, "\\\\").replace(/"/g, '\\"')
 					const existingRecords = await pb.collection("submissions").getList(1, 1, {
-						filter: `name = "${value.iconName}" && status = "rejected"`,
+						filter: `name = "${escapedName}" && status = "rejected"`,
 						requestKey: null,
 					})
 					
@@ -186,7 +188,9 @@ export function useIconSubmissionForm() {
 						record = await pb.collection("submissions").create(submissionData)
 					}
 				} catch (error) {
-					// If checking fails, try to create (might be a permission or network error)
+					// If checking/updating fails, try to create
+					// This handles cases like network errors or if the RLS rules change
+					console.error("Error checking for existing rejected submission:", error)
 					record = await pb.collection("submissions").create(submissionData)
 				}
 
