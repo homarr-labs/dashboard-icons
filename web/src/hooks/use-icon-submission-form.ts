@@ -7,7 +7,7 @@ import { useRef, useState } from "react"
 import { toast } from "sonner"
 import { revalidateAllSubmissions } from "@/app/actions/submissions"
 import type { MultiSelectOption } from "@/components/ui/multi-select"
-import { pb, type Submission } from "@/lib/pb"
+import { pb } from "@/lib/pb"
 
 export interface VariantConfig {
 	id: string
@@ -72,7 +72,7 @@ export const AVAILABLE_CATEGORIES = [
 	"social",
 	"storage",
 	"tools",
-	"utility",
+	"utility"
 ]
 
 export interface FormData {
@@ -87,7 +87,7 @@ export interface FormData {
 
 export const ACCEPTED_FILE_TYPES = {
 	"image/svg+xml": [".svg"],
-	"image/png": [".png"],
+	"image/png": [".png"]
 }
 
 export const MAX_FILE_SIZE = 1024 * 1024 * 5
@@ -110,7 +110,7 @@ export function useIconSubmissionForm() {
 		} satisfies FormData,
 		onSubmit: async ({ value }) => {
 			if (isSubmittingRef.current) return
-
+			
 			if (!pb.authStore.isValid) {
 				toast.error("You must be logged in to submit an icon")
 				return
@@ -169,29 +169,7 @@ export function useIconSubmissionForm() {
 					extras: extras,
 				}
 
-				// Check if a rejected submission with this name already exists
-				let existingRejected: Submission | null = null
-				try {
-					// Escape the icon name for safe filter usage (escape backslashes and double quotes)
-					const escapedName = value.iconName.replace(/\\/g, "\\\\").replace(/"/g, '\\"')
-					const results = await pb.collection("submissions").getList<Submission>(1, 1, {
-						filter: `name = "${escapedName}" && status = "rejected"`,
-						requestKey: null,
-					})
-					existingRejected = results.items.length > 0 ? results.items[0] : null
-				} catch (error) {
-					// If there's an error checking, continue with create
-					console.error("Error checking for existing rejected submission:", error)
-				}
-
-				let record: Submission
-				if (existingRejected && pb.authStore.record?.id && existingRejected.created_by === pb.authStore.record.id) {
-					// Update the existing rejected submission
-					record = await pb.collection("submissions").update<Submission>(existingRejected.id, submissionData)
-				} else {
-					// Create a new submission
-					record = await pb.collection("submissions").create<Submission>(submissionData)
-				}
+				const record = await pb.collection("submissions").create(submissionData)
 
 				if (record.assets && record.assets.length > 0) {
 					const updatedExtras = JSON.parse(JSON.stringify(extras))
@@ -270,12 +248,12 @@ export function useIconSubmissionForm() {
 
 	const handleFileDrop = (variantId: string, droppedFiles: File[]) => {
 		const currentFiles = form.getFieldValue("files")
-
+		
 		if (droppedFiles.length === 0) {
 			const newFiles = { ...currentFiles }
 			delete newFiles[variantId]
 			form.setFieldValue("files", newFiles)
-
+			
 			setFilePreviews((prev) => {
 				const newPreviews = { ...prev }
 				delete newPreviews[variantId]
@@ -283,7 +261,7 @@ export function useIconSubmissionForm() {
 			})
 			return
 		}
-
+		
 		form.setFieldValue("files", {
 			...currentFiles,
 			[variantId]: droppedFiles,
