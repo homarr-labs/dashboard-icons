@@ -172,8 +172,8 @@ export function useIconSubmissionForm() {
 				// Check if a rejected submission with this name already exists
 				let existingRejected: Submission | null = null
 				try {
-					// Escape the icon name for safe filter usage
-					const escapedName = value.iconName.replace(/"/g, '\\"')
+					// Escape the icon name for safe filter usage (escape backslashes and quotes)
+					const escapedName = value.iconName.replace(/\\/g, "\\\\").replace(/"/g, '\\"')
 					const results = await pb.collection("submissions").getList<Submission>(1, 1, {
 						filter: `name = "${escapedName}" && status = "rejected"`,
 						requestKey: null,
@@ -185,7 +185,7 @@ export function useIconSubmissionForm() {
 				}
 
 				let record: Submission
-				if (existingRejected && existingRejected.created_by === pb.authStore.record?.id) {
+				if (existingRejected && pb.authStore.record?.id && existingRejected.created_by === pb.authStore.record.id) {
 					// Update the existing rejected submission
 					record = await pb.collection("submissions").update<Submission>(existingRejected.id, submissionData)
 				} else {
