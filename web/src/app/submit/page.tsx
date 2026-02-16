@@ -39,26 +39,26 @@ export default function SubmitPage() {
 	if (!isAuthenticated) {
 		return (
 			<>
-				<div className="container mx-auto px-4 py-12">
+				<div className="container mx-auto px-4 py-6 sm:py-12">
 					<div className="max-w-2xl mx-auto">
 						<Card>
-							<CardHeader className="text-center space-y-4">
-								<CardTitle className="text-3xl">Submit an Icon</CardTitle>
-								<CardDescription className="text-base">Share your icons with the community and help expand our collection</CardDescription>
+							<CardHeader className="text-center space-y-4 px-4 sm:px-6">
+								<CardTitle className="text-2xl sm:text-3xl">Submit an Icon</CardTitle>
+								<CardDescription className="text-sm sm:text-base">Share your icons with the community and help expand our collection</CardDescription>
 							</CardHeader>
-							<CardContent className="space-y-6">
-								<div className="bg-muted/50 p-6 rounded-lg space-y-4">
-									<h3 className="font-semibold text-lg">Before you start</h3>
+							<CardContent className="space-y-6 px-4 sm:px-6">
+								<div className="bg-muted/50 p-4 sm:p-6 rounded-lg space-y-4">
+									<h3 className="font-semibold text-base sm:text-lg">Before you start</h3>
 									<ul className="space-y-2 text-sm text-muted-foreground list-disc list-inside">
 										<li>You need to be logged in to submit icons</li>
 										<li>Icons should be in SVG, PNG, or WebP format</li>
 										<li>Maximum file size: 5MB per variant</li>
-										<li>All submissions are reviewed before being added to the collection</li>
+										<li>All submissions are reviewed before being added</li>
 									</ul>
 								</div>
 
-								<div className="flex justify-center pt-4">
-									<Button size="lg" onClick={() => setShowLoginModal(true)}>
+								<div className="flex justify-center pt-2 sm:pt-4">
+									<Button size="lg" onClick={() => setShowLoginModal(true)} className="w-full sm:w-auto">
 										Sign In to Submit
 									</Button>
 								</div>
@@ -73,10 +73,10 @@ export default function SubmitPage() {
 	}
 
 	return (
-		<div className="container mx-auto px-4 py-12">
-			<div className="mb-8 text-center">
-				<h1 className="text-4xl font-bold mb-2">Submit an Icon</h1>
-				<p className="text-muted-foreground text-lg">
+		<div className="container mx-auto px-4 py-6 sm:py-12">
+			<div className="mb-6 sm:mb-8 text-center">
+				<h1 className="text-2xl sm:text-4xl font-bold mb-2">Submit an Icon</h1>
+				<p className="text-muted-foreground text-sm sm:text-lg">
 					{isAuthenticated ? "Create a new icon or update an existing one" : "Sign in to submit icons"}
 				</p>
 			</div>
