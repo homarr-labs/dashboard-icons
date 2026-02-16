@@ -41,7 +41,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function CommunityPage() {
-	const icons = await fetchCommunitySubmissions();
+	const icons = await fetchCommunitySubmissions()
 	return (
 		<div className="isolate overflow-hidden p-2 mx-auto max-w-7xl">
 			<div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">

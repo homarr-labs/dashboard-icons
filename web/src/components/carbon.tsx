@@ -1,6 +1,7 @@
 // biome-ignore-all lint: reason: I don't want to fix this
-import { useEffect, useRef, useState } from "react"
+
 import { usePostHog } from "posthog-js/react"
+import { useEffect, useRef, useState } from "react"
 
 export function Carbon() {
 	const [isBlocked, setIsBlocked] = useState(false)
@@ -86,9 +87,7 @@ export function Carbon() {
 					</button>
 				) : (
 					<div className="flex flex-col items-center gap-2">
-						<p className="text-xs text-muted-foreground">
-							Did you think this ad for ad-blocker was funny or annoying?
-						</p>
+						<p className="text-xs text-muted-foreground">Did you think this ad for ad-blocker was funny or annoying?</p>
 						<div className="flex gap-2">
 							<button
 								type="button"

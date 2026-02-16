@@ -44,7 +44,9 @@ export default function SubmitPage() {
 						<Card>
 							<CardHeader className="text-center space-y-4 px-4 sm:px-6">
 								<CardTitle className="text-2xl sm:text-3xl">Submit an Icon</CardTitle>
-								<CardDescription className="text-sm sm:text-base">Share your icons with the community and help expand our collection</CardDescription>
+								<CardDescription className="text-sm sm:text-base">
+									Share your icons with the community and help expand our collection
+								</CardDescription>
 							</CardHeader>
 							<CardContent className="space-y-6 px-4 sm:px-6">
 								<div className="bg-muted/50 p-4 sm:p-6 rounded-lg space-y-4">

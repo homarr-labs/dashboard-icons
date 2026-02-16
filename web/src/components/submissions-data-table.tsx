@@ -84,7 +84,6 @@ const groupAndSortSubmissions = (submissions: Submission[], isAdmin: boolean): S
 	})
 }
 
-
 export function SubmissionsDataTable({
 	data,
 	isAdmin,
@@ -448,7 +447,12 @@ export function SubmissionsDataTable({
 						<Button variant="ghost" size="sm" onClick={() => setRowSelection({})} className="flex-1 sm:flex-none">
 							Clear selection
 						</Button>
-						<Button size="sm" onClick={handleBulkTrigger} disabled={isBulkTriggeringWorkflow} className="flex-1 sm:flex-none bg-blue-600 hover:bg-blue-700">
+						<Button
+							size="sm"
+							onClick={handleBulkTrigger}
+							disabled={isBulkTriggeringWorkflow}
+							className="flex-1 sm:flex-none bg-blue-600 hover:bg-blue-700"
+						>
 							<Github className="w-4 h-4 mr-2" />
 							{isBulkTriggeringWorkflow ? "Triggering..." : `Trigger All (${selectedSubmissionIds.length})`}
 						</Button>
@@ -466,14 +470,19 @@ export function SubmissionsDataTable({
 						<span className="text-sm text-muted-foreground">
 							Select submissions to trigger the GitHub Action workflow and add them to the collection.
 						</span>
-						<Button size="sm" variant="outline" onClick={handleSelectAllApproved} className="w-fit shrink-0 border-amber-500/30 hover:bg-amber-500/10 text-amber-700 dark:text-amber-300">
+						<Button
+							size="sm"
+							variant="outline"
+							onClick={handleSelectAllApproved}
+							className="w-fit shrink-0 border-amber-500/30 hover:bg-amber-500/10 text-amber-700 dark:text-amber-300"
+						>
 							Select all approved
 						</Button>
 					</AlertDescription>
 				</Alert>
 			)}
 
-		{isMobile ? (
+			{isMobile ? (
 				<>
 					{/* Mobile Card List */}
 					<div className="space-y-2">
@@ -497,20 +506,18 @@ export function SubmissionsDataTable({
 													<StatusBadge status={currentStatus} showCollectionStatus />
 													<span className="text-xs text-muted-foreground">
 														{mobileFilteredData.filter((s) => s.status === currentStatus).length}
-														{mobileFilteredData.filter((s) => s.status === currentStatus).length === 1
-															? " submission"
-															: " submissions"}
+														{mobileFilteredData.filter((s) => s.status === currentStatus).length === 1 ? " submission" : " submissions"}
 													</span>
 												</div>
 											)}
-										<div
-											className={cn(
-												"flex items-center gap-3 p-3 rounded-lg border bg-background cursor-pointer active:bg-muted/50 transition-colors",
-												isSelected && "ring-2 ring-primary/50 bg-primary/5",
-												isApproved && !isSelected && "border-l-2 border-l-green-500",
-											)}
-											onClick={() => setMobileDetailSubmission(submission)}
-										>
+											<div
+												className={cn(
+													"flex items-center gap-3 p-3 rounded-lg border bg-background cursor-pointer active:bg-muted/50 transition-colors",
+													isSelected && "ring-2 ring-primary/50 bg-primary/5",
+													isApproved && !isSelected && "border-l-2 border-l-green-500",
+												)}
+												onClick={() => setMobileDetailSubmission(submission)}
+											>
 												{isAdmin && isApproved && (
 													<Checkbox
 														checked={isSelected}
@@ -541,22 +548,22 @@ export function SubmissionsDataTable({
 														<span className="text-xs text-muted-foreground whitespace-nowrap">{dayjs(submission.updated).fromNow()}</span>
 													</div>
 												</div>
-											<ChevronRight className="h-4 w-4 text-muted-foreground shrink-0" />
+												<ChevronRight className="h-4 w-4 text-muted-foreground shrink-0" />
 											</div>
 										</React.Fragment>
 									)
 								})
 							})()
 						) : (
-						<div className="py-16 flex flex-col items-center gap-2">
-							<ImageIcon className="h-10 w-10 text-muted-foreground/30" />
-							<p className="text-muted-foreground font-medium">
-								{globalFilter || userFilter ? "No submissions match your search" : "No submissions yet"}
-							</p>
-							{!(globalFilter || userFilter) && (
-								<p className="text-sm text-muted-foreground/70">Submissions will appear here once they are created.</p>
-							)}
-						</div>
+							<div className="py-16 flex flex-col items-center gap-2">
+								<ImageIcon className="h-10 w-10 text-muted-foreground/30" />
+								<p className="text-muted-foreground font-medium">
+									{globalFilter || userFilter ? "No submissions match your search" : "No submissions yet"}
+								</p>
+								{!(globalFilter || userFilter) && (
+									<p className="text-sm text-muted-foreground/70">Submissions will appear here once they are created.</p>
+								)}
+							</div>
 						)}
 					</div>
 
@@ -649,15 +656,15 @@ export function SubmissionsDataTable({
 														</TableCell>
 													</TableRow>
 												)}
-											<TableRow
-												data-state={row.getIsSelected() && "selected"}
-												className={cn(
-													"cursor-pointer hover:bg-muted/50 transition-colors",
-													row.getIsExpanded() && "bg-muted/30",
-													row.original.status === "approved" && "bg-green-500/[0.03] hover:bg-green-500/[0.07]",
-												)}
-												onClick={() => handleRowToggle(row.id, row.getIsExpanded())}
-											>
+												<TableRow
+													data-state={row.getIsSelected() && "selected"}
+													className={cn(
+														"cursor-pointer hover:bg-muted/50 transition-colors",
+														row.getIsExpanded() && "bg-muted/30",
+														row.original.status === "approved" && "bg-green-500/[0.03] hover:bg-green-500/[0.07]",
+													)}
+													onClick={() => handleRowToggle(row.id, row.getIsExpanded())}
+												>
 													{row.getVisibleCells().map((cell) => (
 														<TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>
 													))}
@@ -689,19 +696,19 @@ export function SubmissionsDataTable({
 									})
 								})()
 							) : (
-							<TableRow>
-								<TableCell colSpan={columns.length} className="h-48 text-center">
-									<div className="flex flex-col items-center gap-2">
-										<ImageIcon className="h-10 w-10 text-muted-foreground/30" />
-										<p className="text-muted-foreground font-medium">
-											{globalFilter || userFilter ? "No submissions match your search" : "No submissions yet"}
-										</p>
-										{!(globalFilter || userFilter) && (
-											<p className="text-sm text-muted-foreground/70">Submissions will appear here once they are created.</p>
-										)}
-									</div>
-								</TableCell>
-							</TableRow>
+								<TableRow>
+									<TableCell colSpan={columns.length} className="h-48 text-center">
+										<div className="flex flex-col items-center gap-2">
+											<ImageIcon className="h-10 w-10 text-muted-foreground/30" />
+											<p className="text-muted-foreground font-medium">
+												{globalFilter || userFilter ? "No submissions match your search" : "No submissions yet"}
+											</p>
+											{!(globalFilter || userFilter) && (
+												<p className="text-sm text-muted-foreground/70">Submissions will appear here once they are created.</p>
+											)}
+										</div>
+									</TableCell>
+								</TableRow>
 							)}
 						</TableBody>
 					</Table>

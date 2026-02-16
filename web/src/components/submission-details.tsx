@@ -256,20 +256,20 @@ export function SubmissionDetails({
 										)}
 									</>
 								)}
-							{onTriggerWorkflow && submission.status === "approved" && isAdmin && (
-								<Button
-									size="sm"
-									className="w-full sm:w-auto bg-green-600 hover:bg-green-700 text-white"
-									onClick={(e) => {
-										e.stopPropagation()
-										onTriggerWorkflow()
-									}}
-									disabled={isTriggeringWorkflow}
-								>
-									<Github className="w-4 h-4 mr-2" />
-									{isTriggeringWorkflow ? "Starting..." : "Run GitHub CI"}
-								</Button>
-							)}
+								{onTriggerWorkflow && submission.status === "approved" && isAdmin && (
+									<Button
+										size="sm"
+										className="w-full sm:w-auto bg-green-600 hover:bg-green-700 text-white"
+										onClick={(e) => {
+											e.stopPropagation()
+											onTriggerWorkflow()
+										}}
+										disabled={isTriggeringWorkflow}
+									>
+										<Github className="w-4 h-4 mr-2" />
+										{isTriggeringWorkflow ? "Starting..." : "Run GitHub CI"}
+									</Button>
+								)}
 								{workflowUrl && (
 									<Button asChild size="sm" variant="outline" className="w-full sm:w-auto">
 										<a href={workflowUrl} target="_blank" rel="noopener noreferrer">
@@ -373,7 +373,7 @@ export function SubmissionDetails({
 									/>
 								</div>
 
-								{submission.approved_by && (
+								{submission.approved_by && expandedData?.approved_by && (
 									<div>
 										<h3 className="text-sm font-semibold text-muted-foreground mb-2 flex items-center gap-2">
 											<UserIcon className="w-4 h-4" />

@@ -13,14 +13,8 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Dropzone, DropzoneContent, DropzoneEmptyState } from "@/components/ui/shadcn-io/dropzone"
 import { Textarea } from "@/components/ui/textarea"
+import { ACCEPTED_FILE_TYPES, AVAILABLE_CATEGORIES, MAX_FILE_SIZE, useIconSubmissionForm, VARIANTS } from "@/hooks/use-icon-submission-form"
 import { useIsMobile } from "@/hooks/use-mobile"
-import {
-	ACCEPTED_FILE_TYPES,
-	AVAILABLE_CATEGORIES,
-	MAX_FILE_SIZE,
-	VARIANTS,
-	useIconSubmissionForm,
-} from "@/hooks/use-icon-submission-form"
 import { cn } from "@/lib/utils"
 
 export function IconSubmissionContent() {
@@ -28,11 +22,17 @@ export function IconSubmissionContent() {
 		<div className="flex flex-col gap-6">
 			<div className="text-center space-y-2">
 				<h3 className="text-2xl font-semibold">
-					It looks like we don't have that one yet...<br />
+					It looks like we don't have that one yet...
+					<br />
 				</h3>
 				<p className="text-muted-foreground">
-					Thankfully, this website is made by people just like you.<br />
-					You can submit your icons using <Link href="/submit" className="text-primary underline">our submission form</Link> directly on the website.
+					Thankfully, this website is made by people just like you.
+					<br />
+					You can submit your icons using{" "}
+					<Link href="/submit" className="text-primary underline">
+						our submission form
+					</Link>{" "}
+					directly on the website.
 				</p>
 			</div>
 		</div>
@@ -98,9 +98,7 @@ export function IconSubmissionForm() {
 												error={field.state.meta.errors.join(", ")}
 												isInvalid={!field.state.meta.isValid && field.state.meta.isTouched}
 											/>
-											<p className="text-xs text-muted-foreground">
-												Use lowercase letters, numbers, and hyphens only (e.g., my-app-icon)
-											</p>
+											<p className="text-xs text-muted-foreground">Use lowercase letters, numbers, and hyphens only (e.g., my-app-icon)</p>
 										</div>
 									)}
 								</form.Field>
@@ -116,9 +114,7 @@ export function IconSubmissionForm() {
 												rows={2}
 												className="resize-none"
 											/>
-											<p className="text-xs text-muted-foreground">
-												This helps reviewers understand your submission
-											</p>
+											<p className="text-xs text-muted-foreground">This helps reviewers understand your submission</p>
 										</div>
 									)}
 								</form.Field>
@@ -163,7 +159,7 @@ export function IconSubmissionForm() {
 																	isSelected
 																		? "bg-primary text-primary-foreground shadow-sm"
 																		: "bg-background border hover:border-primary/50",
-																	isBase && "opacity-100"
+																	isBase && "opacity-100",
 																)}
 															>
 																{hasFile && <Check className="h-3 w-3" />}
@@ -194,7 +190,7 @@ export function IconSubmissionForm() {
 																	"relative p-4 transition-all",
 																	hasFile
 																		? "bg-gradient-to-br from-primary/10 to-primary/5 ring-1 ring-primary/20"
-																		: "bg-muted/30 ring-1 ring-border"
+																		: "bg-muted/30 ring-1 ring-border",
 																)}
 															>
 																{!isBase && (
@@ -212,9 +208,7 @@ export function IconSubmissionForm() {
 																<div className="flex items-center gap-2 mb-1">
 																	<span className="font-medium text-sm">{variant.label}</span>
 																	{isBase && (
-																		<span className="text-[10px] px-1.5 py-0.5 bg-primary/20 text-primary font-medium">
-																			Required
-																		</span>
+																		<span className="text-[10px] px-1.5 py-0.5 bg-primary/20 text-primary font-medium">Required</span>
 																	)}
 																</div>
 																<p className="text-xs text-muted-foreground mb-3">{variant.description}</p>
@@ -276,7 +270,7 @@ export function IconSubmissionForm() {
 																"px-3 py-1.5 text-sm transition-all cursor-pointer",
 																isSelected
 																	? "bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 ring-1 ring-emerald-500/30"
-																	: "bg-muted hover:bg-muted/80"
+																	: "bg-muted hover:bg-muted/80",
 															)}
 														>
 															{category.replace(/-/g, " ")}
@@ -322,11 +316,7 @@ export function IconSubmissionForm() {
 											field.state.value.length > 0 && (
 												<div className="flex flex-wrap gap-2">
 													{field.state.value.map((alias) => (
-														<Badge
-															key={alias}
-															variant="secondary"
-															className="pr-1 bg-muted hover:bg-muted/80"
-														>
+														<Badge key={alias} variant="secondary" className="pr-1 bg-muted hover:bg-muted/80">
 															{alias}
 															<button
 																type="button"
@@ -350,8 +340,8 @@ export function IconSubmissionForm() {
 					</form>
 				</div>
 
-			<div className="lg:col-span-1">
-				<div className={cn("space-y-6", !isMobile && "sticky top-20")}>
+				<div className="lg:col-span-1">
+					<div className={cn("space-y-6", !isMobile && "sticky top-20")}>
 						<Card className="border-0 shadow-lg overflow-hidden border-t-4 border-t-violet-500 rounded-none">
 							<CardHeader>
 								<div className="flex items-center gap-3">
@@ -368,10 +358,12 @@ export function IconSubmissionForm() {
 								{hasAnyPreview ? (
 									<form.Subscribe selector={(state) => state.values.iconName}>
 										{(iconName) => (
-											<div className={cn(
-												"grid gap-3",
-												isMobile ? "grid-cols-2" : "grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 2xl:grid-cols-1"
-											)}>
+											<div
+												className={cn(
+													"grid gap-3",
+													isMobile ? "grid-cols-2" : "grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 2xl:grid-cols-1",
+												)}
+											>
 												{Object.entries(filePreviews).map(([variantId, preview]) => {
 													const variant = VARIANTS.find((v) => v.id === variantId)
 													return (
@@ -402,10 +394,12 @@ export function IconSubmissionForm() {
 							<Card className="border-0 shadow-lg overflow-hidden border-t-4 border-t-primary p-2 rounded-none">
 								<CardContent className="px-2">
 									<div className="flex flex-col gap-3">
-										<form.Subscribe selector={(state) => ({
-											canSubmit: state.canSubmit,
-											hasBaseFile: Boolean(state.values.files.base?.[0]),
-										})}>
+										<form.Subscribe
+											selector={(state) => ({
+												canSubmit: state.canSubmit,
+												hasBaseFile: Boolean(state.values.files.base?.[0]),
+											})}
+										>
 											{({ canSubmit, hasBaseFile }) => (
 												<Button
 													type="button"
@@ -435,10 +429,12 @@ export function IconSubmissionForm() {
 						<Button type="button" variant="outline" onClick={resetForm} disabled={isSubmitting} className="shrink-0">
 							Clear
 						</Button>
-						<form.Subscribe selector={(state) => ({
-							canSubmit: state.canSubmit,
-							hasBaseFile: Boolean(state.values.files.base?.[0]),
-						})}>
+						<form.Subscribe
+							selector={(state) => ({
+								canSubmit: state.canSubmit,
+								hasBaseFile: Boolean(state.values.files.base?.[0]),
+							})}
+						>
 							{({ canSubmit, hasBaseFile }) => (
 								<Button
 									type="button"

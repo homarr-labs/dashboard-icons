@@ -43,13 +43,7 @@ interface StatusBadgeProps {
 	className?: string
 }
 
-export function StatusBadge({
-	icon,
-	status: propStatus,
-	showCollectionStatus = false,
-	showIcon = true,
-	className,
-}: StatusBadgeProps) {
+export function StatusBadge({ icon, status: propStatus, showCollectionStatus = false, showIcon = true, className }: StatusBadgeProps) {
 	const source = icon?.source || "community"
 	const status = propStatus || icon?.status || "pending"
 

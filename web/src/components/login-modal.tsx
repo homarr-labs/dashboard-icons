@@ -204,9 +204,7 @@ export function LoginModalContent({ onSuccess, autoFocus = true }: LoginModalCon
 							disabled={isLoading}
 							required
 						/>
-						{isRegister && (
-							<p className="text-xs text-muted-foreground">We'll only use this to send you updates about your submissions</p>
-						)}
+						{isRegister && <p className="text-xs text-muted-foreground">We'll only use this to send you updates about your submissions</p>}
 					</div>
 
 					{isRegister && (
