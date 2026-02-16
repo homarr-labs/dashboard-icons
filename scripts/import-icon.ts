@@ -312,7 +312,7 @@ function buildGitHubNoReplyEmail(githubId: string | number, username: string): s
  * Build a co-author trailer line for git commits.
  * Format: Co-authored-by: Name <email@example.com>
  */
-function buildCoAuthorTrailer(user: PBUser | undefined, fallbackName?: string): string | null {
+function buildCoAuthorTrailer(user: PBUser | undefined): string | null {
 	if (!user) return null;
 
 	// Prefer GitHub-based identity if available
@@ -324,14 +324,8 @@ function buildCoAuthorTrailer(user: PBUser | undefined, fallbackName?: string): 
 
 	// Fallback to email if available
 	if (user.email) {
-		const name = user.username || fallbackName || user.email.split('@')[0];
+		const name = user.username || user.email.split('@')[0];
 		return `Co-authored-by: ${name} <${user.email}>`;
-	}
-
-	// If we have a username but no email or github_id
-	if (user.username) {
-		// We can't create a valid co-author line without an email
-		return null;
 	}
 
 	return null;
