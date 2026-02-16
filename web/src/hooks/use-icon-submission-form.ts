@@ -169,7 +169,26 @@ export function useIconSubmissionForm() {
 					extras: extras,
 				}
 
-				const record = await pb.collection("submissions").create(submissionData)
+				// Check if a rejected submission with this name exists
+				// If so, update it instead of creating a new one (database RLS allows this)
+				let record
+				try {
+					const existingRecords = await pb.collection("submissions").getList(1, 1, {
+						filter: `name = "${value.iconName}" && status = "rejected"`,
+						requestKey: null,
+					})
+					
+					if (existingRecords.items.length > 0) {
+						// Update the existing rejected submission
+						record = await pb.collection("submissions").update(existingRecords.items[0].id, submissionData)
+					} else {
+						// Create a new submission
+						record = await pb.collection("submissions").create(submissionData)
+					}
+				} catch (error) {
+					// If checking fails, try to create (might be a permission or network error)
+					record = await pb.collection("submissions").create(submissionData)
+				}
 
 				if (record.assets && record.assets.length > 0) {
 					const updatedExtras = JSON.parse(JSON.stringify(extras))
