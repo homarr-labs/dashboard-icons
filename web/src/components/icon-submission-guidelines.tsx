@@ -32,7 +32,7 @@ const GUIDELINES: GuidelineItem[] = [
 		type: "dont",
 		title: "Don't make multiple submissions for the same icon",
 		description:
-			"If you have both SVG and PNG versions, only submit the SVG. Do not create separate submissions like 'something.svg' and 'something.png'.",
+			"If you have both SVG and PNG versions, only submit the SVG. Do not create separate submissions like 'something.svg' and 'something.png'. Note: If your submission was rejected, you can resubmit using the same icon name to update it.",
 	},
 	{
 		type: "dont",
