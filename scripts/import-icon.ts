@@ -300,6 +300,43 @@ async function writeMetadata(data: Record<string, MetadataEntry>) {
 	await Bun.write(METADATA_PATH, json);
 }
 
+/**
+ * Build a GitHub noreply email address for a user.
+ * Format: ID+USERNAME@users.noreply.github.com
+ */
+function buildGitHubNoReplyEmail(githubId: string | number, username: string): string {
+	return `${githubId}+${username}@users.noreply.github.com`;
+}
+
+/**
+ * Build a co-author trailer line for git commits.
+ * Format: Co-authored-by: Name <email@example.com>
+ */
+function buildCoAuthorTrailer(user: PBUser | undefined, fallbackName?: string): string | null {
+	if (!user) return null;
+
+	// Prefer GitHub-based identity if available
+	if (user.github_id && user.username) {
+		const email = buildGitHubNoReplyEmail(user.github_id, user.username);
+		const name = user.username;
+		return `Co-authored-by: ${name} <${email}>`;
+	}
+
+	// Fallback to email if available
+	if (user.email) {
+		const name = user.username || fallbackName || user.email.split('@')[0];
+		return `Co-authored-by: ${name} <${user.email}>`;
+	}
+
+	// If we have a username but no email or github_id
+	if (user.username) {
+		// We can't create a valid co-author line without an email
+		return null;
+	}
+
+	return null;
+}
+
 function buildAuthor(submission: Submission): MetadataAuthor {
 	const creator = submission.expand?.created_by;
 	if (!creator) {
@@ -491,6 +528,23 @@ async function main() {
 		submission.approved_by ||
 		"unknown";
 
+	// Build co-author trailers for the commit message
+	const coAuthors: string[] = [];
+	
+	// Add the creator as a co-author
+	const creatorTrailer = buildCoAuthorTrailer(submission.expand?.created_by);
+	if (creatorTrailer) {
+		coAuthors.push(creatorTrailer);
+		console.log(`[import-icon] Adding creator as co-author: ${submission.expand?.created_by?.username || 'unknown'}`);
+	}
+	
+	// Add the approver as a co-author (if different from creator)
+	const approverTrailer = buildCoAuthorTrailer(submission.expand?.approved_by);
+	if (approverTrailer && approverTrailer !== creatorTrailer) {
+		coAuthors.push(approverTrailer);
+		console.log(`[import-icon] Adding approver as co-author: ${submission.expand?.approved_by?.username || 'unknown'}`);
+	}
+
 	const assignments = await persistAssets(pbUrl, submission, args.dryRun);
 	await upsertMetadata(submission, assignments, args.dryRun);
 	await markSubmissionAdded(pbUrl, args.submissionId, args.dryRun);
@@ -499,6 +553,9 @@ async function main() {
 		const lines = [
 			`submission_name=${submission.name}`,
 			`approver=${approver}`,
+			`co_authors<<EOF`,
+			...coAuthors,
+			`EOF`,
 		].join("\n");
 		await Bun.write(args.ghaOutputPath, new TextEncoder().encode(`${lines}\n`));
 	}
