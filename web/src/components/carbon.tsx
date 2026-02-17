@@ -52,18 +52,21 @@ export function Carbon() {
 		setShowSurvey(true)
 	}
 
+	const QUESTION_ID = "7e3edab2-57b5-436f-86e2-969ab5b66523"
+
 	const handleSurveyResponse = (response: string) => {
-		// Capture the survey response to PostHog
-		posthog?.capture("survey sent", {
-			$survey_id: "019bf9d4-0a9b-0000-2c54-e10ca4ecb9d9",
-			$survey_questions: [
-				{
-					id: "7e3edab2-57b5-436f-86e2-969ab5b66523",
-					question: "Did you like this ad within the website or was it annoying?",
-				},
-			],
-			$survey_response_7e3edab2_57b5_436f_86e2_969ab5b66523: response,
-		})
+		if (posthog) {
+			posthog.capture("survey sent", {
+				$survey_id: "019bf9d4-0a9b-0000-2c54-e10ca4ecb9d9",
+				$survey_questions: [
+					{
+						id: QUESTION_ID,
+						question: "Did you like this ad within the website or was it annoying?",
+					},
+				],
+				[`$survey_response_${QUESTION_ID}`]: response,
+			})
+		}
 
 		// Set dismissed state and cookie
 		setIsDismissed(true)
