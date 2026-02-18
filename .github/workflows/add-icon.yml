@@ -79,8 +79,18 @@ jobs:
               source "$output_file" 2>/dev/null || true
               name="${submission_name:-$submission_id}"
               approver_name="${approver:-unknown}"
+              
+              # Build commit message with co-authors
+              commit_msg="chore: add icon \"${name}\" (submission ${submission_id}, approved by ${approver_name})"
+              
+              # Add co-author trailers if available
+              if [ -n "$co_authors" ]; then
+                # Add a blank line before co-authors
+                commit_msg="${commit_msg}"$'\n\n'"${co_authors}"
+              fi
+              
               git add .
-              git commit -m "chore: add icon \"${name}\" (submission ${submission_id}, approved by ${approver_name})"
+              git commit -m "$commit_msg"
             fi
 
             rm -f "$output_file" || true

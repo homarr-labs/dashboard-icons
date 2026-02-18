@@ -67,7 +67,14 @@ jobs:
           git config --global user.email "193821040+dashboard-icons-manager[bot]@users.noreply.github.com"
           git config --global user.name "Dashboard Icons Manager"
           git add .
-          git commit -m "feat(icons): update ${{ steps.extract_icon_name.outputs.ICON_NAME }}"
+          
+          # Build commit message with co-author
+          COMMIT_MSG="feat(icons): update ${{ steps.extract_icon_name.outputs.ICON_NAME }}"
+          
+          # Add the issue author as co-author using their GitHub ID and login
+          COMMIT_MSG="${COMMIT_MSG}"$'\n\n'"Co-authored-by: ${{ github.event.issue.user.login }} <${{ github.event.issue.user.id }}+${{ github.event.issue.user.login }}@users.noreply.github.com>"
+          
+          git commit -m "$COMMIT_MSG"
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v7
