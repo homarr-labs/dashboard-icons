@@ -38078,5 +38078,17 @@
                 "login": "mains-hum"
             }
         }
+    },
+    "radarr-dv": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-02-18T15:28:02.153Z",
+            "author": {
+                "id": 36334368,
+                "login": "Sterminous"
+            }
+        }
     }
 }
