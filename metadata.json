@@ -38064,5 +38064,19 @@
                 "login": "SorenHJohansen"
             }
         }
+    },
+    "wayland": {
+        "base": "svg",
+        "aliases": [
+            "wayland"
+        ],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-02-18T14:47:50.696Z",
+            "author": {
+                "id": 233751021,
+                "login": "mains-hum"
+            }
+        }
     }
 }
