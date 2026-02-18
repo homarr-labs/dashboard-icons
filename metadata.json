@@ -38035,5 +38035,20 @@
         "wordmark": {
             "light": "tyepcho-wordmark-light"
         }
+    },
+    "seerr": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "media",
+            "tools"
+        ],
+        "update": {
+            "timestamp": "2026-02-18T14:40:56.772Z",
+            "author": {
+                "id": "wp3i3blorbl7ums",
+                "name": "ValleBL"
+            }
+        }
     }
 }

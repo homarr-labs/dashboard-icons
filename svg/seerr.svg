@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Ebene_1" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 96 96">
+  <!-- Generator: Adobe Illustrator 29.8.1, SVG Export Plug-In . SVG Version: 2.1.1 Build 2)  -->
+  <defs>
+    <style>
+      .st0, .st1 {
+        fill: #131928;
+      }
+
+      .st2 {
+        fill: url(#Unbenannter_Verlauf);
+      }
+
+      .st2, .st3, .st1 {
+        fill-rule: evenodd;
+      }
+
+      .st3 {
+        fill: url(#Unbenannter_Verlauf_2);
+      }
+
+      .st1 {
+        isolation: isolate;
+        opacity: .2;
+      }
+    </style>
+    <linearGradient id="Unbenannter_Verlauf" data-name="Unbenannter Verlauf" x1="24" y1="148" x2="93.5" y2="78.5" gradientTransform="translate(0 172) scale(1 -1)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#c395fc"/>
+      <stop offset="1" stop-color="#4f65f5"/>
+    </linearGradient>
+    <linearGradient id="Unbenannter_Verlauf_2" data-name="Unbenannter Verlauf 2" x1="28" y1="164" x2="28" y2="124" gradientTransform="translate(0 172) scale(1 -1)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fff" stop-opacity=".4"/>
+      <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <circle class="st0" cx="52" cy="52" r="28"/>
+  <path class="st2" d="M48,96c26.51,0,48-21.49,48-48S74.51,0,48,0,0,21.49,0,48s21.49,48,48,48ZM80,52c0,15.46-12.54,28-28,28s-28-12.54-28-28c0-2.87.43-5.64,1.23-8.25,2.19,4.86,7.09,8.25,12.77,8.25,7.73,0,14-6.27,14-14,0-5.68-3.38-10.57-8.25-12.77,2.61-.8,5.38-1.23,8.25-1.23,15.46,0,28,12.54,28,28Z"/>
+  <path class="st1" d="M80,52c0,15.46-12.54,28-28,28s-27.47-12.01-27.98-27.02c-.01.34-.02.68-.02,1.02,0,16.57,13.43,30,30,30s30-13.43,30-30-13.43-30-30-30c-.34,0-.68,0-1.02.02,15.01.52,27.02,12.85,27.02,27.98Z"/>
+  <path class="st3" d="M48,12c-19.88,0-36,16.12-36,36,0,2.21-1.79,4-4,4s-4-1.79-4-4C4,23.7,23.7,4,48,4c2.21,0,4,1.79,4,4s-1.79,4-4,4Z"/>
+</svg>
