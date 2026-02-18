@@ -544,12 +544,11 @@ async function main() {
 	await markSubmissionAdded(pbUrl, args.submissionId, args.dryRun);
 
 	if (args.ghaOutputPath) {
+		const coAuthorValue = coAuthors.join('\n').replaceAll("'", "'\\''");
 		const lines = [
 			`submission_name=${submission.name}`,
 			`approver=${approver}`,
-			`co_authors<<EOF`,
-			...coAuthors,
-			`EOF`,
+			`co_authors='${coAuthorValue}'`,
 		].join("\n");
 		await Bun.write(args.ghaOutputPath, new TextEncoder().encode(`${lines}\n`));
 	}
