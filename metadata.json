@@ -38050,5 +38050,19 @@
                 "name": "ValleBL"
             }
         }
+    },
+    "oase": {
+        "base": "png",
+        "aliases": [],
+        "categories": [
+            "social"
+        ],
+        "update": {
+            "timestamp": "2026-02-18T14:41:00.346Z",
+            "author": {
+                "id": 134231457,
+                "login": "SorenHJohansen"
+            }
+        }
     }
 }
