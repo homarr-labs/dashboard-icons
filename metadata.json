@@ -38374,5 +38374,24 @@
                 "login": "deogratias-saidi"
             }
         }
+    },
+    "azure-log-analytics-workspaces": {
+        "base": "svg",
+        "aliases": [
+            "azure log analytics workspaces",
+            "log analytics workspaces",
+            "law"
+        ],
+        "categories": [
+            "cloud",
+            "monitoring"
+        ],
+        "update": {
+            "timestamp": "2026-02-19T09:14:49.852Z",
+            "author": {
+                "id": 50410476,
+                "login": "deogratias-saidi"
+            }
+        }
     }
 }
