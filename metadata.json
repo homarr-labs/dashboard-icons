@@ -38445,5 +38445,24 @@
                 "login": "deogratias-saidi"
             }
         }
+    },
+    "azure-bicep": {
+        "base": "svg",
+        "aliases": [
+            "azure bicep"
+        ],
+        "categories": [
+            "cloud",
+            "automation",
+            "utility",
+            "tools"
+        ],
+        "update": {
+            "timestamp": "2026-02-19T09:14:58.956Z",
+            "author": {
+                "id": 50410476,
+                "login": "deogratias-saidi"
+            }
+        }
     }
 }
