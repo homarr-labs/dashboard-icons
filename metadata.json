@@ -38336,5 +38336,24 @@
                 "login": "deogratias-saidi"
             }
         }
+    },
+    "azure-sql-db": {
+        "base": "svg",
+        "aliases": [
+            "azure sql database",
+            "sql",
+            "dabase"
+        ],
+        "categories": [
+            "cloud",
+            "database"
+        ],
+        "update": {
+            "timestamp": "2026-02-19T09:14:45.279Z",
+            "author": {
+                "id": 50410476,
+                "login": "deogratias-saidi"
+            }
+        }
     }
 }
