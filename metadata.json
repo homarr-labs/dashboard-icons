@@ -33339,18 +33339,17 @@
         }
     },
     "memos": {
-        "base": "png",
-        "aliases": [
-            "Note-taking"
-        ],
+        "base": "svg",
+        "aliases": [],
         "categories": [
-            "Note-taking-Apps"
+            "tools",
+            "utility"
         ],
         "update": {
-            "timestamp": "2025-01-07T17:54:03Z",
+            "timestamp": "2026-02-19T09:14:09.665Z",
             "author": {
-                "id": 71191962,
-                "name": "walkxcode"
+                "id": 12296574,
+                "login": "baragoon"
             }
         }
     },
