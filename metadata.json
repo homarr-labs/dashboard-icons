@@ -38481,5 +38481,17 @@
                 "login": "deogratias-saidi"
             }
         }
+    },
+    "sonarr-dv": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-02-19T09:15:03.640Z",
+            "author": {
+                "id": 36334368,
+                "login": "Sterminous"
+            }
+        }
     }
 }
