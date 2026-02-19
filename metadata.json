@@ -38393,5 +38393,24 @@
                 "login": "deogratias-saidi"
             }
         }
+    },
+    "azure-monitor": {
+        "base": "svg",
+        "aliases": [
+            "azure monitor",
+            "monitor",
+            "azure"
+        ],
+        "categories": [
+            "cloud",
+            "monitoring"
+        ],
+        "update": {
+            "timestamp": "2026-02-19T09:14:52.068Z",
+            "author": {
+                "id": 50410476,
+                "login": "deogratias-saidi"
+            }
+        }
     }
 }
