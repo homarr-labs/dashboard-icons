@@ -38200,5 +38200,26 @@
                 "login": "deogratias-saidi"
             }
         }
+    },
+    "azure-firewall": {
+        "base": "svg",
+        "aliases": [
+            "azure firewall",
+            "firewall",
+            "azfw",
+            "azure"
+        ],
+        "categories": [
+            "cloud",
+            "network",
+            "security"
+        ],
+        "update": {
+            "timestamp": "2026-02-19T09:14:29.173Z",
+            "author": {
+                "id": 50410476,
+                "login": "deogratias-saidi"
+            }
+        }
     }
 }
