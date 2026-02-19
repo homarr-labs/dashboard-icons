@@ -38134,5 +38134,20 @@
                 "login": "deogratias-saidi"
             }
         }
+    },
+    "nsg": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "network",
+            "cloud"
+        ],
+        "update": {
+            "timestamp": "2026-02-19T09:14:20.203Z",
+            "author": {
+                "id": 50410476,
+                "login": "deogratias-saidi"
+            }
+        }
     }
 }
