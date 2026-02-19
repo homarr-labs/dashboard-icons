@@ -38464,5 +38464,22 @@
                 "login": "deogratias-saidi"
             }
         }
+    },
+    "istio": {
+        "base": "svg",
+        "aliases": [
+            "istio"
+        ],
+        "categories": [
+            "network",
+            "cloud"
+        ],
+        "update": {
+            "timestamp": "2026-02-19T09:15:01.285Z",
+            "author": {
+                "id": 50410476,
+                "login": "deogratias-saidi"
+            }
+        }
     }
 }
