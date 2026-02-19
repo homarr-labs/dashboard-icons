@@ -38298,5 +38298,24 @@
                 "login": "deogratias-saidi"
             }
         }
+    },
+    "azure-cosmos-db": {
+        "base": "svg",
+        "aliases": [
+            "azure cosmos db",
+            "cosmos db",
+            "azure"
+        ],
+        "categories": [
+            "cloud",
+            "database"
+        ],
+        "update": {
+            "timestamp": "2026-02-19T09:14:40.650Z",
+            "author": {
+                "id": 50410476,
+                "login": "deogratias-saidi"
+            }
+        }
     }
 }
