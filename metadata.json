@@ -38240,5 +38240,24 @@
                 "login": "deogratias-saidi"
             }
         }
+    },
+    "azure-storage-accounts": {
+        "base": "svg",
+        "aliases": [
+            "azure storage accounts",
+            "storage accounts",
+            "azure"
+        ],
+        "categories": [
+            "cloud",
+            "storage"
+        ],
+        "update": {
+            "timestamp": "2026-02-19T09:14:33.805Z",
+            "author": {
+                "id": 50410476,
+                "login": "deogratias-saidi"
+            }
+        }
     }
 }
