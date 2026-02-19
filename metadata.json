@@ -38355,5 +38355,24 @@
                 "login": "deogratias-saidi"
             }
         }
+    },
+    "azure-vnet": {
+        "base": "svg",
+        "aliases": [
+            "azure virtual network",
+            "azure vnet",
+            "vnet"
+        ],
+        "categories": [
+            "network",
+            "cloud"
+        ],
+        "update": {
+            "timestamp": "2026-02-19T09:14:47.555Z",
+            "author": {
+                "id": 50410476,
+                "login": "deogratias-saidi"
+            }
+        }
     }
 }
