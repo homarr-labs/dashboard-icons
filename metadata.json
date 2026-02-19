@@ -38221,5 +38221,24 @@
                 "login": "deogratias-saidi"
             }
         }
+    },
+    "azure-container-apps": {
+        "base": "svg",
+        "aliases": [
+            "azure container apps",
+            "container apps",
+            "azure"
+        ],
+        "categories": [
+            "cloud",
+            "development"
+        ],
+        "update": {
+            "timestamp": "2026-02-19T09:14:31.545Z",
+            "author": {
+                "id": 50410476,
+                "login": "deogratias-saidi"
+            }
+        }
     }
 }
