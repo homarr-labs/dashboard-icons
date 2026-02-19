@@ -38279,5 +38279,24 @@
                 "login": "deogratias-saidi"
             }
         }
+    },
+    "azure-postgres-server": {
+        "base": "svg",
+        "aliases": [
+            "azure postgres server",
+            "postgres",
+            "azure"
+        ],
+        "categories": [
+            "cloud",
+            "database"
+        ],
+        "update": {
+            "timestamp": "2026-02-19T09:14:38.438Z",
+            "author": {
+                "id": 50410476,
+                "login": "deogratias-saidi"
+            }
+        }
     }
 }
