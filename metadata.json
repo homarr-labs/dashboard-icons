@@ -38412,5 +38412,24 @@
                 "login": "deogratias-saidi"
             }
         }
+    },
+    "azure-kubernetes-services": {
+        "base": "svg",
+        "aliases": [
+            "azure kubernetes services",
+            "aks",
+            "kubernetes"
+        ],
+        "categories": [
+            "cloud",
+            "development"
+        ],
+        "update": {
+            "timestamp": "2026-02-19T09:14:54.309Z",
+            "author": {
+                "id": 50410476,
+                "login": "deogratias-saidi"
+            }
+        }
     }
 }
