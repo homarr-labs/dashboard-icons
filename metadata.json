@@ -38164,5 +38164,23 @@
                 "login": "deogratias-saidi"
             }
         }
+    },
+    "app-service": {
+        "base": "svg",
+        "aliases": [
+            "azure app service",
+            "app service"
+        ],
+        "categories": [
+            "cloud",
+            "development"
+        ],
+        "update": {
+            "timestamp": "2026-02-19T09:14:24.621Z",
+            "author": {
+                "id": 50410476,
+                "login": "deogratias-saidi"
+            }
+        }
     }
 }
