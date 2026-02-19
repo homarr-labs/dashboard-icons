@@ -38104,5 +38104,20 @@
                 "name": "jrosenberg"
             }
         }
+    },
+    "application-gateways": {
+        "base": "svg",
+        "aliases": [
+            "azure application gateways",
+            "appgw"
+        ],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-02-19T09:14:15.413Z",
+            "author": {
+                "id": 50410476,
+                "login": "deogratias-saidi"
+            }
+        }
     }
 }
