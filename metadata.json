@@ -38149,5 +38149,20 @@
                 "login": "deogratias-saidi"
             }
         }
+    },
+    "dns-zone": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "network",
+            "cloud"
+        ],
+        "update": {
+            "timestamp": "2026-02-19T09:14:22.388Z",
+            "author": {
+                "id": 50410476,
+                "login": "deogratias-saidi"
+            }
+        }
     }
 }
