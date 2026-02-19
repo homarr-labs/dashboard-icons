@@ -38259,5 +38259,25 @@
                 "login": "deogratias-saidi"
             }
         }
+    },
+    "azure-container-registry": {
+        "base": "svg",
+        "aliases": [
+            "azure container regisitry",
+            "acr",
+            "azure",
+            "container registry"
+        ],
+        "categories": [
+            "cloud",
+            "development"
+        ],
+        "update": {
+            "timestamp": "2026-02-19T09:14:36.108Z",
+            "author": {
+                "id": 50410476,
+                "login": "deogratias-saidi"
+            }
+        }
     }
 }
