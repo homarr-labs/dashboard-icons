@@ -38089,5 +38089,20 @@
                 "login": "Sterminous"
             }
         }
+    },
+    "mythtv": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "entertainment",
+            "media"
+        ],
+        "update": {
+            "timestamp": "2026-02-19T09:14:12.878Z",
+            "author": {
+                "id": "151n4aqw3794os1",
+                "name": "jrosenberg"
+            }
+        }
     }
 }
