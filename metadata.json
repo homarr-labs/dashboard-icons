@@ -38182,5 +38182,23 @@
                 "login": "deogratias-saidi"
             }
         }
+    },
+    "azure-virtual-network-gateways": {
+        "base": "svg",
+        "aliases": [
+            "azure virtual network gateways",
+            "virtual network gateways"
+        ],
+        "categories": [
+            "cloud",
+            "network"
+        ],
+        "update": {
+            "timestamp": "2026-02-19T09:14:26.819Z",
+            "author": {
+                "id": 50410476,
+                "login": "deogratias-saidi"
+            }
+        }
     }
 }
