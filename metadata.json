@@ -38119,5 +38119,20 @@
                 "login": "deogratias-saidi"
             }
         }
+    },
+    "application-gateway-container": {
+        "base": "svg",
+        "aliases": [
+            "azure application gateway for container",
+            "application gateway"
+        ],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-02-19T09:14:17.735Z",
+            "author": {
+                "id": 50410476,
+                "login": "deogratias-saidi"
+            }
+        }
     }
 }
