@@ -38431,5 +38431,19 @@
                 "login": "deogratias-saidi"
             }
         }
+    },
+    "azure-vm": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "cloud"
+        ],
+        "update": {
+            "timestamp": "2026-02-19T09:14:56.649Z",
+            "author": {
+                "id": 50410476,
+                "login": "deogratias-saidi"
+            }
+        }
     }
 }
