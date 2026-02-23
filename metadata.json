@@ -38493,5 +38493,19 @@
                 "login": "Sterminous"
             }
         }
+    },
+    "windows-explorer": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "utility"
+        ],
+        "update": {
+            "timestamp": "2026-02-23T09:03:49.874Z",
+            "author": {
+                "id": 116995857,
+                "login": "Driuma"
+            }
+        }
     }
 }

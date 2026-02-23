@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Capa_2" data-name="Capa 2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 106.63 104.31">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: url(#Degradado_sin_nombre_57-2);
+      }
+
+      .cls-2 {
+        fill: url(#Degradado_sin_nombre_17);
+      }
+
+      .cls-3 {
+        fill: #3a96dd;
+        filter: url(#drop-shadow-1);
+      }
+
+      .cls-4 {
+        fill: url(#Degradado_sin_nombre_57);
+      }
+    </style>
+    <linearGradient id="Degradado_sin_nombre_57" data-name="Degradado sin nombre 57" x1="53.32" y1="84.9" x2="53.32" y2="62.39" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#f0b92d"/>
+      <stop offset=".43" stop-color="#f5c548"/>
+      <stop offset="1" stop-color="#feda74"/>
+    </linearGradient>
+    <linearGradient id="Degradado_sin_nombre_57-2" data-name="Degradado sin nombre 57" x1="53.31" x2="53.31" y2="9.07" xlink:href="#Degradado_sin_nombre_57"/>
+    <filter id="drop-shadow-1" x="2.27" y="29.31" width="102" height="75" filterUnits="userSpaceOnUse">
+      <feOffset dx="0" dy="0"/>
+      <feGaussianBlur result="blur" stdDeviation="5"/>
+      <feFlood flood-color="#000" flood-opacity=".1"/>
+      <feComposite in2="blur" operator="in"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+    <linearGradient id="Degradado_sin_nombre_17" data-name="Degradado sin nombre 17" x1="26.19" y1="17.93" x2="26.19" y2="0" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#d18b00"/>
+      <stop offset=".16" stop-color="#d59100"/>
+      <stop offset=".54" stop-color="#dd9b00"/>
+      <stop offset="1" stop-color="#e09f00"/>
+    </linearGradient>
+  </defs>
+  <g id="Capa_3" data-name="Capa 3">
+    <path class="cls-4" d="M35.71,62.39v22.51h35.22v-22.51h-35.22Z"/>
+    <path class="cls-1" d="M106.63,14.91v64.14c0,3.23-2.62,5.85-5.85,5.85h-11.75v-30.09c0-5.52-4.48-10-10-10H27.59c-5.53,0-10,4.48-10,10v30.09H5.85c-3.23,0-5.85-2.62-5.85-5.85V17.93h41.12c.95,0,1.88-.31,2.64-.89.06-.04.12-.09.18-.14l.12-.11h0s8.31-7.72,8.31-7.72h48.41c3.23,0,5.84,2.62,5.84,5.84Z"/>
+    <path class="cls-3" d="M89.03,54.81v34.17h-18.1v-26.59h-35.22v26.59h-18.12v-34.17c0-5.52,4.47-10,10-10h51.44c5.52,0,10,4.48,10,10Z"/>
+    <path class="cls-2" d="M52.38,9.07l-8.31,7.71h0c-.1.1-.2.18-.3.26-.76.58-1.69.89-2.64.89H0V6.05C0,2.71,2.71,0,6.05,0h34.08c1.73,0,3.4.66,4.67,1.84,2.53,2.41,5.05,4.82,7.58,7.23Z"/>
+  </g>
+</svg>
