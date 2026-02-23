@@ -38507,5 +38507,26 @@
                 "login": "Driuma"
             }
         }
+    },
+    "azure-virtual-desktop": {
+        "base": "svg",
+        "aliases": [
+            "azure",
+            "avd",
+            "virtual desktop",
+            "remote connectiom",
+            "rdp"
+        ],
+        "categories": [
+            "cloud",
+            "tools"
+        ],
+        "update": {
+            "timestamp": "2026-02-23T14:13:36.089Z",
+            "author": {
+                "id": 50410476,
+                "login": "deogratias-saidi"
+            }
+        }
     }
 }
