@@ -37309,18 +37309,27 @@
     },
     "openclaw": {
         "base": "svg",
-        "aliases": [],
+        "aliases": [
+            "openclaw",
+            "clawdbot",
+            "open-claw",
+            "moltbot"
+        ],
         "categories": [
             "automation",
-            "tools",
-            "utility"
+            "cloud",
+            "entertainment"
         ],
         "update": {
-            "timestamp": "2026-02-09T12:18:08.500Z",
+            "timestamp": "2026-02-24T17:45:44.677Z",
             "author": {
-                "id": "mxpjgxtay10n02u",
-                "name": "JustAGod"
+                "id": 49837342,
+                "login": "ajnart"
             }
+        },
+        "wordmark": {
+            "light": "openclaw-wordmark-light",
+            "dark": "openclaw-wordmark-dark"
         }
     },
     "videobuster": {
