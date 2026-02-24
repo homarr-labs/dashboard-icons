@@ -38537,5 +38537,19 @@
                 "login": "deogratias-saidi"
             }
         }
+    },
+    "swiparr": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "media"
+        ],
+        "update": {
+            "timestamp": "2026-02-24T17:52:35.411Z",
+            "author": {
+                "id": 7321259,
+                "login": "michaelkrieger"
+            }
+        }
     }
 }
