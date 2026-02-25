@@ -37310,22 +37310,28 @@
     "openclaw": {
         "base": "svg",
         "aliases": [
-            "openclaw",
+            "claude-bot",
             "clawdbot",
+            "moltbot",
+            "openclaw",
             "open-claw",
-            "moltbot"
+            "clawd-bot"
         ],
         "categories": [
             "automation",
             "cloud",
+            "development",
             "entertainment"
         ],
         "update": {
-            "timestamp": "2026-02-24T17:45:44.677Z",
+            "timestamp": "2026-02-25T10:26:18.904Z",
             "author": {
                 "id": 49837342,
                 "login": "ajnart"
             }
+        },
+        "colors": {
+            "dark": "openclaw-dark"
         },
         "wordmark": {
             "light": "openclaw-wordmark-light",
