@@ -38569,5 +38569,22 @@
                 "login": "slc66"
             }
         }
+    },
+    "azure-data-factory": {
+        "base": "svg",
+        "aliases": [
+            "azure",
+            "afd"
+        ],
+        "categories": [
+            "cloud"
+        ],
+        "update": {
+            "timestamp": "2026-02-26T19:51:10.162Z",
+            "author": {
+                "id": 50410476,
+                "login": "deogratias-saidi"
+            }
+        }
     }
 }
