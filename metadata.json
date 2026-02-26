@@ -38642,5 +38642,24 @@
                 "login": "deogratias-saidi"
             }
         }
+    },
+    "azure-front-door": {
+        "base": "svg",
+        "aliases": [
+            "azure",
+            "frontdoor",
+            "cdn"
+        ],
+        "categories": [
+            "cloud",
+            "network"
+        ],
+        "update": {
+            "timestamp": "2026-02-26T19:51:20.377Z",
+            "author": {
+                "id": 50410476,
+                "login": "deogratias-saidi"
+            }
+        }
     }
 }
