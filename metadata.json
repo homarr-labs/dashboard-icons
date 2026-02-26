@@ -38680,5 +38680,27 @@
                 "login": "deogratias-saidi"
             }
         }
+    },
+    "red-dead-redemption-2": {
+        "base": "svg",
+        "aliases": [
+            "RDR2",
+            "red dead redemption",
+            "red dead",
+            "red dead 2"
+        ],
+        "categories": [
+            "gaming"
+        ],
+        "update": {
+            "timestamp": "2026-02-26T19:51:26.208Z",
+            "author": {
+                "id": "qwgt4spv6egbmgw",
+                "name": "alex"
+            }
+        },
+        "wordmark": {
+            "light": "red-dead-redemption-2-wordmark-light"
+        }
     }
 }
