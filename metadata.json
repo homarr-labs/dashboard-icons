@@ -38603,5 +38603,25 @@
                 "login": "deogratias-saidi"
             }
         }
+    },
+    "azure-application-insights": {
+        "base": "svg",
+        "aliases": [
+            "azure",
+            "api",
+            "monitoring"
+        ],
+        "categories": [
+            "cloud",
+            "monitoring",
+            "tools"
+        ],
+        "update": {
+            "timestamp": "2026-02-26T19:51:15.279Z",
+            "author": {
+                "id": 50410476,
+                "login": "deogratias-saidi"
+            }
+        }
     }
 }
