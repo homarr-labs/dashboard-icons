@@ -38557,5 +38557,17 @@
                 "login": "michaelkrieger"
             }
         }
+    },
+    "proton-sheets": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-02-26T19:51:06.212Z",
+            "author": {
+                "id": 1457250,
+                "login": "slc66"
+            }
+        }
     }
 }
