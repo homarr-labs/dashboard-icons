@@ -38586,5 +38586,22 @@
                 "login": "deogratias-saidi"
             }
         }
+    },
+    "dns-private-resolver": {
+        "base": "svg",
+        "aliases": [
+            "azure dns private resolver"
+        ],
+        "categories": [
+            "cloud",
+            "network"
+        ],
+        "update": {
+            "timestamp": "2026-02-26T19:51:12.869Z",
+            "author": {
+                "id": 50410476,
+                "login": "deogratias-saidi"
+            }
+        }
     }
 }
