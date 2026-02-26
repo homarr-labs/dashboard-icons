@@ -38623,5 +38623,24 @@
                 "login": "deogratias-saidi"
             }
         }
+    },
+    "azure-expressroute-cirtcuits": {
+        "base": "svg",
+        "aliases": [
+            "azure",
+            "expressroute",
+            "network"
+        ],
+        "categories": [
+            "cloud",
+            "network"
+        ],
+        "update": {
+            "timestamp": "2026-02-26T19:51:17.969Z",
+            "author": {
+                "id": 50410476,
+                "login": "deogratias-saidi"
+            }
+        }
     }
 }
