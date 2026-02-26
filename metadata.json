@@ -38661,5 +38661,24 @@
                 "login": "deogratias-saidi"
             }
         }
+    },
+    "azure-keyvault": {
+        "base": "svg",
+        "aliases": [
+            "azure",
+            "keyvault",
+            "vault"
+        ],
+        "categories": [
+            "cloud",
+            "security"
+        ],
+        "update": {
+            "timestamp": "2026-02-26T19:51:22.728Z",
+            "author": {
+                "id": 50410476,
+                "login": "deogratias-saidi"
+            }
+        }
     }
 }
