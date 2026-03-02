@@ -38795,5 +38795,19 @@
                 "login": "pedorich-n"
             }
         }
+    },
+    "latitudesh": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "network"
+        ],
+        "update": {
+            "timestamp": "2026-03-02T13:18:45.049Z",
+            "author": {
+                "id": 9125,
+                "login": "caironoleto"
+            }
+        }
     }
 }
