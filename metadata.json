@@ -38871,5 +38871,19 @@
                 "login": "mescon"
             }
         }
+    },
+    "zappier": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "automation"
+        ],
+        "update": {
+            "timestamp": "2026-03-02T13:19:02.911Z",
+            "author": {
+                "id": "4vvfm3hjqf3xjxt",
+                "name": "2ssitlab"
+            }
+        }
     }
 }
