@@ -38920,5 +38920,21 @@
                 "login": "mains-hum"
             }
         }
+    },
+    "epson-scan": {
+        "base": "png",
+        "aliases": [],
+        "categories": [
+            "home-automation",
+            "tools",
+            "utility"
+        ],
+        "update": {
+            "timestamp": "2026-03-02T13:19:12.221Z",
+            "author": {
+                "id": 9951907,
+                "login": "laughingman-hass"
+            }
+        }
     }
 }
