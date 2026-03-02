@@ -38826,5 +38826,19 @@
                 "login": "JellyWatchteam"
             }
         }
+    },
+    "scriberr": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "media"
+        ],
+        "update": {
+            "timestamp": "2026-03-02T13:18:53.535Z",
+            "author": {
+                "id": 31820255,
+                "login": "UtkarshVerma"
+            }
+        }
     }
 }
