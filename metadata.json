@@ -38739,5 +38739,17 @@
             "light": "crowdstrike-wordmark-light",
             "dark": "crowdstrike-wordmark-dark"
         }
+    },
+    "napcat": {
+        "base": "png",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-03-02T13:18:32.446Z",
+            "author": {
+                "id": 28244225,
+                "login": "Toushunkai"
+            }
+        }
     }
 }
