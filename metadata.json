@@ -38809,5 +38809,19 @@
                 "login": "caironoleto"
             }
         }
+    },
+    "jellywatch": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "tools"
+        ],
+        "update": {
+            "timestamp": "2026-03-02T13:18:47.630Z",
+            "author": {
+                "id": 225222786,
+                "login": "JellyWatchteam"
+            }
+        }
     }
 }
