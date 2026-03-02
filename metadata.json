@@ -38959,5 +38959,19 @@
         "colors": {
             "dark": "powershell-dark"
         }
+    },
+    "hytale": {
+        "base": "png",
+        "aliases": [],
+        "categories": [
+            "gaming"
+        ],
+        "update": {
+            "timestamp": "2026-03-02T13:19:19.459Z",
+            "author": {
+                "id": 94655326,
+                "login": "E-gro"
+            }
+        }
     }
 }
