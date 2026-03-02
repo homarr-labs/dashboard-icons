@@ -38936,5 +38936,28 @@
                 "login": "laughingman-hass"
             }
         }
+    },
+    "powershell": {
+        "base": "svg",
+        "aliases": [
+            "microsoft powershell",
+            "powershell",
+            "cmd"
+        ],
+        "categories": [
+            "utility",
+            "development",
+            "automation"
+        ],
+        "update": {
+            "timestamp": "2026-03-02T13:19:16.609Z",
+            "author": {
+                "id": 50410476,
+                "login": "deogratias-saidi"
+            }
+        },
+        "colors": {
+            "dark": "powershell-dark"
+        }
     }
 }
