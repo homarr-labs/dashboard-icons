@@ -38763,5 +38763,17 @@
                 "login": "TheNore"
             }
         }
+    },
+    "astrbot": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-03-02T13:18:39.116Z",
+            "author": {
+                "id": 28244225,
+                "login": "Toushunkai"
+            }
+        }
     }
 }
