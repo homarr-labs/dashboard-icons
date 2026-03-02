@@ -7142,12 +7142,17 @@
     "speedtest-tracker": {
         "base": "png",
         "aliases": [],
-        "categories": [],
+        "categories": [
+            "network",
+            "automation",
+            "monitoring",
+            "tools"
+        ],
         "update": {
-            "timestamp": "2025-01-07T17:54:03Z",
+            "timestamp": "2026-03-02T13:18:20.866Z",
             "author": {
-                "id": 71191962,
-                "name": "walkxcode"
+                "id": 101796404,
+                "login": "Spajki001"
             }
         }
     },
