@@ -38885,5 +38885,25 @@
                 "name": "2ssitlab"
             }
         }
+    },
+    "stoat": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "gaming",
+            "social",
+            "network",
+            "entertainment"
+        ],
+        "update": {
+            "timestamp": "2026-03-02T13:19:06.889Z",
+            "author": {
+                "id": 73254794,
+                "login": "SeanGSR"
+            }
+        },
+        "colors": {
+            "light": "stoat-light"
+        }
     }
 }
