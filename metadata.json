@@ -38707,5 +38707,37 @@
         "wordmark": {
             "light": "red-dead-redemption-2-wordmark-light"
         }
+    },
+    "crowdstrike": {
+        "base": "svg",
+        "aliases": [
+            "CrowdStrike",
+            "CS",
+            "Falcon",
+            "Falcon Console",
+            "NG Siem",
+            "Next-Gen Siem"
+        ],
+        "categories": [
+            "security",
+            "monitoring",
+            "tools",
+            "cloud"
+        ],
+        "update": {
+            "timestamp": "2026-03-02T13:18:28.473Z",
+            "author": {
+                "id": 44217890,
+                "login": "GabrielHogan"
+            }
+        },
+        "colors": {
+            "light": "crowdstrike-light",
+            "dark": "crowdstrike-dark"
+        },
+        "wordmark": {
+            "light": "crowdstrike-wordmark-light",
+            "dark": "crowdstrike-wordmark-dark"
+        }
     }
 }
