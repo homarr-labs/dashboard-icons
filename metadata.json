@@ -9242,11 +9242,14 @@
         "aliases": [],
         "categories": [],
         "update": {
-            "timestamp": "2023-04-13T13:56:18Z",
+            "timestamp": "2026-03-02T13:18:50.851Z",
             "author": {
-                "id": 71191962,
-                "name": "walkxcode"
+                "id": 109785648,
+                "login": "MrPondi"
             }
+        },
+        "colors": {
+            "dark": "alertmanager-dark"
         }
     },
     "google-sheets": {
