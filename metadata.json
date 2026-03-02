@@ -38775,5 +38775,25 @@
                 "login": "Toushunkai"
             }
         }
+    },
+    "gitea-mirror": {
+        "base": "png",
+        "aliases": [
+            "giteamirror",
+            "Gitea Mirror"
+        ],
+        "categories": [
+            "automation",
+            "development",
+            "utility",
+            "tools"
+        ],
+        "update": {
+            "timestamp": "2026-03-02T13:18:41.752Z",
+            "author": {
+                "id": 15573098,
+                "login": "pedorich-n"
+            }
+        }
     }
 }
