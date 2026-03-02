@@ -38751,5 +38751,17 @@
                 "login": "Toushunkai"
             }
         }
+    },
+    "prusa-slicer": {
+        "base": "png",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-03-02T13:18:35.876Z",
+            "author": {
+                "id": 16988567,
+                "login": "TheNore"
+            }
+        }
     }
 }
