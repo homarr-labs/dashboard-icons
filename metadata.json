@@ -38852,5 +38852,24 @@
                 "name": "Vincent-Fabron"
             }
         }
+    },
+    "healarr": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "automation",
+            "media",
+            "monitoring",
+            "storage",
+            "tools",
+            "utility"
+        ],
+        "update": {
+            "timestamp": "2026-03-02T13:19:00.367Z",
+            "author": {
+                "id": 5875228,
+                "login": "mescon"
+            }
+        }
     }
 }
