@@ -38973,5 +38973,17 @@
                 "login": "E-gro"
             }
         }
+    },
+    "anchor": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-03-04T19:59:08.309Z",
+            "author": {
+                "id": "jhs4mqaij1ta9qr",
+                "name": "Meierschlumpf"
+            }
+        }
     }
 }
