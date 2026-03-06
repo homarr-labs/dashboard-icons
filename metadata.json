@@ -38985,5 +38985,17 @@
                 "name": "Meierschlumpf"
             }
         }
+    },
+    "search-ch": {
+        "base": "png",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-03-06T13:23:17.945Z",
+            "author": {
+                "id": "jhs4mqaij1ta9qr",
+                "name": "Meierschlumpf"
+            }
+        }
     }
 }
