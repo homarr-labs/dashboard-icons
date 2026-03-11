@@ -39044,5 +39044,21 @@
                 "login": "khalidbelk"
             }
         }
+    },
+    "anki": {
+        "base": "png",
+        "aliases": [
+            "learn"
+        ],
+        "categories": [
+            "tools"
+        ],
+        "update": {
+            "timestamp": "2026-03-11T16:18:08.943Z",
+            "author": {
+                "id": 121752200,
+                "login": "PetitBidule"
+            }
+        }
     }
 }
