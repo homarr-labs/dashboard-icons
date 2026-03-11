@@ -39121,5 +39121,29 @@
                 "login": "c0mputerguru"
             }
         }
+    },
+    "rocket-money": {
+        "base": "svg",
+        "aliases": [
+            "rocketmoney",
+            "truebill",
+            "Truebill",
+            "True bill",
+            "True Bill",
+            "Rocketmoney"
+        ],
+        "categories": [
+            "finance"
+        ],
+        "update": {
+            "timestamp": "2026-03-11T16:18:23.992Z",
+            "author": {
+                "id": 126091903,
+                "login": "stephenlf"
+            }
+        },
+        "wordmark": {
+            "light": "rocket-money-wordmark-light"
+        }
     }
 }
