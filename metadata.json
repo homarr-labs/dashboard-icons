@@ -16855,17 +16855,15 @@
     "navidrome": {
         "base": "svg",
         "aliases": [],
-        "categories": [],
+        "categories": [
+            "entertainment"
+        ],
         "update": {
-            "timestamp": "2024-10-20T17:24:03Z",
+            "timestamp": "2026-03-11T16:18:06.311Z",
             "author": {
-                "id": 71191962,
-                "name": "walkxcode"
+                "id": 169252697,
+                "login": "szilviuu"
             }
-        },
-        "colors": {
-            "dark": "navidrome",
-            "light": "navidrome-light"
         }
     },
     "pushfish": {
