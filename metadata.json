@@ -39060,5 +39060,28 @@
                 "login": "PetitBidule"
             }
         }
+    },
+    "openbao": {
+        "base": "svg",
+        "aliases": [
+            "bao"
+        ],
+        "categories": [
+            "automation",
+            "cloud",
+            "storage",
+            "tools",
+            "security"
+        ],
+        "update": {
+            "timestamp": "2026-03-11T16:18:11.937Z",
+            "author": {
+                "id": 3169264,
+                "login": "StephanMeijer"
+            }
+        },
+        "colors": {
+            "light": "openbao-light"
+        }
     }
 }
