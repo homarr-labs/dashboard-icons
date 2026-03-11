@@ -39029,5 +39029,22 @@
             "light": "lovable-wordmark-light",
             "dark": "lovable-wordmark-dark"
         }
+    },
+    "ocaml": {
+        "base": "svg",
+        "aliases": [
+            "programming",
+            "ocaml"
+        ],
+        "categories": [
+            "development"
+        ],
+        "update": {
+            "timestamp": "2026-03-11T16:18:03.574Z",
+            "author": {
+                "id": 72026317,
+                "login": "khalidbelk"
+            }
+        }
     }
 }
