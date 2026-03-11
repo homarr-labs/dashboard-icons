@@ -39011,5 +39011,23 @@
                 "login": "syndicate-union"
             }
         }
+    },
+    "lovable": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "development"
+        ],
+        "update": {
+            "timestamp": "2026-03-11T16:18:00.985Z",
+            "author": {
+                "id": 249974733,
+                "login": "syndicate-union"
+            }
+        },
+        "wordmark": {
+            "light": "lovable-wordmark-light",
+            "dark": "lovable-wordmark-dark"
+        }
     }
 }
