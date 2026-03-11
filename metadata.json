@@ -39145,5 +39145,21 @@
         "wordmark": {
             "light": "rocket-money-wordmark-light"
         }
+    },
+    "gnu-guix": {
+        "base": "svg",
+        "aliases": [
+            "linux",
+            "gnu",
+            "guix"
+        ],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-03-11T16:18:26.744Z",
+            "author": {
+                "id": 233751021,
+                "login": "mains-hum"
+            }
+        }
     }
 }
