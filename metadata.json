@@ -39107,5 +39107,19 @@
                 "login": "Carbon-Khan"
             }
         }
+    },
+    "m3u-editor": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "media"
+        ],
+        "update": {
+            "timestamp": "2026-03-11T16:18:20.533Z",
+            "author": {
+                "id": 23019447,
+                "login": "c0mputerguru"
+            }
+        }
     }
 }
