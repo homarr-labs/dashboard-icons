@@ -39083,5 +39083,17 @@
         "colors": {
             "light": "openbao-light"
         }
+    },
+    "skribblio": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-03-11T16:18:15.115Z",
+            "author": {
+                "id": 165878227,
+                "login": "Zain3967"
+            }
+        }
     }
 }
