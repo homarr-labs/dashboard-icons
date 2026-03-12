@@ -39221,5 +39221,20 @@
             "light": "confluent-light",
             "dark": "confluent-dark"
         }
+    },
+    "artix": {
+        "base": "png",
+        "aliases": [
+            "linux",
+            "artix"
+        ],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-03-12T21:07:38.422Z",
+            "author": {
+                "id": 233751021,
+                "login": "mains-hum"
+            }
+        }
     }
 }
