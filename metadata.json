@@ -39186,5 +39186,20 @@
             "light": "opencti-wordmark-light",
             "dark": "opencti-wordmark-dark"
         }
+    },
+    "svgomg": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "tools",
+            "utility"
+        ],
+        "update": {
+            "timestamp": "2026-03-12T21:07:32.305Z",
+            "author": {
+                "id": 178176935,
+                "login": "Dani-Carmi"
+            }
+        }
     }
 }
