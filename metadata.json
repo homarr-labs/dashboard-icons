@@ -39236,5 +39236,20 @@
                 "login": "mains-hum"
             }
         }
+    },
+    "aurral": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "media",
+            "utility"
+        ],
+        "update": {
+            "timestamp": "2026-03-12T21:07:41.113Z",
+            "author": {
+                "id": 18677216,
+                "login": "lv913"
+            }
+        }
     }
 }
