@@ -39161,5 +39161,30 @@
                 "login": "mains-hum"
             }
         }
+    },
+    "opencti": {
+        "base": "png",
+        "aliases": [
+            "OpenCTI",
+            "Open CTI"
+        ],
+        "categories": [
+            "security",
+            "tools"
+        ],
+        "update": {
+            "timestamp": "2026-03-12T21:07:27.882Z",
+            "author": {
+                "id": 8620733,
+                "login": "jm-hill"
+            }
+        },
+        "colors": {
+            "dark": "opencti-dark"
+        },
+        "wordmark": {
+            "light": "opencti-wordmark-light",
+            "dark": "opencti-wordmark-dark"
+        }
     }
 }
