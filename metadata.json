@@ -39201,5 +39201,25 @@
                 "login": "Dani-Carmi"
             }
         }
+    },
+    "confluent": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "monitoring",
+            "tools",
+            "utility"
+        ],
+        "update": {
+            "timestamp": "2026-03-12T21:07:35.874Z",
+            "author": {
+                "id": 178176935,
+                "login": "Dani-Carmi"
+            }
+        },
+        "colors": {
+            "light": "confluent-light",
+            "dark": "confluent-dark"
+        }
     }
 }
