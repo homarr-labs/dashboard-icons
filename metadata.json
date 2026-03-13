@@ -39323,5 +39323,25 @@
                 "login": "magnusKue"
             }
         }
+    },
+    "remarkable": {
+        "base": "png",
+        "aliases": [
+            "re-markable"
+        ],
+        "categories": [
+            "cloud",
+            "media",
+            "storage",
+            "tools",
+            "utility"
+        ],
+        "update": {
+            "timestamp": "2026-03-13T03:00:07.124Z",
+            "author": {
+                "id": 110333217,
+                "login": "JakeEsBigBrain"
+            }
+        }
     }
 }
