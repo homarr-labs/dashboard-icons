@@ -39263,5 +39263,21 @@
                 "name": "Vincent-Fabron"
             }
         }
+    },
+    "zenmux": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "tools",
+            "cloud",
+            "utility"
+        ],
+        "update": {
+            "timestamp": "2026-03-13T02:59:56.512Z",
+            "author": {
+                "id": 72839683,
+                "login": "ryo9999"
+            }
+        }
     }
 }
