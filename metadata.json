@@ -39251,5 +39251,17 @@
                 "login": "lv913"
             }
         }
+    },
+    "ticktick": {
+        "base": "png",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-03-13T02:59:53.420Z",
+            "author": {
+                "id": "yk502n3v9wk8wnk",
+                "name": "Vincent-Fabron"
+            }
+        }
     }
 }
