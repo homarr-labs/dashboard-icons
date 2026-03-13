@@ -39295,5 +39295,19 @@
                 "login": "dfmknz"
             }
         }
+    },
+    "checkbits": {
+        "base": "png",
+        "aliases": [],
+        "categories": [
+            "cloud"
+        ],
+        "update": {
+            "timestamp": "2026-03-13T03:00:02.094Z",
+            "author": {
+                "id": 9319341,
+                "login": "guilhermegazzinelli"
+            }
+        }
     }
 }
