@@ -39309,5 +39309,19 @@
                 "login": "guilhermegazzinelli"
             }
         }
+    },
+    "crowdsec-web-ui": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "security"
+        ],
+        "update": {
+            "timestamp": "2026-03-13T03:00:04.708Z",
+            "author": {
+                "id": 119706124,
+                "login": "magnusKue"
+            }
+        }
     }
 }
