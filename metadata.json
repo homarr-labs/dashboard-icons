@@ -39279,5 +39279,21 @@
                 "login": "ryo9999"
             }
         }
+    },
+    "wallhaven": {
+        "base": "png",
+        "aliases": [
+            "wallhaven",
+            "wall",
+            "haven"
+        ],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-03-13T02:59:59.131Z",
+            "author": {
+                "id": 48228127,
+                "login": "dfmknz"
+            }
+        }
     }
 }
