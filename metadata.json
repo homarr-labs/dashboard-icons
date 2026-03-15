@@ -39343,5 +39343,23 @@
                 "login": "JakeEsBigBrain"
             }
         }
+    },
+    "eleven-labs": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "tools"
+        ],
+        "update": {
+            "timestamp": "2026-03-15T14:01:28.822Z",
+            "author": {
+                "id": "4vvfm3hjqf3xjxt",
+                "name": "2ssitlab"
+            }
+        },
+        "colors": {
+            "light": "eleven-labs-light",
+            "dark": "eleven-labs-dark"
+        }
     }
 }
