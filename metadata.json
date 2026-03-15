@@ -39361,5 +39361,24 @@
             "light": "eleven-labs-light",
             "dark": "eleven-labs-dark"
         }
+    },
+    "proxcenter": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "tools",
+            "network",
+            "monitoring"
+        ],
+        "update": {
+            "timestamp": "2026-03-15T14:01:32.397Z",
+            "author": {
+                "id": "u3tbs15lsoatw2m",
+                "name": "mans39"
+            }
+        },
+        "colors": {
+            "dark": "proxcenter-dark"
+        }
     }
 }
