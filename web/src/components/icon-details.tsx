@@ -248,7 +248,6 @@ export function IconDetails({
 	const [copiedUrlKey, setCopiedUrlKey] = useState<string | null>(null)
 	const [copiedImageKey, setCopiedImageKey] = useState<string | null>(null)
 	const [isCustomizerOpen, setIsCustomizerOpen] = useState(false)
-	const [hasGradients, setHasGradients] = useState<boolean | null>(null)
 	const [selectedVariant, setSelectedVariant] = useState<string>("base")
 
 	const launchConfetti = useCallback((originX?: number, originY?: number) => {
@@ -733,37 +732,12 @@ export function IconDetails({
 	)
 
 	useEffect(() => {
-		if (!svgUrl) {
-			setHasGradients(null)
-			return
-		}
-
-		const checkForGradients = async () => {
-			try {
-				const response = await fetch(svgUrl)
-				if (!response.ok) {
-					setHasGradients(null)
-					return
-				}
-				const text = await response.text()
-				const hasLinearGradient = /<linearGradient[\s/>]/i.test(text)
-				const hasRadialGradient = /<radialGradient[\s/>]/i.test(text)
-				setHasGradients(hasLinearGradient || hasRadialGradient)
-			} catch {
-				setHasGradients(null)
-			}
-		}
-
-		checkForGradients()
-	}, [svgUrl])
-
-	useEffect(() => {
 		if (availableVariants.length > 0 && !availableVariants.find((v) => v.value === selectedVariant)) {
 			setSelectedVariant(availableVariants[0].value)
 		}
 	}, [availableVariants, selectedVariant])
 
-	const canCustomize = svgUrl !== null && availableFormats.includes("svg") && hasGradients === false && availableVariants.length > 0
+	const canCustomize = svgUrl !== null && availableFormats.includes("svg") && availableVariants.length > 0
 
 	return (
 		<div className="container mx-auto pt-12 pb-14 px-4 sm:px-6 lg:px-8">
