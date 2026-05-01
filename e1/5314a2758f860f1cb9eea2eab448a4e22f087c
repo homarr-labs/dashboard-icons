@@ -1,0 +1,23 @@
+web/scripts/import-lobehub.ts
+  8bd16fd8d9fecc4e 300-312,314-315,326-341,382-387,399,404
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.3.4",
+  "base_commit_sha": "e15314a2758f860f1cb9eea2eab448a4e22f087c",
+  "prompts": {
+    "8bd16fd8d9fecc4e": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "c64ba38f-e738-4fc2-a821-400ae6e6589d",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Thomas Camlong",
+      "messages": [],
+      "total_additions": 39,
+      "total_deletions": 2,
+      "accepted_lines": 39,
+      "overriden_lines": 0
+    }
+  }
+}
