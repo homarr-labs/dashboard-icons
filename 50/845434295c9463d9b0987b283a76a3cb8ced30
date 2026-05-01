@@ -1,0 +1,49 @@
+web/src/components/command-menu.tsx
+  1065d89c0550b2bb 16-25,37,51,65-81,88,124-131,140,151
+  906ba8f3e209e5f7 3,6,12,38-39,45-50,52,83-87,89,116-120,132-139,141-144,153,156,158-159,166-195,197-198,200,203,206-209,211-226
+  h_32d929d7363456 4,82,154
+web/src/components/ui/dialog.tsx
+  906ba8f3e209e5f7 41
+  1065d89c0550b2bb 63
+web/src/components/ui/command.tsx
+  906ba8f3e209e5f7 56
+  1065d89c0550b2bb 38-39,44-47,59
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.3.4",
+  "base_commit_sha": "50845434295c9463d9b0987b283a76a3cb8ced30",
+  "prompts": {
+    "1065d89c0550b2bb": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "da58bea1-e7d6-4d9f-b97a-be5acf442332",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Thomas Camlong",
+      "messages": [],
+      "total_additions": 1447,
+      "total_deletions": 79,
+      "accepted_lines": 46,
+      "overriden_lines": 0
+    },
+    "906ba8f3e209e5f7": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "409b2911-65b5-486a-a526-1d961567ea6b",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Thomas Camlong",
+      "messages": [],
+      "total_additions": 606,
+      "total_deletions": 650,
+      "accepted_lines": 172,
+      "overriden_lines": 2
+    }
+  },
+  "humans": {
+    "h_32d929d7363456": {
+      "author": "Thomas Camlong"
+    }
+  }
+}
