@@ -1,0 +1,23 @@
+web/README.md
+  ba66ab665374a7b6 139-148
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.3.4",
+  "base_commit_sha": "08535c0728d4efeffa6861c2b6a1db50fca92b09",
+  "prompts": {
+    "ba66ab665374a7b6": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "20a71187-33f5-40b9-9aa2-e2f5cb0b8abf",
+        "model": "composer-2"
+      },
+      "human_author": "Thomas Camlong",
+      "messages": [],
+      "total_additions": 10,
+      "total_deletions": 0,
+      "accepted_lines": 10,
+      "overriden_lines": 0
+    }
+  }
+}
