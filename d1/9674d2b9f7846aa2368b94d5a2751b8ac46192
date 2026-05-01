@@ -1,0 +1,23 @@
+web/src/app/dashboard/page.tsx
+  6202eaf320b58335 53-54,56-58,140,255,275-276,278,281-283,336,338-342,514,521,527-567
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.3.4",
+  "base_commit_sha": "d19674d2b9f7846aa2368b94d5a2751b8ac46192",
+  "prompts": {
+    "6202eaf320b58335": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "9405c288-0e8c-49cd-9368-992a6ff74085",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Thomas Camlong",
+      "messages": [],
+      "total_additions": 63,
+      "total_deletions": 42,
+      "accepted_lines": 63,
+      "overriden_lines": 0
+    }
+  }
+}
