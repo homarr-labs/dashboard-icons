@@ -1,0 +1,16 @@
+web/src/app/sitemap.ts
+  h_32d929d7363456 63
+web/src/lib/__tests__/svg-color-utils.test.ts
+  h_32d929d7363456 1
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.3.4",
+  "base_commit_sha": "7cba0ece06bcd9c0efc38d3163f6fdaf2cbd836d",
+  "prompts": {},
+  "humans": {
+    "h_32d929d7363456": {
+      "author": "Thomas Camlong"
+    }
+  }
+}
