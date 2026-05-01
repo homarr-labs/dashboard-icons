@@ -1,0 +1,23 @@
+web/src/constants.ts
+  8bd16fd8d9fecc4e 44
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.3.4",
+  "base_commit_sha": "7e6bc6cbf01726c3d43506f7e1ad79eb25f270a5",
+  "prompts": {
+    "8bd16fd8d9fecc4e": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "c64ba38f-e738-4fc2-a821-400ae6e6589d",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Thomas Camlong",
+      "messages": [],
+      "total_additions": 1,
+      "total_deletions": 1,
+      "accepted_lines": 1,
+      "overriden_lines": 0
+    }
+  }
+}
