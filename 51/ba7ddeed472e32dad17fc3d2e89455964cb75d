@@ -1,0 +1,23 @@
+web/docs/ADDING_EXTERNAL_SOURCES.md
+  ba66ab665374a7b6 1-488
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.3.4",
+  "base_commit_sha": "51ba7ddeed472e32dad17fc3d2e89455964cb75d",
+  "prompts": {
+    "ba66ab665374a7b6": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "20a71187-33f5-40b9-9aa2-e2f5cb0b8abf",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Thomas Camlong",
+      "messages": [],
+      "total_additions": 488,
+      "total_deletions": 0,
+      "accepted_lines": 488,
+      "overriden_lines": 0
+    }
+  }
+}
