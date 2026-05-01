@@ -1,0 +1,44 @@
+web/README.md
+  h_32d929d7363456 80-81,148
+web/.gitignore
+  h_32d929d7363456 63-69
+web/src/components/editable-icon-details.tsx
+  d5c3458a4e15b9fc 390,645
+web/src/components/recently-added-icons.tsx
+  d5c3458a4e15b9fc 35
+web/src/components/submissions-data-table.tsx
+  d5c3458a4e15b9fc 599-600
+web/src/app/dashboard/page.tsx
+  d5c3458a4e15b9fc 191,203,210,229,236,258,265,342
+web/src/components/ui/aurora-background.tsx
+  d5c3458a4e15b9fc 17,59
+web/src/components/magicui/magic-card.tsx
+  d5c3458a4e15b9fc 33,36-37,43,46,69-74
+web/src/app/globals.css
+  d5c3458a4e15b9fc 188-189
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.3.4",
+  "base_commit_sha": "e249ce246dd94c935553887dba11a1898ade7188",
+  "prompts": {
+    "d5c3458a4e15b9fc": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "022db9c5-0185-438c-99fb-b64a3a959432",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Thomas Camlong",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 528,
+      "overriden_lines": 0
+    }
+  },
+  "humans": {
+    "h_32d929d7363456": {
+      "author": "Thomas Camlong"
+    }
+  }
+}
