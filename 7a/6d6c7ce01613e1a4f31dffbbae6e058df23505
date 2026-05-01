@@ -1,0 +1,32 @@
+web/src/app/page.tsx
+  ba66ab665374a7b6 16,22-27
+web/src/lib/api.ts
+  ba66ab665374a7b6 191,194,196-202,205-208
+web/src/components/hero.tsx
+  ba66ab665374a7b6 27,149-159,235-267
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.3.4",
+  "base_commit_sha": "7a6d6c7ce01613e1a4f31dffbbae6e058df23505",
+  "prompts": {
+    "ba66ab665374a7b6": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "20a71187-33f5-40b9-9aa2-e2f5cb0b8abf",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Thomas Camlong",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 90,
+      "overriden_lines": 0
+    }
+  },
+  "humans": {
+    "h_32d929d7363456": {
+      "author": "Thomas Camlong"
+    }
+  }
+}
