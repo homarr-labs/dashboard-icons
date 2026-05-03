@@ -1,0 +1,30 @@
+web/src/instrumentation.ts
+  8f819de7ebedc263 9,21-25,78
+web/src/app/sitemap.ts
+  8f819de7ebedc263 12
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.3.4",
+  "base_commit_sha": "4508381d2c92d346a66774f08e4a8a2257c2016a",
+  "prompts": {
+    "8f819de7ebedc263": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "5f2bcf04-66f0-4eff-8ce8-6ad1c9ecf561",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Thomas Camlong",
+      "messages": [],
+      "total_additions": 8,
+      "total_deletions": 4,
+      "accepted_lines": 8,
+      "overriden_lines": 0
+    }
+  },
+  "humans": {
+    "h_32d929d7363456": {
+      "author": "Thomas Camlong"
+    }
+  }
+}
