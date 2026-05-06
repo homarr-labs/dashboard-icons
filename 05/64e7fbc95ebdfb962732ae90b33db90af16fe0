@@ -1,0 +1,21 @@
+web/src/hooks/use-icon-submission-form.ts
+  s_0531cee85862fc::t_fb7bc6377ab982 167-168
+web/src/components/editable-icon-details.tsx
+  s_0531cee85862fc::t_1acf8c9b5f28d0 337-338
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.1",
+  "base_commit_sha": "0564e7fbc95ebdfb962732ae90b33db90af16fe0",
+  "prompts": {},
+  "sessions": {
+    "s_0531cee85862fc": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "c94d5ab7-73fe-49d4-9268-3c4152b4cd92",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
