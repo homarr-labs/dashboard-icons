@@ -1,0 +1,36 @@
+web/src/lib/submit-or-replace.ts
+  s_0531cee85862fc::t_41bba9aa71d681 19
+  s_0531cee85862fc::t_502b1404fdbc4c 1-11,16,18,21-28
+  s_0531cee85862fc::t_273bd49dac495a 12-15,17,20
+web/backend/pb_migrations/1778059131_updated_submissions_allow_resubmit.js
+  s_0531cee85862fc::t_53398b28eedfcd 1-10
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.1",
+  "base_commit_sha": "c30276f4ab7aa911cc22a8e476b3e2fb3254fb38",
+  "prompts": {
+    "5c10c4d4e0e1abb6": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "c7c1f2cd-3884-4a7c-9945-cef428c23ce8",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>",
+      "total_additions": 31,
+      "total_deletions": 10,
+      "accepted_lines": 0,
+      "overriden_lines": 0
+    }
+  },
+  "sessions": {
+    "s_0531cee85862fc": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "c94d5ab7-73fe-49d4-9268-3c4152b4cd92",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
