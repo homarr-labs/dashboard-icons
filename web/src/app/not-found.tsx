@@ -1,6 +1,13 @@
 import { AlertTriangle, ArrowLeft } from "lucide-react"
+import type { Metadata } from "next"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
+
+export const metadata: Metadata = {
+	title: "Page Not Found | Dashboard Icons",
+	description: "The icon or page you are looking for does not exist.",
+	robots: { index: false },
+}
 
 export default function NotFound({ error }: { error: Error & { digest?: string } }) {
 	return (

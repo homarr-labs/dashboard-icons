@@ -1,6 +1,7 @@
 import type { Metadata, ResolvingMetadata } from "next"
 import { notFound, permanentRedirect } from "next/navigation"
 import { IconDetails } from "@/components/icon-details"
+import { PageBreadcrumbs } from "@/components/page-breadcrumbs"
 import { BASE_URL, WEB_URL } from "@/constants"
 import { getAllIcons, getAuthorData } from "@/lib/api"
 import { getCommunityGalleryRecord, getCommunitySubmissionByName, getCommunitySubmissions } from "@/lib/community"
@@ -241,8 +242,20 @@ export default async function CommunityIconPage({ params }: { params: Promise<{ 
 	const statusDisplayName = getStatusDisplayName(status)
 	const statusColor = getStatusColor(status)
 
+	const formattedIconName = icon
+		.split("-")
+		.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+		.join(" ")
+
 	return (
 		<>
+			<PageBreadcrumbs
+				items={[
+					{ label: "Home", href: "/" },
+					{ label: "Community", href: "/community" },
+					{ label: formattedIconName, href: `/community/${icon}` },
+				]}
+			/>
 			<script
 				type="application/ld+json"
 				// biome-ignore lint/security/noDangerouslySetInnerHtml: Needs to be done
@@ -253,6 +266,8 @@ export default async function CommunityIconPage({ params }: { params: Promise<{ 
 						contentUrl: mainIconUrl,
 						license: "https://creativecommons.org/licenses/by/4.0/",
 						acquireLicensePage: `${WEB_URL}/license`,
+						copyrightNotice: `© ${new Date().getFullYear()} Homarr Labs`,
+						creditText: authorData.name || authorData.login,
 						creator: {
 							"@type": "Person",
 							name: authorData.name || authorData.login,

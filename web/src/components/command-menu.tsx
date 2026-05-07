@@ -10,17 +10,24 @@ import { filterAndSortIcons, formatIconName } from "@/lib/utils"
 import type { IconWithName } from "@/types/icons"
 
 interface CommandMenuProps {
-	icons: IconWithName[]
 	triggerButtonId?: string
 	open?: boolean
 	onOpenChange?: (open: boolean) => void
 }
 
-export function CommandMenu({ icons, open: externalOpen, onOpenChange: externalOnOpenChange }: CommandMenuProps) {
+export function CommandMenu({ open: externalOpen, onOpenChange: externalOnOpenChange }: CommandMenuProps) {
 	const router = useRouter()
 	const [internalOpen, setInternalOpen] = useState(false)
 	const [query, setQuery] = useState("")
-	const _isDesktop = useMediaQuery("(min-width: 768px)")
+	const [icons, setIcons] = useState<IconWithName[]>([])
+	const isDesktop = useMediaQuery("(min-width: 768px)")
+
+	// Load icons lazily when component mounts
+	useEffect(() => {
+		import("@/lib/api").then(({ getIconsArray }) => {
+			getIconsArray().then(setIcons).catch(console.error)
+		})
+	}, [])
 
 	// Use either external or internal state for controlling open state
 	const isOpen = externalOpen !== undefined ? externalOpen : internalOpen
@@ -40,6 +47,7 @@ export function CommandMenu({ icons, open: externalOpen, onOpenChange: externalO
 	const filteredIcons = useMemo(() => filterAndSortIcons({ icons, query, limit: 20 }), [icons, query])
 
 	const totalIcons = icons.length
+	const isIconsLoaded = icons.length > 0
 
 	useEffect(() => {
 		const handleKeyDown = (e: KeyboardEvent) => {
@@ -68,7 +76,7 @@ export function CommandMenu({ icons, open: externalOpen, onOpenChange: externalO
 
 	return (
 		<CommandDialog open={isOpen} onOpenChange={setIsOpen} contentClassName="bg-background/90 backdrop-blur-sm border border-border/60">
-			<CommandInput placeholder={`Search our collection of ${totalIcons} icons by name...`} value={query} onValueChange={setQuery} />
+			<CommandInput placeholder={isIconsLoaded ? `Search our collection of ${totalIcons} icons by name...` : "Loading icons..."} value={query} onValueChange={setQuery} />
 			<CommandList className="max-h-[300px]">
 				{/* Icon Results */}
 				<CommandGroup heading="Icons">

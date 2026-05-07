@@ -105,7 +105,7 @@ export function fuzzySearch(text: string, query: string): number {
 
 	const normalizedText = text.toLowerCase()
 	const normalizedQuery = query.toLowerCase()
-	
+
 	// Also create versions without dashes/spaces for matching "homeassistant" -> "home-assistant"
 	const strippedText = normalizeForSearch(text)
 	const strippedQuery = normalizeForSearch(query)

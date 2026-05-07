@@ -5,7 +5,7 @@ import { Footer } from "@/components/footer"
 import { HeaderWrapper } from "@/components/header-wrapper"
 import { LicenseNotice } from "@/components/license-notice"
 import { PostHogProvider } from "@/components/PostHogProvider"
-import { BASE_URL, getDescription, WEB_URL, websiteTitle } from "@/constants"
+import { getDescription, WEB_URL, websiteTitle } from "@/constants"
 import { getTotalIcons } from "@/lib/api"
 import "./globals.css"
 import { Providers } from "@/components/providers"
@@ -40,9 +40,9 @@ export async function generateMetadata(): Promise<Metadata> {
 			googleBot: "index, follow",
 		},
 		openGraph: {
-			siteName: WEB_URL,
+			siteName: "Dashboard Icons",
 			title: websiteTitle,
-			url: BASE_URL,
+			url: WEB_URL,
 			description: getDescription(totalIcons),
 			images: [
 				{
@@ -56,13 +56,13 @@ export async function generateMetadata(): Promise<Metadata> {
 		},
 		twitter: {
 			card: "summary_large_image",
-			title: WEB_URL,
+			title: websiteTitle,
 			description: getDescription(totalIcons),
 			images: ["/og-image.png"],
 		},
-		applicationName: WEB_URL,
+		applicationName: "Dashboard Icons",
 		alternates: {
-			canonical: BASE_URL,
+			canonical: WEB_URL,
 		},
 
 		appleWebApp: {
@@ -86,7 +86,31 @@ export async function generateMetadata(): Promise<Metadata> {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
 	return (
 		<html lang="en" suppressHydrationWarning>
+			<head>
+				<link rel="preconnect" href="https://cdn.jsdelivr.net" />
+				<link rel="preconnect" href="https://raw.githubusercontent.com" />
+			</head>
 			<body className={`${inter.variable} antialiased bg-background flex flex-col min-h-screen`}>
+				<script
+					type="application/ld+json"
+					// biome-ignore lint/security/noDangerouslySetInnerHtml: Needs to be done
+					dangerouslySetInnerHTML={{
+						__html: JSON.stringify({
+							"@context": "https://schema.org",
+							"@type": "WebSite",
+							name: "Dashboard Icons",
+							url: WEB_URL,
+							potentialAction: {
+								"@type": "SearchAction",
+								target: {
+									"@type": "EntryPoint",
+									urlTemplate: `${WEB_URL}/icons?q={search_term_string}`,
+								},
+								"query-input": "required name=search_term_string",
+							},
+						}),
+					}}
+				/>
 				<Providers>
 					<PostHogProvider>
 						<ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>

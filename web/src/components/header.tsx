@@ -1,22 +1,24 @@
 "use client"
 
 import { Github, LayoutDashboard, LogOut, PlusCircle, Search } from "lucide-react"
+import dynamic from "next/dynamic"
 import Link from "next/link"
 import { usePostHog } from "posthog-js/react"
 import { useEffect, useState } from "react"
 import { LoginModal } from "@/components/login-modal"
 import { ThemeSwitcher } from "@/components/theme-switcher"
 import { REPO_NAME, REPO_PATH } from "@/constants"
-import { getIconsArray } from "@/lib/api"
 import { pb } from "@/lib/pb"
 import { resetPostHogIdentity } from "@/lib/posthog-utils"
-import type { IconWithName } from "@/types/icons"
-import { CommandMenu } from "./command-menu"
 import { HeaderNav } from "./header-nav"
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar"
 import { Button } from "./ui/button"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuSeparator, DropdownMenuTrigger } from "./ui/dropdown-menu"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "./ui/tooltip"
+
+const CommandMenu = dynamic(() => import("./command-menu").then((mod) => ({ default: mod.CommandMenu })), {
+	ssr: false,
+})
 
 interface UserData {
 	username: string
@@ -32,29 +34,12 @@ function formatStars(stars: number): string {
 }
 
 export function Header() {
-	const [iconsData, setIconsData] = useState<IconWithName[]>([])
-	const [isLoaded, setIsLoaded] = useState(false)
 	const [commandMenuOpen, setCommandMenuOpen] = useState(false)
 	const [loginModalOpen, setLoginModalOpen] = useState(false)
 	const [isLoggedIn, setIsLoggedIn] = useState(false)
 	const [userData, setUserData] = useState<UserData | undefined>(undefined)
 	const [stars, setStars] = useState<number>(0)
 	const posthog = usePostHog()
-
-	useEffect(() => {
-		async function loadIcons() {
-			try {
-				const icons = await getIconsArray()
-				setIconsData(icons)
-				setIsLoaded(true)
-			} catch (error) {
-				console.error("Failed to load icons:", error)
-				setIsLoaded(true)
-			}
-		}
-
-		loadIcons()
-	}, [])
 
 	useEffect(() => {
 		async function fetchStars() {
@@ -274,8 +259,8 @@ export function Header() {
 				</div>
 			</div>
 
-			{/* Single instance of CommandMenu */}
-			{isLoaded && <CommandMenu icons={iconsData} open={commandMenuOpen} onOpenChange={setCommandMenuOpen} />}
+			{/* Single instance of CommandMenu - lazy loaded */}
+			<CommandMenu open={commandMenuOpen} onOpenChange={setCommandMenuOpen} />
 
 			{/* Login Modal */}
 			<LoginModal open={loginModalOpen} onOpenChange={setLoginModalOpen} />

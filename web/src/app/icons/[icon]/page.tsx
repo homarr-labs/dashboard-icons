@@ -1,6 +1,7 @@
 import type { Metadata, ResolvingMetadata } from "next"
 import { notFound } from "next/navigation"
 import { IconDetails } from "@/components/icon-details"
+import { PageBreadcrumbs } from "@/components/page-breadcrumbs"
 import { BASE_URL, WEB_URL } from "@/constants"
 import { getAllIcons, getAuthorData } from "@/lib/api"
 
@@ -80,25 +81,18 @@ export async function generateMetadata({ params, searchParams }: Props, _parent:
 			locale: "en_US",
 			images: [
 				{
+					url: `${WEB_URL}/og/${icon}`,
+					width: 1200,
+					height: 630,
+					alt: `${formattedIconName} Icon - Download free dashboard icon`,
+					type: "image/png",
+				},
+				{
 					url: `${BASE_URL}/png/${icon}.png`,
 					width: 512,
 					height: 512,
 					alt: `${formattedIconName} icon`,
 					type: "image/png",
-				},
-				{
-					url: `${BASE_URL}/webp/${icon}.webp`,
-					width: 512,
-					height: 512,
-					alt: `${formattedIconName} icon`,
-					type: "image/webp",
-				},
-				{
-					url: `${BASE_URL}/svg/${icon}.svg`,
-					width: 512,
-					height: 512,
-					alt: `${formattedIconName} icon`,
-					type: "image/svg+xml",
 				},
 			],
 		},
@@ -106,7 +100,7 @@ export async function generateMetadata({ params, searchParams }: Props, _parent:
 			card: "summary_large_image",
 			title: `${formattedIconName} Icon | Dashboard Icons`,
 			description: `Download the ${formattedIconName} icon in SVG, PNG, and WEBP formats for FREE. Part of a collection of ${totalIcons} curated icons for services, applications and tools, designed specifically for dashboards and app directories.`,
-			images: [`${BASE_URL}/png/${icon}.png`],
+			images: [`${WEB_URL}/og/${icon}`],
 		},
 		alternates: {
 			canonical: `${WEB_URL}/icons/${icon}`,
@@ -131,8 +125,20 @@ export default async function IconPage({ params }: { params: Promise<{ icon: str
 	const author = originalIconData.update.author
 	const authorData = await getAuthorData(author.id, { name: author.name, login: author.login })
 
+	const formattedIconName = icon
+		.split("-")
+		.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+		.join(" ")
+
 	return (
 		<>
+			<PageBreadcrumbs
+				items={[
+					{ label: "Home", href: "/" },
+					{ label: "Icons", href: "/icons" },
+					{ label: formattedIconName, href: `/icons/${icon}` },
+				]}
+			/>
 			<script
 				type="application/ld+json"
 				// biome-ignore lint/security/noDangerouslySetInnerHtml: Needs to be done
@@ -143,6 +149,8 @@ export default async function IconPage({ params }: { params: Promise<{ icon: str
 						contentUrl: `${BASE_URL}/png/${icon}.png`,
 						license: "https://creativecommons.org/licenses/by/4.0/",
 						acquireLicensePage: `${WEB_URL}/license`,
+						copyrightNotice: `© ${new Date().getFullYear()} Homarr Labs`,
+						creditText: authorData.name || authorData.login,
 						creator: {
 							"@type": "Person",
 							name: authorData.name || authorData.login,

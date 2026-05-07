@@ -245,25 +245,37 @@ export default function DashboardPage() {
 						{stats.total > 0 && (
 							<div className="flex flex-wrap gap-2">
 								{stats.pending > 0 && (
-									<Badge variant="outline" className="gap-1.5 py-1 px-2.5 text-xs font-medium border-yellow-500/30 text-yellow-700 dark:text-yellow-300 bg-yellow-500/5">
+									<Badge
+										variant="outline"
+										className="gap-1.5 py-1 px-2.5 text-xs font-medium border-yellow-500/30 text-yellow-700 dark:text-yellow-300 bg-yellow-500/5"
+									>
 										<Clock className="h-3 w-3" />
 										{stats.pending} Pending
 									</Badge>
 								)}
 								{stats.approved > 0 && (
-									<Badge variant="outline" className="gap-1.5 py-1 px-2.5 text-xs font-medium border-green-500/30 text-green-700 dark:text-green-300 bg-green-500/5">
+									<Badge
+										variant="outline"
+										className="gap-1.5 py-1 px-2.5 text-xs font-medium border-green-500/30 text-green-700 dark:text-green-300 bg-green-500/5"
+									>
 										<CheckCircle2 className="h-3 w-3" />
 										{stats.approved} Approved
 									</Badge>
 								)}
 								{stats.added > 0 && (
-									<Badge variant="outline" className="gap-1.5 py-1 px-2.5 text-xs font-medium border-blue-500/30 text-blue-700 dark:text-blue-300 bg-blue-500/5">
+									<Badge
+										variant="outline"
+										className="gap-1.5 py-1 px-2.5 text-xs font-medium border-blue-500/30 text-blue-700 dark:text-blue-300 bg-blue-500/5"
+									>
 										<GitPullRequestArrow className="h-3 w-3" />
 										{stats.added} In Collection
 									</Badge>
 								)}
 								{stats.rejected > 0 && (
-									<Badge variant="outline" className="gap-1.5 py-1 px-2.5 text-xs font-medium border-red-500/30 text-red-700 dark:text-red-300 bg-red-500/5">
+									<Badge
+										variant="outline"
+										className="gap-1.5 py-1 px-2.5 text-xs font-medium border-red-500/30 text-red-700 dark:text-red-300 bg-red-500/5"
+									>
 										<XCircle className="h-3 w-3" />
 										{stats.rejected} Rejected
 									</Badge>
@@ -314,7 +326,9 @@ export default function DashboardPage() {
 								{approveMutation.isPending ? "Approving..." : "Approve Submission"}
 							</Button>
 							<DrawerClose asChild>
-								<Button variant="outline" disabled={approveMutation.isPending}>Cancel</Button>
+								<Button variant="outline" disabled={approveMutation.isPending}>
+									Cancel
+								</Button>
 							</DrawerClose>
 						</DrawerFooter>
 					</DrawerContent>
@@ -376,7 +390,9 @@ export default function DashboardPage() {
 								{rejectMutation.isPending ? "Rejecting..." : "Reject Submission"}
 							</Button>
 							<DrawerClose asChild>
-								<Button variant="outline" disabled={rejectMutation.isPending}>Cancel</Button>
+								<Button variant="outline" disabled={rejectMutation.isPending}>
+									Cancel
+								</Button>
 							</DrawerClose>
 						</DrawerFooter>
 					</DrawerContent>
