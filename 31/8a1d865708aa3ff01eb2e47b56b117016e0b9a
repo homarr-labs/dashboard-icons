@@ -1,0 +1,100 @@
+web/src/components/icon-submission-form.tsx
+  s_4188b887225a4f::t_7dd83194496235 16,25-26,29-35,101,117,162,193,211,273,319,343-344,361-366,397-402,432-437
+web/src/lib/utils.ts
+  s_4188b887225a4f::t_7dd83194496235 108
+AGENTS.md
+  s_4188b887225a4f::t_ba255f773f2552 1-91
+web/src/app/icons/page.tsx
+  s_4188b887225a4f::t_f60c03dc7fa252 28,36
+  s_4188b887225a4f::t_d903d7808fbf58 4
+  s_4188b887225a4f::t_7dd83194496235 47-52
+  s_4188b887225a4f::t_14e23eba23dcfb 3
+web/src/components/header.tsx
+  s_4188b887225a4f::t_d335c511985f40 262-263
+  s_4188b887225a4f::t_ff2c1348451a6b 4,19-21
+web/src/components/submissions-data-table.tsx
+  s_4188b887225a4f::t_7dd83194496235 450-455,473-478,485,509,513-520,551,558-566,659-667,699-711
+web/src/app/layout.tsx
+  s_4188b887225a4f::t_b2c3cf2172f7be 65
+  s_4188b887225a4f::t_4eb48a47e546d1 43,45
+  s_4188b887225a4f::t_8837413e9b906b 89-92
+  s_4188b887225a4f::t_84e40af2d15a8c 8
+  s_4188b887225a4f::t_e9cc645642aab1 94-113
+  s_4188b887225a4f::t_2b875cd23c4b5e 59
+  s_4188b887225a4f::t_9bf6d27a3ba2b0 63
+web/src/components/page-breadcrumbs.tsx
+  s_4188b887225a4f::t_35896e8eed4111 1-52
+web/src/hooks/use-icon-submission-form.ts
+  s_4188b887225a4f::t_7dd83194496235 75,90,113,251,256,264
+web/src/components/command-menu.tsx
+  s_4188b887225a4f::t_f9e5b0fec6d9e9 50
+  s_4188b887225a4f::t_2f3a41bda041e4 79
+  s_4188b887225a4f::t_745b5167401dfa 23
+  s_4188b887225a4f::t_0bdca0b037a3a7 18,22,24-30
+web/src/components/carbon.tsx
+  s_4188b887225a4f::t_7dd83194496235 2,4,93
+web/src/app/loading.tsx
+  s_4188b887225a4f::t_549809dcd9d46e 1-22
+web/src/app/og/[icon]/route.tsx
+  s_4188b887225a4f::t_7dd83194496235 43,53-54,58
+  s_4188b887225a4f::t_26838a76aa2e31 13-19
+  s_4188b887225a4f::t_076b7e1f66805b 3,5,24-25,60,65,68,72-73
+  s_4188b887225a4f::t_2e42e56530cb3f 1-2,4,6-12,20-23,26-42,44-52,55-57,59,61-64,66-67,69-71,74-79
+web/src/components/providers.tsx
+  s_4188b887225a4f::t_1ed340004cd9dd 22
+web/src/app/submit/page.tsx
+  s_4188b887225a4f::t_7dd83194496235 47-49
+web/src/app/robots.ts
+  s_4188b887225a4f::t_99e745f022bdc2 1-15
+web/src/app/dashboard/page.tsx
+  s_4188b887225a4f::t_7dd83194496235 248-251,257-260,266-269,275-278,329-331,393-395
+web/src/app/community/page.tsx
+  s_4188b887225a4f::t_0bb20bce78a8ca 31,39
+  s_4188b887225a4f::t_c5d74a1113daba 5
+  s_4188b887225a4f::t_7dd83194496235 45,48-53
+  s_4188b887225a4f::t_ce05fbba0012a2 4
+web/src/app/community/[icon]/page.tsx
+  s_4188b887225a4f::t_3e98d2abcafed0 4
+  s_4188b887225a4f::t_a4ed9e9487c865 269-270
+  s_4188b887225a4f::t_0ba9fee835ca74 245-249,252-258
+web/src/components/icon-card.tsx
+  s_4188b887225a4f::t_7dd83194496235 40,42
+web/src/components/icon-name-combobox.tsx
+  s_4188b887225a4f::t_7dd83194496235 97
+web/src/components/icon-details.tsx
+  s_4188b887225a4f::t_7dd83194496235 16,550,564,578,592,667,679-682
+web/src/components/login-modal.tsx
+  s_4188b887225a4f::t_7dd83194496235 207
+web/src/app/icons/[icon]/page.tsx
+  s_4188b887225a4f::t_d56e15566b2ccd 84-87,91,95
+  s_4188b887225a4f::t_c7eb7d34f78971 152-153
+  s_4188b887225a4f::t_95a6815caf9122 4
+  s_4188b887225a4f::t_dabc3bdc3ac232 128-132
+  s_4188b887225a4f::t_848d03aafb9fc7 103
+  s_4188b887225a4f::t_25cf927eacbb54 135-141
+web/src/components/submission-details.tsx
+  s_4188b887225a4f::t_7dd83194496235 259-272
+web/src/components/status-badge.tsx
+  s_4188b887225a4f::t_7dd83194496235 46
+web/src/app/not-found.tsx
+  s_4188b887225a4f::t_7dd83194496235 2
+  s_4188b887225a4f::t_02cb1c9e5bb55a 6-10
+web/src/components/add-to-search-bar-button.tsx
+  s_4188b887225a4f::t_7dd83194496235 75-77
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.1",
+  "base_commit_sha": "318a1d865708aa3ff01eb2e47b56b117016e0b9a",
+  "prompts": {},
+  "sessions": {
+    "s_4188b887225a4f": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_1fdc1f7faffeOieuXKuEeLCHjl",
+        "model": "deepseek/deepseek-v4-flash"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
