@@ -1,0 +1,32 @@
+web/src/app/icons/[icon]/page.tsx
+  s_540255c22c3776::t_7bd53bef16b058 88
+  s_540255c22c3776::t_8c76959e86e59e 107
+web/src/app/og/external/[slug]/route.tsx
+  s_540255c22c3776::t_c2cb6f2b7e7bcb 10-11
+  s_540255c22c3776::t_565d03a563554b 281-282
+web/src/app/og/[icon]/route.tsx
+  s_540255c22c3776::t_ad0925fa51a7d3 213-214
+  s_540255c22c3776::t_e6730c00c69d63 1,4,10-17
+web/src/app/layout.tsx
+  s_540255c22c3776::t_8ccb2272020df0 114-125
+  s_540255c22c3776::t_1b65271f0f535f 145
+web/src/app/icons/external/[slug]/page.tsx
+  s_540255c22c3776::t_850026e40c00d0 85
+  s_540255c22c3776::t_c9a7a4c3d0fad9 104
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.1",
+  "base_commit_sha": "e7a462be220a4ff9981b993672ea79e700ca95f7",
+  "prompts": {},
+  "sessions": {
+    "s_540255c22c3776": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_1fcd2470effeM6oLlABLXApR0m",
+        "model": "deepseek-v4-pro"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
