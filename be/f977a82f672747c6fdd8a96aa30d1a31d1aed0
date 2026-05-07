@@ -1,0 +1,19 @@
+AGENTS.md
+  s_4188b887225a4f::t_30baa03c3ab9d2 1-91
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.1",
+  "base_commit_sha": "bef977a82f672747c6fdd8a96aa30d1a31d1aed0",
+  "prompts": {},
+  "sessions": {
+    "s_4188b887225a4f": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_1fdc1f7faffeOieuXKuEeLCHjl",
+        "model": "deepseek/deepseek-v4-flash"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
