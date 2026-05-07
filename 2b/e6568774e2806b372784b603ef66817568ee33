@@ -1,0 +1,23 @@
+web/src/hooks/use-submissions.ts
+  6202eaf320b58335 52,54-55,73-85,88,90-91,122,124-125
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.3.4",
+  "base_commit_sha": "2be6568774e2806b372784b603ef66817568ee33",
+  "prompts": {
+    "6202eaf320b58335": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "9405c288-0e8c-49cd-9368-992a6ff74085",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Thomas Camlong",
+      "messages": [],
+      "total_additions": 40,
+      "total_deletions": 70,
+      "accepted_lines": 40,
+      "overriden_lines": 0
+    }
+  }
+}

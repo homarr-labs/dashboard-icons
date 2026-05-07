@@ -1,0 +1,37 @@
+web/src/app/icons/external/[slug]/page.tsx
+  6d40dedb75fb2ada 40,60,78
+web/src/app/community/[icon]/page.tsx
+  6d40dedb75fb2ada 66,95,113
+web/src/app/community/page.tsx
+  6d40dedb75fb2ada 14,27,34
+web/next.config.ts
+  6d40dedb75fb2ada 34-46
+web/src/app/submit/page.tsx
+  6d40dedb75fb2ada 7
+web/src/app/page.tsx
+  6d40dedb75fb2ada 61-65
+web/src/app/icons/page.tsx
+  6d40dedb75fb2ada 12,25,32
+web/src/app/icons/[icon]/page.tsx
+  6d40dedb75fb2ada 43,75,107
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.3.4",
+  "base_commit_sha": "c8450c01efaeec7f6db5614b0936363d94396465",
+  "prompts": {
+    "6d40dedb75fb2ada": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "d0dbd627-a717-45d7-8d9e-e8933a8db92d",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Thomas Camlong",
+      "messages": [],
+      "total_additions": 34,
+      "total_deletions": 22,
+      "accepted_lines": 34,
+      "overriden_lines": 0
+    }
+  }
+}

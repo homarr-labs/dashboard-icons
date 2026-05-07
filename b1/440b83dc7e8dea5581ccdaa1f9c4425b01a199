@@ -1,0 +1,81 @@
+web/next.config.ts
+  46a2993112c1254b 41-54
+  8bd16fd8d9fecc4e 24-37
+web/package.json
+  46a2993112c1254b 98
+web/src/components/icon-details.tsx
+  46a2993112c1254b 22,127-131,136-137,149-150,1116-1147
+  8bd16fd8d9fecc4e 443,445,567-568,571,699,701-702
+web/src/lib/api.ts
+  46a2993112c1254b 4,191-220
+web/src/app/sitemap.ts
+  8bd16fd8d9fecc4e 49-65
+web/.dockerignore
+  46a2993112c1254b 6-10,29,39,41,44,47-60
+web/scripts/import-selfhst.ts
+  8bd16fd8d9fecc4e 78-80
+web/src/app/icons/external/[slug]/page.tsx
+  8bd16fd8d9fecc4e 15-22
+web/tests/external-icons.spec.ts
+  8bd16fd8d9fecc4e 3-30,40,47,49-130,132-134
+web/scripts/import-lobehub.ts
+  8bd16fd8d9fecc4e 35-404
+web/src/lib/external-icons.ts
+  8bd16fd8d9fecc4e 43
+web/backend/pb_migrations/1777632700_add_lobehub_source.js
+  8bd16fd8d9fecc4e 1-12
+web/src/components/icon-card.tsx
+  8bd16fd8d9fecc4e 1-2,5,8,12-37,40-57,60-61,67,78
+  h_32d929d7363456 62-64
+web/.gitignore
+  8bd16fd8d9fecc4e 54
+web/src/components/providers.tsx
+  46a2993112c1254b 4,7-8,15,24
+web/src/app/community/[icon]/page.tsx
+  46a2993112c1254b 5,135-136,140-141,292-293
+web/docs/ADDING_EXTERNAL_SOURCES.md
+  8bd16fd8d9fecc4e 5,175,177-180,242-243,247-248,251-265,402,406,447,495-510,522-526
+web/src/lib/external-icon-urls.ts
+  8bd16fd8d9fecc4e 5-6,9,12,20-28
+web/Dockerfile
+  46a2993112c1254b 67-68
+web/src/app/icons/[icon]/page.tsx
+  46a2993112c1254b 5,136-137,178-184
+web/src/constants.ts
+  8bd16fd8d9fecc4e 13,41-52
+.github/workflows/sync-lobehub.yml
+  8bd16fd8d9fecc4e 1-33
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.3.4",
+  "base_commit_sha": "b1440b83dc7e8dea5581ccdaa1f9c4425b01a199",
+  "prompts": {
+    "46a2993112c1254b": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "b6e2212d-bd1b-440b-baa5-91699deb7a0a",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Thomas Camlong",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 135,
+      "overriden_lines": 0
+    },
+    "8bd16fd8d9fecc4e": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "c64ba38f-e738-4fc2-a821-400ae6e6589d",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Thomas Camlong",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 631,
+      "overriden_lines": 0
+    }
+  }
+}

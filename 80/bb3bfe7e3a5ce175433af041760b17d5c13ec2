@@ -1,0 +1,12 @@
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.3.4",
+  "base_commit_sha": "80bb3bfe7e3a5ce175433af041760b17d5c13ec2",
+  "prompts": {},
+  "humans": {
+    "h_32d929d7363456": {
+      "author": "Thomas Camlong"
+    }
+  }
+}

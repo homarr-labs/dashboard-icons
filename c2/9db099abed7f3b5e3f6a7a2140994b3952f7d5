@@ -1,0 +1,41 @@
+web/src/instrumentation.ts
+  8f819de7ebedc263 1-75
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.3.4",
+  "base_commit_sha": "c29db099abed7f3b5e3f6a7a2140994b3952f7d5",
+  "prompts": {
+    "1613dec54b953877": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "8bf626dd-a797-4aa6-9c8b-220096cd216c",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Thomas Camlong",
+      "messages": [],
+      "total_additions": 25,
+      "total_deletions": 1,
+      "accepted_lines": 24,
+      "overriden_lines": 0
+    },
+    "8f819de7ebedc263": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "5f2bcf04-66f0-4eff-8ce8-6ad1c9ecf561",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Thomas Camlong",
+      "messages": [],
+      "total_additions": 100,
+      "total_deletions": 21,
+      "accepted_lines": 93,
+      "overriden_lines": 0
+    }
+  },
+  "humans": {
+    "h_32d929d7363456": {
+      "author": "Thomas Camlong"
+    }
+  }
+}

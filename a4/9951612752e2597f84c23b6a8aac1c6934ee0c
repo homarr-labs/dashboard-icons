@@ -1,0 +1,23 @@
+web/Dockerfile
+  46a2993112c1254b 67-68
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.3.4",
+  "base_commit_sha": "a49951612752e2597f84c23b6a8aac1c6934ee0c",
+  "prompts": {
+    "46a2993112c1254b": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "b6e2212d-bd1b-440b-baa5-91699deb7a0a",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Thomas Camlong",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 2,
+      "overriden_lines": 0
+    }
+  }
+}

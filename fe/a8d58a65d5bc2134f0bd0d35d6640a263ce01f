@@ -1,0 +1,41 @@
+web/backend/pb_migrations/1777632695_created_external_icons.js
+  87404716cfe8d8c3 1-76
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.3.4",
+  "base_commit_sha": "fea8d58a65d5bc2134f0bd0d35d6640a263ce01f",
+  "prompts": {
+    "87404716cfe8d8c3": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019de316-7b01-7643-a69a-3dfc3e3915d0",
+        "model": "gpt-5.5"
+      },
+      "human_author": "Thomas Camlong",
+      "messages": [],
+      "total_additions": 34181,
+      "total_deletions": 85,
+      "accepted_lines": 33799,
+      "overriden_lines": 0
+    },
+    "ba66ab665374a7b6": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "20a71187-33f5-40b9-9aa2-e2f5cb0b8abf",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Thomas Camlong",
+      "messages": [],
+      "total_additions": 123,
+      "total_deletions": 32,
+      "accepted_lines": 117,
+      "overriden_lines": 1
+    }
+  },
+  "humans": {
+    "h_32d929d7363456": {
+      "author": "Thomas Camlong"
+    }
+  }
+}

@@ -1,0 +1,34 @@
+web/src/app/icons/external/[slug]/page.tsx
+  8f819de7ebedc263 39-41,114-116
+web/src/app/page.tsx
+  8f819de7ebedc263 7-16
+web/src/app/sitemap.ts
+  8f819de7ebedc263 12
+web/src/app/dashboard/page.tsx
+  8f819de7ebedc263 77
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.3.4",
+  "base_commit_sha": "d97504dce1f12cc54ec43009fb37c593587face1",
+  "prompts": {
+    "8f819de7ebedc263": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "5f2bcf04-66f0-4eff-8ce8-6ad1c9ecf561",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Thomas Camlong",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 18,
+      "overriden_lines": 0
+    }
+  },
+  "humans": {
+    "h_32d929d7363456": {
+      "author": "Thomas Camlong"
+    }
+  }
+}

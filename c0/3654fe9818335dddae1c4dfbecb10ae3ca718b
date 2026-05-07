@@ -1,0 +1,25 @@
+web/docs/ADDING_EXTERNAL_SOURCES.md
+  8bd16fd8d9fecc4e 5,175,177-180,242-243,247-248,251-265,402,406,447,495-510,522-526
+web/tests/external-icons.spec.ts
+  8bd16fd8d9fecc4e 3-61,71-72,75,78,82-83,85-86,89-94,96-101,104-105,107-112,114-130,132-134
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.3.4",
+  "base_commit_sha": "c03654fe9818335dddae1c4dfbecb10ae3ca718b",
+  "prompts": {
+    "8bd16fd8d9fecc4e": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "c64ba38f-e738-4fc2-a821-400ae6e6589d",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Thomas Camlong",
+      "messages": [],
+      "total_additions": 156,
+      "total_deletions": 36,
+      "accepted_lines": 156,
+      "overriden_lines": 0
+    }
+  }
+}

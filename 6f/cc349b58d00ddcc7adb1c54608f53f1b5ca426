@@ -1,0 +1,27 @@
+web/scripts/import-lobehub.ts
+  8bd16fd8d9fecc4e 131
+web/src/hooks/use-submissions.ts
+  8bd16fd8d9fecc4e 54,73,86-90,94,128
+web/src/app/sitemap.ts
+  8bd16fd8d9fecc4e 43
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.3.4",
+  "base_commit_sha": "6fcc349b58d00ddcc7adb1c54608f53f1b5ca426",
+  "prompts": {
+    "8bd16fd8d9fecc4e": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "c64ba38f-e738-4fc2-a821-400ae6e6589d",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Thomas Camlong",
+      "messages": [],
+      "total_additions": 11,
+      "total_deletions": 7,
+      "accepted_lines": 11,
+      "overriden_lines": 0
+    }
+  }
+}

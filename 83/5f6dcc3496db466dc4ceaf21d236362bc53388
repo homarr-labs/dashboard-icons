@@ -1,0 +1,29 @@
+web/tests/external-icons.spec.ts
+  f4339f1961a5d330 114-134
+web/src/constants.ts
+  f4339f1961a5d330 13,53-64
+web/.gitignore
+  f4339f1961a5d330 55
+web/next.config.ts
+  f4339f1961a5d330 38-44
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.3.4",
+  "base_commit_sha": "835f6dcc3496db466dc4ceaf21d236362bc53388",
+  "prompts": {
+    "f4339f1961a5d330": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "2c35aae7-d6df-4942-9b86-e81cbc74353a",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Thomas Camlong",
+      "messages": [],
+      "total_additions": 108,
+      "total_deletions": 18,
+      "accepted_lines": 97,
+      "overriden_lines": 0
+    }
+  }
+}
