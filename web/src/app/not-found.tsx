@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 	robots: { index: false },
 }
 
-export default function NotFound({ error }: { error: Error & { digest?: string } }) {
+export default function NotFound() {
 	return (
 		<div className="py-16 flex items-center justify-center">
 			<div className="text-center space-y-8 max-w-2xl mx-auto">

@@ -20,17 +20,21 @@ export function CommandMenu({ open: externalOpen, onOpenChange: externalOnOpenCh
 	const [internalOpen, setInternalOpen] = useState(false)
 	const [query, setQuery] = useState("")
 	const [icons, setIcons] = useState<IconWithName[]>([])
-	const isDesktop = useMediaQuery("(min-width: 768px)")
-
-	// Load icons lazily when component mounts
-	useEffect(() => {
-		import("@/lib/api").then(({ getIconsArray }) => {
-			getIconsArray().then(setIcons).catch(console.error)
-		})
-	}, [])
+	const _isDesktop = useMediaQuery("(min-width: 768px)")
 
 	// Use either external or internal state for controlling open state
 	const isOpen = externalOpen !== undefined ? externalOpen : internalOpen
+
+	// Load icons only when the command menu is first opened
+	useEffect(() => {
+		if (!isOpen || icons.length > 0) {
+			return
+		}
+
+		import("@/lib/api").then(({ getIconsArray }) => {
+			getIconsArray().then(setIcons).catch(console.error)
+		})
+	}, [icons.length, isOpen])
 
 	// Wrap setIsOpen in useCallback to fix dependency issue
 	const setIsOpen = useCallback(
@@ -76,7 +80,11 @@ export function CommandMenu({ open: externalOpen, onOpenChange: externalOnOpenCh
 
 	return (
 		<CommandDialog open={isOpen} onOpenChange={setIsOpen} contentClassName="bg-background/90 backdrop-blur-sm border border-border/60">
-			<CommandInput placeholder={isIconsLoaded ? `Search our collection of ${totalIcons} icons by name...` : "Loading icons..."} value={query} onValueChange={setQuery} />
+			<CommandInput
+				placeholder={isIconsLoaded ? `Search our collection of ${totalIcons} icons by name...` : "Loading icons..."}
+				value={query}
+				onValueChange={setQuery}
+			/>
 			<CommandList className="max-h-[300px]">
 				{/* Icon Results */}
 				<CommandGroup heading="Icons">

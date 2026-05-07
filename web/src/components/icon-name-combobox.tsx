@@ -94,7 +94,9 @@ export function IconNameCombobox({ value, onValueChange, onIconSelected, error, 
 										<span className="font-mono text-sm">{icon.label}</span>
 										<div className="flex items-center gap-1">
 											<SourceBadge source={icon.source} showIcon={false} />
-											{icon.source === "community" && icon.status && <StatusBadge status={icon.status} showIcon={false} />}
+											{icon.source === "community" && icon.status && (
+												<StatusBadge status={icon.status} showIcon={false} />
+											)}
 										</div>
 									</CommandItem>
 								))}

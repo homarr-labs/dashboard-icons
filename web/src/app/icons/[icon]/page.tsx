@@ -18,10 +18,9 @@ export async function generateStaticParams() {
 
 type Props = {
 	params: Promise<{ icon: string }>
-	searchParams: Promise<{ [key: string]: string | string[] | undefined }>
 }
 
-export async function generateMetadata({ params, searchParams }: Props, _parent: ResolvingMetadata): Promise<Metadata> {
+export async function generateMetadata({ params }: Props, _parent: ResolvingMetadata): Promise<Metadata> {
 	const { icon } = await params
 	const iconsData = await getAllIcons()
 	if (!iconsData[icon]) {

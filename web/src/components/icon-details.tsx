@@ -13,7 +13,13 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Label } from "@/components/ui/label"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from "@/components/ui/select"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { BASE_URL, REPO_PATH } from "@/constants"
 import { isClipboardAvailable } from "@/lib/svg-color-utils"
@@ -547,7 +553,10 @@ export function IconDetails({
 			const lightVariant = iconData.colors?.light
 			if (lightVariant) {
 				const lightSvg = assetUrls.find(
-					(url: string) => typeof url === "string" && url.toLowerCase().endsWith(".svg") && url.includes(lightVariant),
+					(url: string) =>
+						typeof url === "string" &&
+						url.toLowerCase().endsWith(".svg") &&
+						url.includes(lightVariant),
 				)
 				if (lightSvg) {
 					variants.push({
@@ -561,7 +570,10 @@ export function IconDetails({
 			const darkVariant = iconData.colors?.dark
 			if (darkVariant) {
 				const darkSvg = assetUrls.find(
-					(url: string) => typeof url === "string" && url.toLowerCase().endsWith(".svg") && url.includes(darkVariant),
+					(url: string) =>
+						typeof url === "string" &&
+						url.toLowerCase().endsWith(".svg") &&
+						url.includes(darkVariant),
 				)
 				if (darkSvg) {
 					variants.push({
@@ -575,7 +587,10 @@ export function IconDetails({
 			const wordmarkLight = iconData.wordmark?.light
 			if (wordmarkLight) {
 				const wordmarkLightSvg = assetUrls.find(
-					(url: string) => typeof url === "string" && url.toLowerCase().endsWith(".svg") && url.includes(wordmarkLight),
+					(url: string) =>
+						typeof url === "string" &&
+						url.toLowerCase().endsWith(".svg") &&
+						url.includes(wordmarkLight),
 				)
 				if (wordmarkLightSvg) {
 					variants.push({
@@ -589,7 +604,10 @@ export function IconDetails({
 			const wordmarkDark = iconData.wordmark?.dark
 			if (wordmarkDark) {
 				const wordmarkDarkSvg = assetUrls.find(
-					(url: string) => typeof url === "string" && url.toLowerCase().endsWith(".svg") && url.includes(wordmarkDark),
+					(url: string) =>
+						typeof url === "string" &&
+						url.toLowerCase().endsWith(".svg") &&
+						url.includes(wordmarkDark),
 				)
 				if (wordmarkDarkSvg) {
 					variants.push({
@@ -664,7 +682,10 @@ export function IconDetails({
 			}
 
 			const matchingUrl = assetUrls.find(
-				(url: string) => typeof url === "string" && url.toLowerCase().endsWith(".svg") && url.includes(variantOption.iconName),
+				(url: string) =>
+					typeof url === "string" &&
+					url.toLowerCase().endsWith(".svg") &&
+					url.includes(variantOption.iconName),
 			)
 			return matchingUrl || null
 		}
@@ -676,10 +697,7 @@ export function IconDetails({
 		return null
 	}
 
-	const svgUrl = useMemo(
-		() => getSvgUrl(selectedVariant),
-		[selectedVariant, availableVariants, isCommunityIcon, mainIconUrl, assetUrls, iconData, icon],
-	)
+	const svgUrl = useMemo(() => getSvgUrl(selectedVariant), [selectedVariant, availableVariants, isCommunityIcon, mainIconUrl, assetUrls, iconData, icon])
 
 	useEffect(() => {
 		if (!svgUrl) {
