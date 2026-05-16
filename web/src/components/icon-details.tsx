@@ -26,6 +26,7 @@ import { IconActions } from "./icon-actions"
 import { IconCustomizerInline } from "./icon-customizer-inline"
 import { MagicCard } from "./magicui/magic-card"
 import { Badge } from "./ui/badge"
+import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "./ui/breadcrumb"
 import { Separator } from "./ui/separator"
 
 type RenderVariantFn = (format: string, iconName: string, theme?: "light" | "dark") => React.ReactNode
@@ -130,6 +131,11 @@ export type RelatedIcon = {
 	data: Icon
 }
 
+export type BreadcrumbItem = {
+	label: string
+	href?: string
+}
+
 export type IconDetailsProps = {
 	icon: string
 	iconData: Icon
@@ -141,6 +147,7 @@ export type IconDetailsProps = {
 	statusColor?: string
 	rejectionReason?: string
 	externalIcon?: ExternalIcon
+	breadcrumbItems?: BreadcrumbItem[]
 }
 
 export function IconDetails({
@@ -154,6 +161,7 @@ export function IconDetails({
 	statusColor,
 	rejectionReason,
 	externalIcon,
+	breadcrumbItems,
 }: IconDetailsProps) {
 	const authorName = authorData.name || authorData.login || ""
 	const _iconColorVariants = iconData.colors
@@ -766,6 +774,26 @@ export function IconDetails({
 	return (
 		<div className="container mx-auto pt-12 pb-14 px-4 sm:px-6 lg:px-8">
 			<div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+				{breadcrumbItems && breadcrumbItems.length > 0 && (
+					<div className="lg:col-span-4">
+						<Breadcrumb className="justify-end">
+							<BreadcrumbList>
+								{breadcrumbItems.flatMap((item, index) => [
+									<BreadcrumbItem key={index}>
+										{item.href ? (
+											<BreadcrumbLink asChild>
+												<Link href={item.href}>{item.label}</Link>
+											</BreadcrumbLink>
+										) : (
+											<BreadcrumbPage>{item.label}</BreadcrumbPage>
+										)}
+									</BreadcrumbItem>,
+									...(index < breadcrumbItems.length - 1 ? [<BreadcrumbSeparator key={`sep-${index}`} />] : []),
+								])}
+							</BreadcrumbList>
+						</Breadcrumb>
+					</div>
+				)}
 				<div className="lg:col-span-1">
 					<Card className="h-full bg-background/50 border shadow-lg">
 						<CardHeader className="pb-4">

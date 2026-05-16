@@ -172,7 +172,17 @@ export default async function ExternalIconPage({ params }: { params: Promise<{ s
 					}).replace(/</g, "\\u003c"),
 				}}
 			/>
-			<IconDetails icon={icon.external.slug} iconData={icon.data} authorData={authorData} externalIcon={icon.external} />
+			<IconDetails
+				icon={icon.external.slug}
+				iconData={icon.data}
+				authorData={authorData}
+				externalIcon={icon.external}
+				breadcrumbItems={[
+					{ label: "Home", href: "/" },
+					{ label: "Browse Icons", href: "/icons" },
+					{ label: icon.external.name },
+				]}
+			/>
 		</>
 	)
 }
