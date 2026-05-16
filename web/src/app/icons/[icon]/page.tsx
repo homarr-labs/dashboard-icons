@@ -1,8 +1,6 @@
 import type { Metadata, ResolvingMetadata } from "next"
-import Link from "next/link"
 import { notFound } from "next/navigation"
 import { IconDetails } from "@/components/icon-details"
-import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb"
 import { BASE_URL, WEB_URL } from "@/constants"
 import { computeRelatedIcons, getAllIcons, getAuthorData } from "@/lib/api"
 
@@ -172,26 +170,12 @@ export default async function IconPage({ params }: { params: Promise<{ icon: str
 					}).replace(/</g, "\\u003c"),
 				}}
 			/>
-			<Breadcrumb>
-				<BreadcrumbList>
-					<BreadcrumbItem>
-						<BreadcrumbLink asChild>
-							<Link href="/">Home</Link>
-						</BreadcrumbLink>
-					</BreadcrumbItem>
-					<BreadcrumbSeparator />
-					<BreadcrumbItem>
-						<BreadcrumbLink asChild>
-							<Link href="/icons">Browse Icons</Link>
-						</BreadcrumbLink>
-					</BreadcrumbItem>
-					<BreadcrumbSeparator />
-					<BreadcrumbItem>
-						<BreadcrumbPage>{formattedName}</BreadcrumbPage>
-					</BreadcrumbItem>
-				</BreadcrumbList>
-			</Breadcrumb>
 			<IconDetails
+				breadcrumbItems={[
+					{ label: "Home", href: "/" },
+					{ label: "Browse Icons", href: "/icons" },
+					{ label: formattedName },
+				]}
 				icon={icon}
 				iconData={originalIconData}
 				authorData={authorData}

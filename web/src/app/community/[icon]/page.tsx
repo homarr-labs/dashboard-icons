@@ -1,8 +1,6 @@
 import type { Metadata, ResolvingMetadata } from "next"
-import Link from "next/link"
 import { notFound, permanentRedirect } from "next/navigation"
 import { IconDetails } from "@/components/icon-details"
-import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb"
 import { BASE_URL, WEB_URL } from "@/constants"
 import { computeRelatedIcons, getAllIcons, getAuthorData } from "@/lib/api"
 import { getCommunityGalleryRecord, getCommunitySubmissionByName, getCommunitySubmissions } from "@/lib/community"
@@ -289,26 +287,12 @@ export default async function CommunityIconPage({ params }: { params: Promise<{ 
 					}).replace(/</g, "\\u003c"),
 				}}
 			/>
-			<Breadcrumb>
-				<BreadcrumbList>
-					<BreadcrumbItem>
-						<BreadcrumbLink asChild>
-							<Link href="/">Home</Link>
-						</BreadcrumbLink>
-					</BreadcrumbItem>
-					<BreadcrumbSeparator />
-					<BreadcrumbItem>
-						<BreadcrumbLink asChild>
-							<Link href="/community">Community Icons</Link>
-						</BreadcrumbLink>
-					</BreadcrumbItem>
-					<BreadcrumbSeparator />
-					<BreadcrumbItem>
-						<BreadcrumbPage>{formattedName}</BreadcrumbPage>
-					</BreadcrumbItem>
-				</BreadcrumbList>
-			</Breadcrumb>
 			<IconDetails
+				breadcrumbItems={[
+					{ label: "Home", href: "/" },
+					{ label: "Community Icons", href: "/community" },
+					{ label: formattedName },
+				]}
 				icon={icon}
 				iconData={iconDataForDisplay as any}
 				authorData={authorData}
