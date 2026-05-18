@@ -63,12 +63,14 @@ jobs:
 
       - name: Generate Icon Previews
         id: preview
+        env:
+            PR_HEAD_REF: ${{ github.event.pull_request.head.ref }}
         run: |
           ICONS=$(find png/ -type f -name "*.png")
           PREVIEWS=""
           for ICON in $ICONS; do
             ICON_NAME=$(basename $ICON)
-            PREVIEW="![${ICON_NAME}](https://raw.githubusercontent.com/homarr-labs/dashboard-icons/${{ github.event.pull_request.head.ref }}/png/${ICON_NAME})"
+            PREVIEW="![${ICON_NAME}](https://raw.githubusercontent.com/homarr-labs/dashboard-icons/$PR_HEAD_REF/png/${ICON_NAME})"
             PREVIEWS="$PREVIEWS $PREVIEW"
           done
           echo "::set-output name=icon_previews::$PREVIEWS"
