@@ -43827,5 +43827,17 @@
                 "login": "NetRoberts"
             }
         }
+    },
+    "proton-meet": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-05-21T14:58:57.531Z",
+            "author": {
+                "id": 1457250,
+                "login": "slc66"
+            }
+        }
     }
 }
