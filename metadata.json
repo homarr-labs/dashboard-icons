@@ -43876,5 +43876,30 @@
                 "login": "deogratias-saidi"
             }
         }
+    },
+    "gsap": {
+        "base": "svg",
+        "aliases": [
+            "gsap-dark",
+            "gsap-light",
+            "gsap-base",
+            "gsap-wordmark"
+        ],
+        "categories": [
+            "development",
+            "tools",
+            "media"
+        ],
+        "update": {
+            "timestamp": "2026-05-21T14:59:05.692Z",
+            "author": {
+                "id": 139521392,
+                "login": "wyu4"
+            }
+        },
+        "colors": {
+            "light": "gsap-light",
+            "dark": "gsap-dark"
+        }
     }
 }
