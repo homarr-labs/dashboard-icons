@@ -43938,5 +43938,19 @@
                 "login": "danu9622"
             }
         }
+    },
+    "koreader": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "utility"
+        ],
+        "update": {
+            "timestamp": "2026-05-21T14:59:18.154Z",
+            "author": {
+                "id": "pyxxzeqx1a5je4e",
+                "name": "glavata"
+            }
+        }
     }
 }
