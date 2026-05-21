@@ -13471,12 +13471,14 @@
     "microsoft-365-admin-center": {
         "base": "svg",
         "aliases": [],
-        "categories": [],
+        "categories": [
+            "cloud"
+        ],
         "update": {
-            "timestamp": "2024-10-20T17:24:03Z",
+            "timestamp": "2026-05-21T14:59:13.550Z",
             "author": {
-                "id": 71191962,
-                "name": "walkxcode"
+                "id": 74353441,
+                "login": "Tedlix"
             }
         }
     },
