@@ -43859,5 +43859,22 @@
         "colors": {
             "light": "wetransfer-light"
         }
+    },
+    "multifactor-authenticator": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "cloud",
+            "security",
+            "tools",
+            "utility"
+        ],
+        "update": {
+            "timestamp": "2026-05-21T14:59:02.782Z",
+            "author": {
+                "id": 50410476,
+                "login": "deogratias-saidi"
+            }
+        }
     }
 }
