@@ -43839,5 +43839,25 @@
                 "login": "slc66"
             }
         }
+    },
+    "wetransfer": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "cloud",
+            "media",
+            "storage",
+            "utility"
+        ],
+        "update": {
+            "timestamp": "2026-05-21T14:59:00.495Z",
+            "author": {
+                "id": 108546860,
+                "login": "NoxuuDev"
+            }
+        },
+        "colors": {
+            "light": "wetransfer-light"
+        }
     }
 }
