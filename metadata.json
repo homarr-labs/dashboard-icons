@@ -28489,23 +28489,21 @@
     },
     "backrest": {
         "base": "svg",
-        "aliases": [
-            "Backup Tool"
-        ],
+        "aliases": [],
         "categories": [
-            "Databases",
-            "Developer-Tools"
+            "storage",
+            "tools"
         ],
         "update": {
-            "timestamp": "2024-10-20T17:24:03Z",
+            "timestamp": "2026-05-21T14:58:53.656Z",
             "author": {
-                "id": 71191962,
-                "name": "walkxcode"
+                "id": 86840787,
+                "login": "CuddlyCornet645"
             }
         },
         "colors": {
-            "dark": "backrest",
-            "light": "backrest-light"
+            "light": "backrest-light",
+            "dark": "backrest-dark"
         }
     },
     "codex": {
