@@ -43901,5 +43901,26 @@
             "light": "gsap-light",
             "dark": "gsap-dark"
         }
+    },
+    "snapmaker": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "tools",
+            "home-automation",
+            "automation",
+            "utility"
+        ],
+        "update": {
+            "timestamp": "2026-05-21T14:59:08.799Z",
+            "author": {
+                "id": 3790635,
+                "login": "marcin212"
+            }
+        },
+        "wordmark": {
+            "light": "snapmaker-wordmark-light",
+            "dark": "snapmaker-wordmark-dark"
+        }
     }
 }
