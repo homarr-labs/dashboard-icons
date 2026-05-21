@@ -43971,5 +43971,29 @@
             "light": "basecamp-light",
             "dark": "basecamp-dark"
         }
+    },
+    "google-cloud": {
+        "base": "svg",
+        "aliases": [
+            "gcp",
+            "googlecloud",
+            "google cloud platform"
+        ],
+        "categories": [
+            "cloud",
+            "infrastructure",
+            "developer-tools"
+        ],
+        "update": {
+            "timestamp": "2026-05-21T14:59:24.342Z",
+            "author": {
+                "id": "65iz5jsxx5jc2yw",
+                "name": "browser-agent-robot"
+            }
+        },
+        "colors": {
+            "light": "google-cloud-light",
+            "dark": "google-cloud-dark"
+        }
     }
 }
