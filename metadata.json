@@ -43952,5 +43952,24 @@
                 "name": "glavata"
             }
         }
+    },
+    "basecamp": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "productivity",
+            "collaboration"
+        ],
+        "update": {
+            "timestamp": "2026-05-21T14:59:21.367Z",
+            "author": {
+                "id": "65iz5jsxx5jc2yw",
+                "name": "browser-agent-robot"
+            }
+        },
+        "colors": {
+            "light": "basecamp-light",
+            "dark": "basecamp-dark"
+        }
     }
 }
