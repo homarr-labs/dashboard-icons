@@ -43995,5 +43995,23 @@
             "light": "google-cloud-light",
             "dark": "google-cloud-dark"
         }
+    },
+    "minimax": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "tools"
+        ],
+        "update": {
+            "timestamp": "2026-05-21T14:59:27.244Z",
+            "author": {
+                "id": "65iz5jsxx5jc2yw",
+                "name": "browser-agent-robot"
+            }
+        },
+        "colors": {
+            "light": "minimax-light",
+            "dark": "minimax-dark"
+        }
     }
 }
