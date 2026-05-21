@@ -43922,5 +43922,17 @@
             "light": "snapmaker-wordmark-light",
             "dark": "snapmaker-wordmark-dark"
         }
+    },
+    "instacart": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-05-21T14:59:11.225Z",
+            "author": {
+                "id": 95183366,
+                "login": "danu9622"
+            }
+        }
     }
 }
