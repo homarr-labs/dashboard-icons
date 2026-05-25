@@ -10,6 +10,7 @@ import type React from "react"
 import { useCallback, useEffect, useMemo, useState } from "react"
 import { toast } from "sonner"
 import { IconsGrid } from "@/components/icon-grid"
+import { MagicCardPointerProvider } from "@/components/magicui/magic-card-pointer"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -65,9 +66,9 @@ function IconVariantsSection({
 				{title}
 			</h3>
 			<p className="text-sm text-muted-foreground mb-4">{description}</p>
-			<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-				{aavailableFormats.map((format) => renderVariant(format, iconName, theme))}
-			</div>
+		<MagicCardPointerProvider className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+			{aavailableFormats.map((format) => renderVariant(format, iconName, theme))}
+		</MagicCardPointerProvider>
 		</div>
 	)
 }
@@ -99,12 +100,12 @@ function WordmarkSection({ iconData, aavailableFormats, renderVariant }: Wordmar
 							<Sun className="w-4 h-4 text-amber-500" />
 							Light Theme Wordmark
 						</h4>
-						<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-							{aavailableFormats.map((format) => {
-								if (!iconData.wordmark?.light) return null
-								return renderVariant(format, iconData.wordmark.light, "light")
-							})}
-						</div>
+					<MagicCardPointerProvider className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+						{aavailableFormats.map((format) => {
+							if (!iconData.wordmark?.light) return null
+							return renderVariant(format, iconData.wordmark.light, "light")
+						})}
+					</MagicCardPointerProvider>
 					</div>
 				)}
 				{iconData.wordmark.dark && (
@@ -113,12 +114,12 @@ function WordmarkSection({ iconData, aavailableFormats, renderVariant }: Wordmar
 							<Moon className="w-4 h-4 text-indigo-500" />
 							Dark Theme Wordmark
 						</h4>
-						<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-							{aavailableFormats.map((format) => {
-								if (!iconData.wordmark?.dark) return null
-								return renderVariant(format, iconData.wordmark.dark, "dark")
-							})}
-						</div>
+					<MagicCardPointerProvider className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+						{aavailableFormats.map((format) => {
+							if (!iconData.wordmark?.dark) return null
+							return renderVariant(format, iconData.wordmark.dark, "dark")
+						})}
+					</MagicCardPointerProvider>
 					</div>
 				)}
 			</div>
