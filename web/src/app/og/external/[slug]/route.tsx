@@ -28,7 +28,7 @@ export async function GET(_req: Request, { params }: { params: Promise<{ slug: s
 			>
 				Icon not found
 			</div>,
-			{ ...size },
+			{ ...size, headers: { "X-Robots-Tag": "noindex" } },
 		)
 	}
 
@@ -50,7 +50,7 @@ export async function GET(_req: Request, { params }: { params: Promise<{ slug: s
 			>
 				Source not found
 			</div>,
-			{ ...size },
+			{ ...size, headers: { "X-Robots-Tag": "noindex" } },
 		)
 	}
 
@@ -280,6 +280,7 @@ export async function GET(_req: Request, { params }: { params: Promise<{ slug: s
 			headers: {
 				"Cache-Control": "public, s-maxage=86400, stale-while-revalidate=604800",
 				"CDN-Cache-Control": "public, max-age=86400, stale-while-revalidate=604800",
+				"X-Robots-Tag": "noindex",
 			},
 		},
 	)

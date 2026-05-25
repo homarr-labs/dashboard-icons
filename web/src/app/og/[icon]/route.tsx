@@ -212,6 +212,7 @@ export async function GET(_req: Request, { params }: { params: Promise<{ icon: s
 			headers: {
 				"Cache-Control": "public, s-maxage=86400, stale-while-revalidate=604800",
 				"CDN-Cache-Control": "public, max-age=86400, stale-while-revalidate=604800",
+				"X-Robots-Tag": "noindex",
 			},
 		},
 	)
