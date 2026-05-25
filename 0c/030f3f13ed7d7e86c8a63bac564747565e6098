@@ -1,0 +1,24 @@
+.github/workflows/sync-selfhst.yml
+  s_3a6982e661f6bb::t_b1c0aa82cdf027 14,16-17,32
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.1",
+  "base_commit_sha": "0c030f3f13ed7d7e86c8a63bac564747565e6098",
+  "prompts": {},
+  "humans": {
+    "h_32d929d7363456": {
+      "author": "Thomas Camlong"
+    }
+  },
+  "sessions": {
+    "s_3a6982e661f6bb": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "4d2945f6-1b54-46e2-924c-a7bc5c30a585",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
