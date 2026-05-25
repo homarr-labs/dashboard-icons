@@ -1,0 +1,36 @@
+web/src/components/icon-card.tsx
+  s_1914d65682e1df::t_7a14a064b7cc15 56
+web/src/components/magicui/magic-card-pointer.tsx
+  s_1914d65682e1df::t_b621e4291814f3 1-55
+web/src/components/magicui/magic-card.tsx
+  s_1914d65682e1df::t_747caafe59952e 6
+  s_1914d65682e1df::t_00daf30ce67242 10-13
+  s_1914d65682e1df::t_bce762ddcd6bb3 96
+  s_1914d65682e1df::t_86e2326f8079af 8,34-43,48,51,54,56-58,60-66,68-69,71-93,102-103
+web/src/components/icon-grid.tsx
+  s_1914d65682e1df::t_7900dfb0be0169 102
+  s_1914d65682e1df::t_438cd9f11f6135 24,28
+  s_1914d65682e1df::t_e12d56671f1eee 65
+  s_1914d65682e1df::t_5fc3b5ad30739f 2,4
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.1",
+  "base_commit_sha": "3ab1c7cbf07b8decc060363010f90cb85977835b",
+  "prompts": {},
+  "humans": {
+    "h_32d929d7363456": {
+      "author": "Thomas Camlong"
+    }
+  },
+  "sessions": {
+    "s_1914d65682e1df": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "09f719f8-574f-4cfc-a37f-7033532b8b8e",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
