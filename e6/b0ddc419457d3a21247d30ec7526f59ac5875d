@@ -1,0 +1,25 @@
+web/src/app/robots.ts
+  s_da0a6f14d50502::t_967b771d23af33 10
+web/src/app/og/[icon]/route.tsx
+  s_da0a6f14d50502::t_ea51959809ed83 215
+web/src/app/og/external/[slug]/route.tsx
+  s_da0a6f14d50502::t_b5e4ed66a082e2 53
+  s_da0a6f14d50502::t_c644c3b3d50296 283
+  s_da0a6f14d50502::t_3ccb501a0c4c1c 31
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.1",
+  "base_commit_sha": "e6b0ddc419457d3a21247d30ec7526f59ac5875d",
+  "prompts": {},
+  "sessions": {
+    "s_da0a6f14d50502": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_1a0e97b65ffezlSXhiJPvxhOky",
+        "model": "deepseek-v4-flash"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}

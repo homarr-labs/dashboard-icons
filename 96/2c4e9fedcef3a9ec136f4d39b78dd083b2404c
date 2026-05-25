@@ -1,0 +1,19 @@
+web/src/middleware.ts
+  s_da0a6f14d50502::t_07ee774d36943e 1-45
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.1",
+  "base_commit_sha": "962c4e9fedcef3a9ec136f4d39b78dd083b2404c",
+  "prompts": {},
+  "sessions": {
+    "s_da0a6f14d50502": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_1a0e97b65ffezlSXhiJPvxhOky",
+        "model": "deepseek-v4-flash"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
