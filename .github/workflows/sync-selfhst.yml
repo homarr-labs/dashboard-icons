@@ -11,15 +11,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: pnpm/action-setup@v4
+      - uses: oven-sh/setup-bun@v2
 
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: pnpm
-          cache-dependency-path: web/pnpm-lock.yaml
-
-      - run: cd web && pnpm install --frozen-lockfile
+      - name: Install dependencies
+        run: cd web && bun install --frozen-lockfile
 
       - name: Fetch selfh.st manifests
         run: |
@@ -34,4 +29,4 @@ jobs:
           NEXT_PUBLIC_POCKETBASE_URL: ${{ secrets.PB_URL }}
           PB_ADMIN: ${{ secrets.PB_ADMIN }}
           PB_ADMIN_PASS: ${{ secrets.PB_ADMIN_PASS }}
-        run: cd web && pnpm exec tsx scripts/import-selfhst.ts
+        run: cd web && bun run scripts/import-selfhst.ts
