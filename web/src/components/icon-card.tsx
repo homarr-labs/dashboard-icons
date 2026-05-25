@@ -53,7 +53,7 @@ export function IconCard({ icon, matchedAlias }: { icon: IconWithName; matchedAl
 						className="object-contain p-2 group-hover:scale-110 transition-transform duration-300"
 					/>
 				</div>
-				<span className="text-xs sm:text-sm text-center truncate w-full capitalize group- dark:group-hover:text-primary transition-colors duration-200 font-medium">
+				<span className="text-xs sm:text-sm text-center truncate w-full capitalize group-hover:text-primary dark:group-hover:text-primary transition-colors duration-200 font-medium">
 					{formatIconName(name)}
 				</span>
 				{matchedAlias && <span className="mt-1 max-w-full truncate text-[10px] text-muted-foreground">Alias: {matchedAlias}</span>}

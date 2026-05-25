@@ -1,6 +1,7 @@
 import { useWindowVirtualizer } from "@tanstack/react-virtual"
-import { useEffect, useMemo, useRef, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import type { IconWithName } from "@/types/icons"
+import { MagicCardPointerProvider } from "@/components/magicui/magic-card-pointer"
 import { IconCard } from "./icon-card"
 
 interface IconsGridProps {
@@ -20,11 +21,11 @@ export const GRID_CLASSES = "grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:g
  */
 export function IconsGrid({ filteredIcons, matchedAliases }: IconsGridProps) {
 	return (
-		<div className={`${GRID_CLASSES} mt-2`}>
+		<MagicCardPointerProvider className={`${GRID_CLASSES} mt-2`}>
 			{filteredIcons.slice(0, 120).map((icon) => (
 				<IconCard key={`${icon.source || "native"}-${icon.slug || icon.name}`} icon={icon} matchedAlias={matchedAliases[icon.name]} />
 			))}
-		</div>
+		</MagicCardPointerProvider>
 	)
 }
 
@@ -33,7 +34,6 @@ export function IconsGrid({ filteredIcons, matchedAliases }: IconsGridProps) {
  * Only renders visible rows for better performance with thousands of icons
  */
 export function VirtualizedIconsGrid({ filteredIcons, matchedAliases }: IconsGridProps) {
-	const listRef = useRef<HTMLDivElement | null>(null)
 	const [windowWidth, setWindowWidth] = useState(0)
 
 	useEffect(() => {
@@ -62,7 +62,7 @@ export function VirtualizedIconsGrid({ filteredIcons, matchedAliases }: IconsGri
 	})
 
 	return (
-		<div ref={listRef} className="mt-2">
+		<MagicCardPointerProvider className="mt-2">
 			<div
 				style={{
 					height: `${rowVirtualizer.getTotalSize()}px`,
@@ -99,6 +99,6 @@ export function VirtualizedIconsGrid({ filteredIcons, matchedAliases }: IconsGri
 					)
 				})}
 			</div>
-		</div>
+		</MagicCardPointerProvider>
 	)
 }
