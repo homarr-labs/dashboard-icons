@@ -44036,5 +44036,23 @@
             "light": "craft-app-wordmark-light",
             "dark": "craft-app-wordmark-dark"
         }
+    },
+    "aks-automatic": {
+        "base": "svg",
+        "aliases": [
+            "aks",
+            "aks automatic",
+            "kubernetes"
+        ],
+        "categories": [
+            "cloud"
+        ],
+        "update": {
+            "timestamp": "2026-05-27T14:16:02.298Z",
+            "author": {
+                "id": 50410476,
+                "login": "deogratias-saidi"
+            }
+        }
     }
 }
