@@ -44105,5 +44105,22 @@
         "colors": {
             "dark": "crossplane-dark"
         }
+    },
+    "azure-cost-management": {
+        "base": "svg",
+        "aliases": [
+            "azure cost management",
+            "azure"
+        ],
+        "categories": [
+            "cloud"
+        ],
+        "update": {
+            "timestamp": "2026-05-27T14:16:10.615Z",
+            "author": {
+                "id": 50410476,
+                "login": "deogratias-saidi"
+            }
+        }
     }
 }
