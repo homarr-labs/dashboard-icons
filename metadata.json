@@ -44054,5 +44054,32 @@
                 "login": "deogratias-saidi"
             }
         }
+    },
+    "backstage": {
+        "base": "svg",
+        "aliases": [
+            "idp",
+            "developer portal",
+            "backstage",
+            "backstage by spotify"
+        ],
+        "categories": [
+            "development",
+            "tools",
+            "utility",
+            "monitoring",
+            "automation"
+        ],
+        "update": {
+            "timestamp": "2026-05-27T14:16:05.530Z",
+            "author": {
+                "id": 50410476,
+                "login": "deogratias-saidi"
+            }
+        },
+        "colors": {
+            "light": "backstage-light",
+            "dark": "backstage-dark"
+        }
     }
 }
