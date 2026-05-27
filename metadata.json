@@ -44081,5 +44081,29 @@
             "light": "backstage-light",
             "dark": "backstage-dark"
         }
+    },
+    "crossplane": {
+        "base": "svg",
+        "aliases": [
+            "crossplane",
+            "kubernetes"
+        ],
+        "categories": [
+            "automation",
+            "cloud",
+            "tools",
+            "utility",
+            "development"
+        ],
+        "update": {
+            "timestamp": "2026-05-27T14:16:08.217Z",
+            "author": {
+                "id": 50410476,
+                "login": "deogratias-saidi"
+            }
+        },
+        "colors": {
+            "dark": "crossplane-dark"
+        }
     }
 }
