@@ -44013,5 +44013,28 @@
             "light": "minimax-light",
             "dark": "minimax-dark"
         }
+    },
+    "craft-app": {
+        "base": "png",
+        "aliases": [],
+        "categories": [
+            "tools",
+            "development"
+        ],
+        "update": {
+            "timestamp": "2026-05-27T14:15:58.301Z",
+            "author": {
+                "id": 60545345,
+                "login": "txkevo"
+            }
+        },
+        "colors": {
+            "light": "craft-app-light",
+            "dark": "craft-app-dark"
+        },
+        "wordmark": {
+            "light": "craft-app-wordmark-light",
+            "dark": "craft-app-wordmark-dark"
+        }
     }
 }
