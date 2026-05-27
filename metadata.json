@@ -44122,5 +44122,23 @@
                 "login": "deogratias-saidi"
             }
         }
+    },
+    "azure-functions": {
+        "base": "svg",
+        "aliases": [
+            "azure functions",
+            "functions"
+        ],
+        "categories": [
+            "cloud",
+            "automation"
+        ],
+        "update": {
+            "timestamp": "2026-05-27T14:16:13.100Z",
+            "author": {
+                "id": 50410476,
+                "login": "deogratias-saidi"
+            }
+        }
     }
 }
