@@ -44171,5 +44171,22 @@
                 "login": "AwkAmr"
             }
         }
+    },
+    "prometheus-node-exporter": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "monitoring",
+            "database",
+            "tools",
+            "utility"
+        ],
+        "update": {
+            "timestamp": "2026-05-27T14:16:20.456Z",
+            "author": {
+                "id": 12772470,
+                "login": "bchevreau"
+            }
+        }
     }
 }
