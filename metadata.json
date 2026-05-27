@@ -44188,5 +44188,26 @@
                 "login": "bchevreau"
             }
         }
+    },
+    "poolside-ai": {
+        "base": "svg",
+        "aliases": [
+            "ai"
+        ],
+        "categories": [
+            "cloud",
+            "automation"
+        ],
+        "update": {
+            "timestamp": "2026-05-27T14:16:23.232Z",
+            "author": {
+                "id": 58028508,
+                "login": "Adk3rn"
+            }
+        },
+        "colors": {
+            "light": "poolside-ai-light",
+            "dark": "poolside-ai-dark"
+        }
     }
 }
