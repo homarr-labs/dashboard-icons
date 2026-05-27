@@ -44140,5 +44140,24 @@
                 "login": "deogratias-saidi"
             }
         }
+    },
+    "azure-traffic-manager": {
+        "base": "svg",
+        "aliases": [
+            "azure",
+            "azure traffic manager",
+            "load balancer"
+        ],
+        "categories": [
+            "cloud",
+            "network"
+        ],
+        "update": {
+            "timestamp": "2026-05-27T14:16:15.658Z",
+            "author": {
+                "id": 50410476,
+                "login": "deogratias-saidi"
+            }
+        }
     }
 }
