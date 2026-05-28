@@ -27,7 +27,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 			lastModified: formatDate(new Date()),
 			changeFrequency: "daily",
 			priority: 1,
-			images: [`${WEB_URL}/icons/icon.png`],
+			images: [`${WEB_URL}/og/default`],
+		},
+		{
+			url: `${WEB_URL}/license`,
+			lastModified: formatDate(new Date()),
+			changeFrequency: "yearly",
+			priority: 0.5,
 		},
 		{
 			url: `${WEB_URL}/community`,

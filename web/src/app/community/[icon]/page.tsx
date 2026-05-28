@@ -1,9 +1,11 @@
 import type { Metadata, ResolvingMetadata } from "next"
 import { notFound, permanentRedirect } from "next/navigation"
 import { IconDetails } from "@/components/icon-details"
+import { JsonLd } from "@/components/seo/json-ld"
 import { BASE_URL, WEB_URL } from "@/constants"
 import { computeRelatedIcons, getAllIcons, getAuthorData } from "@/lib/api"
 import { getCommunityGalleryRecord, getCommunitySubmissionByName, getCommunitySubmissions } from "@/lib/community"
+import { buildIconPageGraph } from "@/lib/seo/schemas"
 
 function isIconAddedToCollection(
 	record: Awaited<ReturnType<typeof getCommunityGalleryRecord>>,
@@ -103,6 +105,13 @@ export async function generateMetadata({ params }: Props, _parent: ResolvingMeta
 			locale: "en_US",
 			images: [
 				{
+					url: `${WEB_URL}/og/community/${icon}`,
+					width: 1200,
+					height: 630,
+					alt: `${formattedIconName} community icon`,
+					type: "image/png",
+				},
+				{
 					url: mainIconUrl,
 					width: 512,
 					height: 512,
@@ -115,7 +124,7 @@ export async function generateMetadata({ params }: Props, _parent: ResolvingMeta
 			card: "summary_large_image",
 			title: `${formattedIconName} Icon & Logo (Community)`,
 			description: `Download the ${formattedIconName} community-submitted icon and logo. Part of a collection of ${totalIcons} community icons and logos awaiting review and addition to the Dashboard Icons collection.`,
-			images: [mainIconUrl],
+			images: [`${WEB_URL}/og/community/${icon}`],
 		},
 		alternates: {
 			canonical: `${WEB_URL}/community/${icon}`,
@@ -251,41 +260,30 @@ export default async function CommunityIconPage({ params }: { params: Promise<{ 
 		.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
 		.join(" ")
 
+	const pageUrl = `${WEB_URL}/community/${icon}`
+	const pageDescription = `Download the ${formattedName} community-submitted icon and logo. Part of a collection of community icons awaiting review and addition to the Dashboard Icons collection.`
+	const authorName = authorData.name || authorData.login
+
 	return (
 		<>
-			<script
-				type="application/ld+json"
-				// biome-ignore lint/security/noDangerouslySetInnerHtml: JSON-LD structured data
-				dangerouslySetInnerHTML={{
-					__html: JSON.stringify({
-						"@context": "https://schema.org",
-						"@type": "ImageObject",
-						contentUrl: mainIconUrl,
-						license: "https://creativecommons.org/licenses/by/4.0/",
-						acquireLicensePage: `${WEB_URL}/license`,
-						creditText: `Icon by ${authorData.name || authorData.login}`,
-						copyrightNotice: "© Homarr Labs",
-						creator: {
-							"@type": "Person",
-							name: authorData.name || authorData.login,
-						},
-					}).replace(/</g, "\\u003c"),
-				}}
-			/>
-			<script
-				type="application/ld+json"
-				// biome-ignore lint/security/noDangerouslySetInnerHtml: JSON-LD structured data
-				dangerouslySetInnerHTML={{
-					__html: JSON.stringify({
-						"@context": "https://schema.org",
-						"@type": "BreadcrumbList",
-						itemListElement: [
-							{ "@type": "ListItem", position: 1, name: "Home", item: WEB_URL },
-							{ "@type": "ListItem", position: 2, name: "Community Icons", item: `${WEB_URL}/community` },
-							{ "@type": "ListItem", position: 3, name: `${formattedName} Icon`, item: `${WEB_URL}/community/${icon}` },
-						],
-					}).replace(/</g, "\\u003c"),
-				}}
+			<JsonLd
+				data={buildIconPageGraph({
+					pageUrl,
+					pageName: `${formattedName} Icon & Logo (Community)`,
+					pageDescription,
+					dateModified: iconData.data.update.timestamp,
+					contentUrl: mainIconUrl,
+					licenseKey: "CC BY 4.0",
+					formattedName,
+					creator: { type: "Person", name: authorName, url: authorData.html_url || undefined },
+					creditText: `Icon by ${authorName}`,
+					copyrightNotice: "© Homarr Labs",
+					breadcrumbs: [
+						{ name: "Home", item: WEB_URL },
+						{ name: "Community Icons", item: `${WEB_URL}/community` },
+						{ name: `${formattedName} Icon`, item: pageUrl },
+					],
+				})}
 			/>
 			<IconDetails
 				breadcrumbItems={[

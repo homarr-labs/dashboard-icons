@@ -1,0 +1,19 @@
+# Dashboard Icons
+> Free curated icons and logos for dashboards and app directories.
+
+## Pages
+- / — Homepage with search and recently added icons
+- /icons — Browse and search the full icon collection
+- /community — Community-submitted icons awaiting review
+- /license — License and trademark policy
+- /icons/{slug} — Download individual native icon (SVG, PNG, WEBP)
+- /icons/external/{slug} — Download external source icons
+- /community/{slug} — Community icon detail pages
+
+## Facts
+- License: CC BY 4.0 for native Dashboard Icons
+- Maintainer: Homarr Labs
+- CDN: cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons
+- GitHub: github.com/homarr-labs/dashboard-icons
+- Formats: SVG, PNG, WEBP
+- Contact: homarr-labs@proton.me

@@ -1,7 +1,10 @@
+import { HomeFaq } from "@/components/home-faq"
 import { HeroSection } from "@/components/hero"
 import { RecentlyAddedIcons } from "@/components/recently-added-icons"
-import { REPO_NAME, WEB_URL } from "@/constants"
+import { JsonLd } from "@/components/seo/json-ld"
+import { REPO_NAME, getDescription } from "@/constants"
 import { getRecentlyAddedIcons, getTotalIcons } from "@/lib/api"
+import { buildHomePageGraph } from "@/lib/seo/schemas"
 
 async function getGitHubStars() {
 	try {
@@ -20,46 +23,11 @@ export default async function Home() {
 	const iconStats = await getTotalIcons()
 	const recentIcons = await getRecentlyAddedIcons(20)
 	const stars = await getGitHubStars()
-
-	const websiteJsonLd = {
-		"@context": "https://schema.org",
-		"@type": "WebSite",
-		name: "Dashboard Icons",
-		url: WEB_URL,
-		description: `A collection of ${iconStats.totalIcons} curated icons and logos for services, applications and tools, designed specifically for dashboards and app directories.`,
-		inLanguage: "en",
-		publisher: {
-			"@type": "Organization",
-			name: "Homarr Labs",
-		},
-	}
-
-	const organizationJsonLd = {
-		"@context": "https://schema.org",
-		"@type": "Organization",
-		name: "Homarr Labs",
-		url: WEB_URL,
-		logo: {
-			"@type": "ImageObject",
-			url: `${WEB_URL}/og-image.png`,
-			width: 1200,
-			height: 630,
-		},
-		sameAs: [`https://github.com/${REPO_NAME}`],
-	}
+	const description = getDescription(iconStats.totalIcons)
 
 	return (
 		<>
-			<script
-				type="application/ld+json"
-				// biome-ignore lint/security/noDangerouslySetInnerHtml: JSON-LD structured data
-				dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd).replace(/</g, "\\u003c") }}
-			/>
-			<script
-				type="application/ld+json"
-				// biome-ignore lint/security/noDangerouslySetInnerHtml: JSON-LD structured data
-				dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd).replace(/</g, "\\u003c") }}
-			/>
+			<JsonLd data={buildHomePageGraph({ totalIcons: iconStats.totalIcons, description })} />
 			<div className="flex flex-col min-h-screen">
 				<HeroSection
 					totalIcons={iconStats.totalIcons}
@@ -68,6 +36,7 @@ export default async function Home() {
 					stars={stars}
 				/>
 				<RecentlyAddedIcons icons={recentIcons} />
+				<HomeFaq />
 			</div>
 		</>
 	)

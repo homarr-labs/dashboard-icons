@@ -1,8 +1,10 @@
 import type { Metadata, ResolvingMetadata } from "next"
 import { notFound } from "next/navigation"
 import { IconDetails } from "@/components/icon-details"
+import { JsonLd } from "@/components/seo/json-ld"
 import { BASE_URL, WEB_URL } from "@/constants"
 import { computeRelatedIcons, getAllIcons, getAuthorData } from "@/lib/api"
+import { buildIconPageGraph } from "@/lib/seo/schemas"
 
 export const dynamicParams = false
 export const revalidate = false
@@ -134,41 +136,31 @@ export default async function IconPage({ params }: { params: Promise<{ icon: str
 		.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
 		.join(" ")
 
+	const pageUrl = `${WEB_URL}/icons/${icon}`
+	const pageDescription = `Download the ${formattedName} icon and logo in SVG, PNG, and WEBP formats for FREE. Part of a collection of curated icons and logos for services, applications and tools, designed specifically for dashboards and app directories.`
+	const authorName = authorData.name || authorData.login
+
 	return (
 		<>
-			<script
-				type="application/ld+json"
-				// biome-ignore lint/security/noDangerouslySetInnerHtml: JSON-LD structured data
-				dangerouslySetInnerHTML={{
-					__html: JSON.stringify({
-						"@context": "https://schema.org",
-						"@type": "ImageObject",
-						contentUrl: `${BASE_URL}/png/${icon}.png`,
-						license: "https://creativecommons.org/licenses/by/4.0/",
-						acquireLicensePage: `${WEB_URL}/license`,
-						creditText: `Icon by ${authorData.name || authorData.login}`,
-						copyrightNotice: "© Homarr Labs",
-						creator: {
-							"@type": "Person",
-							name: authorData.name || authorData.login,
-						},
-					}).replace(/</g, "\\u003c"),
-				}}
-			/>
-			<script
-				type="application/ld+json"
-				// biome-ignore lint/security/noDangerouslySetInnerHtml: JSON-LD structured data
-				dangerouslySetInnerHTML={{
-					__html: JSON.stringify({
-						"@context": "https://schema.org",
-						"@type": "BreadcrumbList",
-						itemListElement: [
-							{ "@type": "ListItem", position: 1, name: "Home", item: WEB_URL },
-							{ "@type": "ListItem", position: 2, name: "Browse Icons", item: `${WEB_URL}/icons` },
-							{ "@type": "ListItem", position: 3, name: `${formattedName} Icon`, item: `${WEB_URL}/icons/${icon}` },
-						],
-					}).replace(/</g, "\\u003c"),
-				}}
+			<JsonLd
+				data={buildIconPageGraph({
+					pageUrl,
+					pageName: `${formattedName} Icon & Logo`,
+					pageDescription,
+					dateModified: originalIconData.update.timestamp,
+					contentUrl: `${BASE_URL}/png/${icon}.png`,
+					licenseKey: "CC BY 4.0",
+					formattedName,
+					creator: { type: "Person", name: authorName, url: authorData.html_url },
+					creditText: `Icon by ${authorName}`,
+					copyrightNotice: "© Homarr Labs",
+					breadcrumbs: [
+						{ name: "Home", item: WEB_URL },
+						{ name: "Browse Icons", item: `${WEB_URL}/icons` },
+						{ name: `${formattedName} Icon`, item: pageUrl },
+					],
+					encodingFormat: "image/png",
+				})}
 			/>
 			<IconDetails
 				breadcrumbItems={[

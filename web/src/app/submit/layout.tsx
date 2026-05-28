@@ -1,5 +1,6 @@
 import type { Metadata } from "next"
 import type React from "react"
+import { WEB_URL } from "@/constants"
 import { cn } from "@/lib/utils"
 
 export const metadata: Metadata = {
@@ -7,8 +8,11 @@ export const metadata: Metadata = {
 	description:
 		"Submit your icons and logos to the Dashboard Icons collection. Share your designs with the community and help expand the collection.",
 	robots: {
-		index: true,
+		index: false,
 		follow: true,
+	},
+	alternates: {
+		canonical: `${WEB_URL}/submit`,
 	},
 }
 

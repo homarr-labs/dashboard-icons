@@ -5,8 +5,11 @@ import { Footer } from "@/components/footer"
 import { HeaderWrapper } from "@/components/header-wrapper"
 import { LicenseNotice } from "@/components/license-notice"
 import { PostHogProvider } from "@/components/PostHogProvider"
+import { JsonLd } from "@/components/seo/json-ld"
 import { getDescription, WEB_URL, websiteTitle } from "@/constants"
 import { getTotalIcons } from "@/lib/api"
+import { buildDefaultOgImages, buildDefaultTwitterImages } from "@/lib/seo/metadata"
+import { buildOrganizationGraph } from "@/lib/seo/schemas"
 import "./globals.css"
 import { Providers } from "@/components/providers"
 import { ThemeProvider } from "./theme-provider"
@@ -60,21 +63,13 @@ export async function generateMetadata(): Promise<Metadata> {
 			title: websiteTitle,
 			url: WEB_URL,
 			description: getDescription(totalIcons),
-			images: [
-				{
-					url: "/og-image.png",
-					width: 1200,
-					height: 630,
-					alt: "Dashboard Icons - Free icons and logos for self-hosted services",
-					type: "image/png",
-				},
-			],
+			images: buildDefaultOgImages("Dashboard Icons - Free icons and logos for self-hosted services"),
 		},
 		twitter: {
 			card: "summary_large_image",
 			title: websiteTitle,
 			description: getDescription(totalIcons),
-			images: ["/og-image.png"],
+			images: buildDefaultTwitterImages(),
 		},
 		applicationName: "Dashboard Icons",
 		alternates: {
@@ -87,13 +82,8 @@ export async function generateMetadata(): Promise<Metadata> {
 			capable: true,
 		},
 		icons: {
-			icon: [
-				{ url: "/favicon.ico", sizes: "any" },
-				{ url: "/favicon-96x96.png", sizes: "96x96", type: "image/png" },
-				{ url: "/web-app-manifest-192x192.png", sizes: "192x192", type: "image/png" },
-				{ url: "/web-app-manifest-512x512.png", sizes: "512x512", type: "image/png" },
-			],
-			apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
+			icon: [{ url: "/favicon.svg", type: "image/svg+xml" }],
+			apple: [{ url: "/favicon.svg", type: "image/svg+xml" }],
 		},
 		manifest: "/site.webmanifest",
 		formatDetection: {
@@ -111,6 +101,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
 				<link rel="preconnect" href="https://cdn.jsdelivr.net" />
 				<link rel="preconnect" href="https://raw.githubusercontent.com" />
 				<link rel="preconnect" href="https://api.github.com" />
+				<link rel="alternate" type="text/plain" href="/llms.txt" />
 				{process.env.NEXT_PUBLIC_POSTHOG_HOST && (
 					<link
 						rel="preconnect"
@@ -125,26 +116,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
 				)}
 			</head>
 			<body className={`${inter.variable} antialiased bg-background flex flex-col min-h-screen`}>
-				<script
-					type="application/ld+json"
-					// biome-ignore lint/security/noDangerouslySetInnerHtml: JSON-LD structured data
-					dangerouslySetInnerHTML={{
-						__html: JSON.stringify({
-							"@context": "https://schema.org",
-							"@type": "WebSite",
-							name: "Dashboard Icons",
-							url: WEB_URL,
-							potentialAction: {
-								"@type": "SearchAction",
-								target: {
-									"@type": "EntryPoint",
-									urlTemplate: `${WEB_URL}/icons?search={search_term_string}`,
-								},
-								"query-input": "required name=search_term_string",
-							},
-						}).replace(/</g, "\\u003c"),
-					}}
-				/>
+				<JsonLd data={buildOrganizationGraph()} />
 				<Providers>
 					<PostHogProvider>
 						<ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>

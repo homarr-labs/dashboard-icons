@@ -1,9 +1,11 @@
 import type { Metadata, ResolvingMetadata } from "next"
 import { notFound } from "next/navigation"
 import { IconDetails } from "@/components/icon-details"
+import { JsonLd } from "@/components/seo/json-ld"
 import { EXTERNAL_SOURCES, type ExternalSourceId, WEB_URL } from "@/constants"
 import { getExternalIconPreviewUrl, resolveExternalIconUrl } from "@/lib/external-icon-urls"
 import { getExternalIconBySlug, getExternalIcons } from "@/lib/external-icons"
+import { buildIconPageGraph, resolveLicenseKey } from "@/lib/seo/schemas"
 import type { AuthorData } from "@/types/icons"
 
 export const dynamicParams = false
@@ -131,46 +133,30 @@ export default async function ExternalIconPage({ params }: { params: Promise<{ s
 		html_url: sourceConfig.authorUrl,
 	}
 
+	const pageUrl = `${WEB_URL}/icons/external/${slug}`
+	const pageDescription = `Download the ${icon.external.name} icon and logo from ${sourceConfig.label}. Licensed under ${sourceConfig.license}.`
+	const updatedAt =
+		icon.external.updated_at_source || icon.external.updated || icon.external.created || new Date().toISOString()
+
 	return (
 		<>
-			<script
-				type="application/ld+json"
-				// biome-ignore lint/security/noDangerouslySetInnerHtml: JSON-LD structured data
-				dangerouslySetInnerHTML={{
-					__html: JSON.stringify({
-						"@context": "https://schema.org",
-						"@type": "ImageObject",
-						contentUrl: previewUrl,
-						license:
-							sourceConfig.license === "MIT" ? "https://opensource.org/licenses/MIT" : "https://creativecommons.org/licenses/by/4.0/",
-						acquireLicensePage: `${WEB_URL}/license`,
-						creator: {
-							"@type": "Organization",
-							name: sourceConfig.authorName,
-							url: sourceConfig.authorUrl,
-						},
-					}).replace(/</g, "\\u003c"),
-				}}
-			/>
-			<script
-				type="application/ld+json"
-				// biome-ignore lint/security/noDangerouslySetInnerHtml: JSON-LD structured data
-				dangerouslySetInnerHTML={{
-					__html: JSON.stringify({
-						"@context": "https://schema.org",
-						"@type": "BreadcrumbList",
-						itemListElement: [
-							{ "@type": "ListItem", position: 1, name: "Home", item: WEB_URL },
-							{ "@type": "ListItem", position: 2, name: "Browse Icons", item: `${WEB_URL}/icons` },
-							{
-								"@type": "ListItem",
-								position: 3,
-								name: `${icon.external.name} Icon`,
-								item: `${WEB_URL}/icons/external/${slug}`,
-							},
-						],
-					}).replace(/</g, "\\u003c"),
-				}}
+			<JsonLd
+				data={buildIconPageGraph({
+					pageUrl,
+					pageName: `${icon.external.name} Icon & Logo (${sourceConfig.label})`,
+					pageDescription,
+					dateModified: updatedAt,
+					contentUrl: previewUrl,
+					licenseKey: resolveLicenseKey(sourceConfig.license),
+					formattedName: icon.external.name,
+					creator: { type: "Organization", name: sourceConfig.authorName, url: sourceConfig.authorUrl },
+					breadcrumbs: [
+						{ name: "Home", item: WEB_URL },
+						{ name: "Browse Icons", item: `${WEB_URL}/icons` },
+						{ name: sourceConfig.label, item: `${WEB_URL}/icons?source=${sourceConfig.id}` },
+						{ name: `${icon.external.name} Icon`, item: pageUrl },
+					],
+				})}
 			/>
 			<IconDetails
 				icon={icon.external.slug}

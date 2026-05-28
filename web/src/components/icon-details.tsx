@@ -812,9 +812,10 @@ export function IconDetails({
 										/>
 									</div>
 								</div>
-								<CardTitle className="text-2xl font-bold capitalize text-center mb-2">
-									<h1>{formatedIconName}</h1>
-								</CardTitle>
+								<h1 className="text-2xl font-bold capitalize text-center mb-2">{formatedIconName}</h1>
+								<p className="text-sm text-muted-foreground text-center max-w-md">
+									Download the {formatedIconName} icon in SVG, PNG, and WEBP formats for free.
+								</p>
 							</div>
 						</CardHeader>
 						<CardContent>
