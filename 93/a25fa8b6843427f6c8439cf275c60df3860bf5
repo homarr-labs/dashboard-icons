@@ -1,0 +1,84 @@
+web/src/app/license/page.tsx
+  s_102062356b0b1f::t_a53e6f6dbe542b 1-61
+web/src/app/og/default/route.tsx
+  s_102062356b0b1f::t_f13382257aba9c 1-168
+web/src/components/home-faq.tsx
+  s_102062356b0b1f::t_0edfb27b3e3b89 1-17
+web/src/app/page.tsx
+  s_102062356b0b1f::t_e52b0ced05ee5f 5
+  s_102062356b0b1f::t_fc618c2e15a94c 1,4,7,26,30,39
+web/src/app/submit/layout.tsx
+  s_102062356b0b1f::t_ffbce5b8959a7e 3,11,14-15
+web/src/lib/seo/faqs.ts
+  s_102062356b0b1f::t_b5d4e85a991821 1-37
+web/src/app/og/community/[icon]/route.tsx
+  s_102062356b0b1f::t_0fa084400257f9 1-126
+web/src/components/seo/json-ld.tsx
+  s_102062356b0b1f::t_9188cdb7018b98 1-15
+web/src/lib/seo/metadata.ts
+  s_102062356b0b1f::t_044dff19012069 1-45
+web/src/app/community/page.tsx
+  s_102062356b0b1f::t_021e1da878d663 4,7-8,12-17,19,23,38,41,46-47,49,55-56,58-65,67-69,71
+web/src/app/robots.ts
+  s_102062356b0b1f::t_ec5ae5cec68602 4-15,18
+web/public/llms.txt
+  s_102062356b0b1f::t_ab6202bf2ea915 1-19
+web/public/site.webmanifest
+  s_102062356b0b1f::t_1d285f3fa38273 6-11
+web/src/app/icons/page.tsx
+  s_102062356b0b1f::t_2f4f0be01a549b 75-77
+  s_102062356b0b1f::t_2c45896ce32548 2
+  s_102062356b0b1f::t_a33ebb744d56f9 4,8-9,11-16,18,22,39,42,47-48,50,59-60,62-73,79
+web/src/app/og/__tests__/default-route.test.ts
+  s_102062356b0b1f::t_98fa3de3c6bd93 1-39
+web/src/lib/seo/schemas.ts
+  s_102062356b0b1f::t_849133521dbc90 1,3-262
+  s_102062356b0b1f::t_dfb8c52066086d 2
+web/src/app/layout.tsx
+  s_102062356b0b1f::t_707a1e2c90ddd5 85-86
+  s_102062356b0b1f::t_9e7a8232a74d15 11
+  s_102062356b0b1f::t_98ee5b0cb6d574 104
+  s_102062356b0b1f::t_b2a190fba8dcde 119
+  s_102062356b0b1f::t_cea0a3e4bc021e 8,12
+  s_102062356b0b1f::t_39c1bf07b5098f 66,72
+web/src/components/icon-details.tsx
+  s_102062356b0b1f::t_bd60d1f8a7886e 816-818
+  s_102062356b0b1f::t_2d8fbc4af12d26 815
+web/src/app/icons/[icon]/page.tsx
+  s_102062356b0b1f::t_49914345af2c11 4,7
+  s_102062356b0b1f::t_de097d0cd56b3b 139-142,145-163
+web/src/app/icons/external/[slug]/page.tsx
+  s_102062356b0b1f::t_73f8b12c2febb3 4,8
+  s_102062356b0b1f::t_39ff84c09406bb 136-140,143-159
+web/src/app/community/[icon]/page.tsx
+  s_102062356b0b1f::t_77298008852875 263-266,269-286
+  s_102062356b0b1f::t_66fbe430b68588 8
+  s_102062356b0b1f::t_b4461d5e86d36c 4
+  s_102062356b0b1f::t_c616751bd19ee8 108-113,127
+web/src/lib/seo/schemas.test.ts
+  s_102062356b0b1f::t_ab8e93bf044b60 1-76
+web/src/app/sitemap.ts
+  s_102062356b0b1f::t_a8acd1a3f31f5b 30
+  s_102062356b0b1f::t_e1095c643a79fd 33-36
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "93a25fa8b6843427f6c8439cf275c60df3860bf5",
+  "prompts": {},
+  "humans": {
+    "h_32d929d7363456": {
+      "author": "Thomas Camlong"
+    }
+  },
+  "sessions": {
+    "s_102062356b0b1f": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "7dc3045a-c1cf-4adb-8981-2f9dc3a863d0",
+        "model": "composer-2.5"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
