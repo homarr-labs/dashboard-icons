@@ -44574,5 +44574,30 @@
             "light": "anaconda-wordmark-light",
             "dark": "anaconda-wordmark-dark"
         }
+    },
+    "kong": {
+        "base": "svg",
+        "aliases": [
+            "ai"
+        ],
+        "categories": [
+            "automation",
+            "cloud"
+        ],
+        "update": {
+            "timestamp": "2026-06-05T12:01:36.698Z",
+            "author": {
+                "id": 58028508,
+                "login": "Adk3rn"
+            }
+        },
+        "colors": {
+            "light": "kong-light",
+            "dark": "kong-dark"
+        },
+        "wordmark": {
+            "light": "kong-wordmark-light",
+            "dark": "kong-wordmark-dark"
+        }
     }
 }
