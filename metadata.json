@@ -44221,5 +44221,26 @@
                 "login": "VenomousRage"
             }
         }
+    },
+    "help-scout": {
+        "base": "svg",
+        "aliases": [
+            "ticketing-system",
+            "helpscout"
+        ],
+        "categories": [
+            "utility"
+        ],
+        "update": {
+            "timestamp": "2026-06-05T12:00:39.305Z",
+            "author": {
+                "id": 182616046,
+                "login": "Vinnie-A"
+            }
+        },
+        "colors": {
+            "light": "help-scout-light",
+            "dark": "help-scout-dark"
+        }
     }
 }
