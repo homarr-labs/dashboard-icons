@@ -44520,5 +44520,19 @@
                 "login": "ArthurBilyk02"
             }
         }
+    },
+    "qq": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "entertainment"
+        ],
+        "update": {
+            "timestamp": "2026-06-05T12:01:27.434Z",
+            "author": {
+                "id": 196518960,
+                "login": "XD-2580"
+            }
+        }
     }
 }
