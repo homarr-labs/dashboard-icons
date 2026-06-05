@@ -44209,5 +44209,17 @@
             "light": "poolside-ai-light",
             "dark": "poolside-ai-dark"
         }
+    },
+    "torbox": {
+        "base": "png",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-06-05T12:00:35.305Z",
+            "author": {
+                "id": 37941392,
+                "login": "VenomousRage"
+            }
+        }
     }
 }
