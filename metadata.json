@@ -44332,5 +44332,24 @@
                 "name": "0xb0ec1d"
             }
         }
+    },
+    "mousetrap": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "automation",
+            "media",
+            "monitoring",
+            "tools",
+            "utility",
+            "network"
+        ],
+        "update": {
+            "timestamp": "2026-06-05T12:00:57.679Z",
+            "author": {
+                "id": 93874500,
+                "login": "sirjmann92"
+            }
+        }
     }
 }
