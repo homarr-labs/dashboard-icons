@@ -44351,5 +44351,23 @@
                 "login": "sirjmann92"
             }
         }
+    },
+    "avif": {
+        "base": "svg",
+        "aliases": [
+            "AOMedia",
+            "image/avif",
+            "HEIF"
+        ],
+        "categories": [
+            "media"
+        ],
+        "update": {
+            "timestamp": "2026-06-05T12:01:00.054Z",
+            "author": {
+                "id": "sowxli2ysgkofo9",
+                "name": "0xb0ec1d"
+            }
+        }
     }
 }
