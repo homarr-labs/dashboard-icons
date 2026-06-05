@@ -44534,5 +44534,25 @@
                 "login": "XD-2580"
             }
         }
+    },
+    "apache-jena": {
+        "base": "svg",
+        "aliases": [
+            "Apache Jena Semantic Web Framework",
+            "Apache Jena Fuseki"
+        ],
+        "categories": [
+            "database"
+        ],
+        "update": {
+            "timestamp": "2026-06-05T12:01:30.079Z",
+            "author": {
+                "id": "sowxli2ysgkofo9",
+                "name": "0xb0ec1d"
+            }
+        },
+        "wordmark": {
+            "light": "apache-jena-wordmark-light"
+        }
     }
 }
