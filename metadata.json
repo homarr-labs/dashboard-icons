@@ -44424,5 +44424,23 @@
                 "login": "ittoogami"
             }
         }
+    },
+    "wikidata": {
+        "base": "svg",
+        "aliases": [
+            "Wikipedia Wikidata",
+            "Wikimedia Wikidata"
+        ],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-06-05T12:01:10.666Z",
+            "author": {
+                "id": "sowxli2ysgkofo9",
+                "name": "0xb0ec1d"
+            }
+        },
+        "wordmark": {
+            "light": "wikidata-wordmark-light"
+        }
     }
 }
