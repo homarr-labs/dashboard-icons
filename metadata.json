@@ -44369,5 +44369,29 @@
                 "name": "0xb0ec1d"
             }
         }
+    },
+    "statuspage": {
+        "base": "svg",
+        "aliases": [
+            "Hosted Status Page",
+            "StatusPage",
+            "HSP"
+        ],
+        "categories": [
+            "monitoring",
+            "tools",
+            "automation"
+        ],
+        "update": {
+            "timestamp": "2026-06-05T12:01:03.175Z",
+            "author": {
+                "id": 363811,
+                "login": "dragstor"
+            }
+        },
+        "wordmark": {
+            "light": "statuspage-wordmark-light",
+            "dark": "statuspage-wordmark-dark"
+        }
     }
 }
