@@ -44282,5 +44282,23 @@
                 "login": "AyrtonAlbuquerque"
             }
         }
+    },
+    "quasarr": {
+        "base": "png",
+        "aliases": [
+            "jdownloader"
+        ],
+        "categories": [
+            "automation",
+            "media",
+            "tools"
+        ],
+        "update": {
+            "timestamp": "2026-06-05T12:00:50.587Z",
+            "author": {
+                "id": 103009333,
+                "login": "paulo-roger"
+            }
+        }
     }
 }
