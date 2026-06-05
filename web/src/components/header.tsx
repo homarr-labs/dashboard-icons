@@ -46,8 +46,10 @@ export function Header() {
 	useEffect(() => {
 		async function loadIcons() {
 			try {
-				const response = await fetch("/api/icons/search")
+				const response = await fetch("/api/icons/search", { credentials: "omit" })
+				if (!response.ok) throw new Error(`HTTP ${response.status}`)
 				const data = await response.json()
+				if (!Array.isArray(data)) throw new Error("Invalid response shape")
 				setIconsData(data)
 				setIsLoaded(true)
 			} catch (error) {

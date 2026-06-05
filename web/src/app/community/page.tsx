@@ -4,7 +4,7 @@ import { CommunityIconSearch } from "@/components/community-icon-search"
 import { WEB_URL } from "@/constants"
 import { getCommunitySubmissions } from "@/lib/community"
 
-export const revalidate = 300
+export const revalidate = 900
 
 export async function generateMetadata(): Promise<Metadata> {
 	const icons = await getCommunitySubmissions()
