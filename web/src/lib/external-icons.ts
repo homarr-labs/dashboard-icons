@@ -4,7 +4,7 @@ import { createServerPB } from "@/lib/pb"
 import type { ExternalIcon, ExternalIconRecord, IconRecord, NativeIconRecord } from "@/types/icons"
 import { getIconsArray } from "./api"
 
-const EXTERNAL_REVALIDATE_SECONDS = 21600
+const EXTERNAL_REVALIDATE_SECONDS = 900
 const EXTERNAL_TTL_MS = EXTERNAL_REVALIDATE_SECONDS * 1000
 
 let _memCache: { data: ExternalIconRecord[]; ts: number } | null = null

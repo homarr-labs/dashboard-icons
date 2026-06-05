@@ -14,7 +14,7 @@ function isIconAddedToCollection(
 }
 
 export const dynamicParams = true
-export const revalidate = 21600 // 6 hours
+export const revalidate = 900
 export const dynamic = "force-static"
 
 export async function generateStaticParams() {

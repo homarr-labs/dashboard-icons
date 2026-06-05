@@ -5,7 +5,7 @@ import { getCommunitySubmissions } from "@/lib/community"
 import { resolveExternalIconUrl } from "@/lib/external-icon-urls"
 import { getExternalIcons } from "@/lib/external-icons"
 
-export const revalidate = 21600
+export const revalidate = 900
 
 // Helper function to format dates as YYYY-MM-DD
 const formatDate = (date: Date): string => {

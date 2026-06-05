@@ -43,7 +43,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export const dynamic = "force-static"
-export const revalidate = 21600
+export const revalidate = 900
 
 export default async function IconsPage() {
 	const [nativeIcons, externalIcons] = await Promise.all([getIconsArray(), getExternalIcons()])
