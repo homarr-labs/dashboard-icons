@@ -44599,5 +44599,21 @@
             "light": "kong-wordmark-light",
             "dark": "kong-wordmark-dark"
         }
+    },
+    "datagrip": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "database",
+            "development",
+            "storage"
+        ],
+        "update": {
+            "timestamp": "2026-06-05T12:01:39.166Z",
+            "author": {
+                "id": 65122445,
+                "login": "viperh"
+            }
+        }
     }
 }
