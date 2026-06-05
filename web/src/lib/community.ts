@@ -123,11 +123,11 @@ export async function fetchCommunitySubmissions(): Promise<IconWithName[]> {
 /**
  * Cached version of fetchCommunitySubmissions
  * Uses unstable_cache with tags for on-demand revalidation
- * Revalidates every 21600 seconds (6 hours) to match page revalidate time
+ * Revalidates every 900 seconds (15 minutes)
  * Can be invalidated on-demand using revalidateTag("community-gallery")
  */
 export const getCommunitySubmissions = unstable_cache(fetchCommunitySubmissions, ["community-submissions-list-v2"], {
-	revalidate: 21600,
+	revalidate: 900,
 	tags: ["community-gallery"],
 })
 
@@ -151,12 +151,12 @@ async function fetchCommunitySubmissionByName(name: string): Promise<IconWithNam
 /**
  * Cached version of fetchCommunitySubmissionByName
  * Uses unstable_cache with tags for on-demand revalidation
- * Revalidates every 21600 seconds (6 hours)
+ * Revalidates every 900 seconds (15 minutes)
  * Cache key: community-submission-{name}
  */
 export function getCommunitySubmissionByName(name: string): Promise<IconWithName | null> {
 	return unstable_cache(async () => fetchCommunitySubmissionByName(name), [`community-submission-${name}-v2`], {
-		revalidate: 21600,
+		revalidate: 900,
 		tags: ["community-gallery", "community-submission"],
 	})()
 }
@@ -179,12 +179,12 @@ async function fetchCommunityGalleryRecord(name: string): Promise<CommunityGalle
 /**
  * Cached version of fetchCommunityGalleryRecord
  * Uses unstable_cache with tags for on-demand revalidation
- * Revalidates every 21600 seconds (6 hours)
+ * Revalidates every 900 seconds (15 minutes)
  * Cache key: community-gallery-record-{name}
  */
 export function getCommunityGalleryRecord(name: string): Promise<CommunityGallery | null> {
 	return unstable_cache(async () => fetchCommunityGalleryRecord(name), [`community-gallery-record-${name}`], {
-		revalidate: 21600,
+		revalidate: 900,
 		tags: ["community-gallery", "community-gallery-record"],
 	})()
 }

@@ -8,8 +8,6 @@ import { useEffect, useState } from "react"
 import { LoginModal } from "@/components/login-modal"
 import { ThemeSwitcher } from "@/components/theme-switcher"
 import { REPO_NAME, REPO_PATH } from "@/constants"
-import { getIconsArray } from "@/lib/api"
-import { getExternalIcons } from "@/lib/external-icons"
 import { pb } from "@/lib/pb"
 import { resetPostHogIdentity } from "@/lib/posthog-utils"
 import type { IconWithName } from "@/types/icons"
@@ -48,8 +46,11 @@ export function Header() {
 	useEffect(() => {
 		async function loadIcons() {
 			try {
-				const [native, external] = await Promise.all([getIconsArray(), getExternalIcons()])
-				setIconsData([...native, ...external])
+				const response = await fetch("/api/icons/search", { credentials: "omit" })
+				if (!response.ok) throw new Error(`HTTP ${response.status}`)
+				const data = await response.json()
+				if (!Array.isArray(data)) throw new Error("Invalid response shape")
+				setIconsData(data)
 				setIsLoaded(true)
 			} catch (error) {
 				console.error("Failed to load icons:", error)

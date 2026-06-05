@@ -1,3 +1,5 @@
+export const revalidate = 900
+
 import { HeroSection } from "@/components/hero"
 import { RecentlyAddedIcons } from "@/components/recently-added-icons"
 import { REPO_NAME, WEB_URL } from "@/constants"

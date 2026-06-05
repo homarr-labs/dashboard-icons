@@ -9,7 +9,9 @@ import type { AuthorData, Icon, IconFile, IconWithName, NativeIconRecord } from 
  */
 export async function getAllIcons(): Promise<IconFile> {
 	try {
-		const response = await fetch(METADATA_URL)
+		const response = await fetch(METADATA_URL, {
+			next: { revalidate: 900, tags: ["native-icons"] },
+		})
 
 		if (!response.ok) {
 			throw new ApiError(`Failed to fetch icons: ${response.statusText}`, response.status)
