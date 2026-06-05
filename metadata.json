@@ -44497,5 +44497,22 @@
             "light": "matlab-wordmark-light",
             "dark": "matlab-wordmark-dark"
         }
+    },
+    "odysseus": {
+        "base": "svg",
+        "aliases": [
+            "AI"
+        ],
+        "categories": [
+            "tools",
+            "utility"
+        ],
+        "update": {
+            "timestamp": "2026-06-05T12:01:21.900Z",
+            "author": {
+                "id": 91204754,
+                "login": "ArthurBilyk02"
+            }
+        }
     }
 }
