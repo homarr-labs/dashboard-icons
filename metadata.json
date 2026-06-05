@@ -44462,5 +44462,19 @@
             "light": "wikimedia-light",
             "dark": "wikimedia-dark"
         }
+    },
+    "w3c": {
+        "base": "svg",
+        "aliases": [
+            "World Wide Web Consortium"
+        ],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-06-05T12:01:16.168Z",
+            "author": {
+                "id": "sowxli2ysgkofo9",
+                "name": "0xb0ec1d"
+            }
+        }
     }
 }
