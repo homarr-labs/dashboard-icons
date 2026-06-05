@@ -44300,5 +44300,19 @@
                 "login": "paulo-roger"
             }
         }
+    },
+    "bookorbit": {
+        "base": "png",
+        "aliases": [],
+        "categories": [
+            "media"
+        ],
+        "update": {
+            "timestamp": "2026-06-05T12:00:52.999Z",
+            "author": {
+                "id": 1108200,
+                "login": "rgooler"
+            }
+        }
     }
 }
