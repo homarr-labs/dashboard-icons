@@ -44393,5 +44393,22 @@
             "light": "statuspage-wordmark-light",
             "dark": "statuspage-wordmark-dark"
         }
+    },
+    "anikage": {
+        "base": "png",
+        "aliases": [
+            "anikage",
+            "anime"
+        ],
+        "categories": [
+            "entertainment"
+        ],
+        "update": {
+            "timestamp": "2026-06-05T12:01:05.651Z",
+            "author": {
+                "id": 36254780,
+                "login": "AyrtonAlbuquerque"
+            }
+        }
     }
 }
