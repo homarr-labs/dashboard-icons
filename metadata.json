@@ -44442,5 +44442,25 @@
         "wordmark": {
             "light": "wikidata-wordmark-light"
         }
+    },
+    "wikimedia": {
+        "base": "svg",
+        "aliases": [
+            "Wikipedia"
+        ],
+        "categories": [
+            "media"
+        ],
+        "update": {
+            "timestamp": "2026-06-05T12:01:13.851Z",
+            "author": {
+                "id": "sowxli2ysgkofo9",
+                "name": "0xb0ec1d"
+            }
+        },
+        "colors": {
+            "light": "wikimedia-light",
+            "dark": "wikimedia-dark"
+        }
     }
 }
