@@ -44554,5 +44554,25 @@
         "wordmark": {
             "light": "apache-jena-wordmark-light"
         }
+    },
+    "anaconda": {
+        "base": "svg",
+        "aliases": [
+            "Conda"
+        ],
+        "categories": [
+            "development"
+        ],
+        "update": {
+            "timestamp": "2026-06-05T12:01:33.060Z",
+            "author": {
+                "id": "sowxli2ysgkofo9",
+                "name": "0xb0ec1d"
+            }
+        },
+        "wordmark": {
+            "light": "anaconda-wordmark-light",
+            "dark": "anaconda-wordmark-dark"
+        }
     }
 }
