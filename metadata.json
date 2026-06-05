@@ -44476,5 +44476,26 @@
                 "name": "0xb0ec1d"
             }
         }
+    },
+    "matlab": {
+        "base": "png",
+        "aliases": [
+            "MathWorks MATLAB",
+            "Matrix Laboratory"
+        ],
+        "categories": [
+            "development"
+        ],
+        "update": {
+            "timestamp": "2026-06-05T12:01:19.540Z",
+            "author": {
+                "id": "sowxli2ysgkofo9",
+                "name": "0xb0ec1d"
+            }
+        },
+        "wordmark": {
+            "light": "matlab-wordmark-light",
+            "dark": "matlab-wordmark-dark"
+        }
     }
 }
