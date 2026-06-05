@@ -44314,5 +44314,23 @@
                 "login": "rgooler"
             }
         }
+    },
+    "pkl": {
+        "base": "svg",
+        "aliases": [
+            "pickle",
+            "Apple pkl",
+            "Pkl Configuration Language"
+        ],
+        "categories": [
+            "development"
+        ],
+        "update": {
+            "timestamp": "2026-06-05T12:00:55.373Z",
+            "author": {
+                "id": "sowxli2ysgkofo9",
+                "name": "0xb0ec1d"
+            }
+        }
     }
 }
