@@ -44266,5 +44266,21 @@
                 "name": "ztsmith2"
             }
         }
+    },
+    "animekage": {
+        "base": "png",
+        "aliases": [
+            "anikage"
+        ],
+        "categories": [
+            "entertainment"
+        ],
+        "update": {
+            "timestamp": "2026-06-05T12:00:47.963Z",
+            "author": {
+                "id": 36254780,
+                "login": "AyrtonAlbuquerque"
+            }
+        }
     }
 }
