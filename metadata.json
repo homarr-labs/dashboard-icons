@@ -44254,5 +44254,17 @@
                 "login": "ahm0xc"
             }
         }
+    },
+    "dockerhand": {
+        "base": "png",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-06-05T12:00:45.335Z",
+            "author": {
+                "id": "ux0ut1bjpvhv7w0",
+                "name": "ztsmith2"
+            }
+        }
     }
 }
