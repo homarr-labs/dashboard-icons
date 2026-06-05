@@ -13773,13 +13773,19 @@
     "healthchecks": {
         "base": "svg",
         "aliases": [],
-        "categories": [],
+        "categories": [
+            "monitoring"
+        ],
         "update": {
-            "timestamp": "2023-04-13T13:56:18Z",
+            "timestamp": "2026-06-05T12:01:25.031Z",
             "author": {
-                "id": 71191962,
-                "name": "walkxcode"
+                "id": 1039538,
+                "login": "heri333"
             }
+        },
+        "colors": {
+            "light": "healthchecks-light",
+            "dark": "healthchecks-dark"
         }
     },
     "nowshowing": {
