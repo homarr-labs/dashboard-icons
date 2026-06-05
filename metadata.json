@@ -44242,5 +44242,17 @@
             "light": "help-scout-light",
             "dark": "help-scout-dark"
         }
+    },
+    "kaboai": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-06-05T12:00:42.649Z",
+            "author": {
+                "id": 110373938,
+                "login": "ahm0xc"
+            }
+        }
     }
 }
