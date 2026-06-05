@@ -44410,5 +44410,19 @@
                 "login": "AyrtonAlbuquerque"
             }
         }
+    },
+    "eclipse": {
+        "base": "png",
+        "aliases": [],
+        "categories": [
+            "development"
+        ],
+        "update": {
+            "timestamp": "2026-06-05T12:01:08.011Z",
+            "author": {
+                "id": 161776524,
+                "login": "ittoogami"
+            }
+        }
     }
 }
