@@ -22158,11 +22158,15 @@
         "aliases": [],
         "categories": [],
         "update": {
-            "timestamp": "2022-08-16T17:22:56Z",
+            "timestamp": "2026-06-09T13:05:09.349Z",
             "author": {
-                "id": 71191962,
-                "name": "walkxcode"
+                "id": 1039538,
+                "login": "heri333"
             }
+        },
+        "colors": {
+            "light": "paperless-light",
+            "dark": "paperless-dark"
         }
     },
     "nutanix": {
