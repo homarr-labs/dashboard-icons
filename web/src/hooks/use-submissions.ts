@@ -110,6 +110,51 @@ export function useBulkApproveSubmissions() {
 	})
 }
 
+export function useBulkRejectSubmissions() {
+	const queryClient = useQueryClient()
+
+	return useMutation({
+		mutationFn: async ({ submissionIds, adminComment }: { submissionIds: string[]; adminComment?: string }) => {
+			const results = await Promise.allSettled(
+				submissionIds.map((submissionId) =>
+					pb.collection("submissions").update(
+						submissionId,
+						{
+							status: "rejected",
+							approved_by: pb.authStore.record?.id || "",
+							admin_comment: adminComment || "",
+						},
+						{ requestKey: null },
+					),
+				),
+			)
+			const fulfilled = results.filter((r) => r.status === "fulfilled")
+			const rejected = results.filter((r) => r.status === "rejected")
+			if (rejected.length > 0 && fulfilled.length === 0) {
+				throw new Error(`All ${rejected.length} rejections failed`)
+			}
+			return { fulfilled: fulfilled.length, rejected: rejected.length, total: results.length }
+		},
+		onSuccess: async (data) => {
+			queryClient.invalidateQueries({ queryKey: submissionKeys.lists() })
+			await revalidateAllSubmissions()
+			if (data.rejected > 0) {
+				toast.warning(`${data.fulfilled} of ${data.total} submissions rejected, ${data.rejected} failed`)
+			} else {
+				toast.success(`${data.total} submission${data.total > 1 ? "s" : ""} rejected`)
+			}
+		},
+		onError: (error: any) => {
+			console.error("Error bulk rejecting submissions:", error)
+			if (!error.message?.includes("autocancelled") && !error.name?.includes("AbortError")) {
+				toast.error("Failed to reject submissions", {
+					description: error.message || "An error occurred",
+				})
+			}
+		},
+	})
+}
+
 // Reject submission mutation
 export function useRejectSubmission() {
 	const queryClient = useQueryClient()

@@ -15,7 +15,7 @@ import {
 } from "@tanstack/react-table"
 import dayjs from "dayjs"
 import relativeTime from "dayjs/plugin/relativeTime"
-import { CheckCircle2, ChevronDown, ChevronRight, Filter, Github, ImageIcon, Rocket, Search, SortDesc, X } from "lucide-react"
+import { CheckCircle2, ChevronDown, ChevronRight, Filter, Github, ImageIcon, Rocket, Search, SortDesc, X, XCircle } from "lucide-react"
 import * as React from "react"
 import { StatusBadge } from "@/components/status-badge"
 import { SubmissionDetails } from "@/components/submission-details"
@@ -62,11 +62,13 @@ interface SubmissionsDataTableProps {
 	onTriggerWorkflow?: (id: string) => void
 	onBulkTriggerWorkflow?: (ids: string[]) => void
 	onBulkApprove?: (ids: string[]) => void
+	onBulkReject?: (ids: string[]) => void
 	isApproving?: boolean
 	isRejecting?: boolean
 	isTriggeringWorkflow?: boolean
 	isBulkTriggeringWorkflow?: boolean
 	isBulkApproving?: boolean
+	isBulkRejecting?: boolean
 	workflowUrl?: string
 	hideStatusHints?: boolean
 }
@@ -96,11 +98,13 @@ export function SubmissionsDataTable({
 	onTriggerWorkflow,
 	onBulkTriggerWorkflow,
 	onBulkApprove,
+	onBulkReject,
 	isApproving,
 	isRejecting,
 	isTriggeringWorkflow,
 	isBulkTriggeringWorkflow,
 	isBulkApproving,
+	isBulkRejecting,
 	workflowUrl,
 	hideStatusHints,
 }: SubmissionsDataTableProps) {
@@ -400,7 +404,19 @@ export function SubmissionsDataTable({
 	const handleBulkApprove = () => {
 		if (onBulkApprove && selectedPendingIds.length > 0) {
 			onBulkApprove(selectedPendingIds)
-			// Only clear pending selections
+			setRowSelection(() => {
+				const next: RowSelectionState = {}
+				for (const id of selectedApprovedIds) {
+					next[id] = true
+				}
+				return next
+			})
+		}
+	}
+
+	const handleBulkReject = () => {
+		if (onBulkReject && selectedPendingIds.length > 0) {
+			onBulkReject(selectedPendingIds)
 			setRowSelection(() => {
 				const next: RowSelectionState = {}
 				for (const id of selectedApprovedIds) {
@@ -501,6 +517,18 @@ export function SubmissionsDataTable({
 						<Button variant="ghost" size="sm" onClick={() => setRowSelection({})} className="flex-1 sm:flex-none">
 							Clear selection
 						</Button>
+						{selectedPendingIds.length > 0 && onBulkReject && (
+							<Button
+								variant="outline"
+								size="sm"
+								onClick={handleBulkReject}
+								disabled={isBulkRejecting}
+								className="flex-1 sm:flex-none border-red-500/30 text-red-600 hover:bg-red-500/10 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300"
+							>
+								<XCircle className="w-4 h-4 mr-2" />
+								{isBulkRejecting ? "Rejecting..." : `Reject (${selectedPendingIds.length})`}
+							</Button>
+						)}
 						{selectedPendingIds.length > 0 && onBulkApprove && (
 							<Button
 								size="sm"
