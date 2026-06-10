@@ -4451,19 +4451,32 @@
     "homarr": {
         "base": "svg",
         "aliases": [
-            "server-dashboard",
-            "application-launcher"
+            "best-dashboard",
+            "homer",
+            "dashy",
+            "homepage",
+            "glance",
+            "dashboard"
         ],
         "categories": [
-            "Home-Automation",
-            "Server-Panels"
+            "automation",
+            "development",
+            "home-automation",
+            "media",
+            "monitoring",
+            "security",
+            "tools",
+            "utility"
         ],
         "update": {
-            "timestamp": "2022-08-16T17:22:56Z",
+            "timestamp": "2026-06-10T08:31:01.877Z",
             "author": {
-                "id": 71191962,
-                "name": "walkxcode"
+                "id": 49837342,
+                "login": "ajnart"
             }
+        },
+        "wordmark": {
+            "light": "homarr-wordmark-light"
         }
     },
     "powerbi": {
