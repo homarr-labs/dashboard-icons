@@ -44956,5 +44956,28 @@
                 "name": "bac0n"
             }
         }
+    },
+    "nginux": {
+        "base": "png",
+        "aliases": [
+            "NginUX",
+            "ngin-ux"
+        ],
+        "categories": [
+            "automation",
+            "home-automation",
+            "monitoring",
+            "network",
+            "security",
+            "tools",
+            "utility"
+        ],
+        "update": {
+            "timestamp": "2026-06-11T07:55:03.010Z",
+            "author": {
+                "id": 3799525,
+                "login": "UbhiTS"
+            }
+        }
     }
 }
