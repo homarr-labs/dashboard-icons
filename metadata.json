@@ -45172,5 +45172,24 @@
                 "login": "Simply-Jeff"
             }
         }
+    },
+    "panelarr": {
+        "base": "svg",
+        "aliases": [
+            "Homelab media control center"
+        ],
+        "categories": [
+            "monitoring",
+            "storage",
+            "utility",
+            "tools"
+        ],
+        "update": {
+            "timestamp": "2026-06-11T07:55:37.508Z",
+            "author": {
+                "id": 35696174,
+                "login": "tylerstewartt"
+            }
+        }
     }
 }
