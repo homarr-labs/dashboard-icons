@@ -16914,19 +16914,15 @@
         }
     },
     "x": {
-        "base": "svg",
+        "base": "png",
         "aliases": [],
         "categories": [],
         "update": {
-            "timestamp": "2024-10-20T17:24:03Z",
+            "timestamp": "2026-06-11T07:54:35.395Z",
             "author": {
-                "id": 71191962,
-                "name": "walkxcode"
+                "id": "uggppv0e0cqy1wu",
+                "name": "Randy"
             }
-        },
-        "colors": {
-            "dark": "x",
-            "light": "x-light"
         }
     },
     "hashicorp-waypoint": {
