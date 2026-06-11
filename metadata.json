@@ -44716,5 +44716,20 @@
                 "name": "Alpha Network"
             }
         }
+    },
+    "basecamp-5": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "tools",
+            "development"
+        ],
+        "update": {
+            "timestamp": "2026-06-11T07:54:11.277Z",
+            "author": {
+                "id": "1hw38bn88whl5tu",
+                "name": "jzimdars"
+            }
+        }
     }
 }
