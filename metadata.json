@@ -44792,5 +44792,22 @@
                 "login": "Suxsem"
             }
         }
+    },
+    "mousesearch": {
+        "base": "png",
+        "aliases": [],
+        "categories": [
+            "automation",
+            "entertainment",
+            "media",
+            "tools"
+        ],
+        "update": {
+            "timestamp": "2026-06-11T07:54:32.989Z",
+            "author": {
+                "id": 140490930,
+                "login": "BasTrebus"
+            }
+        }
     }
 }
