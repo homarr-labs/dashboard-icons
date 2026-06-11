@@ -45408,5 +45408,23 @@
                 "login": "BlameItOnDevin"
             }
         }
+    },
+    "pdq": {
+        "base": "svg",
+        "aliases": [
+            "PDQ.com",
+            "PDQ"
+        ],
+        "categories": [
+            "tools",
+            "utility"
+        ],
+        "update": {
+            "timestamp": "2026-06-11T07:56:13.660Z",
+            "author": {
+                "id": 233308,
+                "login": "MFKDGAF"
+            }
+        }
     }
 }
