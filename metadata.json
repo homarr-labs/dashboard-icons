@@ -45088,5 +45088,23 @@
                 "login": "knightglyder"
             }
         }
+    },
+    "artifactkeeper": {
+        "base": "png",
+        "aliases": [
+            "artifact-keeper",
+            "artifact keeper"
+        ],
+        "categories": [
+            "storage",
+            "utility"
+        ],
+        "update": {
+            "timestamp": "2026-06-11T07:55:22.354Z",
+            "author": {
+                "id": 30182903,
+                "login": "wixregiga"
+            }
+        }
     }
 }
