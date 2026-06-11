@@ -45359,5 +45359,19 @@
                 "name": "SlicedWater"
             }
         }
+    },
+    "flagstar-": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "finance"
+        ],
+        "update": {
+            "timestamp": "2026-06-11T07:56:04.051Z",
+            "author": {
+                "id": 234868487,
+                "login": "baldeagle66"
+            }
+        }
     }
 }
