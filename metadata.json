@@ -44858,5 +44858,17 @@
                 "login": "Oblisk87"
             }
         }
+    },
+    "pymc-repeater": {
+        "base": "png",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-06-11T07:54:46.743Z",
+            "author": {
+                "id": "ux0ut1bjpvhv7w0",
+                "name": "ztsmith2"
+            }
+        }
     }
 }
