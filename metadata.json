@@ -44731,5 +44731,24 @@
                 "name": "jzimdars"
             }
         }
+    },
+    "remuxcode": {
+        "base": "svg",
+        "aliases": [
+            "remuXcode"
+        ],
+        "categories": [
+            "automation",
+            "media",
+            "tools",
+            "utility"
+        ],
+        "update": {
+            "timestamp": "2026-06-11T07:54:13.672Z",
+            "author": {
+                "id": 93874500,
+                "login": "sirjmann92"
+            }
+        }
     }
 }
