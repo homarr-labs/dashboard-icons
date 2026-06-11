@@ -45373,5 +45373,25 @@
                 "login": "baldeagle66"
             }
         }
+    },
+    "hindsight": {
+        "base": "png",
+        "aliases": [
+            "hindsight",
+            "vectorize",
+            "vectorize-io"
+        ],
+        "categories": [
+            "development",
+            "automation",
+            "tools"
+        ],
+        "update": {
+            "timestamp": "2026-06-11T07:56:06.415Z",
+            "author": {
+                "id": 615742,
+                "login": "leandrotoledo"
+            }
+        }
     }
 }
