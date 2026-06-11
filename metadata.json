@@ -45345,5 +45345,19 @@
                 "name": "0xb0ec1d"
             }
         }
+    },
+    "gumroad": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "media"
+        ],
+        "update": {
+            "timestamp": "2026-06-11T07:56:01.509Z",
+            "author": {
+                "id": "rnvudr4a1qlmvhg",
+                "name": "SlicedWater"
+            }
+        }
     }
 }
