@@ -44882,5 +44882,21 @@
                 "login": "vkoufas"
             }
         }
+    },
+    "bluebubbles": {
+        "base": "png",
+        "aliases": [
+            "blue-bubbles"
+        ],
+        "categories": [
+            "social"
+        ],
+        "update": {
+            "timestamp": "2026-06-11T07:54:51.415Z",
+            "author": {
+                "id": "enrixe6bs7msgn8",
+                "name": "cdnutter"
+            }
+        }
     }
 }
