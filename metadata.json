@@ -45020,5 +45020,20 @@
                 "login": "ItalianSquirel"
             }
         }
+    },
+    "acars-hub": {
+        "base": "svg",
+        "aliases": [
+            "ACARS Hub",
+            "acarshub"
+        ],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-06-11T07:55:12.043Z",
+            "author": {
+                "id": 47609385,
+                "login": "jimstrang"
+            }
+        }
     }
 }
