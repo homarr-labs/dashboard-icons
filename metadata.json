@@ -44762,5 +44762,17 @@
                 "login": "AiSpliceLab"
             }
         }
+    },
+    "cheogram": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-06-11T07:54:18.356Z",
+            "author": {
+                "id": 91382274,
+                "login": "wallaby-gopher"
+            }
+        }
     }
 }
