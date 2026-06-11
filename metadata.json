@@ -44805,5 +44805,22 @@
                 "login": "BasTrebus"
             }
         }
+    },
+    "emojipedia": {
+        "base": "png",
+        "aliases": [],
+        "categories": [
+            "media",
+            "utility",
+            "social",
+            "database"
+        ],
+        "update": {
+            "timestamp": "2026-06-11T07:54:37.675Z",
+            "author": {
+                "id": "37hy54d7zhxjrvy",
+                "name": "richy22392"
+            }
+        }
     }
 }
