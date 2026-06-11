@@ -45008,5 +45008,17 @@
                 "login": "RyanMelena"
             }
         }
+    },
+    "downtify": {
+        "base": "png",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-06-11T07:55:09.789Z",
+            "author": {
+                "id": 50847801,
+                "login": "ItalianSquirel"
+            }
+        }
     }
 }
