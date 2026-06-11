@@ -13999,14 +13999,14 @@
         }
     },
     "technitium": {
-        "base": "png",
+        "base": "svg",
         "aliases": [],
         "categories": [],
         "update": {
-            "timestamp": "2025-01-07T17:54:03Z",
+            "timestamp": "2026-06-11T07:55:35.275Z",
             "author": {
-                "id": 71191962,
-                "name": "walkxcode"
+                "id": 163457051,
+                "login": "Borushii"
             }
         }
     },
