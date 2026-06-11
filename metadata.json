@@ -45329,5 +45329,21 @@
             "light": "webflow-light",
             "dark": "webflow-dark"
         }
+    },
+    "perl": {
+        "base": "svg",
+        "aliases": [
+            "Perl Programming Language"
+        ],
+        "categories": [
+            "development"
+        ],
+        "update": {
+            "timestamp": "2026-06-11T07:55:59.248Z",
+            "author": {
+                "id": "sowxli2ysgkofo9",
+                "name": "0xb0ec1d"
+            }
+        }
     }
 }
