@@ -45277,5 +45277,24 @@
                 "name": "0xb0ec1d"
             }
         }
+    },
+    "fabricmc": {
+        "base": "png",
+        "aliases": [
+            "minecraft",
+            "fabricmc",
+            "modded",
+            "server"
+        ],
+        "categories": [
+            "gaming"
+        ],
+        "update": {
+            "timestamp": "2026-06-11T07:55:51.561Z",
+            "author": {
+                "id": 156559600,
+                "login": "PRR628"
+            }
+        }
     }
 }
