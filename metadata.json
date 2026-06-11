@@ -45296,5 +45296,20 @@
                 "login": "PRR628"
             }
         }
+    },
+    "tuya-smart-inc": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-06-11T07:55:54.158Z",
+            "author": {
+                "id": 41442410,
+                "login": "rkoktan"
+            }
+        },
+        "colors": {
+            "dark": "tuya-smart-inc-dark"
+        }
     }
 }
