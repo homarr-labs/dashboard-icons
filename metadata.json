@@ -45426,5 +45426,27 @@
                 "login": "MFKDGAF"
             }
         }
+    },
+    "owlrelay": {
+        "base": "svg",
+        "aliases": [
+            "email"
+        ],
+        "categories": [
+            "utility",
+            "automation",
+            "cloud",
+            "home-automation"
+        ],
+        "update": {
+            "timestamp": "2026-06-11T07:56:16.216Z",
+            "author": {
+                "id": 42066829,
+                "login": "RockZors"
+            }
+        },
+        "colors": {
+            "light": "owlrelay-light"
+        }
     }
 }
