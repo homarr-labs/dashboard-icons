@@ -45210,5 +45210,26 @@
         "colors": {
             "dark": "dencode-dark"
         }
+    },
+    "may": {
+        "base": "svg",
+        "aliases": [
+            "may-fuel-logger",
+            "may-vehicle-manager"
+        ],
+        "categories": [
+            "tools",
+            "utility",
+            "monitoring",
+            "automation",
+            "finance"
+        ],
+        "update": {
+            "timestamp": "2026-06-11T07:55:42.436Z",
+            "author": {
+                "id": 42467,
+                "login": "icaroscherma"
+            }
+        }
     }
 }
