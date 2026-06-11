@@ -45151,5 +45151,26 @@
             "light": "todostuff-wordmark-light",
             "dark": "todostuff-wordmark-dark"
         }
+    },
+    "waves": {
+        "base": "svg",
+        "aliases": [
+            "waves-bin",
+            "WAVES",
+            "wave",
+            "wwave"
+        ],
+        "categories": [
+            "media",
+            "utility",
+            "tools"
+        ],
+        "update": {
+            "timestamp": "2026-06-11T07:55:32.982Z",
+            "author": {
+                "id": 150220193,
+                "login": "Simply-Jeff"
+            }
+        }
     }
 }
