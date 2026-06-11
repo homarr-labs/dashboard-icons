@@ -44644,5 +44644,21 @@
                 "login": "jibran444"
             }
         }
+    },
+    "shadowbroker": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "monitoring",
+            "utility",
+            "tools"
+        ],
+        "update": {
+            "timestamp": "2026-06-11T07:53:52.409Z",
+            "author": {
+                "id": 65083043,
+                "login": "Atchoom51"
+            }
+        }
     }
 }
