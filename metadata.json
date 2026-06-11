@@ -44774,5 +44774,23 @@
                 "login": "wallaby-gopher"
             }
         }
+    },
+    "moonfire-nvr": {
+        "base": "png",
+        "aliases": [
+            "moonfire"
+        ],
+        "categories": [
+            "security",
+            "media",
+            "home-automation"
+        ],
+        "update": {
+            "timestamp": "2026-06-11T07:54:30.673Z",
+            "author": {
+                "id": 830773,
+                "login": "Suxsem"
+            }
+        }
     }
 }
