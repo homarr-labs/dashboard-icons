@@ -45311,5 +45311,23 @@
         "colors": {
             "dark": "tuya-smart-inc-dark"
         }
+    },
+    "webflow": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "development"
+        ],
+        "update": {
+            "timestamp": "2026-06-11T07:55:57.028Z",
+            "author": {
+                "id": 34623886,
+                "login": "mrbeandev"
+            }
+        },
+        "colors": {
+            "light": "webflow-light",
+            "dark": "webflow-dark"
+        }
     }
 }
