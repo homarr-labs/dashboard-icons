@@ -45448,5 +45448,29 @@
         "colors": {
             "light": "owlrelay-light"
         }
+    },
+    "cloud-native-pg": {
+        "base": "svg",
+        "aliases": [
+            "cpng",
+            "cloud-native-pg"
+        ],
+        "categories": [
+            "cloud",
+            "development",
+            "database",
+            "tools",
+            "storage"
+        ],
+        "update": {
+            "timestamp": "2026-06-11T07:56:18.848Z",
+            "author": {
+                "id": 1903689,
+                "login": "CYBERBUGJR"
+            }
+        },
+        "colors": {
+            "light": "cloud-native-pg-light"
+        }
     }
 }
