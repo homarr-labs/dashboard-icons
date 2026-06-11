@@ -44846,5 +44846,17 @@
                 "login": "Aflier"
             }
         }
+    },
+    "freedom": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-06-11T07:54:44.291Z",
+            "author": {
+                "id": 38551660,
+                "login": "Oblisk87"
+            }
+        }
     }
 }
