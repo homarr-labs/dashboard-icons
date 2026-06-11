@@ -44678,5 +44678,43 @@
                 "login": "GardenOfWyers"
             }
         }
+    },
+    "alpha-network": {
+        "base": "png",
+        "aliases": [
+            "Alpha Net",
+            "AI Network",
+            "Agent Network",
+            "Proof of Intelligence",
+            "PoI",
+            "AGI Economy",
+            "Autonomous AI",
+            "Decentralized AI",
+            "Blockchain AI",
+            "AI Agents",
+            "Alpha Network Protocol",
+            "Intelligence Network",
+            "Agent Economy",
+            "Decentralized AI Network",
+            "AI Infrastructure"
+        ],
+        "categories": [
+            "automation",
+            "cloud",
+            "database",
+            "development",
+            "monitoring",
+            "network",
+            "security",
+            "tools",
+            "utility"
+        ],
+        "update": {
+            "timestamp": "2026-06-11T07:54:08.827Z",
+            "author": {
+                "id": "dnbf2mgz9jfknu5",
+                "name": "Alpha Network"
+            }
+        }
     }
 }
