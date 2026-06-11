@@ -44991,5 +44991,22 @@
                 "login": "RoyalKiwi"
             }
         }
+    },
+    "rti-control": {
+        "base": "png",
+        "aliases": [
+            "rti"
+        ],
+        "categories": [
+            "automation",
+            "home-automation"
+        ],
+        "update": {
+            "timestamp": "2026-06-11T07:55:07.532Z",
+            "author": {
+                "id": 6635523,
+                "login": "RyanMelena"
+            }
+        }
     }
 }
