@@ -45052,5 +45052,25 @@
                 "login": "wsu2059q"
             }
         }
+    },
+    "crashplan": {
+        "base": "png",
+        "aliases": [
+            "crash-plan"
+        ],
+        "categories": [
+            "cloud",
+            "storage"
+        ],
+        "update": {
+            "timestamp": "2026-06-11T07:55:16.945Z",
+            "author": {
+                "id": 6635523,
+                "login": "RyanMelena"
+            }
+        },
+        "colors": {
+            "dark": "crashplan-dark"
+        }
     }
 }
