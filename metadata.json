@@ -45231,5 +45231,17 @@
                 "login": "icaroscherma"
             }
         }
+    },
+    "fit-dashboard": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-06-11T07:55:44.461Z",
+            "author": {
+                "id": 15949162,
+                "login": "quentains"
+            }
+        }
     }
 }
