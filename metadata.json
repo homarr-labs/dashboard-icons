@@ -45472,5 +45472,28 @@
         "colors": {
             "light": "cloud-native-pg-light"
         }
+    },
+    "kyverno": {
+        "base": "svg",
+        "aliases": [
+            "kyverno",
+            "policy"
+        ],
+        "categories": [
+            "cloud",
+            "automation",
+            "monitoring",
+            "security"
+        ],
+        "update": {
+            "timestamp": "2026-06-11T07:56:21.797Z",
+            "author": {
+                "id": 1903689,
+                "login": "CYBERBUGJR"
+            }
+        },
+        "wordmark": {
+            "light": "kyverno-wordmark-light"
+        }
     }
 }
