@@ -45120,5 +45120,17 @@
                 "login": "santanu-ganguly"
             }
         }
+    },
+    "3xui": {
+        "base": "png",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-06-11T07:55:27.489Z",
+            "author": {
+                "id": 64997243,
+                "login": "deniscerri"
+            }
+        }
     }
 }
