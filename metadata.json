@@ -45258,5 +45258,24 @@
                 "name": "snarf"
             }
         }
+    },
+    "wdqs": {
+        "base": "png",
+        "aliases": [
+            "Wikidata Query Service",
+            "Wikipedia WIkidata",
+            "Wikimedia Wikidata",
+            "Wikidata"
+        ],
+        "categories": [
+            "database"
+        ],
+        "update": {
+            "timestamp": "2026-06-11T07:55:49.333Z",
+            "author": {
+                "id": "sowxli2ysgkofo9",
+                "name": "0xb0ec1d"
+            }
+        }
     }
 }
