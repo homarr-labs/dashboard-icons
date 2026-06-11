@@ -45495,5 +45495,21 @@
         "wordmark": {
             "light": "kyverno-wordmark-light"
         }
+    },
+    "celery": {
+        "base": "png",
+        "aliases": [],
+        "categories": [
+            "cloud",
+            "tools",
+            "utility"
+        ],
+        "update": {
+            "timestamp": "2026-06-11T07:56:24.079Z",
+            "author": {
+                "id": "1m185810eedvrs8",
+                "name": "jsparrowio"
+            }
+        }
     }
 }
