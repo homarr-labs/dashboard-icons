@@ -45243,5 +45243,20 @@
                 "login": "quentains"
             }
         }
+    },
+    "tuliprox": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "media",
+            "tools"
+        ],
+        "update": {
+            "timestamp": "2026-06-11T07:55:46.779Z",
+            "author": {
+                "id": "rmxzckbc0lugdto",
+                "name": "snarf"
+            }
+        }
     }
 }

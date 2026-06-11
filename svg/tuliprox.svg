@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="24mm"
+   height="24mm"
+   viewBox="0 0 24 24"
+   version="1.1"
+   id="svg35651"
+   sodipodi:docname="tuliprox-logo.svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview35653"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     showgrid="false"/>
+  <defs
+     id="defs35648" />
+  <g id="layer1">
+    <g id="g35761" transform="matrix(1.0170694,0,0,1,2.9878159e-6,0)">
+      <path
+         id="rect23408-2"
+         style="fill:#1d7abc;fill-opacity:1;stroke:none;stroke-width:3.45938;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         d="M 53.261719,0.00195313 C 52.815074,-5.9057419e-4 52.371574,-2.5083583e-4 51.931641,0.00390625 38.302252,0.132582 27.864693,3.4283664 20.078125,8.3359375 9.9033919,14.748677 4.2197985,24.017747 1.6699219,33.332031 16.976314,30.210342 28.626155,31.717081 39.283203,35.867188 V 11.541016 c 0,-3.9695705 2.711043,-5.0378948 5.646485,-3.1914066 L 67.376953,22.470703 c 0.214424,-0.296341 0.428375,-0.593525 0.630859,-0.890625 C 70.956517,16.783627 73.767604,9.370414 75.683594,2.5585938 67.417926,0.83655448 59.961388,0.04010861 53.261719,0.00195313 Z M 17.695312,40.179688 C 12.528646,40.204254 6.7820396,40.963193 0.08007812,42.595703 -0.7613144,57.114222 4.9749338,71.066217 17.21875,80.265625 29.718582,89.657399 49.304611,94.051663 75.833984,87.775391 74.120605,80.673328 70.621991,73.5743 65.802734,67.105469 L 44.929688,80.736328 c -2.149645,1.165213 -5.646485,-0.281702 -5.646485,-3.847656 V 45.492188 c -6.762016,-3.10707 -14.065314,-5.027101 -21.587891,-5.3125 z"
+         transform="scale(0.26458333)" />
+      <path
+         style="fill:#32ace3;fill-opacity:1;stroke:none;stroke-width:1.30231;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         d="M 11.672995,5.4186515 V 18.544714 c 0,0.716275 0.702735,1.006737 1.134525,0.772684 l 10.558611,-6.89565 c 0.321464,-0.209944 0.293975,-0.7332 0,-1.002418 L 12.80752,4.777535 C 12.217893,4.4066403 11.672995,4.6213007 11.672995,5.4186515 Z"
+         id="path1280-5-1"
+         sodipodi:nodetypes="sscscss" />
+    </g>
+  </g>
+</svg>
