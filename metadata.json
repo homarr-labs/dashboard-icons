@@ -44870,5 +44870,17 @@
                 "name": "ztsmith2"
             }
         }
+    },
+    "clonarr": {
+        "base": "png",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-06-11T07:54:49.072Z",
+            "author": {
+                "id": 202700731,
+                "login": "vkoufas"
+            }
+        }
     }
 }
