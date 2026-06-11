@@ -24854,17 +24854,18 @@
         }
     },
     "r": {
-        "base": "svg",
-        "aliases": [],
+        "base": "png",
+        "aliases": [
+            "R programming language"
+        ],
         "categories": [
-            "Programming-Languages",
-            "Developer-Tools"
+            "development"
         ],
         "update": {
-            "timestamp": "2023-04-13T13:56:18Z",
+            "timestamp": "2026-06-11T07:56:08.973Z",
             "author": {
-                "id": 71191962,
-                "name": "walkxcode"
+                "id": "sowxli2ysgkofo9",
+                "name": "0xb0ec1d"
             }
         }
     },
