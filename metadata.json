@@ -44660,5 +44660,23 @@
                 "login": "Atchoom51"
             }
         }
+    },
+    "solus-virtual-manager": {
+        "base": "png",
+        "aliases": [],
+        "categories": [
+            "cloud",
+            "tools",
+            "utility",
+            "network",
+            "monitoring"
+        ],
+        "update": {
+            "timestamp": "2026-06-11T07:53:55.065Z",
+            "author": {
+                "id": 43160823,
+                "login": "GardenOfWyers"
+            }
+        }
     }
 }
