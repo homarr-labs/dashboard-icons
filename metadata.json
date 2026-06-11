@@ -44937,5 +44937,24 @@
                 "name": "imbark"
             }
         }
+    },
+    "network-optimizer-logo": {
+        "base": "png",
+        "aliases": [],
+        "categories": [
+            "network",
+            "monitoring",
+            "security",
+            "tools",
+            "utility",
+            "database"
+        ],
+        "update": {
+            "timestamp": "2026-06-11T07:55:00.479Z",
+            "author": {
+                "id": "7sk02tg1p59jb8i",
+                "name": "bac0n"
+            }
+        }
     }
 }
