@@ -44913,5 +44913,17 @@
                 "name": "ValleBL"
             }
         }
+    },
+    "bettershift": {
+        "base": "png",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-06-11T07:54:55.973Z",
+            "author": {
+                "id": 291263868,
+                "login": "mr-shadow00"
+            }
+        }
     }
 }
