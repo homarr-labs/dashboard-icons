@@ -45394,5 +45394,19 @@
                 "login": "leandrotoledo"
             }
         }
+    },
+    "flatcar": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "cloud"
+        ],
+        "update": {
+            "timestamp": "2026-06-11T07:56:11.220Z",
+            "author": {
+                "id": 65427471,
+                "login": "BlameItOnDevin"
+            }
+        }
     }
 }
