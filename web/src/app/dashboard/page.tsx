@@ -19,6 +19,7 @@ import {
 	useApproveSubmission,
 	useAuth,
 	useBulkApproveSubmissions,
+	useBulkRejectSubmissions,
 	useBulkTriggerWorkflow,
 	useRejectSubmission,
 	useSubmissions,
@@ -94,6 +95,7 @@ export default function DashboardPage() {
 	const workflowMutation = useTriggerWorkflow()
 	const bulkWorkflowMutation = useBulkTriggerWorkflow()
 	const bulkApproveMutation = useBulkApproveSubmissions()
+	const bulkRejectMutation = useBulkRejectSubmissions()
 
 	const [workflowUrl, setWorkflowUrl] = React.useState<string | undefined>()
 	const [approveDialogOpen, setApproveDialogOpen] = React.useState(false)
@@ -102,6 +104,9 @@ export default function DashboardPage() {
 	const [bulkApproveDialogOpen, setBulkApproveDialogOpen] = React.useState(false)
 	const [bulkApprovingIds, setBulkApprovingIds] = React.useState<string[]>([])
 	const [bulkApproveAdminComment, setBulkApproveAdminComment] = React.useState("")
+	const [bulkRejectDialogOpen, setBulkRejectDialogOpen] = React.useState(false)
+	const [bulkRejectingIds, setBulkRejectingIds] = React.useState<string[]>([])
+	const [bulkRejectAdminComment, setBulkRejectAdminComment] = React.useState("")
 	const [rejectDialogOpen, setRejectDialogOpen] = React.useState(false)
 	const [rejectingSubmissionId, setRejectingSubmissionId] = React.useState<string | null>(null)
 	const [adminComment, setAdminComment] = React.useState("")
@@ -206,6 +211,27 @@ export default function DashboardPage() {
 						setBulkApproveDialogOpen(false)
 						setBulkApprovingIds([])
 						setBulkApproveAdminComment("")
+					},
+				},
+			)
+		}
+	}
+
+	const handleBulkReject = (submissionIds: string[]) => {
+		setBulkRejectingIds(submissionIds)
+		setBulkRejectAdminComment("")
+		setBulkRejectDialogOpen(true)
+	}
+
+	const handleBulkRejectSubmit = () => {
+		if (bulkRejectingIds.length > 0) {
+			bulkRejectMutation.mutate(
+				{ submissionIds: [...bulkRejectingIds], adminComment: bulkRejectAdminComment.trim() || undefined },
+				{
+					onSuccess: () => {
+						setBulkRejectDialogOpen(false)
+						setBulkRejectingIds([])
+						setBulkRejectAdminComment("")
 					},
 				},
 			)
@@ -329,11 +355,13 @@ export default function DashboardPage() {
 										onTriggerWorkflow={handleTriggerWorkflow}
 										onBulkTriggerWorkflow={handleBulkTriggerWorkflow}
 										onBulkApprove={handleBulkApprove}
+										onBulkReject={handleBulkReject}
 										isApproving={approveMutation.isPending}
 										isRejecting={rejectMutation.isPending}
 										isTriggeringWorkflow={workflowMutation.isPending}
 										isBulkTriggeringWorkflow={bulkWorkflowMutation.isPending}
 										isBulkApproving={bulkApproveMutation.isPending}
+										isBulkRejecting={bulkRejectMutation.isPending}
 										workflowUrl={workflowUrl}
 										hideStatusHints
 									/>
@@ -353,11 +381,13 @@ export default function DashboardPage() {
 										onTriggerWorkflow={handleTriggerWorkflow}
 										onBulkTriggerWorkflow={handleBulkTriggerWorkflow}
 										onBulkApprove={handleBulkApprove}
+										onBulkReject={handleBulkReject}
 										isApproving={approveMutation.isPending}
 										isRejecting={rejectMutation.isPending}
 										isTriggeringWorkflow={workflowMutation.isPending}
 										isBulkTriggeringWorkflow={bulkWorkflowMutation.isPending}
 										isBulkApproving={bulkApproveMutation.isPending}
+										isBulkRejecting={bulkRejectMutation.isPending}
 										workflowUrl={workflowUrl}
 										hideStatusHints
 									/>
@@ -377,11 +407,13 @@ export default function DashboardPage() {
 										onTriggerWorkflow={handleTriggerWorkflow}
 										onBulkTriggerWorkflow={handleBulkTriggerWorkflow}
 										onBulkApprove={handleBulkApprove}
+										onBulkReject={handleBulkReject}
 										isApproving={approveMutation.isPending}
 										isRejecting={rejectMutation.isPending}
 										isTriggeringWorkflow={workflowMutation.isPending}
 										isBulkTriggeringWorkflow={bulkWorkflowMutation.isPending}
 										isBulkApproving={bulkApproveMutation.isPending}
+										isBulkRejecting={bulkRejectMutation.isPending}
 										workflowUrl={workflowUrl}
 									/>
 								)}
@@ -429,6 +461,20 @@ export default function DashboardPage() {
 					onCommentChange={setBulkApproveAdminComment}
 					onSubmit={handleBulkApproveSubmit}
 					isPending={bulkApproveMutation.isPending}
+				/>
+				<BulkRejectDialog
+					isMobile={isMobile}
+					open={bulkRejectDialogOpen}
+					onClose={() => {
+						setBulkRejectDialogOpen(false)
+						setBulkRejectingIds([])
+						setBulkRejectAdminComment("")
+					}}
+					count={bulkRejectingIds.length}
+					comment={bulkRejectAdminComment}
+					onCommentChange={setBulkRejectAdminComment}
+					onSubmit={handleBulkRejectSubmit}
+					isPending={bulkRejectMutation.isPending}
 				/>
 			</>
 		)
@@ -747,6 +793,90 @@ function BulkApproveDialog({
 					</Button>
 					<Button onClick={onSubmit} disabled={isPending}>
 						{isPending ? "Approving..." : label}
+					</Button>
+				</DialogFooter>
+			</DialogContent>
+		</Dialog>
+	)
+}
+
+function BulkRejectDialog({
+	isMobile,
+	open,
+	onClose,
+	count,
+	comment,
+	onCommentChange,
+	onSubmit,
+	isPending,
+}: {
+	isMobile: boolean
+	open: boolean
+	onClose: () => void
+	count: number
+	comment: string
+	onCommentChange: (v: string) => void
+	onSubmit: () => void
+	isPending: boolean
+}) {
+	const label = `Reject ${count} Submission${count > 1 ? "s" : ""}`
+
+	if (isMobile) {
+		return (
+			<Drawer open={open} onOpenChange={(o) => !o && onClose()}>
+				<DrawerContent>
+					<DrawerHeader className="text-left">
+						<DrawerTitle>{label}</DrawerTitle>
+						<DrawerDescription>All submitters will see the rejection reason.</DrawerDescription>
+					</DrawerHeader>
+					<div className="px-4 pb-2 space-y-2">
+						<Label htmlFor="bulk-reject-comment">Reason</Label>
+						<Textarea
+							id="bulk-reject-comment"
+							placeholder="e.g. Icons don't meet quality guidelines..."
+							value={comment}
+							onChange={(e) => onCommentChange(e.target.value)}
+							rows={3}
+						/>
+					</div>
+					<DrawerFooter>
+						<Button variant="destructive" onClick={onSubmit} disabled={isPending}>
+							{isPending ? "Rejecting..." : label}
+						</Button>
+						<DrawerClose asChild>
+							<Button variant="outline" disabled={isPending}>
+								Cancel
+							</Button>
+						</DrawerClose>
+					</DrawerFooter>
+				</DrawerContent>
+			</Drawer>
+		)
+	}
+
+	return (
+		<Dialog open={open} onOpenChange={(o) => !o && onClose()}>
+			<DialogContent>
+				<DialogHeader>
+					<DialogTitle>{label}</DialogTitle>
+					<DialogDescription>All submitters will see the rejection reason.</DialogDescription>
+				</DialogHeader>
+				<div className="space-y-2 py-4">
+					<Label htmlFor="bulk-reject-comment">Reason</Label>
+					<Textarea
+						id="bulk-reject-comment"
+						placeholder="e.g. Icons don't meet quality guidelines..."
+						value={comment}
+						onChange={(e) => onCommentChange(e.target.value)}
+						rows={3}
+					/>
+				</div>
+				<DialogFooter>
+					<Button variant="outline" onClick={onClose} disabled={isPending}>
+						Cancel
+					</Button>
+					<Button variant="destructive" onClick={onSubmit} disabled={isPending}>
+						{isPending ? "Rejecting..." : label}
 					</Button>
 				</DialogFooter>
 			</DialogContent>
