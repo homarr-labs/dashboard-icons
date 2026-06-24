@@ -1,0 +1,26 @@
+.opencode/changelog/2026-06-24.md
+  s_166c62e57b6cd1::t_f20af0ef69c9b1 1-10
+web/src/hooks/use-submissions.ts
+  s_166c62e57b6cd1::t_5f9ea104e342d4 143-149,154-156
+  s_166c62e57b6cd1::t_50e4d2599d13a9 6,118-123,133,137
+web/backend/pb_hooks/submission_update_email.pb.js
+  s_166c62e57b6cd1::t_d5d82ea21d9423 3-93
+  s_166c62e57b6cd1::t_faaec83d6ff621 348-370
+  s_166c62e57b6cd1::t_c33bc4a06bc997 182-195
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.13",
+  "base_commit_sha": "9b69afaeebd27ea684ad70de7b29b369c8973976",
+  "prompts": {},
+  "sessions": {
+    "s_166c62e57b6cd1": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_104f6f7dbffeLXs6ZxqxXmYXAe",
+        "model": "gpt-5.5"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
