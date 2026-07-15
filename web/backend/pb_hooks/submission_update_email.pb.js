@@ -1,5 +1,96 @@
 /// <reference path="../pb_data/types.d.ts" />
 
+const bulkRejectionBatches = globalThis.bulkRejectionBatches || (globalThis.bulkRejectionBatches = {});
+
+function getHeader(requestInfo, name) {
+	const headers = requestInfo && requestInfo.headers ? requestInfo.headers : {};
+	const value = headers[name] || headers[name.toLowerCase()] || headers[name.toUpperCase()];
+	if (Array.isArray(value)) return value[0] || "";
+	if (value) return `${value}`;
+	if (headers.get) return headers.get(name) || headers.get(name.toLowerCase()) || "";
+	return "";
+}
+
+function queueBulkRejection(batchId, item) {
+	const batch = bulkRejectionBatches[batchId] || (bulkRejectionBatches[batchId] = { users: {} });
+	const user = batch.users[item.email] || (batch.users[item.email] = {
+		email: item.email,
+		name: item.userName,
+		reviewerName: item.reviewerName,
+		comment: item.adminComment,
+		submissions: [],
+	});
+
+	user.submissions.push({ id: item.recordId, name: item.submissionName });
+}
+
+function sendMessage(app, to, subject, html) {
+	const message = new MailerMessage({
+		from: {
+			address: app.settings().meta.senderAddress || "noreply@example.com",
+			name: app.settings().meta.senderName || "Dashboard Icons",
+		},
+		to: [{ address: to }],
+		subject: subject,
+		html: html,
+	});
+
+	app.newMailClient().send(message);
+}
+
+function sendBulkRejectionEmails(app, batchId, logger) {
+	const batch = bulkRejectionBatches[batchId];
+	if (!batch) return 0;
+
+	const users = Object.values(batch.users);
+	for (const user of users) {
+		const names = user.submissions.map((submission) => `<li><strong>${submission.name}</strong></li>`).join("");
+		const count = user.submissions.length;
+		const comment = user.comment ? `
+            <div style="margin: 20px 0; padding: 15px; background-color: #fef2f2; border-left: 4px solid #dc2626; border-radius: 4px;">
+                <h3 style="margin-top: 0; color: #dc2626; font-size: 14px; text-transform: uppercase;">Reason for Rejection</h3>
+                <p style="margin-bottom: 0; white-space: pre-wrap; color: #7f1d1d;">${user.comment}</p>
+            </div>
+        ` : "";
+
+		sendMessage(
+			app,
+			user.email,
+			`dashboardicons - ${count} submissions rejected`,
+			`
+            <div style="background-color: #111827; padding: 20px; text-align: center; border-radius: 8px 8px 0 0;">
+                <h1 style="color: #ffffff; margin: 0; font-family: system-ui, -apple-system, sans-serif; font-size: 24px;">Dashboard Icons</h1>
+            </div>
+            <div style="padding: 30px; background-color: #ffffff; border: 1px solid #e5e7eb; border-top: none;">
+                <h2 style="color: #dc2626; margin-top: 0;">Submissions Rejected</h2>
+                <p style="font-size: 16px; line-height: 1.5; color: #374151;">Hello ${user.name},</p>
+                <p style="font-size: 16px; line-height: 1.5; color: #374151;">
+                    ${count} of your icon submissions have been rejected by <strong>${user.reviewerName}</strong>.
+                </p>
+                <ul style="font-size: 16px; line-height: 1.6; color: #374151;">${names}</ul>
+                ${comment}
+                <p style="font-size: 16px; line-height: 1.5; color: #374151;">
+                    You can review the feedback and submit new versions or try different icons.
+                </p>
+                <div style="margin: 25px 0; text-align: center;">
+                    <a href="https://dashboardicons.com/dashboard" style="background-color: #4b5563; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: bold; display: inline-block;">Manage Submissions</a>
+                </div>
+                <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #e5e7eb; font-size: 12px; color: #6b7280; text-align: center;">
+                    <p><a href="https://dashboardicons.com" style="color: #2563eb; text-decoration: none;">Home</a></p>
+                    <p>&copy; ${new Date().getFullYear()} Dashboard Icons. All rights reserved.</p>
+                </div>
+            </div>
+        `,
+		);
+
+		logger.info("Sent bulk rejection email", "to", user.email, "count", count, "batch_id", batchId);
+		sleep(250);
+	}
+
+	delete bulkRejectionBatches[batchId];
+	return users.length;
+}
+
 /**
  * Hook to send email notification when a submission is updated.
  * Sends email to the submission creator when status changes.
@@ -88,6 +179,20 @@ onRecordUpdate((e) => {
 		const adminComment = record.get("admin_comment") || "";
 		const dashboardLink = "https://dashboardicons.com/dashboard";
 		const submissionIdShort = recordId.substring(0, 8);
+		const bulkRejectId = getHeader(e.requestInfo(), "X-Bulk-Reject-Id");
+
+		if (newStatus === "rejected" && bulkRejectId) {
+			queueBulkRejection(bulkRejectId, {
+				recordId: recordId,
+				submissionName: submissionName,
+				email: userEmail,
+				userName: userName,
+				reviewerName: reviewerName,
+				adminComment: adminComment,
+			});
+			logger.info("Queued bulk rejection email", "to", userEmail, "submission_id", recordId, "batch_id", bulkRejectId);
+			return;
+		}
 
 		// Styling constants
 		const primaryColor = "#2563eb"; // Blue-600
@@ -240,3 +345,26 @@ onRecordUpdate((e) => {
 		}
 	}
 }, "submissions");
+
+routerAdd("POST", "/api/submissions/bulk-rejection-email", (e) => {
+	const logger = e.app.logger().withGroup("submission_update_email");
+	const info = e.requestInfo();
+	const auth = info.auth;
+
+	if (!auth || auth.get("admin") !== true) {
+		return e.json(403, { error: "Forbidden" });
+	}
+
+	const batchId = getHeader(info, "X-Bulk-Reject-Id");
+	if (!batchId) {
+		return e.json(400, { error: "Missing X-Bulk-Reject-Id" });
+	}
+
+	try {
+		const sent = sendBulkRejectionEmails(e.app, batchId, logger);
+		return e.json(200, { sent: sent });
+	} catch (err) {
+		logger.error("Failed to send bulk rejection emails", "error", err, "batch_id", batchId);
+		return e.json(500, { error: "Failed to send bulk rejection emails" });
+	}
+}, $apis.requireAuth("users"));

@@ -3,7 +3,7 @@ import { toast } from "sonner"
 import { triggerAddIconWorkflow, triggerBulkAddIconWorkflow } from "@/app/actions/github"
 import { revalidateAllSubmissions } from "@/app/actions/submissions"
 import { getAllIcons } from "@/lib/api"
-import { pb, type Submission } from "@/lib/pb"
+import { getPocketBaseUrl, pb, type Submission } from "@/lib/pb"
 
 // Query key factory
 export const submissionKeys = {
@@ -115,6 +115,12 @@ export function useBulkRejectSubmissions() {
 
 	return useMutation({
 		mutationFn: async ({ submissionIds, adminComment }: { submissionIds: string[]; adminComment?: string }) => {
+			const authToken = pb.authStore.token
+			if (!authToken) {
+				throw new Error("Not authenticated")
+			}
+
+			const batchId = crypto.randomUUID()
 			const results = await Promise.allSettled(
 				submissionIds.map((submissionId) =>
 					pb.collection("submissions").update(
@@ -124,21 +130,30 @@ export function useBulkRejectSubmissions() {
 							approved_by: pb.authStore.record?.id || "",
 							admin_comment: adminComment || "",
 						},
-						{ requestKey: null },
+						{ headers: { "X-Bulk-Reject-Id": batchId }, requestKey: null },
 					),
 				),
 			)
+
 			const fulfilled = results.filter((r) => r.status === "fulfilled")
 			const rejected = results.filter((r) => r.status === "rejected")
 			if (rejected.length > 0 && fulfilled.length === 0) {
 				throw new Error(`All ${rejected.length} rejections failed`)
 			}
-			return { fulfilled: fulfilled.length, rejected: rejected.length, total: results.length }
+
+			const flushResponse = await fetch(`${getPocketBaseUrl()}/api/submissions/bulk-rejection-email`, {
+				method: "POST",
+				headers: { Authorization: authToken, "X-Bulk-Reject-Id": batchId },
+			})
+
+			return { emailFailed: !flushResponse.ok, fulfilled: fulfilled.length, rejected: rejected.length, total: results.length }
 		},
 		onSuccess: async (data) => {
 			queryClient.invalidateQueries({ queryKey: submissionKeys.lists() })
 			await revalidateAllSubmissions()
-			if (data.rejected > 0) {
+			if (data.emailFailed) {
+				toast.warning(`${data.fulfilled} submission${data.fulfilled > 1 ? "s" : ""} rejected, but the summary email failed`)
+			} else if (data.rejected > 0) {
 				toast.warning(`${data.fulfilled} of ${data.total} submissions rejected, ${data.rejected} failed`)
 			} else {
 				toast.success(`${data.total} submission${data.total > 1 ? "s" : ""} rejected`)
