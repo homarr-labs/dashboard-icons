@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" width="96" height="96" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="bumpsight">
+  <title>bumpsight</title>
+  <ellipse cx="20" cy="48" rx="6" ry="14" fill="currentColor" fill-opacity="0.08"/>
+  <ellipse cx="20" cy="48" rx="6" ry="14"/>
+  <ellipse cx="48" cy="48" rx="5" ry="11"/>
+  <ellipse cx="76" cy="48" rx="4" ry="8"/>
+  <path d="M20 34 L48 37 L76 40"/>
+  <path d="M20 62 L48 59 L76 56"/>
+  <circle cx="20" cy="48" r="2.5" fill="currentColor" stroke="none"/>
+</svg>
