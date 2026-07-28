@@ -46186,5 +46186,21 @@
                 "login": "nmeekercloud"
             }
         }
+    },
+    "syncyomi": {
+        "base": "png",
+        "aliases": [],
+        "categories": [
+            "utility",
+            "media",
+            "automation"
+        ],
+        "update": {
+            "timestamp": "2026-07-28T09:52:52.747Z",
+            "author": {
+                "id": 249991154,
+                "login": "Vuskih"
+            }
+        }
     }
 }
