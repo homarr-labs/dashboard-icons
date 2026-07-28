@@ -45879,5 +45879,22 @@
                 "name": "captivo"
             }
         }
+    },
+    "aion": {
+        "base": "png",
+        "aliases": [
+            "aion",
+            "Aion"
+        ],
+        "categories": [
+            "tools"
+        ],
+        "update": {
+            "timestamp": "2026-07-28T09:52:04.462Z",
+            "author": {
+                "id": 150220193,
+                "login": "Simply-Jeff"
+            }
+        }
     }
 }
