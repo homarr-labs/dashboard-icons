@@ -45690,5 +45690,23 @@
         "wordmark": {
             "light": "euquista-wordmark-light"
         }
+    },
+    "eficify-2": {
+        "base": "png",
+        "aliases": [],
+        "categories": [
+            "cloud"
+        ],
+        "update": {
+            "timestamp": "2026-07-28T09:51:29.049Z",
+            "author": {
+                "id": 252070168,
+                "login": "eficifyltda"
+            }
+        },
+        "colors": {
+            "light": "eficify-2-light",
+            "dark": "eficify-2-dark"
+        }
     }
 }
