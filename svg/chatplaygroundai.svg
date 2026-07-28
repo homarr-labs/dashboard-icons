@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="none" viewBox="0 0 500 500">
+  <style>
+    :root {
+      --bottom-inside: #1961EE;
+      --bottom-outside: #DCEEFF;
+      --top-inside: #4C99FF;
+      --top-outside: #FFFFFF;
+      --top-shadow: var(--top-inside);
+    }
+    :created {
+      --creator batpudding.com;
+    }
+  </style>
+
+  <defs>
+    <!-- Bottom Inward Feathering Filter -->
+    <filter id="featherBottom" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="17.2" result="blur" />
+      <feOffset in="blur" dx="-1.7" dy="3.4" result="offsetBlur" />
+      <feComposite in="SourceGraphic" in2="offsetBlur" operator="out" />
+    </filter>
+
+    <!-- Top Inward Feathering Filter -->
+    <filter id="featherTop" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="17.2" result="blur" />
+      <feOffset in="blur" dx="-1.7" dy="3.4" result="offsetBlur" />
+      <feComposite in="SourceGraphic" in2="offsetBlur" operator="out" />
+    </filter>
+
+    <!-- Layer Overlay Drop Shadow -->
+    <filter id="layerShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="-1.7" dy="5.2" stdDeviation="8.6" flood-color="var(--top-shadow)" flood-opacity="0.25" />
+    </filter>
+  </defs>
+
+  <!-- BOTTOM BUBBLE (cx=217, cy=261, r=129) -->
+  <g>
+    <!-- Base solid shape layer -->
+    <path d="M 217,132 
+             A 129,129 0 1,1 152.5,373 
+             C 131,378 100,385 76,380
+             C 86.3,364.5 98.3,344 105.2,326 
+             A 129,129 0 0,1 217,132 Z" 
+          fill="var(--bottom-inside)" />
+          
+    <!-- Overlaid mask layer -->
+    <path d="M 217,132 
+             A 129,129 0 1,1 152.5,373 
+             C 131,378 100,385 76,380
+             C 86.3,364.5 98.3,344 105.2,326 
+             A 129,129 0 0,1 217,132 Z" 
+          fill="var(--bottom-outside)" 
+          filter="url(#featherBottom)" />
+  </g>
+
+  <!-- TOP BUBBLE (cx=313.2, cy=261, r=129) -->
+  <g filter="url(#layerShadow)">
+    <!-- Base solid shape layer -->
+    <circle cx="313.2" cy="261" r="129" fill="var(--top-inside)" />
+          
+    <!-- Overlaid mask layer -->
+    <circle cx="313.2" cy="261" r="129" fill="var(--top-outside)" filter="url(#featherTop)" />
+  </g>
+</svg>

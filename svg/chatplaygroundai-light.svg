@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="none" viewBox="0 0 500 500">
+  <style>
+    :root {
+      /* Dark Background colors */
+      --background-top: #E6E6E6;
+      --background-middle: #DCDCDC;
+      --background-bottom: #D2D2D2;
+      
+      /* Bubble objects */
+      --bottom-inside: white;
+      --bottom-outside: black;
+      --top-inside: white;
+      --top-outside: black;
+      --top-shadow: var(--top-inside);
+    }
+    :created {
+      --creator batpudding.com;
+    }
+  </style>
+
+  <defs>
+    <!-- Background Container Gradient -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="var(--background-top)" />
+      <stop offset="40%" stop-color="var(--background-middle)" />
+      <stop offset="100%" stop-color="var(--background-bottom)" />
+    </linearGradient>
+
+    <!-- Bottom Inward Feathering Filter -->
+    <filter id="featherBottom" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="17.2" result="blur" />
+      <feOffset in="blur" dx="-1.7" dy="3.4" result="offsetBlur" />
+      <feComposite in="SourceGraphic" in2="offsetBlur" operator="out" />
+    </filter>
+
+    <!-- Top Inward Feathering Filter -->
+    <filter id="featherTop" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="17.2" result="blur" />
+      <feOffset in="blur" dx="-1.7" dy="3.4" result="offsetBlur" />
+      <feComposite in="SourceGraphic" in2="offsetBlur" operator="out" />
+    </filter>
+
+    <!-- Layer Overlay Drop Shadow -->
+    <filter id="layerShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="-1.7" dy="5.2" stdDeviation="8.6" flood-color="var(--top-shadow)" flood-opacity="0.25" />
+    </filter>
+  </defs>
+
+  <!-- Background Shape -->
+  <rect x="50" y="50" width="400" height="400" rx="95" fill="url(#bgGrad)" />
+
+  <!-- Bottom Bubble -->
+  <g>
+    <path d="M 217,132 A 129,129 0 1,1 152.5,373 C 131,378 100,385 76,380 C 86.3,364.5 98.3,344 105.2,326 A 129,129 0 0,1 217,132 Z" fill="var(--bottom-inside)" />
+    <path d="M 217,132 A 129,129 0 1,1 152.5,373 C 131,378 100,385 76,380 C 86.3,364.5 98.3,344 105.2,326 A 129,129 0 0,1 217,132 Z" fill="var(--bottom-outside)" filter="url(#featherBottom)" />
+  </g>
+
+  <!-- Top Bubble -->
+  <g filter="url(#layerShadow)">
+    <circle cx="313.2" cy="261" r="129" fill="var(--top-inside)" />
+    <circle cx="313.2" cy="261" r="129" fill="var(--top-outside)" filter="url(#featherTop)" />
+  </g>
+</svg>
