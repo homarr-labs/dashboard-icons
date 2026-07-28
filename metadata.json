@@ -45577,5 +45577,21 @@
                 "login": "ycsgc1"
             }
         }
+    },
+    "bumpsight": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "development",
+            "tools",
+            "monitoring"
+        ],
+        "update": {
+            "timestamp": "2026-07-28T09:51:07.199Z",
+            "author": {
+                "id": "4we36e7nj90bekd",
+                "name": "miller-joe"
+            }
+        }
     }
 }
