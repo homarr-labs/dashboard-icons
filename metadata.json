@@ -46332,5 +46332,29 @@
                 "login": "oopschun84"
             }
         }
+    },
+    "ngrok": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "development",
+            "network",
+            "utility"
+        ],
+        "update": {
+            "timestamp": "2026-07-28T09:53:18.816Z",
+            "author": {
+                "id": 18125347,
+                "login": "mpatfield"
+            }
+        },
+        "colors": {
+            "light": "ngrok-light",
+            "dark": "ngrok-dark"
+        },
+        "wordmark": {
+            "light": "ngrok-wordmark-light",
+            "dark": "ngrok-wordmark-dark"
+        }
     }
 }
