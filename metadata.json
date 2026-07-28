@@ -46419,5 +46419,24 @@
                 "name": "bellamy"
             }
         }
+    },
+    "homebrew": {
+        "base": "svg",
+        "aliases": [
+            "hb",
+            "brew",
+            "brew.sh"
+        ],
+        "categories": [
+            "utility",
+            "tools"
+        ],
+        "update": {
+            "timestamp": "2026-07-28T09:53:31.237Z",
+            "author": {
+                "id": 52940751,
+                "login": "rubydotexe"
+            }
+        }
     }
 }
