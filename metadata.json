@@ -4875,13 +4875,17 @@
     },
     "libation": {
         "base": "svg",
-        "aliases": [],
-        "categories": [],
+        "aliases": [
+            "audiobook"
+        ],
+        "categories": [
+            "media"
+        ],
         "update": {
-            "timestamp": "2025-05-12T16:43:53.450643",
+            "timestamp": "2026-07-28T09:52:42.256Z",
             "author": {
-                "id": 48109134,
-                "login": "jdcool00"
+                "id": "70nwnh4rjhlstb8",
+                "name": "MightyNo2"
             }
         }
     },

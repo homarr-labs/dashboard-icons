@@ -1,1 +1,90 @@
-<svg xmlns="http://www.w3.org/2000/svg" version="1.1" enable-background="new 0 0 288 288" viewBox="57.51 8 172.97 272"><defs><g id="glass"><path transform="translate(16 16)" fill-rule="evenodd" d="M177,16      H79      A 32.0781 63.7932 -1.5106 0 0 66 80      A 158.789 471.1259 41.9466 0 0 90 131      A 81.7197 122.0515 35.3745 0 0 128 143.3484      A 81.7197 122.0515 -35.3745 0 0 166 131      A 158.789 471.1259 -41.9466 0 0 190 80      A 32.0781 63.7932 1.5106 0 0 177 16      L 184 0      A 44.7901 78.5247 1.1521 0 1 194 122      A 97.0039 135.3148 -36.2124 0 1 136 159      V 240      H 176      A 8 8 0 0 1 176 256      H 80      A 8 8 0 0 1 80 240      H 120      V 159           A 97.0039 135.3148 36.2124 0 1 62 122      A 44.7901 78.5247 -1.1521 0 1 72 0      H184     z"/></g><g transform="translate(16 16)" id="wine-level"><path d="M182,64      H 74      A 115.9979 308.8033 38.9474 0 0 128 134.4277      A 115.9979 308.8033 -38.9474 0 0 182,64     z"/></g></defs><use href="#glass" stroke="#ffffffa0" stroke-width="16" fill="Transparent"/><use href="#wine-level" stroke="#ffffffa0" stroke-width="16" fill="Transparent"/><use href="#glass" fill="Black"/><use href="#wine-level" fill="Black"/></svg>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   version="1.1"
+   enable-background="new 0 0 288 288"
+   viewBox="57.51 8 172.97 272"
+   id="svg5"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs2">
+    <linearGradient
+       id="linearGradient11">
+      <stop
+         style="stop-color:#61083c;stop-opacity:1;"
+         offset="0"
+         id="stop10" />
+      <stop
+         style="stop-color:#51000f;stop-opacity:1;"
+         offset="1"
+         id="stop11" />
+    </linearGradient>
+    <linearGradient
+       id="linearGradient5">
+      <stop
+         style="stop-color:#610836;stop-opacity:1;"
+         offset="0"
+         id="stop5" />
+      <stop
+         style="stop-color:#51000f;stop-opacity:1;"
+         offset="1"
+         id="stop6" />
+    </linearGradient>
+    <g
+       id="glass">
+      <path
+         transform="translate(16 16)"
+         fill-rule="evenodd"
+         d="M 182,64 H 74 c -2.102804,45.02398 17.247818,70.26139 54,70.4277 C 164.75218,134.26139 184.1028,109.02398 182,64 Z M 79,16 C 68.526541,29.779327 63.418957,54.924357 66,80 c 1.928871,22.96419 10.039543,40.19937 24,51 10.34827,8.17282 23.38544,12.40935 38,12.3484 14.61456,0.0609 27.65173,-4.17558 38,-12.3484 13.96046,-10.80063 22.07113,-28.03581 24,-51 2.58104,-25.075643 -2.04216,-49.845674 -13,-64.000001 z m 115,106 c -12.0919,21.57829 -32.72103,34.73825 -58,37 v 81 h 40 c 4.41828,0 8,3.58172 8,8 0,4.41828 -3.58172,8 -8,8 H 80 c -4.418281,0 -7.999997,-3.58172 -7.999997,-8 0,-4.41828 3.581716,-8 7.999997,-8 h 40 V 159 C 94.721031,156.73825 74.091901,143.57829 62,122 41.830346,84.358186 46.747846,24.364686 72,0 109.31159,-0.01889429 115.28631,0.28732129 183.93477,-0.05668288 209.18692,24.308003 214.16965,84.358186 194,122 Z"
+         id="path1" />
+    </g>
+    <g
+       transform="translate(16 16)"
+       id="wine-level">
+      <path
+         d="M182,64      H 74      A 115.9979 308.8033 38.9474 0 0 128 134.4277      A 115.9979 308.8033 -38.9474 0 0 182,64     z"
+         id="path2" />
+    </g>
+    <linearGradient
+       xlink:href="#linearGradient5"
+       id="linearGradient6"
+       x1="64.582695"
+       y1="16.973436"
+       x2="227.84575"
+       y2="264.96658"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       xlink:href="#linearGradient11"
+       id="linearGradient10"
+       x1="40.891178"
+       y1="-6.9511566"
+       x2="202.52271"
+       y2="240.10968"
+       gradientUnits="userSpaceOnUse" />
+  </defs>
+  <use
+     href="#glass"
+     stroke="#efefef"
+     stroke-width="16"
+     fill="Transparent"
+     id="use2" />
+  <use
+     href="#wine-level"
+     stroke="#efefef"
+     stroke-width="16"
+     fill="Transparent"
+     id="use3" />
+  <!-- <g
+     id="use4"
+     style="fill:url(#linearGradient6)" /> -->
+  <g
+     transform="translate(16,16)"
+     id="use5"
+     style="fill:#610836">
+    <path
+       id="path8"
+       d="M 182,64 H 74 c -2.102804,45.02398 17.247818,70.26139 54,70.4277 C 164.75218,134.26139 184.1028,109.02398 182,64 Z M 79,16 C 68.526541,29.779327 63.418957,54.924357 66,80 c 1.928871,22.96419 10.039543,40.19937 24,51 10.34827,8.17282 23.38544,12.40935 38,12.3484 14.61456,0.0609 27.65173,-4.17558 38,-12.3484 13.96046,-10.80063 22.07113,-28.03581 24,-51 2.58104,-25.075643 -2.04216,-49.845674 -13,-64.000001 z m 115,106 c -12.0919,21.57829 -32.72103,34.73825 -58,37 v 81 h 40 c 4.41828,0 8,3.58172 8,8 0,4.41828 -3.58172,8 -8,8 H 80 c -4.418281,0 -7.999997,-3.58172 -7.999997,-8 0,-4.41828 3.581716,-8 7.999997,-8 h 40 V 159 C 94.721031,156.73825 74.091901,143.57829 62,122 41.830346,84.358186 46.747846,24.364686 72,0 109.31159,-0.01889429 115.28631,0.28732129 183.93477,-0.05668288 209.18692,24.308003 214.16965,84.358186 194,122 Z"
+       style="fill:url(#linearGradient10)" />
+  </g>
+</svg>
