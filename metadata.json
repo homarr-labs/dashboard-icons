@@ -45632,5 +45632,17 @@
                 "login": "isanto1306"
             }
         }
+    },
+    "vmware-nsx": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-07-28T09:51:18.966Z",
+            "author": {
+                "id": 19541946,
+                "login": "droidrzrlover"
+            }
+        }
     }
 }
