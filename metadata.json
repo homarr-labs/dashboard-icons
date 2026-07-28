@@ -5289,17 +5289,13 @@
     },
     "termix": {
         "base": "svg",
-        "aliases": [
-            "ssh"
-        ],
-        "categories": [
-            "Development"
-        ],
+        "aliases": [],
+        "categories": [],
         "update": {
-            "timestamp": "2025-12-07T16:08:39.557318",
+            "timestamp": "2026-07-28T09:51:35.921Z",
             "author": {
-                "id": 46083123,
-                "login": "PCiunkiewicz"
+                "id": 97117269,
+                "login": "marcio-af-oliveira"
             }
         }
     },
