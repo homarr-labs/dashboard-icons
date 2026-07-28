@@ -45867,5 +45867,17 @@
                 "login": "Justingwo"
             }
         }
+    },
+    "captivo": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-07-28T09:52:02.339Z",
+            "author": {
+                "id": "fpjhcu0uoygwi2q",
+                "name": "captivo"
+            }
+        }
     }
 }
