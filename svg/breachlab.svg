@@ -1,0 +1,40 @@
+<svg
+  viewBox="0 0 100 100"
+  width="35"
+  height="35"
+  fill="none"
+  xmlns="http://www.w3.org/2000/svg"
+  style="filter: drop-shadow(0 0 3px rgba(245, 160, 12, 0.4));"
+>
+  <line x1="20" y1="20" x2="80" y2="20" stroke="#f5a00c" stroke-width="2.5"/>
+  <line x1="20" y1="20" x2="20" y2="80" stroke="#f5a00c" stroke-width="2.5"/>
+  <line x1="80" y1="20" x2="80" y2="80" stroke="#f5a00c" stroke-width="2.5"/>
+  <line x1="20" y1="80" x2="80" y2="80" stroke="#f5a00c" stroke-width="2.5"/>
+
+  <line x1="20" y1="20" x2="80" y2="80" stroke="#f5a00c" stroke-width="2.5"/>
+  <line x1="20" y1="80" x2="80" y2="20" stroke="#f5a00c" stroke-width="2.5"/>
+
+  <circle cx="20" cy="20" r="10" fill="#f5a00c"/>
+  <circle cx="80" cy="20" r="10" fill="#f5a00c"/>
+  <circle cx="20" cy="80" r="10" fill="#f5a00c"/>
+  <circle cx="80" cy="80" r="10" fill="#f5a00c"/>
+
+  <circle
+    cx="50"
+    cy="50"
+    r="14"
+    fill="#000000"
+    stroke="#FF0033"
+    stroke-width="3"
+  />
+
+  <line
+    x1="12"
+    y1="88"
+    x2="88"
+    y2="12"
+    stroke="#FF0033"
+    stroke-width="4"
+    stroke-linecap="round"
+  />
+</svg>

@@ -46383,5 +46383,25 @@
                 "login": "sinhara1"
             }
         }
+    },
+    "breachlab": {
+        "base": "svg",
+        "aliases": [
+            "Breachlab"
+        ],
+        "categories": [
+            "tools",
+            "security",
+            "social",
+            "utility",
+            "gaming"
+        ],
+        "update": {
+            "timestamp": "2026-07-28T09:53:26.506Z",
+            "author": {
+                "id": 155018781,
+                "login": "Shaivarth"
+            }
+        }
     }
 }
