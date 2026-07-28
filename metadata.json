@@ -45855,5 +45855,17 @@
                 "login": "Stephcraft"
             }
         }
+    },
+    "unstoppabledomains": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-07-28T09:52:00.035Z",
+            "author": {
+                "id": 147088706,
+                "login": "Justingwo"
+            }
+        }
     }
 }
