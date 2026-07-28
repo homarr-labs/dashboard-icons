@@ -45773,5 +45773,21 @@
                 "login": "sinhara1"
             }
         }
+    },
+    "mite": {
+        "base": "png",
+        "aliases": [],
+        "categories": [
+            "monitoring",
+            "security",
+            "tools"
+        ],
+        "update": {
+            "timestamp": "2026-07-28T09:51:46.224Z",
+            "author": {
+                "id": 147527091,
+                "login": "mayberryjp"
+            }
+        }
     }
 }
