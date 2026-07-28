@@ -45556,5 +45556,26 @@
                 "login": "piejanssens"
             }
         }
+    },
+    "spinsense": {
+        "base": "svg",
+        "aliases": [
+            "SpinSense",
+            "spinsense",
+            "spin sense",
+            "record player scanner"
+        ],
+        "categories": [
+            "home-automation",
+            "media",
+            "tools"
+        ],
+        "update": {
+            "timestamp": "2026-07-28T09:51:04.911Z",
+            "author": {
+                "id": 123440143,
+                "login": "ycsgc1"
+            }
+        }
     }
 }
