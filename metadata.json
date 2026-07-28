@@ -45789,5 +45789,25 @@
                 "login": "mayberryjp"
             }
         }
+    },
+    "sqlite": {
+        "base": "svg",
+        "aliases": [
+            "application/vnd.sqlite3"
+        ],
+        "categories": [
+            "development",
+            "database"
+        ],
+        "update": {
+            "timestamp": "2026-07-28T09:51:48.841Z",
+            "author": {
+                "id": "sowxli2ysgkofo9",
+                "name": "0xb0ec1d"
+            }
+        },
+        "wordmark": {
+            "light": "sqlite-wordmark-light"
+        }
     }
 }
