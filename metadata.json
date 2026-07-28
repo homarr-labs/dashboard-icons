@@ -46143,5 +46143,34 @@
                 "login": "isanto1306"
             }
         }
+    },
+    "emeraldhost": {
+        "base": "svg",
+        "aliases": [
+            "hosting",
+            "gameserver",
+            "vps"
+        ],
+        "categories": [
+            "gaming",
+            "storage",
+            "cloud",
+            "network"
+        ],
+        "update": {
+            "timestamp": "2026-07-28T09:52:48.117Z",
+            "author": {
+                "id": 38103916,
+                "login": "HerrSammyDE"
+            }
+        },
+        "colors": {
+            "light": "emeraldhost-light",
+            "dark": "emeraldhost-dark"
+        },
+        "wordmark": {
+            "light": "emeraldhost-wordmark-light",
+            "dark": "emeraldhost-wordmark-dark"
+        }
     }
 }
