@@ -46067,5 +46067,17 @@
                 "login": "Baloe2000"
             }
         }
+    },
+    "versitygw": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-07-28T09:52:32.156Z",
+            "author": {
+                "id": 64521603,
+                "login": "kaywoz"
+            }
+        }
     }
 }
