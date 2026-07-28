@@ -45536,5 +45536,25 @@
             "light": "nextlink-labs-wordmark-light",
             "dark": "nextlink-labs-wordmark-dark"
         }
+    },
+    "shelf": {
+        "base": "png",
+        "aliases": [
+            "shelf.nu"
+        ],
+        "categories": [
+            "network",
+            "storage",
+            "tools",
+            "utility",
+            "monitoring"
+        ],
+        "update": {
+            "timestamp": "2026-07-28T09:51:02.405Z",
+            "author": {
+                "id": 829098,
+                "login": "piejanssens"
+            }
+        }
     }
 }
