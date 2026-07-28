@@ -45661,5 +45661,17 @@
                 "login": "KostaSariano"
             }
         }
+    },
+    "flux": {
+        "base": "png",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-07-28T09:51:23.525Z",
+            "author": {
+                "id": "lbf1t5aeb4qz1wu",
+                "name": "universall"
+            }
+        }
     }
 }
