@@ -79,7 +79,7 @@
     "posthog-node": "^5.32.1",
     "radix-ui": "^1.4.3",
     "react": "^19.2.5",
-    "react-day-picker": "9.11.1",
+    "react-day-picker": "9.14.0",
     "react-dom": "^19.2.5",
     "react-dropzone": "^14.4.1",
     "react-hook-form": "^7.74.0",
