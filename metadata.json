@@ -45896,5 +45896,22 @@
                 "login": "Simply-Jeff"
             }
         }
+    },
+    "chipsound": {
+        "base": "svg",
+        "aliases": [
+            "Chip Sound"
+        ],
+        "categories": [
+            "media",
+            "tools"
+        ],
+        "update": {
+            "timestamp": "2026-07-28T09:52:06.740Z",
+            "author": {
+                "id": 9968384,
+                "login": "gamosoft"
+            }
+        }
     }
 }

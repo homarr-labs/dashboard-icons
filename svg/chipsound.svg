@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Chipsound brand mark. ASCII-only inside this file. -->
+<svg xmlns="http://www.w3.org/2000/svg"
+     viewBox="0 0 512 512"
+     width="512" height="512"
+     role="img"
+     aria-label="Chipsound">
+    <defs>
+        <filter id="phosphorGlow" x="-30%" y="-30%" width="160%" height="160%">
+            <feGaussianBlur stdDeviation="8" result="blur"/>
+            <feMerge>
+                <feMergeNode in="blur"/>
+                <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+        </filter>
+        <filter id="softGlow" x="-30%" y="-30%" width="160%" height="160%">
+            <feGaussianBlur stdDeviation="3" result="blur"/>
+            <feMerge>
+                <feMergeNode in="blur"/>
+                <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+        </filter>
+    </defs>
+
+    <g fill="#2e5a3f">
+        <rect x="48" y="124" width="48" height="24" rx="3"/>
+        <rect x="48" y="172" width="48" height="24" rx="3"/>
+        <rect x="48" y="220" width="48" height="24" rx="3"/>
+        <rect x="48" y="268" width="48" height="24" rx="3"/>
+        <rect x="48" y="316" width="48" height="24" rx="3"/>
+        <rect x="48" y="364" width="48" height="24" rx="3"/>
+        <rect x="416" y="124" width="48" height="24" rx="3"/>
+        <rect x="416" y="172" width="48" height="24" rx="3"/>
+        <rect x="416" y="220" width="48" height="24" rx="3"/>
+        <rect x="416" y="268" width="48" height="24" rx="3"/>
+        <rect x="416" y="316" width="48" height="24" rx="3"/>
+        <rect x="416" y="364" width="48" height="24" rx="3"/>
+    </g>
+
+    <path d="M 96 120
+             A 24 24 0 0 1 120 96
+             L 234 96
+             A 22 22 0 0 0 278 96
+             L 392 96
+             A 24 24 0 0 1 416 120
+             L 416 392
+             A 24 24 0 0 1 392 416
+             L 120 416
+             A 24 24 0 0 1 96 392
+             Z"
+          fill="#050a07"
+          stroke="#00ff88"
+          stroke-width="3"
+          filter="url(#softGlow)"/>
+
+    <path d="M 130 200
+             L 180 200
+             L 180 300
+             L 230 300
+             L 230 200
+             L 280 200
+             L 280 300
+             L 330 300
+             L 330 200
+             L 380 200"
+          stroke="#00ff88"
+          stroke-width="20"
+          fill="none"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          filter="url(#phosphorGlow)"/>
+</svg>
