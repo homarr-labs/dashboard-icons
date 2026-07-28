@@ -45947,5 +45947,30 @@
                 "login": "NaysKutzu"
             }
         }
+    },
+    "borg-ui": {
+        "base": "svg",
+        "aliases": [
+            "\"BorgUI\"",
+            "\"Borg UI\"",
+            "\"Borg Web UI\""
+        ],
+        "categories": [
+            "tools",
+            "utility",
+            "home-automation",
+            "security",
+            "storage"
+        ],
+        "update": {
+            "timestamp": "2026-07-28T09:52:14.339Z",
+            "author": {
+                "id": 111227405,
+                "login": "bheyne666"
+            }
+        },
+        "colors": {
+            "dark": "borg-ui-dark"
+        }
     }
 }
