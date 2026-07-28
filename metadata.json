@@ -46214,5 +46214,24 @@
                 "login": "isanto1306"
             }
         }
+    },
+    "animus": {
+        "base": "png",
+        "aliases": [],
+        "categories": [
+            "storage",
+            "network",
+            "database"
+        ],
+        "update": {
+            "timestamp": "2026-07-28T09:52:58.655Z",
+            "author": {
+                "id": 88396610,
+                "login": "FistOfDen"
+            }
+        },
+        "colors": {
+            "light": "animus-light"
+        }
     }
 }
