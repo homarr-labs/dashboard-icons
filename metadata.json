@@ -45809,5 +45809,17 @@
         "wordmark": {
             "light": "sqlite-wordmark-light"
         }
+    },
+    "fritzbox-5530-2": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-07-28T09:51:51.100Z",
+            "author": {
+                "id": 185259594,
+                "login": "isanto1306"
+            }
+        }
     }
 }
