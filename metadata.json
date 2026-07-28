@@ -46356,5 +46356,20 @@
             "light": "ngrok-wordmark-light",
             "dark": "ngrok-wordmark-dark"
         }
+    },
+    "llm-router": {
+        "base": "png",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-07-28T09:53:21.786Z",
+            "author": {
+                "id": 79077511,
+                "login": "Pr0fess0rOP"
+            }
+        },
+        "colors": {
+            "light": "llm-router-light"
+        }
     }
 }
