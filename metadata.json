@@ -45596,5 +45596,17 @@
                 "name": "miller-joe"
             }
         }
+    },
+    "flue": {
+        "base": "png",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-07-28T09:51:11.965Z",
+            "author": {
+                "id": 190415602,
+                "login": "Cloudflare-Tim"
+            }
+        }
     }
 }
