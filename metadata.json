@@ -11941,14 +11941,17 @@
     "netbootxyz": {
         "base": "svg",
         "aliases": [
-            "nbxyz-logo"
+            "netboot.xyz",
+            "netboot"
         ],
-        "categories": [],
+        "categories": [
+            "network"
+        ],
         "update": {
-            "timestamp": "2025-05-21T08:59:40.469517",
+            "timestamp": "2026-07-28T09:51:09.696Z",
             "author": {
-                "id": 167335399,
-                "login": "heathaolson"
+                "id": "70nwnh4rjhlstb8",
+                "name": "MightyNo2"
             }
         }
     },
