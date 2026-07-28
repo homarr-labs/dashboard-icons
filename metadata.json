@@ -45749,5 +45749,17 @@
                 "login": "joraff"
             }
         }
+    },
+    "fritzbox-5690pro-3": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-07-28T09:51:41.000Z",
+            "author": {
+                "id": 185259594,
+                "login": "isanto1306"
+            }
+        }
     }
 }
