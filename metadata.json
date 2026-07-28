@@ -45644,5 +45644,22 @@
                 "login": "droidrzrlover"
             }
         }
+    },
+    "keyrack": {
+        "base": "svg",
+        "aliases": [
+            "Password-Manager",
+            "Secret Manager"
+        ],
+        "categories": [
+            "security"
+        ],
+        "update": {
+            "timestamp": "2026-07-28T09:51:21.235Z",
+            "author": {
+                "id": 298043188,
+                "login": "KostaSariano"
+            }
+        }
     }
 }
