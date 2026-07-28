@@ -45724,5 +45724,19 @@
                 "login": "Gogowwww"
             }
         }
+    },
+    "blue-check-mark": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "utility"
+        ],
+        "update": {
+            "timestamp": "2026-07-28T09:51:33.650Z",
+            "author": {
+                "id": 289722754,
+                "login": "24eal"
+            }
+        }
     }
 }
