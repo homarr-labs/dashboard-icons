@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#1e2738"/>
+      <stop offset="100%" stop-color="#0e1420"/>
+    </radialGradient>
+    <!-- Primary body gradient — brighter indigo -->
+    <radialGradient id="gA" cx="30%" cy="25%" r="70%">
+      <stop offset="0%" stop-color="#a5b4fc"/>
+      <stop offset="55%" stop-color="#6366F1"/>
+      <stop offset="100%" stop-color="#3730A3"/>
+    </radialGradient>
+    <!-- Secondary body gradient — deeper indigo -->
+    <radialGradient id="gB" cx="30%" cy="25%" r="70%">
+      <stop offset="0%" stop-color="#818CF8"/>
+      <stop offset="55%" stop-color="#4F46E5"/>
+      <stop offset="100%" stop-color="#312E81"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Background circle -->
+  <circle cx="100" cy="100" r="98" fill="url(#bg)"/>
+
+  <!-- Subtle shared orbital path -->
+  <ellipse cx="100" cy="100" rx="60" ry="18" fill="none"
+           stroke="#6366F1" stroke-width="0.8" opacity="0.22"
+           stroke-dasharray="5 9"/>
+
+  <!-- Primary body: larger, left-of-centre, slightly high -->
+  <circle cx="70" cy="94" r="34" fill="url(#gA)"/>
+  <!-- Specular highlight -->
+  <ellipse cx="59" cy="81" rx="11" ry="8"
+           fill="white" opacity="0.13"
+           transform="rotate(-15 59 81)"/>
+
+  <!-- Secondary body: smaller, right-of-centre, slightly low -->
+  <circle cx="131" cy="107" r="23" fill="url(#gB)"/>
+  <!-- Specular highlight -->
+  <ellipse cx="123" cy="97" rx="7" ry="5"
+           fill="white" opacity="0.13"
+           transform="rotate(-15 123 97)"/>
+</svg>

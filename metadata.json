@@ -46320,5 +46320,17 @@
                 "login": "deogratias-saidi"
             }
         }
+    },
+    "neutarr": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-07-28T09:53:15.321Z",
+            "author": {
+                "id": 284346872,
+                "login": "oopschun84"
+            }
+        }
     }
 }
