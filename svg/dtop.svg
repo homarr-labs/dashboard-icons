@@ -1,0 +1,24 @@
+<svg width="256" height="256" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="blueGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#2563eb;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <!-- Main container shape - rounded square -->
+  <rect x="8" y="8" width="240" height="240" rx="48" fill="url(#blueGradient)"/>
+
+  <!-- Terminal cursor bar (left accent) -->
+  <rect x="38" y="68" width="9" height="120" rx="4.5" fill="white" opacity="0.9"/>
+
+  <!-- Three horizontal lines representing container metrics -->
+  <rect x="70" y="90" width="147" height="12" rx="6" fill="white" opacity="0.25"/>
+  <rect x="70" y="126" width="117" height="12" rx="6" fill="white" opacity="0.25"/>
+  <rect x="70" y="162" width="132" height="12" rx="6" fill="white" opacity="0.25"/>
+
+  <!-- Activity indicators (dots) -->
+  <circle cx="82" cy="96" r="6" fill="#22c55e"/>
+  <circle cx="82" cy="132" r="6" fill="#fbbf24"/>
+  <circle cx="82" cy="168" r="6" fill="#3b82f6" opacity="0.6"/>
+</svg>
