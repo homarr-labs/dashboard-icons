@@ -45511,5 +45511,30 @@
                 "name": "jsparrowio"
             }
         }
+    },
+    "nextlink-labs": {
+        "base": "svg",
+        "aliases": [
+            "NextLink Labs"
+        ],
+        "categories": [
+            "cloud",
+            "development"
+        ],
+        "update": {
+            "timestamp": "2026-07-28T09:50:58.287Z",
+            "author": {
+                "id": "9lhjtnc5icbdt68",
+                "name": "nextlinklabs"
+            }
+        },
+        "colors": {
+            "light": "nextlink-labs-light",
+            "dark": "nextlink-labs-dark"
+        },
+        "wordmark": {
+            "light": "nextlink-labs-wordmark-light",
+            "dark": "nextlink-labs-wordmark-dark"
+        }
     }
 }
