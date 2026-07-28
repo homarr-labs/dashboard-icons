@@ -45608,5 +45608,17 @@
                 "login": "Cloudflare-Tim"
             }
         }
+    },
+    "bluenote-systems": {
+        "base": "png",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-07-28T09:51:14.244Z",
+            "author": {
+                "id": 86595349,
+                "login": "raul-bns"
+            }
+        }
     }
 }
