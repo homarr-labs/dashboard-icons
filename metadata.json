@@ -45734,5 +45734,20 @@
                 "login": "24eal"
             }
         }
+    },
+    "zfdash": {
+        "base": "png",
+        "aliases": [],
+        "categories": [
+            "storage",
+            "utility"
+        ],
+        "update": {
+            "timestamp": "2026-07-28T09:51:38.602Z",
+            "author": {
+                "id": 833048,
+                "login": "joraff"
+            }
+        }
     }
 }
