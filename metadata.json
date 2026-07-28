@@ -45843,5 +45843,17 @@
             "light": "oott-light",
             "dark": "oott-dark"
         }
+    },
+    "starlight": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-07-28T09:51:57.747Z",
+            "author": {
+                "id": 23728346,
+                "login": "Stephcraft"
+            }
+        }
     }
 }
