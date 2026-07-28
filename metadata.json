@@ -46079,5 +46079,20 @@
                 "login": "kaywoz"
             }
         }
+    },
+    "pelagica": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "entertainment",
+            "media"
+        ],
+        "update": {
+            "timestamp": "2026-07-28T09:52:34.540Z",
+            "author": {
+                "id": 104478202,
+                "login": "MooMooMcDoo"
+            }
+        }
     }
 }
