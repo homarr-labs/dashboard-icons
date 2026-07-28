@@ -46300,5 +46300,25 @@
                 "login": "Wyoh540"
             }
         }
+    },
+    "reloader": {
+        "base": "svg",
+        "aliases": [
+            "reloader"
+        ],
+        "categories": [
+            "development",
+            "automation",
+            "home-automation",
+            "utility",
+            "tools"
+        ],
+        "update": {
+            "timestamp": "2026-07-28T09:53:12.970Z",
+            "author": {
+                "id": 50410476,
+                "login": "deogratias-saidi"
+            }
+        }
     }
 }
