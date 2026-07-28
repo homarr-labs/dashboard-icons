@@ -45708,5 +45708,21 @@
             "light": "eficify-2-light",
             "dark": "eficify-2-dark"
         }
+    },
+    "frp-manager": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "network",
+            "home-automation",
+            "utility"
+        ],
+        "update": {
+            "timestamp": "2026-07-28T09:51:31.344Z",
+            "author": {
+                "id": 57223449,
+                "login": "Gogowwww"
+            }
+        }
     }
 }
