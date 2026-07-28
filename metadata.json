@@ -45935,5 +45935,17 @@
                 "login": "vmshade"
             }
         }
+    },
+    "featherpanel": {
+        "base": "png",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-07-28T09:52:11.614Z",
+            "author": {
+                "id": 87282334,
+                "login": "NaysKutzu"
+            }
+        }
     }
 }
