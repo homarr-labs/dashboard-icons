@@ -45673,5 +45673,22 @@
                 "name": "universall"
             }
         }
+    },
+    "euquista": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "development"
+        ],
+        "update": {
+            "timestamp": "2026-07-28T09:51:26.150Z",
+            "author": {
+                "id": 5755308,
+                "login": "rmeekers"
+            }
+        },
+        "wordmark": {
+            "light": "euquista-wordmark-light"
+        }
     }
 }
