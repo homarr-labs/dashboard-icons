@@ -45761,5 +45761,17 @@
                 "login": "isanto1306"
             }
         }
+    },
+    "asus-rt-ac86u": {
+        "base": "png",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-07-28T09:51:43.749Z",
+            "author": {
+                "id": 187082973,
+                "login": "sinhara1"
+            }
+        }
     }
 }
