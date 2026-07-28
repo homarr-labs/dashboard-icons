@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" width="96" height="96" fill="none" stroke="#dc2626" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="vaultwake">
+  <title>vaultwake — VW monogram with a pulse line beneath</title>
+  <!-- V (vault) on the left, W (wake) on the right, joined by a heartbeat baseline -->
+  <path d="M 10 28 L 24 66 L 38 28"/>
+  <path d="M 46 28 L 56 66 L 66 44 L 76 66 L 86 28"/>
+  <path d="M 10 80 H 28 L 32 74 L 38 86 L 44 74 L 48 80 H 86" stroke-width="2.5" stroke-opacity="0.7"/>
+</svg>
