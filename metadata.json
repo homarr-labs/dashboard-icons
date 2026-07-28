@@ -45821,5 +45821,27 @@
                 "login": "isanto1306"
             }
         }
+    },
+    "oott": {
+        "base": "svg",
+        "aliases": [
+            "oott-security"
+        ],
+        "categories": [
+            "monitoring",
+            "network",
+            "utility"
+        ],
+        "update": {
+            "timestamp": "2026-07-28T09:51:54.089Z",
+            "author": {
+                "id": 1726510,
+                "login": "rzuasti"
+            }
+        },
+        "colors": {
+            "light": "oott-light",
+            "dark": "oott-dark"
+        }
     }
 }
