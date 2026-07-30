@@ -14,6 +14,7 @@ import { Label } from "@/components/ui/label"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Textarea } from "@/components/ui/textarea"
+import { UnoptimizedImage } from "@/components/unoptimized-image"
 import { useIsMobile } from "@/hooks/use-mobile"
 import {
 	useApproveSubmission,
@@ -39,9 +40,11 @@ function UserSubmissionCard({ submission, onExpand }: { submission: Submission; 
 			<div className="flex items-start gap-3">
 				<div className="w-10 h-10 rounded border flex items-center justify-center bg-muted/30 shrink-0 p-1.5">
 					{submission.assets.length > 0 ? (
-						<img
+						<UnoptimizedImage
 							src={`${process.env.NEXT_PUBLIC_POCKETBASE_URL || "http://127.0.0.1:8090"}/api/files/submissions/${submission.id}/${submission.assets[0]}?thumb=100x100`}
 							alt={submission.name}
+							width={40}
+							height={40}
 							className="w-full h-full object-contain"
 						/>
 					) : (
@@ -519,9 +522,11 @@ export default function DashboardPage() {
 									<div className="flex gap-2 overflow-x-auto pb-2">
 										{selectedUserSubmission.assets.map((asset, i) => (
 											<div key={i} className="w-20 h-20 rounded border flex items-center justify-center bg-muted/30 p-2 shrink-0">
-												<img
+												<UnoptimizedImage
 													src={`${process.env.NEXT_PUBLIC_POCKETBASE_URL || "http://127.0.0.1:8090"}/api/files/submissions/${selectedUserSubmission.id}/${asset}?thumb=200x200`}
 													alt={`${selectedUserSubmission.name} asset ${i + 1}`}
+													width={80}
+													height={80}
 													className="w-full h-full object-contain"
 												/>
 											</div>

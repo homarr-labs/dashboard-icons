@@ -93,7 +93,7 @@ export function fuzzySearch(text: string, query: string): number {
 		}
 	}
 	const allWordsPresent = wordMatchCount === queryWords.length
-	const wordMatchScore = queryWords.length > 0 ? wordMatchCount / queryWords.length : 0
+	const wordMatchScore = wordMatchCount / queryWords.length
 
 	score += sequenceScore * 0.1 + similarityScore * 0.1 + wordMatchScore * 0.6
 
@@ -110,9 +110,7 @@ export function scoreIcon(icon: IconWithName, query: string): number {
 	const ALIAS_WEIGHT = 1.5
 	const nameScore = fuzzySearch(icon.name, query) * NAME_WEIGHT
 	const aliasScore =
-		icon.data.aliases.length > 0
-			? Math.max(...icon.data.aliases.map((alias) => fuzzySearch(alias, query))) * ALIAS_WEIGHT
-			: 0
+		icon.data.aliases.length > 0 ? Math.max(...icon.data.aliases.map((alias) => fuzzySearch(alias, query))) * ALIAS_WEIGHT : 0
 	return Math.max(nameScore, aliasScore)
 }
 
@@ -180,9 +178,9 @@ export function filterAndSortIcons({
 			.filter((item) => item.score > 0.7)
 			.sort((a, b) => {
 				if (b.score !== a.score) return b.score - a.score
-				const aIsNative = !a.icon.source || a.icon.source === "native" ? 0 : 1
-				const bIsNative = !b.icon.source || b.icon.source === "native" ? 0 : 1
-				if (aIsNative !== bIsNative) return aIsNative - bIsNative
+				const externalRank = (icon: IconWithName) => Number(Boolean(icon.source && icon.source !== "native"))
+				const rankDiff = externalRank(a.icon) - externalRank(b.icon)
+				if (rankDiff !== 0) return rankDiff
 				return a.icon.name.localeCompare(b.icon.name)
 			})
 

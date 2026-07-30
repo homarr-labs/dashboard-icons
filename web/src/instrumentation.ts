@@ -1,4 +1,12 @@
-import type { LoggerProvider } from "@opentelemetry/sdk-logs"
+import { logs } from "@opentelemetry/api-logs"
+import { OTLPLogExporter } from "@opentelemetry/exporter-logs-otlp-http"
+import { resourceFromAttributes } from "@opentelemetry/resources"
+import {
+	type LoggerProvider,
+	type LogRecordExporter,
+	LoggerProvider as OtelLoggerProvider,
+	SimpleLogRecordProcessor,
+} from "@opentelemetry/sdk-logs"
 import { PostHog } from "posthog-node"
 
 let posthogClient: PostHog | null = null
@@ -19,30 +27,21 @@ function getPostHogClient(): PostHog | null {
 
 export async function register() {
 	if (process.env.NEXT_RUNTIME === "nodejs" && process.env.MCP_WARM_CACHE === "true") {
-		import("@/lib/icons/service")
-			.then((module) => module.warmMetadataCache())
-			.catch(() => {})
+		import("@/lib/icons/service").then((module) => module.warmMetadataCache()).catch(() => {})
 	}
 
 	if (process.env.NEXT_RUNTIME === "nodejs" && process.env.NEXT_PUBLIC_POSTHOG_KEY && process.env.NEXT_PUBLIC_DISABLE_POSTHOG !== "true") {
-		const { BatchLogRecordProcessor: Processor, LoggerProvider: Provider } = await import("@opentelemetry/sdk-logs")
-		const { OTLPLogExporter } = await import("@opentelemetry/exporter-logs-otlp-http")
-		const { logs } = await import("@opentelemetry/api-logs")
-		const { resourceFromAttributes } = await import("@opentelemetry/resources")
+		const logExporter: LogRecordExporter = new OTLPLogExporter({
+			url: "https://eu.i.posthog.com/i/v1/logs",
+			headers: {
+				Authorization: `Bearer ${process.env.NEXT_PUBLIC_POSTHOG_KEY}`,
+				"Content-Type": "application/json",
+			},
+		})
 
-		loggerProvider = new Provider({
+		loggerProvider = new OtelLoggerProvider({
 			resource: resourceFromAttributes({ "service.name": "dashboard-icons-web" }),
-			processors: [
-				new Processor(
-					new OTLPLogExporter({
-						url: "https://eu.i.posthog.com/i/v1/logs",
-						headers: {
-							Authorization: `Bearer ${process.env.NEXT_PUBLIC_POSTHOG_KEY}`,
-							"Content-Type": "application/json",
-						},
-					}),
-				),
-			],
+			processors: [new SimpleLogRecordProcessor({ exporter: logExporter })],
 		})
 
 		logs.setGlobalLoggerProvider(loggerProvider)

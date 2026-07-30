@@ -10,11 +10,7 @@ function resolveFileName(name: string, theme: IconTheme): string {
 	return name
 }
 
-export function buildIconUrl(
-	name: string,
-	format: IconFormat = "svg",
-	theme: IconTheme = "default",
-): string {
+export function buildIconUrl(name: string, format: IconFormat = "svg", theme: IconTheme = "default"): string {
 	const fileName = resolveFileName(name, theme)
 	return `${BASE_URL}/${format}/${fileName}.${format}`
 }

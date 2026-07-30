@@ -1,11 +1,10 @@
 "use client"
 
-import { Check, Copy, Globe2, Search, Sparkles } from "lucide-react"
+import { Check, Copy, Globe2, Search } from "lucide-react"
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
-import { RainbowButton } from "@/components/ui/rainbow-button"
 import { Separator } from "@/components/ui/separator"
 import { cn } from "@/lib/utils"
 

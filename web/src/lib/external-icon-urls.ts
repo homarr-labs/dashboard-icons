@@ -1,7 +1,9 @@
 import { EXTERNAL_SOURCES, type ExternalSourceId } from "@/constants"
 import type { ExternalIcon } from "@/types/icons"
 
-const FALLBACK_URL_BUILDERS: Partial<Record<ExternalSourceId, (cdnBase: string, slug: string, format: string, variant?: string) => string>> = {
+const FALLBACK_URL_BUILDERS: Partial<
+	Record<ExternalSourceId, (cdnBase: string, slug: string, format: string, variant?: string) => string>
+> = {
 	selfhst: (cdnBase, slug, format, variant) => {
 		const suffix = variant ? `-${variant}` : ""
 		return `${cdnBase}/${format}/${slug}${suffix}.${format}`

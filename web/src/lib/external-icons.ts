@@ -1,3 +1,4 @@
+import { unstable_cache } from "next/cache"
 import { cache } from "react"
 import { EXTERNAL_SOURCE_IDS, type ExternalSourceId, getExternalSource } from "@/constants"
 import { createServerPB } from "@/lib/pb"
@@ -8,12 +9,20 @@ const EXTERNAL_REVALIDATE_SECONDS = 900
 const EXTERNAL_TTL_MS = EXTERNAL_REVALIDATE_SECONDS * 1000
 
 let _memCache: { data: ExternalIconRecord[]; ts: number } | null = null
+let _hasLoggedFetchFailure = false
 
 type ListExternalIconsOptions = {
 	q?: string
 	category?: string
 	page?: number
 	perPage?: number
+}
+
+function logExternalIconsFailure(error: unknown): void {
+	if (_hasLoggedFetchFailure) return
+	_hasLoggedFetchFailure = true
+	const message = error instanceof Error ? error.message : String(error)
+	console.warn(`External icons unavailable (${message}); continuing with native icons only.`)
 }
 
 function toExternalIconRecord(icon: ExternalIcon, { lite = false } = {}): ExternalIconRecord {
@@ -89,33 +98,50 @@ async function fetchAllExternalIcons(): Promise<ExternalIconRecord[]> {
 	return results.flat()
 }
 
+const getCachedExternalIcons = unstable_cache(
+	async (): Promise<ExternalIconRecord[]> => {
+		try {
+			return await fetchAllExternalIcons()
+		} catch (error) {
+			logExternalIconsFailure(error)
+			return []
+		}
+	},
+	["all-external-icons"],
+	{ revalidate: EXTERNAL_REVALIDATE_SECONDS, tags: ["external-icons"] },
+)
+
 async function fetchExternalIconsWithTTL(): Promise<ExternalIconRecord[]> {
 	if (_memCache && Date.now() - _memCache.ts < EXTERNAL_TTL_MS) {
 		return _memCache.data
 	}
-	const data = await fetchAllExternalIcons()
+	const data = await getCachedExternalIcons()
 	_memCache = { data, ts: Date.now() }
 	return data
 }
 
 export const getExternalIcons = cache(async (): Promise<ExternalIconRecord[]> => {
-	try {
-		return await fetchExternalIconsWithTTL()
-	} catch (error) {
-		console.error("Error fetching external icons:", error)
-		return []
-	}
+	return fetchExternalIconsWithTTL()
 })
 
 export async function getExternalIconBySlug(slug: string): Promise<ExternalIconRecord | null> {
+	const icons = await getExternalIcons()
+	const fromList = icons.find((icon) => icon.slug === slug)
+	if (fromList) {
+		return fromList
+	}
+
+	if (icons.length === 0) {
+		return null
+	}
+
 	try {
 		const pb = createServerPB()
 		const record = await pb.collection("external_icons").getFirstListItem<ExternalIcon>(pb.filter("slug = {:slug}", { slug }), {
 			requestKey: null,
 		})
 		return toExternalIconRecord(record)
-	} catch (error) {
-		console.error(`Error fetching external icon ${slug}:`, error)
+	} catch {
 		return null
 	}
 }
@@ -178,4 +204,9 @@ export async function searchAllSources(q = ""): Promise<IconRecord[]> {
 			icon.data.aliases.some((alias) => alias.toLowerCase().includes(query)) ||
 			icon.data.categories.some((category) => category.toLowerCase().includes(query)),
 	)
+}
+
+export function clearExternalIconsCacheForTests(): void {
+	_memCache = null
+	_hasLoggedFetchFailure = false
 }

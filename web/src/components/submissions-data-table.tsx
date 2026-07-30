@@ -26,6 +26,7 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { Drawer, DrawerContent, DrawerHeader, DrawerTitle } from "@/components/ui/drawer"
 import { Input } from "@/components/ui/input"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { UnoptimizedImage } from "@/components/unoptimized-image"
 import { UserDisplay } from "@/components/user-display"
 import { useIsMobile } from "@/hooks/use-mobile"
 import { pb, type Submission } from "@/lib/pb"
@@ -92,7 +93,7 @@ const groupAndSortSubmissions = (submissions: Submission[], isAdmin: boolean): S
 export function SubmissionsDataTable({
 	data,
 	isAdmin,
-	currentUserId,
+	currentUserId: _currentUserId,
 	onApprove,
 	onReject,
 	onTriggerWorkflow,
@@ -157,7 +158,9 @@ export function SubmissionsDataTable({
 									<Checkbox
 										checked={allSelectableSelected}
 										onCheckedChange={(value: boolean) => {
-											selectableRows.forEach((row: any) => row.toggleSelected(!!value))
+											for (const row of selectableRows) {
+												row.toggleSelected(!!value)
+											}
 										}}
 										aria-label="Select all approved and pending"
 										className="translate-y-[2px]"
@@ -212,9 +215,11 @@ export function SubmissionsDataTable({
 					if (assets.length > 0) {
 						return (
 							<div className="w-12 h-12 rounded border flex items-center justify-center bg-background p-2">
-								<img
-									src={`${pb.baseURL}/api/files/submissions/${row.original.id}/${assets[0]}?thumb=100x100` || "/placeholder.svg"}
+								<UnoptimizedImage
+									src={`${pb.baseURL}/api/files/submissions/${row.original.id}/${assets[0]}?thumb=100x100`}
 									alt={name}
+									width={48}
+									height={48}
 									className="w-full h-full object-contain"
 								/>
 							</div>
@@ -625,9 +630,10 @@ export function SubmissionsDataTable({
 													</span>
 												</div>
 											)}
-											<div
+											<button
+												type="button"
 												className={cn(
-													"flex items-center gap-3 p-3 rounded-lg border bg-background cursor-pointer active:bg-muted/50 transition-colors",
+													"flex w-full items-center gap-3 p-3 rounded-lg border bg-background cursor-pointer active:bg-muted/50 transition-colors text-left",
 													isSelected && "ring-2 ring-primary/50 bg-primary/5",
 													isApproved && !isSelected && "bg-green-500/5",
 													isPending && !isSelected && "bg-yellow-500/5",
@@ -645,9 +651,11 @@ export function SubmissionsDataTable({
 												)}
 												{assets.length > 0 ? (
 													<div className="w-10 h-10 rounded border flex items-center justify-center bg-background p-1.5 shrink-0">
-														<img
+														<UnoptimizedImage
 															src={`${pb.baseURL}/api/files/submissions/${submission.id}/${assets[0]}?thumb=100x100`}
 															alt={submission.name}
+															width={40}
+															height={40}
 															className="w-full h-full object-contain"
 														/>
 													</div>
@@ -665,7 +673,7 @@ export function SubmissionsDataTable({
 													</div>
 												</div>
 												<ChevronRight className="h-4 w-4 text-muted-foreground shrink-0" />
-											</div>
+											</button>
 										</React.Fragment>
 									)
 								})

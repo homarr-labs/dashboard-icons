@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Input } from "@/components/ui/input"
 import { Separator } from "@/components/ui/separator"
+import { UnoptimizedImage } from "@/components/unoptimized-image"
 import { DASHBOARD_ICONS_ICON, EXTERNAL_SOURCE_IDS, EXTERNAL_SOURCES, type ExternalSourceId } from "@/constants"
 import { filterAndSortIcons, normalizeForSearch, type SortOption } from "@/lib/utils"
 import type { IconRecord, IconSearchProps } from "@/types/icons"
@@ -272,9 +273,9 @@ export function IconSearch({ icons }: IconSearchProps) {
 								{sourceFilter === "all" ? (
 									<Filter className="h-4 w-4 mr-2" />
 								) : sourceFilter === "native" ? (
-									<img src={DASHBOARD_ICONS_ICON} alt="" width={16} height={16} className="shrink-0 mr-2" />
+									<UnoptimizedImage src={DASHBOARD_ICONS_ICON} alt="" width={16} height={16} className="shrink-0 mr-2" />
 								) : (
-									<img src={EXTERNAL_SOURCES[sourceFilter].icon} alt="" width={16} height={16} className="shrink-0 mr-2" />
+									<UnoptimizedImage src={EXTERNAL_SOURCES[sourceFilter].icon} alt="" width={16} height={16} className="shrink-0 mr-2" />
 								)}
 								<span>{getSourceLabel(sourceFilter)}</span>
 							</Button>
@@ -287,12 +288,12 @@ export function IconSearch({ icons }: IconSearchProps) {
 									All
 								</DropdownMenuRadioItem>
 								<DropdownMenuRadioItem value="native" className="cursor-pointer">
-									<img src={DASHBOARD_ICONS_ICON} alt="" width={14} height={14} className="shrink-0" />
+									<UnoptimizedImage src={DASHBOARD_ICONS_ICON} alt="" width={14} height={14} className="shrink-0" />
 									Dashboard Icons
 								</DropdownMenuRadioItem>
 								{EXTERNAL_SOURCE_IDS.map((sourceId) => (
 									<DropdownMenuRadioItem key={sourceId} value={sourceId} className="cursor-pointer">
-										<img src={EXTERNAL_SOURCES[sourceId].icon} alt="" width={14} height={14} className="shrink-0" />
+										<UnoptimizedImage src={EXTERNAL_SOURCES[sourceId].icon} alt="" width={14} height={14} className="shrink-0" />
 										{EXTERNAL_SOURCES[sourceId].label}
 									</DropdownMenuRadioItem>
 								))}

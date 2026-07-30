@@ -177,11 +177,7 @@ export default async function ExternalIconPage({ params }: { params: Promise<{ s
 				iconData={icon.data}
 				authorData={authorData}
 				externalIcon={icon.external}
-				breadcrumbItems={[
-					{ label: "Home", href: "/" },
-					{ label: "Browse Icons", href: "/icons" },
-					{ label: icon.external.name },
-				]}
+				breadcrumbItems={[{ label: "Home", href: "/" }, { label: "Browse Icons", href: "/icons" }, { label: icon.external.name }]}
 			/>
 		</>
 	)

@@ -1,11 +1,6 @@
 import type { McpServer } from "@modelcontextprotocol/server"
 import { getIconByName, getIconUrl, searchIcons, suggestIcons } from "@/lib/icons/service"
-import {
-	getIconSchema,
-	getIconUrlSchema,
-	searchIconsSchema,
-	suggestIconSchema,
-} from "@/lib/icons/validate"
+import { getIconSchema, getIconUrlSchema, searchIconsSchema, suggestIconSchema } from "@/lib/icons/validate"
 
 function jsonContent(data: unknown) {
 	return { content: [{ type: "text" as const, text: JSON.stringify(data) }] }

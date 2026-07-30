@@ -519,17 +519,17 @@ export function EditableIconDetails({ onSubmit, initialData }: EditableIconDetai
 											Icon Variants
 										</h3>
 										<p className="text-sm text-muted-foreground mb-4">Upload your icon files. Base icon is required.</p>
-									<MagicCardPointerProvider className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-										{variants.map((variant, index) => (
-											<VariantCard
-												key={index}
-												variant={variant}
-												onRemove={() => handleRemoveVariant(index)}
-												canRemove={variant.type !== "base" || variants.length > 1}
-											/>
-										))}
-										<AddVariantCard onAddVariant={handleAddVariant} existingTypes={variants.map((v) => v.type)} />
-									</MagicCardPointerProvider>
+										<MagicCardPointerProvider className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+											{variants.map((variant, index) => (
+												<VariantCard
+													key={index}
+													variant={variant}
+													onRemove={() => handleRemoveVariant(index)}
+													canRemove={variant.type !== "base" || variants.length > 1}
+												/>
+											))}
+											<AddVariantCard onAddVariant={handleAddVariant} existingTypes={variants.map((v) => v.type)} />
+										</MagicCardPointerProvider>
 									</div>
 
 									{/* Help Text */}

@@ -1,3 +1,5 @@
+import "server-only"
+
 import { readFile } from "node:fs/promises"
 import { unstable_cache } from "next/cache"
 import { METADATA_URL } from "@/constants"
@@ -63,11 +65,10 @@ async function loadMetadataUncached(): Promise<IconFile> {
 	return fetchMetadataFromRemote()
 }
 
-const getCachedMetadata = unstable_cache(
-	async () => loadMetadataUncached(),
-	["dashboard-icons-metadata"],
-	{ revalidate: CACHE_TTL_SECONDS, tags: ["native-icons"] },
-)
+const getCachedMetadata = unstable_cache(async () => loadMetadataUncached(), ["dashboard-icons-metadata"], {
+	revalidate: CACHE_TTL_SECONDS,
+	tags: ["native-icons"],
+})
 
 export async function warmMetadataCache(): Promise<void> {
 	await getAllIcons()
@@ -94,11 +95,7 @@ async function getIconsArray(): Promise<IconWithName[]> {
 		.sort((a, b) => a.name.localeCompare(b.name))
 }
 
-export async function searchIcons(
-	query: string,
-	limit = 20,
-	category?: string,
-): Promise<{ results: SearchResult[]; total: number }> {
+export async function searchIcons(query: string, limit = 20, category?: string): Promise<{ results: SearchResult[]; total: number }> {
 	const trimmed = query.trim()
 	if (!trimmed) return { results: [], total: 0 }
 

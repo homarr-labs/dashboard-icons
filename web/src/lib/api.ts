@@ -1,45 +1,43 @@
+import "server-only"
+
+import { unstable_cache } from "next/cache"
 import type { RelatedIcon } from "@/components/icon-details"
 import { ApiError } from "@/lib/errors"
 import * as iconService from "@/lib/icons/service"
-import { ValidationError } from "@/lib/icons/validate"
+import { assertIconName, ValidationError } from "@/lib/icons/validate"
 import type { AuthorData, Icon, IconFile, IconWithName, NativeIconRecord } from "@/types/icons"
 
-/**
- * Fetches all icon data from the metadata.json file
- * Uses layered cache via icons service
- */
-export async function getAllIcons(): Promise<IconFile> {
-	try {
-		return await iconService.getAllIcons()
-	} catch (error) {
-		if (error instanceof ApiError) {
-			throw error
-		}
-		console.error("Error fetching icons:", error)
-		throw new ApiError("Failed to fetch icons data. Please try again later.")
-	}
+const CACHE_TTL_SECONDS = 900
+const MAX_RELATED_ICONS = 16
+const GITHUB_NUMERIC_ID = /^\d+$/
+
+const UNKNOWN_AUTHOR: AuthorData = {
+	id: 0,
+	login: "unknown",
+	avatar_url: "https://avatars.githubusercontent.com/u/0",
+	html_url: "https://github.com",
+	name: "Unknown User",
 }
 
-/**
- * Gets a list of all icon names.
- */
-export const getIconNames = async (): Promise<string[]> => {
-	try {
-		const iconsData = await getAllIcons()
-		return Object.keys(iconsData)
-	} catch (error) {
-		console.error("Error getting icon names:", error)
-		throw error
-	}
+const authorDataCache = new Map<string, AuthorData>()
+let hasLoggedAuthorFetchFailure = false
+
+function logAuthorFetchFailure(error: unknown): void {
+	if (hasLoggedAuthorFetchFailure) return
+	hasLoggedAuthorFetchFailure = true
+	const message = error instanceof Error ? error.message : String(error)
+	console.warn(`Author data unavailable (${message}); using fallback author metadata.`)
 }
 
-/**
- * Converts icon data to an array format for easier rendering
- */
-export async function getIconsArray(): Promise<NativeIconRecord[]> {
-	try {
-		const iconsData = await getAllIcons()
+const getCachedGitHubAuthorData = unstable_cache(
+	async (authorId: number): Promise<AuthorData> => fetchGitHubAuthorData(authorId),
+	["github-author-data"],
+	{ revalidate: CACHE_TTL_SECONDS, tags: ["github-authors"] },
+)
 
+const getCachedIconsArray = unstable_cache(
+	async (): Promise<NativeIconRecord[]> => {
+		const iconsData = await iconService.getAllIcons()
 		return Object.entries(iconsData)
 			.map(([name, data]) => ({
 				name,
@@ -48,210 +46,189 @@ export async function getIconsArray(): Promise<NativeIconRecord[]> {
 				data,
 			}))
 			.sort((a, b) => a.name.localeCompare(b.name))
+	},
+	["native-icons-array"],
+	{ revalidate: CACHE_TTL_SECONDS, tags: ["native-icons"] },
+)
+
+const getCachedIconNames = unstable_cache(
+	async (): Promise<string[]> => {
+		const iconsData = await iconService.getAllIcons()
+		return Object.keys(iconsData)
+	},
+	["icon-names"],
+	{ revalidate: CACHE_TTL_SECONDS, tags: ["native-icons"] },
+)
+
+const getCachedRecentlyAdded = unstable_cache(
+	async (limit: number): Promise<IconWithName[]> => {
+		const icons = await getCachedIconsArray()
+		return icons
+			.toSorted((a, b) => new Date(b.data.update.timestamp).getTime() - new Date(a.data.update.timestamp).getTime())
+			.slice(0, limit)
+			.map(({ name, data }) => ({ name, data }))
+	},
+	["recently-added-icons"],
+	{ revalidate: CACHE_TTL_SECONDS, tags: ["native-icons"] },
+)
+
+export async function getAllIcons(): Promise<IconFile> {
+	try {
+		return await iconService.getAllIcons()
 	} catch (error) {
-		console.error("Error getting icons array:", error)
-		throw error
+		if (error instanceof ApiError) throw error
+		console.error("Error fetching icons:", error)
+		throw new ApiError("Failed to fetch icons data. Please try again later.")
 	}
 }
 
-/**
- * Fetches data for a specific icon
- */
+export async function getIconNames(): Promise<string[]> {
+	return getCachedIconNames()
+}
+
+export async function getIconsArray(): Promise<NativeIconRecord[]> {
+	return getCachedIconsArray()
+}
+
 export async function getIconData(iconName: string): Promise<IconWithName | null> {
 	try {
-		const icon = await iconService.getIconByName(iconName)
-		if (!icon) return null
-
-		return {
-			name: icon.name,
-			data: {
-				base: icon.base,
-				aliases: icon.aliases,
-				categories: icon.categories,
-				update: icon.update,
-				colors: icon.colors,
-			},
-		}
+		const name = assertIconName(iconName)
+		const data = (await getAllIcons())[name]
+		if (!data) return null
+		return { name, data }
 	} catch (error) {
 		if (error instanceof ValidationError) return null
-		console.error("Error getting icon data:", error)
 		throw error
 	}
 }
 
-/**
- * Fetch author data from GitHub API (raw function without caching)
- */
-async function fetchGitHubAuthorData(authorId: number) {
+async function fetchGitHubAuthorData(authorId: number): Promise<AuthorData> {
 	try {
 		const response = await fetch(`https://api.github.com/user/${authorId}`, {
-			headers: {
-				Authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
-			},
+			headers: { Authorization: `Bearer ${process.env.GITHUB_TOKEN}` },
 		})
 
+		if (response.status === 401 || response.status === 403) {
+			console.warn(`GitHub API rate limit or authorization issue: ${response.statusText}`)
+			return UNKNOWN_AUTHOR
+		}
+
 		if (!response.ok) {
-			if (response.status === 401 || response.status === 403) {
-				console.warn(`GitHub API rate limit or authorization issue: ${response.statusText}`)
-				return {
-					login: "unknown",
-					avatar_url: "https://avatars.githubusercontent.com/u/0",
-					html_url: "https://github.com",
-					name: "Unknown User",
-					bio: null,
-				}
-			}
 			throw new ApiError(`Failed to fetch author data: ${response.statusText}`, response.status)
 		}
 
 		return response.json()
 	} catch (error) {
-		console.error("Error fetching author data:", error)
-		return {
-			login: "unknown",
-			avatar_url: "https://avatars.githubusercontent.com/u/0",
-			html_url: "https://github.com",
-			name: "Unknown User",
-			bio: null,
-		}
+		if (error instanceof ApiError) throw error
+		logAuthorFetchFailure(error)
+		return UNKNOWN_AUTHOR
 	}
 }
 
-const authorDataCache: Record<string | number, AuthorData> = {}
-
-/**
- * Build author data from internal (PocketBase) user metadata
- * These users don't have GitHub profiles, so we construct a local AuthorData object
- * - No html_url so the component won't render a link
- * - Uses a generic avatar placeholder
- */
 function buildInternalAuthorData(author: { id: string | number; name?: string; login?: string }): AuthorData {
 	return {
 		id: author.id,
 		name: author.name || "Community Contributor",
 		login: author.login || author.name || "contributor",
-		avatar_url: "", // Empty = will use fallback avatar in component
-		html_url: "", // Empty = no link will be rendered
+		avatar_url: "",
+		html_url: "",
 	}
 }
 
-/**
- * Cached version of fetchAuthorData
- * Supports both GitHub users (numeric IDs) and internal PocketBase users (string IDs)
- *
- * For GitHub users: fetches from GitHub API
- * For internal users: constructs AuthorData from the embedded metadata
- *
- * This prevents hitting GitHub API rate limits by caching author data
- * across multiple page builds and requests.
- */
+function applyAuthorMetaFallback(data: AuthorData, authorMeta?: { name?: string; login?: string }): AuthorData {
+	if (!authorMeta?.login) return data
+	if (data.login !== "unknown" && data.html_url) return data
+
+	return {
+		...data,
+		login: authorMeta.login,
+		name: data.name || authorMeta.name || authorMeta.login,
+		html_url: `https://github.com/${authorMeta.login}`,
+		avatar_url: data.avatar_url || `https://github.com/${authorMeta.login}.png`,
+	}
+}
+
+async function resolveAuthorData(authorId: number | string, authorMeta?: { name?: string; login?: string }): Promise<AuthorData> {
+	if (typeof authorId === "string" && !GITHUB_NUMERIC_ID.test(authorId)) {
+		return buildInternalAuthorData({ id: authorId, ...authorMeta })
+	}
+
+	const ghId = typeof authorId === "number" ? authorId : Number(authorId)
+	const data = await getCachedGitHubAuthorData(ghId)
+	return applyAuthorMetaFallback(data, authorMeta)
+}
+
 export async function getAuthorData(authorId: number | string, authorMeta?: { name?: string; login?: string }): Promise<AuthorData> {
 	const cacheKey = String(authorId)
+	const cached = authorDataCache.get(cacheKey)
+	if (cached) return cached
 
-	if (authorDataCache[cacheKey]) {
-		return authorDataCache[cacheKey]
-	}
-
-	let data: AuthorData
-
-	// If authorId is a numeric string, treat it as a GitHub user ID.
-	if (typeof authorId === "string" && /^\d+$/.test(authorId)) {
-		const ghId = Number(authorId)
-		data = await fetchGitHubAuthorData(ghId)
-
-		// If GitHub API fails (rate-limited, no token, etc.), fall back to authorMeta.login to still render a link.
-		if (authorMeta?.login && (data.login === "unknown" || !data.html_url)) {
-			data = {
-				...data,
-				login: authorMeta.login,
-				name: data.name || authorMeta.name || authorMeta.login,
-				html_url: `https://github.com/${authorMeta.login}`,
-				avatar_url: data.avatar_url || `https://github.com/${authorMeta.login}.png`,
-			}
-		}
-	} else if (typeof authorId === "string") {
-		// Non-numeric string => internal PocketBase user
-		data = buildInternalAuthorData({ id: authorId, ...authorMeta })
-	} else {
-		// Numeric ID = GitHub user
-		data = await fetchGitHubAuthorData(authorId)
-	}
-
-	authorDataCache[cacheKey] = data
+	const data = await resolveAuthorData(authorId, authorMeta)
+	authorDataCache.set(cacheKey, data)
 	return data
 }
-
-const MAX_RELATED_ICONS = 16
 
 export function computeRelatedIcons(currentIcon: string, currentCategories: string[], allIcons: IconFile): RelatedIcon[] {
 	if (currentCategories.length === 0) return []
 
+	const categorySet = new Set(currentCategories)
 	const scored: { name: string; data: Icon; score: number }[] = []
+
 	for (const [name, data] of Object.entries(allIcons)) {
 		if (name === currentIcon) continue
-		const otherCategories = data.categories || []
+
+		const otherCategories = data.categories
+		if (!otherCategories?.length) continue
+
 		let score = 0
-		for (const cat of currentCategories) {
-			if (otherCategories.includes(cat)) score++
+		for (const cat of otherCategories) {
+			if (categorySet.has(cat)) score++
 		}
-		if (score > 0) scored.push({ name, data, score })
+		if (score === 0) continue
+
+		scored.push({ name, data, score })
 	}
 
-	scored.sort((a, b) => b.score - a.score)
-
-	return scored.slice(0, MAX_RELATED_ICONS).map(({ name, data }) => ({
-		name,
-		data: {
-			base: data.base,
-			aliases: data.aliases ?? [],
-			categories: data.categories ?? [],
-			update: data.update,
-			colors: data.colors,
-		},
-	}))
+	return scored
+		.toSorted((a, b) => b.score - a.score)
+		.slice(0, MAX_RELATED_ICONS)
+		.map(({ name, data }) => ({
+			name,
+			data: {
+				base: data.base,
+				aliases: data.aliases ?? [],
+				categories: data.categories,
+				update: data.update,
+				colors: data.colors,
+			},
+		}))
 }
 
-/**
- * Fetches total icon count with per-source breakdown
- */
 export async function getTotalIcons() {
 	const { getExternalIcons } = await import("@/lib/external-icons")
-	try {
-		const [iconsData, externalIcons] = await Promise.all([getAllIcons(), getExternalIcons()])
-		const nativeCount = Object.keys(iconsData).length
-		const externalCount = externalIcons.length
-		const sourceCounts: Record<string, number> = {}
-		for (const icon of externalIcons) {
-			sourceCounts[icon.source] = (sourceCounts[icon.source] || 0) + 1
-		}
+	const [iconsData, externalIcons] = await Promise.all([getAllIcons(), getExternalIcons()])
 
-		return {
-			totalIcons: nativeCount + externalCount,
-			nativeCount,
-			externalCount,
-			sourceCounts,
-		}
-	} catch (error) {
-		console.error("Error getting total icons:", error)
-		throw error
+	const nativeCount = Object.keys(iconsData).length
+	const externalCount = externalIcons.length
+	const sourceCounts: Record<string, number> = {}
+
+	for (const icon of externalIcons) {
+		sourceCounts[icon.source] = (sourceCounts[icon.source] ?? 0) + 1
+	}
+
+	return {
+		totalIcons: nativeCount + externalCount,
+		nativeCount,
+		externalCount,
+		sourceCounts,
 	}
 }
 
-/**
- * Fetches recently added icons sorted by timestamp
- */
 export async function getRecentlyAddedIcons(limit = 8): Promise<IconWithName[]> {
-	try {
-		const icons = await getIconsArray()
+	return getCachedRecentlyAdded(limit)
+}
 
-		return icons
-			.sort((a, b) => {
-				// Sort by timestamp in descending order (newest first)
-				return new Date(b.data.update.timestamp).getTime() - new Date(a.data.update.timestamp).getTime()
-			})
-			.slice(0, limit)
-	} catch (error) {
-		console.error("Error getting recently added icons:", error)
-		throw error
-	}
+export function clearAuthorDataCacheForTests(): void {
+	authorDataCache.clear()
+	hasLoggedAuthorFetchFailure = false
 }

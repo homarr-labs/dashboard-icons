@@ -288,11 +288,7 @@ export default async function CommunityIconPage({ params }: { params: Promise<{ 
 				}}
 			/>
 			<IconDetails
-				breadcrumbItems={[
-					{ label: "Home", href: "/" },
-					{ label: "Community Icons", href: "/community" },
-					{ label: formattedName },
-				]}
+				breadcrumbItems={[{ label: "Home", href: "/" }, { label: "Community Icons", href: "/community" }, { label: formattedName }]}
 				icon={icon}
 				iconData={iconDataForDisplay as any}
 				authorData={authorData}

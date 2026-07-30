@@ -1,5 +1,9 @@
+import path from "node:path"
+import { fileURLToPath } from "node:url"
 import type { NextConfig } from "next";
 import { withPostHogConfig } from "@posthog/nextjs-config";
+
+const projectRoot = path.dirname(fileURLToPath(import.meta.url))
 
 const securityHeaders = [
 	{ key: "X-Content-Type-Options", value: "nosniff" },
@@ -10,6 +14,9 @@ const securityHeaders = [
 ];
 
 const nextConfig: NextConfig = {
+	turbopack: {
+		root: projectRoot,
+	},
 	cacheComponents: false,
 	images: {
 		unoptimized: true,
@@ -34,6 +41,18 @@ const nextConfig: NextConfig = {
 				port: "",
 				pathname: "/lobehub/lobe-icons/**",
 				search: "",
+			},
+			{
+				protocol: "http",
+				hostname: "127.0.0.1",
+				port: "8090",
+				pathname: "/api/files/**",
+			},
+			{
+				protocol: "http",
+				hostname: "localhost",
+				port: "8090",
+				pathname: "/api/files/**",
 			},
 		],
 	},

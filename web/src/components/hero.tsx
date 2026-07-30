@@ -31,6 +31,7 @@ import { AuroraText } from "./magicui/aurora-text"
 import { InteractiveHoverButton } from "./magicui/interactive-hover-button"
 import { NumberTicker } from "./magicui/number-ticker"
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "./ui/hover-card"
+import { UnoptimizedImage } from "./unoptimized-image"
 
 interface IconCardProps {
 	name: string
@@ -41,7 +42,7 @@ function _IconCard({ name, imageUrl }: IconCardProps) {
 	return (
 		<Card className="p-4 flex flex-col items-center gap-2 cursor-pointer group hover-lift card-hover">
 			<div className="w-16 h-16 flex items-center justify-center">
-				<img src={imageUrl} alt={name} className="max-w-full max-h-full" />
+				<UnoptimizedImage src={imageUrl} alt={name} width={64} height={64} className="max-w-full max-h-full object-contain" />
 			</div>
 			<p className="text-sm text-center text-muted-foreground group-hover:text-foreground transition-colors">{name}</p>
 		</Card>
@@ -243,7 +244,7 @@ export function HeroSection({
 								<div className="flex flex-col gap-2">
 									<p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Sources</p>
 									<div className="flex items-center gap-2 text-sm">
-										<img src={DASHBOARD_ICONS_ICON} alt="" width={16} height={16} className="shrink-0" />
+										<UnoptimizedImage src={DASHBOARD_ICONS_ICON} alt="" width={16} height={16} className="shrink-0" />
 										<span className="flex-1">Dashboard Icons</span>
 										<span className="font-semibold tabular-nums">{nativeCount.toLocaleString()}</span>
 									</div>
@@ -252,7 +253,7 @@ export function HeroSection({
 										if (!config) return null
 										return (
 											<div key={sourceId} className="flex items-center gap-2 text-sm">
-												<img src={config.icon} alt="" width={16} height={16} className="shrink-0" />
+												<UnoptimizedImage src={config.icon} alt="" width={16} height={16} className="shrink-0" />
 												<span className="flex-1">{config.label}</span>
 												<span className="font-semibold tabular-nums">{count.toLocaleString()}</span>
 											</div>

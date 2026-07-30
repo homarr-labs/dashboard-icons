@@ -576,7 +576,7 @@ export function ensureSvgAttributes(svg: string, viewBox: string = DEFAULT_VIEWB
 			if (width && height) {
 				const numWidth = parseFloat(width)
 				const numHeight = parseFloat(height)
-				if (!isNaN(numWidth) && !isNaN(numHeight)) {
+				if (!Number.isNaN(numWidth) && !Number.isNaN(numHeight)) {
 					svgElement.setAttribute("viewBox", `0 0 ${numWidth} ${numHeight}`)
 				}
 			} else {

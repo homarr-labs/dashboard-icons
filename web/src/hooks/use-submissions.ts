@@ -2,7 +2,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { toast } from "sonner"
 import { triggerAddIconWorkflow, triggerBulkAddIconWorkflow } from "@/app/actions/github"
 import { revalidateAllSubmissions } from "@/app/actions/submissions"
-import { getAllIcons } from "@/lib/api"
+import { METADATA_URL } from "@/constants"
 import { getPocketBaseUrl, pb, type Submission } from "@/lib/pb"
 
 // Query key factory
@@ -225,7 +225,11 @@ export function useExistingIconNames() {
 				requestKey: null,
 			})
 
-			const metadata = await getAllIcons()
+			const metadataResponse = await fetch(METADATA_URL)
+			if (!metadataResponse.ok) {
+				throw new Error("Failed to load icon metadata")
+			}
+			const metadata = (await metadataResponse.json()) as Record<string, unknown>
 			const metadataNames = Object.keys(metadata)
 
 			const iconMap = new Map<string, IconNameOption>()

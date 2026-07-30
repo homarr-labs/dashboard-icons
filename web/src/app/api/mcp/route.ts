@@ -10,10 +10,8 @@ export const maxDuration = 30
 const mcpHandler = createDashboardIconsMcpHandler()
 
 async function isToolCallRequest(req: NextRequest): Promise<boolean> {
-	if (req.method !== "POST") return false
 	try {
-		const clone = req.clone()
-		const body = (await clone.json()) as { method?: string }
+		const body = (await req.clone().json()) as { method?: string }
 		return body.method === "tools/call"
 	} catch {
 		return false

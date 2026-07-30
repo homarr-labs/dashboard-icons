@@ -14,8 +14,6 @@ import { MagicCardPointerProvider } from "@/components/magicui/magic-card-pointe
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Label } from "@/components/ui/label"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { BASE_URL, EXTERNAL_SOURCES, type ExternalSourceId, REPO_PATH } from "@/constants"
 import { canResolveExternalIconUrl, getExternalIconPreviewUrl, resolveExternalIconUrl } from "@/lib/external-icon-urls"
@@ -66,9 +64,9 @@ function IconVariantsSection({
 				{title}
 			</h3>
 			<p className="text-sm text-muted-foreground mb-4">{description}</p>
-		<MagicCardPointerProvider className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-			{aavailableFormats.map((format) => renderVariant(format, iconName, theme))}
-		</MagicCardPointerProvider>
+			<MagicCardPointerProvider className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+				{aavailableFormats.map((format) => renderVariant(format, iconName, theme))}
+			</MagicCardPointerProvider>
 		</div>
 	)
 }
@@ -100,12 +98,12 @@ function WordmarkSection({ iconData, aavailableFormats, renderVariant }: Wordmar
 							<Sun className="w-4 h-4 text-amber-500" />
 							Light Theme Wordmark
 						</h4>
-					<MagicCardPointerProvider className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-						{aavailableFormats.map((format) => {
-							if (!iconData.wordmark?.light) return null
-							return renderVariant(format, iconData.wordmark.light, "light")
-						})}
-					</MagicCardPointerProvider>
+						<MagicCardPointerProvider className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+							{aavailableFormats.map((format) => {
+								if (!iconData.wordmark?.light) return null
+								return renderVariant(format, iconData.wordmark.light, "light")
+							})}
+						</MagicCardPointerProvider>
 					</div>
 				)}
 				{iconData.wordmark.dark && (
@@ -114,12 +112,12 @@ function WordmarkSection({ iconData, aavailableFormats, renderVariant }: Wordmar
 							<Moon className="w-4 h-4 text-indigo-500" />
 							Dark Theme Wordmark
 						</h4>
-					<MagicCardPointerProvider className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-						{aavailableFormats.map((format) => {
-							if (!iconData.wordmark?.dark) return null
-							return renderVariant(format, iconData.wordmark.dark, "dark")
-						})}
-					</MagicCardPointerProvider>
+						<MagicCardPointerProvider className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+							{aavailableFormats.map((format) => {
+								if (!iconData.wordmark?.dark) return null
+								return renderVariant(format, iconData.wordmark.dark, "dark")
+							})}
+						</MagicCardPointerProvider>
 					</div>
 				)}
 			</div>
@@ -132,7 +130,7 @@ export type RelatedIcon = {
 	data: Icon
 }
 
-export type BreadcrumbItem = {
+export type IconDetailsBreadcrumbItem = {
 	label: string
 	href?: string
 }
@@ -148,7 +146,7 @@ export type IconDetailsProps = {
 	statusColor?: string
 	rejectionReason?: string
 	externalIcon?: ExternalIcon
-	breadcrumbItems?: BreadcrumbItem[]
+	breadcrumbItems?: IconDetailsBreadcrumbItem[]
 }
 
 export function IconDetails({
@@ -609,7 +607,7 @@ export function IconDetails({
 
 		if (isCommunityIcon) {
 			const baseSvg = assetUrls.find((url: string) => typeof url === "string" && url.toLowerCase().endsWith(".svg"))
-			if (baseSvg || (mainIconUrl && mainIconUrl.toLowerCase().endsWith(".svg"))) {
+			if (baseSvg || mainIconUrl?.toLowerCase().endsWith(".svg")) {
 				variants.push({
 					value: "base",
 					label: "Base Icon",
@@ -719,50 +717,50 @@ export function IconDetails({
 
 	const availableVariants = getAvailableSvgVariants()
 
-	const getSvgUrl = (variantValue?: string): string | null => {
-		const variant = variantValue || selectedVariant
-		const variantOption = availableVariants.find((v) => v.value === variant)
+	const getSvgUrl = useCallback(
+		(variantValue?: string): string | null => {
+			const variant = variantValue || selectedVariant
+			const variantOption = availableVariants.find((v) => v.value === variant)
 
-		if (!variantOption) {
-			return null
-		}
-
-		if (isExternalIcon && externalIcon) {
-			if (!externalIcon.formats.includes("svg")) return null
-			if (variant === "base") return resolveExternalIconUrl(externalIcon, "svg")
-			if (variant === "light" && externalIcon.variants?.light && canResolveExternalIconUrl(externalIcon, "svg_light"))
-				return resolveExternalIconUrl(externalIcon, "svg_light")
-			if (variant === "dark" && externalIcon.variants?.dark && canResolveExternalIconUrl(externalIcon, "svg_dark"))
-				return resolveExternalIconUrl(externalIcon, "svg_dark")
-			return null
-		}
-
-		if (isCommunityIcon) {
-			if (variant === "base") {
-				if (mainIconUrl && mainIconUrl.toLowerCase().endsWith(".svg")) {
-					return mainIconUrl
-				}
-				const svgUrl = assetUrls.find((url: string) => typeof url === "string" && url.toLowerCase().endsWith(".svg"))
-				return svgUrl || null
+			if (!variantOption) {
+				return null
 			}
 
-			const matchingUrl = assetUrls.find(
-				(url: string) => typeof url === "string" && url.toLowerCase().endsWith(".svg") && url.includes(variantOption.iconName),
-			)
-			return matchingUrl || null
-		}
+			if (isExternalIcon && externalIcon) {
+				if (!externalIcon.formats.includes("svg")) return null
+				if (variant === "base") return resolveExternalIconUrl(externalIcon, "svg")
+				if (variant === "light" && externalIcon.variants?.light && canResolveExternalIconUrl(externalIcon, "svg_light"))
+					return resolveExternalIconUrl(externalIcon, "svg_light")
+				if (variant === "dark" && externalIcon.variants?.dark && canResolveExternalIconUrl(externalIcon, "svg_dark"))
+					return resolveExternalIconUrl(externalIcon, "svg_dark")
+				return null
+			}
 
-		if (iconData.base === "svg") {
-			return `${BASE_URL}/svg/${variantOption.iconName}.svg`
-		}
+			if (isCommunityIcon) {
+				if (variant === "base") {
+					if (mainIconUrl?.toLowerCase().endsWith(".svg")) {
+						return mainIconUrl
+					}
+					const communitySvgUrl = assetUrls.find((url: string) => typeof url === "string" && url.toLowerCase().endsWith(".svg"))
+					return communitySvgUrl || null
+				}
 
-		return null
-	}
+				const matchingUrl = assetUrls.find(
+					(url: string) => typeof url === "string" && url.toLowerCase().endsWith(".svg") && url.includes(variantOption.iconName),
+				)
+				return matchingUrl || null
+			}
 
-	const svgUrl = useMemo(
-		() => getSvgUrl(selectedVariant),
-		[selectedVariant, availableVariants, isCommunityIcon, isExternalIcon, externalIcon, mainIconUrl, assetUrls, iconData, icon],
+			if (iconData.base === "svg") {
+				return `${BASE_URL}/svg/${variantOption.iconName}.svg`
+			}
+
+			return null
+		},
+		[selectedVariant, availableVariants, isExternalIcon, externalIcon, isCommunityIcon, mainIconUrl, assetUrls, iconData],
 	)
+
+	const svgUrl = useMemo(() => getSvgUrl(selectedVariant), [selectedVariant, getSvgUrl])
 
 	useEffect(() => {
 		if (availableVariants.length > 0 && !availableVariants.find((v) => v.value === selectedVariant)) {

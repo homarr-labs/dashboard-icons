@@ -1,5 +1,5 @@
-import { NextResponse } from "next/server"
 import { unstable_cache } from "next/cache"
+import { NextResponse } from "next/server"
 import { getIconsArray } from "@/lib/api"
 import { getExternalIcons } from "@/lib/external-icons"
 import type { IconWithName } from "@/types/icons"
