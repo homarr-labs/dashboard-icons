@@ -15,6 +15,7 @@ A web application to browse, search, and download icons from the
 - **User authentication** - Sign in with email/password or GitHub OAuth
 - **Submit icons** - Authenticated users can submit new icons to the collection
 - **Admin dashboard** - Admins can approve, reject, and manage icon submissions
+- **MCP server** - HTTP MCP endpoint for AI assistants to search icons, fetch metadata, and resolve CDN URLs
 
 ## Tech Stack
 
@@ -24,6 +25,7 @@ A web application to browse, search, and download icons from the
 - **Shadcn UI** - Reusable components built with Radix UI and Tailwind
 - **PocketBase** - Backend for authentication and data storage
 - **PostHog** - Product analytics and user tracking
+- **MCP (Model Context Protocol)** - HTTP transport via `mcp-handler` for AI tool integrations
 
 ## Project Structure
 
@@ -31,30 +33,80 @@ A web application to browse, search, and download icons from the
 src/
 ├── app/                      # Next.js App Router
 │   ├── api/                  # API routes
-│   │   └── icons/            # Icons browsing and detail pages
-│   │       ├── [icon]/       # Dynamic icon detail page
-│   │       │   ├── components/   # Icon-specific components
-│   │       │   ├── error.tsx     # Error handling
-│   │       │   ├── loading.tsx   # Loading state
-│   │       │   └── page.tsx      # Icon detail page
-│   │       ├── components/       # Icons page components
-│   │       ├── loading.tsx       # Loading state
-│   │       └── page.tsx          # Icons browse page
+│   │   ├── icons/            # Icon search API
+│   │   └── mcp/              # MCP HTTP endpoint
+│   ├── icons/                # Icons browsing and detail pages
+│   │   ├── [icon]/           # Dynamic icon detail page
+│   │   └── page.tsx          # Icons browse page
 │   ├── globals.css           # Global styles
 │   ├── layout.tsx            # Root layout
-│   ├── page.tsx              # Homepage
-│   └── theme-provider.tsx    # Theme provider component
+│   └── page.tsx              # Homepage
 ├── components/               # Shared components
-│   ├── ui/                   # UI components (from shadcn/ui)
-│   ├── header.tsx            # App header
-│   └── theme-switcher.tsx    # Theme switcher
-├── lib/                      # Utility functions
-│   ├── api.ts                # API utilities
-│   └── utils.ts              # General utilities
+├── lib/
+│   ├── api.ts                # App-level icon API helpers
+│   ├── icon-url.ts           # Icon URL resolution
+│   └── icons/                # Icon service, search, validation, rate limiting
+├── mcp/                      # MCP handler and tool registration
 └── types/                    # TypeScript type definitions
-    ├── icons.ts              # Icon-related types
-    └── index.ts              # Type exports
 ```
+
+## MCP Server
+
+The app exposes a native-icons MCP server over HTTP at `/api/mcp`. AI clients can search the collection, fetch icon metadata, and resolve CDN URLs without scraping the website.
+
+| Endpoint | URL |
+|----------|-----|
+| Production | `https://dashboardicons.com/api/mcp` |
+| Local dev | `http://localhost:3005/api/mcp` |
+
+### Tools
+
+| Tool | Description |
+|------|-------------|
+| `search_icons` | Search by name, alias, or category |
+| `get_icon` | Full metadata and CDN URLs for one icon |
+| `get_icon_url` | Direct CDN URL (`svg`, `png`, `webp`; `default`, `light`, `dark`) |
+| `suggest_icon` | Fuzzy match from a natural service name (e.g. `"Plex media server"` → `plex`) |
+
+v1 covers **native icons** from `metadata.json` only. External sources (selfh.st, LobeHub) are not included.
+
+### Cursor configuration
+
+```json
+{
+  "mcpServers": {
+    "dashboard-icons": {
+      "url": "https://dashboardicons.com/api/mcp"
+    }
+  }
+}
+```
+
+For stdio-only clients, use [mcp-remote](https://www.npmjs.com/package/mcp-remote):
+
+```json
+{
+  "mcpServers": {
+    "dashboard-icons": {
+      "command": "npx",
+      "args": ["-y", "mcp-remote", "https://dashboardicons.com/api/mcp"]
+    }
+  }
+}
+```
+
+### MCP environment variables
+
+| Variable | Description |
+|----------|-------------|
+| `MCP_RATE_LIMIT_ENABLED` | Set to `false` to disable rate limiting (local dev only) |
+| `MCP_VERBOSE_LOGS` | Set to `true` for verbose MCP handler logs |
+| `MCP_WARM_CACHE` | Set to `true` to preload metadata on server start |
+| `DASHBOARD_ICONS_METADATA_PATH` | Local `metadata.json` path (development only; blocked in production) |
+
+Rate limits: 60 requests/minute per IP (all MCP traffic), 30 tool calls/minute per IP (`tools/call`).
+
+See [docs/MCP.md](./docs/MCP.md) for full tool schemas, parameters, and limits.
 
 ## Development
 
