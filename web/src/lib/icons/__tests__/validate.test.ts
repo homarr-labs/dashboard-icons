@@ -2,8 +2,11 @@ import { describe, expect, it } from "vitest"
 import {
 	assertIconName,
 	getIconSchema,
+	getIconUrlSchema,
 	MAX_LIMIT_SEARCH,
+	MAX_LIMIT_SUGGEST,
 	searchIconsSchema,
+	suggestIconSchema,
 	ValidationError,
 } from "@/lib/icons/validate"
 
@@ -17,6 +20,9 @@ describe("assertIconName", () => {
 		expect(() => assertIconName("../etc/passwd")).toThrow(ValidationError)
 		expect(() => assertIconName("Foo Bar")).toThrow(ValidationError)
 		expect(() => assertIconName("a".repeat(81))).toThrow(ValidationError)
+		expect(() => assertIconName("")).toThrow(ValidationError)
+		expect(() => assertIconName("bad\\name")).toThrow(ValidationError)
+		expect(() => assertIconName("bad\0name")).toThrow(ValidationError)
 	})
 })
 
@@ -29,10 +35,30 @@ describe("searchIconsSchema", () => {
 	it("rejects empty query over max length", () => {
 		expect(() => searchIconsSchema.parse({ query: "x".repeat(101) })).toThrow()
 	})
+
+	it("accepts optional category", () => {
+		expect(searchIconsSchema.parse({ query: "plex", category: "media" }).category).toBe("media")
+	})
 })
 
 describe("getIconSchema", () => {
 	it("validates icon name", () => {
 		expect(getIconSchema.parse({ name: "docker" }).name).toBe("docker")
+	})
+})
+
+describe("getIconUrlSchema", () => {
+	it("applies defaults", () => {
+		expect(getIconUrlSchema.parse({ name: "docker" })).toEqual({
+			name: "docker",
+			format: "svg",
+			theme: "default",
+		})
+	})
+})
+
+describe("suggestIconSchema", () => {
+	it("clamps to max suggest limit boundary", () => {
+		expect(suggestIconSchema.parse({ service_name: "plex", limit: MAX_LIMIT_SUGGEST }).limit).toBe(MAX_LIMIT_SUGGEST)
 	})
 })

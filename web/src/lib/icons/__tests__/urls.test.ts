@@ -28,4 +28,24 @@ describe("buildIconUrls", () => {
 		expect(urls.light).toContain("dagster-light")
 		expect(urls.dark).toContain("dagster-dark")
 	})
+
+	it("builds webp url for webp base", () => {
+		const urls = buildIconUrls("plex", {
+			base: "webp",
+			aliases: [],
+			categories: [],
+			update: { timestamp: "", author: { id: 1 } },
+		})
+		expect(urls.webp).toContain("plex.webp")
+	})
+
+	it("falls back to svg when base is an absolute url", () => {
+		const urls = buildIconUrls("plex", {
+			base: "https://cdn.example/icon.svg",
+			aliases: [],
+			categories: [],
+			update: { timestamp: "", author: { id: 1 } },
+		})
+		expect(urls.svg).toContain("plex.svg")
+	})
 })

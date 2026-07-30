@@ -7,8 +7,14 @@ describe("getClientIp", () => {
 		expect(getClientIp(headers)).toBe("1.2.3.4")
 	})
 
-	it("falls back to unknown", () => {
-		expect(getClientIp(new Headers())).toBe("unknown")
+	it("reads x-real-ip when forwarded header missing", () => {
+		const headers = new Headers({ "x-real-ip": "9.9.9.9" })
+		expect(getClientIp(headers)).toBe("9.9.9.9")
+	})
+
+	it("falls back to unknown when forwarded hop is empty", () => {
+		const headers = new Headers({ "x-forwarded-for": " , 1.2.3.4" })
+		expect(getClientIp(headers)).toBe("unknown")
 	})
 })
 
@@ -30,5 +36,24 @@ describe("checkRateLimit", () => {
 		const result = checkRateLimit("10.0.0.2", "request")
 		expect(result.allowed).toBe(false)
 		expect(result.retryAfter).toBeGreaterThan(0)
+	})
+
+	it("blocks tool scope independently", () => {
+		for (let i = 0; i < 30; i++) checkRateLimit("10.0.0.3", "tool")
+		expect(checkRateLimit("10.0.0.3", "tool").allowed).toBe(false)
+	})
+
+	it("resets window after expiry", () => {
+		for (let i = 0; i < 60; i++) checkRateLimit("10.0.0.4", "request")
+		expect(checkRateLimit("10.0.0.4", "request").allowed).toBe(false)
+		vi.advanceTimersByTime(60_001)
+		expect(checkRateLimit("10.0.0.4", "request").allowed).toBe(true)
+	})
+
+	it("can be disabled via env", () => {
+		process.env.MCP_RATE_LIMIT_ENABLED = "false"
+		for (let i = 0; i < 100; i++) {
+			expect(checkRateLimit("10.0.0.5", "request").allowed).toBe(true)
+		}
 	})
 })
