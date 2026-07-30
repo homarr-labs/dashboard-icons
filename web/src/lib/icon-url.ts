@@ -1,5 +1,6 @@
 import { BASE_URL, type ExternalSourceId } from "@/constants"
 import { getExternalIconPreviewUrl } from "@/lib/external-icon-urls"
+import { buildIconUrl } from "@/lib/icons/urls"
 import type { IconWithName } from "@/types/icons"
 
 export function getIconImageUrl(icon: IconWithName): string {
@@ -13,5 +14,6 @@ export function getIconImageUrl(icon: IconWithName): string {
 		return iconData.base
 	}
 
-	return `${BASE_URL}/${iconData.base}/${name}.${iconData.base}`
+	const base = typeof icon.base === "string" && !icon.base.startsWith("http") ? icon.base : "svg"
+	return buildIconUrl(name, format, theme)
 }

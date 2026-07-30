@@ -18,6 +18,12 @@ function getPostHogClient(): PostHog | null {
 }
 
 export async function register() {
+	if (process.env.NEXT_RUNTIME === "nodejs" && process.env.MCP_WARM_CACHE === "true") {
+		import("@/lib/icons/service")
+			.then((module) => module.warmMetadataCache())
+			.catch(() => {})
+	}
+
 	if (process.env.NEXT_RUNTIME === "nodejs" && process.env.NEXT_PUBLIC_POSTHOG_KEY && process.env.NEXT_PUBLIC_DISABLE_POSTHOG !== "true") {
 		const { BatchLogRecordProcessor: Processor, LoggerProvider: Provider } = await import("@opentelemetry/sdk-logs")
 		const { OTLPLogExporter } = await import("@opentelemetry/exporter-logs-otlp-http")

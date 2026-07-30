@@ -1,23 +1,16 @@
 import type { RelatedIcon } from "@/components/icon-details"
-import { METADATA_URL } from "@/constants"
 import { ApiError } from "@/lib/errors"
+import * as iconService from "@/lib/icons/service"
+import { ValidationError } from "@/lib/icons/validate"
 import type { AuthorData, Icon, IconFile, IconWithName, NativeIconRecord } from "@/types/icons"
 
 /**
  * Fetches all icon data from the metadata.json file
- * Uses fetch with revalidate for caching
+ * Uses layered cache via icons service
  */
 export async function getAllIcons(): Promise<IconFile> {
 	try {
-		const response = await fetch(METADATA_URL, {
-			next: { revalidate: 900, tags: ["native-icons"] },
-		})
-
-		if (!response.ok) {
-			throw new ApiError(`Failed to fetch icons: ${response.statusText}`, response.status)
-		}
-
-		return (await response.json()) as IconFile
+		return await iconService.getAllIcons()
 	} catch (error) {
 		if (error instanceof ApiError) {
 			throw error
@@ -66,21 +59,21 @@ export async function getIconsArray(): Promise<NativeIconRecord[]> {
  */
 export async function getIconData(iconName: string): Promise<IconWithName | null> {
 	try {
-		const iconsData = await getAllIcons()
-		const iconData = iconsData[iconName]
-
-		if (!iconData) {
-			throw new ApiError(`Icon '${iconName}' not found`, 404)
-		}
+		const icon = await iconService.getIconByName(iconName)
+		if (!icon) return null
 
 		return {
-			name: iconName,
-			data: iconData,
+			name: icon.name,
+			data: {
+				base: icon.base,
+				aliases: icon.aliases,
+				categories: icon.categories,
+				update: icon.update,
+				colors: icon.colors,
+			},
 		}
 	} catch (error) {
-		if (error instanceof ApiError && error.status === 404) {
-			return null
-		}
+		if (error instanceof ValidationError) return null
 		console.error("Error getting icon data:", error)
 		throw error
 	}
@@ -98,7 +91,6 @@ async function fetchGitHubAuthorData(authorId: number) {
 		})
 
 		if (!response.ok) {
-			// If unauthorized or other error, return a default user object
 			if (response.status === 401 || response.status === 403) {
 				console.warn(`GitHub API rate limit or authorization issue: ${response.statusText}`)
 				return {
@@ -115,7 +107,6 @@ async function fetchGitHubAuthorData(authorId: number) {
 		return response.json()
 	} catch (error) {
 		console.error("Error fetching author data:", error)
-		// Even for unexpected errors, return a default user to prevent page failures
 		return {
 			login: "unknown",
 			avatar_url: "https://avatars.githubusercontent.com/u/0",
