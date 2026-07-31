@@ -11,49 +11,54 @@ import type { Icon, IconFile, IconWithName } from "@/types/icons"
 
 const METADATA_FETCH_TIMEOUT_MS = 10_000
 const CACHE_TTL_SECONDS = 900
+const CACHE_TTL_MS = CACHE_TTL_SECONDS * 1000
 
 type MetadataCacheState = {
 	data: IconFile
 	etag: string | null
+	loadedAt: number
 }
+
+type MetadataFetchResult = Omit<MetadataCacheState, "loadedAt">
 
 declare global {
 	// eslint-disable-next-line no-var
 	var __dashboardIconsMetadata: MetadataCacheState | undefined
 }
 
-let lastEtag: string | null = null
-
-async function fetchMetadataFromRemote(): Promise<IconFile> {
+async function requestRemoteMetadata(etag?: string): Promise<Response> {
 	const headers: Record<string, string> = { Accept: "application/json" }
-	if (lastEtag) headers["If-None-Match"] = lastEtag
+	if (etag) headers["If-None-Match"] = etag
 
-	const response = await fetch(METADATA_URL, {
+	return fetch(METADATA_URL, {
 		signal: AbortSignal.timeout(METADATA_FETCH_TIMEOUT_MS),
 		headers,
 		next: { revalidate: CACHE_TTL_SECONDS },
 	})
+}
 
-	if (response.status === 304 && globalThis.__dashboardIconsMetadata) {
-		return globalThis.__dashboardIconsMetadata.data
+async function fetchMetadataFromRemote(): Promise<MetadataFetchResult> {
+	const cached = globalThis.__dashboardIconsMetadata
+	let response = await requestRemoteMetadata(cached?.etag ?? undefined)
+
+	if (response.status === 304) {
+		if (cached) return { data: cached.data, etag: cached.etag }
+		response = await requestRemoteMetadata()
 	}
 
 	if (!response.ok) {
 		throw new Error(`Failed to fetch metadata: ${response.status}`)
 	}
 
-	const etag = response.headers.get("etag")
-	if (etag) lastEtag = etag
-
-	return (await response.json()) as IconFile
+	return { data: (await response.json()) as IconFile, etag: response.headers.get("etag") }
 }
 
-async function fetchMetadataFromLocal(path: string): Promise<IconFile> {
+async function fetchMetadataFromLocal(path: string): Promise<MetadataFetchResult> {
 	const raw = await readFile(path, "utf8")
-	return JSON.parse(raw) as IconFile
+	return { data: JSON.parse(raw) as IconFile, etag: null }
 }
 
-async function loadMetadataUncached(): Promise<IconFile> {
+async function loadMetadataUncached(): Promise<MetadataFetchResult> {
 	const localPath = process.env.DASHBOARD_ICONS_METADATA_PATH
 	if (localPath) {
 		if (process.env.NODE_ENV === "production") {
@@ -65,7 +70,7 @@ async function loadMetadataUncached(): Promise<IconFile> {
 	return fetchMetadataFromRemote()
 }
 
-const getCachedMetadata = unstable_cache(async () => loadMetadataUncached(), ["dashboard-icons-metadata"], {
+const getCachedMetadata = unstable_cache(async () => loadMetadataUncached(), ["dashboard-icons-metadata-v2"], {
 	revalidate: CACHE_TTL_SECONDS,
 	tags: ["native-icons"],
 })
@@ -75,12 +80,13 @@ export async function warmMetadataCache(): Promise<void> {
 }
 
 export async function getAllIcons(): Promise<IconFile> {
-	if (globalThis.__dashboardIconsMetadata) {
-		return globalThis.__dashboardIconsMetadata.data
+	const cached = globalThis.__dashboardIconsMetadata
+	if (cached && Date.now() - cached.loadedAt < CACHE_TTL_MS) {
+		return cached.data
 	}
 
-	const data = await getCachedMetadata()
-	globalThis.__dashboardIconsMetadata = { data, etag: lastEtag }
+	const { data, etag } = await getCachedMetadata()
+	globalThis.__dashboardIconsMetadata = { data, etag, loadedAt: Date.now() }
 	return data
 }
 
@@ -101,16 +107,16 @@ export async function searchIcons(query: string, limit = 20, category?: string):
 
 	const icons = await getIconsArray()
 	const categories = category ? [category] : []
-	const matched = filterAndSortIcons({ icons, query: trimmed, categories, limit })
+	const matched = filterAndSortIcons({ icons, query: trimmed, categories })
 
-	const results = matched.map((icon) => ({
+	const results = matched.slice(0, limit).map((icon) => ({
 		name: icon.name,
 		aliases: icon.data.aliases,
 		categories: icon.data.categories,
 		score: scoreIcon(icon, trimmed),
 	}))
 
-	return { results, total: results.length }
+	return { results, total: matched.length }
 }
 
 export async function getIconByName(name: string): Promise<IconDetail | null> {
@@ -176,5 +182,4 @@ export async function suggestIcons(serviceName: string, limit = 5): Promise<{ su
 
 export function clearMetadataCacheForTests(): void {
 	globalThis.__dashboardIconsMetadata = undefined
-	lastEtag = null
 }

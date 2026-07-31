@@ -14,7 +14,7 @@ vi.mock("@/lib/icons/service", () => ({
 	suggestIcons: (...args: unknown[]) => suggestIcons(...args),
 }))
 
-type ToolHandler = (args: Record<string, unknown>) => Promise<{ content: { type: string; text: string }[] }>
+type ToolHandler = (args: Record<string, unknown>) => Promise<{ content: { type: string; text: string }[]; isError?: boolean }>
 
 function createMockServer() {
 	const handlers = new Map<string, ToolHandler>()
@@ -65,6 +65,7 @@ describe("registerDashboardIconsTools", () => {
 		registerDashboardIconsTools(server)
 		const result = await getHandler(handlers, "get_icon")({ name: "missing" })
 		expect(JSON.parse(result.content[0].text)).toMatchObject({ error: "not_found" })
+		expect(result.isError).toBe(true)
 	})
 
 	it("get_icon returns icon when found", async () => {
@@ -80,6 +81,7 @@ describe("registerDashboardIconsTools", () => {
 		registerDashboardIconsTools(server)
 		const result = await getHandler(handlers, "get_icon_url")({ name: "missing", format: "svg", theme: "default" })
 		expect(JSON.parse(result.content[0].text)).toMatchObject({ error: "not_found" })
+		expect(result.isError).toBe(true)
 	})
 
 	it("get_icon_url returns url when found", async () => {

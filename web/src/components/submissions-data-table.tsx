@@ -630,50 +630,53 @@ export function SubmissionsDataTable({
 													</span>
 												</div>
 											)}
-											<button
-												type="button"
+											<div
 												className={cn(
 													"flex w-full items-center gap-3 p-3 rounded-lg border bg-background cursor-pointer active:bg-muted/50 transition-colors text-left",
 													isSelected && "ring-2 ring-primary/50 bg-primary/5",
 													isApproved && !isSelected && "bg-green-500/5",
 													isPending && !isSelected && "bg-yellow-500/5",
 												)}
-												onClick={() => setMobileDetailSubmission(submission)}
 											>
 												{isAdmin && isSelectable && (
 													<Checkbox
 														checked={isSelected}
 														onCheckedChange={() => toggleMobileSelection(submission.id)}
-														onClick={(e: React.MouseEvent) => e.stopPropagation()}
 														aria-label="Select row"
 														className="shrink-0"
 													/>
 												)}
-												{assets.length > 0 ? (
-													<div className="w-10 h-10 rounded border flex items-center justify-center bg-background p-1.5 shrink-0">
-														<UnoptimizedImage
-															src={`${pb.baseURL}/api/files/submissions/${submission.id}/${assets[0]}?thumb=100x100`}
-															alt={submission.name}
-															width={40}
-															height={40}
-															className="w-full h-full object-contain"
-														/>
+												<button
+													type="button"
+													className="flex flex-1 min-w-0 items-center gap-3 text-left cursor-pointer"
+													onClick={() => setMobileDetailSubmission(submission)}
+												>
+													{assets.length > 0 ? (
+														<div className="w-10 h-10 rounded border flex items-center justify-center bg-background p-1.5 shrink-0">
+															<UnoptimizedImage
+																src={`${pb.baseURL}/api/files/submissions/${submission.id}/${assets[0]}?thumb=100x100`}
+																alt={submission.name}
+																width={40}
+																height={40}
+																className="w-full h-full object-contain"
+															/>
+														</div>
+													) : (
+														<div className="w-10 h-10 rounded border flex items-center justify-center bg-muted shrink-0">
+															<ImageIcon className="w-5 h-5 text-muted-foreground" />
+														</div>
+													)}
+													<div className="flex-1 min-w-0">
+														<div className="font-medium capitalize truncate">{submission.name}</div>
+														<div className="flex items-center gap-2 mt-0.5">
+															<span className="text-xs text-muted-foreground truncate">{displayName}</span>
+															<span className="text-xs text-muted-foreground">&middot;</span>
+															<span className="text-xs text-muted-foreground whitespace-nowrap">{dayjs(submission.updated).fromNow()}</span>
+														</div>
 													</div>
-												) : (
-													<div className="w-10 h-10 rounded border flex items-center justify-center bg-muted shrink-0">
-														<ImageIcon className="w-5 h-5 text-muted-foreground" />
-													</div>
-												)}
-												<div className="flex-1 min-w-0">
-													<div className="font-medium capitalize truncate">{submission.name}</div>
-													<div className="flex items-center gap-2 mt-0.5">
-														<span className="text-xs text-muted-foreground truncate">{displayName}</span>
-														<span className="text-xs text-muted-foreground">&middot;</span>
-														<span className="text-xs text-muted-foreground whitespace-nowrap">{dayjs(submission.updated).fromNow()}</span>
-													</div>
-												</div>
-												<ChevronRight className="h-4 w-4 text-muted-foreground shrink-0" />
-											</button>
+													<ChevronRight className="h-4 w-4 text-muted-foreground shrink-0" />
+												</button>
+											</div>
 										</React.Fragment>
 									)
 								})

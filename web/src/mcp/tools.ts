@@ -27,7 +27,7 @@ export function registerDashboardIconsTools(server: McpServer): void {
 		async ({ name }) => {
 			const icon = await getIconByName(name)
 			if (!icon) {
-				return jsonContent({ error: "not_found", message: `Icon '${name}' not found`, name })
+				return { ...jsonContent({ error: "not_found", message: `Icon '${name}' not found`, name }), isError: true }
 			}
 			return jsonContent(icon)
 		},
@@ -43,7 +43,7 @@ export function registerDashboardIconsTools(server: McpServer): void {
 		async ({ name, format, theme }) => {
 			const result = await getIconUrl(name, format, theme)
 			if (!result) {
-				return jsonContent({ error: "not_found", message: `Icon '${name}' not found`, name })
+				return { ...jsonContent({ error: "not_found", message: `Icon '${name}' not found`, name }), isError: true }
 			}
 			return jsonContent(result)
 		},

@@ -9,6 +9,15 @@ const WINDOW_MS = 60_000
 
 type Entry = { count: number; resetAt: number }
 const buckets = new Map<string, Entry>()
+let nextCleanupAt = 0
+
+function cleanupExpiredBuckets(now: number): void {
+	if (now < nextCleanupAt) return
+	for (const [key, entry] of buckets) {
+		if (now >= entry.resetAt) buckets.delete(key)
+	}
+	nextCleanupAt = now + WINDOW_MS
+}
 
 function bucketKey(ip: string, scope: Scope): string {
 	return `${ip}:${scope}`
@@ -27,6 +36,7 @@ export function checkRateLimit(ip: string, scope: Scope): { allowed: boolean; re
 
 	const key = bucketKey(ip, scope)
 	const now = Date.now()
+	cleanupExpiredBuckets(now)
 	let entry = buckets.get(key)
 
 	if (!entry || now >= entry.resetAt) {
@@ -43,4 +53,9 @@ export function checkRateLimit(ip: string, scope: Scope): { allowed: boolean; re
 
 export function resetRateLimitsForTests(): void {
 	buckets.clear()
+	nextCleanupAt = 0
+}
+
+export function getRateLimitBucketCountForTests(): number {
+	return buckets.size
 }

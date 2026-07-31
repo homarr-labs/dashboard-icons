@@ -589,7 +589,7 @@ export function IconDetails({
 		iconName: string
 	}
 
-	const getAvailableSvgVariants = (): VariantOption[] => {
+	const availableVariants = useMemo((): VariantOption[] => {
 		const variants: VariantOption[] = []
 
 		if (isExternalIcon && externalIcon) {
@@ -713,9 +713,7 @@ export function IconDetails({
 		}
 
 		return variants
-	}
-
-	const availableVariants = getAvailableSvgVariants()
+	}, [isExternalIcon, externalIcon, isCommunityIcon, assetUrls, mainIconUrl, icon, iconData])
 
 	const getSvgUrl = useCallback(
 		(variantValue?: string): string | null => {

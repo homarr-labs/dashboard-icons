@@ -98,26 +98,25 @@ async function fetchAllExternalIcons(): Promise<ExternalIconRecord[]> {
 	return results.flat()
 }
 
-const getCachedExternalIcons = unstable_cache(
-	async (): Promise<ExternalIconRecord[]> => {
-		try {
-			return await fetchAllExternalIcons()
-		} catch (error) {
-			logExternalIconsFailure(error)
-			return []
-		}
-	},
-	["all-external-icons"],
-	{ revalidate: EXTERNAL_REVALIDATE_SECONDS, tags: ["external-icons"] },
-)
+const getCachedExternalIcons = unstable_cache(async (): Promise<ExternalIconRecord[]> => fetchAllExternalIcons(), ["all-external-icons"], {
+	revalidate: EXTERNAL_REVALIDATE_SECONDS,
+	tags: ["external-icons"],
+})
 
 async function fetchExternalIconsWithTTL(): Promise<ExternalIconRecord[]> {
 	if (_memCache && Date.now() - _memCache.ts < EXTERNAL_TTL_MS) {
 		return _memCache.data
 	}
-	const data = await getCachedExternalIcons()
-	_memCache = { data, ts: Date.now() }
-	return data
+	try {
+		const data = await getCachedExternalIcons()
+		if (data.length > 0) {
+			_memCache = { data, ts: Date.now() }
+		}
+		return data
+	} catch (error) {
+		logExternalIconsFailure(error)
+		return []
+	}
 }
 
 export const getExternalIcons = cache(async (): Promise<ExternalIconRecord[]> => {

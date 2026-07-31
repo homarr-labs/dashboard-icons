@@ -49,6 +49,34 @@ describe("MCP route", () => {
 		expect(response.status).toBe(413)
 	})
 
+	it("returns 413 for an oversized body without a declared length", async () => {
+		const { POST } = await import("@/app/api/mcp/route")
+		const response = await POST(
+			nextRequest("POST", {
+				headers: { "content-type": "application/json" },
+				body: "x".repeat(MAX_REQUEST_BODY_BYTES + 1),
+			}),
+		)
+		expect(response.status).toBe(413)
+	})
+
+	it("returns 413 when content-length understates the actual body", async () => {
+		const { POST } = await import("@/app/api/mcp/route")
+		const response = await POST(
+			nextRequest("POST", {
+				headers: { "content-type": "application/json", "content-length": "2" },
+				body: "x".repeat(MAX_REQUEST_BODY_BYTES + 1),
+			}),
+		)
+		expect(response.status).toBe(413)
+	})
+
+	it("accepts an empty POST body", async () => {
+		const { POST } = await import("@/app/api/mcp/route")
+		const response = await POST(nextRequest("POST"))
+		expect(response.status).toBe(200)
+	})
+
 	it("returns 429 for tool call rate limit", async () => {
 		const { POST } = await import("@/app/api/mcp/route")
 		for (let i = 0; i < 30; i++) {

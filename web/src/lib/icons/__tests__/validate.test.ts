@@ -44,6 +44,15 @@ describe("searchIconsSchema", () => {
 describe("getIconSchema", () => {
 	it("validates icon name", () => {
 		expect(getIconSchema.parse({ name: "docker" }).name).toBe("docker")
+		expect(getIconSchema.parse({ name: " docker " }).name).toBe("docker")
+	})
+
+	it("returns a structured Zod failure for invalid names", () => {
+		const result = getIconSchema.safeParse({ name: "../etc/passwd" })
+		expect(result.success).toBe(false)
+		if (!result.success) {
+			expect(result.error.issues[0]?.code).toBe("custom")
+		}
 	})
 })
 

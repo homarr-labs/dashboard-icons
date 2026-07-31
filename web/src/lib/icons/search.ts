@@ -1,27 +1,27 @@
 import type { IconWithName } from "@/types/icons"
 
+const NAME_WEIGHT = 2.0
+const ALIAS_WEIGHT = 1.5
+const CATEGORY_WEIGHT = 1.0
+const CATEGORY_PENALTY = 0.7
+
 export function normalizeForSearch(str: string): string {
 	return str.toLowerCase().replace(/[-\s]/g, "")
 }
 
 export function levenshteinDistance(a: string, b: string): number {
-	const matrix: number[][] = []
-
-	for (let i = 0; i <= b.length; i++) {
-		matrix[i] = [i]
-	}
-	for (let j = 0; j <= a.length; j++) {
-		matrix[0][j] = j
-	}
+	let previous = Array.from({ length: a.length + 1 }, (_, index) => index)
 
 	for (let i = 1; i <= b.length; i++) {
+		const current = [i]
 		for (let j = 1; j <= a.length; j++) {
 			const cost = a[j - 1] === b[i - 1] ? 0 : 1
-			matrix[i][j] = Math.min(matrix[i - 1][j] + 1, matrix[i][j - 1] + 1, matrix[i - 1][j - 1] + cost)
+			current[j] = Math.min(previous[j] + 1, current[j - 1] + 1, previous[j - 1] + cost)
 		}
+		previous = current
 	}
 
-	return matrix[b.length][a.length]
+	return previous[a.length]
 }
 
 export function calculateStringSimilarity(str1: string, str2: string): number {
@@ -51,7 +51,7 @@ export function containsCharsInOrder(str: string, query: string): number {
 	}
 
 	if (queryIndex === normalizedQuery.length) {
-		return normalizedStr.length / (strIndex + 1)
+		return normalizedQuery.length / strIndex
 	}
 
 	return 0
@@ -106,8 +106,6 @@ export function fuzzySearch(text: string, query: string): number {
 export type SortOption = "relevance" | "alphabetical-asc" | "alphabetical-desc" | "newest"
 
 export function scoreIcon(icon: IconWithName, query: string): number {
-	const NAME_WEIGHT = 2.0
-	const ALIAS_WEIGHT = 1.5
 	const nameScore = fuzzySearch(icon.name, query) * NAME_WEIGHT
 	const aliasScore =
 		icon.data.aliases.length > 0 ? Math.max(...icon.data.aliases.map((alias) => fuzzySearch(alias, query))) * ALIAS_WEIGHT : 0
@@ -127,11 +125,6 @@ export function filterAndSortIcons({
 	sort?: SortOption
 	limit?: number
 }): IconWithName[] {
-	const NAME_WEIGHT = 2.0
-	const ALIAS_WEIGHT = 1.5
-	const CATEGORY_WEIGHT = 1.0
-	const CATEGORY_PENALTY = 0.7
-
 	let filtered = icons
 
 	if (categories.length > 0) {
@@ -144,18 +137,14 @@ export function filterAndSortIcons({
 		const queryWords = query.toLowerCase().split(/\s+/)
 		const scored = filtered
 			.map((icon) => {
-				const nameScore = fuzzySearch(icon.name, query) * NAME_WEIGHT
-				const aliasScore =
-					icon.data.aliases && icon.data.aliases.length > 0
-						? Math.max(...icon.data.aliases.map((alias) => fuzzySearch(alias, query))) * ALIAS_WEIGHT
-						: 0
+				const nameAliasScore = scoreIcon(icon, query)
 				const categoryScore =
 					icon.data.categories && icon.data.categories.length > 0
 						? Math.max(...icon.data.categories.map((category) => fuzzySearch(category, query))) * CATEGORY_WEIGHT
 						: 0
 
-				const maxScore = Math.max(nameScore, aliasScore, categoryScore)
-				const onlyCategoryMatch = categoryScore > 0.7 && nameScore < 0.5 && aliasScore < 0.5
+				const maxScore = Math.max(nameAliasScore, categoryScore)
+				const onlyCategoryMatch = categoryScore > 0.7 && nameAliasScore < 0.5
 				const finalScore = onlyCategoryMatch ? maxScore * CATEGORY_PENALTY : maxScore
 
 				const normalizedName = normalizeForSearch(icon.name)

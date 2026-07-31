@@ -65,6 +65,7 @@ beforeEach(() => {
 
 afterEach(() => {
 	vi.unstubAllGlobals()
+	vi.unstubAllEnvs()
 	readFileMock.mockReset()
 })
 
@@ -77,6 +78,19 @@ describe("searchIcons", () => {
 		const { results, total } = await searchIcons("plex", 10)
 		expect(total).toBeGreaterThan(0)
 		expect(results[0]?.name).toBe("plex")
+	})
+
+	it("reports total matches before applying the result limit", async () => {
+		vi.mocked(fetch).mockResolvedValueOnce({
+			ok: true,
+			status: 200,
+			headers: new Headers(),
+			json: async () => ({ ...MOCK_METADATA, plexamp: MOCK_METADATA.plex }),
+		} as Response)
+		clearMetadataCacheForTests()
+		const { results, total } = await searchIcons("plex", 1)
+		expect(results).toHaveLength(1)
+		expect(total).toBe(2)
 	})
 
 	it("filters by category", async () => {
@@ -159,7 +173,6 @@ describe("metadata loading", () => {
 		vi.stubEnv("NODE_ENV", "production")
 		process.env.DASHBOARD_ICONS_METADATA_PATH = "/tmp/metadata.json"
 		await expect(getAllIcons()).rejects.toThrow("not allowed in production")
-		vi.unstubAllEnvs()
 	})
 
 	it("warms metadata cache", async () => {
@@ -169,7 +182,9 @@ describe("metadata loading", () => {
 
 	it("sends If-None-Match when etag exists", async () => {
 		await getAllIcons()
-		globalThis.__dashboardIconsMetadata = undefined
+		const cached = globalThis.__dashboardIconsMetadata
+		expect(cached).toBeDefined()
+		if (cached) cached.loadedAt = 0
 		vi.mocked(fetch).mockResolvedValueOnce({
 			ok: true,
 			status: 200,
@@ -183,13 +198,26 @@ describe("metadata loading", () => {
 
 	it("reuses cached metadata on 304 responses", async () => {
 		await getAllIcons()
-		clearMetadataCacheForTests()
-		vi.mocked(fetch).mockImplementationOnce(async () => {
-			globalThis.__dashboardIconsMetadata = { data: MOCK_METADATA, etag: '"abc"' }
-			return { status: 304, ok: false, headers: new Headers() } as Response
-		})
+		const cached = globalThis.__dashboardIconsMetadata
+		expect(cached).toBeDefined()
+		if (cached) cached.loadedAt = 0
+		vi.mocked(fetch).mockResolvedValueOnce({ status: 304, ok: false, headers: new Headers() } as Response)
 		const data = await getAllIcons()
 		expect(data).toEqual(MOCK_METADATA)
+	})
+
+	it("retries an unexpected 304 without a cached body", async () => {
+		clearMetadataCacheForTests()
+		vi.mocked(fetch)
+			.mockResolvedValueOnce({ status: 304, ok: false, headers: new Headers() } as Response)
+			.mockResolvedValueOnce({
+				ok: true,
+				status: 200,
+				headers: new Headers({ etag: '"retry"' }),
+				json: async () => MOCK_METADATA,
+			} as Response)
+		expect(await getAllIcons()).toEqual(MOCK_METADATA)
+		expect(vi.mocked(fetch)).toHaveBeenCalledTimes(2)
 	})
 
 	it("loads metadata when response has no etag", async () => {

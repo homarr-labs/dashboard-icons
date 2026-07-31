@@ -1,16 +1,6 @@
-import { logs } from "@opentelemetry/api-logs"
-import { OTLPLogExporter } from "@opentelemetry/exporter-logs-otlp-http"
-import { resourceFromAttributes } from "@opentelemetry/resources"
-import {
-	type LoggerProvider,
-	type LogRecordExporter,
-	LoggerProvider as OtelLoggerProvider,
-	SimpleLogRecordProcessor,
-} from "@opentelemetry/sdk-logs"
 import { PostHog } from "posthog-node"
 
 let posthogClient: PostHog | null = null
-export let loggerProvider: LoggerProvider | null = null
 
 function getPostHogClient(): PostHog | null {
 	const key = process.env.NEXT_PUBLIC_POSTHOG_KEY
@@ -31,20 +21,8 @@ export async function register() {
 	}
 
 	if (process.env.NEXT_RUNTIME === "nodejs" && process.env.NEXT_PUBLIC_POSTHOG_KEY && process.env.NEXT_PUBLIC_DISABLE_POSTHOG !== "true") {
-		const logExporter: LogRecordExporter = new OTLPLogExporter({
-			url: "https://eu.i.posthog.com/i/v1/logs",
-			headers: {
-				Authorization: `Bearer ${process.env.NEXT_PUBLIC_POSTHOG_KEY}`,
-				"Content-Type": "application/json",
-			},
-		})
-
-		loggerProvider = new OtelLoggerProvider({
-			resource: resourceFromAttributes({ "service.name": "dashboard-icons-web" }),
-			processors: [new SimpleLogRecordProcessor({ exporter: logExporter })],
-		})
-
-		logs.setGlobalLoggerProvider(loggerProvider)
+		const { registerPostHogLogExporter } = await import("@/instrumentation-node")
+		registerPostHogLogExporter(process.env.NEXT_PUBLIC_POSTHOG_KEY)
 	}
 }
 

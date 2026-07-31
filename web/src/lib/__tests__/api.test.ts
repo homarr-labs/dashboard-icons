@@ -44,6 +44,7 @@ describe("api", () => {
 
 	afterEach(() => {
 		vi.unstubAllGlobals()
+		vi.unstubAllEnvs()
 		vi.restoreAllMocks()
 	})
 
@@ -115,6 +116,39 @@ describe("api", () => {
 	})
 
 	describe("getAuthorData", () => {
+		it("omits authorization without a GitHub token and sets a timeout", async () => {
+			vi.stubEnv("GITHUB_TOKEN", "")
+			const fetchMock = vi.fn().mockResolvedValue({
+				ok: true,
+				status: 200,
+				json: async () => ({ id: 98, login: "public-user", avatar_url: "", html_url: "", name: "Public" }),
+			})
+			vi.stubGlobal("fetch", fetchMock)
+			const { getAuthorData, clearAuthorDataCacheForTests } = await loadApi()
+			clearAuthorDataCacheForTests()
+
+			await getAuthorData(98)
+			const options = fetchMock.mock.calls[0]?.[1] as RequestInit
+			expect(options.headers).toEqual({})
+			expect(options.signal).toBeInstanceOf(AbortSignal)
+		})
+
+		it("sends authorization when a GitHub token exists", async () => {
+			vi.stubEnv("GITHUB_TOKEN", "test-token")
+			const fetchMock = vi.fn().mockResolvedValue({
+				ok: true,
+				status: 200,
+				json: async () => ({ id: 97, login: "private-user", avatar_url: "", html_url: "", name: "Private" }),
+			})
+			vi.stubGlobal("fetch", fetchMock)
+			const { getAuthorData, clearAuthorDataCacheForTests } = await loadApi()
+			clearAuthorDataCacheForTests()
+
+			await getAuthorData(97)
+			const options = fetchMock.mock.calls[0]?.[1] as RequestInit
+			expect(options.headers).toEqual({ Authorization: "Bearer test-token" })
+		})
+
 		it("returns cached author on second call", async () => {
 			const fetchMock = vi.fn().mockResolvedValue({
 				ok: true,
@@ -167,11 +201,14 @@ describe("api", () => {
 		})
 
 		it("returns unknown author on github auth errors", async () => {
-			vi.stubGlobal("fetch", vi.fn().mockResolvedValue({ ok: false, status: 403, statusText: "Forbidden" }))
+			const fetchMock = vi.fn().mockResolvedValue({ ok: false, status: 403, statusText: "Forbidden" })
+			vi.stubGlobal("fetch", fetchMock)
 			const { getAuthorData, clearAuthorDataCacheForTests } = await loadApi()
 			clearAuthorDataCacheForTests()
 			const author = await getAuthorData(1)
+			await getAuthorData(1)
 			expect(author.login).toBe("unknown")
+			expect(fetchMock).toHaveBeenCalledTimes(2)
 		})
 
 		it("returns unknown author on github unauthorized responses", async () => {

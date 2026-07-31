@@ -104,6 +104,10 @@ function transformGalleryToIcon(item: CommunityGallery): any {
 
 let hasLoggedCommunityFetchFailure = false
 
+export function resetCommunityFetchFailureForTests(): void {
+	hasLoggedCommunityFetchFailure = false
+}
+
 function logCommunityFetchFailure(error: unknown): void {
 	if (hasLoggedCommunityFetchFailure) return
 	hasLoggedCommunityFetchFailure = true

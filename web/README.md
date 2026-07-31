@@ -53,60 +53,7 @@ src/
 ## MCP Server
 
 The app exposes a native-icons MCP server over HTTP at `/api/mcp`. AI clients can search the collection, fetch icon metadata, and resolve CDN URLs without scraping the website.
-
-| Endpoint | URL |
-|----------|-----|
-| Production | `https://dashboardicons.com/api/mcp` |
-| Local dev | `http://localhost:3005/api/mcp` |
-
-### Tools
-
-| Tool | Description |
-|------|-------------|
-| `search_icons` | Search by name, alias, or category |
-| `get_icon` | Full metadata and CDN URLs for one icon |
-| `get_icon_url` | Direct CDN URL (`svg`, `png`, `webp`; `default`, `light`, `dark`) |
-| `suggest_icon` | Fuzzy match from a natural service name (e.g. `"Plex media server"` → `plex`) |
-
-v1 covers **native icons** from `metadata.json` only. External sources (selfh.st, LobeHub) are not included.
-
-### Cursor configuration
-
-```json
-{
-  "mcpServers": {
-    "dashboard-icons": {
-      "url": "https://dashboardicons.com/api/mcp"
-    }
-  }
-}
-```
-
-For stdio-only clients, use [mcp-remote](https://www.npmjs.com/package/mcp-remote):
-
-```json
-{
-  "mcpServers": {
-    "dashboard-icons": {
-      "command": "npx",
-      "args": ["-y", "mcp-remote", "https://dashboardicons.com/api/mcp"]
-    }
-  }
-}
-```
-
-### MCP environment variables
-
-| Variable | Description |
-|----------|-------------|
-| `MCP_RATE_LIMIT_ENABLED` | Set to `false` to disable rate limiting (local dev only) |
-| `MCP_VERBOSE_LOGS` | Set to `true` for verbose MCP handler logs |
-| `MCP_WARM_CACHE` | Set to `true` to preload metadata on server start |
-| `DASHBOARD_ICONS_METADATA_PATH` | Local `metadata.json` path (development only; blocked in production) |
-
-Rate limits: 60 requests/minute per IP (all MCP traffic), 30 tool calls/minute per IP (`tools/call`).
-
-See [docs/MCP.md](./docs/MCP.md) for full tool schemas, parameters, and limits.
+See [docs/MCP.md](./docs/MCP.md) for endpoints, client setup, tool schemas, environment variables, analytics, and rate limits.
 
 ## Development
 

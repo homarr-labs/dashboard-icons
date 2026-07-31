@@ -18,7 +18,7 @@ function usesFlexibleSizing(className?: string): boolean {
 }
 
 export function UnoptimizedImage({ src, alt, width = 64, height = 64, className, style, priority }: UnoptimizedImageProps) {
-	const sizeStyle: CSSProperties = usesFlexibleSizing(className) ? { width: "auto", height: "auto" } : { width, height }
+	const sizeStyle: CSSProperties = usesFlexibleSizing(className) ? {} : { width, height }
 
 	return (
 		<Image

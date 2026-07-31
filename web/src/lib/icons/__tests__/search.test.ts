@@ -66,6 +66,10 @@ describe("containsCharsInOrder", () => {
 		expect(containsCharsInOrder("plexamp", "px")).toBeGreaterThan(0)
 	})
 
+	it("keeps early subsequence matches normalized", () => {
+		expect(containsCharsInOrder("plex media server for home", "p")).toBeLessThanOrEqual(1)
+	})
+
 	it("returns 0 when chars are out of order", () => {
 		expect(containsCharsInOrder("plex", "xlp")).toBe(0)
 	})

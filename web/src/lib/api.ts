@@ -104,8 +104,13 @@ export async function getIconData(iconName: string): Promise<IconWithName | null
 
 async function fetchGitHubAuthorData(authorId: number): Promise<AuthorData> {
 	try {
+		const headers: Record<string, string> = {}
+		if (process.env.GITHUB_TOKEN) {
+			headers.Authorization = `Bearer ${process.env.GITHUB_TOKEN}`
+		}
 		const response = await fetch(`https://api.github.com/user/${authorId}`, {
-			headers: { Authorization: `Bearer ${process.env.GITHUB_TOKEN}` },
+			headers,
+			signal: AbortSignal.timeout(10_000),
 		})
 
 		if (response.status === 401 || response.status === 403) {
@@ -164,7 +169,9 @@ export async function getAuthorData(authorId: number | string, authorMeta?: { na
 	if (cached) return cached
 
 	const data = await resolveAuthorData(authorId, authorMeta)
-	authorDataCache.set(cacheKey, data)
+	if (data.login !== "unknown") {
+		authorDataCache.set(cacheKey, data)
+	}
 	return data
 }
 

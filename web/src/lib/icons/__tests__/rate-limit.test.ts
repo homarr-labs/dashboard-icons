@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest"
-import { checkRateLimit, getClientIp, resetRateLimitsForTests } from "@/lib/icons/rate-limit"
+import { checkRateLimit, getClientIp, getRateLimitBucketCountForTests, resetRateLimitsForTests } from "@/lib/icons/rate-limit"
 
 describe("getClientIp", () => {
 	it("reads first x-forwarded-for hop", () => {
@@ -48,6 +48,15 @@ describe("checkRateLimit", () => {
 		expect(checkRateLimit("10.0.0.4", "request").allowed).toBe(false)
 		vi.advanceTimersByTime(60_001)
 		expect(checkRateLimit("10.0.0.4", "request").allowed).toBe(true)
+	})
+
+	it("periodically removes expired buckets", () => {
+		checkRateLimit("10.0.0.6", "request")
+		vi.advanceTimersByTime(30_000)
+		checkRateLimit("10.0.0.7", "request")
+		vi.advanceTimersByTime(30_001)
+		checkRateLimit("10.0.0.8", "request")
+		expect(getRateLimitBucketCountForTests()).toBe(2)
 	})
 
 	it("can be disabled via env", () => {

@@ -29,7 +29,16 @@ export function assertIconName(name: string): string {
 	return trimmed
 }
 
-const iconNameField = z.string().transform((value) => assertIconName(value))
+const iconNameField = z
+	.string()
+	.trim()
+	.superRefine((value, context) => {
+		try {
+			assertIconName(value)
+		} catch (error) {
+			context.addIssue({ code: "custom", message: (error as ValidationError).message })
+		}
+	})
 
 export const searchIconsSchema = z.object({
 	query: z.string().trim().min(1).max(MAX_QUERY_LENGTH),

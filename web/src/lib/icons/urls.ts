@@ -16,7 +16,7 @@ export function buildIconUrl(name: string, format: IconFormat = "svg", theme: Ic
 }
 
 export function buildIconUrls(name: string, icon: Icon) {
-	const base = typeof icon.base === "string" && !icon.base.startsWith("http") ? icon.base : "svg"
+	const base: IconFormat = icon.base === "svg" || icon.base === "png" || icon.base === "webp" ? icon.base : "svg"
 	const urls: { svg: string; png: string; webp: string; light?: string; dark?: string } = {
 		svg: buildIconUrl(name, "svg", "default"),
 		png: buildIconUrl(name, "png", "default"),
@@ -24,10 +24,10 @@ export function buildIconUrls(name: string, icon: Icon) {
 	}
 
 	if (icon.colors?.light) {
-		urls.light = `${BASE_URL}/${base}/${icon.colors.light}.${base}`
+		urls.light = buildIconUrl(icon.colors.light, base)
 	}
 	if (icon.colors?.dark) {
-		urls.dark = `${BASE_URL}/${base}/${icon.colors.dark}.${base}`
+		urls.dark = buildIconUrl(icon.colors.dark, base)
 	}
 	return urls
 }
