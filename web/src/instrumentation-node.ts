@@ -3,9 +3,9 @@ import { OTLPLogExporter } from "@opentelemetry/exporter-logs-otlp-http"
 import { resourceFromAttributes } from "@opentelemetry/resources"
 import { LoggerProvider, SimpleLogRecordProcessor } from "@opentelemetry/sdk-logs"
 
-export function registerPostHogLogExporter(posthogKey: string): void {
+export function registerPostHogLogExporter(posthogKey: string, posthogHost: string): void {
 	const logExporter = new OTLPLogExporter({
-		url: "https://eu.i.posthog.com/i/v1/logs",
+		url: `${posthogHost.replace(/\/$/, "")}/i/v1/logs`,
 		headers: {
 			Authorization: `Bearer ${posthogKey}`,
 			"Content-Type": "application/json",
