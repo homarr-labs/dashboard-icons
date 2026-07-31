@@ -218,6 +218,8 @@ describe("metadata loading", () => {
 			} as Response)
 		expect(await getAllIcons()).toEqual(MOCK_METADATA)
 		expect(vi.mocked(fetch)).toHaveBeenCalledTimes(2)
+		const retryHeaders = vi.mocked(fetch).mock.calls[1]?.[1]?.headers as Record<string, string>
+		expect(retryHeaders["If-None-Match"]).toBeUndefined()
 	})
 
 	it("loads metadata when response has no etag", async () => {

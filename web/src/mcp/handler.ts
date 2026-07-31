@@ -11,8 +11,6 @@ export const createDashboardIconsMcpHandler = () =>
 		},
 		{
 			serverInfo: getDashboardIconsServerInfo(),
-		},
-		{
 			verboseLogs: process.env.MCP_VERBOSE_LOGS === "true",
 		},
 	)

@@ -1,7 +1,7 @@
 import { logs } from "@opentelemetry/api-logs"
 import { OTLPLogExporter } from "@opentelemetry/exporter-logs-otlp-http"
 import { resourceFromAttributes } from "@opentelemetry/resources"
-import { LoggerProvider, SimpleLogRecordProcessor } from "@opentelemetry/sdk-logs"
+import { LoggerProvider, BatchLogRecordProcessor } from "@opentelemetry/sdk-logs"
 
 export function registerPostHogLogExporter(posthogKey: string, posthogHost: string): void {
 	const logExporter = new OTLPLogExporter({
@@ -14,7 +14,7 @@ export function registerPostHogLogExporter(posthogKey: string, posthogHost: stri
 
 	const loggerProvider = new LoggerProvider({
 		resource: resourceFromAttributes({ "service.name": "dashboard-icons-web" }),
-		processors: [new SimpleLogRecordProcessor({ exporter: logExporter })],
+		processors: [new BatchLogRecordProcessor(logExporter)],
 	})
 
 	logs.setGlobalLoggerProvider(loggerProvider)
