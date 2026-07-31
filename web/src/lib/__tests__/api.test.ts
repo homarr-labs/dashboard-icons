@@ -267,6 +267,20 @@ describe("api", () => {
 			expect(author.login).toBe("unknown")
 		})
 
+		it("logs author fetch failure only once across multiple failures", async () => {
+			const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {})
+			vi.stubGlobal("fetch", vi.fn().mockRejectedValue("offline"))
+
+			const { getAuthorData, clearAuthorDataCacheForTests } = await loadApi()
+			clearAuthorDataCacheForTests()
+
+			await getAuthorData(12)
+			await getAuthorData(13)
+
+			expect(warnSpy).toHaveBeenCalledTimes(1)
+			expect(warnSpy).toHaveBeenCalledWith("Author data unavailable (offline); using fallback author metadata.")
+		})
+
 		it("skips meta fallback when github data is valid", async () => {
 			vi.stubGlobal(
 				"fetch",
@@ -401,6 +415,26 @@ describe("api", () => {
 			}
 			const related = computeRelatedIcons("current", ["Shared"], metadata)
 			expect(related[0]?.data.colors).toEqual({ light: "related-light", dark: "related-dark" })
+		})
+
+		it("defaults missing aliases on related icons", async () => {
+			const { computeRelatedIcons } = await loadApi()
+			const metadata = {
+				current: {
+					base: "svg",
+					aliases: [],
+					categories: ["Shared"],
+					update: { timestamp: "2020-01-01T00:00:00Z", author: { id: 1 } },
+				},
+				related: {
+					base: "svg",
+					categories: ["Shared"],
+					update: { timestamp: "2020-01-01T00:00:00Z", author: { id: 1 } },
+				},
+			} as IconFile
+
+			const related = computeRelatedIcons("current", ["Shared"], metadata)
+			expect(related[0]?.data.aliases).toEqual([])
 		})
 	})
 

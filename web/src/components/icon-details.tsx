@@ -3,7 +3,6 @@
 import confetti from "canvas-confetti"
 import { AnimatePresence, motion } from "framer-motion"
 import { ArrowRight, Check, ExternalLink, FileType, Github, Moon, Palette, PaletteIcon, Sun, Type } from "lucide-react"
-import Image from "next/image"
 import Link from "next/link"
 import posthog from "posthog-js"
 import type React from "react"
@@ -15,11 +14,13 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
+import { UnoptimizedImage } from "@/components/unoptimized-image"
 import { BASE_URL, EXTERNAL_SOURCES, type ExternalSourceId, REPO_PATH } from "@/constants"
 import { canResolveExternalIconUrl, getExternalIconPreviewUrl, resolveExternalIconUrl } from "@/lib/external-icon-urls"
 import { isClipboardAvailable } from "@/lib/svg-color-utils"
 import { formatIconName } from "@/lib/utils"
 import type { AuthorData, ExternalIcon, Icon } from "@/types/icons"
+import { AddMcpButton, AddMcpLink } from "./add-mcp-button"
 import { Carbon } from "./carbon"
 import { IconActions } from "./icon-actions"
 import { IconCustomizerInline } from "./icon-customizer-inline"
@@ -515,7 +516,7 @@ export function IconDetails({
 						<Tooltip>
 							<TooltipTrigger asChild>
 								<motion.div
-									className="relative w-28 h-28 mb-3 ring-1 ring-white/5 dark:ring-white/10 bg-primary/15 dark:bg-secondary/10 cursor-pointer rounded-xl overflow-hidden group"
+									className="relative flex h-28 w-28 items-center justify-center mb-3 ring-1 ring-white/5 dark:ring-white/10 bg-primary/15 dark:bg-secondary/10 cursor-pointer rounded-xl overflow-hidden group"
 									whileHover={{ scale: 1.05 }}
 									whileTap={{ scale: 0.95 }}
 									onClick={(e) => handleCopyUrl(imageUrl, variantKey, e)}
@@ -545,14 +546,13 @@ export function IconDetails({
 										</motion.div>
 									</motion.div>
 
-									<Image
+									<UnoptimizedImage
 										src={imageUrl}
 										alt={`${iconName} in ${format} format${theme ? ` (${theme} theme)` : ""}`}
-										fill
-										sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-										loading="eager"
+										width={88}
+										height={88}
 										priority
-										className="object-contain p-4"
+										className="max-h-full max-w-full object-contain p-4"
 									/>
 								</motion.div>
 							</TooltipTrigger>
@@ -798,15 +798,14 @@ export function IconDetails({
 						<CardHeader className="pb-4">
 							<div className="flex flex-col items-center bg-background">
 								<div className="relative">
-									<div className="relative w-32 h-32 rounded-xl ring-1 ring-white/5 dark:ring-white/10 bg-primary/15 dark:bg-secondary/10 overflow-hidden flex items-center justify-center p-3">
-										<Image
+									<div className="relative flex h-32 w-32 items-center justify-center rounded-xl ring-1 ring-white/5 dark:ring-white/10 bg-primary/15 dark:bg-secondary/10 overflow-hidden p-3">
+										<UnoptimizedImage
 											src={heroImageUrl}
 											priority
 											width={96}
 											height={96}
-											placeholder="empty"
 											alt={`${formatedIconName} icon and logo in ${iconData.base.toUpperCase()} format`}
-											className="w-full h-full object-contain"
+											className="max-h-full max-w-full object-contain"
 										/>
 									</div>
 								</div>
@@ -922,7 +921,10 @@ export function IconDetails({
 							<CardTitle>
 								<h2>Icon variants</h2>
 							</CardTitle>
-							<CardDescription>Click on any icon to copy its URL to your clipboard</CardDescription>
+							<CardDescription>
+								Click on any icon to copy its URL to your clipboard. New: fetch icons programmatically with our MCP server.{" "}
+								<AddMcpLink source="icon_details" iconName={icon} />
+							</CardDescription>
 						</CardHeader>
 						<CardContent>
 							<div className="space-y-10">
@@ -1070,7 +1072,7 @@ export function IconDetails({
 										<h3 className="text-sm font-semibold text-muted-foreground mb-2">Source</h3>
 										<Button variant="outline" className="w-full gap-2" asChild>
 											<Link href={externalIcon.source_url} target="_blank" rel="noopener noreferrer">
-												<Image src={externalSourceConfig.icon} alt="" width={16} height={16} className="shrink-0" unoptimized />
+												<UnoptimizedImage src={externalSourceConfig.icon} alt="" width={16} height={16} className="shrink-0" />
 												View on {externalSourceConfig.label}
 												<ExternalLink className="w-4 h-4 ml-auto" />
 											</Link>
@@ -1128,6 +1130,9 @@ export function IconDetails({
 										</AnimatePresence>
 									</>
 								)}
+
+								<Separator />
+								<AddMcpButton source="icon_details" iconName={icon} size="sm" className="w-full" />
 							</div>
 						</CardContent>
 						<Carbon />

@@ -1,4 +1,5 @@
 import { createMcpHandler } from "mcp-handler"
+import { getDashboardIconsServerInfo } from "@/mcp/server-info"
 import { registerDashboardIconsTools } from "@/mcp/tools"
 
 export const createDashboardIconsMcpHandler = () =>
@@ -7,10 +8,7 @@ export const createDashboardIconsMcpHandler = () =>
 			registerDashboardIconsTools(server)
 		},
 		{
-			serverInfo: {
-				name: "dashboard-icons",
-				version: "1.0.0",
-			},
+			serverInfo: getDashboardIconsServerInfo(),
 		},
 		{
 			verboseLogs: process.env.MCP_VERBOSE_LOGS === "true",

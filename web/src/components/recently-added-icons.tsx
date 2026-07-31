@@ -2,9 +2,9 @@
 
 import { format, isToday, isYesterday } from "date-fns"
 import { ArrowRight, Clock, ExternalLink } from "lucide-react"
-import Image from "next/image"
 import Link from "next/link"
 import { Marquee } from "@/components/magicui/marquee"
+import { UnoptimizedImage } from "@/components/unoptimized-image"
 import { BASE_URL } from "@/constants"
 import { cn, formatIconName } from "@/lib/utils"
 import type { Icon, IconWithName } from "@/types/icons"
@@ -86,12 +86,13 @@ function RecentIconCard({ name, data }: { name: string; data: Icon }) {
 		>
 			<div className="absolute inset-0 bg-gradient-to-b from-primary/15 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300" />
 
-			<div className="relative h-12 w-12 sm:h-16 sm:w-16 mb-2">
-				<Image
+			<div className="relative mb-2 flex h-12 w-12 items-center justify-center sm:h-16 sm:w-16">
+				<UnoptimizedImage
 					src={`${BASE_URL}/${data.base}/${name}.${data.base}`}
 					alt={`${name} icon`}
-					fill
-					className="object-contain p-1 hover:scale-110 transition-transform duration-300"
+					width={56}
+					height={56}
+					className="max-h-full max-w-full object-contain p-1 transition-transform duration-300 hover:scale-110"
 				/>
 			</div>
 			<span className="text-xs sm:text-sm text-center truncate w-full capitalize  dark:hover:text-primary transition-colors duration-200 font-medium">

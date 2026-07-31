@@ -23,9 +23,16 @@ const nextConfig: NextConfig = {
 		remotePatterns: [
 			{
 				protocol: "https",
+				hostname: "cdn.simpleicons.org",
+				port: "",
+				pathname: "/**",
+				search: "",
+			},
+			{
+				protocol: "https",
 				hostname: "cdn.jsdelivr.net",
 				port: "",
-				pathname: "/gh/selfhst/icons/**",
+				pathname: "/gh/homarr-labs/dashboard-icons/**",
 				search: "",
 			},
 			{

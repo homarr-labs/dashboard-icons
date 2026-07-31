@@ -1,6 +1,6 @@
-import Image from "next/image"
 import Link from "next/link"
 import { MagicCard } from "@/components/magicui/magic-card"
+import { UnoptimizedImage } from "@/components/unoptimized-image"
 import { EXTERNAL_SOURCES, type ExternalSourceId } from "@/constants"
 import { getIconImageUrl } from "@/lib/icon-url"
 import { formatIconName } from "@/lib/utils"
@@ -39,18 +39,18 @@ export function IconCard({ icon, matchedAlias }: { icon: IconWithName; matchedAl
 		<MagicCard className="group/card rounded-md shadow-md">
 			{sourceConfig && (
 				<div className="absolute left-0 -top-7 z-10 flex items-center gap-1.5 pr-2 opacity-0 group-hover/card:opacity-100 transition-opacity duration-200 bg-muted/90 backdrop-blur-sm rounded-md shadow-sm whitespace-nowrap">
-					<Image src={sourceConfig.icon} alt={sourceConfig.label} width={28} height={28} className="shrink-0" unoptimized />
+					<UnoptimizedImage src={sourceConfig.icon} alt={sourceConfig.label} width={28} height={28} className="shrink-0" />
 					<span className="text-sm sm:text-md text-muted-foreground">from {sourceConfig.label}</span>
 				</div>
 			)}
 			<Link prefetch={false} href={getLinkHref(kind, name)} className="group flex flex-col items-center p-3 sm:p-4 cursor-pointer">
-				<div className="relative h-16 w-16 mb-2 rounded-lg ring-1 ring-white/5 dark:ring-white/10 bg-primary/15 dark:bg-secondary/10">
-					<Image
+				<div className="mb-2 flex h-16 w-16 items-center justify-center rounded-lg ring-1 ring-white/5 dark:ring-white/10 bg-primary/15 dark:bg-secondary/10">
+					<UnoptimizedImage
 						src={imageUrl}
 						alt={`${name} icon and logo`}
-						fill
-						sizes="32px 32px"
-						className="object-contain p-2 group-hover:scale-110 transition-transform duration-300"
+						width={56}
+						height={56}
+						className="max-h-full max-w-full object-contain p-2 transition-transform duration-300 group-hover:scale-110"
 					/>
 				</div>
 				<span className="text-xs sm:text-sm text-center truncate w-full capitalize group-hover:text-primary dark:group-hover:text-primary transition-colors duration-200 font-medium">
@@ -66,8 +66,14 @@ export function IconPreviewCard({ preview, label, name }: { preview: string; lab
 	return (
 		<MagicCard className="rounded-md shadow-md">
 			<div className="flex flex-col items-center p-3 sm:p-4">
-				<div className="relative h-16 w-16 mb-2 rounded-lg ring-1 ring-white/5 dark:ring-white/10 bg-primary/15 dark:bg-secondary/10 overflow-hidden">
-					<Image src={preview} alt={`${name} - ${label}`} fill unoptimized className="object-contain p-2" />
+				<div className="mb-2 flex h-16 w-16 items-center justify-center overflow-hidden rounded-lg ring-1 ring-white/5 dark:ring-white/10 bg-primary/15 dark:bg-secondary/10">
+					<UnoptimizedImage
+						src={preview}
+						alt={`${name} - ${label}`}
+						width={56}
+						height={56}
+						className="max-h-full max-w-full object-contain p-2"
+					/>
 				</div>
 				<span className="text-xs sm:text-sm text-center truncate w-full capitalize font-medium">{name || "icon-name"}</span>
 				<span className="text-[10px] text-muted-foreground">{label}</span>

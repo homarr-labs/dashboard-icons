@@ -3,7 +3,6 @@
 import confetti from "canvas-confetti"
 import { motion } from "framer-motion"
 import { FileType, Moon, PaletteIcon, Plus, Sun, Type, Upload, X } from "lucide-react"
-import Image from "next/image"
 import type React from "react"
 import { useCallback, useState } from "react"
 import { toast } from "sonner"
@@ -14,6 +13,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
+import { UnoptimizedImage } from "@/components/unoptimized-image"
 import { pb } from "@/lib/pb"
 import { submitOrReplaceRejected } from "@/lib/submit-or-replace"
 import { formatIconName } from "@/lib/utils"
@@ -151,9 +151,15 @@ function VariantCard({ variant, onRemove, canRemove }: VariantCardProps) {
 				<div className="flex flex-col items-center p-4 transition-all">
 					<Tooltip>
 						<TooltipTrigger asChild>
-							<div className="relative w-28 h-28 mb-3 rounded-xl overflow-hidden">
+							<div className="relative flex h-28 w-28 items-center justify-center mb-3 rounded-xl overflow-hidden">
 								<div className="absolute inset-0 border-2 border-primary/20 rounded-xl z-10" />
-								<Image src={variant.preview} alt={`${variant.label} preview`} fill className="object-contain p-4" />
+								<UnoptimizedImage
+									src={variant.preview}
+									alt={`${variant.label} preview`}
+									width={88}
+									height={88}
+									className="max-h-full max-w-full object-contain p-4"
+								/>
 							</div>
 						</TooltipTrigger>
 						<TooltipContent>
@@ -397,14 +403,14 @@ export function EditableIconDetails({ onSubmit, initialData }: EditableIconDetai
 							<CardHeader className="pb-4">
 								<div className="flex flex-col items-center">
 									{baseVariant ? (
-										<div className="relative w-32 h-32 rounded-xl overflow-hidden border flex items-center justify-center p-3">
-											<Image
+										<div className="relative flex h-32 w-32 items-center justify-center rounded-xl overflow-hidden border p-3">
+											<UnoptimizedImage
 												src={baseVariant.preview}
 												priority
 												width={96}
 												height={96}
 												alt={`${formattedIconName} icon preview`}
-												className="w-full h-full object-contain"
+												className="max-h-full max-w-full object-contain"
 											/>
 										</div>
 									) : (

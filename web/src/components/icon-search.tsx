@@ -4,6 +4,7 @@ import { ArrowDownAZ, ArrowUpZA, Calendar, Filter, Search, SortAsc, X } from "lu
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import posthog from "posthog-js"
 import { useCallback, useEffect, useMemo, useRef, useState } from "react"
+import { AddMcpButton } from "@/components/add-mcp-button"
 import { AddToSearchBarButton } from "@/components/add-to-search-bar-button"
 import { VirtualizedIconsGrid } from "@/components/icon-grid"
 import { IconSubmissionContent } from "@/components/icon-submission-form"
@@ -302,6 +303,7 @@ export function IconSearch({ icons }: IconSearchProps) {
 					</DropdownMenu>
 
 					<AddToSearchBarButton className="flex-1 sm:flex-none rounded-sm" />
+					<AddMcpButton className="flex-1 sm:flex-none rounded-sm" source="icon_search" />
 
 					{/* Clear all button */}
 					{(searchQuery || sortOption !== "relevance" || sourceFilter !== "all") && (

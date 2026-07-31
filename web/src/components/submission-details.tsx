@@ -15,7 +15,6 @@ import {
 	User as UserIcon,
 	X,
 } from "lucide-react"
-import Image from "next/image"
 import Link from "next/link"
 import { MagicCard } from "@/components/magicui/magic-card"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
@@ -23,6 +22,7 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
+import { UnoptimizedImage } from "@/components/unoptimized-image"
 import { UserDisplay } from "@/components/user-display"
 import { pb, type Submission, type User } from "@/lib/pb"
 import { formatIconName } from "@/lib/utils"
@@ -160,12 +160,12 @@ export function SubmissionDetails({
 								<MagicCard key={index} className="p-0 rounded-md">
 									<div className="relative">
 										<div className="aspect-square rounded-lg border flex items-center justify-center p-4 sm:p-8 bg-muted/30">
-											<Image
+											<UnoptimizedImage
 												src={`${pb.baseURL}/api/files/submissions/${submission.id}/${asset}` || "/placeholder.svg"}
 												alt={`${submission.name} asset ${index + 1}`}
 												width={200}
 												height={200}
-												className="max-w-full max-h-full object-contain"
+												className="max-h-full max-w-full object-contain"
 											/>
 										</div>
 										<div className="absolute top-2 right-2 flex gap-1">

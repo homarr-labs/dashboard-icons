@@ -26,6 +26,7 @@ import { Card } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { DASHBOARD_ICONS_ICON, EXTERNAL_SOURCES, type ExternalSourceId } from "@/constants"
 import { cn } from "@/lib/utils"
+import { AddMcpButton } from "./add-mcp-button"
 import { AddToSearchBarButton } from "./add-to-search-bar-button"
 import { AuroraText } from "./magicui/aurora-text"
 import { InteractiveHoverButton } from "./magicui/interactive-hover-button"
@@ -278,8 +279,9 @@ export function HeroSection({
 							<GiveUsMoneyButton />
 							<GiveUsLoveButton />
 						</div>
-						<div className="flex justify-center">
+						<div className="flex flex-col sm:flex-row justify-center gap-3">
 							<AddToSearchBarButton size="lg" />
+							<AddMcpButton size="lg" source="hero" />
 						</div>
 					</div>
 				</div>
