@@ -1,0 +1,21 @@
+web/src/instrumentation-node.ts
+  s_8c1f355365c9af::t_1daa191f55eb24 6,8
+web/src/instrumentation.ts
+  s_8c1f355365c9af::t_1daa191f55eb24 10,25
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.18",
+  "base_commit_sha": "dca8c70e9bd54840c19aae91fbee30ae943bd8f9",
+  "prompts": {},
+  "sessions": {
+    "s_8c1f355365c9af": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019fb819-9df1-71e3-bf79-61683d5d9203",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
