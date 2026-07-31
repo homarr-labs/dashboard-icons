@@ -7,6 +7,12 @@ const { mcpHandlerMock } = vi.hoisted(() => ({
 	mcpHandlerMock: vi.fn(async () => new Response("ok", { status: 200 })),
 }))
 
+const flushDashboardIconsMcpAnalytics = vi.fn(async () => {})
+
+vi.mock("@/mcp/analytics", () => ({
+	flushDashboardIconsMcpAnalytics,
+}))
+
 vi.mock("@/mcp/handler", () => ({
 	createDashboardIconsMcpHandler: () => mcpHandlerMock,
 }))
@@ -20,6 +26,7 @@ describe("MCP route", () => {
 		resetRateLimitsForTests()
 		process.env.MCP_RATE_LIMIT_ENABLED = "true"
 		mcpHandlerMock.mockClear()
+		flushDashboardIconsMcpAnalytics.mockClear()
 	})
 
 	it("returns 429 after exceeding request rate limit", async () => {
@@ -71,6 +78,7 @@ describe("MCP route", () => {
 		)
 		expect(response.status).toBe(200)
 		expect(mcpHandlerMock).toHaveBeenCalled()
+		expect(flushDashboardIconsMcpAnalytics).toHaveBeenCalled()
 	})
 
 	it("sets security headers on success", async () => {

@@ -97,6 +97,11 @@ When exceeded, the server returns HTTP `429` with a `Retry-After` header.
 | `MCP_VERBOSE_LOGS` | Set to `true` for verbose MCP handler logs |
 | `MCP_WARM_CACHE` | Set to `true` to preload metadata on server start |
 | `DASHBOARD_ICONS_METADATA_PATH` | Local `metadata.json` path (development only; blocked in production) |
+| `NEXT_PUBLIC_POSTHOG_KEY` | Enables PostHog MCP analytics using the existing project key |
+| `NEXT_PUBLIC_POSTHOG_HOST` | PostHog ingestion host (defaults to the EU cloud endpoint) |
+| `NEXT_PUBLIC_DISABLE_POSTHOG` | Set to `true` to disable all PostHog capture |
+
+When enabled, the official `@posthog/mcp` SDK captures MCP lifecycle events, tool calls, latency, responses, and errors. Analytics are flushed after each serverless invocation.
 
 ## Scope
 
