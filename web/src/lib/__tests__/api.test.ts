@@ -286,6 +286,14 @@ describe("api", () => {
 			expect(author.login).toBe("unknown")
 		})
 
+		it("returns unknown author when github user is not found", async () => {
+			vi.stubGlobal("fetch", vi.fn().mockResolvedValue({ ok: false, status: 404, statusText: "Not Found" }))
+			const { getAuthorData, clearAuthorDataCacheForTests } = await loadApi()
+			clearAuthorDataCacheForTests()
+			const author = await getAuthorData(8)
+			expect(author.login).toBe("unknown")
+		})
+
 		it("throws ApiError for non-auth github failures", async () => {
 			vi.stubGlobal("fetch", vi.fn().mockResolvedValue({ ok: false, status: 500, statusText: "Server Error" }))
 			const { getAuthorData, clearAuthorDataCacheForTests } = await loadApi()

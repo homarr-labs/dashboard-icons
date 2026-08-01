@@ -118,6 +118,10 @@ async function fetchGitHubAuthorData(authorId: number): Promise<AuthorData> {
 			return UNKNOWN_AUTHOR
 		}
 
+		if (response.status === 404) {
+			return UNKNOWN_AUTHOR
+		}
+
 		if (!response.ok) {
 			throw new ApiError(`Failed to fetch author data: ${response.statusText}`, response.status)
 		}
