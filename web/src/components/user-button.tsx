@@ -24,7 +24,7 @@ interface UserButtonProps {
 	userData?: UserData
 }
 
-export function UserButton({ asChild, isLoggedIn = false, userData }: UserButtonProps) {
+export function UserButton({ asChild: _asChild, isLoggedIn = false, userData }: UserButtonProps) {
 	return (
 		<DropdownMenuTrigger asChild>
 			<Button

@@ -270,10 +270,11 @@ export function useIconSubmissionForm() {
 
 		const reader = new FileReader()
 		reader.onload = (e) => {
-			if (typeof e.target?.result === "string") {
+			const result = e.target?.result
+			if (typeof result === "string") {
 				setFilePreviews((prev) => ({
 					...prev,
-					[variantId]: e.target!.result as string,
+					[variantId]: result,
 				}))
 			}
 		}

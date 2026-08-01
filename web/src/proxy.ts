@@ -1,10 +1,10 @@
-import { NextResponse } from "next/server"
 import type { NextRequest } from "next/server"
+import { NextResponse } from "next/server"
 
 const CANONICAL_HOST = "dashboardicons.com"
 const TRACKING_PARAMS = ["ref", "utm_source", "utm_medium", "utm_campaign", "utm_term", "utm_content", "source"]
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
 	const { host } = request.nextUrl
 
 	if (host === "localhost" || host.endsWith(".local") || host.startsWith("localhost:") || host === "127.0.0.1") {

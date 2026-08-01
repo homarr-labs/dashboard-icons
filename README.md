@@ -39,6 +39,11 @@ Find and download icons at [dashboardicons.com](https://dashboardicons.com):
 3. Choose your preferred format
 4. Download or copy the direct link
 
+### MCP Server (AI Assistants)
+
+Connect Cursor or other MCP clients to search icons and get CDN URLs programmatically.
+See [MCP documentation](web/docs/MCP.md).
+
 ### Direct Links
 
 Use icons from CDN with this pattern:

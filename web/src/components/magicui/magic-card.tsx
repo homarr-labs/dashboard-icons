@@ -20,13 +20,7 @@ interface MagicCardProps {
 	gradientOpacity?: number
 }
 
-export function MagicCard({
-	children,
-	className,
-	gradientSize = 200,
-	gradientColor = "",
-	gradientOpacity = 0.8,
-}: MagicCardProps) {
+export function MagicCard({ children, className, gradientSize = 200, gradientColor = "", gradientOpacity = 0.8 }: MagicCardProps) {
 	const cardRef = useRef<HTMLDivElement>(null)
 	const mouseX = useMotionValue(-gradientSize)
 	const mouseY = useMotionValue(-gradientSize)
@@ -76,7 +70,7 @@ export function MagicCard({
 	}, [isShared, sharedPointer, updateFromClient, resetPosition])
 
 	const handleMouseMove = useCallback(
-		(e: React.MouseEvent<HTMLDivElement>) => {
+		(e: MouseEvent) => {
 			if (isShared) return
 			updateFromClient(e.clientX, e.clientY)
 		},
@@ -89,6 +83,19 @@ export function MagicCard({
 	}, [isShared, resetPosition])
 
 	useEffect(() => {
+		const el = cardRef.current
+		if (!el || isShared) return
+
+		el.addEventListener("mousemove", handleMouseMove)
+		el.addEventListener("mouseleave", handleMouseLeave)
+
+		return () => {
+			el.removeEventListener("mousemove", handleMouseMove)
+			el.removeEventListener("mouseleave", handleMouseLeave)
+		}
+	}, [isShared, handleMouseMove, handleMouseLeave])
+
+	useEffect(() => {
 		if (!isShared) resetPosition()
 	}, [isShared, resetPosition])
 
@@ -96,12 +103,7 @@ export function MagicCard({
 	const { from: fromColor, to: toColor } = THEME_BORDER_COLORS[resolvedTheme ?? "dark"] ?? THEME_BORDER_COLORS.dark
 
 	return (
-		<div
-			ref={cardRef}
-			className={cn("group relative rounded-[inherit]", className)}
-			onMouseMove={isShared ? undefined : handleMouseMove}
-			onMouseLeave={isShared ? undefined : handleMouseLeave}
-		>
+		<div ref={cardRef} className={cn("group relative rounded-[inherit]", className)}>
 			<motion.div
 				className="pointer-events-none absolute inset-0 rounded-[inherit] bg-border duration-300 group-hover:opacity-100"
 				style={{

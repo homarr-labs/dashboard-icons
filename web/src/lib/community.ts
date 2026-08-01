@@ -57,8 +57,9 @@ function transformGalleryToIcon(item: CommunityGallery): any {
 	if (colors && item.assets) {
 		Object.keys(colors).forEach((key) => {
 			const k = key as keyof typeof colors
-			if (colors[k]) {
-				colors[k] = findBestMatchingAsset(colors[k]!, item.assets || [])
+			const colorValue = colors[k]
+			if (colorValue) {
+				colors[k] = findBestMatchingAsset(colorValue, item.assets || [])
 			}
 		})
 	}
@@ -67,8 +68,9 @@ function transformGalleryToIcon(item: CommunityGallery): any {
 	if (wordmark && item.assets) {
 		Object.keys(wordmark).forEach((key) => {
 			const k = key as keyof typeof wordmark
-			if (wordmark[k]) {
-				wordmark[k] = findBestMatchingAsset(wordmark[k]!, item.assets || [])
+			const wordmarkValue = wordmark[k]
+			if (wordmarkValue) {
+				wordmark[k] = findBestMatchingAsset(wordmarkValue, item.assets || [])
 			}
 		})
 	}
@@ -100,6 +102,18 @@ function transformGalleryToIcon(item: CommunityGallery): any {
 	return transformed
 }
 
+let hasLoggedCommunityFetchFailure = false
+
+export function resetCommunityFetchFailureForTests(): void {
+	hasLoggedCommunityFetchFailure = false
+}
+
+function logCommunityFetchFailure(error: unknown): void {
+	if (hasLoggedCommunityFetchFailure) return
+	hasLoggedCommunityFetchFailure = true
+	const message = error instanceof Error ? error.message : String(error)
+	console.warn(`Community submissions unavailable (${message}); continuing without community icons.`)
+}
 /**
  * Fetch community gallery items (not added to collection)
  * Uses the community_gallery view collection for public-facing data
@@ -115,7 +129,7 @@ export async function fetchCommunitySubmissions(): Promise<IconWithName[]> {
 
 		return records.filter((item) => item.assets && item.assets.length > 0).map(transformGalleryToIcon)
 	} catch (error) {
-		console.error("Error fetching community submissions:", error)
+		logCommunityFetchFailure(error)
 		return []
 	}
 }
@@ -142,8 +156,7 @@ async function fetchCommunitySubmissionByName(name: string): Promise<IconWithNam
 		const record = await pb.collection("community_gallery").getFirstListItem<CommunityGallery>(`name="${name}"`)
 		const transformed = transformGalleryToIcon(record)
 		return transformed
-	} catch (error) {
-		console.error(`Error fetching community submission ${name}:`, error)
+	} catch {
 		return null
 	}
 }
@@ -170,8 +183,7 @@ async function fetchCommunityGalleryRecord(name: string): Promise<CommunityGalle
 
 		const record = await pb.collection("community_gallery").getFirstListItem<CommunityGallery>(`name="${name}"`)
 		return record
-	} catch (error) {
-		console.error(`Error fetching community gallery record ${name}:`, error)
+	} catch {
 		return null
 	}
 }

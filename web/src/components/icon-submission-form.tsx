@@ -4,9 +4,9 @@ import { Check, FileType, FolderOpen, Plus, Send, Sparkles, Tag, Upload, X } fro
 import Link from "next/link"
 import { toast } from "sonner"
 import { IconPreviewCard } from "@/components/icon-card"
-import { MagicCardPointerProvider } from "@/components/magicui/magic-card-pointer"
 import { IconNameCombobox } from "@/components/icon-name-combobox"
 import { IconSubmissionGuidelines } from "@/components/icon-submission-guidelines"
+import { MagicCardPointerProvider } from "@/components/magicui/magic-card-pointer"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -359,24 +359,24 @@ export function IconSubmissionForm() {
 								{hasAnyPreview ? (
 									<form.Subscribe selector={(state) => state.values.iconName}>
 										{(iconName) => (
-										<MagicCardPointerProvider
-											className={cn(
-												"grid gap-3",
-												isMobile ? "grid-cols-2" : "grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 2xl:grid-cols-1",
-											)}
-										>
-											{Object.entries(filePreviews).map(([variantId, preview]) => {
-												const variant = VARIANTS.find((v) => v.id === variantId)
-												return (
-													<IconPreviewCard
-														key={variantId}
-														preview={preview}
-														label={variant?.label || variantId}
-														name={iconName || "preview"}
-													/>
-												)
-											})}
-										</MagicCardPointerProvider>
+											<MagicCardPointerProvider
+												className={cn(
+													"grid gap-3",
+													isMobile ? "grid-cols-2" : "grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 2xl:grid-cols-1",
+												)}
+											>
+												{Object.entries(filePreviews).map(([variantId, preview]) => {
+													const variant = VARIANTS.find((v) => v.id === variantId)
+													return (
+														<IconPreviewCard
+															key={variantId}
+															preview={preview}
+															label={variant?.label || variantId}
+															name={iconName || "preview"}
+														/>
+													)
+												})}
+											</MagicCardPointerProvider>
 										)}
 									</form.Subscribe>
 								) : (

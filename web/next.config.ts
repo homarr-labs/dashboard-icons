@@ -1,5 +1,9 @@
+import path from "node:path"
+import { fileURLToPath } from "node:url"
 import type { NextConfig } from "next";
 import { withPostHogConfig } from "@posthog/nextjs-config";
+
+const projectRoot = path.dirname(fileURLToPath(import.meta.url))
 
 const securityHeaders = [
 	{ key: "X-Content-Type-Options", value: "nosniff" },
@@ -10,15 +14,25 @@ const securityHeaders = [
 ];
 
 const nextConfig: NextConfig = {
+	turbopack: {
+		root: projectRoot,
+	},
 	cacheComponents: false,
 	images: {
 		unoptimized: true,
 		remotePatterns: [
 			{
 				protocol: "https",
+				hostname: "cdn.simpleicons.org",
+				port: "",
+				pathname: "/**",
+				search: "",
+			},
+			{
+				protocol: "https",
 				hostname: "cdn.jsdelivr.net",
 				port: "",
-				pathname: "/gh/selfhst/icons/**",
+				pathname: "/gh/homarr-labs/dashboard-icons/**",
 				search: "",
 			},
 			{
@@ -34,6 +48,18 @@ const nextConfig: NextConfig = {
 				port: "",
 				pathname: "/lobehub/lobe-icons/**",
 				search: "",
+			},
+			{
+				protocol: "http",
+				hostname: "127.0.0.1",
+				port: "8090",
+				pathname: "/api/files/**",
+			},
+			{
+				protocol: "http",
+				hostname: "localhost",
+				port: "8090",
+				pathname: "/api/files/**",
 			},
 		],
 	},
@@ -58,6 +84,14 @@ const nextConfig: NextConfig = {
 			{
 				source: "/(.*)",
 				headers: securityHeaders,
+			},
+			{
+				source: "/api/mcp/:path*",
+				headers: [
+					{ key: "X-Content-Type-Options", value: "nosniff" },
+					{ key: "Cache-Control", value: "no-store" },
+					{ key: "X-Frame-Options", value: "DENY" },
+				],
 			},
 			{
 				source: "/:path*.png",

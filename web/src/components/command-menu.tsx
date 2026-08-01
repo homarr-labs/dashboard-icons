@@ -7,6 +7,7 @@ import posthog from "posthog-js"
 import { useCallback, useEffect, useMemo, useState } from "react"
 import { Badge } from "@/components/ui/badge"
 import { CommandDialog, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command"
+import { UnoptimizedImage } from "@/components/unoptimized-image"
 import { EXTERNAL_SOURCES, type ExternalSourceId } from "@/constants"
 import { useMediaQuery } from "@/hooks/use-media-query"
 import { getIconImageUrl } from "@/lib/icon-url"
@@ -156,7 +157,7 @@ export function CommandMenu({ icons, open: externalOpen, onOpenChange: externalO
 									<span className="flex-grow capitalize font-medium truncate">{formattedIconName}</span>
 									{isExternal && sourceConfig && (
 										<Badge variant="outline" className="text-xs px-2 h-6 gap-1.5 shrink-0">
-											<img src={sourceConfig.icon} alt="" width={12} height={12} className="shrink-0" />
+											<UnoptimizedImage src={sourceConfig.icon} alt="" width={12} height={12} className="shrink-0" />
 											{sourceConfig.label}
 										</Badge>
 									)}
@@ -185,7 +186,13 @@ export function CommandMenu({ icons, open: externalOpen, onOpenChange: externalO
 								transition={{ duration: 0.1 }}
 							>
 								<div className="h-24 w-24 rounded-xl bg-muted ring-1 ring-border flex items-center justify-center overflow-hidden">
-									<img src={getIconImageUrl(selectedIcon)} alt={selectedIcon.name} width={64} height={64} className="object-contain" />
+									<UnoptimizedImage
+										src={getIconImageUrl(selectedIcon)}
+										alt={selectedIcon.name}
+										width={64}
+										height={64}
+										className="object-contain"
+									/>
 								</div>
 								<span className="text-sm font-medium text-center capitalize truncate max-w-full">{formatIconName(selectedIcon.name)}</span>
 								{selectedIcon.source && selectedIcon.source !== "native" && (

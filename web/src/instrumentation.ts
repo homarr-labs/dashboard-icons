@@ -1,15 +1,13 @@
-import type { LoggerProvider } from "@opentelemetry/sdk-logs"
 import { PostHog } from "posthog-node"
 
 let posthogClient: PostHog | null = null
-export let loggerProvider: LoggerProvider | null = null
 
 function getPostHogClient(): PostHog | null {
 	const key = process.env.NEXT_PUBLIC_POSTHOG_KEY
 	if (!key || process.env.NEXT_PUBLIC_DISABLE_POSTHOG === "true") return null
 	if (!posthogClient) {
 		posthogClient = new PostHog(key, {
-			host: "https://eu.i.posthog.com",
+			host: process.env.NEXT_PUBLIC_POSTHOG_HOST || "https://eu.i.posthog.com",
 			flushAt: 1,
 			flushInterval: 0,
 		})
@@ -18,28 +16,13 @@ function getPostHogClient(): PostHog | null {
 }
 
 export async function register() {
+	if (process.env.NEXT_RUNTIME === "nodejs" && process.env.MCP_WARM_CACHE === "true") {
+		import("@/lib/icons/service").then((module) => module.warmMetadataCache()).catch(() => {})
+	}
+
 	if (process.env.NEXT_RUNTIME === "nodejs" && process.env.NEXT_PUBLIC_POSTHOG_KEY && process.env.NEXT_PUBLIC_DISABLE_POSTHOG !== "true") {
-		const { BatchLogRecordProcessor: Processor, LoggerProvider: Provider } = await import("@opentelemetry/sdk-logs")
-		const { OTLPLogExporter } = await import("@opentelemetry/exporter-logs-otlp-http")
-		const { logs } = await import("@opentelemetry/api-logs")
-		const { resourceFromAttributes } = await import("@opentelemetry/resources")
-
-		loggerProvider = new Provider({
-			resource: resourceFromAttributes({ "service.name": "dashboard-icons-web" }),
-			processors: [
-				new Processor(
-					new OTLPLogExporter({
-						url: "https://eu.i.posthog.com/i/v1/logs",
-						headers: {
-							Authorization: `Bearer ${process.env.NEXT_PUBLIC_POSTHOG_KEY}`,
-							"Content-Type": "application/json",
-						},
-					}),
-				),
-			],
-		})
-
-		logs.setGlobalLoggerProvider(loggerProvider)
+		const { registerPostHogLogExporter } = await import("@/instrumentation-node")
+		registerPostHogLogExporter(process.env.NEXT_PUBLIC_POSTHOG_KEY, process.env.NEXT_PUBLIC_POSTHOG_HOST || "https://eu.i.posthog.com")
 	}
 }
 

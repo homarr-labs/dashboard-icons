@@ -1,7 +1,7 @@
 "use client"
 
-import { createContext, useContext, useCallback, useRef, type ReactNode } from "react"
-import { useMotionValue, type MotionValue } from "motion/react"
+import { type MotionValue, useMotionValue } from "motion/react"
+import { createContext, type ReactNode, useCallback, useContext, useRef } from "react"
 import { cn } from "@/lib/utils"
 
 interface PointerContext {
@@ -42,12 +42,7 @@ export function MagicCardPointerProvider({ children, className }: ProviderProps)
 
 	return (
 		<MagicCardPointerContext.Provider value={{ clientX, clientY, active }}>
-			<div
-				ref={ref}
-				className={cn(className)}
-				onPointerMove={handlePointerMove}
-				onPointerLeave={handlePointerLeave}
-			>
+			<div ref={ref} className={cn(className)} onPointerMove={handlePointerMove} onPointerLeave={handlePointerLeave}>
 				{children}
 			</div>
 		</MagicCardPointerContext.Provider>

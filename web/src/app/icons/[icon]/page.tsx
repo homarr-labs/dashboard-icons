@@ -171,11 +171,7 @@ export default async function IconPage({ params }: { params: Promise<{ icon: str
 				}}
 			/>
 			<IconDetails
-				breadcrumbItems={[
-					{ label: "Home", href: "/" },
-					{ label: "Browse Icons", href: "/icons" },
-					{ label: formattedName },
-				]}
+				breadcrumbItems={[{ label: "Home", href: "/" }, { label: "Browse Icons", href: "/icons" }, { label: formattedName }]}
 				icon={icon}
 				iconData={originalIconData}
 				authorData={authorData}

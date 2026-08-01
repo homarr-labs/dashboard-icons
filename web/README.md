@@ -15,6 +15,7 @@ A web application to browse, search, and download icons from the
 - **User authentication** - Sign in with email/password or GitHub OAuth
 - **Submit icons** - Authenticated users can submit new icons to the collection
 - **Admin dashboard** - Admins can approve, reject, and manage icon submissions
+- **MCP server** - HTTP MCP endpoint for AI assistants to search icons, fetch metadata, and resolve CDN URLs
 
 ## Tech Stack
 
@@ -24,6 +25,7 @@ A web application to browse, search, and download icons from the
 - **Shadcn UI** - Reusable components built with Radix UI and Tailwind
 - **PocketBase** - Backend for authentication and data storage
 - **PostHog** - Product analytics and user tracking
+- **MCP (Model Context Protocol)** - HTTP transport via `mcp-handler` for AI tool integrations
 
 ## Project Structure
 
@@ -31,30 +33,27 @@ A web application to browse, search, and download icons from the
 src/
 ├── app/                      # Next.js App Router
 │   ├── api/                  # API routes
-│   │   └── icons/            # Icons browsing and detail pages
-│   │       ├── [icon]/       # Dynamic icon detail page
-│   │       │   ├── components/   # Icon-specific components
-│   │       │   ├── error.tsx     # Error handling
-│   │       │   ├── loading.tsx   # Loading state
-│   │       │   └── page.tsx      # Icon detail page
-│   │       ├── components/       # Icons page components
-│   │       ├── loading.tsx       # Loading state
-│   │       └── page.tsx          # Icons browse page
+│   │   ├── icons/            # Icon search API
+│   │   └── mcp/              # MCP HTTP endpoint
+│   ├── icons/                # Icons browsing and detail pages
+│   │   ├── [icon]/           # Dynamic icon detail page
+│   │   └── page.tsx          # Icons browse page
 │   ├── globals.css           # Global styles
 │   ├── layout.tsx            # Root layout
-│   ├── page.tsx              # Homepage
-│   └── theme-provider.tsx    # Theme provider component
+│   └── page.tsx              # Homepage
 ├── components/               # Shared components
-│   ├── ui/                   # UI components (from shadcn/ui)
-│   ├── header.tsx            # App header
-│   └── theme-switcher.tsx    # Theme switcher
-├── lib/                      # Utility functions
-│   ├── api.ts                # API utilities
-│   └── utils.ts              # General utilities
+├── lib/
+│   ├── api.ts                # App-level icon API helpers
+│   ├── icon-url.ts           # Icon URL resolution
+│   └── icons/                # Icon service, search, validation, rate limiting
+├── mcp/                      # MCP handler and tool registration
 └── types/                    # TypeScript type definitions
-    ├── icons.ts              # Icon-related types
-    └── index.ts              # Type exports
 ```
+
+## MCP Server
+
+The app exposes a native-icons MCP server over HTTP at `/api/mcp`. AI clients can search the collection, fetch icon metadata, and resolve CDN URLs without scraping the website.
+See [docs/MCP.md](./docs/MCP.md) for endpoints, client setup, tool schemas, environment variables, analytics, and rate limits.
 
 ## Development
 
