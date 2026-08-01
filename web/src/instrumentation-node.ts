@@ -14,7 +14,7 @@ export function registerPostHogLogExporter(posthogKey: string, posthogHost: stri
 
 	const loggerProvider = new LoggerProvider({
 		resource: resourceFromAttributes({ "service.name": "dashboard-icons-web" }),
-		processors: [new BatchLogRecordProcessor(logExporter)],
+		processors: [new BatchLogRecordProcessor({ exporter: logExporter })],
 	})
 
 	logs.setGlobalLoggerProvider(loggerProvider)
