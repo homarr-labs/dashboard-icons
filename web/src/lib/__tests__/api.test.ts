@@ -219,6 +219,22 @@ describe("api", () => {
 			expect(author.login).toBe("unknown")
 		})
 
+		it("returns unknown author when the github account no longer exists", async () => {
+			vi.stubGlobal("fetch", vi.fn().mockResolvedValue({ ok: false, status: 404, statusText: "Not Found" }))
+			const { getAuthorData, clearAuthorDataCacheForTests } = await loadApi()
+			clearAuthorDataCacheForTests()
+			const author = await getAuthorData(31266841)
+			expect(author.login).toBe("unknown")
+		})
+
+		it("returns unknown author when github rate limits requests", async () => {
+			vi.stubGlobal("fetch", vi.fn().mockResolvedValue({ ok: false, status: 429, statusText: "Too Many Requests" }))
+			const { getAuthorData, clearAuthorDataCacheForTests } = await loadApi()
+			clearAuthorDataCacheForTests()
+			const author = await getAuthorData(12)
+			expect(author.login).toBe("unknown")
+		})
+
 		it("builds internal author without optional fields", async () => {
 			const { getAuthorData, clearAuthorDataCacheForTests } = await loadApi()
 			clearAuthorDataCacheForTests()

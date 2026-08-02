@@ -113,8 +113,8 @@ async function fetchGitHubAuthorData(authorId: number): Promise<AuthorData> {
 			signal: AbortSignal.timeout(10_000),
 		})
 
-		if (response.status === 401 || response.status === 403) {
-			console.warn(`GitHub API rate limit or authorization issue: ${response.statusText}`)
+		if (response.status === 401 || response.status === 403 || response.status === 404 || response.status === 429) {
+			console.warn(`GitHub author data unavailable: ${response.status} ${response.statusText}`)
 			return UNKNOWN_AUTHOR
 		}
 
