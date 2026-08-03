@@ -52,7 +52,7 @@ FROM base AS runner
 WORKDIR /app
 
 ARG NEXT_PUBLIC_POSTHOG_KEY="phc_fNHNUqEQJHL2DHlwyaPniHOcpEwe8rFPeJEcPbuifC6"
-ARG NEXT_PUBLIC_POSTHOG_HOST="https://hog.ajnart.dev"
+ARG NEXT_PUBLIC_POSTHOG_HOST="https://eu.i.posthog.com"
 ARG NEXT_PUBLIC_DISABLE_POSTHOG=false
 ARG NEXT_PUBLIC_POCKETBASE_URL=https://pb.dashboardicons.com
 ARG CI_MODE=false

@@ -6,11 +6,11 @@ name: Main CI
 on:
   push:
     branches: [main]
-    
+
   # Daily schedule at midnight (00:00 UTC)
   schedule:
-    - cron: '0 0 * * *'
-    
+    - cron: "0 0 * * *"
+
   workflow_dispatch:
 
 defaults:
@@ -25,7 +25,7 @@ env:
   # PNPM store location
   PNPM_STORE_PATH: ~/.local/share/pnpm/store
   NEXT_PUBLIC_POSTHOG_KEY: phc_fNHNUqEQJHL2DHlwyaPniHOcpEwe8rFPeJEcPbuifC6
-  NEXT_PUBLIC_POSTHOG_HOST: https://hog.ajnart.dev
+  NEXT_PUBLIC_POSTHOG_HOST: https://eu.i.posthog.com
   NEXT_PUBLIC_DISABLE_POSTHOG: false
   NEXT_PUBLIC_POCKETBASE_URL: https://pb.dashboardicons.com
   CI_MODE: true
@@ -38,7 +38,7 @@ jobs:
     permissions:
       packages: write
       contents: read
-    
+
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -85,4 +85,3 @@ jobs:
             CI_MODE=${{ env.CI_MODE }}
           secrets: |
             "github_token=${{ secrets.GITHUB_TOKEN }}"
-
