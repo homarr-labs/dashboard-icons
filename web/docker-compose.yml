@@ -26,4 +26,3 @@ services:
 volumes:
   pb_data:
   pb_hooks:
-

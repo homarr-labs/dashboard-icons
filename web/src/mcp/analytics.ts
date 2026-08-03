@@ -5,7 +5,7 @@ const posthogKey = process.env.NEXT_PUBLIC_POSTHOG_KEY
 const posthog =
 	posthogKey && process.env.NEXT_PUBLIC_DISABLE_POSTHOG !== "true"
 		? new PostHog(posthogKey, {
-				host: process.env.NEXT_PUBLIC_POSTHOG_HOST || "https://eu.i.posthog.com",
+				host: "https://eu.i.posthog.com",
 			})
 		: null
 

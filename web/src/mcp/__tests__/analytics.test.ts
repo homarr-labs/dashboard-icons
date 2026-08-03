@@ -58,21 +58,19 @@ describe("MCP analytics", () => {
 
 	it("instruments and flushes MCP events", async () => {
 		vi.stubEnv("NEXT_PUBLIC_POSTHOG_KEY", "phc_test")
-		vi.stubEnv("NEXT_PUBLIC_POSTHOG_HOST", "https://posthog.example.com")
 		const analytics = await importAnalytics()
 		const server = {} as never
 
 		analytics.instrumentDashboardIconsMcpAnalytics(server)
 		await analytics.flushDashboardIconsMcpAnalytics()
 
-		expect(PostHog).toHaveBeenCalledWith("phc_test", { host: "https://posthog.example.com" })
+		expect(PostHog).toHaveBeenCalledWith("phc_test", { host: "https://eu.i.posthog.com" })
 		expect(instrument).toHaveBeenCalledWith(server, expect.anything(), { context: false })
 		expect(flush).toHaveBeenCalled()
 	})
 
 	it("uses the EU host and ignores flush failures", async () => {
 		vi.stubEnv("NEXT_PUBLIC_POSTHOG_KEY", "phc_test")
-		vi.stubEnv("NEXT_PUBLIC_POSTHOG_HOST", "")
 		flush.mockRejectedValueOnce(new Error("capture failed"))
 		const analytics = await importAnalytics()
 

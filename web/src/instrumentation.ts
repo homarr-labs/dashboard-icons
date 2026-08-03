@@ -7,7 +7,7 @@ function getPostHogClient(): PostHog | null {
 	if (!key || process.env.NEXT_PUBLIC_DISABLE_POSTHOG === "true") return null
 	if (!posthogClient) {
 		posthogClient = new PostHog(key, {
-			host: process.env.NEXT_PUBLIC_POSTHOG_HOST || "https://eu.i.posthog.com",
+			host: "https://eu.i.posthog.com",
 			flushAt: 1,
 			flushInterval: 0,
 		})
@@ -22,7 +22,7 @@ export async function register() {
 
 	if (process.env.NEXT_RUNTIME === "nodejs" && process.env.NEXT_PUBLIC_POSTHOG_KEY && process.env.NEXT_PUBLIC_DISABLE_POSTHOG !== "true") {
 		const { registerPostHogLogExporter } = await import("@/instrumentation-node")
-		registerPostHogLogExporter(process.env.NEXT_PUBLIC_POSTHOG_KEY, process.env.NEXT_PUBLIC_POSTHOG_HOST || "https://eu.i.posthog.com")
+		registerPostHogLogExporter(process.env.NEXT_PUBLIC_POSTHOG_KEY, "https://eu.i.posthog.com")
 	}
 }
 
