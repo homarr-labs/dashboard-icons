@@ -20,7 +20,6 @@ import { canResolveExternalIconUrl, getExternalIconPreviewUrl, resolveExternalIc
 import { isClipboardAvailable } from "@/lib/svg-color-utils"
 import { formatIconName } from "@/lib/utils"
 import type { AuthorData, ExternalIcon, Icon } from "@/types/icons"
-import { AddMcpButton, AddMcpLink } from "./add-mcp-button"
 import { Carbon } from "./carbon"
 import { IconActions } from "./icon-actions"
 import { IconCustomizerInline } from "./icon-customizer-inline"
@@ -919,10 +918,7 @@ export function IconDetails({
 							<CardTitle>
 								<h2>Icon variants</h2>
 							</CardTitle>
-							<CardDescription>
-								Click on any icon to copy its URL to your clipboard. New: fetch icons programmatically with our MCP server.{" "}
-								<AddMcpLink source="icon_details" iconName={icon} />
-							</CardDescription>
+							<CardDescription>Click on any icon to copy its URL to your clipboard.</CardDescription>
 						</CardHeader>
 						<CardContent>
 							<div className="space-y-10">
@@ -1128,9 +1124,6 @@ export function IconDetails({
 										</AnimatePresence>
 									</>
 								)}
-
-								<Separator />
-								<AddMcpButton source="icon_details" iconName={icon} size="sm" className="w-full" />
 							</div>
 						</CardContent>
 						<Carbon />

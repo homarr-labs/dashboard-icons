@@ -8,10 +8,9 @@ import { type McpCodeLanguage, McpHighlightedCode } from "@/components/mcp-highl
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { Separator } from "@/components/ui/separator"
 import { UnoptimizedImage } from "@/components/unoptimized-image"
 import { REPO_PATH, WEB_URL } from "@/constants"
-import { getIconUrlExampleJson, MCP_CLIENT_GUIDES, MCP_TOOLS, type McpClientGuide, type McpSetupSource } from "@/lib/mcp-setup-config"
+import { MCP_CLIENT_GUIDES, MCP_TOOLS, type McpClientGuide, type McpSetupSource } from "@/lib/mcp-setup-config"
 import { cn } from "@/lib/utils"
 
 const MCP_DOCS_URL = `${REPO_PATH}/blob/main/web/docs/MCP.md`
@@ -150,29 +149,29 @@ const MCP_TOOL_ICONS: Record<(typeof MCP_TOOLS)[number]["name"], LucideIcon> = {
 
 function McpToolsSection() {
 	return (
-		<div className="overflow-hidden rounded-xl border border-border/60 bg-gradient-to-b from-muted/30 to-transparent">
-			<div className="flex items-start justify-between gap-3 border-b border-border/50 px-4 py-3.5">
+		<div>
+			<div className="flex items-start justify-between gap-3">
 				<div className="space-y-0.5">
-					<h3 className="text-sm font-semibold tracking-tight">Tools</h3>
-					<p className="text-xs text-muted-foreground leading-relaxed">Search and fetch icons programmatically from your MCP client.</p>
+					<h3 className="text-sm font-semibold tracking-tight">Available tools</h3>
+					<p className="text-xs leading-relaxed text-muted-foreground">Ready as soon as the server is connected.</p>
 				</div>
 				<Badge variant="secondary" className="shrink-0 px-2 py-0.5 text-[10px] font-medium tabular-nums">
 					{MCP_TOOLS.length}
 				</Badge>
 			</div>
 
-			<ul className="divide-y divide-border/40">
+			<ul className="mt-3 space-y-1">
 				{MCP_TOOLS.map((tool) => {
 					const Icon = MCP_TOOL_ICONS[tool.name]
 
 					return (
-						<li key={tool.name} className="group flex gap-3 px-4 py-3 transition-colors hover:bg-muted/25 sm:items-center">
-							<div className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-background/90 shadow-sm ring-1 ring-border/50 transition-colors group-hover:ring-primary/20">
-								<Icon className="size-3.5 text-primary/75" aria-hidden />
+						<li key={tool.name} className="group flex gap-2.5 rounded-md px-2 py-2 transition-colors hover:bg-background/70">
+							<div className="flex size-7 shrink-0 items-center justify-center rounded-md bg-background ring-1 ring-border/70 transition-colors group-hover:ring-primary/25">
+								<Icon className="size-3.5 text-primary" aria-hidden />
 							</div>
-							<div className="min-w-0 flex-1 space-y-0.5">
+							<div className="min-w-0 flex-1">
 								<code className="block font-mono text-xs font-semibold text-foreground">{tool.name}</code>
-								<p className="text-xs text-muted-foreground leading-relaxed">{tool.description}</p>
+								<p className="text-[11px] leading-relaxed text-muted-foreground">{tool.description}</p>
 							</div>
 						</li>
 					)
@@ -182,29 +181,22 @@ function McpToolsSection() {
 	)
 }
 
-export function McpSetupDialogContent({ source, iconName }: { source: McpSetupSource; iconName?: string }) {
+export function McpSetupDialogContent({ source }: { source: McpSetupSource }) {
 	return (
-		<div className="space-y-5">
-			<p className="text-sm text-muted-foreground leading-relaxed">
-				The Dashboard Icons MCP server provides AI assistants with programmatic access to search icons, fetch metadata, and resolve CDN URLs
-				over HTTP. Learn more about{" "}
-				<Link href={MCP_INTRO_URL} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
-					Model Context Protocol
-				</Link>
-				.
-			</p>
-
-			<div className="space-y-3">
+		<div className="grid md:grid-cols-[minmax(0,1fr)_17rem]">
+			<section className="min-w-0 space-y-4 p-5 sm:p-6" aria-labelledby="mcp-setup-heading">
 				<div className="space-y-1">
-					<h3 className="text-sm font-semibold">Setup</h3>
+					<h3 id="mcp-setup-heading" className="text-sm font-semibold">
+						Choose your client
+					</h3>
 					<p className="text-xs text-muted-foreground leading-relaxed">
-						Cursor supports HTTP MCP directly. Other clients below use mcp-remote to bridge HTTP to stdio when needed.
+						Open a guide, copy the config, then restart your client if prompted.
 					</p>
 				</div>
 
-				<Accordion type="single" collapsible defaultValue="cursor" className="w-full">
+				<Accordion type="single" collapsible defaultValue="cursor" className="w-full space-y-2">
 					{MCP_CLIENT_GUIDES.map((guide) => (
-						<AccordionItem key={guide.id} value={guide.id}>
+						<AccordionItem key={guide.id} value={guide.id} className="rounded-md border px-3 last:border-b">
 							<AccordionTrigger className="py-3 hover:no-underline">
 								<span className="flex items-center gap-2 text-sm font-medium">
 									<McpClientIcon guide={guide} size={18} />
@@ -217,40 +209,35 @@ export function McpSetupDialogContent({ source, iconName }: { source: McpSetupSo
 						</AccordionItem>
 					))}
 				</Accordion>
-			</div>
+			</section>
 
-			<Separator />
+			<aside className="space-y-5 border-t bg-muted/25 p-5 md:border-t-0 md:border-l sm:p-6" aria-label="MCP capabilities">
+				<McpToolsSection />
 
-			<McpToolsSection />
-
-			{iconName ? (
-				<>
-					<Separator />
-					<CodeBlock
-						value={getIconUrlExampleJson(iconName)}
-						fileLabel="Try with this icon"
-						language="json"
-						onCopy={() => {
-							posthog?.capture("mcp_config_copied", { source, client: "example" })
-						}}
-					/>
-				</>
-			) : null}
-
-			<Separator />
-
-			<p className="text-xs text-muted-foreground">
-				Covers native icons from our collection. External sources coming soon.{" "}
-				<Link
-					href={MCP_DOCS_URL}
-					target="_blank"
-					rel="noopener noreferrer"
-					className="inline-flex items-center gap-1 text-primary hover:underline"
-				>
-					Full docs
-					<ExternalLink className="h-3 w-3" />
-				</Link>
-			</p>
+				<div className="space-y-2 border-t pt-4 text-xs leading-relaxed text-muted-foreground">
+					<p>Covers native Dashboard Icons. External sources are coming soon.</p>
+					<div className="flex flex-wrap gap-x-4 gap-y-2">
+						<Link
+							href={MCP_DOCS_URL}
+							target="_blank"
+							rel="noopener noreferrer"
+							className="inline-flex items-center gap-1 font-medium text-primary hover:underline"
+						>
+							Full docs
+							<ExternalLink className="h-3 w-3" />
+						</Link>
+						<Link
+							href={MCP_INTRO_URL}
+							target="_blank"
+							rel="noopener noreferrer"
+							className="inline-flex items-center gap-1 font-medium text-primary hover:underline"
+						>
+							What is MCP?
+							<ExternalLink className="h-3 w-3" />
+						</Link>
+					</div>
+				</div>
+			</aside>
 		</div>
 	)
 }

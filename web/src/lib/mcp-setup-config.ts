@@ -1,6 +1,6 @@
 import { BASE_URL } from "@/constants"
 
-export type McpSetupSource = "hero" | "icon_search" | "icon_details"
+export type McpSetupSource = "hero" | "icon_search"
 
 export type McpClientId = "vscode" | "cursor" | "claude" | "windsurf" | "zed" | "custom"
 

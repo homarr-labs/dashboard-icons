@@ -1,6 +1,6 @@
 import { expect, test, type Page } from "@playwright/test"
 
-const DIALOG_TITLE = /Connect Dashboard Icons to your AI assistant/
+const DIALOG_TITLE = /Connect Dashboard Icons/
 const MCP_ENDPOINT = /\/api\/mcp/
 const MCP_TRIGGER = /Add to MCP client|MCP setup/i
 
@@ -31,8 +31,8 @@ test.describe("MCP setup dialog", () => {
 		const dialog = await openHeroMcpDialog(page)
 
 		await expect(dialog.getByRole("heading", { name: DIALOG_TITLE })).toBeVisible()
-		await expect(dialog.getByRole("heading", { name: "Setup", exact: true })).toBeVisible()
-		await expect(dialog.getByRole("heading", { name: "Tools", exact: true })).toBeVisible()
+		await expect(dialog.getByRole("heading", { name: "Choose your client", exact: true })).toBeVisible()
+		await expect(dialog.getByRole("heading", { name: "Available tools", exact: true })).toBeVisible()
 		await expect(dialog.getByText("search_icons")).toBeVisible()
 		await expect(dialog.getByText("get_icon_url")).toBeVisible()
 		await expect(dialog.getByText(".cursor/mcp.json", { exact: true })).toBeVisible()
@@ -73,7 +73,7 @@ test.describe("MCP setup dialog", () => {
 		const dialog = await openHeroMcpDialog(page)
 
 		await expect(dialog.getByRole("link", { name: /Full docs/i })).toHaveAttribute("href", /MCP\.md/)
-		await expect(dialog.getByRole("link", { name: /Model Context Protocol/i })).toHaveAttribute(
+		await expect(dialog.getByRole("link", { name: /What is MCP/i })).toHaveAttribute(
 			"href",
 			/modelcontextprotocol\.io/,
 		)
@@ -91,18 +91,11 @@ test.describe("MCP setup entry points", () => {
 		await expect(page.getByRole("heading", { name: DIALOG_TITLE })).toBeVisible()
 	})
 
-	test("opens from icon detail page with contextual example", async ({ page }) => {
+	test("does not appear on icon detail pages", async ({ page }) => {
 		await page.goto("/icons/plex")
 		await page.waitForLoadState("domcontentloaded")
 
-		const dialogFromLink = await openMcpDialog(page, page.getByRole("button", { name: "Set up MCP" }))
-		await expect(dialogFromLink.getByText("Try with this icon", { exact: true })).toBeVisible()
-		await expect(dialogFromLink.locator("pre").filter({ hasText: '"name": "plex"' })).toBeVisible()
-
-		await dialogFromLink.getByRole("button", { name: "Close" }).click()
-		await expect(dialogFromLink).not.toBeVisible()
-
-		const dialogFromButton = await openMcpDialog(page, page.getByTestId("mcp-setup-trigger"))
-		await expect(dialogFromButton.getByText("Try with this icon", { exact: true })).toBeVisible()
+		await expect(page.getByRole("button", { name: MCP_TRIGGER })).toHaveCount(0)
+		await expect(page.getByRole("button", { name: "Set up MCP" })).toHaveCount(0)
 	})
 })
