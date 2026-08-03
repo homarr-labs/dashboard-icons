@@ -1,0 +1,30 @@
+web/src/components/icon-details.tsx
+  s_0df941faef5b5f::t_63cbe2f1564221 921
+web/src/lib/mcp-setup-config.ts
+  s_0df941faef5b5f::t_63cbe2f1564221 3
+web/tests/mcp-setup.spec.ts
+  s_0df941faef5b5f::t_62b7c4866b7bc0 3,76
+  s_0df941faef5b5f::t_63cbe2f1564221 34-35,94,98-99
+web/src/components/mcp-setup-dialog-content.tsx
+  s_0df941faef5b5f::t_4e3a8a319f10dc 189-191
+  s_0df941faef5b5f::t_63cbe2f1564221 13,152-153,155-156,163,168-170,172,174,184,186-187,193,197,199,212-240
+web/src/components/add-mcp-button.tsx
+  s_0df941faef5b5f::t_63cbe2f1564221 47,53-65,67
+  s_0df941faef5b5f::t_c6e504cf2b2733 73
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.20",
+  "base_commit_sha": "0d6481f2a87cf611e2bf25adcf8fb07351ed2440",
+  "prompts": {},
+  "sessions": {
+    "s_0df941faef5b5f": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019fc7d8-5cf9-7681-a010-03eb114cba74",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
