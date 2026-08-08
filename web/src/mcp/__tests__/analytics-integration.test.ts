@@ -35,6 +35,19 @@ function req(body: unknown) {
 	})
 }
 
+// The handler responds over SSE (`event: message\ndata: {json}`); extract the JSON-RPC payload.
+async function parseRpcResponse(res: Response): Promise<any> {
+	expect(res.status).toBe(200)
+	const text = await res.text()
+	const dataLine = text
+		.split("\n")
+		.find((line) => line.startsWith("data: "))
+		?.slice("data: ".length)
+	expect(dataLine, `expected an SSE data payload, got: ${text.slice(0, 200)}`).toBeDefined()
+	// dataLine is defined because the expect above would have thrown otherwise
+	return JSON.parse(dataLine as string)
+}
+
 describe("MCP analytics integration (real handler wiring)", () => {
 	afterEach(() => {
 		vi.unstubAllEnvs()
@@ -50,34 +63,44 @@ describe("MCP analytics integration (real handler wiring)", () => {
 		const { createDashboardIconsMcpHandler } = await import("@/mcp/handler")
 		const handler = createDashboardIconsMcpHandler()
 
-		// Requests should succeed (200), proving instrumentation didn't break the handler.
+		// Requests should succeed, proving instrumentation didn't break the handler.
 		// mcp-handler builds the server lazily per request, so instrumentation runs here.
-		const init = await handler(
-			req({
-				jsonrpc: "2.0",
-				id: 1,
-				method: "initialize",
-				params: {
-					protocolVersion: "2024-11-05",
-					capabilities: {},
-					clientInfo: { name: "diag", version: "1.0" },
-				},
-			}),
+		// Assert the JSON-RPC result payloads (a 200 can still carry an error body).
+		const initRpc = await parseRpcResponse(
+			await handler(
+				req({
+					jsonrpc: "2.0",
+					id: 1,
+					method: "initialize",
+					params: {
+						protocolVersion: "2024-11-05",
+						capabilities: {},
+						clientInfo: { name: "diag", version: "1.0" },
+					},
+				}),
+			),
 		)
-		expect(init.status).toBe(200)
+		expect(initRpc.error).toBeUndefined()
+		expect(initRpc.result?.serverInfo?.name).toBe("dashboard-icons")
 
-		const list = await handler(req({ jsonrpc: "2.0", id: 2, method: "tools/list", params: {} }))
-		expect(list.status).toBe(200)
+		const listRpc = await parseRpcResponse(await handler(req({ jsonrpc: "2.0", id: 2, method: "tools/list", params: {} })))
+		expect(listRpc.error).toBeUndefined()
+		const toolNames = (listRpc.result?.tools ?? []).map((tool: { name: string }) => tool.name)
+		expect(toolNames).toContain("search_icons")
 
-		const call = await handler(
-			req({
-				jsonrpc: "2.0",
-				id: 3,
-				method: "tools/call",
-				params: { name: "search_icons", arguments: { query: "plex" } },
-			}),
+		const callRpc = await parseRpcResponse(
+			await handler(
+				req({
+					jsonrpc: "2.0",
+					id: 3,
+					method: "tools/call",
+					params: { name: "search_icons", arguments: { query: "plex" } },
+				}),
+			),
 		)
-		expect(call.status).toBe(200)
+		expect(callRpc.error).toBeUndefined()
+		expect(callRpc.result?.isError).toBeUndefined()
+		expect(callRpc.result?.content?.[0]?.type).toBe("text")
 
 		// The analytics module should have created a PostHog client and called instrument()
 		expect(PostHogMock).toHaveBeenCalledWith("phc_test", { host: "https://eu.i.posthog.com" })
