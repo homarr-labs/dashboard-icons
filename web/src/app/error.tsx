@@ -5,12 +5,14 @@ import { useRouter } from "next/navigation"
 import posthog from "posthog-js"
 import { useEffect } from "react"
 import { Button } from "@/components/ui/button"
+import { isChunkLoadError, recoverFromChunkError } from "@/lib/chunk-error-recovery"
 
 export default function ErrorPage({ error, reset }: { error: Error & { digest?: string }; reset: () => void }) {
 	const router = useRouter()
 
 	useEffect(() => {
 		posthog.captureException(error)
+		if (isChunkLoadError(error)) recoverFromChunkError()
 	}, [error])
 
 	const handleGoBack = () => {
