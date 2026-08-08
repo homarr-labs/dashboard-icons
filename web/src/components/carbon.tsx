@@ -18,6 +18,8 @@ export function Carbon() {
 		const s = document.createElement("script")
 		s.id = "_carbonads_js"
 		s.async = true
+		// Request CORS so errors from the CDN arrive with a real stack instead of an opaque "Script error."
+		s.crossOrigin = "anonymous"
 		s.src = `https://cdn.carbonads.com/carbon.js?serve=${serve}&placement=${placement}`
 		el.appendChild(s)
 	}, [])
