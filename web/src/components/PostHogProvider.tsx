@@ -23,6 +23,22 @@ function dropOpaqueScriptErrors(event: CaptureResult | null): CaptureResult | nu
 	return event
 }
 
+// Firefox raises this security error when React DOM reads one of its own properties (for
+// example `correspondingUseElement` or `__reactFiber$<random>`) on a cross-origin object that
+// a browser extension injects. No user flow breaks, so drop the event to stop the noise. The
+// pattern stays scoped to React's property names, so a real cross-origin bug on another
+// property still reports.
+const REACT_DOM_CROSS_ORIGIN_ERROR = /Permission denied to access property "(?:correspondingUseElement|__react)/
+
+function dropCrossOriginSecurityErrors(event: CaptureResult | null): CaptureResult | null {
+	if (event?.event !== "$exception") return event
+	const list = event.properties?.$exception_list
+	if (Array.isArray(list) && list.some((exception) => REACT_DOM_CROSS_ORIGIN_ERROR.test(exception?.value ?? ""))) {
+		return null
+	}
+	return event
+}
+
 export function PostHogProvider({ children }: { children: React.ReactNode }) {
 	useEffect(() => {
 		if (process.env.NEXT_PUBLIC_DISABLE_POSTHOG === "true") return
@@ -33,7 +49,7 @@ export function PostHogProvider({ children }: { children: React.ReactNode }) {
 			capture_pageview: false, // We capture pageviews manually
 			capture_pageleave: true, // Enable pageleave capture
 			person_profiles: "identified_only",
-			before_send: dropOpaqueScriptErrors,
+			before_send: [dropOpaqueScriptErrors, dropCrossOriginSecurityErrors],
 			loaded(posthogInstance) {
 				// @ts-expect-error
 				window.posthog = posthogInstance
