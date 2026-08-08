@@ -1,0 +1,28 @@
+web/package.json
+  h_d6e478ca18e517 33
+web/pnpm-lock.yaml
+  h_d6e478ca18e517 44-45,174,618-620,814-815,972-976,997-999,2899-2900,3883,4027,4029,4173,4175-4180,4201-4202,6066
+web/src/components/PostHogProvider.tsx
+  h_d6e478ca18e517 16-18,20
+web/src/mcp/__tests__/analytics-integration.test.ts
+  h_d6e478ca18e517 1-95
+web/src/mcp/__tests__/analytics.test.ts
+  h_d6e478ca18e517 62-64,70-73
+web/src/mcp/__tests__/handler.test.ts
+  h_d6e478ca18e517 5,28-29
+web/src/mcp/analytics.ts
+  h_d6e478ca18e517 14-18
+web/src/mcp/handler.ts
+  h_d6e478ca18e517 9-10,12
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.21",
+  "base_commit_sha": "53f71066e47162a99f4fc4ada298dd34ff1518c8",
+  "prompts": {},
+  "humans": {
+    "h_d6e478ca18e517": {
+      "author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
