@@ -1,0 +1,19 @@
+web/package.json
+  s_71d02d5c989477::t_a3500a7128ab02 114-116
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.21",
+  "base_commit_sha": "740efb8054b545106f9ea0bb9dae2d9595a55d41",
+  "prompts": {},
+  "sessions": {
+    "s_71d02d5c989477": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_01f48b881ffeNr74dFqpywho5H",
+        "model": "deepseek/deepseek-v4-flash-0731"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
