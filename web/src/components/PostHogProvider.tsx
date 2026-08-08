@@ -1,10 +1,27 @@
 "use client"
 
 import { usePathname, useSearchParams } from "next/navigation"
-import posthog from "posthog-js"
+import posthog, { type CaptureResult } from "posthog-js"
 import { PostHogProvider as PHProvider, usePostHog } from "posthog-js/react"
 import { Suspense, useEffect } from "react"
 import { usePostHogAuth } from "@/hooks/use-posthog-auth"
+
+// Drops opaque cross-origin "Script error." reports. The browser hands window.onerror a
+// sanitized report for third-party scripts, so PostHog captures a synthetic, unhandled
+// exception with no stack. These are undiagnosable, so they only add noise to error tracking.
+function dropOpaqueScriptErrors(event: CaptureResult | null): CaptureResult | null {
+	if (event?.event !== "$exception") return event
+	const list = event.properties?.$exception_list
+	if (!Array.isArray(list) || list.length !== 1) return event
+	const [exception] = list
+	const value = typeof exception?.value === "string" ? exception.value.trim() : ""
+	const isScriptError = value === "Script error." || value === "Script error"
+	const hasNoStack = !exception?.stacktrace?.frames?.length
+	if (isScriptError && exception?.mechanism?.handled === false && exception?.mechanism?.synthetic === true && hasNoStack) {
+		return null
+	}
+	return event
+}
 
 export function PostHogProvider({ children }: { children: React.ReactNode }) {
 	useEffect(() => {
@@ -16,6 +33,7 @@ export function PostHogProvider({ children }: { children: React.ReactNode }) {
 			capture_pageview: false, // We capture pageviews manually
 			capture_pageleave: true, // Enable pageleave capture
 			person_profiles: "identified_only",
+			before_send: dropOpaqueScriptErrors,
 			loaded(posthogInstance) {
 				// @ts-expect-error
 				window.posthog = posthogInstance
