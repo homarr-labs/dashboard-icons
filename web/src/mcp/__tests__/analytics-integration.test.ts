@@ -107,12 +107,13 @@ describe("MCP analytics integration (real handler wiring)", () => {
 		// mcp-handler creates a fresh server per request, so instrument() runs once per request
 		expect(instrumentMock).toHaveBeenCalledTimes(3)
 
-		// instrument must be called with the low-level server (server.server), not the McpServer
+		// instrument must be called with the low-level server (server.server), not the McpServer.
+		// The high-level @modelcontextprotocol/server v2 McpServer exposes `registerTool` on the
+		// wrapper and `setRequestHandler` on the underlying low-level server — assert on those
+		// (rather than the absence of `tool`) to pin the distinction directly.
 		const [instrumentedServer] = instrumentMock.mock.calls[0] ?? []
 		expect(instrumentedServer).toBeDefined()
-		// @modelcontextprotocol/server v2 McpServer exposes the low-level server as `.server`;
-		// the SDK must receive that low-level server (which has no `tool()` method).
-		expect(instrumentedServer?.tool).toBeUndefined()
+		expect(typeof instrumentedServer?.registerTool).toBe("undefined")
 		expect(typeof instrumentedServer?.setRequestHandler).toBe("function")
 	})
 })

@@ -111,6 +111,9 @@
     "vite": "^8.1.5",
     "vitest": "^4.1.10"
   },
+  "engines": {
+    "node": ">=22.22.0"
+  },
   "packageManager": "pnpm@10.18.2",
   "pnpm": {
     "overrides": {

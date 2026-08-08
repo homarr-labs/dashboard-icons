@@ -39,6 +39,13 @@ function dropCrossOriginSecurityErrors(event: CaptureResult | null): CaptureResu
 	return event
 }
 
+// posthog-js's `before_send` accepts a single callback (it wraps it in an array internally and
+// would treat a real array as one no-op callback). Compose both filters into one so they run in
+// order and match the SDK contract.
+function beforeSend(event: CaptureResult | null): CaptureResult | null {
+	return dropCrossOriginSecurityErrors(dropOpaqueScriptErrors(event))
+}
+
 export function PostHogProvider({ children }: { children: React.ReactNode }) {
 	useEffect(() => {
 		if (process.env.NEXT_PUBLIC_DISABLE_POSTHOG === "true") return
@@ -52,7 +59,7 @@ export function PostHogProvider({ children }: { children: React.ReactNode }) {
 			capture_pageview: false, // We capture pageviews manually
 			capture_pageleave: false, // Disable pageleave to reduce event volume
 			person_profiles: "identified_only",
-			before_send: [dropOpaqueScriptErrors, dropCrossOriginSecurityErrors],
+			before_send: beforeSend,
 			loaded(posthogInstance) {
 				// @ts-expect-error
 				window.posthog = posthogInstance
