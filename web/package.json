@@ -26,11 +26,7 @@
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
     "@modelcontextprotocol/server": "^2.0.0",
-    "@opentelemetry/api-logs": "^0.221.0",
-    "@opentelemetry/exporter-logs-otlp-http": "^0.221.0",
-    "@opentelemetry/resources": "^2.10.0",
-    "@opentelemetry/sdk-logs": "^0.221.0",
-    "@posthog/mcp": "0.10.1",
+    "@posthog/mcp": "0.11.0",
     "@posthog/nextjs-config": "^1.9.68",
     "@radix-ui/react-accordion": "^1.2.12",
     "@radix-ui/react-alert-dialog": "^1.1.15",
@@ -115,10 +111,12 @@
     "vite": "^8.1.5",
     "vitest": "^4.1.10"
   },
+  "engines": {
+    "node": ">=22.22.0"
+  },
   "packageManager": "pnpm@10.18.2",
   "pnpm": {
     "overrides": {
-      "@opentelemetry/core": "^2.10.0",
       "axios": "^1.19.0",
       "brace-expansion": "^5.0.9",
       "dompurify": "^3.4.12",

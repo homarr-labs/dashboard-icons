@@ -19,11 +19,6 @@ export async function register() {
 	if (process.env.NEXT_RUNTIME === "nodejs" && process.env.MCP_WARM_CACHE === "true") {
 		import("@/lib/icons/service").then((module) => module.warmMetadataCache()).catch(() => {})
 	}
-
-	if (process.env.NEXT_RUNTIME === "nodejs" && process.env.NEXT_PUBLIC_POSTHOG_KEY && process.env.NEXT_PUBLIC_DISABLE_POSTHOG !== "true") {
-		const { registerPostHogLogExporter } = await import("@/instrumentation-node")
-		registerPostHogLogExporter(process.env.NEXT_PUBLIC_POSTHOG_KEY, "https://eu.i.posthog.com")
-	}
 }
 
 function extractDistinctId(headers: Record<string, string>): string | undefined {

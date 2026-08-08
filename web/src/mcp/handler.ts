@@ -6,13 +6,13 @@ import { registerDashboardIconsTools } from "@/mcp/tools"
 export const createDashboardIconsMcpHandler = () =>
 	createMcpHandler(
 		(server) => {
-			instrumentDashboardIconsMcpAnalytics(server)
+			// Register tools first so @posthog/mcp's low-level instrumentation doesn't
+			// clash with the tools/call handler that registerTool() installs.
 			registerDashboardIconsTools(server)
+			instrumentDashboardIconsMcpAnalytics(server)
 		},
 		{
 			serverInfo: getDashboardIconsServerInfo(),
-		},
-		{
 			verboseLogs: process.env.MCP_VERBOSE_LOGS === "true",
 		},
 	)

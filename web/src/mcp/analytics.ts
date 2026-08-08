@@ -11,7 +11,11 @@ const posthog =
 
 export function instrumentDashboardIconsMcpAnalytics(server: McpServer): void {
 	if (!posthog) return
-	instrument(server, posthog, { context: false })
+	// @modelcontextprotocol/server v2's McpServer uses registerTool() and has no tool()
+	// method, so @posthog/mcp's high-level compatibility check rejects it. Instrument the
+	// underlying low-level Server (server.server) instead, which is what actually handles
+	// protocol requests — @posthog/mcp 0.11+ instruments it correctly for all event types.
+	instrument(server.server, posthog, { context: false, enableExceptionAutocapture: false })
 }
 
 export async function flushDashboardIconsMcpAnalytics(): Promise<void> {
