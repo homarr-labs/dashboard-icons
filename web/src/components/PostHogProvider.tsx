@@ -13,8 +13,11 @@ export function PostHogProvider({ children }: { children: React.ReactNode }) {
 		posthog.init(process.env.NEXT_PUBLIC_POSTHOG_KEY!, {
 			ui_host: "https://eu.posthog.com",
 			api_host: process.env.NEXT_PUBLIC_POSTHOG_HOST || "https://eu.i.posthog.com",
+			// Keep event volume low: disable automatic click/input/form capture and pageleave.
+			// Pageviews are captured manually below, so we only pay for the events we actually use.
+			autocapture: false,
 			capture_pageview: false, // We capture pageviews manually
-			capture_pageleave: true, // Enable pageleave capture
+			capture_pageleave: false, // Disable pageleave to reduce event volume
 			person_profiles: "identified_only",
 			loaded(posthogInstance) {
 				// @ts-expect-error

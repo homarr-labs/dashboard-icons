@@ -59,13 +59,18 @@ describe("MCP analytics", () => {
 	it("instruments and flushes MCP events", async () => {
 		vi.stubEnv("NEXT_PUBLIC_POSTHOG_KEY", "phc_test")
 		const analytics = await importAnalytics()
-		const server = {} as never
+		// @modelcontextprotocol/server v2's McpServer exposes the low-level server as `.server`;
+		// the SDK must instrument that low-level server, not the high-level McpServer.
+		const server = { server: { setRequestHandler: vi.fn() } } as never
 
 		analytics.instrumentDashboardIconsMcpAnalytics(server)
 		await analytics.flushDashboardIconsMcpAnalytics()
 
 		expect(PostHog).toHaveBeenCalledWith("phc_test", { host: "https://eu.i.posthog.com" })
-		expect(instrument).toHaveBeenCalledWith(server, expect.anything(), { context: false })
+		expect(instrument).toHaveBeenCalledWith({ setRequestHandler: expect.any(Function) }, expect.anything(), {
+			context: false,
+			enableExceptionAutocapture: false,
+		})
 		expect(flush).toHaveBeenCalled()
 	})
 

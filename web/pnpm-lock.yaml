@@ -41,8 +41,8 @@ importers:
         specifier: ^0.221.0
         version: 0.221.0(@opentelemetry/api@1.9.1)
       '@posthog/mcp':
-        specifier: 0.10.1
-        version: 0.10.1(@modelcontextprotocol/sdk@1.30.0(zod@4.4.1))(posthog-node@5.32.1)
+        specifier: 0.11.0
+        version: 0.11.0(@modelcontextprotocol/sdk@1.26.0(zod@4.4.1))(posthog-node@5.32.1)
       '@posthog/nextjs-config':
         specifier: ^1.9.68
         version: 1.9.68(next@16.2.12(@opentelemetry/api@1.9.1)(@playwright/test@1.59.1)(@types/node@24.12.2)(react-dom@19.2.5(react@19.2.5))(react@19.2.5))(webpack@5.106.2(esbuild@0.28.1))
@@ -171,7 +171,7 @@ importers:
         version: 0.553.0(react@19.2.5)
       mcp-handler:
         specifier: ^2.0.1
-        version: 2.0.1(@modelcontextprotocol/server@2.0.0)(next@16.2.12(@opentelemetry/api@1.9.1)(@playwright/test@1.59.1)(@types/node@24.12.2)(react-dom@19.2.5(react@19.2.5))(react@19.2.5))
+        version: 2.1.0(@modelcontextprotocol/server@2.0.0)(next@16.2.12(@opentelemetry/api@1.9.1)(@playwright/test@1.59.1)(@types/node@24.12.2)(react-dom@19.2.5(react@19.2.5))(react@19.2.5))
       motion:
         specifier: ^12.38.0
         version: 12.38.0(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
@@ -615,9 +615,9 @@ packages:
   '@floating-ui/utils@0.2.11':
     resolution: {integrity: sha512-RiB/yIh78pcIxl6lLMG0CgBXAZ2Y0eVHqMPYugu+9U0AeT6YBeiJpf7lbdJNIugFP5SIjwNRgo4DhR1Qxi26Gg==}
 
-  '@hono/node-server@2.0.12':
-    resolution: {integrity: sha512-eWpQYr67tqJLeaSUl0Q+TquuYfUdTibpOJlUMV2FfUP7+KqCC5TufnwnlXL6mobZBJbGAYRd7ZvEBDCbLInjhg==}
-    engines: {node: '>=20'}
+  '@hono/node-server@1.19.17':
+    resolution: {integrity: sha512-dSneS5qhiauZWGDCeK4o695Xd9nUNjviSZCMQrj10eetr8Uln1ucn6bbphOM6UynAMMtNIzZNSpL9vnASJwrPQ==}
+    engines: {node: '>=18.14.1'}
     peerDependencies:
       hono: ^4
 
@@ -811,8 +811,8 @@ packages:
     resolution: {integrity: sha512-pJCEwGG7Lfr/+PQp9ZTwKXNeO5wzbfKL7H3MYpCorM4oFBoQrdjnBgEoqG+RjhsvS1FKrDbKux+M1HhlnGWqcA==}
     engines: {node: '>=20'}
 
-  '@modelcontextprotocol/sdk@1.30.0':
-    resolution: {integrity: sha512-xKd8OIzlqNzcqcNumGAa6g+PW2kjD5vrpcKOnfldAUPP3j7lnqMPwlTXQm8gF+UwH72z0lqaRbjr9hqGz0eITA==}
+  '@modelcontextprotocol/sdk@1.26.0':
+    resolution: {integrity: sha512-Y5RmPncpiDtTXDbLKswIJzTqu2hyBKxTNsgKqKclDbhIgg1wgtf1fRuvxgTnRfcnxtvvgbIEcqUOzZrJ6iSReg==}
     engines: {node: '>=18'}
     peerDependencies:
       '@cfworker/json-schema': ^4.1.1
@@ -969,8 +969,11 @@ packages:
   '@posthog/core@1.45.3':
     resolution: {integrity: sha512-6TO+OQMkmXT0RqJkv+0IjcZVh8iazvjoJLCpVoyzeSuyZxaxYwVeFPZfxUd+QpbmyV+GiIv8JCzl3+UUpmBm+w==}
 
-  '@posthog/mcp@0.10.1':
-    resolution: {integrity: sha512-TMe6BvDCzMMaWP30jMuJKWDbqrDZ6xLjknzQFGXkaD5EPiq4EcU8FImjZBSZ6l1ipQdnPmkx2Z+R4bKhlx9Z6A==}
+  '@posthog/core@1.46.9':
+    resolution: {integrity: sha512-EXO6y5ih+jBkTCpUCuYgQmajuDZuvy6vMvflkub6pLQyi0GPlCPWVSvZZkOeQw9e2MxoD5GteeGCt9R8+UJ/yQ==}
+
+  '@posthog/mcp@0.11.0':
+    resolution: {integrity: sha512-wxvIvx2/MuXqDH9Zy99hqop6Hyhymn8aoh7e7wYOH3AUdeohZhom2W8E2UDgBO63eR/vm8QGH/fidyA6H+KNyA==}
     engines: {node: ^20.20.0 || >=22.22.0}
     peerDependencies:
       '@modelcontextprotocol/sdk': '>=1.26.0'
@@ -990,6 +993,9 @@ packages:
 
   '@posthog/types@1.399.0':
     resolution: {integrity: sha512-/WDwBzqIPko8VJ1B+0rlso2XQEz9+2sqtsY9Tqy3p1GhgTqsFakcz/PmMpAnA321LTEZVRcO6x5hAwABV4yrDw==}
+
+  '@posthog/types@1.402.2':
+    resolution: {integrity: sha512-ZZTiS4dLwF4/D0YTzS3gGSLFnhuNOY5yu4d9VGS9trGe5GW6FjIXo20p18K5BPW2RZSYSld8sdnSAY3AUXleUQ==}
 
   '@posthog/webpack-plugin@1.5.26':
     resolution: {integrity: sha512-NAsTb81f8QQai7Uzd3IT2Kjt7o9lPxccVfWqD30HyACCEL3NVMTXed5hRYdtY5DkrdCejxhcA80ldXGiUsiGrQ==}
@@ -2890,8 +2896,8 @@ packages:
     resolution: {integrity: sha512-/IXtbwEk5HTPyEwyKX6hGkYXxM9nbj64B+ilVJnC/R6B0pH5G4V3b0pVbL7DBj4tkhBAppbQUlf6F6Xl9LHu1g==}
     engines: {node: '>= 0.4'}
 
-  mcp-handler@2.0.1:
-    resolution: {integrity: sha512-EWyUyirxbatYh48D7u6o5TwAufGy97jk4+7Zjxul7HpUvO/uhDpAm7XbroeNCOGpMjXcc4Mh1OkYWvzdSAvxJw==}
+  mcp-handler@2.1.0:
+    resolution: {integrity: sha512-mhnUpkgWrXMwwhdbJ5Uq43uUV23Emxfq3fRfsFwt8Kjc35cGUiKuYeX9wjwnvsdTiKsmjXnQ4tO4awWa3ZM4LQ==}
     engines: {node: '>=20'}
     hasBin: true
     peerDependencies:
@@ -3874,7 +3880,7 @@ snapshots:
 
   '@floating-ui/utils@0.2.11': {}
 
-  '@hono/node-server@2.0.12(hono@4.12.33)':
+  '@hono/node-server@1.19.17(hono@4.12.33)':
     dependencies:
       hono: 4.12.33
 
@@ -4018,9 +4024,9 @@ snapshots:
     dependencies:
       zod: 4.4.1
 
-  '@modelcontextprotocol/sdk@1.30.0(zod@4.4.1)':
+  '@modelcontextprotocol/sdk@1.26.0(zod@4.4.1)':
     dependencies:
-      '@hono/node-server': 2.0.12(hono@4.12.33)
+      '@hono/node-server': 1.19.17(hono@4.12.33)
       ajv: 8.20.0
       ajv-formats: 3.0.1(ajv@8.20.0)
       content-type: 1.0.5
@@ -4164,10 +4170,14 @@ snapshots:
     dependencies:
       '@posthog/types': 1.399.0
 
-  '@posthog/mcp@0.10.1(@modelcontextprotocol/sdk@1.30.0(zod@4.4.1))(posthog-node@5.32.1)':
+  '@posthog/core@1.46.9':
     dependencies:
-      '@modelcontextprotocol/sdk': 1.30.0(zod@4.4.1)
-      '@posthog/core': 1.45.3
+      '@posthog/types': 1.402.2
+
+  '@posthog/mcp@0.11.0(@modelcontextprotocol/sdk@1.26.0(zod@4.4.1))(posthog-node@5.32.1)':
+    dependencies:
+      '@modelcontextprotocol/sdk': 1.26.0(zod@4.4.1)
+      '@posthog/core': 1.46.9
       posthog-node: 5.32.1
 
   '@posthog/nextjs-config@1.9.68(next@16.2.12(@opentelemetry/api@1.9.1)(@playwright/test@1.59.1)(@types/node@24.12.2)(react-dom@19.2.5(react@19.2.5))(react@19.2.5))(webpack@5.106.2(esbuild@0.28.1))':
@@ -4187,6 +4197,8 @@ snapshots:
   '@posthog/types@1.372.6': {}
 
   '@posthog/types@1.399.0': {}
+
+  '@posthog/types@1.402.2': {}
 
   '@posthog/webpack-plugin@1.5.26(webpack@5.106.2(esbuild@0.28.1))':
     dependencies:
@@ -6051,7 +6063,7 @@ snapshots:
 
   math-intrinsics@1.1.0: {}
 
-  mcp-handler@2.0.1(@modelcontextprotocol/server@2.0.0)(next@16.2.12(@opentelemetry/api@1.9.1)(@playwright/test@1.59.1)(@types/node@24.12.2)(react-dom@19.2.5(react@19.2.5))(react@19.2.5)):
+  mcp-handler@2.1.0(@modelcontextprotocol/server@2.0.0)(next@16.2.12(@opentelemetry/api@1.9.1)(@playwright/test@1.59.1)(@types/node@24.12.2)(react-dom@19.2.5(react@19.2.5))(react@19.2.5)):
     dependencies:
       '@modelcontextprotocol/server': 2.0.0
       chalk: 5.6.2
