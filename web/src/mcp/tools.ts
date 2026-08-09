@@ -27,7 +27,10 @@ export function registerDashboardIconsTools(server: McpServer): void {
 		async ({ name }) => {
 			const icon = await getIconByName(name)
 			if (!icon) {
-				return { ...jsonContent({ error: "not_found", message: `Icon '${name}' not found`, name }), isError: true }
+				return {
+					...jsonContent({ error: "not_found", message: `Icon '${name}' not found`, name }),
+					isError: true,
+				}
 			}
 			return jsonContent(icon)
 		},
@@ -43,7 +46,10 @@ export function registerDashboardIconsTools(server: McpServer): void {
 		async ({ name, format, theme }) => {
 			const result = await getIconUrl(name, format, theme)
 			if (!result) {
-				return { ...jsonContent({ error: "not_found", message: `Icon '${name}' not found`, name }), isError: true }
+				return {
+					...jsonContent({ error: "not_found", message: `Icon '${name}' not found`, name }),
+					isError: true,
+				}
 			}
 			return jsonContent(result)
 		},
@@ -53,7 +59,7 @@ export function registerDashboardIconsTools(server: McpServer): void {
 		"suggest_icon",
 		{
 			title: "Suggest Icon",
-			description: "Fuzzy match a service name to dashboard icon slugs.",
+			description: "Fuzzy match a service name to dashboard icon slugs. Pass the service name as `service_name` (or `name`).",
 			inputSchema: suggestIconSchema,
 		},
 		async ({ service_name, limit }) => jsonContent(await suggestIcons(service_name, limit)),

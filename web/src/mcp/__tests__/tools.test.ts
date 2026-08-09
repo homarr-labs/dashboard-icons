@@ -85,18 +85,40 @@ describe("registerDashboardIconsTools", () => {
 	})
 
 	it("get_icon_url returns url when found", async () => {
-		getIconUrl.mockResolvedValue({ url: "https://cdn/x.svg", name: "plex", format: "svg", theme: "default" })
+		getIconUrl.mockResolvedValue({
+			url: "https://cdn/x.svg",
+			name: "plex",
+			format: "svg",
+			theme: "default",
+		})
 		const { server, handlers } = createMockServer()
 		registerDashboardIconsTools(server)
 		const result = await getHandler(handlers, "get_icon_url")({ name: "plex", format: "svg", theme: "default" })
 		expect(JSON.parse(result.content[0].text)).toMatchObject({ url: "https://cdn/x.svg" })
 	})
 
-	it("suggest_icon returns suggestions", async () => {
+	it("suggest_icon returns suggestions with service_name", async () => {
 		suggestIcons.mockResolvedValue({ suggestions: [{ name: "plex", score: 2, url: "u" }] })
 		const { server, handlers } = createMockServer()
 		registerDashboardIconsTools(server)
 		const result = await getHandler(handlers, "suggest_icon")({ service_name: "Plex", limit: 3 })
-		expect(JSON.parse(result.content[0].text)).toEqual({ suggestions: [{ name: "plex", score: 2, url: "u" }] })
+		expect(JSON.parse(result.content[0].text)).toEqual({
+			suggestions: [{ name: "plex", score: 2, url: "u" }],
+		})
+	})
+
+	it("suggest_icon also accepts name alias", async () => {
+		suggestIcons.mockResolvedValue({ suggestions: [{ name: "plex", score: 2, url: "u" }] })
+		const { server, handlers } = createMockServer()
+		const { suggestIconSchema } = await import("@/lib/icons/validate")
+		registerDashboardIconsTools(server)
+		// The schema transforms `name` to `service_name`; test that the transformed
+		// args are passed to the handler correctly.
+		const transformed = suggestIconSchema.parse({ name: "Plex", limit: 3 })
+		const result = await getHandler(handlers, "suggest_icon")(transformed)
+		expect(JSON.parse(result.content[0].text)).toEqual({
+			suggestions: [{ name: "plex", score: 2, url: "u" }],
+		})
+		expect(suggestIcons).toHaveBeenCalledWith("Plex", 3)
 	})
 })

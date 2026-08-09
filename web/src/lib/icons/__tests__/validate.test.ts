@@ -70,4 +70,26 @@ describe("suggestIconSchema", () => {
 	it("clamps to max suggest limit boundary", () => {
 		expect(suggestIconSchema.parse({ service_name: "plex", limit: MAX_LIMIT_SUGGEST }).limit).toBe(MAX_LIMIT_SUGGEST)
 	})
+
+	it("accepts service_name", () => {
+		expect(suggestIconSchema.parse({ service_name: "plex" })).toEqual({
+			service_name: "plex",
+			limit: 5,
+		})
+	})
+
+	it("accepts name as an alias for service_name", () => {
+		expect(suggestIconSchema.parse({ name: "plex" })).toEqual({ service_name: "plex", limit: 5 })
+	})
+
+	it("prefers service_name when both are provided", () => {
+		expect(suggestIconSchema.parse({ service_name: "plex", name: "other" })).toEqual({
+			service_name: "plex",
+			limit: 5,
+		})
+	})
+
+	it("coerces missing service name to empty string", () => {
+		expect(suggestIconSchema.parse({})).toEqual({ service_name: "", limit: 5 })
+	})
 })

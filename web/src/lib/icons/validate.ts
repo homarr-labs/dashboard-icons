@@ -56,7 +56,15 @@ export const getIconUrlSchema = z.object({
 	theme: z.enum(["default", "light", "dark"]).default("default"),
 })
 
-export const suggestIconSchema = z.object({
-	service_name: z.string().trim().min(1).max(MAX_QUERY_LENGTH),
-	limit: z.number().int().positive().max(MAX_LIMIT_SUGGEST).default(5),
-})
+export const suggestIconSchema = z
+	.object({
+		service_name: z.string().trim().min(1).max(MAX_QUERY_LENGTH).optional(),
+		name: z.string().trim().min(1).max(MAX_QUERY_LENGTH).optional(),
+		limit: z.number().int().positive().max(MAX_LIMIT_SUGGEST).default(5),
+	})
+	.transform((value) => ({
+		// Accept `name` as an alias for `service_name` — LLM MCP clients commonly reuse the
+		// `name` param from the other icon tools and send `name` instead of `service_name`.
+		service_name: value.service_name ?? value.name ?? "",
+		limit: value.limit,
+	}))
