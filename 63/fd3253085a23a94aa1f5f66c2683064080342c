@@ -1,0 +1,20 @@
+web/src/lib/icons/__tests__/validate.test.ts
+  h_d6e478ca18e517 73-94
+web/src/lib/icons/validate.ts
+  h_d6e478ca18e517 59-70
+web/src/mcp/__tests__/tools.test.ts
+  h_d6e478ca18e517 88-93,100,105-122
+web/src/mcp/tools.ts
+  h_d6e478ca18e517 30-33,49-52,62
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.21",
+  "base_commit_sha": "63fd3253085a23a94aa1f5f66c2683064080342c",
+  "prompts": {},
+  "humans": {
+    "h_d6e478ca18e517": {
+      "author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
