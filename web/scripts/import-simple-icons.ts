@@ -36,6 +36,51 @@ type BuildOptions = {
 	publishedAt?: string | null
 }
 
+type CollectionField = Record<string, unknown> & {
+	name?: string
+	values?: unknown
+}
+
+type CollectionSchema = {
+	id: string
+	fields: CollectionField[]
+}
+
+const SIMPLE_ICONS_FIELDS: CollectionField[] = [
+	{ name: "brand_color", type: "text", pattern: "^[0-9A-Fa-f]{6}$" },
+	{ name: "guidelines_url", type: "url" },
+	{ name: "license_url", type: "url" },
+	{ name: "stable_svg_url", type: "url" },
+	{ name: "upstream_version", type: "text" },
+	{ name: "upstream_data", type: "json" },
+]
+
+export function mergeSimpleIconsSchemaFields(fields: CollectionField[]): CollectionField[] {
+	const sourceIndex = fields.findIndex((field) => field.name === "source")
+	if (sourceIndex === -1) throw new Error("external_icons source field is missing")
+
+	const merged = [...fields]
+	const sourceField = merged[sourceIndex]
+	const sourceValues = Array.isArray(sourceField.values)
+		? sourceField.values.filter((value): value is string => typeof value === "string")
+		: []
+	if (!sourceValues.includes(SOURCE)) merged[sourceIndex] = { ...sourceField, values: [...sourceValues, SOURCE] }
+
+	const existingNames = new Set(merged.map((field) => field.name))
+	for (const field of SIMPLE_ICONS_FIELDS) {
+		if (!existingNames.has(field.name)) merged.push(field)
+	}
+	return merged
+}
+
+async function ensureSimpleIconsSchema(pb: PocketBase): Promise<void> {
+	const collection = await pb.collections.getOne<CollectionSchema>("external_icons")
+	const fields = mergeSimpleIconsSchemaFields(collection.fields)
+	if (JSON.stringify(fields) !== JSON.stringify(collection.fields)) {
+		await pb.collections.update(collection.id, { fields })
+	}
+}
+
 function normalizeAlias(value: string): string {
 	return value.trim()
 }
@@ -172,6 +217,7 @@ async function main() {
 	const pbUrl = process.env.NEXT_PUBLIC_POCKETBASE_URL || process.env.PB_URL || "http://127.0.0.1:8090"
 	const pb = new PocketBase(pbUrl)
 	await pb.collection("_superusers").authWithPassword(adminEmail, adminPassword)
+	await ensureSimpleIconsSchema(pb)
 
 	const current = await pb.collection("external_icons").getFullList({
 		fields: "id,source,slug,upstream_version,upstream_data,updated_at_source",

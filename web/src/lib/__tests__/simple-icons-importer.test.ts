@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest"
-import { buildSimpleIconRecords } from "../../../scripts/import-simple-icons"
+import { buildSimpleIconRecords, mergeSimpleIconsSchemaFields } from "../../../scripts/import-simple-icons"
 
 const upstreamIcons = [
 	{
@@ -89,5 +89,28 @@ describe("buildSimpleIconRecords", () => {
 		expect(record?.license).toBe("Apache-2.0")
 		expect(record?.license_url).toBe("")
 		expect(record?.attribution).toContain("(Apache-2.0)")
+	})
+})
+
+describe("mergeSimpleIconsSchemaFields", () => {
+	it("adds the source option and missing production fields without changing existing fields", () => {
+		const fields = [
+			{ id: "source-id", name: "source", type: "select", values: ["selfhst", "lobehub"] },
+			{ id: "slug-id", name: "slug", type: "text", required: true },
+		]
+
+		const merged = mergeSimpleIconsSchemaFields(fields)
+
+		expect(merged[0]).toEqual({ ...fields[0], values: ["selfhst", "lobehub", "simpleicons"] })
+		expect(merged[1]).toBe(fields[1])
+		expect(merged.slice(2).map((field) => field.name)).toEqual([
+			"brand_color",
+			"guidelines_url",
+			"license_url",
+			"stable_svg_url",
+			"upstream_version",
+			"upstream_data",
+		])
+		expect(mergeSimpleIconsSchemaFields(merged)).toEqual(merged)
 	})
 })
