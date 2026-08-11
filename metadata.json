@@ -46651,5 +46651,21 @@
                 "login": "schliesser-p"
             }
         }
+    },
+    "nextjs-kawaii": {
+        "base": "svg",
+        "aliases": [
+            "kawaii"
+        ],
+        "categories": [
+            "Anime"
+        ],
+        "update": {
+            "timestamp": "2026-08-11T13:46:02.157Z",
+            "author": {
+                "id": "65iz5jsxx5jc2yw",
+                "name": "homarr-bot"
+            }
+        }
     }
 }
