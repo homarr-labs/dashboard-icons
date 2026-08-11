@@ -46888,5 +46888,27 @@
                 "name": "homarr-bot"
             }
         }
+    },
+    "wispr-flow": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "tools"
+        ],
+        "update": {
+            "timestamp": "2026-08-11T13:46:40.406Z",
+            "author": {
+                "id": "4vvfm3hjqf3xjxt",
+                "name": "2ssitlab"
+            }
+        },
+        "colors": {
+            "light": "wispr-flow-light",
+            "dark": "wispr-flow-dark"
+        },
+        "wordmark": {
+            "light": "wispr-flow-wordmark-light",
+            "dark": "wispr-flow-wordmark-dark"
+        }
     }
 }
