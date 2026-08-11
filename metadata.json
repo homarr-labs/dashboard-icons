@@ -47096,5 +47096,21 @@
             "light": "bitesize-light",
             "dark": "bitesize-dark"
         }
+    },
+    "jellyglance": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "media",
+            "monitoring",
+            "tools"
+        ],
+        "update": {
+            "timestamp": "2026-08-11T13:47:10.142Z",
+            "author": {
+                "id": 45691205,
+                "login": "Nerdy-Technician"
+            }
+        }
     }
 }
