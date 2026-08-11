@@ -771,11 +771,11 @@ export function IconDetails({
 					</div>
 				)}
 				<div className="lg:col-span-1">
-					<Card className="h-full bg-background/50 border shadow-lg">
-						<CardHeader className="pb-4">
+					<Card className="h-full gap-2 bg-background/50 border shadow-lg">
+						<CardHeader className="pb-2">
 							<div className="flex flex-col items-center bg-background">
 								<div className="relative">
-									<div className="relative flex h-32 w-32 items-center justify-center rounded-xl ring-1 ring-white/5 dark:ring-white/10 bg-primary/15 dark:bg-secondary/10 overflow-hidden p-3">
+									<div className="relative flex aspect-square w-full max-w-md items-center justify-center rounded-xl ring-1 ring-white/5 dark:ring-white/10 bg-primary/15 dark:bg-secondary/10 overflow-hidden p-3">
 										{isSimpleIcons && externalIcon ? (
 											<UnoptimizedImage
 												src={resolveExternalIconUrl(externalIcon, "svg_light")}
@@ -783,7 +783,7 @@ export function IconDetails({
 												width={96}
 												height={96}
 												alt={`${formatedIconName} icon and logo`}
-												className="max-h-full max-w-full object-contain dark:invert"
+												className="h-full w-full object-contain dark:invert"
 											/>
 										) : (
 											<UnoptimizedImage
@@ -792,12 +792,12 @@ export function IconDetails({
 												width={96}
 												height={96}
 												alt={`${formatedIconName} icon and logo in ${iconData.base.toUpperCase()} format`}
-												className="max-h-full max-w-full object-contain"
+												className="h-full w-full object-contain"
 											/>
 										)}
 									</div>
 								</div>
-								<CardTitle className="text-2xl font-bold capitalize text-center mb-2">
+								<CardTitle className="mt-3 text-3xl font-bold capitalize text-center tracking-wide">
 									<h1>{formatedIconName}</h1>
 								</CardTitle>
 							</div>
