@@ -12,20 +12,20 @@ import { EXTERNAL_SOURCES, type ExternalSourceId } from "@/constants"
 import { useMediaQuery } from "@/hooks/use-media-query"
 import { getIconImageUrl } from "@/lib/icon-url"
 import { filterAndSortIcons, formatIconName } from "@/lib/utils"
-import type { IconWithName } from "@/types/icons"
+import type { IconSearchEntry } from "@/types/icons"
 
 function normalizeCmdkValue(s: string): string {
 	return s.trim().toLowerCase().replace(/[\s-]/g, " ")
 }
 
-function getItemValue(icon: IconWithName): string {
+function getItemValue(icon: IconSearchEntry): string {
 	const isExternal = icon.source && icon.source !== "native"
 	const sourceConfig = isExternal ? EXTERNAL_SOURCES[icon.source as ExternalSourceId] : undefined
 	return `${icon.name}${isExternal ? ` ${sourceConfig?.label}` : ""}`
 }
 
 interface CommandMenuProps {
-	icons: IconWithName[]
+	icons: IconSearchEntry[]
 	triggerButtonId?: string
 	open?: boolean
 	onOpenChange?: (open: boolean) => void
@@ -36,7 +36,7 @@ export function CommandMenu({ icons, open: externalOpen, onOpenChange: externalO
 	const [internalOpen, setInternalOpen] = useState(false)
 	const [query, setQuery] = useState("")
 	const [cmdkValue, setCmdkValue] = useState("")
-	const [selectedIcon, setSelectedIcon] = useState<IconWithName | null>(null)
+	const [selectedIcon, setSelectedIcon] = useState<IconSearchEntry | null>(null)
 	const isDesktop = useMediaQuery("(min-width: 768px)")
 
 	const isOpen = externalOpen !== undefined ? externalOpen : internalOpen
@@ -64,7 +64,7 @@ export function CommandMenu({ icons, open: externalOpen, onOpenChange: externalO
 	const totalIcons = icons.length
 
 	const iconsByValue = useMemo(() => {
-		const map = new Map<string, IconWithName>()
+		const map = new Map<string, IconSearchEntry>()
 		for (const icon of filteredIcons) {
 			map.set(normalizeCmdkValue(getItemValue(icon)), icon)
 		}
@@ -103,7 +103,7 @@ export function CommandMenu({ icons, open: externalOpen, onOpenChange: externalO
 		return () => document.removeEventListener("keydown", handleKeyDown)
 	}, [isOpen, setIsOpen])
 
-	const handleSelect = (icon: IconWithName) => {
+	const handleSelect = (icon: IconSearchEntry) => {
 		setIsOpen(false)
 		if (icon.source && icon.source !== "native") {
 			router.push(`/icons/external/${icon.slug || icon.name}`)

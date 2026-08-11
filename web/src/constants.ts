@@ -10,7 +10,7 @@ export const getDescription = (totalIcons: number) =>
 
 export const websiteTitle = "Free Dashboard Icons & Logos - Download High-Quality Service Icons"
 
-export type ExternalSourceId = "selfhst" | "lobehub"
+export type ExternalSourceId = "selfhst" | "lobehub" | "simpleicons"
 
 export interface ExternalSourceConfig {
 	id: ExternalSourceId
@@ -49,6 +49,18 @@ export const EXTERNAL_SOURCES: Record<ExternalSourceId, ExternalSourceConfig> = 
 		authorUrl: "https://github.com/lobehub/lobe-icons",
 		license: "MIT",
 		pbFilter: "lobehub",
+	},
+	simpleicons: {
+		id: "simpleicons",
+		label: "Simple Icons",
+		icon: "https://cdn.simpleicons.org/simpleicons/111111/FFFFFF",
+		cdnBase: "https://cdn.simpleicons.org",
+		website: "https://simpleicons.org/",
+		authorName: "Simple Icons",
+		authorLogin: "simple-icons",
+		authorUrl: "https://github.com/simple-icons/simple-icons",
+		license: "CC0-1.0",
+		pbFilter: "simpleicons",
 	},
 }
 

@@ -43,6 +43,16 @@ export type IconWithName = {
 	external?: ExternalIcon
 }
 
+export type ExternalIconUrlData = Pick<ExternalIcon, "source" | "slug" | "formats" | "url_templates" | "brand_color">
+
+export type IconSearchEntry = {
+	name: string
+	data: Pick<Icon, "base" | "aliases" | "categories"> & Partial<Pick<Icon, "update">>
+	source?: "native" | ExternalSourceId
+	slug?: string
+	external?: ExternalIconUrlData
+}
+
 export type IconSearchProps = {
 	icons: IconRecord[]
 	initialQuery?: string
@@ -73,8 +83,14 @@ export type ExternalIcon = {
 	}
 	url_templates: ExternalIconUrlTemplates
 	license: string
+	license_url?: string
 	attribution: string
 	source_url: string
+	guidelines_url?: string
+	brand_color?: string
+	stable_svg_url?: string
+	upstream_version?: string
+	upstream_data?: Record<string, unknown>
 	updated_at_source?: string
 	created?: string
 	updated?: string

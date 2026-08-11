@@ -403,7 +403,7 @@ The dropdown renders one `DropdownMenuRadioItem` per entry in `EXTERNAL_SOURCE_I
 
 ### Icon card badges — `src/components/icon-card.tsx`
 
-When an icon has `source !== "native"`, hovering the card reveals a banner above it showing the source icon and "from {label}". The card also uses `getExternalIconThemedPreviewUrl()` to show light/dark themed previews matching the user's current theme (via `next-themes`). Native icons similarly use `iconData.colors.dark`/`.light` for theme-aware previews.
+When an icon has `source !== "native"`, hovering the card reveals a banner above it showing the source icon and "from {label}". External previews use `getExternalIconPreviewUrl()`. Sources that need app-theme-specific behavior can add a source-specific card treatment; Simple Icons uses one black SVG and CSS inversion in dark mode so only one preview asset is loaded. Native icons similarly use `iconData.colors.dark`/`.light` for theme-aware previews.
 
 ### Detail page — `src/components/icon-details.tsx`
 
@@ -444,7 +444,7 @@ Iterates over all external icons and generates `<url>` entries with `<image>` ta
 
 ### URL resolution — `src/lib/external-icon-urls.ts`
 
-`resolveExternalIconUrl()` first checks `url_templates[key]` for an exact match (e.g. `png_dark`), then falls back to `{cdnBase}/{format}/{slug}.{format}`. The `cdnBase` is read from `EXTERNAL_SOURCES[icon.source]`. `getExternalIconThemedPreviewUrl()` selects the best preview URL based on the current theme. The detail page's `renderVariant()` only renders a format+theme card when the exact template key exists in `url_templates` — missing templates are skipped, not guessed.
+`resolveExternalIconUrl()` first checks `url_templates[key]` for an exact match (for example `png_dark`). Sources with deterministic URL layouts can define a source-specific fallback builder; other sources use `{cdnBase}/{format}/{slug}.{format}`. `canResolveExternalIconUrl()` only reports fallback keys explicitly supported by that source, preventing invented variants such as `-auto.svg`. The detail page also checks the icon's declared formats and variants before rendering a card.
 
 ### Types — `src/types/icons.ts`
 

@@ -1,13 +1,13 @@
 import { getExternalIconPreviewUrl } from "@/lib/external-icon-urls"
 import { buildIconUrl, type IconFormat } from "@/lib/icons/urls"
-import type { IconWithName } from "@/types/icons"
+import type { IconSearchEntry } from "@/types/icons"
 
-function resolveFormat(base: IconWithName["data"]["base"]): IconFormat {
+function resolveFormat(base: IconSearchEntry["data"]["base"]): IconFormat {
 	if (base === "png" || base === "webp") return base
 	return "svg"
 }
 
-export function getIconImageUrl(icon: IconWithName): string {
+export function getIconImageUrl(icon: IconSearchEntry): string {
 	if (icon.source && icon.source !== "native" && icon.external) {
 		return getExternalIconPreviewUrl(icon.external)
 	}

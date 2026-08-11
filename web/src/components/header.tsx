@@ -10,7 +10,7 @@ import { ThemeSwitcher } from "@/components/theme-switcher"
 import { REPO_NAME, REPO_PATH } from "@/constants"
 import { pb } from "@/lib/pb"
 import { resetPostHogIdentity } from "@/lib/posthog-utils"
-import type { IconWithName } from "@/types/icons"
+import type { IconSearchEntry } from "@/types/icons"
 
 const CommandMenu = dynamic(() => import("./command-menu").then((mod) => mod.CommandMenu), { ssr: false })
 
@@ -34,7 +34,7 @@ function formatStars(stars: number): string {
 }
 
 export function Header() {
-	const [iconsData, setIconsData] = useState<IconWithName[]>([])
+	const [iconsData, setIconsData] = useState<IconSearchEntry[]>([])
 	const [isLoaded, setIsLoaded] = useState(false)
 	const [commandMenuOpen, setCommandMenuOpen] = useState(false)
 	const [loginModalOpen, setLoginModalOpen] = useState(false)

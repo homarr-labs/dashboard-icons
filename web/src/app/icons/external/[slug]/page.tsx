@@ -6,9 +6,9 @@ import { getExternalIconPreviewUrl, resolveExternalIconUrl } from "@/lib/externa
 import { getExternalIconBySlug, getExternalIcons } from "@/lib/external-icons"
 import type { AuthorData } from "@/types/icons"
 
-export const dynamicParams = false
+export const dynamicParams = true
 export const dynamic = "force-static"
-export const revalidate = false
+export const revalidate = 900
 
 export async function generateStaticParams() {
 	const icons = await getExternalIcons()
@@ -40,13 +40,20 @@ export async function generateMetadata({ params }: Props, _parent: ResolvingMeta
 		notFound()
 	}
 	const formattedName = icon.external.name
+	const license = icon.external.license
+	const licenseDescription = license ? ` Licensed under ${license}.` : ""
 	const pageUrl = `${WEB_URL}/icons/external/${slug}`
 	const previewUrl = getExternalIconPreviewUrl(icon.external)
-	const imageType = previewUrl.endsWith(".svg") ? "image/svg+xml" : previewUrl.endsWith(".webp") ? "image/webp" : "image/png"
+	const previewFormat = icon.external.formats.includes("svg")
+		? "svg"
+		: icon.external.formats.includes("png")
+			? "png"
+			: icon.external.formats[0]
+	const imageType = previewFormat === "svg" ? "image/svg+xml" : previewFormat === "webp" ? "image/webp" : "image/png"
 
 	return {
 		title: `${formattedName} Icon & Logo (${sourceConfig.label})`,
-		description: `Download the ${formattedName} icon and logo from ${sourceConfig.label} via Dashboard Icons. Licensed under ${sourceConfig.license}.`,
+		description: `Download the ${formattedName} icon and logo from ${sourceConfig.label} via Dashboard Icons.${licenseDescription}`,
 		assets: icon.external.formats.map((format) => resolveExternalIconUrl(icon.external, format)),
 		keywords: [
 			`${formattedName} icon`,
@@ -75,7 +82,7 @@ export async function generateMetadata({ params }: Props, _parent: ResolvingMeta
 		},
 		openGraph: {
 			title: `${formattedName} Icon & Logo (${sourceConfig.label})`,
-			description: `Download the ${formattedName} icon and logo from ${sourceConfig.label}. Licensed under ${sourceConfig.license}.`,
+			description: `Download the ${formattedName} icon and logo from ${sourceConfig.label}.${licenseDescription}`,
 			type: "website",
 			url: pageUrl,
 			siteName: "Dashboard Icons",
@@ -141,9 +148,9 @@ export default async function ExternalIconPage({ params }: { params: Promise<{ s
 						"@context": "https://schema.org",
 						"@type": "ImageObject",
 						contentUrl: previewUrl,
-						license:
-							sourceConfig.license === "MIT" ? "https://opensource.org/licenses/MIT" : "https://creativecommons.org/licenses/by/4.0/",
-						acquireLicensePage: `${WEB_URL}/license`,
+						license: icon.external.license_url || undefined,
+						acquireLicensePage: icon.external.license_url || icon.external.source_url,
+						creditText: icon.external.attribution,
 						creator: {
 							"@type": "Organization",
 							name: sourceConfig.authorName,

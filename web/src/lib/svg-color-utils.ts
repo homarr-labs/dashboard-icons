@@ -365,6 +365,18 @@ export function extractColorsFromSvg(svg: string): string[] {
 		const SHAPE_TAGS = new Set(["path", "rect", "circle", "ellipse", "polygon", "polyline", "line", "text"])
 
 		let hasImplicitBlack = false
+		const hasValidInheritedFill = (element: Element): boolean => {
+			let ancestor = element.parentElement
+			while (ancestor) {
+				const fill = ancestor.getAttribute("fill")
+				if (fill && normalizeColor(fill)) return true
+
+				const styleFill = ancestor.getAttribute("style")?.match(/(?<!\w-)fill\s*:\s*([^;]+)/i)?.[1]
+				if (styleFill && normalizeColor(styleFill)) return true
+				ancestor = ancestor.parentElement
+			}
+			return false
+		}
 
 		const extractFromElement = (element: Element) => {
 			for (const attr of COLOR_ATTRS) {
@@ -380,6 +392,7 @@ export function extractColorsFromSvg(svg: string): string[] {
 			if (
 				SHAPE_TAGS.has(element.tagName.toLowerCase()) &&
 				!element.getAttribute("fill") &&
+				!hasValidInheritedFill(element) &&
 				!element.closest("clipPath") &&
 				!element.closest("mask")
 			) {

@@ -2,7 +2,7 @@
 
 import confetti from "canvas-confetti"
 import { AnimatePresence, motion } from "framer-motion"
-import { ArrowRight, Check, ExternalLink, FileType, Github, Moon, Palette, PaletteIcon, Sun, Type } from "lucide-react"
+import { ArrowRight, ExternalLink, FileType, Github, Moon, Palette, PaletteIcon, Sun, Type } from "lucide-react"
 import Link from "next/link"
 import posthog from "posthog-js"
 import type React from "react"
@@ -29,6 +29,7 @@ import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbP
 import { Separator } from "./ui/separator"
 
 type RenderVariantFn = (format: string, iconName: string, theme?: "light" | "dark") => React.ReactNode
+const SIMPLE_ICONS_DISCLAIMER_URL = "https://github.com/simple-icons/simple-icons/blob/develop/DISCLAIMER.md"
 
 const COPY_SUPPORTED_FORMATS = new Set(["svg", "png", "webp"])
 
@@ -36,12 +37,9 @@ type IconVariantsSectionProps = {
 	title: string
 	description: string
 	iconElement: React.ReactNode
-	aavailableFormats: string[]
+	availableFormats: string[]
 	icon: string
 	iconData: Icon
-	handleCopy: (url: string, variantKey: string, event?: React.MouseEvent) => void
-	handleDownload: (event: React.MouseEvent, url: string, filename: string) => Promise<void>
-	copiedVariants: Record<string, boolean>
 	theme?: "light" | "dark"
 	renderVariant: RenderVariantFn
 }
@@ -50,7 +48,7 @@ function IconVariantsSection({
 	title,
 	description,
 	iconElement,
-	aavailableFormats,
+	availableFormats,
 	icon,
 	iconData,
 	theme,
@@ -65,7 +63,7 @@ function IconVariantsSection({
 			</h3>
 			<p className="text-sm text-muted-foreground mb-4">{description}</p>
 			<MagicCardPointerProvider className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-				{aavailableFormats.map((format) => renderVariant(format, iconName, theme))}
+				{availableFormats.map((format) => renderVariant(format, iconName, theme))}
 			</MagicCardPointerProvider>
 		</div>
 	)
@@ -74,14 +72,11 @@ function IconVariantsSection({
 type WordmarkSectionProps = {
 	iconData: Icon
 	icon: string
-	aavailableFormats: string[]
-	handleCopy: (url: string, variantKey: string, event?: React.MouseEvent) => void
-	handleDownload: (event: React.MouseEvent, url: string, filename: string) => Promise<void>
-	copiedVariants: Record<string, boolean>
+	availableFormats: string[]
 	renderVariant: RenderVariantFn
 }
 
-function WordmarkSection({ iconData, aavailableFormats, renderVariant }: WordmarkSectionProps) {
+function WordmarkSection({ iconData, availableFormats, renderVariant }: WordmarkSectionProps) {
 	if (!iconData.wordmark) return null
 
 	return (
@@ -99,7 +94,7 @@ function WordmarkSection({ iconData, aavailableFormats, renderVariant }: Wordmar
 							Light Theme Wordmark
 						</h4>
 						<MagicCardPointerProvider className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-							{aavailableFormats.map((format) => {
+							{availableFormats.map((format) => {
 								if (!iconData.wordmark?.light) return null
 								return renderVariant(format, iconData.wordmark.light, "light")
 							})}
@@ -113,7 +108,7 @@ function WordmarkSection({ iconData, aavailableFormats, renderVariant }: Wordmar
 							Dark Theme Wordmark
 						</h4>
 						<MagicCardPointerProvider className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-							{aavailableFormats.map((format) => {
+							{availableFormats.map((format) => {
 								if (!iconData.wordmark?.dark) return null
 								return renderVariant(format, iconData.wordmark.dark, "dark")
 							})}
@@ -172,6 +167,7 @@ export function IconDetails({
 	})
 
 	const isExternalIcon = !!externalIcon
+	const isSimpleIcons = externalIcon?.source === "simpleicons"
 	const externalSourceConfig = externalIcon ? EXTERNAL_SOURCES[externalIcon.source as ExternalSourceId] : undefined
 	const externalPreviewUrl = externalIcon ? getExternalIconPreviewUrl(externalIcon) : null
 
@@ -252,7 +248,6 @@ export function IconDetails({
 	}
 
 	const availableFormats = getAvailableFormats()
-	const [copiedVariants, _setCopiedVariants] = useState<Record<string, boolean>>({})
 	const [copiedUrlKey, setCopiedUrlKey] = useState<string | null>(null)
 	const [copiedImageKey, setCopiedImageKey] = useState<string | null>(null)
 	const [isCustomizerOpen, setIsCustomizerOpen] = useState(false)
@@ -297,7 +292,8 @@ export function IconDetails({
 		}
 
 		try {
-			await navigator.clipboard.writeText(url)
+			const copyableUrl = url.startsWith("/") ? new URL(url, window.location.origin).href : url
+			await navigator.clipboard.writeText(copyableUrl)
 			setCopiedUrlKey(variantKey)
 			posthog.capture("icon_url_copied", {
 				icon_name: icon,
@@ -506,7 +502,6 @@ export function IconDetails({
 		}
 
 		const variantKey = `${format}-${theme || "default"}`
-		const isCopied = copiedVariants[variantKey] || false
 
 		return (
 			<TooltipProvider key={variantKey} delayDuration={500}>
@@ -519,38 +514,23 @@ export function IconDetails({
 									whileHover={{ scale: 1.05 }}
 									whileTap={{ scale: 0.95 }}
 									onClick={(e) => handleCopyUrl(imageUrl, variantKey, e)}
+									onKeyDown={(event) => {
+										if (event.key === "Enter" || event.key === " ") {
+											event.preventDefault()
+											handleCopyUrl(imageUrl, variantKey)
+										}
+									}}
+									role="button"
+									tabIndex={0}
 									aria-label={`Copy ${format.toUpperCase()} URL for ${iconName}${theme ? ` (${theme} theme)` : ""}`}
 								>
 									<div className="absolute inset-0 border-2 border-transparent group-hover:border-primary/20 rounded-xl z-10 transition-colors" />
-
-									<motion.div
-										className="absolute inset-0 bg-primary/10 flex items-center justify-center z-20 rounded-xl"
-										initial={{ opacity: 0 }}
-										animate={{ opacity: isCopied ? 1 : 0 }}
-										transition={{ duration: 0.2 }}
-									>
-										<motion.div
-											initial={{ scale: 0.5, opacity: 0 }}
-											animate={{
-												scale: isCopied ? 1 : 0.5,
-												opacity: isCopied ? 1 : 0,
-											}}
-											transition={{
-												type: "spring",
-												stiffness: 300,
-												damping: 20,
-											}}
-										>
-											<Check className="w-8 h-8 text-primary" />
-										</motion.div>
-									</motion.div>
 
 									<UnoptimizedImage
 										src={imageUrl}
 										alt={`${iconName} in ${format} format${theme ? ` (${theme} theme)` : ""}`}
 										width={88}
 										height={88}
-										priority
 										className="max-h-full max-w-full object-contain p-4"
 									/>
 								</motion.div>
@@ -580,7 +560,7 @@ export function IconDetails({
 		)
 	}
 
-	const formatedIconName = formatIconName(icon)
+	const formatedIconName = externalIcon?.name ?? formatIconName(icon)
 
 	type VariantOption = {
 		value: string
@@ -593,7 +573,7 @@ export function IconDetails({
 
 		if (isExternalIcon && externalIcon) {
 			if (externalIcon.formats.includes("svg")) {
-				variants.push({ value: "base", label: "Base Icon", iconName: externalIcon.slug })
+				variants.push({ value: "base", label: isSimpleIcons ? "Brand color" : "Base Icon", iconName: externalIcon.slug })
 			}
 			if (externalIcon.variants?.light && canResolveExternalIconUrl(externalIcon, "svg_light")) {
 				variants.push({ value: "light", label: "Light Variant", iconName: `${externalIcon.slug}-light` })
@@ -712,7 +692,7 @@ export function IconDetails({
 		}
 
 		return variants
-	}, [isExternalIcon, externalIcon, isCommunityIcon, assetUrls, mainIconUrl, icon, iconData])
+	}, [isExternalIcon, externalIcon, isSimpleIcons, isCommunityIcon, assetUrls, mainIconUrl, icon, iconData])
 
 	const getSvgUrl = useCallback(
 		(variantValue?: string): string | null => {
@@ -796,14 +776,25 @@ export function IconDetails({
 							<div className="flex flex-col items-center bg-background">
 								<div className="relative">
 									<div className="relative flex h-32 w-32 items-center justify-center rounded-xl ring-1 ring-white/5 dark:ring-white/10 bg-primary/15 dark:bg-secondary/10 overflow-hidden p-3">
-										<UnoptimizedImage
-											src={heroImageUrl}
-											priority
-											width={96}
-											height={96}
-											alt={`${formatedIconName} icon and logo in ${iconData.base.toUpperCase()} format`}
-											className="max-h-full max-w-full object-contain"
-										/>
+										{isSimpleIcons && externalIcon ? (
+											<UnoptimizedImage
+												src={resolveExternalIconUrl(externalIcon, "svg_light")}
+												priority
+												width={96}
+												height={96}
+												alt={`${formatedIconName} icon and logo`}
+												className="max-h-full max-w-full object-contain dark:invert"
+											/>
+										) : (
+											<UnoptimizedImage
+												src={heroImageUrl}
+												priority
+												width={96}
+												height={96}
+												alt={`${formatedIconName} icon and logo in ${iconData.base.toUpperCase()} format`}
+												className="max-h-full max-w-full object-contain"
+											/>
+										)}
 									</div>
 								</div>
 								<CardTitle className="text-2xl font-bold capitalize text-center mb-2">
@@ -895,8 +886,7 @@ export function IconDetails({
 											{iconData.wordmark && " Wordmark variants are also available for enhanced branding options."}
 										</p>
 										<p>
-											Perfect for adding to dashboards, app directories, documentation, or anywhere you need the {formatIconName(icon)}{" "}
-											logo.
+											Perfect for adding to dashboards, app directories, documentation, or anywhere you need the {formatedIconName} logo.
 										</p>
 										{isExternalIcon && externalSourceConfig && <p>External icon provided by {externalSourceConfig.label}.</p>}
 									</div>
@@ -904,7 +894,38 @@ export function IconDetails({
 								{isExternalIcon && externalIcon && (
 									<div className="rounded-md border border-border p-3 text-xs text-muted-foreground">
 										<p className="font-medium text-foreground">{externalIcon.attribution}</p>
-										<p className="mt-1">License: {externalIcon.license}</p>
+										<p className="mt-1">
+											License:{" "}
+											{externalIcon.license_url && externalIcon.license ? (
+												<Link
+													href={externalIcon.license_url}
+													target="_blank"
+													rel="noopener noreferrer"
+													className="text-primary hover:underline"
+												>
+													{externalIcon.license}
+												</Link>
+											) : externalIcon.license ? (
+												externalIcon.license
+											) : externalIcon.source === "simpleicons" ? (
+												<Link
+													href={SIMPLE_ICONS_DISCLAIMER_URL}
+													target="_blank"
+													rel="noopener noreferrer"
+													className="text-primary hover:underline"
+												>
+													Not specified by Simple Icons
+												</Link>
+											) : (
+												"Not specified"
+											)}
+										</p>
+										{externalIcon.source === "simpleicons" && (
+											<p className="mt-2">
+												Brand names and marks remain subject to their owners&apos; trademark and usage terms. Check the source and brand
+												guidelines before use.
+											</p>
+										)}
 									</div>
 								)}
 							</div>
@@ -924,61 +945,44 @@ export function IconDetails({
 							<div className="space-y-10">
 								{shouldShowBaseIcon() && (
 									<IconVariantsSection
-										title="Base Icon"
-										description="Original icon version"
+										title={isSimpleIcons ? "Brand color" : "Base Icon"}
+										description={isSimpleIcons ? "Official brand color" : "Original icon version"}
 										iconElement={<FileType className="w-4 h-4 text-blue-500" />}
-										aavailableFormats={availableFormats}
+										availableFormats={availableFormats}
 										icon={icon}
 										iconData={iconData}
-										handleCopy={handleCopyUrl}
-										handleDownload={handleDownload}
-										copiedVariants={copiedVariants}
 										renderVariant={renderVariant}
 									/>
 								)}
 
 								{iconData.colors?.light && (
 									<IconVariantsSection
-										title="Light theme"
-										description="Icon variants optimized for light backgrounds (typically darker icon colors)"
+										title="Light mode"
+										description={isSimpleIcons ? "Black icon for light backgrounds" : "Icon variants optimized for light backgrounds"}
 										iconElement={<Sun className="w-4 h-4 text-amber-500" />}
-										aavailableFormats={availableFormats}
+										availableFormats={availableFormats}
 										icon={icon}
 										theme="light"
 										iconData={iconData}
-										handleCopy={handleCopyUrl}
-										handleDownload={handleDownload}
-										copiedVariants={copiedVariants}
 										renderVariant={renderVariant}
 									/>
 								)}
 
 								{iconData.colors?.dark && (
 									<IconVariantsSection
-										title="Dark theme"
-										description="Icon variants optimized for dark backgrounds (typically lighter icon colors)"
+										title="Dark mode"
+										description={isSimpleIcons ? "White icon for dark backgrounds" : "Icon variants optimized for dark backgrounds"}
 										iconElement={<Moon className="w-4 h-4 text-indigo-500" />}
-										aavailableFormats={availableFormats}
+										availableFormats={availableFormats}
 										icon={icon}
 										theme="dark"
 										iconData={iconData}
-										handleCopy={handleCopyUrl}
-										handleDownload={handleDownload}
-										copiedVariants={copiedVariants}
 										renderVariant={renderVariant}
 									/>
 								)}
 
 								{iconData.wordmark && (
-									<WordmarkSection
-										iconData={iconData}
-										icon={icon}
-										aavailableFormats={availableFormats}
-										handleCopy={handleCopyUrl}
-										handleDownload={handleDownload}
-										copiedVariants={copiedVariants}
-										renderVariant={renderVariant}
-									/>
+									<WordmarkSection iconData={iconData} icon={icon} availableFormats={availableFormats} renderVariant={renderVariant} />
 								)}
 							</div>
 						</CardContent>
@@ -1024,7 +1028,7 @@ export function IconDetails({
 									</div>
 								</div>
 
-								{iconData.colors && (
+								{iconData.colors && !isSimpleIcons && (
 									<div className="">
 										<h3 className="text-sm font-semibold text-muted-foreground mb-2">Color variants</h3>
 										<div className="space-y-2">
@@ -1032,7 +1036,7 @@ export function IconDetails({
 												<div key={theme} className="flex items-center gap-2">
 													<PaletteIcon className="w-4 h-4 text-purple-500" />
 													<span className="capitalize font-medium text-sm">{theme}:</span>
-													<code className=" border border-border px-2 py-0.5 rounded-lg text-xs">{variant}</code>
+													<code className="border border-border px-2 py-0.5 rounded-lg text-xs">{variant}</code>
 												</div>
 											))}
 										</div>
@@ -1062,15 +1066,24 @@ export function IconDetails({
 								)}
 
 								{isExternalIcon && externalIcon && externalSourceConfig && (
-									<div className="">
+									<div className="space-y-2">
 										<h3 className="text-sm font-semibold text-muted-foreground mb-2">Source</h3>
 										<Button variant="outline" className="w-full gap-2" asChild>
 											<Link href={externalIcon.source_url} target="_blank" rel="noopener noreferrer">
 												<UnoptimizedImage src={externalSourceConfig.icon} alt="" width={16} height={16} className="shrink-0" />
-												View on {externalSourceConfig.label}
+												{externalIcon.source === "simpleicons" ? "View original source" : `View on ${externalSourceConfig.label}`}
 												<ExternalLink className="w-4 h-4 ml-auto" />
 											</Link>
 										</Button>
+										{externalIcon.guidelines_url && (
+											<Button variant="outline" className="w-full gap-2" asChild>
+												<Link href={externalIcon.guidelines_url} target="_blank" rel="noopener noreferrer">
+													<FileType className="w-4 h-4" />
+													Read brand guidelines
+													<ExternalLink className="w-4 h-4 ml-auto" />
+												</Link>
+											</Button>
+										)}
 									</div>
 								)}
 

@@ -144,6 +144,12 @@ Want to help with the repository itself?
 
 **Disclaimer**: All product names, trademarks, and registered trademarks are the property of their respective owners. Icons are used for identification purposes only and do not imply endorsement.
 
+The website also indexes externally hosted icons from [Simple Icons](https://simpleicons.org/), served through its
+[colorable CDN](https://cdn.simpleicons.org/). Simple Icons source links, guidelines, and license details are credited on
+each external icon page. Brand-color, black, and white variants are available as SVG and PNG,
+and catalogue previews automatically use black or white to match the website theme. Its CC0-1.0 collection license does
+not waive third-party trademark, patent, or brand-guideline restrictions.
+
 **License**: This project is available under the terms of the [LICENSE](LICENSE) file.
 
 ---
