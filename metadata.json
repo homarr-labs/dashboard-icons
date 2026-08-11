@@ -46639,5 +46639,17 @@
                 "name": "homarr-bot"
             }
         }
+    },
+    "dockage": {
+        "base": "png",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-08-11T13:45:59.769Z",
+            "author": {
+                "id": 51285811,
+                "login": "schliesser-p"
+            }
+        }
     }
 }
