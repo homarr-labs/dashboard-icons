@@ -47026,5 +47026,21 @@
                 "name": "homarr-bot"
             }
         }
+    },
+    "angular-kawaii": {
+        "base": "svg",
+        "aliases": [
+            "kawaii"
+        ],
+        "categories": [
+            "Anime"
+        ],
+        "update": {
+            "timestamp": "2026-08-11T13:46:58.904Z",
+            "author": {
+                "id": "65iz5jsxx5jc2yw",
+                "name": "homarr-bot"
+            }
+        }
     }
 }
