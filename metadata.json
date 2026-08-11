@@ -46807,5 +46807,22 @@
                 "name": "homarr-bot"
             }
         }
+    },
+    "opengym": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "tools",
+            "utility",
+            "entertainment",
+            "database"
+        ],
+        "update": {
+            "timestamp": "2026-08-11T13:46:26.944Z",
+            "author": {
+                "id": 5656702,
+                "login": "opr"
+            }
+        }
     }
 }
