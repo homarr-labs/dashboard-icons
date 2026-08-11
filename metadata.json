@@ -46965,5 +46965,29 @@
                 "name": "homarr-bot"
             }
         }
+    },
+    "satchelone": {
+        "base": "svg",
+        "aliases": [
+            "satchel",
+            "one",
+            "satchel one",
+            "satchel-one"
+        ],
+        "categories": [
+            "utility",
+            "tools"
+        ],
+        "update": {
+            "timestamp": "2026-08-11T13:46:50.918Z",
+            "author": {
+                "id": 258428674,
+                "login": "vmshade"
+            }
+        },
+        "colors": {
+            "light": "satchelone-light",
+            "dark": "satchelone-dark"
+        }
     }
 }
