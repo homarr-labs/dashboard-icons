@@ -14,6 +14,7 @@ vi.mock("next/og", () => ({
 
 const mockGetExternalIconBySlug = vi.fn()
 const mockGetTotalIcons = vi.fn()
+const mockRasterizeRemoteSvg = vi.fn()
 
 const EXTERNAL_SOURCES_MOCK = {
 	simpleicons: {
@@ -46,6 +47,10 @@ vi.mock("@/lib/external-icons", () => ({
 	getExternalIconBySlug: (...args: unknown[]) => mockGetExternalIconBySlug(...args),
 }))
 
+vi.mock("@/lib/rasterize-svg", () => ({
+	rasterizeRemoteSvg: (...args: unknown[]) => mockRasterizeRemoteSvg(...args),
+}))
+
 vi.mock("@/constants", () => ({
 	EXTERNAL_SOURCES: EXTERNAL_SOURCES_MOCK,
 	ExternalSourceId: null,
@@ -62,6 +67,7 @@ function makeExternalIcon(slug: string, sourceId: string, formats: string[] = ["
 				.map((w) => w.charAt(0).toUpperCase() + w.slice(1))
 				.join(" "),
 			formats,
+			brand_color: "000000",
 			url_templates: (() => {
 				const templates: Record<string, string> = {}
 				for (const f of formats) {
@@ -84,6 +90,7 @@ describe("OG external icon route handler", () => {
 	beforeEach(() => {
 		vi.clearAllMocks()
 		mockGetTotalIcons.mockResolvedValue({ totalIcons: 42 })
+		mockRasterizeRemoteSvg.mockResolvedValue(new ArrayBuffer(8))
 	})
 
 	it("exports correct content type and size", async () => {
@@ -205,6 +212,21 @@ describe("OG external icon route handler", () => {
 		const options = callArgs[1]
 		expect(options.headers["Cache-Control"]).toBe("public, s-maxage=86400, stale-while-revalidate=604800")
 		expect(options.headers["CDN-Cache-Control"]).toBe("public, max-age=86400, stale-while-revalidate=604800")
+	})
+
+	it("resolves all Simple Icons URL template placeholders before loading the image", async () => {
+		const icon = makeExternalIcon("docker", "simpleicons")
+		icon.external.brand_color = "2496ED"
+		icon.external.url_templates.svg = "https://cdn.simpleicons.org/{slug}/{hex}"
+		mockGetExternalIconBySlug.mockResolvedValue(icon)
+
+		const { GET } = await import("../external/[slug]/route")
+		await GET(new Request("http://localhost/og/external/docker"), {
+			params: Promise.resolve({ slug: "docker" }),
+		})
+
+		expect(mockRasterizeRemoteSvg).toHaveBeenCalledWith("https://cdn.simpleicons.org/docker/2496ED", 260)
+		expect(mockRasterizeRemoteSvg).not.toHaveBeenCalledWith(expect.stringContaining("{"), expect.anything())
 	})
 
 	it("handles icons with only non-standard formats", async () => {

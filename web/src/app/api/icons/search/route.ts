@@ -1,4 +1,3 @@
-import { unstable_cache } from "next/cache"
 import { NextResponse } from "next/server"
 import { getIconsArray } from "@/lib/api"
 import { getExternalIcons } from "@/lib/external-icons"
@@ -30,17 +29,9 @@ function toCommandMenuEntry(icon: IconWithName): IconSearchEntry {
 	}
 }
 
-const getCachedIconList = unstable_cache(
-	async (): Promise<IconSearchEntry[]> => {
-		const [native, external] = await Promise.all([getIconsArray(), getExternalIcons()])
-		return [...native, ...external].map(toCommandMenuEntry)
-	},
-	["icons-search-list"],
-	{ revalidate: REVALIDATE_SECONDS, tags: ["icons-search"] },
-)
-
 export async function GET() {
-	const icons = await getCachedIconList()
+	const [native, external] = await Promise.all([getIconsArray(), getExternalIcons()])
+	const icons = [...native, ...external].map(toCommandMenuEntry)
 	return NextResponse.json(icons, {
 		headers: {
 			"Cache-Control": `public, s-maxage=${REVALIDATE_SECONDS}, stale-while-revalidate=${REVALIDATE_SECONDS * 2}`,

@@ -13,6 +13,8 @@ const formatDate = (date: Date): string => {
 	return date.toISOString().split("T")[0]
 }
 
+const absoluteUrl = (url: string): string => new URL(url, WEB_URL).href
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 	const [iconsData, externalIcons, communityIcons] = await Promise.all([getAllIcons(), getExternalIcons(), getCommunitySubmissions()])
 	return [
@@ -50,12 +52,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 			.filter((icon, i, arr) => arr.findIndex((a) => a.slug === icon.slug) === i)
 			.map((icon) => {
 				const formats = (icon.external.formats ?? []).filter((f) => f === "svg" || f === "png" || f === "webp")
-				const images: string[] = formats.map((format) => resolveExternalIconUrl(icon.external, format))
+				const images: string[] = formats.map((format) => absoluteUrl(resolveExternalIconUrl(icon.external, format)))
 				const variants = icon.external.variants ?? {}
 				for (const format of formats) {
 					if (format === "svg") continue
-					if (variants.light) images.push(resolveExternalIconUrl(icon.external, `${format}_light`))
-					if (variants.dark) images.push(resolveExternalIconUrl(icon.external, `${format}_dark`))
+					if (variants.light) images.push(absoluteUrl(resolveExternalIconUrl(icon.external, `${format}_light`)))
+					if (variants.dark) images.push(absoluteUrl(resolveExternalIconUrl(icon.external, `${format}_dark`)))
 				}
 				return {
 					url: `${WEB_URL}/icons/external/${icon.slug}`,

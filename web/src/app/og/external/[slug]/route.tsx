@@ -1,7 +1,9 @@
 import { ImageResponse } from "next/og"
 import { EXTERNAL_SOURCES, type ExternalSourceId } from "@/constants"
 import { getTotalIcons } from "@/lib/api"
+import { resolveExternalIconUrl } from "@/lib/external-icon-urls"
 import { getExternalIconBySlug } from "@/lib/external-icons"
+import { rasterizeRemoteSvg } from "@/lib/rasterize-svg"
 
 export const contentType = "image/png"
 export const size = { width: 1200, height: 630 }
@@ -57,17 +59,23 @@ export async function GET(_req: Request, { params }: { params: Promise<{ slug: s
 	const { totalIcons } = await getTotalIcons()
 	const formattedName = icon.external.name
 
-	// Build the icon URL: prefer the first available format
+	// Build the icon URL: prefer the first available format.
 	const formats = icon.external.formats || []
 	let previewUrl = ""
 	if (formats.length > 0) {
-		const urlTemplates = icon.external.url_templates as Record<string, string> | undefined
 		const fmt = formats.includes("svg") ? "svg" : formats.includes("png") ? "png" : formats[0]
-		if (urlTemplates?.[fmt]) {
-			previewUrl = urlTemplates[fmt].replace("{slug}", slug)
-		} else {
-			previewUrl = `${sourceConfig.cdnBase}/${fmt}/${slug}.${fmt}`
-		}
+		previewUrl = resolveExternalIconUrl(icon.external, fmt)
+	}
+
+	let previewSrc: string | ArrayBuffer | undefined = previewUrl || undefined
+	let sourceIconSrc: string | ArrayBuffer | undefined = sourceConfig.icon
+	if (icon.external.source === "simpleicons") {
+		const [previewResult, sourceIconResult] = await Promise.allSettled([
+			previewUrl ? rasterizeRemoteSvg(previewUrl, 260) : Promise.resolve(undefined),
+			rasterizeRemoteSvg(sourceConfig.icon, 32),
+		])
+		previewSrc = previewResult.status === "fulfilled" ? previewResult.value : undefined
+		sourceIconSrc = sourceIconResult.status === "fulfilled" ? sourceIconResult.value : undefined
 	}
 
 	return new ImageResponse(
@@ -148,10 +156,11 @@ export async function GET(_req: Request, { params }: { params: Promise<{ slug: s
 							background: "linear-gradient(145deg, #ffffff 0%, #f8fafc 100%)",
 						}}
 					/>
-					{previewUrl ? (
+					{previewSrc ? (
 						// biome-ignore lint/performance/noImgElement: ImageResponse uses Satori which requires native HTML img elements
 						<img
-							src={previewUrl}
+							// @ts-expect-error Satori accepts ArrayBuffer image sources at runtime.
+							src={previewSrc}
 							alt={formattedName}
 							width={260}
 							height={260}
@@ -269,8 +278,17 @@ export async function GET(_req: Request, { params }: { params: Promise<{ slug: s
 					}}
 				>
 					<span>from</span>
-					{/* biome-ignore lint/performance/noImgElement: ImageResponse uses Satori which requires native HTML img elements */}
-					<img src={sourceConfig.icon} alt={sourceConfig.label} width={32} height={32} style={{ marginRight: 2 }} />
+					{sourceIconSrc ? (
+						// biome-ignore lint/performance/noImgElement: ImageResponse uses Satori which requires native HTML img elements
+						<img
+							// @ts-expect-error Satori accepts ArrayBuffer image sources at runtime.
+							src={sourceIconSrc}
+							alt={sourceConfig.label}
+							width={32}
+							height={32}
+							style={{ marginRight: 2 }}
+						/>
+					) : null}
 					<span>{sourceConfig.label} via dashboardicons.com</span>
 				</div>
 			</div>

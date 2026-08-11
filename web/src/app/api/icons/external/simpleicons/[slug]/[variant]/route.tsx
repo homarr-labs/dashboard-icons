@@ -1,6 +1,6 @@
-import { ImageResponse } from "next/og"
 import { resolveExternalIconUrl } from "@/lib/external-icon-urls"
 import { getExternalIconBySourceAndSlug } from "@/lib/external-icons"
+import { rasterizeRemoteSvg } from "@/lib/rasterize-svg"
 
 const PNG_SIZE = 640
 const VARIANT_KEYS = {
@@ -23,26 +23,15 @@ export async function GET(_request: Request, { params }: { params: Promise<{ slu
 	// a stored URL template is accidentally or maliciously changed.
 	const svgUrl = resolveExternalIconUrl({ ...icon.external, url_templates: {} }, svgKey)
 
-	return new ImageResponse(
-		<div
-			style={{
-				display: "flex",
-				width: "100%",
-				height: "100%",
-				alignItems: "center",
-				justifyContent: "center",
-				backgroundColor: "transparent",
-			}}
-		>
-			{/* biome-ignore lint/performance/noImgElement: ImageResponse requires a native image element */}
-			<img src={svgUrl} alt="" width={PNG_SIZE} height={PNG_SIZE} style={{ objectFit: "contain" }} />
-		</div>,
-		{
-			width: PNG_SIZE,
-			height: PNG_SIZE,
+	try {
+		const png = await rasterizeRemoteSvg(svgUrl, PNG_SIZE)
+		return new Response(png, {
 			headers: {
+				"Content-Type": "image/png",
 				"Cache-Control": "public, max-age=86400, s-maxage=604800, stale-while-revalidate=86400",
 			},
-		},
-	)
+		})
+	} catch {
+		return new Response("Unable to generate Simple Icons PNG", { status: 502 })
+	}
 }
