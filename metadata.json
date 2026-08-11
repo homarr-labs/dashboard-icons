@@ -46989,5 +46989,26 @@
             "light": "satchelone-light",
             "dark": "satchelone-dark"
         }
+    },
+    "iplayer": {
+        "base": "svg",
+        "aliases": [
+            "bbc iplayer",
+            "bbc"
+        ],
+        "categories": [
+            "media"
+        ],
+        "update": {
+            "timestamp": "2026-08-11T13:46:53.821Z",
+            "author": {
+                "id": 258428674,
+                "login": "vmshade"
+            }
+        },
+        "colors": {
+            "light": "iplayer-light",
+            "dark": "iplayer-dark"
+        }
     }
 }
