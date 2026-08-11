@@ -47306,5 +47306,23 @@
             "light": "xcloud-light",
             "dark": "xcloud-dark"
         }
+    },
+    "testflight": {
+        "base": "png",
+        "aliases": [],
+        "categories": [
+            "development",
+            "utility"
+        ],
+        "update": {
+            "timestamp": "2026-08-11T13:47:42.272Z",
+            "author": {
+                "id": 6827059,
+                "login": "NoahStephens"
+            }
+        },
+        "colors": {
+            "dark": "testflight-dark"
+        }
     }
 }
