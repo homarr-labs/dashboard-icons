@@ -46910,5 +46910,28 @@
             "light": "wispr-flow-wordmark-light",
             "dark": "wispr-flow-wordmark-dark"
         }
+    },
+    "sportarr": {
+        "base": "svg",
+        "aliases": [
+            "sportarr"
+        ],
+        "categories": [
+            "media",
+            "automation",
+            "database",
+            "development",
+            "entertainment",
+            "tools",
+            "utility",
+            "monitoring"
+        ],
+        "update": {
+            "timestamp": "2026-08-11T13:46:42.931Z",
+            "author": {
+                "id": 224651902,
+                "login": "Sportarr"
+            }
+        }
     }
 }
