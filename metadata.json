@@ -47224,5 +47224,25 @@
                 "name": "homarr-bot"
             }
         }
+    },
+    "runpod": {
+        "base": "svg",
+        "aliases": [
+            "Runpod.io"
+        ],
+        "categories": [
+            "cloud",
+            "media"
+        ],
+        "update": {
+            "timestamp": "2026-08-11T13:47:30.357Z",
+            "author": {
+                "id": 167335,
+                "login": "tonicastillo"
+            }
+        },
+        "colors": {
+            "light": "runpod-light"
+        }
     }
 }
