@@ -6073,13 +6073,23 @@
     "spotify": {
         "base": "svg",
         "aliases": [],
-        "categories": [],
+        "categories": [
+            "media"
+        ],
         "update": {
-            "timestamp": "2022-08-16T17:22:56Z",
+            "timestamp": "2026-08-11T13:47:45.996Z",
             "author": {
-                "id": 71191962,
-                "name": "walkxcode"
+                "id": 6827059,
+                "login": "NoahStephens"
             }
+        },
+        "colors": {
+            "light": "spotify-light",
+            "dark": "spotify-dark"
+        },
+        "wordmark": {
+            "light": "spotify-wordmark-light",
+            "dark": "spotify-wordmark-dark"
         }
     },
     "bandcamp": {
