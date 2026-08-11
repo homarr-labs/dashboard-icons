@@ -47244,5 +47244,22 @@
         "colors": {
             "light": "runpod-light"
         }
+    },
+    "dockhand-svg": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "automation",
+            "tools",
+            "monitoring",
+            "network"
+        ],
+        "update": {
+            "timestamp": "2026-08-11T13:47:32.714Z",
+            "author": {
+                "id": 206217431,
+                "login": "Hirsekekskiste"
+            }
+        }
     }
 }
