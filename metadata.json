@@ -46824,5 +46824,21 @@
                 "login": "opr"
             }
         }
+    },
+    "figma-kawaii": {
+        "base": "svg",
+        "aliases": [
+            "kawaii"
+        ],
+        "categories": [
+            "Anime"
+        ],
+        "update": {
+            "timestamp": "2026-08-11T13:46:29.396Z",
+            "author": {
+                "id": "65iz5jsxx5jc2yw",
+                "name": "homarr-bot"
+            }
+        }
     }
 }
