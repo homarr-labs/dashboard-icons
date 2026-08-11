@@ -47074,5 +47074,27 @@
                 "name": "homarr-bot"
             }
         }
+    },
+    "bitesize": {
+        "base": "svg",
+        "aliases": [
+            "bbc",
+            "british"
+        ],
+        "categories": [
+            "media",
+            "tools"
+        ],
+        "update": {
+            "timestamp": "2026-08-11T13:47:07.572Z",
+            "author": {
+                "id": 258428674,
+                "login": "vmshade"
+            }
+        },
+        "colors": {
+            "light": "bitesize-light",
+            "dark": "bitesize-dark"
+        }
     }
 }
