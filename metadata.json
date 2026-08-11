@@ -46544,5 +46544,24 @@
                 "name": "homarr-bot"
             }
         }
+    },
+    "rust-kawaii": {
+        "base": "svg",
+        "aliases": [
+            "kawaii"
+        ],
+        "categories": [
+            "Anime"
+        ],
+        "update": {
+            "timestamp": "2026-08-11T13:45:44.697Z",
+            "author": {
+                "id": "65iz5jsxx5jc2yw",
+                "name": "homarr-bot"
+            }
+        },
+        "colors": {
+            "dark": "rust-kawaii-dark"
+        }
     }
 }
