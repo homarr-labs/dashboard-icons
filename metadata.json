@@ -46595,5 +46595,17 @@
                 "name": "homarr-bot"
             }
         }
+    },
+    "valheim": {
+        "base": "png",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-08-11T13:45:52.061Z",
+            "author": {
+                "id": "jsh8sr7gkgnjppo",
+                "name": "tuumke"
+            }
+        }
     }
 }
