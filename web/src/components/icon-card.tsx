@@ -2,6 +2,7 @@ import Link from "next/link"
 import { MagicCard } from "@/components/magicui/magic-card"
 import { UnoptimizedImage } from "@/components/unoptimized-image"
 import { EXTERNAL_SOURCES, type ExternalSourceId } from "@/constants"
+import { resolveExternalIconUrl } from "@/lib/external-icon-urls"
 import { getIconImageUrl } from "@/lib/icon-url"
 import { formatIconName } from "@/lib/utils"
 import type { IconWithName } from "@/types/icons"
@@ -34,24 +35,35 @@ export function IconCard({ icon, matchedAlias }: { icon: IconWithName; matchedAl
 	const kind = getIconKind(icon)
 	const sourceConfig = kind.type === "external" ? EXTERNAL_SOURCES[kind.sourceId] : undefined
 	const imageUrl = getIconImageUrl(icon)
+	const themedExternalIcon = kind.type === "external" && kind.sourceId === "simpleicons" ? icon.external : undefined
 
 	return (
-		<MagicCard className="group/card rounded-md shadow-md">
+		<MagicCard className="rounded-md shadow-md">
 			{sourceConfig && (
-				<div className="absolute left-0 -top-7 z-10 flex items-center gap-1.5 pr-2 opacity-0 group-hover/card:opacity-100 transition-opacity duration-200 bg-muted/90 backdrop-blur-sm rounded-md shadow-sm whitespace-nowrap">
-					<UnoptimizedImage src={sourceConfig.icon} alt={sourceConfig.label} width={28} height={28} className="shrink-0" />
-					<span className="text-sm sm:text-md text-muted-foreground">from {sourceConfig.label}</span>
+				<div className="pointer-events-none absolute left-0 -top-8 z-10 inline-flex h-7 max-w-[calc(100vw-1rem)] items-center gap-1.5 overflow-hidden whitespace-nowrap rounded-md border border-border/70 bg-background/95 px-2 opacity-0 shadow-sm transition-opacity duration-200 group-hover:opacity-100">
+					<UnoptimizedImage src={sourceConfig.icon} alt="" width={18} height={18} className="shrink-0" />
+					<span className="truncate text-xs leading-none text-foreground/80">from {sourceConfig.label}</span>
 				</div>
 			)}
 			<Link prefetch={false} href={getLinkHref(kind, name)} className="group flex flex-col items-center p-3 sm:p-4 cursor-pointer">
 				<div className="mb-2 flex h-16 w-16 items-center justify-center rounded-lg ring-1 ring-white/5 dark:ring-white/10 bg-primary/15 dark:bg-secondary/10">
-					<UnoptimizedImage
-						src={imageUrl}
-						alt={`${name} icon and logo`}
-						width={56}
-						height={56}
-						className="max-h-full max-w-full object-contain p-2 transition-transform duration-300 group-hover:scale-110"
-					/>
+					{themedExternalIcon ? (
+						<UnoptimizedImage
+							src={resolveExternalIconUrl(themedExternalIcon, "svg_light")}
+							alt={`${name} icon and logo`}
+							width={56}
+							height={56}
+							className="max-h-full max-w-full object-contain p-2 transition-transform duration-300 group-hover:scale-110 dark:invert"
+						/>
+					) : (
+						<UnoptimizedImage
+							src={imageUrl}
+							alt={`${name} icon and logo`}
+							width={56}
+							height={56}
+							className="max-h-full max-w-full object-contain p-2 transition-transform duration-300 group-hover:scale-110"
+						/>
+					)}
 				</div>
 				<span className="text-xs sm:text-sm text-center truncate w-full capitalize group-hover:text-primary dark:group-hover:text-primary transition-colors duration-200 font-medium">
 					{formatIconName(name)}

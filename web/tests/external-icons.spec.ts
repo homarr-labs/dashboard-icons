@@ -111,6 +111,93 @@ test.describe("External LobeHub icons", () => {
 	})
 })
 
+test.describe("External Simple Icons", () => {
+	test("source filter makes the complete Simple Icons catalogue searchable", async ({ page }) => {
+		await page.goto("/icons?source=simpleicons&q=stackoverflow")
+		await expect(page.getByRole("button", { name: /simple icons/i })).toBeVisible()
+
+		const stackOverflowCard = page.locator('a[href="/icons/external/stackoverflow"]')
+		await expect(stackOverflowCard).toBeVisible()
+	})
+
+	test("source badge keeps its icon and label inside the hover surface", async ({ page }, testInfo) => {
+		test.skip(testInfo.project.name === "mobile-chrome", "Touch devices do not expose hover-only source badges")
+		await page.goto("/icons?source=simpleicons&q=stackoverflow")
+
+		const card = page.locator('a[href="/icons/external/stackoverflow"]').locator("../..")
+		const badgeLabel = card.getByText("from Simple Icons")
+		await card.hover()
+		await expect(badgeLabel).toBeVisible()
+
+		const badge = badgeLabel.locator("..")
+		const isContained = await badge.evaluate((element) => {
+			const container = element.getBoundingClientRect()
+			return [...element.children].every((child) => {
+				const bounds = child.getBoundingClientRect()
+				return bounds.left >= container.left && bounds.right <= container.right && bounds.top >= container.top && bounds.bottom <= container.bottom
+			})
+		})
+		expect(isContained).toBe(true)
+	})
+
+	test("detail page credits Simple Icons and uses its brand-color CDN asset", async ({ page }) => {
+		await page.goto("/icons/external/stackoverflow")
+
+		await expect(page.getByRole("heading", { name: /stack overflow/i })).toBeVisible()
+		await expect(page.getByText(/stack overflow icon by simple icons \(cc0-1\.0\)/i)).toBeVisible()
+		await expect(page.getByText(/brand color: #f58025/i)).toHaveCount(0)
+		await expect(page.getByRole("link", { name: /view original source/i })).toHaveAttribute(
+			"href",
+			"https://stackoverflow.design/brand/logo/",
+		)
+		await expect(page.locator('img[src="https://cdn.simpleicons.org/stackoverflow/F58025"]').first()).toBeVisible()
+	})
+
+	test("offers brand, light, and dark variants in SVG and PNG", async ({ page }) => {
+		await page.goto("/icons/external/stackoverflow")
+
+		await expect(page.getByRole("heading", { name: "Brand color" })).toBeVisible()
+		await expect(page.getByRole("heading", { name: "Light mode" })).toBeVisible()
+		await expect(page.getByRole("heading", { name: "Dark mode" })).toBeVisible()
+		await expect(page.locator('img[src="https://cdn.simpleicons.org/stackoverflow/000000"]').first()).toBeVisible()
+		await expect(page.locator('img[src="https://cdn.simpleicons.org/stackoverflow/FFFFFF"]')).toBeVisible()
+		await expect(page.locator('img[src="/api/icons/external/simpleicons/stackoverflow/brand.png"]')).toBeVisible()
+		await expect(page.locator('img[src="/api/icons/external/simpleicons/stackoverflow/light.png"]')).toBeVisible()
+		await expect(page.locator('img[src="/api/icons/external/simpleicons/stackoverflow/dark.png"]')).toBeVisible()
+		await expect(page.getByRole("button", { name: /show svg downloads/i })).toHaveCount(0)
+		await expect(page.getByRole("button", { name: /show png downloads/i })).toHaveCount(0)
+
+		const png = await page.request.get("/api/icons/external/simpleicons/stackoverflow/brand.png")
+		expect(png.ok()).toBe(true)
+		expect(png.headers()["content-type"]).toContain("image/png")
+		expect((await png.body()).subarray(0, 8).toString("hex")).toBe("89504e470d0a1a0a")
+	})
+
+	test("main preview follows the site theme", async ({ page }) => {
+		await page.addInitScript(() => window.localStorage.setItem("theme", "light"))
+		await page.goto("/icons/external/stackoverflow")
+
+		const preview = page.locator('img[src="https://cdn.simpleicons.org/stackoverflow/000000"]').first()
+		await expect(preview).toBeVisible()
+		await expect(preview).toHaveCSS("filter", "none")
+
+		await page.getByRole("button", { name: "Toggle theme" }).click()
+		await page.getByRole("menuitem", { name: "Dark" }).click()
+		await expect(preview).toBeVisible()
+		await expect(preview).toHaveCSS("filter", "invert(1)")
+	})
+
+	test("brand-colored SVG remains available to the existing customizer", async ({ page }) => {
+		await page.goto("/icons/external/stackoverflow")
+
+		await page.getByRole("button", { name: /customize/i }).click()
+		await expect(page.getByText(/customize colors/i)).toBeVisible()
+		const colorControls = page.getByRole("button", { name: /hsl\(/i })
+		await expect(colorControls).toHaveCount(1)
+		await expect(colorControls.first()).toHaveAccessibleName(/hsl\(26, 91%, 55%\)/i)
+	})
+})
+
 test.describe("External icon card hover behavior", () => {
 	test("source badge appears on hover for external icons", async ({ page }) => {
 		await page.goto("/icons?source=lobehub")

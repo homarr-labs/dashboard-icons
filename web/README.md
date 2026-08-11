@@ -147,6 +147,40 @@ NEXT_PUBLIC_POCKETBASE_URL=http://127.0.0.1:8090 \
 bun run scripts/import-selfhst.ts
 ```
 
+## Third-party source: Simple Icons
+
+The external catalogue also includes unique brands from
+[Simple Icons](https://simpleicons.org/). A weekly Monday sync resolves the
+latest published npm release, imports its version-pinned metadata, and skips
+slugs already owned by Dashboard Icons or another external source.
+
+Every imported record preserves the official slug, brand color, source,
+guidelines, per-icon license metadata, and all searchable alias classes. The
+detail page lists SVG and PNG cards side by side for the brand-color, black
+(light-mode), and white (dark-mode) variants. SVGs remain hosted by the official
+colorable CDN:
+
+```txt
+https://cdn.simpleicons.org/<slug>/<brand-color>
+```
+
+PNG downloads are generated on demand as transparent 640 x 640 images from the
+corresponding official SVG. Browse and main detail previews follow the website
+theme directly, using black in light mode and white in dark mode. The source
+details page links back to the original brand source and guidelines and feeds
+the colored SVG into the existing customizer. The Simple Icons collection is
+released under CC0-1.0, but brand
+names and marks remain subject to their owners' licenses, trademarks, and usage
+guidelines. See the [Simple Icons disclaimer](https://github.com/simple-icons/simple-icons/blob/develop/DISCLAIMER.md).
+
+To run the pinned importer locally after downloading the published metadata:
+
+```bash
+PB_ADMIN=admin@example.com PB_ADMIN_PASS=your-password \
+PB_URL=http://127.0.0.1:8090 SIMPLE_ICONS_VERSION=16.28.0 \
+bun run scripts/import-simple-icons.ts
+```
+
 ### Deployment
 
 The application is optimized for deployment on Vercel.

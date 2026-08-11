@@ -484,7 +484,7 @@ describe("api", () => {
 					categories: ["Shared"],
 					update: { timestamp: "2020-01-01T00:00:00Z", author: { id: 1 } },
 				},
-			} as IconFile
+			} as unknown as IconFile
 
 			const related = computeRelatedIcons("current", ["Shared"], metadata)
 			expect(related[0]?.data.aliases).toEqual([])

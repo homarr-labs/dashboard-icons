@@ -52,6 +52,8 @@ backend/pb_data
 scripts/*
 !scripts/import-selfhst.ts
 !scripts/import-lobehub.ts
+!scripts/import-simple-icons.ts
+data/sources/
 
 # Playwright
 node_modules/

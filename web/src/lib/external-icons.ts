@@ -49,10 +49,11 @@ function toExternalIconRecord(icon: ExternalIcon, { lite = false } = {}): Extern
 				categories,
 				formats,
 				variants: icon.variants ?? {},
-				url_templates: icon.url_templates ?? {},
-				license: icon.license ?? "",
-				attribution: icon.attribution ?? "",
-				source_url: icon.source_url ?? "",
+				url_templates: icon.source === "simpleicons" ? {} : (icon.url_templates ?? {}),
+				license: "",
+				attribution: "",
+				source_url: "",
+				brand_color: icon.brand_color,
 			}
 		: { ...icon, formats, aliases, categories }
 
@@ -83,8 +84,7 @@ async function fetchExternalIconsForSource(sourceId: ExternalSourceId): Promise<
 	const sourceConfig = getExternalSource(sourceId)
 	const records = await pb.collection("external_icons").getFullList<ExternalIcon>({
 		filter: pb.filter("source = {:source}", { source: sourceConfig.pbFilter }),
-		fields:
-			"id,source,slug,name,aliases,categories,formats,variants,url_templates,license,attribution,source_url,updated_at_source,created,updated",
+		fields: "id,source,slug,name,aliases,categories,formats,variants,url_templates,brand_color,updated_at_source,created,updated",
 		batch: 500,
 		sort: "name",
 		requestKey: null,
@@ -123,26 +123,26 @@ export const getExternalIcons = cache(async (): Promise<ExternalIconRecord[]> =>
 	return fetchExternalIconsWithTTL()
 })
 
-export async function getExternalIconBySlug(slug: string): Promise<ExternalIconRecord | null> {
-	const icons = await getExternalIcons()
-	const fromList = icons.find((icon) => icon.slug === slug)
-	if (fromList) {
-		return fromList
-	}
-
-	if (icons.length === 0) {
-		return null
-	}
-
+export async function getExternalIconBySourceAndSlug(source: ExternalSourceId, slug: string): Promise<ExternalIconRecord | null> {
 	try {
 		const pb = createServerPB()
-		const record = await pb.collection("external_icons").getFirstListItem<ExternalIcon>(pb.filter("slug = {:slug}", { slug }), {
-			requestKey: null,
-		})
+		const record = await pb
+			.collection("external_icons")
+			.getFirstListItem<ExternalIcon>(pb.filter("source = {:source} && slug = {:slug}", { source, slug }), { requestKey: null })
 		return toExternalIconRecord(record)
 	} catch {
 		return null
 	}
+}
+
+export async function getExternalIconBySlug(slug: string): Promise<ExternalIconRecord | null> {
+	const icons = await getExternalIcons()
+	const fromList = icons.find((icon) => icon.slug === slug)
+	if (!fromList) {
+		return null
+	}
+
+	return getExternalIconBySourceAndSlug(fromList.source, slug)
 }
 
 export const getExternalIcon = getExternalIconBySlug

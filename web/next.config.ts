@@ -4,6 +4,9 @@ import type { NextConfig } from "next";
 import { withPostHogConfig } from "@posthog/nextjs-config";
 
 const projectRoot = path.dirname(fileURLToPath(import.meta.url))
+const allowedDevOrigins = process.env.NEXT_ALLOWED_DEV_ORIGINS?.split(",")
+	.map((origin) => origin.trim())
+	.filter(Boolean)
 
 const securityHeaders = [
 	{ key: "X-Content-Type-Options", value: "nosniff" },
@@ -14,6 +17,7 @@ const securityHeaders = [
 ];
 
 const nextConfig: NextConfig = {
+	...(allowedDevOrigins?.length ? { allowedDevOrigins } : {}),
 	turbopack: {
 		root: projectRoot,
 	},

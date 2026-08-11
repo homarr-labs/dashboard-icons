@@ -1,0 +1,39 @@
+name: Sync Simple Icons
+
+on:
+  schedule:
+    - cron: "30 5 * * 1"
+  workflow_dispatch:
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        if: ${{ env.ACT != 'true' }}
+
+      - uses: oven-sh/setup-bun@v2
+
+      - name: Install dependencies
+        working-directory: web
+        run: bun install --frozen-lockfile
+
+      - name: Resolve and fetch the published Simple Icons catalogue
+        working-directory: web
+        run: |
+          mkdir -p data/sources/simpleicons
+          curl -fsSL https://registry.npmjs.org/simple-icons/latest -o data/sources/simpleicons/release.json
+          SIMPLE_ICONS_VERSION=$(bun -e 'const data = await Bun.file("data/sources/simpleicons/release.json").json(); process.stdout.write(data.version)')
+          curl -fsSL "https://api.github.com/repos/simple-icons/simple-icons/releases/tags/${SIMPLE_ICONS_VERSION}" -o data/sources/simpleicons/github-release.json
+          SIMPLE_ICONS_PUBLISHED_AT=$(bun -e 'const data = await Bun.file("data/sources/simpleicons/github-release.json").json(); process.stdout.write(data.published_at ?? "")')
+          curl -fsSL "https://cdn.jsdelivr.net/npm/simple-icons@${SIMPLE_ICONS_VERSION}/data/simple-icons.json" -o data/sources/simpleicons/simple-icons.json
+          echo "SIMPLE_ICONS_VERSION=${SIMPLE_ICONS_VERSION}" >> "$GITHUB_ENV"
+          echo "SIMPLE_ICONS_PUBLISHED_AT=${SIMPLE_ICONS_PUBLISHED_AT}" >> "$GITHUB_ENV"
+
+      - name: Import unique Simple Icons records
+        working-directory: web
+        env:
+          PB_URL: ${{ secrets.PB_URL }}
+          PB_ADMIN: ${{ secrets.PB_ADMIN }}
+          PB_ADMIN_PASS: ${{ secrets.PB_ADMIN_PASS }}
+        run: bun run scripts/import-simple-icons.ts

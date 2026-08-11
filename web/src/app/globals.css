@@ -221,6 +221,8 @@
 	--shadow-2xl: 0px 2px 0px 0px hsl(202.8169 89.1213% 53.1373% / 0);
 
 	--magic-gradient-color: oklch(0.6723 0.1606 244.9955 / 15%);
+	--magic-border-from: #1e9df1;
+	--magic-border-to: #8ed0f9;
 
 	--ring: oklch(0.6818 0.1584 243.354);
 
@@ -302,6 +304,8 @@
 	--shadow-2xl: 0px 2px 0px 0px hsl(202.8169 89.1213% 53.1373% / 0);
 
 	--magic-gradient-color: oklch(0.67 0.2 23.8 / 15%);
+	--magic-border-from: #ffb3c1;
+	--magic-border-to: #ff75a0;
 
 	--radius: 0.3rem;
 

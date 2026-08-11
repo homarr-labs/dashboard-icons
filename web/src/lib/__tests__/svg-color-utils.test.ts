@@ -100,6 +100,11 @@ describe("extractColorsFromSvg", () => {
 		expect(colors).toContain("#ff0000")
 	})
 
+	it("does not add implicit black when a shape inherits the root fill", () => {
+		const svg = `<svg xmlns="http://www.w3.org/2000/svg" fill="#F58025"><path d="M0 0h24v24H0z"/></svg>`
+		expect(extractColorsFromSvg(svg)).toEqual(["#f58025"])
+	})
+
 	it("extracts stroke attribute colors", () => {
 		const svg = `<svg xmlns="http://www.w3.org/2000/svg"><rect stroke="#00ff00"/></svg>`
 		const colors = extractColorsFromSvg(svg)

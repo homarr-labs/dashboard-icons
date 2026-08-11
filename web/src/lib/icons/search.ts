@@ -1,4 +1,4 @@
-import type { IconWithName } from "@/types/icons"
+import type { IconSearchEntry } from "@/types/icons"
 
 const NAME_WEIGHT = 2.0
 const ALIAS_WEIGHT = 1.5
@@ -105,26 +105,26 @@ export function fuzzySearch(text: string, query: string): number {
 
 export type SortOption = "relevance" | "alphabetical-asc" | "alphabetical-desc" | "newest"
 
-export function scoreIcon(icon: IconWithName, query: string): number {
+export function scoreIcon(icon: IconSearchEntry, query: string): number {
 	const nameScore = fuzzySearch(icon.name, query) * NAME_WEIGHT
 	const aliasScore =
 		icon.data.aliases.length > 0 ? Math.max(...icon.data.aliases.map((alias) => fuzzySearch(alias, query))) * ALIAS_WEIGHT : 0
 	return Math.max(nameScore, aliasScore)
 }
 
-export function filterAndSortIcons({
+export function filterAndSortIcons<T extends IconSearchEntry>({
 	icons,
 	query = "",
 	categories = [],
 	sort = "relevance",
 	limit,
 }: {
-	icons: IconWithName[]
+	icons: T[]
 	query?: string
 	categories?: string[]
 	sort?: SortOption
 	limit?: number
-}): IconWithName[] {
+}): T[] {
 	let filtered = icons
 
 	if (categories.length > 0) {
@@ -167,7 +167,7 @@ export function filterAndSortIcons({
 			.filter((item) => item.score > 0.7)
 			.sort((a, b) => {
 				if (b.score !== a.score) return b.score - a.score
-				const externalRank = (icon: IconWithName) => Number(Boolean(icon.source && icon.source !== "native"))
+				const externalRank = (icon: IconSearchEntry) => Number(Boolean(icon.source && icon.source !== "native"))
 				const rankDiff = externalRank(a.icon) - externalRank(b.icon)
 				if (rankDiff !== 0) return rankDiff
 				return a.icon.name.localeCompare(b.icon.name)
@@ -176,7 +176,7 @@ export function filterAndSortIcons({
 		filtered = scored.map((item) => item.icon)
 	}
 
-	const nativeFirst = (a: IconWithName, b: IconWithName) => {
+	const nativeFirst = (a: IconSearchEntry, b: IconSearchEntry) => {
 		const aExt = a.source && a.source !== "native" ? 1 : 0
 		const bExt = b.source && b.source !== "native" ? 1 : 0
 		return aExt - bExt

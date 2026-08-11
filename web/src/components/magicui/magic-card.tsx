@@ -1,16 +1,10 @@
 "use client"
 
 import { motion, useMotionTemplate, useMotionValue } from "motion/react"
-import { useTheme } from "next-themes"
 import type React from "react"
 import { useCallback, useEffect, useRef } from "react"
 import { cn } from "@/lib/utils"
 import { useMagicCardPointer } from "./magic-card-pointer"
-
-const THEME_BORDER_COLORS: Record<string, { from: string; to: string }> = {
-	dark: { from: "#ffb3c1", to: "#ff75a0" },
-	light: { from: "#1e9df1", to: "#8ed0f9" },
-}
 
 interface MagicCardProps {
 	children?: React.ReactNode
@@ -99,9 +93,6 @@ export function MagicCard({ children, className, gradientSize = 200, gradientCol
 		if (!isShared) resetPosition()
 	}, [isShared, resetPosition])
 
-	const { resolvedTheme } = useTheme()
-	const { from: fromColor, to: toColor } = THEME_BORDER_COLORS[resolvedTheme ?? "dark"] ?? THEME_BORDER_COLORS.dark
-
 	return (
 		<div ref={cardRef} className={cn("group relative rounded-[inherit]", className)}>
 			<motion.div
@@ -109,8 +100,8 @@ export function MagicCard({ children, className, gradientSize = 200, gradientCol
 				style={{
 					background: useMotionTemplate`
           radial-gradient(${gradientSize}px circle at ${mouseX}px ${mouseY}px,
-          ${fromColor}, 
-          ${toColor}, 
+		  var(--magic-border-from),
+		  var(--magic-border-to),
           var(--border) 100%
           )
           `,
