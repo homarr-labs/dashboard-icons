@@ -46731,5 +46731,17 @@
                 "name": "homarr-bot"
             }
         }
+    },
+    "palworld": {
+        "base": "png",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-08-11T13:46:14.754Z",
+            "author": {
+                "id": "jsh8sr7gkgnjppo",
+                "name": "tuumke"
+            }
+        }
     }
 }
