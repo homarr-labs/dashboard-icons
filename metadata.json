@@ -47280,5 +47280,31 @@
             "light": "the-io-foundation-wordmark-light",
             "dark": "the-io-foundation-wordmark-dark"
         }
+    },
+    "xcloud": {
+        "base": "svg",
+        "aliases": [
+            "xcloud",
+            "xc",
+            "xCloud"
+        ],
+        "categories": [
+            "cloud",
+            "network",
+            "tools",
+            "automation",
+            "development"
+        ],
+        "update": {
+            "timestamp": "2026-08-11T13:47:39.416Z",
+            "author": {
+                "id": "0pbk8ulbg0qjzd5",
+                "name": "nabilemon"
+            }
+        },
+        "colors": {
+            "light": "xcloud-light",
+            "dark": "xcloud-dark"
+        }
     }
 }
