@@ -47261,5 +47261,24 @@
                 "login": "Hirsekekskiste"
             }
         }
+    },
+    "the-io-foundation": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-08-11T13:47:36.456Z",
+            "author": {
+                "id": "n53zwac36y0fwk2",
+                "name": "TIOFContact"
+            }
+        },
+        "colors": {
+            "dark": "the-io-foundation-dark"
+        },
+        "wordmark": {
+            "light": "the-io-foundation-wordmark-light",
+            "dark": "the-io-foundation-wordmark-dark"
+        }
     }
 }
