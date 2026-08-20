@@ -25,10 +25,27 @@ describe("Simple Icons PNG route", () => {
 			params: Promise.resolve({ slug: "github", variant: "light.png" }),
 		})
 
-		expect(mockRasterizeRemoteSvg).toHaveBeenCalledWith("https://cdn.simpleicons.org/github/000000", 640)
+		expect(mockRasterizeRemoteSvg).toHaveBeenCalledWith(
+			"https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/github.svg",
+			640,
+			"#000000",
+		)
 		expect(response.status).toBe(200)
 		expect(response.headers.get("Content-Type")).toBe("image/png")
 		expect(new Uint8Array(await response.arrayBuffer())).toEqual(Uint8Array.from([137, 80, 78, 71]))
+	})
+
+	it("applies brand color for the brand variant", async () => {
+		const { GET } = await import("../[slug]/[variant]/route")
+		await GET(new Request("http://localhost"), {
+			params: Promise.resolve({ slug: "github", variant: "brand.png" }),
+		})
+
+		expect(mockRasterizeRemoteSvg).toHaveBeenCalledWith(
+			"https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/github.svg",
+			640,
+			"#181717",
+		)
 	})
 
 	it("returns a controlled error when the upstream SVG cannot be loaded", async () => {
