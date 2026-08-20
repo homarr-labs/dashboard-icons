@@ -99,7 +99,7 @@ function RecentIconCard({ name, data }: { name: string; data: Icon }) {
 				{formattedIconName}
 			</span>
 			<div className="flex items-center justify-center mt-2 w-full">
-				<span className="text-[10px] sm:text-xs text-muted-foreground flex items-center whitespace-nowrap hover:/70 transition-colors duration-200">
+				<span className="text-[10px] sm:text-xs text-muted-foreground flex items-center whitespace-nowrap hover:text-muted-foreground/70 transition-colors duration-200">
 					<Clock className="w-3 h-3 mr-1.5 shrink-0" />
 					{formatIconDate(data.update.timestamp)}
 				</span>
