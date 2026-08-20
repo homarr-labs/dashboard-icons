@@ -4,7 +4,7 @@ import { Github, LayoutDashboard, LogOut, PlusCircle, Search } from "lucide-reac
 import dynamic from "next/dynamic"
 import Link from "next/link"
 import { usePostHog } from "posthog-js/react"
-import { useEffect, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { LoginModal } from "@/components/login-modal"
 import { ThemeSwitcher } from "@/components/theme-switcher"
 import { REPO_NAME, REPO_PATH } from "@/constants"
@@ -42,6 +42,8 @@ export function Header() {
 	const [userData, setUserData] = useState<UserData | undefined>(undefined)
 	const [stars, setStars] = useState<number>(0)
 	const posthog = usePostHog()
+
+	const isMac = useMemo(() => typeof navigator !== "undefined" && /Mac|iPhone|iPad/.test(navigator.platform), [])
 
 	useEffect(() => {
 		async function loadIcons() {
@@ -134,8 +136,11 @@ export function Header() {
 		<header className="border-b sticky top-0 z-50 backdrop-blur-2xl bg-background/50 border-border/50">
 			<div className="px-4 md:px-12 flex items-center justify-between h-16 md:h-18">
 				<div className="flex items-center gap-2 md:gap-6">
+					<Link href="/" className="text-lg font-bold md:hidden">
+						DI
+					</Link>
 					<Link href="/" className="text-lg md:text-xl font-bold group hidden md:block">
-						<span className="transition-colors duration-300 group-hover:">Dashboard Icons</span>
+						<span className="transition-colors duration-300 group-hover:text-primary">Dashboard Icons</span>
 					</Link>
 					<div className="flex-nowrap">
 						<HeaderNav isLoggedIn={isLoggedIn} />
@@ -148,7 +153,7 @@ export function Header() {
 							<Search className="h-4 w-4 transition-all duration-300" />
 							<span>Find icons</span>
 							<kbd className="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border border-border/80 bg-muted/80 px-1.5 font-mono text-[10px] font-medium opacity-100">
-								<span className="text-xs">⌘</span>K
+								<span className="text-xs">{isMac ? "⌘" : "Ctrl+"}</span>K
 							</kbd>
 						</Button>
 					</div>
@@ -213,7 +218,7 @@ export function Header() {
 								<TooltipTrigger asChild>
 									<Button variant="ghost" className="rounded-lg cursor-pointer transition-all duration-300 hover:ring-2 gap-1.5" asChild>
 										<Link href={REPO_PATH} target="_blank" rel="noopener noreferrer" className="group flex items-center">
-											<Github className="h-5 w-5 group-hover: transition-all duration-300" />
+											<Github className="h-5 w-5 group-hover:text-primary transition-all duration-300" />
 											{stars > 0 && <span className="text-xs font-medium text-muted-foreground">{formatStars(stars)}</span>}
 											<span className="sr-only">View on GitHub</span>
 										</Link>
@@ -279,8 +284,8 @@ export function Header() {
 				</div>
 			</div>
 
-			{/* Single instance of CommandMenu */}
-			{isLoaded && <CommandMenu icons={iconsData} open={commandMenuOpen} onOpenChange={setCommandMenuOpen} />}
+			{/* Single instance of CommandMenu - always rendered for instant ⌘K */}
+			<CommandMenu icons={iconsData} open={commandMenuOpen} onOpenChange={setCommandMenuOpen} />
 
 			{/* Login Modal */}
 			<LoginModal open={loginModalOpen} onOpenChange={setLoginModalOpen} />
