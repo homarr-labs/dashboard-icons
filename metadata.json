@@ -47391,5 +47391,21 @@
         "colors": {
             "dark": "nextflux-dark"
         }
+    },
+    "immich-maintenance": {
+        "base": "png",
+        "aliases": [
+            "immich"
+        ],
+        "categories": [
+            "media"
+        ],
+        "update": {
+            "timestamp": "2026-08-22T21:39:35.403Z",
+            "author": {
+                "id": "uqsskltrfva4fx8",
+                "name": "cryptodntsleep"
+            }
+        }
     }
 }
