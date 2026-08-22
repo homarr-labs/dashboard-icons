@@ -47424,5 +47424,28 @@
                 "login": "Baloe2000"
             }
         }
+    },
+    "docusign": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "automation",
+            "finance",
+            "media"
+        ],
+        "update": {
+            "timestamp": "2026-08-22T21:39:43.161Z",
+            "author": {
+                "id": 58028508,
+                "login": "Adk3rn"
+            }
+        },
+        "colors": {
+            "dark": "docusign-dark"
+        },
+        "wordmark": {
+            "light": "docusign-wordmark-light",
+            "dark": "docusign-wordmark-dark"
+        }
     }
 }
