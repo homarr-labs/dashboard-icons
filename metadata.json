@@ -47354,5 +47354,24 @@
                 "login": "deogratias-saidi"
             }
         }
+    },
+    "azure-linux": {
+        "base": "svg",
+        "aliases": [
+            "azure linux",
+            "linux",
+            "azure",
+            "os"
+        ],
+        "categories": [
+            "cloud"
+        ],
+        "update": {
+            "timestamp": "2026-08-22T21:10:18.178Z",
+            "author": {
+                "id": 50410476,
+                "login": "deogratias-saidi"
+            }
+        }
     }
 }
