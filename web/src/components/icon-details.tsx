@@ -775,7 +775,7 @@ export function IconDetails({
 						<CardHeader className="pb-2">
 							<div className="flex flex-col items-center bg-background">
 								<div className="relative w-full">
-									<div className="relative flex aspect-square w-full max-w-md items-center justify-center rounded-xl ring-1 ring-white/5 dark:ring-white/10 bg-primary/15 dark:bg-secondary/10 overflow-hidden p-3">
+									<div className="relative mx-auto flex aspect-square w-full max-w-md items-center justify-center rounded-xl ring-1 ring-white/5 dark:ring-white/10 bg-primary/15 dark:bg-secondary/10 overflow-hidden p-3">
 										{isSimpleIcons && externalIcon ? (
 											<UnoptimizedImage
 												src={resolveExternalIconUrl(externalIcon, "svg_light")}
