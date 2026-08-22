@@ -47373,5 +47373,23 @@
                 "login": "deogratias-saidi"
             }
         }
+    },
+    "nextflux": {
+        "base": "png",
+        "aliases": [],
+        "categories": [
+            "home-automation",
+            "social"
+        ],
+        "update": {
+            "timestamp": "2026-08-22T21:10:21.262Z",
+            "author": {
+                "id": 39984939,
+                "login": "puneet00"
+            }
+        },
+        "colors": {
+            "dark": "nextflux-dark"
+        }
     }
 }
