@@ -774,7 +774,7 @@ export function IconDetails({
 					<Card className="h-full gap-2 bg-background/50 border shadow-lg">
 						<CardHeader className="pb-2">
 							<div className="flex flex-col items-center bg-background">
-								<div className="relative">
+								<div className="relative w-full">
 									<div className="relative flex aspect-square w-full max-w-md items-center justify-center rounded-xl ring-1 ring-white/5 dark:ring-white/10 bg-primary/15 dark:bg-secondary/10 overflow-hidden p-3">
 										{isSimpleIcons && externalIcon ? (
 											<UnoptimizedImage
