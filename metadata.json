@@ -47407,5 +47407,22 @@
                 "name": "cryptodntsleep"
             }
         }
+    },
+    "mos": {
+        "base": "png",
+        "aliases": [],
+        "categories": [
+            "media",
+            "cloud",
+            "home-automation",
+            "network"
+        ],
+        "update": {
+            "timestamp": "2026-08-22T21:39:38.818Z",
+            "author": {
+                "id": 157283395,
+                "login": "Baloe2000"
+            }
+        }
     }
 }
