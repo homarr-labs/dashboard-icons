@@ -1,0 +1,19 @@
+web/src/components/icon-details.tsx
+  s_23f153fd1a905e::t_cb965c8c606fb4 778
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.23",
+  "base_commit_sha": "ac9fc3cf71fbad88aa4360e7a6b0f871ecbac182",
+  "prompts": {},
+  "sessions": {
+    "s_23f153fd1a905e": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a02b65-7b2f-7231-b2c8-05f1204ac0cc",
+        "model": "gpt-5.6-luna"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
