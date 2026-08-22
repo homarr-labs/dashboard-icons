@@ -47334,5 +47334,25 @@
         "colors": {
             "dark": "testflight-dark"
         }
+    },
+    "azure-certificate": {
+        "base": "svg",
+        "aliases": [
+            "certificate",
+            "azure"
+        ],
+        "categories": [
+            "cloud",
+            "tools",
+            "utility",
+            "security"
+        ],
+        "update": {
+            "timestamp": "2026-08-22T21:10:14.081Z",
+            "author": {
+                "id": 50410476,
+                "login": "deogratias-saidi"
+            }
+        }
     }
 }
