@@ -47722,5 +47722,19 @@
         "colors": {
             "dark": "bleacher-nation-dark"
         }
+    },
+    "yeti-cti": {
+        "base": "png",
+        "aliases": [],
+        "categories": [
+            "security"
+        ],
+        "update": {
+            "timestamp": "2026-08-24T17:58:48.715Z",
+            "author": {
+                "id": 5823202,
+                "login": "jknyght9"
+            }
+        }
     }
 }
