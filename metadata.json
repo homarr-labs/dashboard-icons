@@ -47494,5 +47494,20 @@
                 "name": "2ssitlab"
             }
         }
+    },
+    "f1tv": {
+        "base": "png",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-08-24T12:35:50.044Z",
+            "author": {
+                "id": 185259594,
+                "login": "isanto1306"
+            }
+        },
+        "colors": {
+            "light": "f1tv-light"
+        }
     }
 }
