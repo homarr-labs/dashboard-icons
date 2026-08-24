@@ -47470,5 +47470,17 @@
             "light": "higgsfield-light",
             "dark": "higgsfield-dark"
         }
+    },
+    "ip-blocklist": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-08-24T12:35:44.403Z",
+            "author": {
+                "id": 185259594,
+                "login": "isanto1306"
+            }
+        }
     }
 }
