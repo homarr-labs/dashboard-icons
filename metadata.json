@@ -47661,5 +47661,17 @@
                 "login": "headscarf737"
             }
         }
+    },
+    "teamarr": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-08-24T17:58:35.776Z",
+            "author": {
+                "id": 248116088,
+                "login": "michaelgill10"
+            }
+        }
     }
 }
