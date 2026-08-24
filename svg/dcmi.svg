@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xml:lang="ja" version="1.1"
+  width="800px" height="800px" viewBox="0 0 512 512"
+  xmlns="http://www.w3.org/2000/svg"
+>
+<title>DCMIのロゴ</title>
+
+<desc>ダブリンコアメタデータイニシアチブ（英: Dublin Core Metadata Initiative; DCMI）のロゴ画像。</desc>
+
+<metadata>
+<rdf:RDF
+  xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+  xmlns:dc="http://purl.org/dc/elements/1.1/"
+>
+	<rdf:Description rdf:about="">
+		<dc:title xml:lang="ja">DCMIのロゴ</dc:title>
+		<dc:creator rdf:resource="https://meta.wikimedia.org/?curid=10484470"/>
+		<dc:subject rdf:datatype="http://ndl.go.jp/dcndl/terms/NIISubject">情報学</dc:subject>
+		<dc:description xml:lang="ja" rdf:parseType="Resource">
+			<dc:format rdf:datatype="http://purl.org/dc/terms/IMT">text/x-wiki</dc:format>
+			<rdf:value><![CDATA[
+[https://www.dublincore.org/ '''ダブリンコアメタデータイニシアチブ''']（{{en|1=Dublin Core Metadata Initiative; DCMI|inline=inline}}）のロゴ画像。
+{{quote|lang=ja|text=
+中央の円はイニシアチブの中核を，それを取り囲む内側の円達は[[w:ja:Dublin_Core#基本記述要素一覧|DCMIメタデータ要素集合]]（[https://webdesk.jsa.or.jp/books/W11M0090/index/?bunsyo_id=JIS+X+0836:2005 JIS X 0836:2005]）で利用できる15の基本記述要素を，外側の円達は要素集合の解釈及び拡張を，それぞれ表す。
+|cite=ダブリンコアメタデータイニシアチブ
+|source=[https://www.dublincore.org/about/#web-site-policies-software-logo-banner About DCMI/Web site, policies, software, logo, banner]の[[User:cmplstofB]]による試訳
+}}
+]]><!--  --></rdf:value>
+		</dc:description>
+		<dc:contributor rdf:resource="https://www.dublincore.org/"/>
+		<dc:date rdf:datatype="http://www.w3.org/2001/XMLSchemadate">2019-09-11</dc:date>
+		<dc:type rdf:datatype="http://purl.org/dc/terms/DCMIType">StillImage</dc:type>
+		<dc:format rdf:datatype="http://purl.org/dc/terms/IMT">image/svg+xml</dc:format>
+		<dc:source rdf:resource="https://www.dublincore.org/images/DCMI_logo_cropped.jpg"/>
+		<dc:language rdf:datatype="http://purl.org/dc/terms/ISO639-2">jpn</dc:language>
+		<dc:rights rdf:resource="http://www.wtfpl.net/about/"/>
+	</rdf:Description>
+</rdf:RDF>
+</metadata>
+
+<!--
+<rect
+  width="100%" height="100%"
+  fill="none" stroke="blue"
+/>
+-->
+
+<g
+  fill="white"
+>
+<rect
+  width="100%" height="100%"
+  fill="#ff6600"
+/>
+
+<circle
+  cx="256" cy="256" r="82"
+/>
+
+<circle
+  cx="256" cy="142" r="16"
+/>
+<circle
+  transform="rotate(24 256 256)"
+  cx="256" cy="142" r="16"
+/>
+<circle
+  transform="rotate(48 256 256)"
+  cx="256" cy="142" r="16"
+/>
+<circle
+  transform="rotate(72 256 256)"
+  cx="256" cy="142" r="16"
+/>
+<circle
+  transform="rotate(96 256 256)"
+  cx="256" cy="142" r="16"
+/>
+<circle
+  transform="rotate(120 256 256)"
+  cx="256" cy="142" r="16"
+/>
+<circle
+  transform="rotate(144 256 256)"
+  cx="256" cy="142" r="16"
+/>
+<circle
+  transform="rotate(168 256 256)"
+  cx="256" cy="142" r="16"
+/>
+<circle
+  transform="rotate(-24 256 256)"
+  cx="256" cy="142" r="16"
+/>
+<circle
+  transform="rotate(-48 256 256)"
+  cx="256" cy="142" r="16"
+/>
+<circle
+  transform="rotate(-72 256 256)"
+  cx="256" cy="142" r="16"
+/>
+<circle
+  transform="rotate(-96 256 256)"
+  cx="256" cy="142" r="16"
+/>
+<circle
+  transform="rotate(-120 256 256)"
+  cx="256" cy="142" r="16"
+/>
+<circle
+  transform="rotate(-144 256 256)"
+  cx="256" cy="142" r="16"
+/>
+<circle
+  transform="rotate(-168 256 256)"
+  cx="256" cy="142" r="16"
+/>
+
+<circle
+  cx="256" cy="83" r="16"
+/>
+<circle
+  transform="rotate(24 256 256)"
+  cx="256" cy="83" r="16"
+/>
+<circle
+  transform="rotate(48 256 256)"
+  cx="256" cy="83" r="16"
+/>
+<circle
+  transform="rotate(72 256 256)"
+  cx="256" cy="83" r="16"
+/>
+<circle
+  transform="rotate(96 256 256)"
+  cx="256" cy="83" r="16"
+/>
+<circle
+  transform="rotate(120 256 256)"
+  cx="256" cy="83" r="16"
+/>
+<circle
+  transform="rotate(144 256 256)"
+  cx="256" cy="83" r="16"
+/>
+<circle
+  transform="rotate(168 256 256)"
+  cx="256" cy="83" r="16"
+/>
+<circle
+  transform="rotate(-24 256 256)"
+  cx="256" cy="83" r="16"
+/>
+<circle
+  transform="rotate(-48 256 256)"
+  cx="256" cy="83" r="16"
+/>
+<circle
+  transform="rotate(-72 256 256)"
+  cx="256" cy="83" r="16"
+/>
+<circle
+  transform="rotate(-96 256 256)"
+  cx="256" cy="83" r="16"
+/>
+<circle
+  transform="rotate(-120 256 256)"
+  cx="256" cy="83" r="16"
+/>
+<circle
+  transform="rotate(-144 256 256)"
+  cx="256" cy="83" r="16"
+/>
+<circle
+  transform="rotate(-168 256 256)"
+  cx="256" cy="83" r="16"
+/>
+
+<!--
+<image
+  opacity="0.4"
+  width="100%" height="100%"
+  xmlns:xlink="http://www.w3.org/1999/xlink"
+  xlink:href="orig.png"
+/>
+-->
+</g>
+</svg>

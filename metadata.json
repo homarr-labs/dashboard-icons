@@ -47559,5 +47559,23 @@
         "wordmark": {
             "light": "scala-wordmark-light"
         }
+    },
+    "dcmi": {
+        "base": "svg",
+        "aliases": [
+            "Dublin Core",
+            "Dublin Core Metadata Initiative"
+        ],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-08-24T12:36:01.194Z",
+            "author": {
+                "id": "sowxli2ysgkofo9",
+                "name": "0xb0ec1d"
+            }
+        },
+        "colors": {
+            "dark": "dcmi-dark"
+        }
     }
 }
