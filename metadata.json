@@ -47447,5 +47447,28 @@
             "light": "docusign-wordmark-light",
             "dark": "docusign-wordmark-dark"
         }
+    },
+    "higgsfield": {
+        "base": "svg",
+        "aliases": [
+            "higgsfield-ai",
+            "higgsfieldai",
+            "higgsfield.ai"
+        ],
+        "categories": [
+            "media",
+            "cloud"
+        ],
+        "update": {
+            "timestamp": "2026-08-24T12:35:39.886Z",
+            "author": {
+                "id": 167335,
+                "login": "tonicastillo"
+            }
+        },
+        "colors": {
+            "light": "higgsfield-light",
+            "dark": "higgsfield-dark"
+        }
     }
 }
