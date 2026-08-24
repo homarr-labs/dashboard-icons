@@ -47754,5 +47754,28 @@
                 "login": "MrPondi"
             }
         }
+    },
+    "tixio": {
+        "base": "png",
+        "aliases": [],
+        "categories": [
+            "automation",
+            "tools"
+        ],
+        "update": {
+            "timestamp": "2026-08-24T17:58:54.333Z",
+            "author": {
+                "id": "m979ri1gonx5e4e",
+                "name": "Umana"
+            }
+        },
+        "colors": {
+            "light": "tixio-light",
+            "dark": "tixio-dark"
+        },
+        "wordmark": {
+            "light": "tixio-wordmark-light",
+            "dark": "tixio-wordmark-dark"
+        }
     }
 }
