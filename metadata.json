@@ -47577,5 +47577,31 @@
         "colors": {
             "dark": "dcmi-dark"
         }
+    },
+    "portabase": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "database",
+            "network",
+            "storage",
+            "tools",
+            "utility"
+        ],
+        "update": {
+            "timestamp": "2026-08-24T12:36:05.284Z",
+            "author": {
+                "id": 43389096,
+                "login": "Asuniia"
+            }
+        },
+        "colors": {
+            "light": "portabase-light",
+            "dark": "portabase-dark"
+        },
+        "wordmark": {
+            "light": "portabase-wordmark-light",
+            "dark": "portabase-wordmark-dark"
+        }
     }
 }
