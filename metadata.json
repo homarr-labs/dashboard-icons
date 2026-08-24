@@ -10057,14 +10057,12 @@
     "chaptarr": {
         "base": "svg",
         "aliases": [],
-        "categories": [
-            "Media"
-        ],
+        "categories": [],
         "update": {
-            "timestamp": "2025-09-08T13:04:34.036121",
+            "timestamp": "2026-08-24T17:58:46.329Z",
             "author": {
-                "id": 93874500,
-                "login": "sirjmann92"
+                "id": 113947849,
+                "login": "somesuchnonsense"
             }
         }
     },
