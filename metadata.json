@@ -47523,5 +47523,22 @@
                 "login": "NoahStephens"
             }
         }
+    },
+    "app-store-connect": {
+        "base": "png",
+        "aliases": [],
+        "categories": [
+            "development"
+        ],
+        "update": {
+            "timestamp": "2026-08-24T12:35:55.569Z",
+            "author": {
+                "id": 6827059,
+                "login": "NoahStephens"
+            }
+        },
+        "colors": {
+            "dark": "app-store-connect-dark"
+        }
     }
 }
