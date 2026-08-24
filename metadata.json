@@ -47709,5 +47709,20 @@
                 "login": "jknyght9"
             }
         }
+    },
+    "bleacher-nation": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-08-24T17:58:43.989Z",
+            "author": {
+                "id": 82130083,
+                "login": "clschwab216"
+            }
+        },
+        "colors": {
+            "dark": "bleacher-nation-dark"
+        }
     }
 }
