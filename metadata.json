@@ -47736,5 +47736,23 @@
                 "login": "jknyght9"
             }
         }
+    },
+    "konflate": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "automation",
+            "cloud",
+            "monitoring",
+            "tools",
+            "utility"
+        ],
+        "update": {
+            "timestamp": "2026-08-24T17:58:50.914Z",
+            "author": {
+                "id": 109785648,
+                "login": "MrPondi"
+            }
+        }
     }
 }
