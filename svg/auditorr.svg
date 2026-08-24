@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none">
+  <!-- Glass circle -->
+  <circle cx="90" cy="90" r="68" stroke="#f57c00" stroke-width="14" stroke-linecap="round"/>
+  <!-- Handle — bottom-right, clear of all spokes -->
+  <line x1="138" y1="140" x2="174" y2="178" stroke="#f57c00" stroke-width="16" stroke-linecap="round"/>
+  <!-- Hub node -->
+  <circle cx="90" cy="90" r="14" fill="#f57c00"/>
+  <!-- Spoke 1 — ~12deg, top-right: healthy -->
+  <line x1="91" y1="76" x2="96" y2="45" stroke="#f57c00" stroke-width="6" stroke-linecap="round"/>
+  <circle cx="97" cy="34" r="10" fill="#f57c00" opacity="0.85"/>
+  <!-- Spoke 2 — ~80deg, right: healthy -->
+  <line x1="104" y1="90" x2="134" y2="83" stroke="#f57c00" stroke-width="6" stroke-linecap="round"/>
+  <circle cx="145" cy="80" r="10" fill="#f57c00" opacity="0.85"/>
+  <!-- Spoke 3 — ~150deg, lower-right: healthy -->
+  <line x1="97" y1="103" x2="116" y2="130" stroke="#f57c00" stroke-width="6" stroke-linecap="round"/>
+  <circle cx="122" cy="140" r="10" fill="#f57c00" opacity="0.85"/>
+  <!-- Spoke 4 — ~210deg, lower-left: BROKEN -->
+  <line x1="83" y1="103" x2="66" y2="124" stroke="#f57c00" stroke-width="6" stroke-linecap="round"/>
+  <line x1="59" y1="133" x2="47" y2="150" stroke="#ef4444" stroke-width="6" stroke-linecap="round" stroke-dasharray="8 8"/>
+  <circle cx="40" cy="160" r="10" fill="none" stroke="#ef4444" stroke-width="6"/>
+  <line x1="33" y1="153" x2="47" y2="167" stroke="#ef4444" stroke-width="5" stroke-linecap="round"/>
+  <line x1="47" y1="153" x2="33" y2="167" stroke="#ef4444" stroke-width="5" stroke-linecap="round"/>
+  <!-- Spoke 5 — ~290deg, left: healthy -->
+  <line x1="76" y1="90" x2="45" y2="97" stroke="#f57c00" stroke-width="6" stroke-linecap="round"/>
+  <circle cx="34" cy="100" r="10" fill="#f57c00" opacity="0.85"/>
+</svg>
