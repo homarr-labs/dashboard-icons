@@ -47603,5 +47603,24 @@
             "light": "portabase-wordmark-light",
             "dark": "portabase-wordmark-dark"
         }
+    },
+    "cairn": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "tools",
+            "utility",
+            "monitoring"
+        ],
+        "update": {
+            "timestamp": "2026-08-24T12:36:08.084Z",
+            "author": {
+                "id": 103436411,
+                "login": "MorganKryze"
+            }
+        },
+        "colors": {
+            "light": "cairn-light"
+        }
     }
 }
