@@ -27780,13 +27780,20 @@
     },
     "microsoft-teams": {
         "base": "svg",
-        "aliases": [],
+        "aliases": [
+            "Teams2025",
+            "Teams2026",
+            "MicrosoftTeams2025",
+            "MicrosoftTeams2026",
+            "microsoftteams",
+            "teams"
+        ],
         "categories": [],
         "update": {
-            "timestamp": "2024-10-13T18:28:15Z",
+            "timestamp": "2026-08-24T17:58:30.913Z",
             "author": {
-                "id": 25162574,
-                "name": "mitchplze"
+                "id": "uxq2aakdf2jmr4z",
+                "name": "EGXA"
             }
         }
     },
