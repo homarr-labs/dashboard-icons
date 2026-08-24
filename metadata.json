@@ -47540,5 +47540,24 @@
         "colors": {
             "dark": "app-store-connect-dark"
         }
+    },
+    "scala": {
+        "base": "svg",
+        "aliases": [
+            "Scala Programming Language"
+        ],
+        "categories": [
+            "development"
+        ],
+        "update": {
+            "timestamp": "2026-08-24T12:35:58.388Z",
+            "author": {
+                "id": "sowxli2ysgkofo9",
+                "name": "0xb0ec1d"
+            }
+        },
+        "wordmark": {
+            "light": "scala-wordmark-light"
+        }
     }
 }
