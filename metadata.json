@@ -47777,5 +47777,17 @@
             "light": "tixio-wordmark-light",
             "dark": "tixio-wordmark-dark"
         }
+    },
+    "docsink": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-08-24T17:58:56.557Z",
+            "author": {
+                "id": 190926534,
+                "login": "nixhal33"
+            }
+        }
     }
 }
