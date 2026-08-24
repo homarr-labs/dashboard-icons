@@ -47509,5 +47509,19 @@
         "colors": {
             "light": "f1tv-light"
         }
+    },
+    "mouser": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "utility"
+        ],
+        "update": {
+            "timestamp": "2026-08-24T12:35:52.468Z",
+            "author": {
+                "id": 6827059,
+                "login": "NoahStephens"
+            }
+        }
     }
 }
