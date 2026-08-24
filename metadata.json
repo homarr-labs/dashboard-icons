@@ -47673,5 +47673,27 @@
                 "login": "michaelgill10"
             }
         }
+    },
+    "toolhive": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "automation",
+            "tools"
+        ],
+        "update": {
+            "timestamp": "2026-08-24T17:58:38.932Z",
+            "author": {
+                "id": 109785648,
+                "login": "MrPondi"
+            }
+        },
+        "colors": {
+            "light": "toolhive-light"
+        },
+        "wordmark": {
+            "light": "toolhive-wordmark-light",
+            "dark": "toolhive-wordmark-dark"
+        }
     }
 }
