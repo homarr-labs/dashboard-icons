@@ -21614,13 +21614,15 @@
         "base": "svg",
         "aliases": [],
         "categories": [
-            "Cloud"
+            "monitoring",
+            "network",
+            "tools"
         ],
         "update": {
-            "timestamp": "2025-06-18T05:18:25.028839",
+            "timestamp": "2026-08-27T09:14:56.405Z",
             "author": {
-                "id": 21307071,
-                "login": "Maxzhao1999"
+                "id": 8825017,
+                "login": "rcourtman"
             }
         }
     },
