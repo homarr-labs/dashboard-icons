@@ -47834,5 +47834,23 @@
                 "login": "Mirahles"
             }
         }
+    },
+    "clouddrive": {
+        "base": "png",
+        "aliases": [],
+        "categories": [
+            "cloud",
+            "storage"
+        ],
+        "update": {
+            "timestamp": "2026-08-29T20:13:51.823Z",
+            "author": {
+                "id": "ja3ejsad2om360r",
+                "name": "szh"
+            }
+        },
+        "wordmark": {
+            "light": "clouddrive-wordmark-light"
+        }
     }
 }
