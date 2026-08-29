@@ -47817,5 +47817,22 @@
                 "login": "tas50"
             }
         }
+    },
+    "moonfin": {
+        "base": "png",
+        "aliases": [
+            "Moonfin"
+        ],
+        "categories": [
+            "entertainment",
+            "media"
+        ],
+        "update": {
+            "timestamp": "2026-08-29T20:13:48.018Z",
+            "author": {
+                "id": 28912495,
+                "login": "Mirahles"
+            }
+        }
     }
 }
