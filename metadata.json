@@ -47803,5 +47803,19 @@
                 "name": "mhanefeld"
             }
         }
+    },
+    "cinc": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "automation"
+        ],
+        "update": {
+            "timestamp": "2026-08-29T20:13:45.112Z",
+            "author": {
+                "id": 1015200,
+                "login": "tas50"
+            }
+        }
     }
 }
