@@ -47927,5 +47927,20 @@
                 "login": "tas50"
             }
         }
+    },
+    "hister": {
+        "base": "png",
+        "aliases": [],
+        "categories": [
+            "network",
+            "utility"
+        ],
+        "update": {
+            "timestamp": "2026-08-29T20:14:09.153Z",
+            "author": {
+                "id": 2642107,
+                "login": "robsalasco"
+            }
+        }
     }
 }
