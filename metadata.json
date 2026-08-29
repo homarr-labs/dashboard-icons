@@ -47901,5 +47901,17 @@
                 "login": "heathaolson"
             }
         }
+    },
+    "npmplus": {
+        "base": "png",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-08-29T20:14:04.094Z",
+            "author": {
+                "id": 12738722,
+                "login": "magrhino"
+            }
+        }
     }
 }
