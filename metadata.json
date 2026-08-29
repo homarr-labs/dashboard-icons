@@ -47852,5 +47852,25 @@
         "wordmark": {
             "light": "clouddrive-wordmark-light"
         }
+    },
+    "tekstobot": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "automation",
+            "tools",
+            "utility"
+        ],
+        "update": {
+            "timestamp": "2026-08-29T20:13:55.726Z",
+            "author": {
+                "id": 305721,
+                "login": "rdeavila"
+            }
+        },
+        "colors": {
+            "light": "tekstobot-light",
+            "dark": "tekstobot-dark"
+        }
     }
 }
