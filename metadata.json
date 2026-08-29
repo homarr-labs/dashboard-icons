@@ -47887,5 +47887,19 @@
         "colors": {
             "light": "meindienstradde-light"
         }
+    },
+    "polaris-gamestream": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "gaming"
+        ],
+        "update": {
+            "timestamp": "2026-08-29T20:14:01.594Z",
+            "author": {
+                "id": 167335399,
+                "login": "heathaolson"
+            }
+        }
     }
 }
