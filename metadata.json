@@ -47913,5 +47913,19 @@
                 "login": "magrhino"
             }
         }
+    },
+    "serverspec": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "automation"
+        ],
+        "update": {
+            "timestamp": "2026-08-29T20:14:06.628Z",
+            "author": {
+                "id": 1015200,
+                "login": "tas50"
+            }
+        }
     }
 }
