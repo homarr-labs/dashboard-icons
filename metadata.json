@@ -47872,5 +47872,20 @@
             "light": "tekstobot-light",
             "dark": "tekstobot-dark"
         }
+    },
+    "meindienstradde": {
+        "base": "png",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-08-29T20:13:59.105Z",
+            "author": {
+                "id": 185259594,
+                "login": "isanto1306"
+            }
+        },
+        "colors": {
+            "light": "meindienstradde-light"
+        }
     }
 }
