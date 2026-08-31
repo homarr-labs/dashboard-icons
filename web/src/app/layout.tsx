@@ -155,7 +155,9 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
 					<PostHogProvider>
 						<ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
 							<HeaderWrapper />
-							<main id="main-content" className="flex-grow">{children}</main>
+							<main id="main-content" tabIndex={-1} className="flex-grow">
+								{children}
+							</main>
 							<Footer />
 							<Toaster />
 							<LicenseNotice />

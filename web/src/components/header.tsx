@@ -4,7 +4,7 @@ import { Github, LayoutDashboard, LogOut, PlusCircle, Search } from "lucide-reac
 import dynamic from "next/dynamic"
 import Link from "next/link"
 import { usePostHog } from "posthog-js/react"
-import { useEffect, useMemo, useState } from "react"
+import { useEffect, useState } from "react"
 import { LoginModal } from "@/components/login-modal"
 import { ThemeSwitcher } from "@/components/theme-switcher"
 import { REPO_NAME, REPO_PATH } from "@/constants"
@@ -36,6 +36,7 @@ function formatStars(stars: number): string {
 export function Header() {
 	const [iconsData, setIconsData] = useState<IconSearchEntry[]>([])
 	const [isLoaded, setIsLoaded] = useState(false)
+	const [hasLoadError, setHasLoadError] = useState(false)
 	const [commandMenuOpen, setCommandMenuOpen] = useState(false)
 	const [loginModalOpen, setLoginModalOpen] = useState(false)
 	const [isLoggedIn, setIsLoggedIn] = useState(false)
@@ -43,7 +44,11 @@ export function Header() {
 	const [stars, setStars] = useState<number>(0)
 	const posthog = usePostHog()
 
-	const isMac = useMemo(() => typeof navigator !== "undefined" && /Mac|iPhone|iPad/.test(navigator.platform), [])
+	const [isMac, setIsMac] = useState(false)
+
+	useEffect(() => {
+		setIsMac(/Mac|iPhone|iPad/.test(navigator.platform))
+	}, [])
 
 	useEffect(() => {
 		async function loadIcons() {
@@ -53,9 +58,10 @@ export function Header() {
 				const data = await response.json()
 				if (!Array.isArray(data)) throw new Error("Invalid response shape")
 				setIconsData(data)
-				setIsLoaded(true)
 			} catch (error) {
 				console.error("Failed to load icons:", error)
+				setHasLoadError(true)
+			} finally {
 				setIsLoaded(true)
 			}
 		}
@@ -136,7 +142,7 @@ export function Header() {
 		<header className="border-b sticky top-0 z-50 backdrop-blur-2xl bg-background/50 border-border/50">
 			<div className="px-4 md:px-12 flex items-center justify-between h-16 md:h-18">
 				<div className="flex items-center gap-2 md:gap-6">
-					<Link href="/" className="text-lg font-bold md:hidden">
+					<Link href="/" aria-label="Dashboard Icons home" className="text-lg font-bold md:hidden">
 						DI
 					</Link>
 					<Link href="/" className="text-lg md:text-xl font-bold group hidden md:block">
@@ -285,7 +291,13 @@ export function Header() {
 			</div>
 
 			{/* Single instance of CommandMenu - always rendered for instant ⌘K */}
-			<CommandMenu icons={iconsData} open={commandMenuOpen} onOpenChange={setCommandMenuOpen} />
+			<CommandMenu
+				icons={iconsData}
+				isLoaded={isLoaded}
+				hasLoadError={hasLoadError}
+				open={commandMenuOpen}
+				onOpenChange={setCommandMenuOpen}
+			/>
 
 			{/* Login Modal */}
 			<LoginModal open={loginModalOpen} onOpenChange={setLoginModalOpen} />

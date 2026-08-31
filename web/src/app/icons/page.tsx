@@ -70,7 +70,8 @@ export default async function IconsPage() {
 
 function IconsSearchSkeleton() {
 	return (
-		<div className="space-y-4 w-full animate-pulse">
+		<div aria-busy="true" className="space-y-4 w-full animate-pulse motion-reduce:animate-none">
+			<output className="sr-only">Loading icons...</output>
 			<div className="h-10 bg-muted rounded-lg w-full" />
 			<div className="flex gap-2">
 				<div className="h-8 bg-muted rounded w-28" />
