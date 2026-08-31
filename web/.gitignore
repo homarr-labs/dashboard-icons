@@ -50,6 +50,7 @@ next-env.d.ts
 backend/pocketbase
 backend/pb_data
 scripts/*
+!scripts/icon-blacklist.ts
 !scripts/import-selfhst.ts
 !scripts/import-lobehub.ts
 !scripts/import-simple-icons.ts
