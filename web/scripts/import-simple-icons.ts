@@ -4,6 +4,7 @@ import { pathToFileURL } from "node:url"
 import PocketBase from "pocketbase"
 
 const SOURCE = "simpleicons"
+const BLACKLISTED_ICONS = ["american-express"]
 const DISCLAIMER_URL = "https://github.com/simple-icons/simple-icons/blob/develop/DISCLAIMER.md"
 const DEFAULT_MANIFEST = "data/sources/simpleicons/simple-icons.json"
 const IMPORT_SCHEMA_VERSION = 2
@@ -233,7 +234,7 @@ async function main() {
 		return
 	}
 
-	const excludedSlugs = readNativeSlugs()
+	const excludedSlugs = new Set([...readNativeSlugs(), ...BLACKLISTED_ICONS])
 	for (const record of current) {
 		if (record.source !== SOURCE) excludedSlugs.add(String(record.slug).toLocaleLowerCase())
 	}
