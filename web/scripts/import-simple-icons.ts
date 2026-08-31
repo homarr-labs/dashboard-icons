@@ -4,7 +4,7 @@ import { pathToFileURL } from "node:url"
 import PocketBase from "pocketbase"
 
 const SOURCE = "simpleicons"
-const BLACKLISTED_ICONS = ["american-express"]
+const BLACKLISTED_ICONS = ["american-express", "americanexpress"]
 const DISCLAIMER_URL = "https://github.com/simple-icons/simple-icons/blob/develop/DISCLAIMER.md"
 const DEFAULT_MANIFEST = "data/sources/simpleicons/simple-icons.json"
 const IMPORT_SCHEMA_VERSION = 2
