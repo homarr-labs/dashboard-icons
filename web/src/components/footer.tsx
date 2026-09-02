@@ -20,11 +20,17 @@ export function Footer() {
 					<div className="flex flex-col gap-3">
 						<h3 className="font-bold text-lg text-foreground/90">Links</h3>
 						<div className="flex flex-col gap-2">
-							<Link href="/" className="text-sm text-muted-foreground hover: transition-colors duration-200 flex items-center w-fit">
+							<Link href="/" className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200 flex items-center w-fit">
 								<span>Home</span>
 							</Link>
-							<Link href="/icons" className="text-sm text-muted-foreground hover: transition-colors duration-200 flex items-center w-fit">
+							<Link href="/icons" className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200 flex items-center w-fit">
 								<span>Icons</span>
+							</Link>
+							<Link href="/community" className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200 flex items-center w-fit">
+								<span>Community</span>
+							</Link>
+							<Link href="/submit" className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200 flex items-center w-fit">
+								<span>Submit icons</span>
 							</Link>
 						</div>
 						<p className="text-sm text-muted-foreground mt-2">

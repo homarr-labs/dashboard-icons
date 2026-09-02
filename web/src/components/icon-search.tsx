@@ -22,10 +22,34 @@ import { Input } from "@/components/ui/input"
 import { Separator } from "@/components/ui/separator"
 import { UnoptimizedImage } from "@/components/unoptimized-image"
 import { DASHBOARD_ICONS_ICON, EXTERNAL_SOURCE_IDS, EXTERNAL_SOURCES, type ExternalSourceId } from "@/constants"
-import { filterAndSortIcons, normalizeForSearch, type SortOption } from "@/lib/utils"
+import { cn, filterAndSortIcons, normalizeForSearch, type SortOption } from "@/lib/utils"
 import type { IconRecord, IconSearchProps } from "@/types/icons"
 
 type SourceFilter = "all" | "native" | ExternalSourceId
+
+function parseSortOption(value: string | null): SortOption {
+	switch (value) {
+		case "alphabetical-asc":
+		case "alphabetical-desc":
+		case "newest":
+		case "relevance":
+			return value
+		default:
+			return "relevance"
+	}
+}
+
+function parseSourceFilter(value: string | null): SourceFilter {
+	if (value === "native") return value
+	if (value && EXTERNAL_SOURCE_IDS.some((sourceId) => sourceId === value)) return value as ExternalSourceId
+	return "all"
+}
+
+function getResultsStatus(count: number): string {
+	if (count === 0) return "No icons found."
+	if (count === 1) return "Found 1 icon."
+	return `Found ${count} icons.`
+}
 
 function getIconsForSource(icons: IconRecord[], source: SourceFilter) {
 	if (source === "all") return icons
@@ -34,39 +58,42 @@ function getIconsForSource(icons: IconRecord[], source: SourceFilter) {
 
 export function IconSearch({ icons }: IconSearchProps) {
 	const searchParams = useSearchParams()
-	const initialQuery = searchParams.get("q")
-	const initialSort = (searchParams.get("sort") as SortOption) || "relevance"
-	const initialSource = ((searchParams.get("source") as SourceFilter | null) || "all") as SourceFilter
+	const urlQuery = searchParams.get("q") ?? ""
+	const urlSort = parseSortOption(searchParams.get("sort"))
+	const urlSource = parseSourceFilter(searchParams.get("source"))
 	const router = useRouter()
 	const pathname = usePathname()
-	const [searchQuery, setSearchQuery] = useState(initialQuery ?? "")
-	const [debouncedQuery, setDebouncedQuery] = useState(initialQuery ?? "")
-	const [sortOption, setSortOption] = useState<SortOption>(initialSort)
-	const [sourceFilter, setSourceFilter] = useState<SourceFilter>(
-		["all", "native", ...EXTERNAL_SOURCE_IDS].includes(initialSource) ? initialSource : "all",
-	)
-	const timeoutRef = useRef<NodeJS.Timeout | null>(null)
-	const noIconsFoundTimeoutRef = useRef<NodeJS.Timeout | null>(null)
+	const [searchQuery, setSearchQuery] = useState(urlQuery)
+	const [debouncedQuery, setDebouncedQuery] = useState(urlQuery)
+	const [sortOption, setSortOption] = useState<SortOption>(urlSort)
+	const [sourceFilter, setSourceFilter] = useState<SourceFilter>(urlSource)
+	const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+	const noIconsFoundTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+	const cancelPendingSearch = useCallback(() => {
+		if (timeoutRef.current === null) return
+		clearTimeout(timeoutRef.current)
+		timeoutRef.current = null
+	}, [])
 
 	useEffect(() => {
-		const timer = setTimeout(() => {
-			setDebouncedQuery(searchQuery)
-		}, 200)
-
-		return () => clearTimeout(timer)
-	}, [searchQuery])
+		if (timeoutRef.current !== null) return
+		setSearchQuery(urlQuery)
+		setDebouncedQuery(urlQuery)
+		setSortOption(urlSort)
+		setSourceFilter(urlSource)
+	}, [urlQuery, urlSort, urlSource])
 
 	// Find matched aliases for display purposes
 	const matchedAliases = useMemo(() => {
-		if (!searchQuery.trim()) return {}
+		if (!debouncedQuery.trim()) return {}
 
-		const q = searchQuery.toLowerCase()
-		const qNormalized = normalizeForSearch(searchQuery)
+		const q = debouncedQuery.toLowerCase()
+		const qNormalized = normalizeForSearch(debouncedQuery)
 		const matches: Record<string, string> = {}
 
 		for (const { name, data } of icons) {
 			const nameNormalized = normalizeForSearch(name)
-			// If name doesn't match (including normalized), but an alias does, store the first matching alias
 			if (!name.toLowerCase().includes(q) && !nameNormalized.includes(qNormalized)) {
 				const matchingAlias = data.aliases.find((alias) => {
 					const aliasLower = alias.toLowerCase()
@@ -80,7 +107,7 @@ export function IconSearch({ icons }: IconSearchProps) {
 		}
 
 		return matches
-	}, [icons, searchQuery])
+	}, [icons, debouncedQuery])
 
 	const filteredIcons = useMemo(() => {
 		return filterAndSortIcons({
@@ -96,62 +123,71 @@ export function IconSearch({ icons }: IconSearchProps) {
 			if (query) params.set("q", query)
 			if (source !== "all") params.set("source", source)
 
-			if (sort !== "relevance" || initialSort !== "relevance") {
-				params.set("sort", sort)
-			}
+			if (sort !== "relevance") params.set("sort", sort)
 
 			const newUrl = params.toString() ? `${pathname}?${params.toString()}` : pathname
-			router.push(newUrl, { scroll: false })
+			router.replace(newUrl, { scroll: false })
 		},
-		[pathname, router, initialSort],
+		[pathname, router],
 	)
 
 	const handleSearch = useCallback(
 		(query: string) => {
 			setSearchQuery(query)
-			if (timeoutRef.current) {
-				clearTimeout(timeoutRef.current)
-			}
+			cancelPendingSearch()
 			timeoutRef.current = setTimeout(() => {
+				timeoutRef.current = null
+				setDebouncedQuery(query)
 				updateResults(query, sortOption, sourceFilter)
 			}, 200)
 		},
-		[updateResults, sortOption, sourceFilter],
+		[cancelPendingSearch, updateResults, sortOption, sourceFilter],
 	)
 
 	const handleSortChange = useCallback(
 		(sort: SortOption) => {
+			cancelPendingSearch()
+			setDebouncedQuery(searchQuery)
 			setSortOption(sort)
 			updateResults(searchQuery, sort, sourceFilter)
 		},
-		[updateResults, searchQuery, sourceFilter],
+		[cancelPendingSearch, updateResults, searchQuery, sourceFilter],
 	)
 
 	const handleSourceChange = useCallback(
 		(source: SourceFilter) => {
+			cancelPendingSearch()
+			setDebouncedQuery(searchQuery)
 			setSourceFilter(source)
 			updateResults(searchQuery, sortOption, source)
 		},
-		[searchQuery, sortOption, updateResults],
+		[cancelPendingSearch, searchQuery, sortOption, updateResults],
 	)
 
-	const clearFilters = useCallback(() => {
+	const clearSearch = useCallback(() => {
+		cancelPendingSearch()
 		setSearchQuery("")
+		setDebouncedQuery("")
+		updateResults("", sortOption, sourceFilter)
+	}, [cancelPendingSearch, updateResults, sortOption, sourceFilter])
+
+	const clearFilters = useCallback(() => {
+		cancelPendingSearch()
+		setSearchQuery("")
+		setDebouncedQuery("")
 		setSortOption("relevance")
 		setSourceFilter("all")
 		updateResults("", "relevance", "all")
-	}, [updateResults])
+	}, [cancelPendingSearch, updateResults])
 
 	useEffect(() => {
 		return () => {
-			if (timeoutRef.current) {
-				clearTimeout(timeoutRef.current)
-			}
+			cancelPendingSearch()
 			if (noIconsFoundTimeoutRef.current) {
 				clearTimeout(noIconsFoundTimeoutRef.current)
 			}
 		}
-	}, [])
+	}, [cancelPendingSearch])
 
 	useEffect(() => {
 		if (noIconsFoundTimeoutRef.current) {
@@ -228,10 +264,25 @@ export function IconSearch({ icons }: IconSearchProps) {
 						type="search"
 						placeholder="Search icons by name or alias..."
 						aria-label="Search icons"
-						className="w-full h-10 pl-9 cursor-text transition-all duration-300 text-sm md:text-base   border-border shadow-sm"
+						className={cn(
+							"w-full h-10 pl-9 cursor-text transition-all duration-300 text-sm md:text-base border-border shadow-sm",
+							searchQuery && "pr-9",
+						)}
 						value={searchQuery}
 						onChange={(e) => handleSearch(e.target.value)}
 					/>
+					{searchQuery && (
+						<Button
+							type="button"
+							variant="ghost"
+							size="icon"
+							className="absolute right-1 top-1/2 -translate-y-1/2 h-7 w-7"
+							aria-label="Clear search"
+							onClick={clearSearch}
+						>
+							<X className="h-4 w-4" />
+						</Button>
+					)}
 				</div>
 
 				{/* Filter and sort controls */}
@@ -317,32 +368,38 @@ export function IconSearch({ icons }: IconSearchProps) {
 				<Separator className="my-2" />
 			</div>
 
+			<div className="flex justify-between items-center">
+				<output aria-live="polite" aria-atomic="true" className="text-sm text-muted-foreground">
+					{getResultsStatus(filteredIcons.length)}
+				</output>
+				{filteredIcons.length > 0 && (
+					<div className="flex items-center gap-1 text-xs text-muted-foreground">
+						{getSortIcon(sortOption)}
+						<span>{getSortLabel(sortOption)}</span>
+					</div>
+				)}
+			</div>
+
 			{filteredIcons.length === 0 ? (
 				<div className="flex flex-col gap-8 py-12 px-2 w-full max-w-full sm:max-w-2xl mx-auto items-center overflow-x-hidden">
 					<div className="text-center w-full">
-						<h2 className="text-3xl sm:text-5xl font-semibold">404: Not Found</h2>
+						<h2 className="text-3xl sm:text-5xl font-semibold">No icons found</h2>
+						<p className="text-muted-foreground mt-2">Try different keywords or reset your filters.</p>
+						<Button variant="outline" size="sm" onClick={clearFilters} className="mt-4 cursor-pointer">
+							<X className="h-4 w-4 mr-2" />
+							Reset all filters
+						</Button>
 					</div>
-					<div className="flex flex-col gap-4 items-center w-full">
-						<div id="icon-submission-content" className="w-full">
-							<IconSubmissionContent />
+					{debouncedQuery.trim().length >= 2 && (
+						<div className="flex flex-col gap-4 items-center w-full">
+							<div id="icon-submission-content" className="w-full">
+								<IconSubmissionContent />
+							</div>
 						</div>
-					</div>
+					)}
 				</div>
 			) : (
-				<>
-					<div className="flex justify-between items-center">
-						<p className="text-sm text-muted-foreground">
-							Found {filteredIcons.length} icon
-							{filteredIcons.length !== 1 ? "s" : ""}.
-						</p>
-						<div className="flex items-center gap-1 text-xs text-muted-foreground">
-							{getSortIcon(sortOption)}
-							<span>{getSortLabel(sortOption)}</span>
-						</div>
-					</div>
-
-					<VirtualizedIconsGrid filteredIcons={filteredIcons} matchedAliases={matchedAliases} />
-				</>
+				<VirtualizedIconsGrid filteredIcons={filteredIcons} matchedAliases={matchedAliases} />
 			)}
 		</>
 	)

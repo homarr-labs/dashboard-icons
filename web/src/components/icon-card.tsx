@@ -40,7 +40,7 @@ export function IconCard({ icon, matchedAlias }: { icon: IconWithName; matchedAl
 	return (
 		<MagicCard className="rounded-md shadow-md">
 			{sourceConfig && (
-				<div className="pointer-events-none absolute left-0 -top-8 z-10 inline-flex h-7 max-w-[calc(100vw-1rem)] items-center gap-1.5 overflow-hidden whitespace-nowrap rounded-md border border-border/70 bg-background/95 px-2 opacity-0 shadow-sm transition-opacity duration-200 group-hover:opacity-100">
+				<div className="pointer-events-none absolute left-0 -top-8 z-10 inline-flex h-7 max-w-[calc(100vw-1rem)] items-center gap-1.5 overflow-hidden whitespace-nowrap rounded-md border border-border/70 bg-background/95 px-2 opacity-0 shadow-sm transition-opacity duration-200 group-hover:opacity-100 group-focus-within:opacity-100">
 					<UnoptimizedImage src={sourceConfig.icon} alt="" width={18} height={18} className="shrink-0" />
 					<span className="truncate text-xs leading-none text-foreground/80">from {sourceConfig.label}</span>
 				</div>
