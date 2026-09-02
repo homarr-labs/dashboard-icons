@@ -48106,5 +48106,20 @@
                 "login": "tas50"
             }
         }
+    },
+    "paessler-prtg": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-09-02T12:22:47.162Z",
+            "author": {
+                "id": 1015200,
+                "login": "tas50"
+            }
+        },
+        "colors": {
+            "light": "paessler-prtg-light"
+        }
     }
 }
