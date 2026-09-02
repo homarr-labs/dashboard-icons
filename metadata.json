@@ -48080,5 +48080,19 @@
                 "login": "tas50"
             }
         }
+    },
+    "nsclient": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "monitoring"
+        ],
+        "update": {
+            "timestamp": "2026-09-02T12:22:41.874Z",
+            "author": {
+                "id": 1015200,
+                "login": "tas50"
+            }
+        }
     }
 }
