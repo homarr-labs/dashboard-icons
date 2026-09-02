@@ -47994,5 +47994,17 @@
                 "login": "tas50"
             }
         }
+    },
+    "aomei": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-09-02T12:22:25.069Z",
+            "author": {
+                "id": 1015200,
+                "login": "tas50"
+            }
+        }
     }
 }
