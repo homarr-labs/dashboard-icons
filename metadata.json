@@ -48094,5 +48094,17 @@
                 "login": "tas50"
             }
         }
+    },
+    "konica-minolta-symbol": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-09-02T12:22:44.249Z",
+            "author": {
+                "id": 1015200,
+                "login": "tas50"
+            }
+        }
     }
 }
