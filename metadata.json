@@ -48249,5 +48249,19 @@
                 "login": "tas50"
             }
         }
+    },
+    "scriptrunner": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "utility"
+        ],
+        "update": {
+            "timestamp": "2026-09-02T12:23:13.390Z",
+            "author": {
+                "id": 1015200,
+                "login": "tas50"
+            }
+        }
     }
 }
