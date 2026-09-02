@@ -47968,5 +47968,19 @@
                 "login": "tas50"
             }
         }
+    },
+    "diffusionbee": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "utility"
+        ],
+        "update": {
+            "timestamp": "2026-09-02T12:22:20.331Z",
+            "author": {
+                "id": 1015200,
+                "login": "tas50"
+            }
+        }
     }
 }
