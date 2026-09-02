@@ -48030,5 +48030,19 @@
                 "login": "tas50"
             }
         }
+    },
+    "bigfix": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "tools"
+        ],
+        "update": {
+            "timestamp": "2026-09-02T12:22:32.178Z",
+            "author": {
+                "id": 1015200,
+                "login": "tas50"
+            }
+        }
     }
 }
