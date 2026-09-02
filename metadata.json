@@ -48018,5 +48018,17 @@
                 "login": "tas50"
             }
         }
+    },
+    "goodnotes": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-09-02T12:22:29.816Z",
+            "author": {
+                "id": 1015200,
+                "login": "tas50"
+            }
+        }
     }
 }
