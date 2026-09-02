@@ -48275,5 +48275,17 @@
                 "login": "tas50"
             }
         }
+    },
+    "quest": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-09-02T12:23:18.155Z",
+            "author": {
+                "id": 1015200,
+                "login": "tas50"
+            }
+        }
     }
 }
