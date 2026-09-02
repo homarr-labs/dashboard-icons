@@ -48235,5 +48235,19 @@
                 "login": "tas50"
             }
         }
+    },
+    "expressvpn": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "network"
+        ],
+        "update": {
+            "timestamp": "2026-09-02T12:23:11.059Z",
+            "author": {
+                "id": 1015200,
+                "login": "tas50"
+            }
+        }
     }
 }
