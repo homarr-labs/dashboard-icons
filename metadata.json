@@ -47956,5 +47956,17 @@
                 "login": "tas50"
             }
         }
+    },
+    "garmin": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-09-02T12:22:17.975Z",
+            "author": {
+                "id": 1015200,
+                "login": "tas50"
+            }
+        }
     }
 }
