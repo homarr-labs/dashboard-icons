@@ -48133,5 +48133,19 @@
                 "login": "tas50"
             }
         }
+    },
+    "gotomaxx": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "tools"
+        ],
+        "update": {
+            "timestamp": "2026-09-02T12:22:51.968Z",
+            "author": {
+                "id": 1015200,
+                "login": "tas50"
+            }
+        }
     }
 }
