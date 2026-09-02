@@ -48209,5 +48209,19 @@
                 "login": "tas50"
             }
         }
+    },
+    "parallels": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "utility"
+        ],
+        "update": {
+            "timestamp": "2026-09-02T12:23:06.287Z",
+            "author": {
+                "id": 1015200,
+                "login": "tas50"
+            }
+        }
     }
 }
