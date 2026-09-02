@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" role="img" aria-label="TreeSize">
+  <title>TreeSize</title>
+  <circle cx="40" cy="40" r="40" fill="#00BF56"/>
+  <path fill="#fff" d="M36.625 16.75H43.375V38.955L61.784 51.373L58.01 56.969L40 44.821L21.99 56.969L18.216 51.373L36.625 38.955Z"/>
+</svg>
