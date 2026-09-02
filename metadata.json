@@ -47942,5 +47942,19 @@
                 "login": "robsalasco"
             }
         }
+    },
+    "docuware": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "cloud"
+        ],
+        "update": {
+            "timestamp": "2026-09-02T12:22:14.094Z",
+            "author": {
+                "id": 1015200,
+                "login": "tas50"
+            }
+        }
     }
 }
