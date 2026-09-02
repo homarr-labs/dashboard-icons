@@ -48121,5 +48121,17 @@
         "colors": {
             "light": "paessler-prtg-light"
         }
+    },
+    "password-depot": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-09-02T12:22:49.487Z",
+            "author": {
+                "id": 1015200,
+                "login": "tas50"
+            }
+        }
     }
 }
