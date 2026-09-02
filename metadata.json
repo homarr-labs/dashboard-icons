@@ -48223,5 +48223,17 @@
                 "login": "tas50"
             }
         }
+    },
+    "docusnap": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-09-02T12:23:08.691Z",
+            "author": {
+                "id": 1015200,
+                "login": "tas50"
+            }
+        }
     }
 }
