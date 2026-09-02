@@ -48287,5 +48287,19 @@
                 "login": "tas50"
             }
         }
+    },
+    "bindplane": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "monitoring"
+        ],
+        "update": {
+            "timestamp": "2026-09-02T12:23:20.482Z",
+            "author": {
+                "id": 1015200,
+                "login": "tas50"
+            }
+        }
     }
 }
