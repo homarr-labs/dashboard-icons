@@ -48068,5 +48068,17 @@
                 "login": "tas50"
             }
         }
+    },
+    "acronis": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-09-02T12:22:39.542Z",
+            "author": {
+                "id": 1015200,
+                "login": "tas50"
+            }
+        }
     }
 }

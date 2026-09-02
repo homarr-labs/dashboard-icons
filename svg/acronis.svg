@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 171 171" role="img" aria-label="Acronis">
+  <title>Acronis</title>
+  <defs>
+    <linearGradient id="acronis-blue" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#478DD5"/>
+      <stop offset="1" stop-color="#2F5883"/>
+    </linearGradient>
+    <linearGradient id="acronis-navy" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1653BF"/>
+      <stop offset="1" stop-color="#091F46"/>
+    </linearGradient>
+    <linearGradient id="acronis-a" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FFF"/>
+      <stop offset="1" stop-color="#EAEAEA"/>
+    </linearGradient>
+    <clipPath id="acronis-front">
+      <rect x="6" y="33.5" width="131" height="131"/>
+    </clipPath>
+  </defs>
+  <rect x="28" y="0.5" width="143" height="143" fill="#FFF"/>
+  <rect x="34" y="6.5" width="131" height="131" fill="url(#acronis-blue)"/>
+  <rect x="0" y="27.5" width="143" height="143" fill="#FFF"/>
+  <rect x="6" y="33.5" width="131" height="131" fill="url(#acronis-blue)"/>
+  <g clip-path="url(#acronis-front)">
+    <rect x="28" y="0.5" width="143" height="143" fill="#FFF"/>
+    <rect x="34" y="6.5" width="131" height="131" fill="url(#acronis-navy)"/>
+  </g>
+  <path fill="url(#acronis-a)" fill-rule="evenodd" d="M81.48 52.5H89.51L118.99 118.5H52ZM85.5 64.42 94.36 84.5H76.64ZM72.94 92.5H98.07L100.66 98.5H70.32ZM67.11 105.5H103.89L109.64 118.5H61.36Z"/>
+</svg>
