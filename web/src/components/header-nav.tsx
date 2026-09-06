@@ -20,7 +20,7 @@ export function HeaderNav({ isLoggedIn }: HeaderNavProps) {
 				href="/"
 				aria-current={pathname === "/" ? "page" : undefined}
 				className={cn(
-					"text-sm font-medium transition-colors hover:text-primary dark:hover:text-rose-400 cursor-pointer",
+					"hidden text-sm font-medium transition-colors hover:text-primary dark:hover:text-rose-400 cursor-pointer md:inline-flex",
 					pathname === "/" && "text-primary font-semibold",
 				)}
 			>
