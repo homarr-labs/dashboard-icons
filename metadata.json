@@ -49300,5 +49300,19 @@
                 "name": "osyner"
             }
         }
+    },
+    "micro": {
+        "base": "svg",
+        "aliases": [
+            "micro-on"
+        ],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-09-10T23:28:51.999Z",
+            "author": {
+                "id": "vc2vanumbab202n",
+                "name": "osyner"
+            }
+        }
     }
 }
