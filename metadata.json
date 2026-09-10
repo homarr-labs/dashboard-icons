@@ -49014,5 +49014,17 @@
                 "login": "tas50"
             }
         }
+    },
+    "elster": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-09-10T23:27:50.670Z",
+            "author": {
+                "id": 1015200,
+                "login": "tas50"
+            }
+        }
     }
 }
