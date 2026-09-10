@@ -49256,5 +49256,25 @@
                 "login": "tas50"
             }
         }
+    },
+    "airdc": {
+        "base": "svg",
+        "aliases": [
+            "airdc",
+            "airdc++",
+            "air-dc",
+            "airdc-web-client"
+        ],
+        "categories": [
+            "tools",
+            "utility"
+        ],
+        "update": {
+            "timestamp": "2026-09-10T23:28:44.104Z",
+            "author": {
+                "id": 11773810,
+                "login": "HaruIjima-kun"
+            }
+        }
     }
 }
