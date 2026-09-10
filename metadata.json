@@ -49326,5 +49326,17 @@
                 "login": "tas50"
             }
         }
+    },
+    "kaseya": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-09-10T23:28:57.198Z",
+            "author": {
+                "id": 1015200,
+                "login": "tas50"
+            }
+        }
     }
 }
