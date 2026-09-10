@@ -49244,5 +49244,17 @@
                 "login": "tas50"
             }
         }
+    },
+    "solidworks": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-09-10T23:28:41.722Z",
+            "author": {
+                "id": 1015200,
+                "login": "tas50"
+            }
+        }
     }
 }
