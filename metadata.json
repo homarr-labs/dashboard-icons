@@ -49230,5 +49230,19 @@
                 "login": "tas50"
             }
         }
+    },
+    "silverfort": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "security"
+        ],
+        "update": {
+            "timestamp": "2026-09-10T23:28:39.111Z",
+            "author": {
+                "id": 1015200,
+                "login": "tas50"
+            }
+        }
     }
 }
