@@ -49338,5 +49338,17 @@
                 "login": "tas50"
             }
         }
+    },
+    "dymo": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-09-10T23:28:59.788Z",
+            "author": {
+                "id": 1015200,
+                "login": "tas50"
+            }
+        }
     }
 }
