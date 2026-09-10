@@ -49314,5 +49314,17 @@
                 "name": "osyner"
             }
         }
+    },
+    "mcaffee": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-09-10T23:28:54.573Z",
+            "author": {
+                "id": 1015200,
+                "login": "tas50"
+            }
+        }
     }
 }
