@@ -49276,5 +49276,17 @@
                 "login": "HaruIjima-kun"
             }
         }
+    },
+    "micro-off": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-09-10T23:28:46.728Z",
+            "author": {
+                "id": "vc2vanumbab202n",
+                "name": "osyner"
+            }
+        }
     }
 }
