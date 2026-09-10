@@ -49086,5 +49086,17 @@
                 "login": "tas50"
             }
         }
+    },
+    "eway-crm": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-09-10T23:28:07.078Z",
+            "author": {
+                "id": 1015200,
+                "login": "tas50"
+            }
+        }
     }
 }
