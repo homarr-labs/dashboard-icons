@@ -9816,19 +9816,13 @@
     },
     "asus-rog": {
         "base": "svg",
-        "aliases": [
-            "gaming-laptop",
-            "gaming-pc"
-        ],
-        "categories": [
-            "Gaming-Platforms",
-            "Hardware"
-        ],
+        "aliases": [],
+        "categories": [],
         "update": {
-            "timestamp": "2023-04-13T13:56:18Z",
+            "timestamp": "2026-09-10T23:29:07.686Z",
             "author": {
-                "id": 71191962,
-                "name": "walkxcode"
+                "id": "y4tktyymbifjsih",
+                "name": "oturk975"
             }
         }
     },
