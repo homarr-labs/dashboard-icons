@@ -49288,5 +49288,17 @@
                 "name": "osyner"
             }
         }
+    },
+    "folder": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-09-10T23:28:49.316Z",
+            "author": {
+                "id": "vc2vanumbab202n",
+                "name": "osyner"
+            }
+        }
     }
 }
