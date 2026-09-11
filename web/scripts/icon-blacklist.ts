@@ -1,4 +1,4 @@
-export const BLACKLISTED_ICONS = ["american-express", "americanexpress"]
+export const BLACKLISTED_ICONS = ["american-express", "americanexpress", "usaa"]
 
 const normalizedBlacklist = new Set(BLACKLISTED_ICONS.map((slug) => slug.toLocaleLowerCase()))
 
