@@ -49897,5 +49897,19 @@
                 "login": "magrhino"
             }
         }
+    },
+    "windshift": {
+        "base": "svg",
+        "aliases": [
+            "management"
+        ],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-09-17T19:01:48.115Z",
+            "author": {
+                "id": 53919650,
+                "login": "martineznacho4"
+            }
+        }
     }
 }
