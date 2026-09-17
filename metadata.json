@@ -49923,5 +49923,19 @@
                 "login": "ahze"
             }
         }
+    },
+    "ctroadmap": {
+        "base": "png",
+        "aliases": [],
+        "categories": [
+            "tools"
+        ],
+        "update": {
+            "timestamp": "2026-09-17T19:01:52.968Z",
+            "author": {
+                "id": "4vvfm3hjqf3xjxt",
+                "name": "2ssitlab"
+            }
+        }
     }
 }
