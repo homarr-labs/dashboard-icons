@@ -50140,5 +50140,20 @@
                 "login": "brunofilipesequeirapinto"
             }
         }
+    },
+    "netsuite": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "finance",
+            "utility"
+        ],
+        "update": {
+            "timestamp": "2026-09-17T19:02:31.520Z",
+            "author": {
+                "id": 216064878,
+                "login": "EveryManJames"
+            }
+        }
     }
 }
