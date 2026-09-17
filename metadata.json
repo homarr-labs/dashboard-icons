@@ -49833,5 +49833,21 @@
                 "login": "landure"
             }
         }
+    },
+    "horae": {
+        "base": "png",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-09-17T19:01:38.204Z",
+            "author": {
+                "id": 77711883,
+                "login": "zhaohang1205"
+            }
+        },
+        "colors": {
+            "light": "horae-light",
+            "dark": "horae-dark"
+        }
     }
 }
