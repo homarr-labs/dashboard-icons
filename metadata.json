@@ -50204,5 +50204,19 @@
                 "login": "MonsterSurface"
             }
         }
+    },
+    "seatable": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "database"
+        ],
+        "update": {
+            "timestamp": "2026-09-17T19:02:40.962Z",
+            "author": {
+                "id": 5263880,
+                "login": "azntaiji"
+            }
+        }
     }
 }
