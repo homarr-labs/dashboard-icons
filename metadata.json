@@ -49542,5 +49542,21 @@
                 "login": "sanhuesoft"
             }
         }
+    },
+    "svt-play": {
+        "base": "svg",
+        "aliases": [
+            "SVT Play"
+        ],
+        "categories": [
+            "media"
+        ],
+        "update": {
+            "timestamp": "2026-09-17T19:00:42.900Z",
+            "author": {
+                "id": "0uu9szt4lt0dtwl",
+                "name": "SoaringBirdie"
+            }
+        }
     }
 }
