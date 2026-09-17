@@ -49866,5 +49866,24 @@
                 "name": "mp5gosu"
             }
         }
+    },
+    "oauth2": {
+        "base": "svg",
+        "aliases": [
+            "oauth",
+            "authentication"
+        ],
+        "categories": [
+            "automation",
+            "tools",
+            "utility"
+        ],
+        "update": {
+            "timestamp": "2026-09-17T19:01:43.002Z",
+            "author": {
+                "id": 84699196,
+                "login": "alkanlab"
+            }
+        }
     }
 }
