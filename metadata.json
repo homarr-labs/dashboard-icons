@@ -49470,5 +49470,17 @@
                 "name": "rafael"
             }
         }
+    },
+    "cms": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-09-17T19:00:28.227Z",
+            "author": {
+                "id": 1903689,
+                "login": "CYBERBUGJR"
+            }
+        }
     }
 }
