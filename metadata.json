@@ -50009,5 +50009,21 @@
         "colors": {
             "light": "otp-light"
         }
+    },
+    "insideoutside": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "finance",
+            "utility",
+            "tools"
+        ],
+        "update": {
+            "timestamp": "2026-09-17T19:02:07.278Z",
+            "author": {
+                "id": 171389997,
+                "login": "TheZito"
+            }
+        }
     }
 }
