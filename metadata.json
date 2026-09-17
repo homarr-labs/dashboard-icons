@@ -49368,5 +49368,19 @@
                 "login": "tas50"
             }
         }
+    },
+    "rundfunkarr": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "media"
+        ],
+        "update": {
+            "timestamp": "2026-09-17T19:00:08.830Z",
+            "author": {
+                "id": 20187589,
+                "login": "Bruceforce"
+            }
+        }
     }
 }

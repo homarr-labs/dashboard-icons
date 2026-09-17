@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="main" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FF7043"/>
+      <stop offset="100%" style="stop-color:#E53935"/>
+    </linearGradient>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1A1A2E"/>
+      <stop offset="100%" style="stop-color:#13131F"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="70%" cy="30%" r="60%">
+      <stop offset="0%" style="stop-color:#FF7043; stop-opacity:0.06"/>
+      <stop offset="100%" style="stop-color:#FF7043; stop-opacity:0"/>
+    </radialGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="512" height="512" rx="76" fill="url(#bg)"/>
+  <rect width="512" height="512" rx="76" fill="url(#glow)"/>
+  
+  <!-- Main icon -->
+  <g fill="url(#main)">
+    
+    <!-- Broadcast waves -->
+    <path d="M 62 320 A 155 155 0 0 1 62 192" fill="none" stroke="url(#main)" stroke-width="22" stroke-linecap="round" opacity="0.4"/>
+    <path d="M 96 300 A 110 110 0 0 1 96 212" fill="none" stroke="url(#main)" stroke-width="20" stroke-linecap="round" opacity="0.6"/>
+    <path d="M 130 280 A 65 65 0 0 1 130 232" fill="none" stroke="url(#main)" stroke-width="18" stroke-linecap="round" opacity="0.85"/>
+    
+    <!-- Signal dot -->
+    <circle cx="170" cy="256" r="16"/>
+    
+    <!-- Clean R letterform -->
+    <path d="M 210 370
+             L 210 142
+             L 340 142
+             Q 430 142 430 220
+             Q 430 290 350 298
+             L 440 370
+             L 385 370
+             L 300 302
+             L 260 302
+             L 260 370
+             Z
+             M 260 188
+             L 260 260
+             L 330 260
+             Q 378 260 378 224
+             Q 378 188 330 188
+             Z"/>
+    
+  </g>
+  
+</svg>
