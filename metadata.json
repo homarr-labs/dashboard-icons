@@ -50128,5 +50128,17 @@
                 "name": "Exp1iots"
             }
         }
+    },
+    "aapanel": {
+        "base": "png",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-09-17T19:02:29.114Z",
+            "author": {
+                "id": 3306943,
+                "login": "brunofilipesequeirapinto"
+            }
+        }
     }
 }
