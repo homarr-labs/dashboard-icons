@@ -50095,5 +50095,23 @@
                 "login": "LoganMoffit"
             }
         }
+    },
+    "syllogi": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "automation",
+            "home-automation",
+            "media",
+            "utility",
+            "tools"
+        ],
+        "update": {
+            "timestamp": "2026-09-17T19:02:23.753Z",
+            "author": {
+                "id": 37609749,
+                "login": "jeraldlyh"
+            }
+        }
     }
 }
