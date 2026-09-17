@@ -49558,5 +49558,22 @@
                 "name": "SoaringBirdie"
             }
         }
+    },
+    "traefik-home": {
+        "base": "svg",
+        "aliases": [
+            "traefik home"
+        ],
+        "categories": [
+            "network",
+            "utility"
+        ],
+        "update": {
+            "timestamp": "2026-09-17T19:00:45.384Z",
+            "author": {
+                "id": "70nwnh4rjhlstb8",
+                "name": "MightyNo2"
+            }
+        }
     }
 }
