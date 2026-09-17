@@ -49598,5 +49598,20 @@
                 "login": "deogratias-saidi"
             }
         }
+    },
+    "port-light": {
+        "base": "png",
+        "aliases": [],
+        "categories": [
+            "monitoring",
+            "tools"
+        ],
+        "update": {
+            "timestamp": "2026-09-17T19:00:55.835Z",
+            "author": {
+                "id": 101796404,
+                "login": "Spajki001"
+            }
+        }
     }
 }
