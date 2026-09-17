@@ -49849,5 +49849,22 @@
             "light": "horae-light",
             "dark": "horae-dark"
         }
+    },
+    "ynput-ayon-default": {
+        "base": "svg",
+        "aliases": [
+            "pipeline"
+        ],
+        "categories": [
+            "utility",
+            "tools"
+        ],
+        "update": {
+            "timestamp": "2026-09-17T19:01:40.642Z",
+            "author": {
+                "id": "ers1yrcm3e00j1b",
+                "name": "mp5gosu"
+            }
+        }
     }
 }
