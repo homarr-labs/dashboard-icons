@@ -49643,5 +49643,17 @@
                 "name": "wwwescape"
             }
         }
+    },
+    "bindery": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-09-17T19:01:03.056Z",
+            "author": {
+                "id": 12738722,
+                "login": "magrhino"
+            }
+        }
     }
 }
