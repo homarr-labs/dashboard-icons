@@ -49733,5 +49733,20 @@
                 "login": "Livex97"
             }
         }
+    },
+    "muxarr": {
+        "base": "png",
+        "aliases": [],
+        "categories": [
+            "home-automation",
+            "media"
+        ],
+        "update": {
+            "timestamp": "2026-09-17T19:01:19.436Z",
+            "author": {
+                "id": 57990612,
+                "login": "al31c0"
+            }
+        }
     }
 }
