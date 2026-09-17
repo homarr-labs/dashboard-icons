@@ -50155,5 +50155,24 @@
                 "login": "EveryManJames"
             }
         }
+    },
+    "libredb-studio": {
+        "base": "svg",
+        "aliases": [
+            "LibreDB",
+            "libredb"
+        ],
+        "categories": [
+            "database",
+            "development",
+            "tools"
+        ],
+        "update": {
+            "timestamp": "2026-09-17T19:02:33.888Z",
+            "author": {
+                "id": 96109003,
+                "login": "yusuf-gundogdu"
+            }
+        }
     }
 }
