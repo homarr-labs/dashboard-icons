@@ -50069,5 +50069,19 @@
             "light": "techup-community-wordmark-light",
             "dark": "techup-community-wordmark-dark"
         }
+    },
+    "subscribestar": {
+        "base": "png",
+        "aliases": [],
+        "categories": [
+            "social"
+        ],
+        "update": {
+            "timestamp": "2026-09-17T19:02:18.174Z",
+            "author": {
+                "id": 99045213,
+                "login": "Dreknar"
+            }
+        }
     }
 }
