@@ -50025,5 +50025,27 @@
                 "login": "TheZito"
             }
         }
+    },
+    "tiof-argos-clubs": {
+        "base": "png",
+        "aliases": [],
+        "categories": [
+            "social"
+        ],
+        "update": {
+            "timestamp": "2026-09-17T19:02:11.737Z",
+            "author": {
+                "id": "n53zwac36y0fwk2",
+                "name": "TIOFContact"
+            }
+        },
+        "colors": {
+            "light": "tiof-argos-clubs-light",
+            "dark": "tiof-argos-clubs-dark"
+        },
+        "wordmark": {
+            "light": "tiof-argos-clubs-wordmark-light",
+            "dark": "tiof-argos-clubs-wordmark-dark"
+        }
     }
 }
