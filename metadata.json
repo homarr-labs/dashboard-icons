@@ -49792,5 +49792,32 @@
             "light": "roguemediavalidator-wordmark-light",
             "dark": "roguemediavalidator-wordmark-dark"
         }
+    },
+    "roguedashboard": {
+        "base": "png",
+        "aliases": [
+            "homepage",
+            "dashboard"
+        ],
+        "categories": [
+            "monitoring",
+            "utility",
+            "media"
+        ],
+        "update": {
+            "timestamp": "2026-09-17T19:01:32.609Z",
+            "author": {
+                "id": "tq2227o2e00okmj",
+                "name": "rogue@roguegaming.com.au"
+            }
+        },
+        "colors": {
+            "light": "roguedashboard-light",
+            "dark": "roguedashboard-dark"
+        },
+        "wordmark": {
+            "light": "roguedashboard-wordmark-light",
+            "dark": "roguedashboard-wordmark-dark"
+        }
     }
 }
