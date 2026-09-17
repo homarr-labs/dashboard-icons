@@ -49528,5 +49528,19 @@
                 "login": "Tatsu941"
             }
         }
+    },
+    "hermes": {
+        "base": "png",
+        "aliases": [],
+        "categories": [
+            "cloud"
+        ],
+        "update": {
+            "timestamp": "2026-09-17T19:00:40.464Z",
+            "author": {
+                "id": 68042106,
+                "login": "sanhuesoft"
+            }
+        }
     }
 }
