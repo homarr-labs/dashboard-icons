@@ -49382,5 +49382,21 @@
                 "login": "Bruceforce"
             }
         }
+    },
+    "infinidysk-icon": {
+        "base": "png",
+        "aliases": [
+            "InfiniDysk"
+        ],
+        "categories": [
+            "media"
+        ],
+        "update": {
+            "timestamp": "2026-09-17T19:00:12.899Z",
+            "author": {
+                "id": 38190936,
+                "login": "hoivikaj"
+            }
+        }
     }
 }
