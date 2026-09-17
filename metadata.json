@@ -49819,5 +49819,19 @@
             "light": "roguedashboard-wordmark-light",
             "dark": "roguedashboard-wordmark-dark"
         }
+    },
+    "mongo-express": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "database"
+        ],
+        "update": {
+            "timestamp": "2026-09-17T19:01:35.050Z",
+            "author": {
+                "id": 1490071,
+                "login": "landure"
+            }
+        }
     }
 }
