@@ -50190,5 +50190,19 @@
                 "login": "ZerathBlackfin"
             }
         }
+    },
+    "met-office-uk": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "monitoring"
+        ],
+        "update": {
+            "timestamp": "2026-09-17T19:02:38.735Z",
+            "author": {
+                "id": 96628983,
+                "login": "MonsterSurface"
+            }
+        }
     }
 }
