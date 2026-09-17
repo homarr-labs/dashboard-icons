@@ -49989,5 +49989,25 @@
             "light": "visernic-wordmark-light",
             "dark": "visernic-wordmark-dark"
         }
+    },
+    "otp": {
+        "base": "svg",
+        "aliases": [
+            "OTP",
+            "OTP Bank"
+        ],
+        "categories": [
+            "finance"
+        ],
+        "update": {
+            "timestamp": "2026-09-17T19:02:04.808Z",
+            "author": {
+                "id": 114338572,
+                "login": "BajekekButLost"
+            }
+        },
+        "colors": {
+            "light": "otp-light"
+        }
     }
 }
