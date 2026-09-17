@@ -49482,5 +49482,23 @@
                 "login": "CYBERBUGJR"
             }
         }
+    },
+    "arrow-electronics": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "utility"
+        ],
+        "update": {
+            "timestamp": "2026-09-17T19:00:31.745Z",
+            "author": {
+                "id": 6827059,
+                "login": "NoahStephens"
+            }
+        },
+        "colors": {
+            "light": "arrow-electronics-light",
+            "dark": "arrow-electronics-dark"
+        }
     }
 }
