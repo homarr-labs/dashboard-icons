@@ -49575,5 +49575,17 @@
                 "name": "MightyNo2"
             }
         }
+    },
+    "teamarr1": {
+        "base": "png",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-09-17T19:00:48.405Z",
+            "author": {
+                "id": 248116088,
+                "login": "michaelgill10"
+            }
+        }
     }
 }
