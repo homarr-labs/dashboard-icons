@@ -49613,5 +49613,21 @@
                 "login": "Spajki001"
             }
         }
+    },
+    "prismarr": {
+        "base": "png",
+        "aliases": [],
+        "categories": [
+            "media",
+            "network",
+            "entertainment"
+        ],
+        "update": {
+            "timestamp": "2026-09-17T19:00:58.349Z",
+            "author": {
+                "id": "7sofb6hxddvmtys",
+                "name": "nathanbasile@gmail.com"
+            }
+        }
     }
 }
