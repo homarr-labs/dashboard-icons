@@ -50174,5 +50174,21 @@
                 "login": "yusuf-gundogdu"
             }
         }
+    },
+    "gordi": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "tools",
+            "utility",
+            "media"
+        ],
+        "update": {
+            "timestamp": "2026-09-17T19:02:36.315Z",
+            "author": {
+                "id": 253984539,
+                "login": "ZerathBlackfin"
+            }
+        }
     }
 }
