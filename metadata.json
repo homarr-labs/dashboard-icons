@@ -49629,5 +49629,19 @@
                 "name": "nathanbasile@gmail.com"
             }
         }
+    },
+    "videogametrackarr": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "gaming"
+        ],
+        "update": {
+            "timestamp": "2026-09-17T19:01:00.575Z",
+            "author": {
+                "id": "05frqdj5vl2l9o2",
+                "name": "wwwescape"
+            }
+        }
     }
 }
