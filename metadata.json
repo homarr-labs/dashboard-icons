@@ -49715,5 +49715,23 @@
                 "name": "NurturingWeasel"
             }
         }
+    },
+    "zimaosmonitoringpanel": {
+        "base": "png",
+        "aliases": [],
+        "categories": [
+            "monitoring",
+            "network",
+            "storage",
+            "tools",
+            "utility"
+        ],
+        "update": {
+            "timestamp": "2026-09-17T19:01:16.920Z",
+            "author": {
+                "id": 91005388,
+                "login": "Livex97"
+            }
+        }
     }
 }
