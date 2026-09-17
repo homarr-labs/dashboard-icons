@@ -49587,5 +49587,20 @@
                 "login": "michaelgill10"
             }
         }
+    },
+    "dice-logo": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "home-automation",
+            "entertainment"
+        ],
+        "update": {
+            "timestamp": "2026-09-17T19:00:50.837Z",
+            "author": {
+                "id": 50410476,
+                "login": "deogratias-saidi"
+            }
+        }
     }
 }
