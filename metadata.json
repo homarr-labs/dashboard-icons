@@ -49500,5 +49500,21 @@
             "light": "arrow-electronics-light",
             "dark": "arrow-electronics-dark"
         }
+    },
+    "netmap": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "utility",
+            "tools",
+            "network"
+        ],
+        "update": {
+            "timestamp": "2026-09-17T19:00:34.614Z",
+            "author": {
+                "id": 233308,
+                "login": "MFKDGAF"
+            }
+        }
     }
 }
