@@ -49398,5 +49398,17 @@
                 "login": "hoivikaj"
             }
         }
+    },
+    "floppy": {
+        "base": "png",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-09-17T19:00:15.763Z",
+            "author": {
+                "id": 20187589,
+                "login": "Bruceforce"
+            }
+        }
     }
 }
