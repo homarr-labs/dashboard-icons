@@ -49697,5 +49697,23 @@
             "light": "greymhatter-light",
             "dark": "greymhatter-dark"
         }
+    },
+    "futo-notes": {
+        "base": "png",
+        "aliases": [
+            "FUTO Notes"
+        ],
+        "categories": [
+            "cloud",
+            "media",
+            "tools"
+        ],
+        "update": {
+            "timestamp": "2026-09-17T19:01:14.007Z",
+            "author": {
+                "id": "2vnvfakfwydo4zz",
+                "name": "NurturingWeasel"
+            }
+        }
     }
 }
