@@ -49964,5 +49964,30 @@
                 "login": "neorazorska"
             }
         }
+    },
+    "visernic": {
+        "base": "png",
+        "aliases": [
+            "visernic",
+            "visernic limited"
+        ],
+        "categories": [
+            "development"
+        ],
+        "update": {
+            "timestamp": "2026-09-17T19:02:02.052Z",
+            "author": {
+                "id": 223694657,
+                "login": "sarfenaz-naz"
+            }
+        },
+        "colors": {
+            "light": "visernic-light",
+            "dark": "visernic-dark"
+        },
+        "wordmark": {
+            "light": "visernic-wordmark-light",
+            "dark": "visernic-wordmark-dark"
+        }
     }
 }
