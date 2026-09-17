@@ -16743,21 +16743,17 @@
         }
     },
     "profilarr": {
-        "base": "svg",
-        "aliases": [
-            "plex-stats",
-            "jellyfin-stats"
-        ],
+        "base": "png",
+        "aliases": [],
         "categories": [
-            "Media",
-            "Monitoring-Tools",
-            "Media-Servers"
+            "media",
+            "home-automation"
         ],
         "update": {
-            "timestamp": "2025-04-02T16:11:24.001900",
+            "timestamp": "2026-09-17T19:00:53.217Z",
             "author": {
-                "id": 23315858,
-                "login": "stathiskef"
+                "id": 57990612,
+                "login": "al31c0"
             }
         }
     },
