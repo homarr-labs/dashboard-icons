@@ -49516,5 +49516,17 @@
                 "login": "MFKDGAF"
             }
         }
+    },
+    "umlautadaptarr": {
+        "base": "png",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-09-17T19:00:37.523Z",
+            "author": {
+                "id": 54472884,
+                "login": "Tatsu941"
+            }
+        }
     }
 }
