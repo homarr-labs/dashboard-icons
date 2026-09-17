@@ -49764,5 +49764,33 @@
                 "login": "Spajki001"
             }
         }
+    },
+    "roguemediavalidator": {
+        "base": "svg",
+        "aliases": [
+            "MediaValidator"
+        ],
+        "categories": [
+            "automation",
+            "monitoring",
+            "storage",
+            "tools",
+            "media"
+        ],
+        "update": {
+            "timestamp": "2026-09-17T19:01:27.036Z",
+            "author": {
+                "id": "tq2227o2e00okmj",
+                "name": "rogue@roguegaming.com.au"
+            }
+        },
+        "colors": {
+            "light": "roguemediavalidator-light",
+            "dark": "roguemediavalidator-dark"
+        },
+        "wordmark": {
+            "light": "roguemediavalidator-wordmark-light",
+            "dark": "roguemediavalidator-wordmark-dark"
+        }
     }
 }
