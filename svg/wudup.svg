@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1024" height="1024" viewBox="0 0 1024 1024" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">WUDup W plus upward arrow icon</title>
+  <desc id="desc">A dark rounded-square app icon with a white geometric W monogram and a blue upward update arrow.</desc>
+
+  <defs>
+    <linearGradient id="bg" x1="128" y1="96" x2="896" y2="928" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#102D59"/>
+      <stop offset="0.52" stop-color="#06192F"/>
+      <stop offset="1" stop-color="#020A15"/>
+    </linearGradient>
+
+    <radialGradient id="bgGlow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(512 420) rotate(90) scale(500)">
+      <stop offset="0" stop-color="#123F78" stop-opacity="0.55"/>
+      <stop offset="0.62" stop-color="#0B1D38" stop-opacity="0.18"/>
+      <stop offset="1" stop-color="#000000" stop-opacity="0"/>
+    </radialGradient>
+
+    <linearGradient id="arrowGrad" x1="384" y1="160" x2="670" y2="760" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#35D8FF"/>
+      <stop offset="0.48" stop-color="#189BFF"/>
+      <stop offset="1" stop-color="#075DFF"/>
+    </linearGradient>
+
+    <linearGradient id="whiteGrad" x1="200" y1="344" x2="824" y2="744" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FFFFFF"/>
+      <stop offset="0.55" stop-color="#F7FAFF"/>
+      <stop offset="1" stop-color="#DCE7F7"/>
+    </linearGradient>
+
+    <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="24" stdDeviation="24" flood-color="#000000" flood-opacity="0.28"/>
+    </filter>
+
+    <filter id="blueGlow" x="-35%" y="-35%" width="170%" height="170%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="10" result="blur"/>
+      <feFlood flood-color="#159BFF" flood-opacity="0.36" result="glow"/>
+      <feComposite in="glow" in2="blur" operator="in" result="coloredGlow"/>
+      <feMerge>
+        <feMergeNode in="coloredGlow"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <rect x="24" y="24" width="976" height="976" rx="188" fill="url(#bg)"/>
+  <rect x="24" y="24" width="976" height="976" rx="188" fill="url(#bgGlow)"/>
+  <rect x="36" y="36" width="952" height="952" rx="176" stroke="#294B75" stroke-width="8" opacity="0.75"/>
+
+  <!-- Upward update arrow -->
+  <path filter="url(#blueGlow)" fill="url(#arrowGrad)" d="
+    M512 150
+    C526 150 539 156 549 167
+    L733 354
+    C754 376 738 414 707 414
+    L626 414
+    L626 698
+    C626 723 606 743 581 743
+    L443 743
+    C418 743 398 723 398 698
+    L398 414
+    L317 414
+    C286 414 270 376 291 354
+    L475 167
+    C485 156 498 150 512 150
+    Z"/>
+
+  <!-- Geometric W monogram -->
+  <path
+    d="M178 352 L318 739 C325 759 348 768 367 756 L512 468 L657 756 C676 768 699 759 706 739 L846 352"
+    stroke="url(#whiteGrad)"
+    stroke-width="108"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    filter="url(#softShadow)"/>
+
+  <!-- Inner highlight to keep the W crisp on dark backgrounds -->
+  <path
+    d="M178 352 L318 739 C325 759 348 768 367 756 L512 468 L657 756 C676 768 699 759 706 739 L846 352"
+    stroke="#FFFFFF"
+    stroke-width="72"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    opacity="0.55"/>
+</svg>

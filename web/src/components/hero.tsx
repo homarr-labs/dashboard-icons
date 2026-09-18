@@ -529,14 +529,13 @@ function SearchInput({ searchQuery, setSearchQuery, totalIcons }: SearchInputPro
 		<form action="/icons" method="GET" className="relative group">
 			<Input
 				name="q"
-				autoFocus
 				type="search"
 				placeholder={`Search our collection of ${totalIcons} icons and logos...`}
 				className="pl-10 h-10 md:h-12 rounded-lg w-full border-border focus:border-primary/20 text-sm md:text-base"
 				value={searchQuery}
 				onChange={(e) => setSearchQuery(e.target.value)}
 			/>
-			<Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 md:h-5 w-4 md:w-5 text-muted-foreground group-focus-within: transition-all duration-300" />
+			<Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 md:h-5 w-4 md:w-5 text-muted-foreground group-focus-within:text-primary transition-all duration-300" />
 		</form>
 	)
 }

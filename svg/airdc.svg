@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="192" height="192" viewBox="0 0 192 192">
+  <title>AirDC++ logo vectorial</title>
+  <defs>
+    <linearGradient id="orange" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ff8835"/>
+      <stop offset="0.5" stop-color="#ee8640"/>
+      <stop offset="1" stop-color="#ad7650"/>
+    </linearGradient>
+    <linearGradient id="blue" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#2f91ed"/>
+      <stop offset="0.5" stop-color="#3b8bd5"/>
+      <stop offset="1" stop-color="#3d6389"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Fondo transparente -->
+  <circle cx="59" cy="72" r="57" fill="url(#orange)"/>
+  <circle cx="101" cy="135" r="57" fill="url(#orange)"/>
+  <circle cx="135" cy="62" r="57" fill="url(#blue)"/>
+</svg>

@@ -15,11 +15,12 @@ export function HeaderNav({ isLoggedIn }: HeaderNavProps) {
 	const isDashboardActive = pathname === "/dashboard" || pathname.startsWith("/dashboard/")
 
 	return (
-		<nav className="flex flex-row md:items-center items-start gap-4 md:gap-6">
+		<nav aria-label="Main navigation" className="flex flex-row md:items-center items-start gap-4 md:gap-6">
 			<Link
 				href="/"
+				aria-current={pathname === "/" ? "page" : undefined}
 				className={cn(
-					"text-sm font-medium transition-colors  dark:hover:text-rose-400 cursor-pointer",
+					"hidden text-sm font-medium transition-colors hover:text-primary dark:hover:text-rose-400 cursor-pointer md:inline-flex",
 					pathname === "/" && "text-primary font-semibold",
 				)}
 			>
@@ -28,8 +29,9 @@ export function HeaderNav({ isLoggedIn }: HeaderNavProps) {
 			<Link
 				prefetch
 				href="/icons"
+				aria-current={isIconsActive ? "page" : undefined}
 				className={cn(
-					"text-sm font-medium transition-colors  dark:hover:text-rose-400 cursor-pointer",
+					"text-sm font-medium transition-colors hover:text-primary dark:hover:text-rose-400 cursor-pointer",
 					isIconsActive && "text-primary font-semibold",
 				)}
 			>
@@ -38,8 +40,9 @@ export function HeaderNav({ isLoggedIn }: HeaderNavProps) {
 			<Link
 				prefetch
 				href="/community"
+				aria-current={isCommunityActive ? "page" : undefined}
 				className={cn(
-					"text-sm font-medium transition-colors  dark:hover:text-rose-400 cursor-pointer",
+					"text-sm font-medium transition-colors hover:text-primary dark:hover:text-rose-400 cursor-pointer",
 					isCommunityActive && "text-primary font-semibold",
 				)}
 			>
@@ -48,8 +51,9 @@ export function HeaderNav({ isLoggedIn }: HeaderNavProps) {
 			{isLoggedIn && (
 				<Link
 					href="/dashboard"
+					aria-current={isDashboardActive ? "page" : undefined}
 					className={cn(
-						"text-sm font-medium transition-colors  dark:hover:text-rose-400 cursor-pointer",
+						"text-sm font-medium transition-colors hover:text-primary dark:hover:text-rose-400 cursor-pointer",
 						isDashboardActive && "text-primary font-semibold",
 					)}
 				>

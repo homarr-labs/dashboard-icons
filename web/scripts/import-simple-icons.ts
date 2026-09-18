@@ -2,6 +2,7 @@ import fs from "node:fs"
 import path from "node:path"
 import { pathToFileURL } from "node:url"
 import PocketBase from "pocketbase"
+import { BLACKLISTED_ICONS } from "./icon-blacklist"
 
 const SOURCE = "simpleicons"
 const DISCLAIMER_URL = "https://github.com/simple-icons/simple-icons/blob/develop/DISCLAIMER.md"
@@ -233,7 +234,7 @@ async function main() {
 		return
 	}
 
-	const excludedSlugs = readNativeSlugs()
+	const excludedSlugs = new Set([...readNativeSlugs(), ...BLACKLISTED_ICONS])
 	for (const record of current) {
 		if (record.source !== SOURCE) excludedSlugs.add(String(record.slug).toLocaleLowerCase())
 	}

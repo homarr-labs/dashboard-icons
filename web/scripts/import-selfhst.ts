@@ -1,6 +1,7 @@
 import fs from "node:fs"
 import path from "node:path"
 import PocketBase from "pocketbase"
+import { isBlacklistedIcon } from "./icon-blacklist"
 
 type SelfhstIndexRow = {
 	Name?: string
@@ -152,15 +153,25 @@ async function main() {
 		fields: "id,slug",
 		requestKey: null,
 	})
-	const existingBySlug = new Map(existingRecords.map((r) => [r.slug as string, r.id as string]))
-
 	let created = 0
 	let updated = 0
 	let skipped = 0
+	let removed = 0
+	const existingBySlug = new Map<string, string>()
+
+	for (const record of existingRecords) {
+		const slug = String(record.slug)
+		if (isBlacklistedIcon(slug)) {
+			await pb.collection("external_icons").delete(record.id)
+			removed++
+			continue
+		}
+		existingBySlug.set(slug, String(record.id))
+	}
 
 	for (const row of consolidatedRows) {
 		const record = toRecord(consolidatedToIndexRow(row, createdAtBySlug.get(row[1])))
-		if (!record) {
+		if (!record || isBlacklistedIcon(record.slug)) {
 			skipped++
 			continue
 		}
@@ -175,7 +186,7 @@ async function main() {
 		}
 	}
 
-	console.log(`selfh.st import complete: ${created} created, ${updated} updated, ${skipped} skipped`)
+	console.log(`selfh.st import complete: ${created} created, ${updated} updated, ${removed} removed, ${skipped} skipped`)
 }
 
 main().catch((error) => {

@@ -1,4 +1,5 @@
 import type { Metadata } from "next"
+import { Suspense } from "react"
 import { IconSearch } from "@/components/icon-search"
 import { EXTERNAL_SOURCE_IDS, EXTERNAL_SOURCES, WEB_URL } from "@/constants"
 import { getIconsArray } from "@/lib/api"
@@ -60,7 +61,31 @@ export default async function IconsPage() {
 					</p>
 				</div>
 			</div>
-			<IconSearch icons={icons} />
+			<Suspense fallback={<IconsSearchSkeleton />}>
+				<IconSearch icons={icons} />
+			</Suspense>
+		</div>
+	)
+}
+
+function IconsSearchSkeleton() {
+	return (
+		<div aria-busy="true" className="space-y-4 w-full animate-pulse motion-reduce:animate-none">
+			<output className="sr-only">Loading icons...</output>
+			<div className="h-10 bg-muted rounded-lg w-full" />
+			<div className="flex gap-2">
+				<div className="h-8 bg-muted rounded w-28" />
+				<div className="h-8 bg-muted rounded w-28" />
+			</div>
+			<div className="h-px bg-border" />
+			<div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-4">
+				{Array.from({ length: 24 }).map((_, i) => (
+					<div key={i} className="flex flex-col items-center p-3 gap-2">
+						<div className="h-16 w-16 bg-muted rounded-lg" />
+						<div className="h-3 bg-muted rounded w-16" />
+					</div>
+				))}
+			</div>
 		</div>
 	)
 }

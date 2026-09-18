@@ -1,29 +1,30 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="5 5 90 90">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="6 6 244 244">
   <title>Pulse Logo</title>
   <style>
-    @keyframes pulse {
-      0%, 100% {
-        opacity: 1;
-        transform: scale(1);
-      }
-      50% {
-        opacity: 0.7;
-        transform: scale(1.1);
-      }
+    @keyframes pulse-ring {
+      0%, 100% { opacity: 0.92; transform: scale(1); }
+      50%      { opacity: 0.55; transform: scale(1.1); }
     }
-    .pulse-logo-circle {
-      animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    .pulse-ring {
+      animation: pulse-ring 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+      transform-box: view-box;
       transform-origin: center;
     }
+    @media (prefers-reduced-motion: reduce) {
+      .pulse-ring { animation: none; }
+    }
     /* Default (light mode) colors */
-    .pulse-logo-outer { fill: #2563eb; } /* blue-600 */
-    .pulse-logo-inner { fill: #ffffff; }
+    .pulse-bg { fill: #2563eb; }     /* blue-600 */
+    .pulse-fg { fill: #ffffff; }
+    .pulse-stroke { stroke: #ffffff; }
     /* Dark mode colors */
     @media (prefers-color-scheme: dark) {
-      .pulse-logo-outer { fill: #3b82f6; } /* blue-500 */
-      .pulse-logo-inner { fill: #dbeafe; } /* blue-100 */
+      .pulse-bg { fill: #3b82f6; }   /* blue-500 */
+      .pulse-fg { fill: #dbeafe; }   /* blue-100 */
+      .pulse-stroke { stroke: #dbeafe; }
     }
   </style>
-  <circle class="pulse-logo-outer" cx="50" cy="50" r="45"/>
-  <circle class="pulse-logo-inner pulse-logo-circle" cx="50" cy="50" r="25"/>
+  <circle class="pulse-bg" cx="128" cy="128" r="122"/>
+  <circle class="pulse-ring pulse-stroke" cx="128" cy="128" r="84" fill="none" stroke-width="14" opacity="0.92"/>
+  <circle class="pulse-fg" cx="128" cy="128" r="26"/>
 </svg>

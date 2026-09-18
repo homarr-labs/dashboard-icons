@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="PeopleFluent">
+  <title>PeopleFluent</title>
+  <linearGradient id="peoplefluent-a" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#C4288E"/>
+    <stop offset="1" stop-color="#332552"/>
+  </linearGradient>
+  <rect width="200" height="200" rx="38" fill="url(#peoplefluent-a)"/>
+  <g fill="#fff">
+    <rect x="117" y="46" width="47" height="47" rx="7"/>
+    <rect x="40" y="107" width="124" height="43" rx="7"/>
+  </g>
+</svg>

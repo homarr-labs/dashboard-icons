@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="208"
+   height="208"
+   viewBox="0 0 208 208"
+   fill="none"
+   version="1.1"
+   id="svg6"
+   sodipodi:docname="ap-logo-176-by-208.svg"
+   inkscape:version="1.4.4 (dcaf3e7d9e, 2026-05-05)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs6" />
+  <sodipodi:namedview
+     id="namedview6"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="1.4437281"
+     inkscape:cx="-180.78196"
+     inkscape:cy="176.62605"
+     inkscape:window-width="2560"
+     inkscape:window-height="1362"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg6" />
+  <mask
+     id="mask0_765_3630"
+     maskUnits="userSpaceOnUse"
+     x="0"
+     y="0"
+     width="176"
+     height="208">
+    <path
+       d="M 0,0 H 176 V 208 H 0 Z"
+       fill="#ffffff"
+       id="path1" />
+  </mask>
+  <mask
+     id="mask1_765_3630"
+     maskUnits="userSpaceOnUse"
+     x="0"
+     y="0"
+     width="176"
+     height="208">
+    <path
+       d="M 0,0 H 176 V 208 H 0 Z"
+       fill="#ffffff"
+       id="path3" />
+  </mask>
+  <g
+     id="g6"
+     transform="translate(16)">
+    <g
+       mask="url(#mask0_765_3630)"
+       id="g2">
+      <path
+         fill-rule="evenodd"
+         clip-rule="evenodd"
+         d="M 0,186.316 H 175.998 V 0 H 0 Z"
+         fill="#ffffff"
+         id="path2" />
+    </g>
+    <g
+       mask="url(#mask1_765_3630)"
+       id="g4">
+      <path
+         fill-rule="evenodd"
+         clip-rule="evenodd"
+         d="m 0,186.315 h 176 v 21.72 H 0.00169775 Z"
+         fill="#ff322e"
+         id="path4" />
+    </g>
+    <path
+       fill-rule="evenodd"
+       clip-rule="evenodd"
+       d="M 40.4907,49.0281 10.9062,139.64 h 21.42 L 52.4207,75.5925 62.4923,107.613 H 49.4638 l -5.203,18.279 h 23.9807 l 4.3242,13.748 H 94.5979 L 65.0169,49.0281 Z"
+       fill="#000000"
+       id="path5" />
+    <path
+       fill-rule="evenodd"
+       clip-rule="evenodd"
+       d="M 128.261,49.0281 H 97.5078 V 139.64 H 118.775 V 67.3073 h 8.57 c 9.943,0 15.605,4.8418 15.605,13.591 0,8.5927 -5.662,13.5923 -15.605,13.5923 h -1.377 v 18.2784 h 2.293 c 22.95,0 36.414,-11.796 36.414,-31.8707 0,-20.4657 -13.464,-31.8702 -36.414,-31.8702 z"
+       fill="#000000"
+       id="path6" />
+  </g>
+</svg>

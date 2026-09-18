@@ -125,6 +125,12 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
 				)}
 			</head>
 			<body className={`${inter.variable} antialiased bg-background flex flex-col min-h-screen`}>
+				<a
+					href="#main-content"
+					className="sr-only focus:not-sr-only focus:absolute focus:z-[100] focus:p-4 focus:bg-background focus:text-foreground focus:border focus:border-border focus:rounded-md focus:top-2 focus:left-2"
+				>
+					Skip to main content
+				</a>
 				<script
 					type="application/ld+json"
 					// biome-ignore lint/security/noDangerouslySetInnerHtml: JSON-LD structured data
@@ -138,7 +144,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
 								"@type": "SearchAction",
 								target: {
 									"@type": "EntryPoint",
-									urlTemplate: `${WEB_URL}/icons?search={search_term_string}`,
+									urlTemplate: `${WEB_URL}/icons?q={search_term_string}`,
 								},
 								"query-input": "required name=search_term_string",
 							},
@@ -149,7 +155,9 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
 					<PostHogProvider>
 						<ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
 							<HeaderWrapper />
-							<main className="flex-grow">{children}</main>
+							<main id="main-content" tabIndex={-1} className="flex-grow">
+								{children}
+							</main>
 							<Footer />
 							<Toaster />
 							<LicenseNotice />

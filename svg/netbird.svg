@@ -1,1 +1,228 @@
-<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" id="svg1203" x="0" y="0" version="1.1" viewBox="0.02 69.9 512 372.2"><style>.st0{fill:#f68330}</style><g id="layer1"><g id="g23427" transform="translate(-.385 1.9)"><path id="path30" d="M364.3 68c-61.8 5.7-92.5 41.3-104.1 59.3l-5.2 9.1c-.4.8-.6 1.3-.6 1.3l-.1-.1L79.5 440.2h218L512.4 68z" class="st0"/><path id="path32" d="M297.5 440.2.4 125s336-90.2 368.7 191.4z" class="st0"/><path id="path34" d="m253.5 138.9-91.2 157.9 135.2 143.4 71.6-124c-11.3-96.9-58.5-149.7-115.6-177.3" style="fill:#f35e32"/></g></g></svg>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="1024"
+   height="1024"
+   viewBox="0 0 270.93335 270.93336"
+   version="1.1"
+   id="svg1203"
+   inkscape:version="1.2.1 (1:1.2.1+202210291243+9c6d41e410)"
+   sodipodi:docname="netbird-dark-logo.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1205"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="0"
+     inkscape:document-units="mm"
+     showgrid="false"
+     width="650px"
+     units="px"
+     inkscape:zoom="1.4289282"
+     inkscape:cx="334.51646"
+     inkscape:cy="140.31496"
+     inkscape:window-width="1920"
+     inkscape:window-height="946"
+     inkscape:window-x="0"
+     inkscape:window-y="27"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="text71950"
+     inkscape:snap-global="false"
+     inkscape:showpageshadow="2"
+     inkscape:deskcolor="#d1d1d1" />
+  <defs
+     id="defs1200" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(186.51473,328.85367)">
+    <g
+       aria-label="wiretrustee"
+       id="text71950"
+       style="font-size:16.9333px;line-height:1.25;font-family:Poppins;-inkscape-font-specification:Poppins;fill:#4d4d4d;stroke-width:0.264583">
+      <text
+         xml:space="preserve"
+         style="font-size:10.5833px;line-height:1.25;font-family:Poppins;-inkscape-font-specification:Poppins;stroke-width:0.0700042"
+         x="35.616035"
+         y="40.06142"
+         id="text94786"><tspan
+           sodipodi:role="line"
+           id="tspan94784"
+           style="stroke-width:0.0700042"
+           x="35.616035"
+           y="40.06142" /></text>
+      <text
+         xml:space="preserve"
+         style="font-size:58.1357px;line-height:1.25;font-family:Poppins;-inkscape-font-specification:Poppins;stroke-width:0.24034"
+         x="66.983238"
+         y="44.398167"
+         id="text1870"
+         inkscape:export-filename="final/netbird-dark-logo.png"
+         inkscape:export-xdpi="329.58899"
+         inkscape:export-ydpi="329.58899"><tspan
+           sodipodi:role="line"
+           id="tspan1868"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:58.1357px;font-family:Poppins;-inkscape-font-specification:Poppins;fill:#f2f2f2;stroke-width:0.24034"
+           x="66.983238"
+           y="44.398167">netbird</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-size:16.9333px;line-height:1.25;font-family:Poppins;-inkscape-font-specification:Poppins;fill:#4d4d4d;stroke-width:0.0700042"
+         x="43.162479"
+         y="148.75572"
+         id="text1870-3"><tspan
+           sodipodi:role="line"
+           id="tspan1868-6"
+           style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:16.9333px;font-family:Poppins;-inkscape-font-specification:'Poppins Medium';fill:#4d4d4d;stroke-width:0.0700042"
+           x="43.162479"
+           y="148.75572">netbird</tspan></text>
+      <g
+         id="g23427"
+         inkscape:export-filename="/home/braginini/Documents/projects/my/wiretrustee/wiretrustee.com/landing/public/brand-assets/logo-dark.png"
+         inkscape:export-xdpi="226.5"
+         inkscape:export-ydpi="226.5"
+         transform="matrix(3.4332186,0,0,3.4332186,-8.3013559,-9.4745959)">
+        <path
+           d="m 15.348219,3.1412816 c -2.167926,0.2003778 -3.24418,1.4485057 -3.651956,2.078214 l -0.183409,0.3175001 c -0.01267,0.026458 -0.02096,0.044097 -0.02096,0.044097 l -0.0022,-0.00353 L 5.3599149,16.194095 H 13.003622 L 20.539697,3.1412816 h -5.191478"
+           style="fill:#f68330;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.0093339"
+           id="path30" />
+        <path
+           d="M 13.003622,16.194095 2.5842592,5.1401206 c 0,0 11.7850008,-3.1637113 12.9315288,6.7137144 l -2.512166,4.34026"
+           style="fill:#f68330;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.0093339"
+           id="path32" />
+        <path
+           d="m 11.460889,5.6273068 -3.1974364,5.5381882 4.7401694,5.0286 2.51079,-4.348409 C 15.117819,8.4488236 13.462092,6.5967402 11.460889,5.6273068"
+           style="fill:#f35e32;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.0093339"
+           id="path34" />
+      </g>
+      <g
+         id="g3057"
+         transform="matrix(0.03527778,0,0,-0.03527778,-78.681763,195.67197)">
+        <path
+           d="M 3040,0 H 0 V 2000 H 3040 V 0"
+           style="fill:#171a23;fill-opacity:1;fill-rule:nonzero;stroke:none"
+           id="path3059" />
+        <path
+           d="M 1215.49,991.379 V 837.75 h -20.28 v 149.77 c 0,51.68 -30.44,82.12 -82.13,82.12 -57.97,-1.44 -93.72,-37.68 -98.07,-95.66 V 837.75 h -20.287 v 251.7 h 20.287 v -64.25 c 16.91,41.54 52.66,63.77 102.9,64.74 61.35,0 97.58,-37.2 97.58,-98.561"
+           style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none"
+           id="path3061" />
+        <path
+           d="m 1501.96,975.922 c -3.86,57.008 -41.06,95.658 -98.55,95.658 -56.53,0 -97.58,-38.65 -102.42,-95.658 z m 18.36,-17.871 h -219.81 c 2.9,-61.352 45.41,-102.43 103.87,-102.43 34.3,0 64.73,12.578 85.02,34.789 l 11.59,-13.051 c -23.18,-25.109 -57.48,-40.07 -97.58,-40.07 -71.02,0 -122.71,52.16 -122.71,126.07 0,73.921 51.69,126.581 122.71,126.581 73.91,0 118.36,-54.12 116.91,-131.889"
+           style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none"
+           id="path3063" />
+        <path
+           d="m 1710.64,855.16 c -15.94,-11.121 -33.81,-17.871 -52.66,-17.871 -35.74,-0.488 -57,22.691 -57,70.031 v 158.46 h -36.71 v 17.39 h 36.71 v 62.32 h 19.33 v -62.32 h 85.51 v -17.39 h -85.51 V 909.75 c 0,-35.77 14,-53.148 40.1,-52.66 14.49,0 29.47,5.308 42.51,14.488 l 7.72,-16.418"
+           style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none"
+           id="path3065" />
+        <path
+           d="m 2002.92,963.359 c 0,62.321 -43.49,107.731 -104.35,107.731 -60.39,0 -103.87,-45.41 -103.87,-107.731 0,-62.32 43.48,-107.25 103.87,-107.25 60.86,0 104.35,44.93 104.35,107.25 z m 19.8,0 c 0,-73.418 -50.24,-126.07 -121.26,-126.07 -49.28,0 -87.92,25.582 -106.76,66.172 V 837.75 h -20.29 v 358.46 h 20.29 v -172.94 c 18.84,41.06 57.48,66.67 106.76,66.67 70.54,0 121.26,-52.66 121.26,-126.581"
+           style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none"
+           id="path3067" />
+        <path
+           d="m 2096.14,837.75 v 251.7 h 19.81 v -251.7 z m 27.06,324.17 c 0,-10.15 -7.74,-17.88 -16.92,-17.88 -9.18,0 -16.91,7.73 -16.91,17.88 0,9.66 7.73,17.38 16.91,17.38 9.18,0 16.92,-7.72 16.92,-17.38"
+           style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none"
+           id="path3069" />
+        <path
+           d="m 2237.2,1026.17 c 15.94,40.57 48.79,62.8 93.72,63.77 v -20.78 c -55.55,0 -89.37,-36.71 -93.72,-95.18 V 837.75 h -20.29 v 251.7 h 20.29 v -63.28"
+           style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none"
+           id="path3071" />
+        <path
+           d="m 2588.88,963.359 c 0,62.811 -43.95,108.221 -104.82,108.221 -60.87,0 -104.84,-45.9 -105.31,-108.221 0.47,-62.789 43.96,-108.199 105.31,-108.199 60.87,0 104.82,45.41 104.82,108.199 z m 20.29,-125.609 h -20.29 v 65.711 c -18.83,-41.551 -57.97,-67.152 -107.24,-67.152 -71.5,0 -122.7,53.14 -122.7,127.05 0,74.401 51.2,127.541 122.22,127.541 49.75,0 88.89,-25.6 107.72,-67.15 v 172.46 h 20.29 V 837.75"
+           style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none"
+           id="path3073" />
+        <path
+           d="m 791.301,1173.79 c -61.453,-5.68 -91.961,-41.06 -103.52,-58.91 l -5.199,-9 c -0.359,-0.75 -0.594,-1.25 -0.594,-1.25 l -0.062,0.1 L 508.168,803.789 H 724.84 l 213.621,370.001 h -147.16"
+           style="fill:#f68330;fill-opacity:1;fill-rule:nonzero;stroke:none"
+           id="path3075" />
+        <path
+           d="M 724.84,803.789 429.488,1117.13 c 0,0 334.063,89.68 366.563,-190.31 L 724.84,803.789"
+           style="fill:#f68330;fill-opacity:1;fill-rule:nonzero;stroke:none"
+           id="path3077" />
+        <path
+           d="M 681.109,1103.32 590.473,946.332 724.84,803.789 796.012,927.051 C 784.77,1023.34 737.836,1075.84 681.109,1103.32"
+           style="fill:#f35e32;fill-opacity:1;fill-rule:nonzero;stroke:none"
+           id="path3079" />
+      </g>
+      <text
+         xml:space="preserve"
+         style="font-size:58.1357px;line-height:1.25;font-family:Poppins;-inkscape-font-specification:Poppins;fill:#4d4d4d;stroke:none;stroke-width:0.343322;stroke-miterlimit:4;stroke-dasharray:none"
+         x="164.75204"
+         y="-100.41676"
+         id="text1870-36"
+         inkscape:export-filename="final/netbird-logo.png"
+         inkscape:export-xdpi="329.58899"
+         inkscape:export-ydpi="329.58899"><tspan
+           sodipodi:role="line"
+           id="tspan1868-7"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:58.1357px;font-family:Poppins;-inkscape-font-specification:Poppins;fill:#4d4d4d;stroke:none;stroke-width:0.343322;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+           x="164.75204"
+           y="-100.41676">netbird</tspan></text>
+      <g
+         id="g23427-5"
+         inkscape:export-filename="/home/braginini/Downloads/netbird-logo.png"
+         inkscape:export-xdpi="326.15952"
+         inkscape:export-ydpi="326.15952"
+         style="font-size:16.9333px;line-height:1.25;font-family:Poppins;-inkscape-font-specification:Poppins;fill:#4d4d4d;stroke-width:0.264583"
+         transform="matrix(3.4332186,0,0,3.4332186,89.467434,-154.28953)">
+        <path
+           d="m 15.348219,3.1412816 c -2.167926,0.2003778 -3.24418,1.4485057 -3.651956,2.078214 l -0.183409,0.3175001 c -0.01267,0.026458 -0.02096,0.044097 -0.02096,0.044097 l -0.0022,-0.00353 L 5.3599149,16.194095 H 13.003622 L 20.539697,3.1412816 h -5.191478"
+           style="fill:#f68330;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.0093339"
+           id="path30-3" />
+        <path
+           d="M 13.003622,16.194095 2.5842592,5.1401206 c 0,0 11.7850008,-3.1637113 12.9315288,6.7137144 l -2.512166,4.34026"
+           style="fill:#f68330;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.0093339"
+           id="path32-5" />
+        <path
+           d="m 11.460889,5.6273068 -3.1974364,5.5381882 4.7401694,5.0286 2.51079,-4.348409 C 15.117819,8.4488236 13.462092,6.5967402 11.460889,5.6273068"
+           style="fill:#f35e32;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.0093339"
+           id="path34-6" />
+      </g>
+      <g
+         id="g2506"
+         transform="matrix(14.002785,0,0,14.002785,-574.14022,244.78718)"
+         inkscape:export-filename="final/netbird-bird-only.png"
+         inkscape:export-xdpi="96"
+         inkscape:export-ydpi="96"
+         style="font-size:16.9333px;line-height:1.25;font-family:Poppins;-inkscape-font-specification:Poppins;fill:#4d4d4d;stroke-width:0.264583">
+        <g
+           id="g23427-36"
+           inkscape:export-filename="/home/braginini/Downloads/netbird-logo-square.png"
+           inkscape:export-xdpi="1344.2673"
+           inkscape:export-ydpi="1344.2673"
+           style="font-size:16.9333px;line-height:1.25;font-family:Poppins;-inkscape-font-specification:Poppins;fill:#4d4d4d;stroke-width:0.264583"
+           transform="translate(25.713226,-40.616512)">
+          <path
+             d="m 15.348219,3.1412816 c -2.167926,0.2003778 -3.24418,1.4485057 -3.651956,2.078214 l -0.183409,0.3175001 c -0.01267,0.026458 -0.02096,0.044097 -0.02096,0.044097 l -0.0022,-0.00353 L 5.3599149,16.194095 H 13.003622 L 20.539697,3.1412816 h -5.191478"
+             style="fill:#f68330;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.0093339"
+             id="path30-7" />
+          <path
+             d="M 13.003622,16.194095 2.5842592,5.1401206 c 0,0 11.7850008,-3.1637113 12.9315288,6.7137144 l -2.512166,4.34026"
+             style="fill:#f68330;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.0093339"
+             id="path32-5-2" />
+          <path
+             d="m 11.460889,5.6273068 -3.1974364,5.5381882 4.7401694,5.0286 2.51079,-4.348409 C 15.117819,8.4488236 13.462092,6.5967402 11.460889,5.6273068"
+             style="fill:#f35e32;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.0093339"
+             id="path34-3" />
+        </g>
+        <rect
+           style="fill:none;stroke:none;stroke-width:0.651467;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:0.411697"
+           id="rect2351"
+           width="19.348532"
+           height="19.348534"
+           x="27.682028"
+           y="-40.966198"
+           inkscape:export-filename="/home/braginini/Downloads/netbird-logo-square.png"
+           inkscape:export-xdpi="1344.2673"
+           inkscape:export-ydpi="1344.2673" />
+      </g>
+    </g>
+  </g>
+</svg>

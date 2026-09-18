@@ -4,7 +4,7 @@ import { AnimatePresence, motion } from "framer-motion"
 import { ArrowRight } from "lucide-react"
 import { useRouter } from "next/navigation"
 import posthog from "posthog-js"
-import { useCallback, useEffect, useMemo, useState } from "react"
+import { type ReactNode, useCallback, useEffect, useMemo, useState } from "react"
 import { Badge } from "@/components/ui/badge"
 import { CommandDialog, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command"
 import { UnoptimizedImage } from "@/components/unoptimized-image"
@@ -26,12 +26,14 @@ function getItemValue(icon: IconSearchEntry): string {
 
 interface CommandMenuProps {
 	icons: IconSearchEntry[]
+	isLoaded: boolean
+	hasLoadError: boolean
 	triggerButtonId?: string
 	open?: boolean
 	onOpenChange?: (open: boolean) => void
 }
 
-export function CommandMenu({ icons, open: externalOpen, onOpenChange: externalOnOpenChange }: CommandMenuProps) {
+export function CommandMenu({ icons, isLoaded, hasLoadError, open: externalOpen, onOpenChange: externalOnOpenChange }: CommandMenuProps) {
 	const router = useRouter()
 	const [internalOpen, setInternalOpen] = useState(false)
 	const [query, setQuery] = useState("")
@@ -62,6 +64,21 @@ export function CommandMenu({ icons, open: externalOpen, onOpenChange: externalO
 
 	const filteredIcons = useMemo(() => filterAndSortIcons({ icons, query, limit: 20 }), [icons, query])
 	const totalIcons = icons.length
+	const isReady = isLoaded && !hasLoadError
+
+	let inputPlaceholder = "Loading icons..."
+	if (hasLoadError) {
+		inputPlaceholder = "Icon search is unavailable"
+	} else if (isLoaded) {
+		inputPlaceholder = `Search ${totalIcons.toLocaleString()} icons...`
+	}
+
+	let browseLabel = "Browse all icons"
+	if (query.trim()) {
+		browseLabel = `Search "${query}" in all icons`
+	} else if (isReady) {
+		browseLabel = `Browse all ${totalIcons.toLocaleString()} icons`
+	}
 
 	const iconsByValue = useMemo(() => {
 		const map = new Map<string, IconSearchEntry>()
@@ -121,6 +138,56 @@ export function CommandMenu({ icons, open: externalOpen, onOpenChange: externalO
 		}
 	}
 
+	let listContent: ReactNode
+	if (!isLoaded) {
+		listContent = <output className="block py-10 text-center text-sm text-muted-foreground">Loading icons...</output>
+	} else if (hasLoadError) {
+		listContent = (
+			<div role="alert" className="py-10 text-center">
+				<p className="text-base font-medium">Unable to load icon search</p>
+				<p className="text-sm text-muted-foreground mt-2">Browse all icons to continue.</p>
+			</div>
+		)
+	} else {
+		listContent = (
+			<>
+				<CommandGroup>
+					{filteredIcons.map((icon) => {
+						const { name, source } = icon
+						const formattedIconName = formatIconName(name)
+						const isExternal = source && source !== "native"
+						const sourceConfig = isExternal ? EXTERNAL_SOURCES[source as ExternalSourceId] : undefined
+
+						return (
+							<CommandItem
+								key={`${source || "native"}-${name}`}
+								value={getItemValue(icon)}
+								onSelect={() => handleSelect(icon)}
+								className="gap-3 py-3 px-3 text-base cursor-pointer"
+								onMouseEnter={() => setSelectedIcon(icon)}
+							>
+								<span className="flex-grow capitalize font-medium truncate">{formattedIconName}</span>
+								{isExternal && sourceConfig && (
+									<Badge variant="outline" className="text-xs px-2 h-6 gap-1.5 shrink-0">
+										<UnoptimizedImage src={sourceConfig.icon} alt="" width={12} height={12} className="shrink-0" />
+										{sourceConfig.label}
+									</Badge>
+								)}
+							</CommandItem>
+						)
+					})}
+				</CommandGroup>
+
+				<CommandEmpty>
+					<div className="flex flex-col items-center py-10 text-center">
+						<p className="text-base font-medium">No icons match "{query}"</p>
+						<p className="text-sm text-muted-foreground mt-2">Try a shorter name or check for typos</p>
+					</div>
+				</CommandEmpty>
+			</>
+		)
+	}
+
 	return (
 		<CommandDialog
 			open={isOpen}
@@ -131,50 +198,19 @@ export function CommandMenu({ icons, open: externalOpen, onOpenChange: externalO
 			showCloseButton={false}
 		>
 			<CommandInput
-				placeholder={`Search ${totalIcons.toLocaleString()} icons...`}
+				placeholder={inputPlaceholder}
 				value={query}
 				onValueChange={setQuery}
+				disabled={hasLoadError}
 				className="text-base h-12"
 			/>
 
 			<div className="flex min-h-0">
-				<CommandList className="max-h-[min(480px,60vh)] flex-1">
-					<CommandGroup>
-						{filteredIcons.map((icon) => {
-							const { name, source } = icon
-							const formattedIconName = formatIconName(name)
-							const isExternal = source && source !== "native"
-							const sourceConfig = isExternal ? EXTERNAL_SOURCES[source as ExternalSourceId] : undefined
-
-							return (
-								<CommandItem
-									key={`${source || "native"}-${name}`}
-									value={getItemValue(icon)}
-									onSelect={() => handleSelect(icon)}
-									className="gap-3 py-3 px-3 text-base cursor-pointer"
-									onMouseEnter={() => setSelectedIcon(icon)}
-								>
-									<span className="flex-grow capitalize font-medium truncate">{formattedIconName}</span>
-									{isExternal && sourceConfig && (
-										<Badge variant="outline" className="text-xs px-2 h-6 gap-1.5 shrink-0">
-											<UnoptimizedImage src={sourceConfig.icon} alt="" width={12} height={12} className="shrink-0" />
-											{sourceConfig.label}
-										</Badge>
-									)}
-								</CommandItem>
-							)
-						})}
-					</CommandGroup>
-
-					<CommandEmpty>
-						<div className="flex flex-col items-center py-10 text-center">
-							<p className="text-base font-medium">No icons match "{query}"</p>
-							<p className="text-sm text-muted-foreground mt-2">Try a shorter name or check for typos</p>
-						</div>
-					</CommandEmpty>
+				<CommandList aria-busy={!isLoaded} className="max-h-[min(480px,60vh)] flex-1">
+					{listContent}
 				</CommandList>
 
-				{isDesktop && selectedIcon && (
+				{isReady && isDesktop && selectedIcon && (
 					<div className="w-56 border-l border-border flex flex-col items-center justify-center p-6">
 						<AnimatePresence mode="wait">
 							<motion.div
@@ -211,7 +247,7 @@ export function CommandMenu({ icons, open: externalOpen, onOpenChange: externalO
 					onClick={handleBrowseAll}
 				>
 					<span className="font-medium text-sm text-muted-foreground group-hover:text-foreground transition-colors duration-150">
-						{query.trim() ? `Search "${query}" in all icons` : `Browse all ${totalIcons.toLocaleString()} icons`}
+						{browseLabel}
 					</span>
 					<ArrowRight className="h-4 w-4 text-muted-foreground/50 group-hover:text-foreground transition-colors duration-150" />
 				</button>

@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <circle cx="256" cy="256" r="248" fill="#09090B"/>
+  <circle cx="256" cy="256" r="247" fill="none" stroke="#27272A" stroke-width="2"/>
+  <!-- book cover (lighter than circle => separation) -->
+  <rect x="150" y="110" width="212" height="292" rx="14" fill="#27272A"/>
+  <!-- page edge highlight on right -->
+  <rect x="350" y="120" width="14" height="272" rx="7" fill="#3F3F46"/>
+  <!-- green spine -->
+  <rect x="150" y="110" width="34" height="292" rx="14" fill="#10B981"/>
+  <rect x="168" y="110" width="16" height="292" fill="#10B981"/>
+  <!-- the B -->
+  <g transform="translate(203.3,161.60000000000002) scale(1.18)"><path d="
+M 22 12 L 74 12 C 100 12 114 27 114 47 C 114 63 105 73 91 77
+C 106 81 120 92 120 113 C 120 135 103 148 74 148 L 22 148 Z
+M 50 36 L 70 36 C 82 36 88 42 88 51 C 88 60 82 65 70 65 L 50 65 Z
+M 50 95 L 74 95 C 87 95 93 101 93 112 C 93 123 87 128 74 128 L 50 128 Z
+" fill="#34D399" fill-rule="evenodd"/><rect x="18" y="44" width="104" height="6" fill="#27272A"/><rect x="18" y="92" width="104" height="6" fill="#27272A"/></g>
+</svg>

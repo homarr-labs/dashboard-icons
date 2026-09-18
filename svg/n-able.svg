@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0.0703 0 43.6846 32">
+  <path fill="var(--a-text-primary)" d="M32.3442 0H20.9297V11.3189H32.3442V0Z"/>
+  <path fill="var(--a-text-primary)" d="M0.0703125 32H11.4848V20.6848L22.8993 32H32.3442V22.6379L9.51523 0H0.0703125V32Z"/>
+  <path fill="#C046FF" d="M32.3404 22.6379L20.9297 11.319H43.7549V22.6379H32.3404Z"/>
+</svg>
