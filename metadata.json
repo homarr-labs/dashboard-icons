@@ -50218,5 +50218,21 @@
                 "login": "azntaiji"
             }
         }
+    },
+    "kuvasz-uptime": {
+        "base": "png",
+        "aliases": [
+            "kuvasz"
+        ],
+        "categories": [
+            "Monitoring-Tools"
+        ],
+        "update": {
+            "timestamp": "2026-09-18T13:35:32.000Z",
+            "author": {
+                "id": 28044849,
+                "login": "adamkobor"
+            }
+        }
     }
 }
