@@ -1,0 +1,19 @@
+web/next.config.ts
+  s_4899c67c56b705::t_db4f224451ddec 71-73
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "051cc12284d00d6f3f88353e4a7363a049107a7e",
+  "prompts": {},
+  "sessions": {
+    "s_4899c67c56b705": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_f5ea27706ffewTy6S5kRk2D7lT",
+        "model": "gpt-5.6-sol-fast"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
