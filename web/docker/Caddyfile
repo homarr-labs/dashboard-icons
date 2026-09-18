@@ -1,6 +1,11 @@
 {
 	admin off
 	auto_https off
+	servers {
+		trusted_proxies static private_ranges
+		trusted_proxies_strict
+		client_ip_headers CF-Connecting-IP X-Forwarded-For
+	}
 }
 
 :8080 {
@@ -14,6 +19,8 @@
 		reverse_proxy {$PB_UPSTREAM:127.0.0.1:8090}
 	}
 	handle {
-		reverse_proxy 127.0.0.1:3000
+		reverse_proxy 127.0.0.1:3000 {
+			header_up X-Forwarded-For {client_ip}
+		}
 	}
 }
