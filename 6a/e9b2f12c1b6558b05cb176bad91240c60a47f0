@@ -1,0 +1,43 @@
+.github/workflows/docker.yml
+  s_60531dc56ba448::t_f3d84f8ac9a4e1 59-62,78
+web/README.md
+  s_60531dc56ba448::t_3f14d760678d07 98,213-215,227-236,250-251
+web/docker-compose.yml
+  s_60531dc56ba448::t_6bebe33113e9b8 5-9
+web/src/app/community/[icon]/page.tsx
+  s_60531dc56ba448::t_0f1f54b833baa0 7,64,204
+web/src/app/sitemap.ts
+  s_60531dc56ba448::t_5cd643a73d5aa3 8-9
+web/src/components/icon-card.tsx
+  s_60531dc56ba448::t_ef2d78492e393a 6,16
+web/src/components/icon-details.tsx
+  s_60531dc56ba448::t_5a3f137bf00c9f 20,181
+web/src/lib/__tests__/icon-url.test.ts
+  s_60531dc56ba448::t_50ff7ac049aff9 3,22-30
+web/src/lib/__tests__/pb.test.ts
+  s_60531dc56ba448::t_27d3236f7987ac 1-30
+web/src/lib/icon-url.ts
+  s_60531dc56ba448::t_d016d6dfb05530 5-8,20
+web/src/lib/icons/__tests__/service.test.ts
+  s_60531dc56ba448::t_6042dd7b1218bf 147-182
+web/src/lib/icons/service.ts
+  s_60531dc56ba448::t_5c7df463c6f836 4,92-98
+web/src/lib/pb.ts
+  s_60531dc56ba448::t_1b85a847565ad4 86
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "6ae9b2f12c1b6558b05cb176bad91240c60a47f0",
+  "prompts": {},
+  "sessions": {
+    "s_60531dc56ba448": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0b42f-d76d-71b3-b732-26e7bf820fb6",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}

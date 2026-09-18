@@ -1,0 +1,61 @@
+.github/workflows/docker.yml
+  s_60531dc56ba448::t_c5912f65b69532 30,80
+web/.dockerignore
+  s_60531dc56ba448::t_1ca88700307f77 60-62
+web/Dockerfile
+  s_60531dc56ba448::t_b2f5c3e2ad4d6d 1,4,6,8-12,18-26,28,30,32-37,41-55,58-61,63-68
+web/README.md
+  s_60531dc56ba448::t_dbd007172bcbec 22,62,186-256
+web/docker-compose.yml
+  s_60531dc56ba448::t_cd6ce21b85b2f0 2-5,7,9,11-13
+web/docker/Caddyfile
+  s_60531dc56ba448::t_3994b3f9af458f 1-15
+web/src/app/api/health/route.ts
+  s_60531dc56ba448::t_cbf96679a74672 1-3
+web/src/app/community/[icon]/page.tsx
+  s_60531dc56ba448::t_9b967008955a54 21
+web/src/app/community/page.tsx
+  s_60531dc56ba448::t_5017d8675f9fef 1-3
+web/src/app/icons/[icon]/page.tsx
+  s_60531dc56ba448::t_c4e16370fa3b56 7,9,12
+web/src/app/icons/external/[slug]/page.tsx
+  s_60531dc56ba448::t_938661d24a1a7d 14
+web/src/app/icons/page.tsx
+  s_60531dc56ba448::t_1b24db5c6dcae3 46-47
+web/src/app/page.tsx
+  s_60531dc56ba448::t_6e6b21520e55bf 1-3
+web/src/lib/api.ts
+  s_60531dc56ba448::t_efaadcf3df2cda 4,39-46,59,73,85
+web/src/lib/external-icons.ts
+  s_60531dc56ba448::t_ac4f226b267f92 100,106-119,121
+web/src/lib/icons/service.ts
+  s_60531dc56ba448::t_a4027b19be98fe 26,36,83-95,190
+web/src/lib/pb.ts
+  s_60531dc56ba448::t_d31ba313353c59 4-12,90,93,97
+web/docker/start.sh
+  s_740c23ec706271::t_5c982244fa790f 1-50
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "aa69a8d00672ce8c2da348e27cacb3b44df89aca",
+  "prompts": {},
+  "sessions": {
+    "s_60531dc56ba448": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0b42f-d76d-71b3-b732-26e7bf820fb6",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    },
+    "s_740c23ec706271": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0b433-cf4d-72b3-b20a-4f3d52afa3df",
+        "model": "unknown"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
