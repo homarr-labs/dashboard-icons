@@ -1,0 +1,20 @@
+web/docker/Caddyfile
+  s_4899c67c56b705::t_5d227b50ae6f4c 22-24
+  s_4899c67c56b705::t_e74326bf754d64 4-8
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "6370851d9745702bf401e212dfd0dac88a421acb",
+  "prompts": {},
+  "sessions": {
+    "s_4899c67c56b705": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_f5ea27706ffewTy6S5kRk2D7lT",
+        "model": "gpt-5.6-sol-fast"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
