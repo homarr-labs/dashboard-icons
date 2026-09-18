@@ -1,7 +1,7 @@
 import "server-only"
-import sharp from "sharp"
 
 export async function rasterizeRemoteSvg(url: string, size: number, fillColor?: string): Promise<ArrayBuffer> {
+	const { default: sharp } = await import("sharp")
 	const response = await fetch(url)
 	if (!response.ok) throw new Error(`Failed to fetch SVG (${response.status})`)
 

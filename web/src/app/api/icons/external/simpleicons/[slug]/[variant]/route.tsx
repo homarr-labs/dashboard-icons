@@ -37,6 +37,9 @@ export async function GET(_request: Request, { params }: { params: Promise<{ slu
 			},
 		})
 	} catch {
-		return new Response("Unable to generate Simple Icons PNG", { status: 502 })
+		return new Response("Unable to generate Simple Icons PNG", {
+			status: 502,
+			headers: { "Cache-Control": "no-store" },
+		})
 	}
 }
