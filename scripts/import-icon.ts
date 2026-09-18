@@ -496,6 +496,15 @@ async function markSubmissionAdded(
 		console.error(
 			`[import-icon] status update failed: status=${res.status} body=${body}`,
 		);
+		if (res.status === 400) {
+			const submission = await fetchSubmission(pbUrl, submissionId);
+			if (submission.status === "added_to_collection") {
+				console.warn(
+					`[import-icon] PocketBase returned 400 after updating ${submissionId}; verified the status was saved`,
+				);
+				return;
+			}
+		}
 		throw new Error(
 			`Failed to update submission status: ${res.status} ${body}`,
 		);
