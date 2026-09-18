@@ -1,87 +1,68 @@
+# syntax=docker/dockerfile:1
 FROM node:24-alpine AS base
 
-# Install dependencies only when needed
+FROM ghcr.io/muchobien/pocketbase:latest AS pocketbase
+
+FROM caddy:2.11.2-alpine AS caddy
+
 FROM base AS deps
-# Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
-RUN apk add --no-cache libc6-compat
 WORKDIR /app
+RUN apk add --no-cache libc6-compat && corepack enable
+COPY package.json pnpm-lock.yaml ./
+RUN pnpm install --frozen-lockfile
 
-# Install dependencies based on the preferred package manager
-COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* .npmrc* ./
-RUN \
-	if [ -f yarn.lock ]; then yarn --frozen-lockfile; \
-	elif [ -f package-lock.json ]; then npm ci; \
-	elif [ -f pnpm-lock.yaml ]; then corepack enable pnpm && pnpm i --frozen-lockfile; \
-	else echo "Lockfile not found." && exit 1; \
-	fi
-
-
-# Rebuild the source code only when needed
 FROM base AS builder
 WORKDIR /app
-
 ARG NEXT_PUBLIC_POSTHOG_KEY
 ARG NEXT_PUBLIC_POSTHOG_HOST
-ARG NEXT_PUBLIC_DISABLE_POSTHOG=false
-ARG NEXT_PUBLIC_POCKETBASE_URL=https://pb.dashboardicons.com
-ARG POSTHOG_API_KEY
-ARG CI_MODE=false
-
-ENV NEXT_TELEMETRY_DISABLED=1
-ENV NEXT_PUBLIC_POSTHOG_KEY=${NEXT_PUBLIC_POSTHOG_KEY}
-ENV NEXT_PUBLIC_POSTHOG_HOST=${NEXT_PUBLIC_POSTHOG_HOST}
-ENV NEXT_PUBLIC_DISABLE_POSTHOG=${NEXT_PUBLIC_DISABLE_POSTHOG}
-ENV NEXT_PUBLIC_POCKETBASE_URL=${NEXT_PUBLIC_POCKETBASE_URL}
-ENV PB_URL=${NEXT_PUBLIC_POCKETBASE_URL}
-ENV POSTHOG_API_KEY=${POSTHOG_API_KEY}
-ENV CI_MODE=${CI_MODE}
-
+ARG NEXT_PUBLIC_DISABLE_POSTHOG=true
+ARG NEXT_PUBLIC_POCKETBASE_URL=/pb
+ENV NEXT_TELEMETRY_DISABLED=1 \
+    NEXT_PUBLIC_POSTHOG_KEY=${NEXT_PUBLIC_POSTHOG_KEY} \
+    NEXT_PUBLIC_POSTHOG_HOST=${NEXT_PUBLIC_POSTHOG_HOST} \
+    NEXT_PUBLIC_DISABLE_POSTHOG=${NEXT_PUBLIC_DISABLE_POSTHOG} \
+    NEXT_PUBLIC_POCKETBASE_URL=${NEXT_PUBLIC_POCKETBASE_URL} \
+    PB_URL=http://127.0.0.1:8090 \
+    PRERENDER_ICON_PAGES=false
 COPY --from=deps /app/node_modules ./node_modules
+COPY --from=pocketbase /usr/local/bin/pocketbase /pb/pocketbase
 COPY . .
-
+# Build against an isolated database, never a production PocketBase instance.
 RUN --mount=type=secret,id=github_token \
-    export GITHUB_TOKEN="$(cat /run/secrets/github_token)" && \
-    if [ -f yarn.lock ]; then yarn run build; \
-    elif [ -f package-lock.json ]; then npm run build; \
-    elif [ -f pnpm-lock.yaml ]; then corepack enable pnpm && pnpm run build; \
-    else echo "Lockfile not found." && exit 1; \
-    fi
+    if [ -f /run/secrets/github_token ]; then export GITHUB_TOKEN="$(cat /run/secrets/github_token)"; fi; \
+    /pb/pocketbase serve --http=127.0.0.1:8090 --dir=/tmp/pb_data --hooksDir=/app/backend/pb_hooks --migrationsDir=/app/backend/pb_migrations >/tmp/pb-build.log 2>&1 & pb_pid=$!; \
+    trap 'kill "$pb_pid" 2>/dev/null || true' EXIT; \
+    node -e 'async function ready() { for (let n=0;n<60;n++) { try { const r=await fetch("http://127.0.0.1:8090/api/health"); if(r.ok) return; } catch {} await new Promise(r=>setTimeout(r,1000)); } process.exit(1); } ready()' \
+    || { sed '/pbinstal/d' /tmp/pb-build.log; exit 1; }; \
+    npm run build
 
-# Production image, copy all the files and run next
 FROM base AS runner
 WORKDIR /app
-
-ARG NEXT_PUBLIC_POSTHOG_KEY="phc_fNHNUqEQJHL2DHlwyaPniHOcpEwe8rFPeJEcPbuifC6"
-ARG NEXT_PUBLIC_POSTHOG_HOST="https://hog.homarr.dev"
-ARG NEXT_PUBLIC_DISABLE_POSTHOG=false
-ARG NEXT_PUBLIC_POCKETBASE_URL=https://pb.dashboardicons.com
-ARG CI_MODE=false
-
-ENV NEXT_PUBLIC_POSTHOG_KEY=${NEXT_PUBLIC_POSTHOG_KEY}
-ENV NEXT_PUBLIC_POSTHOG_HOST=${NEXT_PUBLIC_POSTHOG_HOST}
-ENV NEXT_PUBLIC_DISABLE_POSTHOG=${NEXT_PUBLIC_DISABLE_POSTHOG}
-ENV NEXT_PUBLIC_POCKETBASE_URL=${NEXT_PUBLIC_POCKETBASE_URL}
-ENV CI_MODE=${CI_MODE}
-ENV NODE_ENV=production
-ENV NEXT_TELEMETRY_DISABLED=1
-
-RUN addgroup --system --gid 1001 nodejs && \
-    adduser --system --uid 1001 nextjs
-
-COPY --from=builder /app/public ./public
-
-# Automatically leverage output traces to reduce image size
-# https://nextjs.org/docs/advanced-features/output-file-tracing
+ENV NODE_ENV=production \
+    NEXT_TELEMETRY_DISABLED=1 \
+    PB_URL=http://127.0.0.1:8090 \
+    PORT=3000 \
+    HOSTNAME=127.0.0.1 \
+    XDG_CONFIG_HOME=/tmp/caddy/config \
+    XDG_DATA_HOME=/tmp/caddy/data
+RUN apk add --no-cache bash ca-certificates curl tini \
+    && addgroup --system --gid 1001 nodejs \
+    && adduser --system --uid 1001 --ingroup nodejs nextjs \
+    && mkdir -p /pb/pb_data \
+    && chown -R nextjs:nodejs /pb
+COPY --from=caddy /usr/bin/caddy /usr/bin/caddy
+COPY --from=pocketbase /usr/local/bin/pocketbase /pb/pocketbase
+COPY --from=builder --chown=nextjs:nodejs /app/public ./public
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
-
+COPY --chown=nextjs:nodejs backend/pb_hooks /pb/pb_hooks
+COPY --chown=nextjs:nodejs backend/pb_migrations /pb/pb_migrations
+COPY docker/Caddyfile /etc/caddy/Caddyfile
+COPY --chmod=755 docker/start.sh /usr/local/bin/start-dashboard
 USER nextjs
-
-EXPOSE 3000
-
-ENV PORT=3000
-
-# server.js is created by next build from the standalone output
-# https://nextjs.org/docs/pages/api-reference/config/next-config-js/output
-ENV HOSTNAME="0.0.0.0"
-CMD ["node", "server.js"]
+VOLUME /pb/pb_data
+EXPOSE 8080
+HEALTHCHECK --interval=30s --timeout=5s --start-period=90s --retries=3 \
+    CMD curl -fsS http://127.0.0.1:8080/pb/api/health >/dev/null && curl -fsS http://127.0.0.1:8080/api/health >/dev/null || exit 1
+ENTRYPOINT ["/sbin/tini", "--"]
+CMD ["/usr/local/bin/start-dashboard"]

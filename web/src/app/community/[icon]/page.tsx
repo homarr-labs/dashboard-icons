@@ -18,6 +18,7 @@ export const revalidate = 900
 export const dynamic = "force-static"
 
 export async function generateStaticParams() {
+	if (process.env.PRERENDER_ICON_PAGES === "false") return []
 	const icons = await getCommunitySubmissions()
 	return icons.map((icon) => ({
 		icon: icon.name,

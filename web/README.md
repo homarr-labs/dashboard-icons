@@ -19,7 +19,7 @@ A web application to browse, search, and download icons from the
 
 ## Tech Stack
 
-- **Next.js 15** - React framework with App Router
+- **Next.js 16** - React framework with App Router
 - **TypeScript v5** - Type-safe JavaScript
 - **Tailwind CSS** - Utility-first CSS framework
 - **Shadcn UI** - Reusable components built with Radix UI and Tailwind
@@ -59,7 +59,7 @@ See [docs/MCP.md](./docs/MCP.md) for endpoints, client setup, tool schemas, envi
 
 ### Prerequisites
 
-- Node.js 18+
+- Node.js 22.22+
 - pnpm
 
 ### Installation
@@ -183,7 +183,77 @@ bun run scripts/import-simple-icons.ts
 
 ### Deployment
 
-The application is optimized for deployment on Vercel.
+Build and run the complete application from the repository root:
+
+```bash
+docker build --pull -t dashboard-icons:local web
+docker run -d --name dashboard-icons --restart unless-stopped \
+  -p 8080:8080 -v dashboard-icons-data:/pb/pb_data dashboard-icons:local
+```
+
+Or run `docker compose up --build -d` from `web/`.
+
+One image runs Next.js, PocketBase, and Caddy as an unprivileged user.
+PocketBase comes from `ghcr.io/muchobien/pocketbase:latest`; rebuilding with
+`--pull` picks up the latest upstream release. We copy its binary into the
+combined image and use our entrypoint to supervise all three processes.
+Caddy exposes port **8080**; Next.js (3000) and PocketBase (8090) listen only on
+container loopback. Use your existing HTTPS reverse proxy in front of port 8080.
+
+- Website: `http://localhost:8080`
+- Icon API: `http://localhost:8080/api/icons/search`
+- MCP: `http://localhost:8080/api/mcp`
+- PocketBase API: `http://localhost:8080/pb/api/health`
+- PocketBase admin: `http://localhost:8080/pb/_/`
+
+`pb_hooks` and `pb_migrations` ship inside the image. Migrations run before the
+frontend starts. Only `/pb/pb_data` needs a persistent volume; it contains the
+database and uploaded files. Do not mount an empty volume over `/pb/pb_hooks` or
+`/pb/pb_migrations`, which would hide the bundled code. Custom hooks can be
+bind-mounted read-only at `/pb/pb_hooks` if required.
+
+Create the initial PocketBase superuser interactively:
+
+```bash
+docker exec -it dashboard-icons bash -c '
+  read -rp "Email: " email
+  read -rsp "Password: " password; echo
+  /pb/pocketbase superuser create "$email" "$password" --dir=/pb/pb_data
+'
+```
+
+For existing data, stop the old PocketBase instance and back up its complete
+`pb_data` directory before copying it to the new volume. Never run two instances
+against the same SQLite files. Bind-mounted data must be writable by UID/GID
+**1001:1001**. Keep a backup made before migration when upgrading PocketBase;
+downgrading the binary does not undo database migrations.
+
+The public PocketBase URL defaults to `/pb`, so the same image works on any
+hostname. Set PocketBase's application URL to your public `/pb` URL and update
+OAuth callback URLs to `https://your-host/pb/api/oauth2-redirect`. Configure SMTP
+and OAuth providers in PocketBase as usual; the image does not embed credentials.
+
+`NEXT_PUBLIC_POCKETBASE_URL` and the `NEXT_PUBLIC_POSTHOG_*` values are Docker
+**build arguments**, because Next.js embeds them in browser assets. Analytics is
+disabled by default. `PB_URL` is the server-only runtime address and defaults to
+`http://127.0.0.1:8090`; keep that default for the bundled backend. An optional
+runtime `GITHUB_TOKEN` enables authenticated GitHub API calls. A build-time token
+can be supplied with BuildKit's `--secret id=github_token,env=GITHUB_TOKEN`.
+
+The build uses an isolated, empty PocketBase database and never copies local
+`pb_data` or `.env` files. Native metadata and CDN icon files still come from the
+upstream Dashboard Icons repository; external catalogues must be imported into
+PocketBase using the scripts above. Icon detail pages are rendered on first
+request instead of fetching every icon author during the image build.
+
+The healthcheck verifies both services through Caddy. The entrypoint stops all
+services if one exits, and forwards shutdown signals so SQLite can close cleanly.
+With a restart policy, a crashed service restarts the whole container.
+
+Large native and external catalogues use a process-local 15-minute cache with
+concurrent refresh deduplication, avoiding Next.js's 2 MB data-cache entry limit.
+Restarting the container clears these caches. Smaller tagged caches for community
+moderation still use Next.js on-demand invalidation.
 
 ## Contributing
 

@@ -1,7 +1,6 @@
 import "server-only"
 
 import { readFile } from "node:fs/promises"
-import { unstable_cache } from "next/cache"
 import { METADATA_URL } from "@/constants"
 import { filterAndSortIcons, scoreIcon } from "@/lib/icons/search"
 import type { IconDetail, IconUrlResult, SearchResult, Suggestion } from "@/lib/icons/types"
@@ -24,6 +23,7 @@ type MetadataFetchResult = Omit<MetadataCacheState, "loadedAt">
 declare global {
 	// eslint-disable-next-line no-var
 	var __dashboardIconsMetadata: MetadataCacheState | undefined
+	var __dashboardIconsMetadataPending: Promise<IconFile> | undefined
 }
 
 async function requestRemoteMetadata(etag?: string): Promise<Response> {
@@ -33,7 +33,7 @@ async function requestRemoteMetadata(etag?: string): Promise<Response> {
 	return fetch(METADATA_URL, {
 		signal: AbortSignal.timeout(METADATA_FETCH_TIMEOUT_MS),
 		headers,
-		next: { revalidate: CACHE_TTL_SECONDS },
+		cache: "no-store",
 	})
 }
 
@@ -70,11 +70,6 @@ async function loadMetadataUncached(): Promise<MetadataFetchResult> {
 	return fetchMetadataFromRemote()
 }
 
-const getCachedMetadata = unstable_cache(async () => loadMetadataUncached(), ["dashboard-icons-metadata-v2"], {
-	revalidate: CACHE_TTL_SECONDS,
-	tags: ["native-icons"],
-})
-
 export async function warmMetadataCache(): Promise<void> {
 	await getAllIcons()
 }
@@ -85,9 +80,19 @@ export async function getAllIcons(): Promise<IconFile> {
 		return cached.data
 	}
 
-	const { data, etag } = await getCachedMetadata()
-	globalThis.__dashboardIconsMetadata = { data, etag, loadedAt: Date.now() }
-	return data
+	// Whole catalogues exceed Next's 2 MB data-cache limit. Share one refresh
+	// between requests and retain the ETag for conditional requests after expiry.
+	if (!globalThis.__dashboardIconsMetadataPending) {
+		globalThis.__dashboardIconsMetadataPending = loadMetadataUncached()
+			.then((fresh) => {
+				globalThis.__dashboardIconsMetadata = { ...fresh, loadedAt: Date.now() }
+				return fresh.data
+			})
+			.finally(() => {
+				globalThis.__dashboardIconsMetadataPending = undefined
+			})
+	}
+	return globalThis.__dashboardIconsMetadataPending
 }
 
 function toIconWithName(name: string, data: Icon): IconWithName {
@@ -182,4 +187,5 @@ export async function suggestIcons(serviceName: string, limit = 5): Promise<{ su
 
 export function clearMetadataCacheForTests(): void {
 	globalThis.__dashboardIconsMetadata = undefined
+	globalThis.__dashboardIconsMetadataPending = undefined
 }

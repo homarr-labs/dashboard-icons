@@ -27,7 +27,7 @@ env:
   NEXT_PUBLIC_POSTHOG_KEY: phc_fNHNUqEQJHL2DHlwyaPniHOcpEwe8rFPeJEcPbuifC6
   NEXT_PUBLIC_POSTHOG_HOST: https://hog.homarr.dev
   NEXT_PUBLIC_DISABLE_POSTHOG: false
-  NEXT_PUBLIC_POCKETBASE_URL: https://pb.dashboardicons.com
+  NEXT_PUBLIC_POCKETBASE_URL: /pb
   CI_MODE: true
 
 jobs:
@@ -77,6 +77,7 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           no-cache: true
+          pull: true
           build-args: |
             NEXT_PUBLIC_POSTHOG_KEY=${{ env.NEXT_PUBLIC_POSTHOG_KEY }}
             NEXT_PUBLIC_POSTHOG_HOST=${{ env.NEXT_PUBLIC_POSTHOG_HOST }}

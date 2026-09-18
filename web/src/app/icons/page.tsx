@@ -43,7 +43,8 @@ export async function generateMetadata(): Promise<Metadata> {
 	}
 }
 
-export const dynamic = "force-static"
+// Read the mounted database at request time, not the empty image-build database.
+export const dynamic = "force-dynamic"
 export const revalidate = 900
 
 export default async function IconsPage() {
