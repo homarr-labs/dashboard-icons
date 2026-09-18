@@ -43843,20 +43843,6 @@
             "dark": "apache-superset-dark"
         }
     },
-    "hermes-icon": {
-        "base": "svg",
-        "aliases": [
-            "hermes-agent"
-        ],
-        "categories": [],
-        "update": {
-            "timestamp": "2026-05-16T10:37:27.861Z",
-            "author": {
-                "id": 278858066,
-                "login": "NetRoberts"
-            }
-        }
-    },
     "proton-meet": {
         "base": "svg",
         "aliases": [],
@@ -49526,16 +49512,17 @@
         }
     },
     "hermes": {
-        "base": "png",
-        "aliases": [],
-        "categories": [
-            "cloud"
+        "base": "svg",
+        "aliases": [
+            "hermes-agent",
+            "hermes-icon"
         ],
+        "categories": [],
         "update": {
-            "timestamp": "2026-09-17T19:00:40.464Z",
+            "timestamp": "2026-05-16T10:37:27.861Z",
             "author": {
-                "id": 68042106,
-                "login": "sanhuesoft"
+                "id": 278858066,
+                "login": "NetRoberts"
             }
         }
     },

@@ -1,0 +1,15 @@
+{
+  "base": "svg",
+  "aliases": [
+    "hermes-agent",
+    "hermes-icon"
+  ],
+  "categories": [],
+  "update": {
+    "timestamp": "2026-05-16T10:37:27.861Z",
+    "author": {
+      "id": 278858066,
+      "login": "NetRoberts"
+    }
+  }
+}
