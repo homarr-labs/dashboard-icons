@@ -56,6 +56,10 @@ jobs:
             # Add date-based tag for scheduled builds
             type=schedule,pattern={{date 'YYYY.MM.DD'}},enable=${{ github.event_name == 'schedule' }}
 
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+        with:
+          platforms: arm64
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
 
@@ -71,7 +75,7 @@ jobs:
         env:
           NEXT_PUBLIC_POCKETBASE_URL: ${{ env.NEXT_PUBLIC_POCKETBASE_URL }}
         with:
-          platforms: linux/amd64
+          platforms: linux/amd64,linux/arm64
           context: ./web
           push: true
           tags: ${{ steps.meta.outputs.tags }}

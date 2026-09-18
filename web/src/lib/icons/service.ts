@@ -1,6 +1,7 @@
 import "server-only"
 
 import { readFile } from "node:fs/promises"
+import { unstable_rethrow } from "next/navigation"
 import { METADATA_URL } from "@/constants"
 import { filterAndSortIcons, scoreIcon } from "@/lib/icons/search"
 import type { IconDetail, IconUrlResult, SearchResult, Suggestion } from "@/lib/icons/types"
@@ -87,6 +88,13 @@ export async function getAllIcons(): Promise<IconFile> {
 			.then((fresh) => {
 				globalThis.__dashboardIconsMetadata = { ...fresh, loadedAt: Date.now() }
 				return fresh.data
+			})
+			.catch((error) => {
+				unstable_rethrow(error)
+				// Keep serving the last catalogue during upstream outages. Leave its
+				// timestamp expired so the next request can retry the refresh.
+				if (cached) return cached.data
+				throw error
 			})
 			.finally(() => {
 				globalThis.__dashboardIconsMetadataPending = undefined

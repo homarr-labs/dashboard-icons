@@ -5,7 +5,8 @@ import { getCommunitySubmissions } from "@/lib/community"
 import { resolveExternalIconUrl } from "@/lib/external-icon-urls"
 import { getExternalIcons } from "@/lib/external-icons"
 
-export const revalidate = 900
+// The build database is empty; discover imported icons from the mounted database.
+export const dynamic = "force-dynamic"
 
 // Helper function to format dates as YYYY-MM-DD
 const formatDate = (date: Date): string => {

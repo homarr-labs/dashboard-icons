@@ -2,6 +2,11 @@ services:
   dashboard-icons:
     build:
       context: .
+      args:
+        NEXT_PUBLIC_POCKETBASE_URL: ${NEXT_PUBLIC_POCKETBASE_URL:-/pb}
+        NEXT_PUBLIC_POSTHOG_KEY: ${NEXT_PUBLIC_POSTHOG_KEY:-}
+        NEXT_PUBLIC_POSTHOG_HOST: ${NEXT_PUBLIC_POSTHOG_HOST:-}
+        NEXT_PUBLIC_DISABLE_POSTHOG: ${NEXT_PUBLIC_DISABLE_POSTHOG:-true}
     image: dashboard-icons:local
     ports:
       - "8080:8080"

@@ -95,7 +95,7 @@ See [docs/MCP.md](./docs/MCP.md) for endpoints, client setup, tool schemas, envi
 
    c. For production deployment:
    - Update the Authorization callback URL to:
-     `https://pb.dashboardicons.com/api/oauth2-redirect`
+     `https://dashboardicons.com/pb/api/oauth2-redirect`
    - Configure the same OAuth settings in your production PocketBase instance
 
 5. Start the development server:
@@ -210,12 +210,24 @@ container loopback. Use your existing HTTPS reverse proxy in front of port 8080.
 frontend starts. Only `/pb/pb_data` needs a persistent volume; it contains the
 database and uploaded files. Do not mount an empty volume over `/pb/pb_hooks` or
 `/pb/pb_migrations`, which would hide the bundled code. Custom hooks can be
-bind-mounted read-only at `/pb/pb_hooks` if required.
+bind-mounted read-only at `/pb/pb_hooks` if required, but any such mount replaces
+that entire directory. Copy all bundled hooks, including
+`submission_update_email.pb.js`, into your custom directory before adding your own.
 
 Create the initial PocketBase superuser interactively:
 
 ```bash
 docker exec -it dashboard-icons bash -c '
+  read -rp "Email: " email
+  read -rsp "Password: " password; echo
+  /pb/pocketbase superuser create "$email" "$password" --dir=/pb/pb_data
+'
+```
+
+When using Compose, run the same interactive command via the service name from `web/`:
+
+```bash
+docker compose exec dashboard-icons bash -c '
   read -rp "Email: " email
   read -rsp "Password: " password; echo
   /pb/pocketbase superuser create "$email" "$password" --dir=/pb/pb_data
@@ -235,7 +247,8 @@ and OAuth providers in PocketBase as usual; the image does not embed credentials
 
 `NEXT_PUBLIC_POCKETBASE_URL` and the `NEXT_PUBLIC_POSTHOG_*` values are Docker
 **build arguments**, because Next.js embeds them in browser assets. Analytics is
-disabled by default. `PB_URL` is the server-only runtime address and defaults to
+disabled by default. Compose forwards these build arguments from your shell or
+`web/.env`; rebuild the image after changing them. `PB_URL` is the server-only runtime address and defaults to
 `http://127.0.0.1:8090`; keep that default for the bundled backend. An optional
 runtime `GITHUB_TOKEN` enables authenticated GitHub API calls. A build-time token
 can be supplied with BuildKit's `--secret id=github_token,env=GITHUB_TOKEN`.

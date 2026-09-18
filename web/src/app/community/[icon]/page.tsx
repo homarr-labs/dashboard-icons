@@ -4,6 +4,7 @@ import { IconDetails } from "@/components/icon-details"
 import { BASE_URL, WEB_URL } from "@/constants"
 import { computeRelatedIcons, getAllIcons, getAuthorData } from "@/lib/api"
 import { getCommunityGalleryRecord, getCommunitySubmissionByName, getCommunitySubmissions } from "@/lib/community"
+import { isIconAssetUrl } from "@/lib/icon-url"
 
 function isIconAddedToCollection(
 	record: Awaited<ReturnType<typeof getCommunityGalleryRecord>>,
@@ -60,7 +61,7 @@ export async function generateMetadata({ params }: Props, _parent: ResolvingMeta
 		.join(" ")
 
 	const mainIconUrl =
-		typeof iconData.data.base === "string" && iconData.data.base.startsWith("http")
+		isIconAssetUrl(iconData.data.base)
 			? iconData.data.base
 			: (iconData.data as any).mainIconUrl || `${BASE_URL}/svg/${icon}.svg`
 	return {
@@ -200,7 +201,7 @@ export default async function CommunityIconPage({ params }: { params: Promise<{ 
 	console.log(iconData.data)
 
 	const mainIconUrl =
-		typeof iconData.data.base === "string" && iconData.data.base.startsWith("http")
+		isIconAssetUrl(iconData.data.base)
 			? iconData.data.base
 			: (iconData.data as any).mainIconUrl || `${BASE_URL}/svg/${icon}.svg`
 

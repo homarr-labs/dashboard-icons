@@ -2,6 +2,10 @@ import { getExternalIconPreviewUrl } from "@/lib/external-icon-urls"
 import { buildIconUrl, type IconFormat } from "@/lib/icons/urls"
 import type { IconSearchEntry } from "@/types/icons"
 
+export function isIconAssetUrl(base: string): boolean {
+	return base.startsWith("/") || /^https?:\/\//.test(base)
+}
+
 function resolveFormat(base: IconSearchEntry["data"]["base"]): IconFormat {
 	if (base === "png" || base === "webp") return base
 	return "svg"
@@ -13,7 +17,7 @@ export function getIconImageUrl(icon: IconSearchEntry): string {
 	}
 
 	const { base } = icon.data
-	if (typeof base === "string" && base.startsWith("http")) {
+	if (isIconAssetUrl(base)) {
 		return base
 	}
 

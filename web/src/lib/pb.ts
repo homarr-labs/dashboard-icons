@@ -6,10 +6,6 @@ const PUBLIC_PB_URL = process.env.NEXT_PUBLIC_POCKETBASE_URL || "http://127.0.0.
 function serverUrl(): string {
 	return process.env.PB_URL || PUBLIC_PB_URL
 }
-function clientUrl(): string {
-	if (typeof window === "undefined") return serverUrl()
-	return PUBLIC_PB_URL
-}
 
 export interface User {
 	id: string
@@ -87,7 +83,7 @@ interface TypedPocketBase extends PocketBase {
 	collection(idOrName: "external_icons"): RecordService<ExternalIcon>
 }
 
-export const pb = new PocketBase(clientUrl()) as TypedPocketBase
+export const pb = new PocketBase(PUBLIC_PB_URL) as TypedPocketBase
 
 export function createServerPB(): TypedPocketBase {
 	return new PocketBase(serverUrl()) as TypedPocketBase
