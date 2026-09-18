@@ -1,0 +1,35 @@
+web/README.md
+  s_4899c67c56b705::t_df2e193cb336a0 186,189,191-192,195-197,202-203,206-207,258-260
+  s_4899c67c56b705::t_210f89f3e5b5cd 198-200
+  s_4899c67c56b705::t_987c5c44c3b6cb 201
+web/docker/Caddyfile
+  s_4899c67c56b705::t_1ece288747aba9 8-11
+web/src/lib/icons/__tests__/service.test.ts
+  s_4899c67c56b705::t_1ece288747aba9 149-151,153-159,163-164,170,172-174,180-182
+web/docker-compose.yml
+  s_4899c67c56b705::t_1ece288747aba9 3-4,16
+web/src/lib/icons/service.ts
+  s_4899c67c56b705::t_1ece288747aba9 15,21,24,82-83,97-100
+web/src/app/community/[icon]/page.tsx
+  s_4899c67c56b705::t_1ece288747aba9 63-65,202-204
+web/Dockerfile
+  s_4899c67c56b705::t_1ece288747aba9 4
+.github/workflows/docker.yml
+  s_4899c67c56b705::t_210f89f3e5b5cd 86-100
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "4e15633b758b63e51385b899391d10ee7edf4676",
+  "prompts": {},
+  "sessions": {
+    "s_4899c67c56b705": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_f5ea27706ffewTy6S5kRk2D7lT",
+        "model": "gpt-5.6-sol-fast"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
