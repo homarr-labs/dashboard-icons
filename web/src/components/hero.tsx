@@ -429,22 +429,26 @@ export function GiveUsLoveButton() {
 					</div>
 
 					<div className="space-y-2">
-						<p className="text-sm font-medium text-muted-foreground">Our Privacy Promise:</p>
+						<p className="text-sm font-medium text-muted-foreground">Privacy and analytics:</p>
 						<ul className="text-xs text-muted-foreground/80 space-y-1.5">
 							<li className="flex items-start gap-2">
 								<span className="text-primary font-bold">✓</span>
-								<span>We don't track your browsing habits</span>
+								<span>We use analytics to understand site usage</span>
 							</li>
 							<li className="flex items-start gap-2">
 								<span className="text-primary font-bold">✓</span>
-								<span>We don't sell your personal data</span>
+								<span>We don't sell account information</span>
 							</li>
 							<li className="flex items-start gap-2">
 								<span className="text-primary font-bold">✓</span>
-								<span>We only use essential cookies</span>
+								<span>Browser storage supports sign-in, preferences, and analytics</span>
 							</li>
 						</ul>
 					</div>
+
+					<Link href="/privacy" className="text-xs underline underline-offset-4 hover:text-primary">
+						Read our Privacy Policy
+					</Link>
 
 					<Separator className="bg-secondary/20" />
 

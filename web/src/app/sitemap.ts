@@ -38,6 +38,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 			changeFrequency: "daily",
 			priority: 0.7,
 		},
+		{ url: `${WEB_URL}/privacy`, changeFrequency: "yearly", priority: 0.3 },
+		{ url: `${WEB_URL}/terms`, changeFrequency: "yearly", priority: 0.3 },
 		...Object.keys(iconsData).map((iconName) => ({
 			url: `${WEB_URL}/icons/${iconName}`,
 			lastModified: formatDate(new Date(iconsData[iconName].update.timestamp)),
