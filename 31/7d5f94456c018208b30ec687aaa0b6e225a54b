@@ -1,0 +1,23 @@
+.github/workflows/docker.yml
+  s_4899c67c56b705::t_44921d80430420 91,93,97,100
+web/docker/Caddyfile
+  s_4899c67c56b705::t_44921d80430420 10,14
+web/docker/start.sh
+  s_4899c67c56b705::t_44921d80430420 8-13,24-27,29-43
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "317d5f94456c018208b30ec687aaa0b6e225a54b",
+  "prompts": {},
+  "sessions": {
+    "s_4899c67c56b705": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_f5ea27706ffewTy6S5kRk2D7lT",
+        "model": "gpt-5.6-sol-fast"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
