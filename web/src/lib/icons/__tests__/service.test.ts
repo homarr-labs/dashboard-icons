@@ -146,26 +146,40 @@ describe("suggestIcons", () => {
 describe("metadata loading", () => {
 	it("shares one expired-cache refresh across concurrent requests", async () => {
 		await getAllIcons()
-		const cached = globalThis.__dashboardIconsMetadata!
+		const cached = globalThis.__dashboardIconsMetadata
+		expect(cached).toBeDefined()
+		if (!cached) throw new Error("Metadata cache was not initialized")
 		cached.loadedAt = 0
-		let finish!: (response: Response) => void
-		vi.mocked(fetch).mockImplementationOnce(() => new Promise<Response>((resolve) => { finish = resolve }))
+		let finish: ((response: Response) => void) | undefined
+		vi.mocked(fetch).mockImplementationOnce(
+			() =>
+				new Promise<Response>((resolve) => {
+					finish = resolve
+				}),
+		)
 		const requests = [getAllIcons(), getAllIcons(), getAllIcons()]
 		expect(fetch).toHaveBeenCalledTimes(2)
 		const updated = { ...MOCK_METADATA, newicon: MOCK_METADATA.docker }
+		expect(finish).toBeTypeOf("function")
+		if (!finish) throw new Error("Metadata refresh did not start")
 		finish({ ok: true, status: 200, headers: new Headers(), json: async () => updated } as Response)
 		expect(await Promise.all(requests)).toEqual([updated, updated, updated])
 		expect(globalThis.__dashboardIconsMetadataPending).toBeUndefined()
 	})
 
-	it("serves stale data after a failed refresh and retries on the next request", async () => {
+	it("serves stale data after a failed refresh and retries after the backoff", async () => {
 		await getAllIcons()
-		const cached = globalThis.__dashboardIconsMetadata!
+		const cached = globalThis.__dashboardIconsMetadata
+		expect(cached).toBeDefined()
+		if (!cached) throw new Error("Metadata cache was not initialized")
 		cached.loadedAt = 0
 		vi.mocked(fetch).mockRejectedValueOnce(new Error("Upstream offline"))
 		expect(await getAllIcons()).toEqual(MOCK_METADATA)
 		expect(cached.loadedAt).toBe(0)
 		expect(globalThis.__dashboardIconsMetadataPending).toBeUndefined()
+		expect(await getAllIcons()).toEqual(MOCK_METADATA)
+		expect(fetch).toHaveBeenCalledTimes(2)
+		cached.retryAfter = 0
 		const updated = { ...MOCK_METADATA, recovered: MOCK_METADATA.docker }
 		vi.mocked(fetch).mockResolvedValueOnce({ ok: true, status: 200, headers: new Headers(), json: async () => updated } as Response)
 		expect(await getAllIcons()).toEqual(updated)

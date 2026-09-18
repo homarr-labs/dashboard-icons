@@ -6,11 +6,6 @@ name: Main CI
 on:
   push:
     branches: [main]
-
-  # Daily schedule at midnight (00:00 UTC)
-  schedule:
-    - cron: "0 0 * * *"
-
   workflow_dispatch:
 
 defaults:
@@ -53,8 +48,6 @@ jobs:
           tags: |
             type=raw,value=latest
             type=semver,pattern={{version}}
-            # Add date-based tag for scheduled builds
-            type=schedule,pattern={{date 'YYYY.MM.DD'}},enable=${{ github.event_name == 'schedule' }}
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
@@ -90,3 +83,18 @@ jobs:
             CI_MODE=${{ env.CI_MODE }}
           secrets: |
             "github_token=${{ secrets.GITHUB_TOKEN }}"
+
+      - name: Deploy to Dokploy
+        env:
+          DOKPLOY_URL: ${{ secrets.DOKPLOY_URL }}
+          DOKPLOY_API_KEY: ${{ secrets.DOKPLOY_API_KEY }}
+          DOKPLOY_COMPOSE_ID: ${{ secrets.DOKPLOY_COMPOSE_ID }}
+        run: |
+          if [ -z "$DOKPLOY_URL" ] || [ -z "$DOKPLOY_API_KEY" ] || [ -z "$DOKPLOY_COMPOSE_ID" ]; then
+            exit 0
+          fi
+          curl --fail-with-body --silent --show-error \
+            --request POST "${DOKPLOY_URL%/}/api/compose.deploy" \
+            --header "Content-Type: application/json" \
+            --header "x-api-key: $DOKPLOY_API_KEY" \
+            --data "{\"composeId\":\"$DOKPLOY_COMPOSE_ID\"}"

@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1
 FROM node:24-alpine AS base
 
-FROM ghcr.io/muchobien/pocketbase:latest AS pocketbase
+FROM ghcr.io/muchobien/pocketbase:0.40.4 AS pocketbase
 
 FROM caddy:2.11.2-alpine AS caddy
 

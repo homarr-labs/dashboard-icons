@@ -60,10 +60,9 @@ export async function generateMetadata({ params }: Props, _parent: ResolvingMeta
 		.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
 		.join(" ")
 
-	const mainIconUrl =
-		isIconAssetUrl(iconData.data.base)
-			? iconData.data.base
-			: (iconData.data as any).mainIconUrl || `${BASE_URL}/svg/${icon}.svg`
+	const mainIconUrl = isIconAssetUrl(iconData.data.base)
+		? iconData.data.base
+		: (iconData.data as any).mainIconUrl || `${BASE_URL}/svg/${icon}.svg`
 	return {
 		title: `${formattedIconName} Icon & Logo (Community)`,
 		description: `Download the ${formattedIconName} community-submitted icon and logo. Part of a collection of ${totalIcons} community icons and logos awaiting review and addition to the Dashboard Icons collection.`,
@@ -200,10 +199,9 @@ export default async function CommunityIconPage({ params }: { params: Promise<{ 
 	})
 	console.log(iconData.data)
 
-	const mainIconUrl =
-		isIconAssetUrl(iconData.data.base)
-			? iconData.data.base
-			: (iconData.data as any).mainIconUrl || `${BASE_URL}/svg/${icon}.svg`
+	const mainIconUrl = isIconAssetUrl(iconData.data.base)
+		? iconData.data.base
+		: (iconData.data as any).mainIconUrl || `${BASE_URL}/svg/${icon}.svg`
 
 	const iconDataForDisplay = {
 		...iconData.data,

@@ -1,13 +1,7 @@
 services:
   dashboard-icons:
-    build:
-      context: .
-      args:
-        NEXT_PUBLIC_POCKETBASE_URL: ${NEXT_PUBLIC_POCKETBASE_URL:-/pb}
-        NEXT_PUBLIC_POSTHOG_KEY: ${NEXT_PUBLIC_POSTHOG_KEY:-}
-        NEXT_PUBLIC_POSTHOG_HOST: ${NEXT_PUBLIC_POSTHOG_HOST:-}
-        NEXT_PUBLIC_DISABLE_POSTHOG: ${NEXT_PUBLIC_DISABLE_POSTHOG:-true}
-    image: dashboard-icons:local
+    image: ghcr.io/homarr-labs/dashboard-icons:latest
+    pull_policy: always
     ports:
       - "8080:8080"
     volumes:
@@ -19,3 +13,4 @@ services:
 
 volumes:
   pb_data:
+    name: ${PB_DATA_VOLUME:-dashboard-icons-data}

@@ -12,14 +12,16 @@ import type { Icon, IconFile, IconWithName } from "@/types/icons"
 const METADATA_FETCH_TIMEOUT_MS = 10_000
 const CACHE_TTL_SECONDS = 900
 const CACHE_TTL_MS = CACHE_TTL_SECONDS * 1000
+const CACHE_RETRY_DELAY_MS = 60_000
 
 type MetadataCacheState = {
 	data: IconFile
 	etag: string | null
 	loadedAt: number
+	retryAfter?: number
 }
 
-type MetadataFetchResult = Omit<MetadataCacheState, "loadedAt">
+type MetadataFetchResult = Omit<MetadataCacheState, "loadedAt" | "retryAfter">
 
 declare global {
 	// eslint-disable-next-line no-var
@@ -77,7 +79,8 @@ export async function warmMetadataCache(): Promise<void> {
 
 export async function getAllIcons(): Promise<IconFile> {
 	const cached = globalThis.__dashboardIconsMetadata
-	if (cached && Date.now() - cached.loadedAt < CACHE_TTL_MS) {
+	const now = Date.now()
+	if (cached && (now - cached.loadedAt < CACHE_TTL_MS || (cached.retryAfter ?? 0) > now)) {
 		return cached.data
 	}
 
@@ -91,9 +94,10 @@ export async function getAllIcons(): Promise<IconFile> {
 			})
 			.catch((error) => {
 				unstable_rethrow(error)
-				// Keep serving the last catalogue during upstream outages. Leave its
-				// timestamp expired so the next request can retry the refresh.
-				if (cached) return cached.data
+				if (cached) {
+					cached.retryAfter = Date.now() + CACHE_RETRY_DELAY_MS
+					return cached.data
+				}
 				throw error
 			})
 			.finally(() => {

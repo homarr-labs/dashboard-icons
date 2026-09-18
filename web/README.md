@@ -183,20 +183,28 @@ bun run scripts/import-simple-icons.ts
 
 ### Deployment
 
-Build and run the complete application from the repository root:
+Pull and run the published image:
 
 ```bash
-docker build --pull -t dashboard-icons:local web
+docker pull ghcr.io/homarr-labs/dashboard-icons:latest
 docker run -d --name dashboard-icons --restart unless-stopped \
-  -p 8080:8080 -v dashboard-icons-data:/pb/pb_data dashboard-icons:local
+  -p 8080:8080 -v dashboard-icons-data:/pb/pb_data \
+  ghcr.io/homarr-labs/dashboard-icons:latest
 ```
 
-Or run `docker compose up --build -d` from `web/`.
+Or run `docker compose pull && docker compose up -d` from `web/`. Set
+`PB_DATA_VOLUME` to an existing Docker volume name when migrating data, such as
+`dashboardicons_pb_data` in Dokploy. The Compose service always checks GHCR for
+the latest published image. To deploy automatically after a successful image
+publish, configure the GitHub Actions secrets `DOKPLOY_URL`, `DOKPLOY_API_KEY`,
+and `DOKPLOY_COMPOSE_ID`. The workflow skips deployment until all three exist.
+
+To build locally instead, run `docker build --pull -t dashboard-icons:local web`
+from the repository root.
 
 One image runs Next.js, PocketBase, and Caddy as an unprivileged user.
-PocketBase comes from `ghcr.io/muchobien/pocketbase:latest`; rebuilding with
-`--pull` picks up the latest upstream release. We copy its binary into the
-combined image and use our entrypoint to supervise all three processes.
+PocketBase is pinned to `ghcr.io/muchobien/pocketbase:0.40.4`. We copy its binary
+into the combined image and use our entrypoint to supervise all three processes.
 Caddy exposes port **8080**; Next.js (3000) and PocketBase (8090) listen only on
 container loopback. Use your existing HTTPS reverse proxy in front of port 8080.
 
@@ -247,8 +255,9 @@ and OAuth providers in PocketBase as usual; the image does not embed credentials
 
 `NEXT_PUBLIC_POCKETBASE_URL` and the `NEXT_PUBLIC_POSTHOG_*` values are Docker
 **build arguments**, because Next.js embeds them in browser assets. Analytics is
-disabled by default. Compose forwards these build arguments from your shell or
-`web/.env`; rebuild the image after changing them. `PB_URL` is the server-only runtime address and defaults to
+disabled by default. The published image uses the values configured in its
+GitHub Actions workflow; build a custom image after changing them. `PB_URL` is
+the server-only runtime address and defaults to
 `http://127.0.0.1:8090`; keep that default for the bundled backend. An optional
 runtime `GITHUB_TOKEN` enables authenticated GitHub API calls. A build-time token
 can be supplied with BuildKit's `--secret id=github_token,env=GITHUB_TOKEN`.
