@@ -21,6 +21,20 @@ describe("rasterizeRemoteSvg", () => {
 		expect([...data.subarray(0, 4)]).toEqual([255, 0, 0, 255])
 	})
 
+	it("preserves the original response bytes when no fill is requested", async () => {
+		const svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1 1"><path d="M0 0h1v1H0z"/></svg>'
+		const response = new Response(svg)
+		const textSpy = vi.spyOn(response, "text")
+		const arrayBufferSpy = vi.spyOn(response, "arrayBuffer")
+		vi.stubGlobal("fetch", vi.fn().mockResolvedValue(response))
+
+		const png = await rasterizeRemoteSvg("https://example.com/icon.svg", 4)
+
+		expect(new Uint8Array(png).subarray(0, 8)).toEqual(Uint8Array.from([137, 80, 78, 71, 13, 10, 26, 10]))
+		expect(arrayBufferSpy).toHaveBeenCalledOnce()
+		expect(textSpy).not.toHaveBeenCalled()
+	})
+
 	it("rejects an unsafe fill value", async () => {
 		vi.stubGlobal("fetch", vi.fn().mockResolvedValue(new Response("<svg/>")))
 

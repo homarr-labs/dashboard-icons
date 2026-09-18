@@ -5,13 +5,16 @@ export async function rasterizeRemoteSvg(url: string, size: number, fillColor?: 
 	const response = await fetch(url)
 	if (!response.ok) throw new Error(`Failed to fetch SVG (${response.status})`)
 
-	let svg = await response.text()
+	let svgInput: Buffer
 	if (fillColor) {
 		if (!/^#[0-9A-Fa-f]{6}$/.test(fillColor)) throw new Error("Invalid SVG fill color")
-		svg = svg.replace(/<svg\b/, `<svg fill="${fillColor}"`)
+		const svg = (await response.text()).replace(/<svg\b/, `<svg fill="${fillColor}"`)
+		svgInput = Buffer.from(svg)
+	} else {
+		svgInput = Buffer.from(await response.arrayBuffer())
 	}
 
-	const png = await sharp(Buffer.from(svg)).resize(size, size, { fit: "contain" }).png().toBuffer()
+	const png = await sharp(svgInput).resize(size, size, { fit: "contain" }).png().toBuffer()
 
 	return Uint8Array.from(png).buffer
 }
