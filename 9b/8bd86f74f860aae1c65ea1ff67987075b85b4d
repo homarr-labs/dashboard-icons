@@ -1,0 +1,23 @@
+web/next.config.ts
+  s_4899c67c56b705::t_1b7ff56784f513 104
+web/src/lib/rasterize-svg.ts
+  s_4899c67c56b705::t_b47acf5ee97914 4
+web/src/app/api/icons/external/simpleicons/[slug]/[variant]/route.tsx
+  s_4899c67c56b705::t_b47acf5ee97914 40-43
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "9b8bd86f74f860aae1c65ea1ff67987075b85b4d",
+  "prompts": {},
+  "sessions": {
+    "s_4899c67c56b705": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_f5ea27706ffewTy6S5kRk2D7lT",
+        "model": "gpt-5.6-sol-fast"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
