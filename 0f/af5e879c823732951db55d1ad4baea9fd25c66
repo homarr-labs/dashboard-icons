@@ -1,0 +1,24 @@
+.github/workflows/add-icon.yml
+  s_4899c67c56b705::t_a1328ba4c2d3e5 20-21,45,48,51
+.github/workflows/docker.yml
+  s_4899c67c56b705::t_a1328ba4c2d3e5 39,43,53,57,60,67
+scripts/import-icon.ts
+  s_4899c67c56b705::t_a1328ba4c2d3e5 499,507
+  s_4899c67c56b705::t_88d39c13574eb6 500-506
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "0faf5e879c823732951db55d1ad4baea9fd25c66",
+  "prompts": {},
+  "sessions": {
+    "s_4899c67c56b705": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_f5ea27706ffewTy6S5kRk2D7lT",
+        "model": "gpt-5.6-sol-fast"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
