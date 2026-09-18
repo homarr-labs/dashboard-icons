@@ -7,11 +7,11 @@
 	encode zstd gzip
 	@pocketbase_host host pb.dashboardicons.com
 	handle @pocketbase_host {
-		reverse_proxy 127.0.0.1:8090
+		reverse_proxy {$PB_UPSTREAM:127.0.0.1:8090}
 	}
 	redir /pb /pb/ 308
 	handle_path /pb/* {
-		reverse_proxy 127.0.0.1:8090
+		reverse_proxy {$PB_UPSTREAM:127.0.0.1:8090}
 	}
 	handle {
 		reverse_proxy 127.0.0.1:3000

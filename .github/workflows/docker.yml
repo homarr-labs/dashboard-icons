@@ -88,13 +88,13 @@ jobs:
         env:
           DOKPLOY_URL: ${{ secrets.DOKPLOY_URL }}
           DOKPLOY_API_KEY: ${{ secrets.DOKPLOY_API_KEY }}
-          DOKPLOY_COMPOSE_ID: ${{ secrets.DOKPLOY_COMPOSE_ID }}
+          DOKPLOY_APPLICATION_ID: ${{ secrets.DOKPLOY_APPLICATION_ID }}
         run: |
-          if [ -z "$DOKPLOY_URL" ] || [ -z "$DOKPLOY_API_KEY" ] || [ -z "$DOKPLOY_COMPOSE_ID" ]; then
+          if [ -z "$DOKPLOY_URL" ] || [ -z "$DOKPLOY_API_KEY" ] || [ -z "$DOKPLOY_APPLICATION_ID" ]; then
             exit 0
           fi
           curl --fail-with-body --silent --show-error \
-            --request POST "${DOKPLOY_URL%/}/api/compose.deploy" \
+            --request POST "${DOKPLOY_URL%/}/api/application.deploy" \
             --header "Content-Type: application/json" \
             --header "x-api-key: $DOKPLOY_API_KEY" \
-            --data "{\"composeId\":\"$DOKPLOY_COMPOSE_ID\"}"
+            --data "{\"applicationId\":\"$DOKPLOY_APPLICATION_ID\"}"

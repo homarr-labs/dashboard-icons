@@ -5,6 +5,12 @@ set -Eeuo pipefail
 trap '' HUP
 
 pids=()
+service_mode="${SERVICE_MODE:-all}"
+if [[ "$service_mode" != "all" && "$service_mode" != "web" ]]; then
+	echo "Unsupported SERVICE_MODE: $service_mode" >&2
+	exit 1
+fi
+
 shutdown() {
 	trap '' TERM INT
 	if ((${#pids[@]})); then
@@ -15,26 +21,28 @@ shutdown() {
 trap 'shutdown; exit 0' TERM INT
 trap shutdown EXIT
 
-/pb/pocketbase serve --http=127.0.0.1:8090 --dir=/pb/pb_data \
-	--hooksDir=/pb/pb_hooks --migrationsDir=/pb/pb_migrations &
-pids+=("$!")
+if [[ "$service_mode" == "all" ]]; then
+	/pb/pocketbase serve --http=127.0.0.1:8090 --dir=/pb/pb_data \
+		--hooksDir=/pb/pb_hooks --migrationsDir=/pb/pb_migrations &
+	pids+=("$!")
 
-# Migrations must finish before the frontend can query the database.
-ready=false
-for ((attempt=0; attempt<60; attempt++)); do
-	if curl --fail --silent http://127.0.0.1:8090/api/health >/dev/null; then
-		ready=true
-		break
-	fi
-	if ! kill -0 "${pids[0]}" 2>/dev/null; then
-		echo 'PocketBase exited during startup' >&2
+	# Migrations must finish before the frontend can query the database.
+	ready=false
+	for ((attempt=0; attempt<60; attempt++)); do
+		if curl --fail --silent http://127.0.0.1:8090/api/health >/dev/null; then
+			ready=true
+			break
+		fi
+		if ! kill -0 "${pids[0]}" 2>/dev/null; then
+			echo 'PocketBase exited during startup' >&2
+			exit 1
+		fi
+		sleep 1
+	done
+	if [[ "$ready" != true ]]; then
+		echo 'PocketBase did not become ready within 60 seconds' >&2
 		exit 1
 	fi
-	sleep 1
-done
-if [[ "$ready" != true ]]; then
-	echo 'PocketBase did not become ready within 60 seconds' >&2
-	exit 1
 fi
 
 node /app/server.js &
