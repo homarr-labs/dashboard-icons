@@ -5,6 +5,7 @@ import { fileURLToPath } from "node:url"
 import { ImageResponse } from "next/og"
 import React from "react"
 import sharp from "sharp"
+import { EXTERNAL_SOURCES } from "../src/constants"
 
 const webRoot = resolve(dirname(fileURLToPath(import.meta.url)), "..")
 const repositoryRoot = resolve(webRoot, "..")
@@ -51,17 +52,37 @@ function iconPath(name: string) {
 async function getCuratedIconCount() {
 	if (process.env.OG_REFRESH_COUNT !== "true") return fallbackIconCount
 
-	const response = await fetch("https://dashboardicons.com/api/icons/search", {
-		signal: AbortSignal.timeout(30_000),
-	})
-	if (!response.ok) throw new Error(`Icon catalog request failed: ${response.status}`)
-	const icons: unknown = await response.json()
-	if (!Array.isArray(icons) || icons.length < fallbackIconCount ||
-		!icons.every((icon) => typeof icon?.name === "string" && typeof icon?.source === "string")) {
-		throw new Error("Invalid or incomplete icon catalog; refusing to publish an incorrect count")
+	// Count the native catalog being deployed, not a stale production search snapshot.
+	const native: unknown = JSON.parse(await readFile(resolve(repositoryRoot, "metadata.json"), "utf8"))
+	if (!native || typeof native !== "object" || Array.isArray(native) ||
+		Object.keys(native).length === 0 || !Object.values(native).every((icon) =>
+			icon && ["svg", "png", "webp"].includes(icon.base))) {
+		throw new Error("Invalid native icon catalog")
 	}
-	console.log(`Using ${icons.length} icons across all collections`)
-	return icons.length
+	const counts = await Promise.all(Object.values(EXTERNAL_SOURCES).map(async (source) => {
+		// Query PocketBase directly: unlike search, this endpoint has no stale-data fallback.
+		const url = new URL("https://dashboardicons.com/pb/api/collections/external_icons/records")
+		url.search = new URLSearchParams({
+			filter: `source = "${source.pbFilter}"`,
+			page: "1",
+			perPage: "1",
+			skipTotal: "false",
+			fields: "id,source",
+		}).toString()
+		const response = await fetch(url, { cache: "no-store", signal: AbortSignal.timeout(30_000) })
+		if (!response.ok) throw new Error(`${source.label} count request failed: ${response.status}`)
+		const result = await response.json()
+		if (!Number.isSafeInteger(result?.totalItems) || result.totalItems <= 0 ||
+			result.page !== 1 || result.perPage !== 1 || result.totalPages !== result.totalItems ||
+			!Array.isArray(result.items) || result.items.length !== 1 || result.items[0]?.source !== source.pbFilter) {
+			throw new Error(`Missing or invalid count for ${source.label}; refusing to publish a partial total`)
+		}
+		console.log(`${source.label}: ${result.totalItems}`)
+		return result.totalItems as number
+	}))
+	const total = Object.keys(native).length + counts.reduce((sum, count) => sum + count, 0)
+	console.log(`Using ${total} icons across all collections`)
+	return total
 }
 
 async function main() {
