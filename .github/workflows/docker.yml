@@ -6,6 +6,9 @@ name: Main CI
 on:
   push:
     branches: [main]
+  # Refresh the share image and its combined catalog count weekly.
+  schedule:
+    - cron: "17 6 * * 0"
   workflow_dispatch:
 
 defaults:
@@ -37,6 +40,27 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          package_json_file: web/package.json
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+          cache-dependency-path: web/pnpm-lock.yaml
+
+      - name: Install share-image generator dependencies
+        run: pnpm install --frozen-lockfile
+
+      # The path build context below includes this generated asset.
+      - name: Refresh share image
+        run: pnpm generate:og
+        env:
+          OG_REFRESH_COUNT: "true"
 
       - name: Docker meta
         id: meta
