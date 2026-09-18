@@ -20,4 +20,4 @@ VOLUME /pb/pb_data
 
 EXPOSE 8080
 
-CMD ["/pb/pocketbase", "serve", "--http=0.0.0.0:8080"]
+CMD ["sh", "-c", "trap 'echo Caught SIGHUP' 1; /pb/pocketbase serve --http=0.0.0.0:8080"]
