@@ -8,23 +8,9 @@ import { RecentlyAddedIcons } from "@/components/recently-added-icons"
 import { REPO_NAME, WEB_URL } from "@/constants"
 import { getRecentlyAddedIcons, getTotalIcons } from "@/lib/api"
 
-async function getGitHubStars() {
-	try {
-		const response = await fetch(`https://api.github.com/repos/${REPO_NAME}`, {
-			next: { revalidate: 3600 },
-		})
-		if (!response.ok) return 0
-		const data = await response.json()
-		return data.stargazers_count ?? 0
-	} catch {
-		return 0
-	}
-}
-
 export default async function Home() {
 	const iconStats = await getTotalIcons()
 	const recentIcons = await getRecentlyAddedIcons(20)
-	const stars = await getGitHubStars()
 
 	const websiteJsonLd = {
 		"@context": "https://schema.org",
@@ -66,12 +52,7 @@ export default async function Home() {
 				dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd).replace(/</g, "\\u003c") }}
 			/>
 			<div className="flex flex-col min-h-screen">
-				<HeroSection
-					totalIcons={iconStats.totalIcons}
-					nativeCount={iconStats.nativeCount}
-					sourceCounts={iconStats.sourceCounts}
-					stars={stars}
-				/>
+				<HeroSection totalIcons={iconStats.totalIcons} nativeCount={iconStats.nativeCount} sourceCounts={iconStats.sourceCounts} />
 				<RecentlyAddedIcons icons={recentIcons} />
 			</div>
 		</>

@@ -142,9 +142,9 @@ function applyAuthorMetaFallback(data: AuthorData, authorMeta?: { name?: string;
 	return {
 		...data,
 		login: authorMeta.login,
-		name: data.name || authorMeta.name || authorMeta.login,
+		name: authorMeta.name || authorMeta.login,
 		html_url: `https://github.com/${authorMeta.login}`,
-		avatar_url: data.avatar_url || `https://github.com/${authorMeta.login}.png`,
+		avatar_url: `https://github.com/${authorMeta.login}.png`,
 	}
 }
 

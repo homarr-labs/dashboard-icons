@@ -24,7 +24,7 @@ import { useEffect, useRef, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
-import { DASHBOARD_ICONS_ICON, EXTERNAL_SOURCES, type ExternalSourceId } from "@/constants"
+import { DASHBOARD_ICONS_ICON, EXTERNAL_SOURCES, type ExternalSourceId, REPO_NAME } from "@/constants"
 import { cn } from "@/lib/utils"
 import { AddMcpButton } from "./add-mcp-button"
 import { AddToSearchBarButton } from "./add-to-search-bar-button"
@@ -152,12 +152,10 @@ export function HeroSection({
 	totalIcons,
 	nativeCount,
 	sourceCounts,
-	stars,
 }: {
 	totalIcons: number
 	nativeCount: number
 	sourceCounts: Record<string, number>
-	stars: number
 }) {
 	const [searchQuery, setSearchQuery] = useState("")
 
@@ -275,7 +273,7 @@ export function HeroSection({
 							<Link href="/icons">
 								<InteractiveHoverButton className="rounded-md bg-input/30">Browse icons & logos</InteractiveHoverButton>
 							</Link>
-							<GiveUsAStarButton stars={stars} />
+							<GiveUsAStarButton />
 							<GiveUsMoneyButton />
 							<GiveUsLoveButton />
 						</div>
@@ -292,7 +290,28 @@ export function HeroSection({
 	)
 }
 
-export default function GiveUsAStarButton({ stars }: { stars: string | number }) {
+export default function GiveUsAStarButton() {
+	const [stars, setStars] = useState<number | null>(null)
+
+	useEffect(() => {
+		async function fetchStars() {
+			try {
+				const response = await fetch(`https://api.github.com/repos/${REPO_NAME}`)
+				if (!response.ok) return
+
+				const data: unknown = await response.json()
+				if (typeof data !== "object" || data === null || !("stargazers_count" in data)) return
+				if (typeof data.stargazers_count !== "number") return
+
+				setStars(data.stargazers_count)
+			} catch (error) {
+				console.error("Failed to fetch stars:", error)
+			}
+		}
+
+		fetchStars()
+	}, [])
+
 	return (
 		<HoverCard openDelay={200} closeDelay={200}>
 			<HoverCardTrigger asChild>
@@ -306,7 +325,7 @@ export default function GiveUsAStarButton({ stars }: { stars: string | number })
 						<div>
 							<p>Give us a star</p>
 							<Star className="h-4 w-4 ml-1 text-yellow-500 fill-yellow-500" />
-							<span className="text-xs text-muted-foreground">{stars}</span>
+							{stars !== null && <span className="text-xs text-muted-foreground">{stars.toLocaleString("en-US")}</span>}
 						</div>
 					</Button>
 				</Link>

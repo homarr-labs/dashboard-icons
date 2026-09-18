@@ -248,6 +248,8 @@ describe("api", () => {
 			const { getAuthorData, clearAuthorDataCacheForTests } = await loadApi()
 			clearAuthorDataCacheForTests()
 			const author = await getAuthorData(7, { login: "meta-user", name: "Meta" })
+			expect(author.name).toBe("Meta")
+			expect(author.avatar_url).toBe("https://github.com/meta-user.png")
 			expect(author.html_url).toBe("https://github.com/meta-user")
 		})
 
