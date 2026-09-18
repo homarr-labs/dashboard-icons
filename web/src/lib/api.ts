@@ -1,6 +1,7 @@
 import "server-only"
 
 import { unstable_cache } from "next/cache"
+import { unstable_rethrow } from "next/navigation"
 import type { RelatedIcon } from "@/components/icon-details"
 import { ApiError } from "@/lib/errors"
 import * as iconService from "@/lib/icons/service"
@@ -35,21 +36,14 @@ const getCachedGitHubAuthorData = unstable_cache(
 	{ revalidate: CACHE_TTL_SECONDS, tags: ["github-authors"] },
 )
 
-const getCachedIconsArray = unstable_cache(
-	async (): Promise<NativeIconRecord[]> => {
-		const iconsData = await iconService.getAllIcons()
-		return Object.entries(iconsData)
-			.map(([name, data]) => ({
-				name,
-				slug: name,
-				source: "native" as const,
-				data,
-			}))
-			.sort((a, b) => a.name.localeCompare(b.name))
-	},
-	["native-icons-array"],
-	{ revalidate: CACHE_TTL_SECONDS, tags: ["native-icons"] },
-)
+// The metadata service caches the catalogue; its full derived array is also
+// too large for Next's data cache.
+async function loadIconsArray(): Promise<NativeIconRecord[]> {
+	const iconsData = await iconService.getAllIcons()
+	return Object.entries(iconsData)
+		.map(([name, data]) => ({ name, slug: name, source: "native" as const, data }))
+		.sort((a, b) => a.name.localeCompare(b.name))
+}
 
 const getCachedIconNames = unstable_cache(
 	async (): Promise<string[]> => {
@@ -62,7 +56,7 @@ const getCachedIconNames = unstable_cache(
 
 const getCachedRecentlyAdded = unstable_cache(
 	async (limit: number): Promise<IconWithName[]> => {
-		const icons = await getCachedIconsArray()
+		const icons = await loadIconsArray()
 		return icons
 			.toSorted((a, b) => new Date(b.data.update.timestamp).getTime() - new Date(a.data.update.timestamp).getTime())
 			.slice(0, limit)
@@ -76,6 +70,7 @@ export async function getAllIcons(): Promise<IconFile> {
 	try {
 		return await iconService.getAllIcons()
 	} catch (error) {
+		unstable_rethrow(error)
 		if (error instanceof ApiError) throw error
 		console.error("Error fetching icons:", error)
 		throw new ApiError("Failed to fetch icons data. Please try again later.")
@@ -87,7 +82,7 @@ export async function getIconNames(): Promise<string[]> {
 }
 
 export async function getIconsArray(): Promise<NativeIconRecord[]> {
-	return getCachedIconsArray()
+	return loadIconsArray()
 }
 
 export async function getIconData(iconName: string): Promise<IconWithName | null> {

@@ -11,6 +11,7 @@ export const dynamic = "force-static"
 export const revalidate = 900
 
 export async function generateStaticParams() {
+	if (process.env.PRERENDER_ICON_PAGES === "false") return []
 	const icons = await getExternalIcons()
 	const seen = new Set<string>()
 	return icons

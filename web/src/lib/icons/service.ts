@@ -1,7 +1,7 @@
 import "server-only"
 
 import { readFile } from "node:fs/promises"
-import { unstable_cache } from "next/cache"
+import { unstable_rethrow } from "next/navigation"
 import { METADATA_URL } from "@/constants"
 import { filterAndSortIcons, scoreIcon } from "@/lib/icons/search"
 import type { IconDetail, IconUrlResult, SearchResult, Suggestion } from "@/lib/icons/types"
@@ -12,18 +12,21 @@ import type { Icon, IconFile, IconWithName } from "@/types/icons"
 const METADATA_FETCH_TIMEOUT_MS = 10_000
 const CACHE_TTL_SECONDS = 900
 const CACHE_TTL_MS = CACHE_TTL_SECONDS * 1000
+const CACHE_RETRY_DELAY_MS = 60_000
 
 type MetadataCacheState = {
 	data: IconFile
 	etag: string | null
 	loadedAt: number
+	retryAfter?: number
 }
 
-type MetadataFetchResult = Omit<MetadataCacheState, "loadedAt">
+type MetadataFetchResult = Omit<MetadataCacheState, "loadedAt" | "retryAfter">
 
 declare global {
 	// eslint-disable-next-line no-var
 	var __dashboardIconsMetadata: MetadataCacheState | undefined
+	var __dashboardIconsMetadataPending: Promise<IconFile> | undefined
 }
 
 async function requestRemoteMetadata(etag?: string): Promise<Response> {
@@ -33,7 +36,7 @@ async function requestRemoteMetadata(etag?: string): Promise<Response> {
 	return fetch(METADATA_URL, {
 		signal: AbortSignal.timeout(METADATA_FETCH_TIMEOUT_MS),
 		headers,
-		next: { revalidate: CACHE_TTL_SECONDS },
+		cache: "no-store",
 	})
 }
 
@@ -70,24 +73,38 @@ async function loadMetadataUncached(): Promise<MetadataFetchResult> {
 	return fetchMetadataFromRemote()
 }
 
-const getCachedMetadata = unstable_cache(async () => loadMetadataUncached(), ["dashboard-icons-metadata-v2"], {
-	revalidate: CACHE_TTL_SECONDS,
-	tags: ["native-icons"],
-})
-
 export async function warmMetadataCache(): Promise<void> {
 	await getAllIcons()
 }
 
 export async function getAllIcons(): Promise<IconFile> {
 	const cached = globalThis.__dashboardIconsMetadata
-	if (cached && Date.now() - cached.loadedAt < CACHE_TTL_MS) {
+	const now = Date.now()
+	if (cached && (now - cached.loadedAt < CACHE_TTL_MS || (cached.retryAfter ?? 0) > now)) {
 		return cached.data
 	}
 
-	const { data, etag } = await getCachedMetadata()
-	globalThis.__dashboardIconsMetadata = { data, etag, loadedAt: Date.now() }
-	return data
+	// Whole catalogues exceed Next's 2 MB data-cache limit. Share one refresh
+	// between requests and retain the ETag for conditional requests after expiry.
+	if (!globalThis.__dashboardIconsMetadataPending) {
+		globalThis.__dashboardIconsMetadataPending = loadMetadataUncached()
+			.then((fresh) => {
+				globalThis.__dashboardIconsMetadata = { ...fresh, loadedAt: Date.now() }
+				return fresh.data
+			})
+			.catch((error) => {
+				unstable_rethrow(error)
+				if (cached) {
+					cached.retryAfter = Date.now() + CACHE_RETRY_DELAY_MS
+					return cached.data
+				}
+				throw error
+			})
+			.finally(() => {
+				globalThis.__dashboardIconsMetadataPending = undefined
+			})
+	}
+	return globalThis.__dashboardIconsMetadataPending
 }
 
 function toIconWithName(name: string, data: Icon): IconWithName {
@@ -182,4 +199,5 @@ export async function suggestIcons(serviceName: string, limit = 5): Promise<{ su
 
 export function clearMetadataCacheForTests(): void {
 	globalThis.__dashboardIconsMetadata = undefined
+	globalThis.__dashboardIconsMetadataPending = undefined
 }

@@ -44,7 +44,6 @@ next-env.d.ts
 # PocketBase (local dev only)
 backend/pocketbase
 backend/pb_data
-backend/pb_migrations
 
 # Docs and design artifacts (not needed at runtime)
 /docs
@@ -58,3 +57,6 @@ skills-lock.json
 
 # Biome config (linting only)
 biome.jsonc
+
+.claude
+.pi

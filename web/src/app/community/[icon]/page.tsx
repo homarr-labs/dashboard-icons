@@ -4,6 +4,7 @@ import { IconDetails } from "@/components/icon-details"
 import { BASE_URL, WEB_URL } from "@/constants"
 import { computeRelatedIcons, getAllIcons, getAuthorData } from "@/lib/api"
 import { getCommunityGalleryRecord, getCommunitySubmissionByName, getCommunitySubmissions } from "@/lib/community"
+import { isIconAssetUrl } from "@/lib/icon-url"
 
 function isIconAddedToCollection(
 	record: Awaited<ReturnType<typeof getCommunityGalleryRecord>>,
@@ -18,6 +19,7 @@ export const revalidate = 900
 export const dynamic = "force-static"
 
 export async function generateStaticParams() {
+	if (process.env.PRERENDER_ICON_PAGES === "false") return []
 	const icons = await getCommunitySubmissions()
 	return icons.map((icon) => ({
 		icon: icon.name,
@@ -58,10 +60,9 @@ export async function generateMetadata({ params }: Props, _parent: ResolvingMeta
 		.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
 		.join(" ")
 
-	const mainIconUrl =
-		typeof iconData.data.base === "string" && iconData.data.base.startsWith("http")
-			? iconData.data.base
-			: (iconData.data as any).mainIconUrl || `${BASE_URL}/svg/${icon}.svg`
+	const mainIconUrl = isIconAssetUrl(iconData.data.base)
+		? iconData.data.base
+		: (iconData.data as any).mainIconUrl || `${BASE_URL}/svg/${icon}.svg`
 	return {
 		title: `${formattedIconName} Icon & Logo (Community)`,
 		description: `Download the ${formattedIconName} community-submitted icon and logo. Part of a collection of ${totalIcons} community icons and logos awaiting review and addition to the Dashboard Icons collection.`,
@@ -198,10 +199,9 @@ export default async function CommunityIconPage({ params }: { params: Promise<{ 
 	})
 	console.log(iconData.data)
 
-	const mainIconUrl =
-		typeof iconData.data.base === "string" && iconData.data.base.startsWith("http")
-			? iconData.data.base
-			: (iconData.data as any).mainIconUrl || `${BASE_URL}/svg/${icon}.svg`
+	const mainIconUrl = isIconAssetUrl(iconData.data.base)
+		? iconData.data.base
+		: (iconData.data as any).mainIconUrl || `${BASE_URL}/svg/${icon}.svg`
 
 	const iconDataForDisplay = {
 		...iconData.data,

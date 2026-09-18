@@ -1,28 +1,16 @@
 services:
-  backend:
-    restart: always
-    image: ghcr.io/muchobien/pocketbase:latest
-    ports:
-      - "8090:8090"
-    volumes:
-      - pb_data:/pb_data
-      - pb_hooks:/pb_hooks
-
-  web:
-    restart: always
+  dashboard-icons:
     image: ghcr.io/homarr-labs/dashboard-icons:latest
-    depends_on:
-      - backend
-    environment:
-      NODE_ENV: production
-      NEXT_PUBLIC_POSTHOG_KEY: ${NEXT_PUBLIC_POSTHOG_KEY}
-      NEXT_PUBLIC_POSTHOG_HOST: ${NEXT_PUBLIC_POSTHOG_HOST}
-      NEXT_PUBLIC_DISABLE_POSTHOG: ${NEXT_PUBLIC_DISABLE_POSTHOG}
-      NEXT_PUBLIC_POCKETBASE_URL: ${NEXT_PUBLIC_POCKETBASE_URL}
-      GITHUB_TOKEN: ${GITHUB_TOKEN}
+    pull_policy: always
     ports:
-      - "3000:3000"
+      - "8080:8080"
+    volumes:
+      - pb_data:/pb/pb_data
+    environment:
+      GITHUB_TOKEN: ${GITHUB_TOKEN:-}
+    restart: unless-stopped
+    stop_grace_period: 30s
 
 volumes:
   pb_data:
-  pb_hooks:
+    name: ${PB_DATA_VOLUME:-dashboard-icons-data}

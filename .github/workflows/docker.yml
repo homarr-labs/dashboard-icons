@@ -6,11 +6,6 @@ name: Main CI
 on:
   push:
     branches: [main]
-
-  # Daily schedule at midnight (00:00 UTC)
-  schedule:
-    - cron: "0 0 * * *"
-
   workflow_dispatch:
 
 defaults:
@@ -27,7 +22,7 @@ env:
   NEXT_PUBLIC_POSTHOG_KEY: phc_fNHNUqEQJHL2DHlwyaPniHOcpEwe8rFPeJEcPbuifC6
   NEXT_PUBLIC_POSTHOG_HOST: https://hog.homarr.dev
   NEXT_PUBLIC_DISABLE_POSTHOG: false
-  NEXT_PUBLIC_POCKETBASE_URL: https://pb.dashboardicons.com
+  NEXT_PUBLIC_POCKETBASE_URL: /pb
   CI_MODE: true
 
 jobs:
@@ -53,9 +48,11 @@ jobs:
           tags: |
             type=raw,value=latest
             type=semver,pattern={{version}}
-            # Add date-based tag for scheduled builds
-            type=schedule,pattern={{date 'YYYY.MM.DD'}},enable=${{ github.event_name == 'schedule' }}
 
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+        with:
+          platforms: arm64
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
 
@@ -71,12 +68,13 @@ jobs:
         env:
           NEXT_PUBLIC_POCKETBASE_URL: ${{ env.NEXT_PUBLIC_POCKETBASE_URL }}
         with:
-          platforms: linux/amd64
+          platforms: linux/amd64,linux/arm64
           context: ./web
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           no-cache: true
+          pull: true
           build-args: |
             NEXT_PUBLIC_POSTHOG_KEY=${{ env.NEXT_PUBLIC_POSTHOG_KEY }}
             NEXT_PUBLIC_POSTHOG_HOST=${{ env.NEXT_PUBLIC_POSTHOG_HOST }}
@@ -85,3 +83,18 @@ jobs:
             CI_MODE=${{ env.CI_MODE }}
           secrets: |
             "github_token=${{ secrets.GITHUB_TOKEN }}"
+
+      - name: Deploy to Dokploy
+        env:
+          DOKPLOY_URL: ${{ secrets.DOKPLOY_URL }}
+          DOKPLOY_API_KEY: ${{ secrets.DOKPLOY_API_KEY }}
+          DOKPLOY_COMPOSE_ID: ${{ secrets.DOKPLOY_COMPOSE_ID }}
+        run: |
+          if [ -z "$DOKPLOY_URL" ] || [ -z "$DOKPLOY_API_KEY" ] || [ -z "$DOKPLOY_COMPOSE_ID" ]; then
+            exit 0
+          fi
+          curl --fail-with-body --silent --show-error \
+            --request POST "${DOKPLOY_URL%/}/api/compose.deploy" \
+            --header "Content-Type: application/json" \
+            --header "x-api-key: $DOKPLOY_API_KEY" \
+            --data "{\"composeId\":\"$DOKPLOY_COMPOSE_ID\"}"

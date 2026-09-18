@@ -1,7 +1,11 @@
 import PocketBase, { type RecordService } from "pocketbase"
 import type { ExternalIcon } from "@/types/icons"
 
-const PB_URL = process.env.PB_URL || process.env.NEXT_PUBLIC_POCKETBASE_URL || "http://127.0.0.1:8090"
+// Public URLs must remain browser-reachable when records are rendered on the server.
+const PUBLIC_PB_URL = process.env.NEXT_PUBLIC_POCKETBASE_URL || "http://127.0.0.1:8090"
+function serverUrl(): string {
+	return process.env.PB_URL || PUBLIC_PB_URL
+}
 
 export interface User {
 	id: string
@@ -79,12 +83,12 @@ interface TypedPocketBase extends PocketBase {
 	collection(idOrName: "external_icons"): RecordService<ExternalIcon>
 }
 
-export const pb = new PocketBase(PB_URL) as TypedPocketBase
+export const pb = new PocketBase(PUBLIC_PB_URL) as TypedPocketBase
 
 export function createServerPB(): TypedPocketBase {
-	return new PocketBase(PB_URL) as TypedPocketBase
+	return new PocketBase(serverUrl()) as TypedPocketBase
 }
 
 export function getPocketBaseUrl(): string {
-	return PB_URL
+	return PUBLIC_PB_URL
 }

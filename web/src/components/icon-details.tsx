@@ -17,6 +17,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 import { UnoptimizedImage } from "@/components/unoptimized-image"
 import { BASE_URL, EXTERNAL_SOURCES, type ExternalSourceId, REPO_PATH } from "@/constants"
 import { canResolveExternalIconUrl, getExternalIconPreviewUrl, resolveExternalIconUrl } from "@/lib/external-icon-urls"
+import { isIconAssetUrl } from "@/lib/icon-url"
 import { isClipboardAvailable } from "@/lib/svg-color-utils"
 import { formatIconName } from "@/lib/utils"
 import type { AuthorData, ExternalIcon, Icon } from "@/types/icons"
@@ -177,8 +178,7 @@ export function IconDetails({
 	}
 
 	const communityData = iconData as CommunityIconData
-	const isCommunityIcon =
-		!isExternalIcon && (!!communityData.mainIconUrl || (typeof iconData.base === "string" && iconData.base.startsWith("http")))
+	const isCommunityIcon = !isExternalIcon && (!!communityData.mainIconUrl || isIconAssetUrl(iconData.base))
 	const mainIconUrl = communityData.mainIconUrl || (isCommunityIcon ? iconData.base : null)
 	const assetUrls = communityData.assetUrls || []
 
