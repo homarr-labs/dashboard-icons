@@ -68,6 +68,9 @@ const nextConfig: NextConfig = {
 		],
 	},
 	output: "standalone",
+	outputFileTracingIncludes: {
+		"/*": ["node_modules/.pnpm/@img+sharp-libvips-*/node_modules/@img/sharp-libvips-*/**"],
+	},
 	outputFileTracingExcludes: {
 		"*": [
 			"./scripts/**",
