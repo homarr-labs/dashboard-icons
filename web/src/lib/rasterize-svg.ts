@@ -1,14 +1,20 @@
 import "server-only"
 import sharp from "sharp"
 
-export async function rasterizeRemoteSvg(url: string, size: number): Promise<ArrayBuffer> {
+export async function rasterizeRemoteSvg(url: string, size: number, fillColor?: string): Promise<ArrayBuffer> {
 	const response = await fetch(url)
 	if (!response.ok) throw new Error(`Failed to fetch SVG (${response.status})`)
 
-	const png = await sharp(Buffer.from(await response.arrayBuffer()))
-		.resize(size, size, { fit: "contain" })
-		.png()
-		.toBuffer()
+	let svgInput: Buffer
+	if (fillColor) {
+		if (!/^#[0-9A-Fa-f]{6}$/.test(fillColor)) throw new Error("Invalid SVG fill color")
+		const svg = (await response.text()).replace(/<svg\b/, `<svg fill="${fillColor}"`)
+		svgInput = Buffer.from(svg)
+	} else {
+		svgInput = Buffer.from(await response.arrayBuffer())
+	}
+
+	const png = await sharp(svgInput).resize(size, size, { fit: "contain" }).png().toBuffer()
 
 	return Uint8Array.from(png).buffer
 }
