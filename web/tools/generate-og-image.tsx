@@ -22,13 +22,21 @@ const rows = [
 ]
 
 async function imageData(path: string, width: number) {
-	const image = await sharp(await readFile(path)).resize(width, width, { fit: "inside" }).png().toBuffer()
+	let data: Buffer
+	if (path.startsWith("https://")) {
+		const response = await fetch(path, { signal: AbortSignal.timeout(30_000) })
+		if (!response.ok) throw new Error(`Icon download failed: ${response.status} ${path}`)
+		data = Buffer.from(await response.arrayBuffer())
+	} else {
+		data = await readFile(path)
+	}
+	const image = await sharp(data).resize(width, width, { fit: "inside" }).png().toBuffer()
 	return `data:image/png;base64,${image.toString("base64")}`
 }
 
 function iconPath(name: string) {
 	if (name === "hermes-agent") {
-		return resolve(webRoot, "tools/og-assets/hermes-agent.png")
+		return "https://cdn.jsdelivr.net/npm/@lobehub/icons-static-png@latest/dark/hermesagent.png"
 	}
 	// Use light variants for monochrome marks on the dark grid.
 	if (name === "openai") {
