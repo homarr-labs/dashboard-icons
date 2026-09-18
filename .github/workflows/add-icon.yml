@@ -17,6 +17,8 @@ on:
         required: true
       PB_ADMIN_TOKEN:
         required: true
+      PAT_GITHUB_TOKEN:
+        required: true
   workflow_dispatch:
     inputs:
       submissionIds:
@@ -40,12 +42,13 @@ jobs:
       contents: write
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
+          token: ${{ secrets.PAT_GITHUB_TOKEN }}
 
       - name: Setup Bun
-        uses: oven-sh/setup-bun@v1
+        uses: oven-sh/setup-bun@v2
 
       - name: Configure git user
         run: |
@@ -107,4 +110,3 @@ jobs:
           else
             echo "No commits to push"
           fi
-
