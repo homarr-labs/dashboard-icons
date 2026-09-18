@@ -1,0 +1,27 @@
+web/src/app/page.tsx
+  s_4899c67c56b705::t_bfb21d7e086907 55
+web/src/lib/__tests__/api.test.ts
+  s_4899c67c56b705::t_14722d2c99febd 251-252
+web/src/lib/api.ts
+  s_4899c67c56b705::t_14722d2c99febd 145,147
+web/src/components/hero.tsx
+  s_4899c67c56b705::t_bfb21d7e086907 27
+  s_4899c67c56b705::t_f1ed01e2f8b670 307-309
+  s_4899c67c56b705::t_9e4cec91cb3203 276,293-306,310-314,328
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "75352f519fac4cecaaff115dd8fca0c8d970fa69",
+  "prompts": {},
+  "sessions": {
+    "s_4899c67c56b705": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_f5ea27706ffewTy6S5kRk2D7lT",
+        "model": "gpt-5.6-sol-fast"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
