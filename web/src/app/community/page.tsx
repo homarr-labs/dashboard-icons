@@ -1,3 +1,6 @@
+// Read the mounted database at request time, not the empty image-build database.
+export const dynamic = "force-dynamic"
+
 import type { Metadata } from "next"
 import { Suspense } from "react"
 import { CommunityIconSearch } from "@/components/community-icon-search"

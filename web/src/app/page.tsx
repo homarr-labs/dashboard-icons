@@ -1,3 +1,6 @@
+// Read the mounted database at request time, not the empty image-build database.
+export const dynamic = "force-dynamic"
+
 export const revalidate = 900
 
 import { HeroSection } from "@/components/hero"

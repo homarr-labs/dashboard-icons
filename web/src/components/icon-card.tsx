@@ -3,7 +3,7 @@ import { MagicCard } from "@/components/magicui/magic-card"
 import { UnoptimizedImage } from "@/components/unoptimized-image"
 import { EXTERNAL_SOURCES, type ExternalSourceId } from "@/constants"
 import { resolveExternalIconUrl } from "@/lib/external-icon-urls"
-import { getIconImageUrl } from "@/lib/icon-url"
+import { getIconImageUrl, isIconAssetUrl } from "@/lib/icon-url"
 import { formatIconName } from "@/lib/utils"
 import type { IconWithName } from "@/types/icons"
 
@@ -13,7 +13,7 @@ function getIconKind(icon: IconWithName): IconKind {
 	if (icon.source && icon.source !== "native" && icon.external) {
 		return { type: "external", slug: icon.slug || icon.external.slug, sourceId: icon.source as ExternalSourceId }
 	}
-	if (typeof icon.data.base === "string" && icon.data.base.startsWith("http")) {
+	if (isIconAssetUrl(icon.data.base)) {
 		return { type: "community" }
 	}
 	return { type: "native" }

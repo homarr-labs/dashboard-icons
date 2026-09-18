@@ -4,11 +4,12 @@ import { IconDetails } from "@/components/icon-details"
 import { BASE_URL, WEB_URL } from "@/constants"
 import { computeRelatedIcons, getAllIcons, getAuthorData } from "@/lib/api"
 
-export const dynamicParams = false
-export const revalidate = false
+export const dynamicParams = true
 export const dynamic = "force-static"
+export const revalidate = 900
 
 export async function generateStaticParams() {
+	if (process.env.PRERENDER_ICON_PAGES === "false") return []
 	const iconsData = await getAllIcons()
 	return Object.keys(iconsData).map((icon) => ({
 		icon,

@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from "vitest"
 import { BASE_URL } from "@/constants"
-import { getIconImageUrl } from "@/lib/icon-url"
+import { getIconImageUrl, isIconAssetUrl } from "@/lib/icon-url"
 import type { ExternalIcon, IconWithName } from "@/types/icons"
 
 vi.mock("@/lib/external-icon-urls", () => ({
@@ -19,6 +19,15 @@ const nativeIcon = (overrides: Partial<IconWithName> = {}): IconWithName => ({
 })
 
 describe("getIconImageUrl", () => {
+	it("preserves same-origin PocketBase URLs and classifies them as community assets", () => {
+		const base = "/pb/api/files/community_gallery/record/icon.svg"
+		const icon = nativeIcon()
+		icon.data.base = base
+		expect(getIconImageUrl(icon)).toBe(base)
+		expect(isIconAssetUrl(base)).toBe(true)
+		expect(isIconAssetUrl("svg")).toBe(false)
+	})
+
 	it("returns external preview url for non-native icons", () => {
 		const external = { slug: "plex", source: "selfhst" } as ExternalIcon
 		const url = getIconImageUrl({

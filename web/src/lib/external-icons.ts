@@ -1,4 +1,3 @@
-import { unstable_cache } from "next/cache"
 import { cache } from "react"
 import { EXTERNAL_SOURCE_IDS, type ExternalSourceId, getExternalSource } from "@/constants"
 import { createServerPB } from "@/lib/pb"
@@ -98,25 +97,28 @@ async function fetchAllExternalIcons(): Promise<ExternalIconRecord[]> {
 	return results.flat()
 }
 
-const getCachedExternalIcons = unstable_cache(async (): Promise<ExternalIconRecord[]> => fetchAllExternalIcons(), ["all-external-icons"], {
-	revalidate: EXTERNAL_REVALIDATE_SECONDS,
-	tags: ["external-icons"],
-})
+let pendingExternalIcons: Promise<ExternalIconRecord[]> | null = null
 
 async function fetchExternalIconsWithTTL(): Promise<ExternalIconRecord[]> {
 	if (_memCache && Date.now() - _memCache.ts < EXTERNAL_TTL_MS) {
 		return _memCache.data
 	}
-	try {
-		const data = await getCachedExternalIcons()
-		if (data.length > 0) {
-			_memCache = { data, ts: Date.now() }
-		}
-		return data
-	} catch (error) {
-		logExternalIconsFailure(error)
-		return []
+	// External catalogues also exceed Next's per-entry data-cache limit.
+	if (!pendingExternalIcons) {
+		pendingExternalIcons = fetchAllExternalIcons()
+			.then((data) => {
+				_memCache = { data, ts: Date.now() }
+				return data
+			})
+			.catch((error) => {
+				logExternalIconsFailure(error)
+				return _memCache?.data ?? []
+			})
+			.finally(() => {
+				pendingExternalIcons = null
+			})
 	}
+	return pendingExternalIcons
 }
 
 export const getExternalIcons = cache(async (): Promise<ExternalIconRecord[]> => {
