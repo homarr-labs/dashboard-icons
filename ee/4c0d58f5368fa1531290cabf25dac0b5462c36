@@ -1,0 +1,20 @@
+.github/workflows/docker.yml
+  s_4899c67c56b705::t_d29eac6374561b 53
+  s_4899c67c56b705::t_be7ab87c574ca5 39,43,57,60,67
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "ee4c0d58f5368fa1531290cabf25dac0b5462c36",
+  "prompts": {},
+  "sessions": {
+    "s_4899c67c56b705": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_f5ea27706ffewTy6S5kRk2D7lT",
+        "model": "gpt-5.6-sol-fast"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
