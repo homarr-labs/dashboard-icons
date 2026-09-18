@@ -1,0 +1,33 @@
+meta/hermes.json
+  s_e29809992f229c::t_6a576e447a73ab 1-15
+svg/hermes.svg
+  s_e29809992f229c::t_daa56ee7522fe1 1
+tree.json
+  s_e29809992f229c::t_1c4977a86b915c 988,3596,6046
+metadata.json
+  s_30db6fc42dafab::t_7eaf33d9c4f765 49515-49518,49520,49522,49524-49525
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "785f810cc0da695c0c23854c6909c2138d1d5298",
+  "prompts": {},
+  "sessions": {
+    "s_30db6fc42dafab": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0b680-19b8-7262-9e2b-2c5e9b498d37",
+        "model": "unknown"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    },
+    "s_e29809992f229c": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0b57e-5740-7a00-8b2b-c6b7888c4e2a",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}

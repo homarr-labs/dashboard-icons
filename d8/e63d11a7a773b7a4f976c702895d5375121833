@@ -1,0 +1,21 @@
+web/tools/README.md
+  s_e29809992f229c::t_4a2feb0d53b7c2 5
+web/tools/generate-og-image.tsx
+  s_e29809992f229c::t_04c6954fa89df4 8,55-60,62-85
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "d8e63d11a7a773b7a4f976c702895d5375121833",
+  "prompts": {},
+  "sessions": {
+    "s_e29809992f229c": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0b57e-5740-7a00-8b2b-c6b7888c4e2a",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}

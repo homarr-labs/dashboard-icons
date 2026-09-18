@@ -1,0 +1,25 @@
+.github/workflows/docker.yml
+  s_e29809992f229c::t_f84930314201a4 9-11,44-64
+web/package.json
+  s_e29809992f229c::t_2d022ef108a27d 10
+web/tools/generate-og-image.tsx
+  s_e29809992f229c::t_d6e46366c099bb 1-134
+web/tools/og-assets/Inter-OFL.txt
+  s_e29809992f229c::t_917058f3df4e54 1-93
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "9a99b1fd0ef3b483495a5d4b6d74c88178bd65bd",
+  "prompts": {},
+  "sessions": {
+    "s_e29809992f229c": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0b57e-5740-7a00-8b2b-c6b7888c4e2a",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
