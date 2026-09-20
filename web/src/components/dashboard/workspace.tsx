@@ -72,7 +72,7 @@ export function DashboardWorkspace() {
 	const [busy, setBusy] = useState(false)
 	const [failures, setFailures] = useState<{ id: string; error: string }[]>([])
 	const [wide, setWide] = useState(false)
-	const [nextPageSelection, setNextPageSelection] = useState<"first" | "last" | null>(null)
+	const [nextPageSelection, setNextPageSelection] = useState<{ position: "first" | "last"; page: number } | null>(null)
 	const returnFocus = useRef<HTMLElement | null>(null)
 	const lastInspectedId = useRef(activeId)
 	if (activeId) lastInspectedId.current = activeId
@@ -176,10 +176,10 @@ export function DashboardWorkspace() {
 		return () => clearInterval(timer)
 	}, [filters.view, summary.data, reconcile])
 	useEffect(() => {
-		if (!nextPageSelection || list.isFetching || !list.data) return
+		if (!nextPageSelection || list.isFetching || !list.data || list.data.page !== nextPageSelection.page) return
 		const pageRows = list.data.items
 		let target = pageRows[0]
-		if (nextPageSelection === "last") target = pageRows[pageRows.length - 1]
+		if (nextPageSelection.position === "last") target = pageRows[pageRows.length - 1]
 		if (target) update({ item: target.id }, true)
 		setNextPageSelection(null)
 	}, [nextPageSelection, list.isFetching, list.data, update])
@@ -213,7 +213,7 @@ export function DashboardWorkspace() {
 						const position = rows.findIndex((row) => row.id === intent.records[0].id)
 						const refreshed = await list.refetch()
 						if (refreshed.data?.items.some((row) => row.id === intent.records[0].id)) {
-							setNextPageSelection("first")
+							setNextPageSelection({ position: "first", page: filters.page + 1 })
 							update({ page: String(filters.page + 1), item: "" }, true)
 							nextId = ""
 						} else nextId = refreshed.data?.items[position]?.id || ""
@@ -277,14 +277,14 @@ export function DashboardWorkspace() {
 		onPrevious:
 			index === 0 && filters.page > 1
 				? () => {
-						setNextPageSelection("last")
+						setNextPageSelection({ position: "last", page: filters.page - 1 })
 						update({ page: String(filters.page - 1) })
 					}
 				: undefined,
 		onNext:
 			index === rows.length - 1 && filters.page < (list.data?.totalPages || 0)
 				? () => {
-						setNextPageSelection("first")
+						setNextPageSelection({ position: "first", page: filters.page + 1 })
 						update({ page: String(filters.page + 1) })
 					}
 				: undefined,
