@@ -1,0 +1,19 @@
+web/src/components/footer.tsx
+  s_9bbf65eafab5d3::t_3cff12934e3171 7-18,20-27
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "d7ea7482758c7085a52cb0c82d2a34084ab9ac5b",
+  "prompts": {},
+  "sessions": {
+    "s_9bbf65eafab5d3": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0c08f-64bb-7410-a609-482c1b7e04af",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
