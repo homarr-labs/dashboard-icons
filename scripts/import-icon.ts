@@ -1,178 +1,188 @@
 #!/usr/bin/env bun
 
-import { mkdir } from "node:fs/promises";
+import { appendFile, mkdir } from "node:fs/promises"
 
-import path from "node:path";
+import path from "node:path"
 
-type IconColors = { light?: string; dark?: string };
-type IconWordmark = { light?: string; dark?: string };
+type IconColors = { light?: string; dark?: string }
+type IconWordmark = { light?: string; dark?: string }
 
 interface PBUser {
-	id: string;
-	username?: string;
-	email?: string;
-	github_id?: string;
+	id: string
+	username?: string
+	email?: string
+	github_id?: string
 }
 
 interface SubmissionExtras {
-	aliases?: string[];
-	categories?: string[];
-	base?: string;
-	colors?: IconColors;
-	wordmark?: IconWordmark;
+	aliases?: string[]
+	categories?: string[]
+	base?: string
+	colors?: IconColors
+	wordmark?: IconWordmark
 }
 
 interface Submission {
-	id: string;
-	name: string;
-	assets: string[];
-	created_by: string;
-	status: string;
-	extras?: SubmissionExtras;
-	approved_by?: string;
-	description?: string;
-	admin_comment?: string;
+	id: string
+	name: string
+	assets: string[]
+	created_by: string
+	status: string
+	updated: string
+	extras?: SubmissionExtras
+	approved_by?: string
+	description?: string
+	admin_comment?: string
 	expand?: {
-		created_by?: PBUser;
-		approved_by?: PBUser;
-	};
+		created_by?: PBUser
+		approved_by?: PBUser
+	}
 }
 
 interface Args {
-	submissionId: string;
-	dryRun: boolean;
-	ghaOutputPath?: string;
+	submissionId: string
+	dryRun: boolean
+	ghaOutputPath?: string
+	commitMessagePath?: string
 }
 
 interface MetadataAuthor {
-	id: string | number;
-	name?: string;
-	login?: string;
+	id: string | number
+	name?: string
+	login?: string
 }
 
 interface MetadataEntry {
-	base: string;
-	aliases: string[];
-	categories: string[];
+	base: string
+	aliases: string[]
+	categories: string[]
 	update: {
-		timestamp: string;
-		author: MetadataAuthor;
-	};
-	colors?: IconColors;
-	wordmark?: IconWordmark;
+		timestamp: string
+		author: MetadataAuthor
+	}
+	colors?: IconColors
+	wordmark?: IconWordmark
 }
 
-type VariantKey =
-	| "base"
-	| "light"
-	| "dark"
-	| "wordmark-light"
-	| "wordmark-dark";
+type VariantKey = "base" | "light" | "dark" | "wordmark-light" | "wordmark-dark"
 
 interface VariantTarget {
-	key: VariantKey;
-	destFilename: string;
-	exactFilename?: string; // exact filename to match (from extras.wordmark or extras.colors)
-	sourceAsset?: string; // chosen source asset name
+	key: VariantKey
+	destFilename: string
+	exactFilename?: string // exact filename to match (from extras.wordmark or extras.colors)
+	sourceAsset?: string // chosen source asset name
 }
 
-const PB_URL = process.env.PB_URL;
-const PB_ADMIN_TOKEN = process.env.PB_ADMIN_TOKEN;
-const ROOT_DIR = process.cwd();
-const METADATA_PATH = path.resolve(ROOT_DIR, "metadata.json");
+const PB_URL = process.env.PB_URL
+const PB_ADMIN_TOKEN = process.env.PB_ADMIN_TOKEN
+const ROOT_DIR = process.cwd()
+const METADATA_PATH = path.resolve(ROOT_DIR, "metadata.json")
 
 /**
  * Get the destination directory based on file extension
  * SVG files go to svg/, PNG files go to png/, WEBP files go to webp/
  */
 function getExtensionDir(filename: string): string {
-	const ext = path.extname(filename).replace(".", "").toLowerCase();
+	const ext = path.extname(filename).replace(".", "").toLowerCase()
 	switch (ext) {
 		case "svg":
-			return path.resolve(ROOT_DIR, "svg");
+			return path.resolve(ROOT_DIR, "svg")
 		case "png":
-			return path.resolve(ROOT_DIR, "png");
+			return path.resolve(ROOT_DIR, "png")
 		case "webp":
-			return path.resolve(ROOT_DIR, "webp");
+			return path.resolve(ROOT_DIR, "webp")
 		default:
 			// Fallback to svg for unknown extensions
-			console.warn(`[import-icon] Unknown extension "${ext}", defaulting to svg/`);
-			return path.resolve(ROOT_DIR, "svg");
+			console.warn(`[import-icon] Unknown extension "${ext}", defaulting to svg/`)
+			return path.resolve(ROOT_DIR, "svg")
 	}
 }
 
 function parseArgs(argv: string[]): Args {
-	let submissionId: string | undefined;
-	let dryRun = false;
-	let ghaOutputPath: string | undefined = process.env.GITHUB_OUTPUT;
+	let submissionId: string | undefined
+	let dryRun = false
+	let ghaOutputPath: string | undefined = process.env.GITHUB_OUTPUT
+	let commitMessagePath: string | undefined
 
 	for (let i = 0; i < argv.length; i++) {
-		const arg = argv[i];
+		const arg = argv[i]
 		if (arg === "--submission-id" && argv[i + 1]) {
-			submissionId = argv[i + 1];
-			i++;
+			submissionId = argv[i + 1]
+			i++
 		} else if (arg === "--dry-run") {
-			dryRun = true;
+			dryRun = true
+		} else if (arg === "--commit-message" && argv[i + 1]) {
+			commitMessagePath = argv[++i]
 		} else if (arg === "--gha-output" && argv[i + 1]) {
-			ghaOutputPath = argv[i + 1];
-			i++;
+			ghaOutputPath = argv[i + 1]
+			i++
 		}
 	}
 
 	if (!submissionId) {
-		throw new Error("Missing required --submission-id");
+		throw new Error("Missing required --submission-id")
 	}
 
-	return { submissionId, dryRun, ghaOutputPath };
+	return { submissionId, dryRun, ghaOutputPath, commitMessagePath }
 }
 
 function requireEnv(name: string, value: string | undefined): string {
 	if (!value) {
-		throw new Error(`Missing required env var: ${name}`);
+		throw new Error(`Missing required env var: ${name}`)
 	}
-	return value.replace(/\/+$/, "");
+	return value.replace(/\/+$/, "")
 }
 
 async function fetchSubmission(pbUrl: string, id: string): Promise<Submission> {
-	const url = `${pbUrl}/api/collections/submissions/records/${id}?expand=created_by,approved_by`;
-	console.log(`[import-icon] Fetching submission from ${url}`);
+	const url = `${pbUrl}/api/collections/submissions/records/${id}?expand=created_by,approved_by`
+	console.log(`[import-icon] Fetching submission from ${url}`)
 	const res = await fetch(url, {
 		headers: { Authorization: PB_ADMIN_TOKEN ?? "" },
-	});
+	})
 
 	if (!res.ok) {
-		const body = await res.text();
-		console.error(
-			`[import-icon] fetch submission failed: status=${res.status} body=${body}`,
-		);
-		throw new Error(`Failed to fetch submission ${id}: ${res.status} ${body}`);
+		const body = await res.text()
+		console.error(`[import-icon] fetch submission failed: status=${res.status} body=${body}`)
+		throw new Error(`Failed to fetch submission ${id}: ${res.status} ${body}`)
 	}
 
-	return (await res.json()) as Submission;
+	return (await res.json()) as Submission
+}
+
+async function verifyReservation(pbUrl: string, submission: Submission) {
+	const response = await fetch(`${pbUrl}/api/collections/publish_batches/records?filter=active%3Dtrue&perPage=1`, {
+		headers: { Authorization: PB_ADMIN_TOKEN ?? "" },
+	})
+	if (!response.ok) throw new Error(`Could not check publication reservation (${response.status})`)
+	const result = (await response.json()) as { items: { id: string; items: { id: string; updated: string }[] }[] }
+	const batch = result.items[0]
+	const item = batch?.items.find((entry) => entry.id === submission.id)
+	if (item && batch.id !== process.env.PUBLISH_BATCH_ID) throw new Error("Submission is reserved by another publish batch")
+	if (process.env.PUBLISH_BATCH_ID && (!item || batch.id !== process.env.PUBLISH_BATCH_ID || item.updated !== submission.updated)) {
+		throw new Error("Publish reservation no longer matches this submission revision")
+	}
 }
 
 async function ensureDir(dir: string) {
-	await mkdir(dir, { recursive: true });
+	await mkdir(dir, { recursive: true })
 }
 
 async function fileExists(filePath: string): Promise<boolean> {
-	return await Bun.file(filePath).exists();
+	return await Bun.file(filePath).exists()
 }
 
 function inferBase(assets: string[], extrasBase?: string) {
-	if (extrasBase) return extrasBase;
-	const first = assets[0];
-	const ext = path.extname(first).replace(".", "").toLowerCase();
-	return ext || "svg";
+	if (extrasBase) return extrasBase
+	const first = assets[0]
+	const ext = path.extname(first).replace(".", "").toLowerCase()
+	return ext || "svg"
 }
 
 function buildTargets(submission: Submission): VariantTarget[] {
-	const iconId = submission.name;
-	const ext = inferBase(submission.assets, submission.extras?.base);
+	const iconId = submission.name
+	const ext = inferBase(submission.assets, submission.extras?.base)
 
-	const targets: VariantTarget[] = [
-		{ key: "base", destFilename: `${iconId}.${ext}` },
-	];
+	const targets: VariantTarget[] = [{ key: "base", destFilename: `${iconId}.${ext}` }]
 
 	// Only create variants that are explicitly defined in extras
 	if (submission.extras?.colors?.light) {
@@ -180,7 +190,7 @@ function buildTargets(submission: Submission): VariantTarget[] {
 			key: "light",
 			destFilename: `${iconId}-light.${ext}`,
 			exactFilename: submission.extras.colors.light,
-		});
+		})
 	}
 
 	if (submission.extras?.colors?.dark) {
@@ -188,7 +198,7 @@ function buildTargets(submission: Submission): VariantTarget[] {
 			key: "dark",
 			destFilename: `${iconId}-dark.${ext}`,
 			exactFilename: submission.extras.colors.dark,
-		});
+		})
 	}
 
 	if (submission.extras?.wordmark?.light) {
@@ -196,7 +206,7 @@ function buildTargets(submission: Submission): VariantTarget[] {
 			key: "wordmark-light",
 			destFilename: `${iconId}-wordmark-light.${ext}`,
 			exactFilename: submission.extras.wordmark.light,
-		});
+		})
 	}
 
 	if (submission.extras?.wordmark?.dark) {
@@ -204,100 +214,90 @@ function buildTargets(submission: Submission): VariantTarget[] {
 			key: "wordmark-dark",
 			destFilename: `${iconId}-wordmark-dark.${ext}`,
 			exactFilename: submission.extras.wordmark.dark,
-		});
+		})
 	}
 
-	return targets;
+	return targets
 }
 
-function assignAssetsToTargets(
-	assets: string[],
-	targets: VariantTarget[],
-): VariantTarget[] {
-	const remaining = new Set(assets);
+function assignAssetsToTargets(assets: string[], targets: VariantTarget[]): VariantTarget[] {
+	const remaining = new Set(assets)
 
 	const takeExact = (exactFilename: string): string | undefined => {
 		for (const asset of remaining) {
 			if (asset === exactFilename) {
-				remaining.delete(asset);
-				return asset;
+				remaining.delete(asset)
+				return asset
 			}
 		}
-		return undefined;
-	};
+		return undefined
+	}
 
 	const takeAny = (): string | undefined => {
-		const first = remaining.values().next().value as string | undefined;
-		if (first) remaining.delete(first);
-		return first;
-	};
+		const first = remaining.values().next().value as string | undefined
+		if (first) remaining.delete(first)
+		return first
+	}
 
 	// Process variants with exact filenames first to reserve them
 	// Then process the base icon to take any remaining asset
-	const assignments = new Map<VariantTarget, string | undefined>();
-	
+	const assignments = new Map<VariantTarget, string | undefined>()
+
 	// First pass: assign variants with exact filenames
 	for (const t of targets) {
 		if (t.exactFilename) {
-			const exact = takeExact(t.exactFilename);
-			assignments.set(t, exact);
+			const exact = takeExact(t.exactFilename)
+			assignments.set(t, exact)
 		}
 	}
-	
+
 	// Second pass: assign base icon and any remaining targets
 	for (const t of targets) {
 		if (!assignments.has(t)) {
 			if (t.key === "base") {
-				const asset = takeAny();
-				assignments.set(t, asset);
+				const asset = takeAny()
+				assignments.set(t, asset)
 			} else {
 				// Should not reach here if logic is correct
-				assignments.set(t, undefined);
+				assignments.set(t, undefined)
 			}
 		}
 	}
-	
+
 	// Return in original order
 	return targets.map((t) => ({
 		...t,
 		sourceAsset: assignments.get(t),
-	}));
+	}))
 }
 
-async function downloadAsset(
-	pbUrl: string,
-	submissionId: string,
-	filename: string,
-	destPath: string,
-) {
-	const url = `${pbUrl}/api/files/submissions/${submissionId}/${encodeURIComponent(filename)}`;
+async function downloadAsset(pbUrl: string, submissionId: string, filename: string, destPath: string) {
+	const url = `${pbUrl}/api/files/submissions/${submissionId}/${encodeURIComponent(filename)}`
 	const res = await fetch(url, {
 		headers: { Authorization: PB_ADMIN_TOKEN ?? "" },
-	});
+	})
 
 	if (!res.ok) {
-		const body = await res.text();
-		throw new Error(
-			`Failed to download asset ${filename}: ${res.status} ${body}`,
-		);
+		const body = await res.text()
+		throw new Error(`Failed to download asset ${filename}: ${res.status} ${body}`)
 	}
 
-	const buffer = await res.arrayBuffer();
-	await Bun.write(destPath, buffer);
+	const buffer = await res.arrayBuffer()
+	await Bun.write(destPath, buffer)
 }
 
 async function readMetadata(): Promise<Record<string, MetadataEntry>> {
-	const file = Bun.file(METADATA_PATH);
+	const file = Bun.file(METADATA_PATH)
 	if (!(await file.exists())) {
-		return {};
+		return {}
 	}
-	const raw = await file.text();
-	return JSON.parse(raw) as Record<string, MetadataEntry>;
+	const raw = await file.text()
+	return JSON.parse(raw) as Record<string, MetadataEntry>
 }
 
 async function writeMetadata(data: Record<string, MetadataEntry>) {
-	const json = `${JSON.stringify(data, null, 4)}\n`;
-	await Bun.write(METADATA_PATH, json);
+	const json = `${JSON.stringify(data, null, 4)}\n`
+	await Bun.write(METADATA_PATH, json)
 }
 
 /**
@@ -305,7 +305,7 @@ async function writeMetadata(data: Record<string, MetadataEntry>) {
  * Format: ID+USERNAME@users.noreply.github.com
  */
 function buildGitHubNoReplyEmail(githubId: string | number, username: string): string {
-	return `${githubId}+${username}@users.noreply.github.com`;
+	return `${githubId}+${username}@users.noreply.github.com`
 }
 
 /**
@@ -313,91 +313,85 @@ function buildGitHubNoReplyEmail(githubId: string | number, username: string): s
  * Format: Co-authored-by: Name <email@example.com>
  */
 function buildCoAuthorTrailer(user: PBUser | undefined): string | null {
-	if (!user) return null;
+	if (!user) return null
 
 	// Prefer GitHub-based identity if available
 	if (user.github_id && user.username) {
-		const email = buildGitHubNoReplyEmail(user.github_id, user.username);
-		const name = user.username;
-		return `Co-authored-by: ${name} <${email}>`;
+		const email = buildGitHubNoReplyEmail(user.github_id, user.username)
+		const name = user.username
+		return `Co-authored-by: ${name} <${email}>`
 	}
 
 	// Fallback to email if available
 	if (user.email) {
-		const name = user.username || user.email.split('@')[0];
-		return `Co-authored-by: ${name} <${user.email}>`;
+		const name = user.username || user.email.split("@")[0]
+		return `Co-authored-by: ${name} <${user.email}>`
 	}
 
-	return null;
+	return null
 }
 
 function buildAuthor(submission: Submission): MetadataAuthor {
-	const creator = submission.expand?.created_by;
+	const creator = submission.expand?.created_by
 	if (!creator) {
-		return { id: submission.created_by };
+		return { id: submission.created_by }
 	}
 
 	if (creator.github_id) {
-		const githubId = Number(creator.github_id);
+		const githubId = Number(creator.github_id)
 		if (Number.isFinite(githubId) && githubId > 0) {
 			return {
 				id: githubId,
 				...(creator.username ? { login: creator.username } : {}),
-			};
+			}
 		}
 	}
 
 	return {
 		id: creator.id,
 		...(creator.username ? { name: creator.username } : {}),
-	};
+	}
 }
 
 function buildMetadataVariants(assignments: VariantTarget[]) {
-	const colors: IconColors = {};
-	const wordmark: IconWordmark = {};
+	const colors: IconColors = {}
+	const wordmark: IconWordmark = {}
 
 	for (const v of assignments) {
 		// Only include variants that actually have a source asset assigned
 		if (!v.sourceAsset) {
-			continue;
+			continue
 		}
-		
-		const baseName = v.destFilename.replace(/\.[^.]+$/, "");
+
+		const baseName = v.destFilename.replace(/\.[^.]+$/, "")
 		if (v.key === "light") {
-			colors.light = baseName;
+			colors.light = baseName
 		} else if (v.key === "dark") {
-			colors.dark = baseName;
+			colors.dark = baseName
 		} else if (v.key === "wordmark-light") {
-			wordmark.light = baseName;
+			wordmark.light = baseName
 		} else if (v.key === "wordmark-dark") {
-			wordmark.dark = baseName;
+			wordmark.dark = baseName
 		}
 	}
 
 	return {
 		colors: Object.keys(colors).length ? colors : undefined,
 		wordmark: Object.keys(wordmark).length ? wordmark : undefined,
-	};
+	}
 }
 
-async function upsertMetadata(
-	submission: Submission,
-	assignments: VariantTarget[],
-	dryRun: boolean,
-) {
-	const iconId = submission.name;
-	const base = inferBase(submission.assets, submission.extras?.base);
-	const aliases = submission.extras?.aliases ?? [];
-	const categories = submission.extras?.categories ?? [];
-	const { colors, wordmark } = buildMetadataVariants(assignments);
-	const author = buildAuthor(submission);
+async function upsertMetadata(submission: Submission, assignments: VariantTarget[], dryRun: boolean) {
+	const iconId = submission.name
+	const base = inferBase(submission.assets, submission.extras?.base)
+	const aliases = submission.extras?.aliases ?? []
+	const categories = submission.extras?.categories ?? []
+	const { colors, wordmark } = buildMetadataVariants(assignments)
+	const author = buildAuthor(submission)
 
-	console.log(
-		`[import-icon] Upserting metadata for "${iconId}" base=${base} aliases=${aliases.length} categories=${categories.length}`,
-	);
+	console.log(`[import-icon] Upserting metadata for "${iconId}" base=${base} aliases=${aliases.length} categories=${categories.length}`)
 
-	const data = await readMetadata();
+	const data = await readMetadata()
 	const nextEntry: MetadataEntry = {
 		base,
 		aliases,
@@ -408,164 +402,112 @@ async function upsertMetadata(
 		},
 		...(colors ? { colors } : {}),
 		...(wordmark ? { wordmark } : {}),
-	};
+	}
 
-	data[iconId] = nextEntry;
+	data[iconId] = nextEntry
 
 	if (dryRun) {
-		console.log(`[dry-run] Would upsert metadata for icon "${iconId}"`);
-		return;
+		console.log(`[dry-run] Would upsert metadata for icon "${iconId}"`)
+		return
 	}
 
-	await writeMetadata(data);
-	console.log(`Updated metadata for icon "${iconId}"`);
+	await writeMetadata(data)
+	console.log(`Updated metadata for icon "${iconId}"`)
 }
 
-async function persistAssets(
-	pbUrl: string,
-	submission: Submission,
-	dryRun: boolean,
-) {
+async function persistAssets(pbUrl: string, submission: Submission, dryRun: boolean) {
 	if (submission.assets.length === 0) {
-		throw new Error("Submission has no assets to import");
+		throw new Error("Submission has no assets to import")
 	}
 
-	const targets = buildTargets(submission);
-	const assignments = assignAssetsToTargets(submission.assets, targets);
+	const targets = buildTargets(submission)
+	const assignments = assignAssetsToTargets(submission.assets, targets)
 
 	for (const target of assignments) {
 		if (!target.sourceAsset) {
-			console.warn(
-				`[import-icon] No asset available for variant ${target.key}; skipping`,
-			);
-			continue;
+			console.warn(`[import-icon] No asset available for variant ${target.key}; skipping`)
+			continue
 		}
 
 		// Determine destination directory based on file extension
-		const destDir = getExtensionDir(target.destFilename);
-		const destPath = path.join(destDir, target.destFilename);
-		console.log(
-			`[import-icon] Handling asset ${target.sourceAsset} -> ${destPath} (variant ${target.key})`,
-		);
-		const exists = await fileExists(destPath);
+		const destDir = getExtensionDir(target.destFilename)
+		const destPath = path.join(destDir, target.destFilename)
+		console.log(`[import-icon] Handling asset ${target.sourceAsset} -> ${destPath} (variant ${target.key})`)
+		const exists = await fileExists(destPath)
 		if (exists) {
-			console.log(`Overwriting existing asset ${destPath}`);
+			console.log(`Overwriting existing asset ${destPath}`)
 		}
 
 		if (dryRun) {
-			console.log(
-				`[dry-run] Would download ${target.sourceAsset} -> ${destPath}`,
-			);
-			continue;
+			console.log(`[dry-run] Would download ${target.sourceAsset} -> ${destPath}`)
+			continue
 		}
 
-		await ensureDir(destDir);
-		await downloadAsset(pbUrl, submission.id, target.sourceAsset, destPath);
-		console.log(`Downloaded ${target.sourceAsset} -> ${destPath}`);
+		await ensureDir(destDir)
+		await downloadAsset(pbUrl, submission.id, target.sourceAsset, destPath)
+		console.log(`Downloaded ${target.sourceAsset} -> ${destPath}`)
 	}
 
-	return assignments;
-}
-
-async function markSubmissionAdded(
-	pbUrl: string,
-	submissionId: string,
-	dryRun: boolean,
-) {
-	if (dryRun) {
-		console.log(
-			`[dry-run] Would mark submission ${submissionId} as added_to_collection`,
-		);
-		return;
-	}
-
-	const res = await fetch(
-		`${pbUrl}/api/collections/submissions/records/${submissionId}`,
-		{
-			method: "PATCH",
-			headers: {
-				Authorization: PB_ADMIN_TOKEN ?? "",
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify({ status: "added_to_collection" }),
-		},
-	);
-
-	if (!res.ok) {
-		const body = await res.text();
-		console.error(
-			`[import-icon] status update failed: status=${res.status} body=${body}`,
-		);
-		if (res.status === 400) {
-			const submission = await fetchSubmission(pbUrl, submissionId);
-			if (submission.status === "added_to_collection") {
-				console.warn(
-					`[import-icon] PocketBase returned 400 after updating ${submissionId}; verified the status was saved`,
-				);
-				return;
-			}
-		}
-		throw new Error(
-			`Failed to update submission status: ${res.status} ${body}`,
-		);
-	}
-
-	console.log(`Marked submission ${submissionId} as added_to_collection`);
+	return assignments
 }
 
 async function main() {
-	const args = parseArgs(process.argv.slice(2));
-	const pbUrl = requireEnv("PB_URL", PB_URL);
-	requireEnv("PB_ADMIN_TOKEN", PB_ADMIN_TOKEN);
+	const args = parseArgs(process.argv.slice(2))
+	const pbUrl = requireEnv("PB_URL", PB_URL)
+	requireEnv("PB_ADMIN_TOKEN", PB_ADMIN_TOKEN)
 
 	console.log(
 		`[import-icon] Starting import submissionId=${args.submissionId} dryRun=${args.dryRun} rootDir=${ROOT_DIR} metadata=${METADATA_PATH}`,
-	);
+	)
 
-	console.log(`Fetching submission ${args.submissionId}...`);
-	const submission = await fetchSubmission(pbUrl, args.submissionId);
+	console.log(`Fetching submission ${args.submissionId}...`)
+	const submission = await fetchSubmission(pbUrl, args.submissionId)
 
-	const approver =
-		submission.expand?.approved_by?.username ||
-		submission.expand?.approved_by?.email ||
-		submission.approved_by ||
-		"unknown";
+	if (submission.status !== "approved") throw new Error("Only approved submissions can be imported")
+	await verifyReservation(pbUrl, submission)
+
+	const approver = submission.expand?.approved_by?.username || submission.expand?.approved_by?.email || submission.approved_by || "unknown"
 
 	// Build co-author trailers for the commit message
-	const coAuthors: string[] = [];
-	
+	const coAuthors: string[] = []
+
 	// Add the creator as a co-author
-	const creatorTrailer = buildCoAuthorTrailer(submission.expand?.created_by);
+	const creatorTrailer = buildCoAuthorTrailer(submission.expand?.created_by)
 	if (creatorTrailer) {
-		coAuthors.push(creatorTrailer);
-		console.log(`[import-icon] Adding creator as co-author: ${submission.expand?.created_by?.username || 'unknown'}`);
-	}
-	
-	// Add the approver as a co-author (if different from creator)
-	const approverTrailer = buildCoAuthorTrailer(submission.expand?.approved_by);
-	if (approverTrailer && approverTrailer !== creatorTrailer) {
-		coAuthors.push(approverTrailer);
-		console.log(`[import-icon] Adding approver as co-author: ${submission.expand?.approved_by?.username || 'unknown'}`);
+		coAuthors.push(creatorTrailer)
+		console.log(`[import-icon] Adding creator as co-author: ${submission.expand?.created_by?.username || "unknown"}`)
 	}
 
-	const assignments = await persistAssets(pbUrl, submission, args.dryRun);
-	await upsertMetadata(submission, assignments, args.dryRun);
-	await markSubmissionAdded(pbUrl, args.submissionId, args.dryRun);
+	// Add the approver as a co-author (if different from creator)
+	const approverTrailer = buildCoAuthorTrailer(submission.expand?.approved_by)
+	if (approverTrailer && approverTrailer !== creatorTrailer) {
+		coAuthors.push(approverTrailer)
+		console.log(`[import-icon] Adding approver as co-author: ${submission.expand?.approved_by?.username || "unknown"}`)
+	}
+
+	const assignments = await persistAssets(pbUrl, submission, args.dryRun)
+	await upsertMetadata(submission, assignments, args.dryRun)
+
+	if (args.commitMessagePath) {
+		await Bun.write(args.commitMessagePath, `Add ${submission.name} by ${approver}\n\n${coAuthors.join("\n")}\n`)
+	}
 
 	if (args.ghaOutputPath) {
-		const coAuthorValue = coAuthors.join('\n').replaceAll("'", "'\\''");
+		const delimiter = `COAUTHORS_${crypto.randomUUID()}`
 		const lines = [
-			`submission_name=${submission.name}`,
-			`approver=${approver}`,
-			`co_authors='${coAuthorValue}'`,
-		].join("\n");
-		await Bun.write(args.ghaOutputPath, new TextEncoder().encode(`${lines}\n`));
+			`submission_name=${submission.name.replace(/[\r\n]/g, " ")}`,
+			`approver=${String(approver).replace(/[\r\n]/g, " ")}`,
+			`co_authors<<${delimiter}`,
+			coAuthors.join("\n"),
+			delimiter,
+		].join("\n")
+		await appendFile(args.ghaOutputPath, `${lines}\n`)
 	}
 
-	console.log("Import completed.");
+	console.log("Import completed.")
 }
 
 main().catch((error) => {
-	console.error(error);
-	process.exit(1);
-});
+	console.error(error)
+	process.exit(1)
+})
