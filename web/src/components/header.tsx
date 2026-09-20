@@ -6,7 +6,6 @@ import Link from "next/link"
 import { usePostHog } from "posthog-js/react"
 import { useEffect, useState } from "react"
 import { LoginModal } from "@/components/login-modal"
-import { ThemeSwitcher } from "@/components/theme-switcher"
 import { REPO_NAME, REPO_PATH } from "@/constants"
 import { pb } from "@/lib/pb"
 import { resetPostHogIdentity } from "@/lib/posthog-utils"
@@ -236,7 +235,6 @@ export function Header() {
 							</Tooltip>
 						</TooltipProvider>
 					</div>
-					<ThemeSwitcher />
 
 					{isLoggedIn && userData && (
 						<DropdownMenu>

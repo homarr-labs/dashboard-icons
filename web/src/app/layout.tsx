@@ -1,7 +1,6 @@
 import type { Metadata, Viewport } from "next"
 import { Inter } from "next/font/google"
 import { Toaster } from "sonner"
-import { LicenseNoticeSlot, SiteFooterSlot } from "@/components/dashboard/site-chrome"
 import { Footer } from "@/components/footer"
 import { HeaderWrapper } from "@/components/header-wrapper"
 import { LicenseNotice } from "@/components/license-notice"
@@ -159,13 +158,9 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
 							<main id="main-content" tabIndex={-1} className="flex-grow">
 								{children}
 							</main>
-							<SiteFooterSlot>
-								<Footer />
-							</SiteFooterSlot>
+							<Footer />
 							<Toaster />
-							<LicenseNoticeSlot>
-								<LicenseNotice />
-							</LicenseNoticeSlot>
+							<LicenseNotice />
 						</ThemeProvider>
 					</PostHogProvider>
 				</Providers>
