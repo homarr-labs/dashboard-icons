@@ -14,7 +14,10 @@ routerAdd(
 	"/api/dashboard/publish/{id}/result",
 	(e) => {
 		if (!e.hasSuperuserAuth()) throw new ForbiddenError("Workflow credentials required")
-		return e.json(200, require(`${__hooks}/dashboard.js`).updateBatch(e.app, e.request.pathValue("id"), e.requestInfo().body))
+		const result = e.requestInfo().body
+		// A failed run does not prove that Git push failed. Keep its reservation until reconciliation.
+		if (["failed", "cancelled"].includes(result.state)) result.state = "unknown"
+		return e.json(200, require(`${__hooks}/dashboard.js`).updateBatch(e.app, e.request.pathValue("id"), result))
 	},
 	$apis.requireAuth(),
 )

@@ -368,20 +368,15 @@ function reconcile(e) {
 			if (run.status === "completed") {
 				state = "failed"
 				if (run.conclusion === "cancelled") state = "cancelled"
-				if (run.conclusion === "success") {
-					// The workflow records the pushed commit before finalizing database updates.
-					// Recover missing callbacks from the uniquely marked commit on main.
-					if (!batch.getString("commit_sha")) {
-						const commits = github("/commits?sha=main&per_page=100")
-						if (commits.statusCode === 200) {
-							const match = commits.json.find((c) => c.commit.message.includes("Dashboard-Publish-Batch: " + batch.id))
-							if (match)
-								batch = updateBatch(e.app, batch.id, { state: "running", commit_sha: match.sha, run_id: runId, run_url: run.html_url })
-						}
-					}
-					state = "succeeded"
-					if (!batch.getString("commit_sha")) state = "unknown"
+				// A failed or cancelled workflow may still have pushed before losing its callback.
+				if (!batch.getString("commit_sha")) {
+					const commits = github("/commits?sha=main&per_page=100")
+					if (commits.statusCode !== 200) throw new Error("Could not verify repository publication")
+					const match = commits.json.find((c) => c.commit.message.includes("Dashboard-Publish-Batch: " + batch.id))
+					if (match)
+						batch = updateBatch(e.app, batch.id, { state: "running", commit_sha: match.sha, run_id: runId, run_url: run.html_url })
 				}
+				if (run.conclusion === "success") state = "unknown"
 				// A successful push followed by a callback error needs reconciliation, not re-publication.
 				if (batch.getString("commit_sha")) state = "succeeded"
 			}

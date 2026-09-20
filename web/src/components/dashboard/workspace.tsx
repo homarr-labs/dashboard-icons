@@ -212,7 +212,11 @@ export function DashboardWorkspace() {
 					if (nextId === "__next_page__") {
 						const position = rows.findIndex((row) => row.id === intent.records[0].id)
 						const refreshed = await list.refetch()
-						nextId = refreshed.data?.items[position]?.id || ""
+						if (refreshed.data?.items.some((row) => row.id === intent.records[0].id)) {
+							setNextPageSelection("first")
+							update({ page: String(filters.page + 1), item: "" }, true)
+							nextId = ""
+						} else nextId = refreshed.data?.items[position]?.id || ""
 					}
 					update({ item: nextId }, true)
 				}
