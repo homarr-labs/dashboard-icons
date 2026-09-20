@@ -11,14 +11,15 @@ export function SiteFooterSlot({ children }: { children: ReactNode }) {
 	const pathname = usePathname()
 	if (pathname !== "/dashboard") return children
 	return (
-		<footer className="flex h-11 items-center justify-between border-t bg-background px-4 text-[10px] text-muted-foreground sm:px-8">
-			<span>Dashboard Icons workspace</span>
-			<div className="flex gap-3">
+		<footer className="flex h-11 items-center justify-between gap-2 border-t bg-background px-4 text-[10px] text-muted-foreground sm:px-8">
+			<span className="min-w-0 truncate">Dashboard Icons workspace</span>
+			<div className="flex shrink-0 items-center gap-3">
 				<Link href="/privacy">Privacy</Link>
 				<Link href="/terms">Terms</Link>
 				<a href="https://github.com/homarr-labs/dashboard-icons/blob/main/LICENSE" target="_blank" rel="noreferrer">
 					License
 				</a>
+				<ThemeSwitcher />
 			</div>
 		</footer>
 	)
@@ -45,7 +46,6 @@ export function DashboardHeader() {
 					Browse icons
 					<ArrowUpRight className="size-3" />
 				</Link>
-				<ThemeSwitcher />
 				{mounted && auth.data?.isAuthenticated && (
 					<Button
 						size="icon"
