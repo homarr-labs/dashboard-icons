@@ -172,15 +172,25 @@ export function SubmissionList({
 							</th>
 						)}
 						<th className="w-full px-3 py-3 font-medium">Icon</th>
+						{view === "review" && <th className="hidden px-3 font-medium sm:table-cell">Assets</th>}
 						<th className="hidden px-3 font-medium lg:table-cell">Submitter</th>
 						{view === "submissions" && <th className="px-2 font-medium sm:px-3">Status</th>}
-						<th className="hidden px-3 font-medium lg:table-cell">Reviewer</th>
+						{view !== "review" && <th className="hidden px-3 font-medium lg:table-cell">Reviewer</th>}
 						<th className="px-3 text-right font-medium">Updated</th>
 					</tr>
 				</thead>
 				<tbody className="divide-y">
 					{records.map((record) => {
 						const selectable = isAdmin && ["pending", "approved"].includes(record.status)
+						const assets = record.assets || []
+						const formats = [...new Set(assets.map((asset) => asset.split(".").pop()?.toUpperCase()).filter(Boolean))].join(" / ")
+						let assetCount = `${assets.length} file`
+						if (assets.length !== 1) assetCount += "s"
+						const variants = []
+						if (assets.includes(record.extras?.colors?.light || "")) variants.push("Light")
+						if (assets.includes(record.extras?.colors?.dark || "")) variants.push("Dark")
+						if (assets.includes(record.extras?.wordmark?.light || "") || assets.includes(record.extras?.wordmark?.dark || ""))
+							variants.push("Wordmark")
 						return (
 							<tr key={record.id} className={cn("h-14 transition-colors hover:bg-muted/30", activeId === record.id && "bg-primary/5")}>
 								{isAdmin && (
@@ -207,12 +217,31 @@ export function SubmissionList({
 										<Thumbnail submission={record} />
 										<span className="min-w-0">
 											<span className="block truncate font-medium">{record.name}</span>
+											{view === "review" && (
+												<span className="block truncate text-[11px] text-muted-foreground sm:hidden">
+													{formats || "No assets"} · {assetCount}
+												</span>
+											)}
+											{view === "review" && record.description && (
+												<span className="hidden truncate text-xs text-muted-foreground sm:block" title={record.description}>
+													{record.description}
+												</span>
+											)}
 											<span className="mt-0.5 block truncate text-[11px] text-muted-foreground lg:hidden">
 												{record.expand?.created_by?.username || "Contributor"}
 											</span>
 										</span>
 									</button>
 								</td>
+								{view === "review" && (
+									<td className="hidden whitespace-nowrap px-3 sm:table-cell">
+										<span className="text-xs font-medium">{formats || "No assets"}</span>
+										<span className="mt-0.5 block text-[11px] text-muted-foreground">
+											{assetCount}
+											{variants.length > 0 && ` · ${variants.join(" / ")}`}
+										</span>
+									</td>
+								)}
 								<td className="hidden max-w-28 truncate px-3 text-xs text-muted-foreground lg:table-cell">
 									{record.expand?.created_by?.username || "Contributor"}
 								</td>
@@ -221,9 +250,11 @@ export function SubmissionList({
 										<Status status={record.status} />
 									</td>
 								)}
-								<td className="hidden max-w-28 truncate px-3 text-xs text-muted-foreground lg:table-cell">
-									{record.expand?.approved_by?.username || "—"}
-								</td>
+								{view !== "review" && (
+									<td className="hidden max-w-28 truncate px-3 text-xs text-muted-foreground lg:table-cell">
+										{record.expand?.approved_by?.username || "—"}
+									</td>
+								)}
 								<td className="px-3 text-right">
 									<Time value={record.updated} />
 								</td>
