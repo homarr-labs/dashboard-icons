@@ -1,0 +1,27 @@
+web/backend/pb_hooks/dashboard.js
+  s_9bbf65eafab5d3::t_d70742b84075e6 371-377,379
+web/backend/pb_hooks/dashboard.pb.js
+  s_9bbf65eafab5d3::t_bf6e00dda2f9d2 17-20
+web/src/app/layout.tsx
+  s_9bbf65eafab5d3::t_7a842b6fd6b830 159-161
+web/src/components/dashboard/workspace.tsx
+  s_9bbf65eafab5d3::t_84df3b785a778a 215-219
+web/tools/dashboard/mock-github.py
+  s_9bbf65eafab5d3::t_d4256728498fcd 4,10-12,18
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "13246b5df81d5d59c36e105fdbc3b7d508068583",
+  "prompts": {},
+  "sessions": {
+    "s_9bbf65eafab5d3": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0c08f-64bb-7410-a609-482c1b7e04af",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
