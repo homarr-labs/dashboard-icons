@@ -1,0 +1,116 @@
+web/backend/pb_hooks/submission_update_email.pb.js
+  s_9bbf65eafab5d3::t_f8c6da154218fd 1,5
+  s_9bbf65eafab5d3::t_3576d43e9af3a3 2-4,7-16,19-21,25-26,28-29,31-33
+  s_9bbf65eafab5d3::t_0211b66b77a201 6
+web/src/lib/dashboard/types.ts
+  s_9bbf65eafab5d3::t_90e259dfd45a4d 3,17-18,31-32,45-46,59,78
+  s_9bbf65eafab5d3::t_36ff9cc4834392 1-2,4-16,19-30,33-44,47-58,60-77
+web/src/components/dashboard/activity-feed.tsx
+  s_9bbf65eafab5d3::t_67f91d6a59b95d 5,62,122
+  s_9bbf65eafab5d3::t_9fd3b417fea571 18,102
+  s_9bbf65eafab5d3::t_36ff9cc4834392 1-4,6-17,22,35-61,63-101,108,110-121
+  s_9bbf65eafab5d3::t_e9d049fec0f1fe 19-21,23-34,103-107,109
+web/backend/pb_migrations/1790000000_dashboard_workspace.js
+  s_9bbf65eafab5d3::t_3576d43e9af3a3 1-73
+scripts/finalize-icon-publication.ts
+  s_9bbf65eafab5d3::t_f8c6da154218fd 1-3,6,8,11-12,30
+  s_9bbf65eafab5d3::t_3576d43e9af3a3 4-5,7,9-10,13-29
+web/src/components/dashboard/inspector.tsx
+  s_9bbf65eafab5d3::t_250761e05693da 287-289
+  s_9bbf65eafab5d3::t_67f91d6a59b95d 309
+  s_9bbf65eafab5d3::t_3468d0b282e037 7,297-303
+  s_9bbf65eafab5d3::t_36ff9cc4834392 1-2,4-6,8-25,27-38,40-51,53,56-120,122-169,171-283,285-286,290-296,304-308
+  s_9bbf65eafab5d3::t_52514ae1da4575 26,39,284
+  s_9bbf65eafab5d3::t_b09ba065c07027 3,52,54-55,121,170
+web/backend/pb_hooks/dashboard.pb.js
+  s_9bbf65eafab5d3::t_3576d43e9af3a3 1-2,4-5,7-22
+  s_9bbf65eafab5d3::t_6b65e8c3fff504 3
+  s_9bbf65eafab5d3::t_8df3142f9d7370 6
+web/backend/pb_hooks/submission-email.js
+  s_9bbf65eafab5d3::t_3576d43e9af3a3 3,6-11,15-26,38,40,44-45,47,49-52,57-58,88,90-91,94-95,101,109,111-115,117,121-123,125-126,129,131,134,137-138,141-142,145-146,149-150,156-157,160-161,168-171,181-183,187-191,194,201-202,210,222,224-225,229,243,245,252-254,259-261,268,270,284,286,299,302,309-311,316-318,322,325,336,338-339,341,345
+  s_9bbf65eafab5d3::t_1895b33d138886 216
+  s_9bbf65eafab5d3::t_f8c6da154218fd 1-2,4-5,12-14,27-37,39,41-43,46,48,53-56,59-87,89,92-93,96-100,102-108,110,116,118-120,124,127-128,130,132-133,135-136,139-140,143-144,147-148,151-155,158-159,162-167,172-180,184-186,192-193,195-200,203-209,211-215,217-221,223,226-228,230-242,244,246-251,255-258,262-267,269,271-283,285,287-298,300-301,303-308,312-315,319-321,323-324,326-335,337,340,342-344
+web/src/components/header-wrapper.tsx
+  s_9bbf65eafab5d3::t_36ff9cc4834392 6-7
+  s_9bbf65eafab5d3::t_ca832521eccfef 1-3
+web/tools/dashboard/mock-github.py
+  s_9bbf65eafab5d3::t_9f4829455488af 1-19
+web/backend/pb_hooks/dashboard.js
+  s_9bbf65eafab5d3::t_6b65e8c3fff504 408-409,417
+  s_9bbf65eafab5d3::t_3576d43e9af3a3 2-23,25-26,29-31,34-47,50-77,79-90,99-100,103-104,107,120-148,151-159,162-183,189-206,209-229,232-260,266-277,279-296,299-348,351-404
+  s_9bbf65eafab5d3::t_8df3142f9d7370 1,24,27-28,32-33,48-49,105-106,108,114,119,149-150,160-161,207-208,230-231
+  s_9bbf65eafab5d3::t_cf848a477aba23 184-188
+  s_9bbf65eafab5d3::t_293bb9ef6f93d7 78,91-92,95,98,109,118
+  s_9bbf65eafab5d3::t_535aa631db9cd1 93-94,96-97,101-102,110-113,115-117,261-265,410-416
+  s_9bbf65eafab5d3::t_f8c6da154218fd 278,297-298,349-350,405-407
+web/src/app/layout.tsx
+  s_9bbf65eafab5d3::t_36ff9cc4834392 4,160-162,164-166
+web/src/app/actions/github.ts
+  s_9bbf65eafab5d3::t_36ff9cc4834392 6,10-18,20,24-25
+  s_9bbf65eafab5d3::t_90e259dfd45a4d 4-5,23
+scripts/import-icon.ts
+  s_9bbf65eafab5d3::t_85c8989c87bff8 152
+  s_9bbf65eafab5d3::t_f4d43cddd6d72e 114,490-491,493
+  s_9bbf65eafab5d3::t_535aa631db9cd1 3,5,7-8,11-14,18-22,26-35,37-39,43-46,50-52,56-58,60-64,67,70-73,76-79,86,89,91,93,96-97,102-105,108,110-111,113,115,117-118,123,126,131,133,137-138,141,144-146,149,153-163,167,171,175-178,182-183,185,193,201,209,217,220,223-224,229-230,233-234,237-240,244-245,249-250,253,258-259,262,266,271,274-275,278,281-282,285-286,290,292,294-295,299-300,308,316,320-322,327-328,331,335,337,341,346,353,357-358,363,365-366,368,370,372,374,381,384-390,392,394,405,407,410-411,414-415,418,420,423-424,428-429,433-436,438,442-443,446-448,451,455-457,461,463-464,466-469,472-473,475,477-478,480,482,484-485,488-489,492,496,498-504,507,511-513
+  s_9bbf65eafab5d3::t_318bb66d6208ff 150-151
+web/src/components/dashboard/primitives.tsx
+  s_9bbf65eafab5d3::t_67f91d6a59b95d 21,36,50,59,67,79,155
+  s_9bbf65eafab5d3::t_b09ba065c07027 41
+  s_9bbf65eafab5d3::t_36ff9cc4834392 1-4,6-16,18-20,22-35,37-40,42-49,51-58,60-61,63-64,66,68-78,80-154
+  s_9bbf65eafab5d3::t_3468d0b282e037 5
+  s_9bbf65eafab5d3::t_7f712610204d93 62,65
+  s_9bbf65eafab5d3::t_9fd3b417fea571 17
+web/src/components/dashboard/publishing.tsx
+  s_9bbf65eafab5d3::t_36ff9cc4834392 1-40,45-65
+  s_9bbf65eafab5d3::t_ca832521eccfef 66
+  s_9bbf65eafab5d3::t_250761e05693da 41-44
+web/src/components/dashboard/submission-list.tsx
+  s_9bbf65eafab5d3::t_36ff9cc4834392 1,4-23,25-34,36-37,39-46,48-59,61-125,127-173,175,177-219,221-236,238-256
+  s_9bbf65eafab5d3::t_64259e658a26bb 176,220
+  s_9bbf65eafab5d3::t_ca832521eccfef 47,126,237,257
+  s_9bbf65eafab5d3::t_b09ba065c07027 2-3,24,35,38
+  s_9bbf65eafab5d3::t_86ec9eb6cc6b63 60,174
+.github/workflows/add-icon.yml
+  s_9bbf65eafab5d3::t_65d168e5fe5510 99-100,106,109,146
+  s_9bbf65eafab5d3::t_f8c6da154218fd 2,11-15,34-38,69-78,84-85,87,115,117-118,120-122,130-145,147-165
+web/src/components/dashboard/site-chrome.tsx
+  s_9bbf65eafab5d3::t_ca832521eccfef 25,65
+  s_9bbf65eafab5d3::t_2220d36b3609da 56
+  s_9bbf65eafab5d3::t_36ff9cc4834392 1-24,26-55,57-64
+web/tools/dashboard/seed-local.py
+  s_9bbf65eafab5d3::t_9f4829455488af 1-36
+web/src/components/dashboard/workspace.tsx
+  s_9bbf65eafab5d3::t_36ff9cc4834392 1-2,4-23,25-30,32-76,79-88,90,93-140,142-143,149-150,152-271,273-309,317-604,606-631,633-634,636-655
+  s_9bbf65eafab5d3::t_250761e05693da 310-316
+  s_9bbf65eafab5d3::t_86ec9eb6cc6b63 77-78,141,144-148,151,605
+  s_9bbf65eafab5d3::t_52514ae1da4575 272
+  s_9bbf65eafab5d3::t_ca832521eccfef 31,656
+  s_9bbf65eafab5d3::t_b09ba065c07027 3,24,89,91-92,632,635
+web/src/hooks/use-dashboard.ts
+  s_9bbf65eafab5d3::t_3468d0b282e037 36-41,68-72
+  s_9bbf65eafab5d3::t_36ff9cc4834392 1-5,7,9-11,14-15,18-35,42-43,46-50,53,56-67,73-74,77-85,88-91,93-119
+  s_9bbf65eafab5d3::t_90e259dfd45a4d 6,8,12-13,16-17,44-45,51-52,54-55,75-76,86-87,120
+  s_9bbf65eafab5d3::t_b09ba065c07027 92
+web/src/app/dashboard/page.tsx
+  s_9bbf65eafab5d3::t_36ff9cc4834392 1-3,6-8
+web/src/app/dashboard/layout.tsx
+  s_9bbf65eafab5d3::t_36ff9cc4834392 2-4
+web/tools/dashboard/README.md
+  s_9bbf65eafab5d3::t_f2671944b5f344 1-60
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "06f1b6561609b3a409ddd501c7782969c245418a",
+  "prompts": {},
+  "sessions": {
+    "s_9bbf65eafab5d3": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0c08f-64bb-7410-a609-482c1b7e04af",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
