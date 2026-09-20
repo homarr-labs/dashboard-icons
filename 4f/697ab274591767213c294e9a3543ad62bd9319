@@ -1,0 +1,19 @@
+web/src/components/dashboard/site-chrome.tsx
+  s_9bbf65eafab5d3::t_1c02d7ef1cf96d 14-16,22
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "4f697ab274591767213c294e9a3543ad62bd9319",
+  "prompts": {},
+  "sessions": {
+    "s_9bbf65eafab5d3": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0c08f-64bb-7410-a609-482c1b7e04af",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
