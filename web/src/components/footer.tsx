@@ -1,88 +1,30 @@
-import { ExternalLink } from "lucide-react"
 import Link from "next/link"
 import { REPO_PATH } from "@/constants"
-import { HeartEasterEgg } from "./heart"
 import { ThemeSwitcher } from "./theme-switcher"
 
 export function Footer() {
 	return (
-		<footer className="border-t py-4  relative overflow-hidden">
-			<div className="absolute inset-0 bg-background bg-gradient-to-r from-primary/[0.03] via-transparent to-primary/[0.03]" />
-
-			<div className="container mx-auto mb-2 px-4 md:px-6 relative z-10">
-				<div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
-					<div className="flex flex-col gap-3">
-						<div className="flex items-center justify-between gap-3">
-							<h3 className="font-bold text-lg text-foreground/90">Dashboard Icons</h3>
-							<ThemeSwitcher />
-						</div>
-						<p className="text-sm text-muted-foreground leading-relaxed">
-							Collection of icons for applications, services, and tools - designed for dashboards and app directories.
-						</p>
-					</div>
-
-					<div className="flex flex-col gap-3">
-						<h3 className="font-bold text-lg text-foreground/90">Links</h3>
-						<div className="flex flex-col gap-2">
-							<Link
-								href="/"
-								className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200 flex items-center w-fit"
-							>
-								<span>Home</span>
-							</Link>
-							<Link
-								href="/icons"
-								className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200 flex items-center w-fit"
-							>
-								<span>Icons</span>
-							</Link>
-							<Link
-								href="/community"
-								className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200 flex items-center w-fit"
-							>
-								<span>Community</span>
-							</Link>
-							<Link
-								href="/submit"
-								className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200 flex items-center w-fit"
-							>
-								<span>Submit icons</span>
-							</Link>
-						</div>
-						<nav aria-label="Legal" className="flex flex-wrap gap-x-4 gap-y-2 text-sm text-muted-foreground">
-							<Link href="/privacy" className="hover:text-foreground hover:underline underline-offset-4">
-								Privacy Policy
-							</Link>
-							<Link href="/terms" className="hover:text-foreground hover:underline underline-offset-4">
-								Terms of Service
-							</Link>
-						</nav>
-						<p className="text-sm text-muted-foreground mt-2">
-							Contact us:{" "}
-							<Link
-								href="mailto:homarr-labs@proton.me"
-								target="_blank"
-								rel="noopener noreferrer"
-								className="text-foreground/80 hover:text-foreground underline-offset-2 hover:underline transition-colors"
-							>
-								homarr-labs@proton.me
-							</Link>
-						</p>
-					</div>
-
-					<div className="flex flex-col gap-3">
-						<h3 className="font-bold text-lg text-foreground/90">Community</h3>
-						<HeartEasterEgg />
-						<Link
-							href={REPO_PATH}
-							target="_blank"
-							rel="noopener noreferrer"
-							className="text-sm   transition-colors duration-200 flex items-center gap-1.5 w-fit mt-1 group"
-						>
-							Contribute to this project
-							<ExternalLink className="h-3.5 w-3.5 flex-shrink-0" />
+		<footer className="border-t bg-background">
+			<div className="container mx-auto flex flex-wrap items-center justify-between gap-x-6 gap-y-1 px-4 py-2 text-xs text-muted-foreground md:px-6">
+				<Link href="/" className="font-medium text-foreground hover:underline underline-offset-4">
+					Dashboard Icons <span className="font-normal text-muted-foreground">by Homarr Labs</span>
+				</Link>
+				<div className="flex items-center gap-3">
+					<nav aria-label="Footer" className="flex items-center gap-3">
+						<Link href="/privacy" className="hover:text-foreground hover:underline underline-offset-4">
+							Privacy
 						</Link>
-					</div>
+						<Link href="/terms" className="hover:text-foreground hover:underline underline-offset-4">
+							Terms
+						</Link>
+						<a href="mailto:homarr-labs@proton.me" className="hover:text-foreground hover:underline underline-offset-4">
+							Contact
+						</a>
+						<a href={REPO_PATH} target="_blank" rel="noreferrer" className="hover:text-foreground hover:underline underline-offset-4">
+							GitHub
+						</a>
+					</nav>
+					<ThemeSwitcher />
 				</div>
 			</div>
 		</footer>
