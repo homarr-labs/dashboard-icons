@@ -54,7 +54,7 @@ export type IconSearchEntry = {
 }
 
 export type IconSearchProps = {
-	icons: IconRecord[]
+	icons: IconSearchEntry[]
 	initialQuery?: string
 }
 

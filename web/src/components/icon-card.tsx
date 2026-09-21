@@ -5,11 +5,11 @@ import { EXTERNAL_SOURCES, type ExternalSourceId } from "@/constants"
 import { resolveExternalIconUrl } from "@/lib/external-icon-urls"
 import { getIconImageUrl, isIconAssetUrl } from "@/lib/icon-url"
 import { formatIconName } from "@/lib/utils"
-import type { IconWithName } from "@/types/icons"
+import type { IconSearchEntry } from "@/types/icons"
 
 type IconKind = { type: "external"; slug: string; sourceId: ExternalSourceId } | { type: "community" } | { type: "native" }
 
-function getIconKind(icon: IconWithName): IconKind {
+function getIconKind(icon: IconSearchEntry): IconKind {
 	if (icon.source && icon.source !== "native" && icon.external) {
 		return { type: "external", slug: icon.slug || icon.external.slug, sourceId: icon.source as ExternalSourceId }
 	}
@@ -30,7 +30,7 @@ function getLinkHref(kind: IconKind, name: string): string {
 	}
 }
 
-export function IconCard({ icon, matchedAlias }: { icon: IconWithName; matchedAlias?: string }) {
+export function IconCard({ icon, matchedAlias }: { icon: IconSearchEntry; matchedAlias?: string }) {
 	const { name } = icon
 	const kind = getIconKind(icon)
 	const sourceConfig = kind.type === "external" ? EXTERNAL_SOURCES[kind.sourceId] : undefined

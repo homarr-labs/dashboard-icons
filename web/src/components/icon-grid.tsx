@@ -1,11 +1,11 @@
 import { useWindowVirtualizer } from "@tanstack/react-virtual"
 import { useEffect, useMemo, useState } from "react"
 import { MagicCardPointerProvider } from "@/components/magicui/magic-card-pointer"
-import type { IconWithName } from "@/types/icons"
+import type { IconSearchEntry } from "@/types/icons"
 import { IconCard } from "./icon-card"
 
 interface IconsGridProps {
-	filteredIcons: IconWithName[]
+	filteredIcons: IconSearchEntry[]
 	matchedAliases: Record<string, string>
 }
 
