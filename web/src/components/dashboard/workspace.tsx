@@ -27,6 +27,7 @@ import { ActivityFeed } from "./activity-feed"
 import { Inspector, type ReviewIntent } from "./inspector"
 import { Empty, ErrorState, Loading, Pagination, Panel, Time } from "./primitives"
 import { PublishRun } from "./publishing"
+import { ReviewBench } from "./review-bench"
 import { FilterInput, ListFilters, QueuePreview, SubmissionList } from "./submission-list"
 
 function numberParam(value: string | null, fallback: number, max: number) {
@@ -48,7 +49,7 @@ export function DashboardWorkspace() {
 		if (views.some((entry) => entry.id === params.get("view"))) view = params.get("view") as DashboardView
 		if (authenticated && !isAdmin) view = "submissions"
 		let perPage = Number(params.get("size"))
-		if (![25, 50, 100].includes(perPage)) perPage = 25
+		if (![25, 50, 100].includes(perPage)) perPage = 50
 		return {
 			view,
 			search: params.get("search") || "",
@@ -379,7 +380,7 @@ export function DashboardWorkspace() {
 					))}
 				</div>
 			)}
-			<div className={cn("grid min-h-0 flex-1 gap-4", activeId && wide && "grid-cols-[minmax(0,1fr)_400px]")}>
+			<div className={cn("grid min-h-0 flex-1 gap-4", filters.view !== "review" && activeId && wide && "grid-cols-[minmax(0,1fr)_400px]")}>
 				<div className="min-h-0 min-w-0 overflow-y-auto overscroll-contain">
 					{filters.view === "overview" && isAdmin && (
 						<>
@@ -451,7 +452,27 @@ export function DashboardWorkspace() {
 							</div>
 						</>
 					)}
-					{listActive && (
+					{filters.view === "review" && isAdmin && (
+						<>
+							{list.isLoading && <Loading />}
+							{list.error && <ErrorState error={list.error} retry={() => void list.refetch()} />}
+							{list.data && (
+								<ReviewBench
+									key={auth.data?.userId}
+									userId={auth.data?.userId || ""}
+									rows={rows}
+									activeId={activeId}
+									filters={filters}
+									totalItems={list.data.totalItems}
+									totalPages={list.data.totalPages}
+									loaded={!list.isPlaceholderData && !list.isFetching && list.data.page === filters.page}
+									onChange={update}
+									refresh={refresh}
+								/>
+							)}
+						</>
+					)}
+					{listActive && filters.view !== "review" && (
 						<div className="flex h-full min-h-0 flex-col gap-3">
 							{filters.view === "publish" && activeBatch && <PublishRun batch={activeBatch} compact />}
 							<section className="flex min-h-[280px] flex-1 flex-col overflow-hidden rounded-xl border bg-background">
@@ -590,14 +611,14 @@ export function DashboardWorkspace() {
 						</section>
 					)}
 				</div>
-				{activeId && wide && (
+				{filters.view !== "review" && activeId && wide && (
 					<aside aria-label="Submission inspector" className="min-h-0 overflow-hidden rounded-xl border">
 						<Inspector {...inspectorProps} />
 					</aside>
 				)}
 			</div>
 			<Sheet
-				open={!!activeId && !wide}
+				open={filters.view !== "review" && !!activeId && !wide}
 				onOpenChange={(value) => {
 					if (!value) close()
 				}}
