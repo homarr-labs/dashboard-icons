@@ -50269,5 +50269,19 @@
                 "login": "motorcropmoon"
             }
         }
+    },
+    "patzer": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "gaming"
+        ],
+        "update": {
+            "timestamp": "2026-09-21T15:53:35.110Z",
+            "author": {
+                "id": 46193504,
+                "login": "SikamikanikoBG"
+            }
+        }
     }
 }
