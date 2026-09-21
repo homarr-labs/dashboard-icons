@@ -1,70 +1,47 @@
 "use client"
 
-import { useCallback, useEffect, useState } from "react"
 import { IconSearch } from "@/components/icon-search"
 import { Button } from "@/components/ui/button"
 import { EXTERNAL_SOURCE_IDS, EXTERNAL_SOURCES } from "@/constants"
+import { useIconCatalog } from "@/hooks/use-icon-catalog"
 import type { IconSearchEntry } from "@/types/icons"
 
+const externalSourceNames = EXTERNAL_SOURCE_IDS.map((id) => EXTERNAL_SOURCES[id].label).join(", ")
+const skeletonItems = Array.from({ length: 24 }, (_, index) => index)
+
 export function IconsBrowser() {
-	const [icons, setIcons] = useState<IconSearchEntry[] | null>(null)
-	const [error, setError] = useState(false)
+	const { data: icons, isError, isPending, refetch } = useIconCatalog()
 
-	const retry = useCallback(() => {
-		setIcons(null)
-		setError(false)
-	}, [])
-
-	useEffect(() => {
-		if (error) return
-		const controller = new AbortController()
-
-		async function loadIcons() {
-			try {
-				const response = await fetch("/api/icons/search", {
-					credentials: "omit",
-					signal: controller.signal,
-				})
-				if (!response.ok) throw new Error(`Icon catalog request failed with ${response.status}`)
-
-				const catalog: unknown = await response.json()
-				if (!Array.isArray(catalog)) throw new Error("Icon catalog response was not an array")
-				setIcons(catalog as IconSearchEntry[])
-			} catch (loadError) {
-				if (controller.signal.aborted) return
-				console.error("Failed to load icon catalog:", loadError)
-				setError(true)
-			}
-		}
-
-		void loadIcons()
-		return () => controller.abort()
-	}, [error])
-
-	if (error) {
-		return (
-			<div className="rounded-lg border border-destructive/40 bg-destructive/5 p-6 text-center" role="alert">
-				<p className="mb-3 text-sm text-muted-foreground">The icon catalog could not be loaded.</p>
-				<Button type="button" variant="outline" onClick={retry}>
-					Try again
-				</Button>
-			</div>
-		)
-	}
-
-	if (icons === null) return <IconsSearchSkeleton />
-
-	const nativeIconCount = icons.filter((icon) => !icon.source || icon.source === "native").length
+	if (isPending) return <IconsSearchSkeleton />
+	if (isError) return <IconsCatalogError onRetry={() => void refetch()} />
 
 	return (
 		<>
-			<p className="text-muted-foreground mb-1">
-				Search through {icons.length} icons and logos from Dashboard Icons
-				{EXTERNAL_SOURCE_IDS.length > 0 && ` and ${EXTERNAL_SOURCE_IDS.map((id) => EXTERNAL_SOURCES[id].label).join(", ")}`}.{" "}
-				{nativeIconCount} are native Dashboard Icons.
-			</p>
+			<IconsCatalogSummary icons={icons} />
 			<IconSearch icons={icons} />
 		</>
+	)
+}
+
+function IconsCatalogSummary({ icons }: { icons: IconSearchEntry[] }) {
+	const nativeIconCount = icons.reduce((count, icon) => count + (icon.source && icon.source !== "native" ? 0 : 1), 0)
+
+	return (
+		<p className="text-muted-foreground mb-1">
+			Search through {icons.length} icons and logos from Dashboard Icons{externalSourceNames && ` and ${externalSourceNames}`}.{" "}
+			{nativeIconCount} are native Dashboard Icons.
+		</p>
+	)
+}
+
+function IconsCatalogError({ onRetry }: { onRetry: () => void }) {
+	return (
+		<div className="rounded-lg border border-destructive/40 bg-destructive/5 p-6 text-center" role="alert">
+			<p className="mb-3 text-sm text-muted-foreground">The icon catalog could not be loaded.</p>
+			<Button type="button" variant="outline" onClick={onRetry}>
+				Try again
+			</Button>
+		</div>
 	)
 }
 
@@ -80,8 +57,8 @@ function IconsSearchSkeleton() {
 			</div>
 			<div className="h-px bg-border" />
 			<div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-4">
-				{Array.from({ length: 24 }).map((_, i) => (
-					<div key={i} className="flex flex-col items-center p-3 gap-2">
+				{skeletonItems.map((item) => (
+					<div key={item} className="flex flex-col items-center p-3 gap-2">
 						<div className="h-16 w-16 bg-muted rounded-lg" />
 						<div className="h-3 bg-muted rounded w-16" />
 					</div>

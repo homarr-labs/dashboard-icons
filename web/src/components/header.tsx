@@ -7,9 +7,9 @@ import { usePostHog } from "posthog-js/react"
 import { useEffect, useState } from "react"
 import { LoginModal } from "@/components/login-modal"
 import { REPO_NAME, REPO_PATH } from "@/constants"
+import { useIconCatalog } from "@/hooks/use-icon-catalog"
 import { pb } from "@/lib/pb"
 import { resetPostHogIdentity } from "@/lib/posthog-utils"
-import type { IconSearchEntry } from "@/types/icons"
 
 const CommandMenu = dynamic(() => import("./command-menu").then((mod) => mod.CommandMenu), { ssr: false })
 
@@ -33,39 +33,18 @@ function formatStars(stars: number): string {
 }
 
 export function Header() {
-	const [iconsData, setIconsData] = useState<IconSearchEntry[]>([])
-	const [isLoaded, setIsLoaded] = useState(false)
-	const [hasLoadError, setHasLoadError] = useState(false)
 	const [commandMenuOpen, setCommandMenuOpen] = useState(false)
 	const [loginModalOpen, setLoginModalOpen] = useState(false)
 	const [isLoggedIn, setIsLoggedIn] = useState(false)
 	const [userData, setUserData] = useState<UserData | undefined>(undefined)
 	const [stars, setStars] = useState<number>(0)
 	const posthog = usePostHog()
+	const iconCatalog = useIconCatalog()
 
 	const [isMac, setIsMac] = useState(false)
 
 	useEffect(() => {
 		setIsMac(/Mac|iPhone|iPad/.test(navigator.platform))
-	}, [])
-
-	useEffect(() => {
-		async function loadIcons() {
-			try {
-				const response = await fetch("/api/icons/search", { credentials: "omit" })
-				if (!response.ok) throw new Error(`HTTP ${response.status}`)
-				const data = await response.json()
-				if (!Array.isArray(data)) throw new Error("Invalid response shape")
-				setIconsData(data)
-			} catch (error) {
-				console.error("Failed to load icons:", error)
-				setHasLoadError(true)
-			} finally {
-				setIsLoaded(true)
-			}
-		}
-
-		loadIcons()
 	}, [])
 
 	useEffect(() => {
@@ -290,9 +269,9 @@ export function Header() {
 
 			{/* Single instance of CommandMenu - always rendered for instant ⌘K */}
 			<CommandMenu
-				icons={iconsData}
-				isLoaded={isLoaded}
-				hasLoadError={hasLoadError}
+				icons={iconCatalog.data ?? []}
+				isLoaded={!iconCatalog.isPending}
+				hasLoadError={iconCatalog.isError}
 				open={commandMenuOpen}
 				onOpenChange={setCommandMenuOpen}
 			/>
