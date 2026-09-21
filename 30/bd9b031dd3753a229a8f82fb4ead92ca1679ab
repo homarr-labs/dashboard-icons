@@ -1,0 +1,19 @@
+.github/workflows/add-icon.yml
+  s_9bbf65eafab5d3::t_164ae8a80064e1 163
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "30bd9b031dd3753a229a8f82fb4ead92ca1679ab",
+  "prompts": {},
+  "sessions": {
+    "s_9bbf65eafab5d3": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0c08f-64bb-7410-a609-482c1b7e04af",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
