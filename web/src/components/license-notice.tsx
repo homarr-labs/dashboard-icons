@@ -3,6 +3,7 @@
 import { AnimatePresence, motion } from "framer-motion"
 import { X } from "lucide-react"
 import Link from "next/link"
+import { usePathname } from "next/navigation"
 import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { REPO_PATH } from "@/constants"
@@ -11,6 +12,7 @@ const LOCAL_STORAGE_KEY = "licenseNoticeDismissed"
 
 export function LicenseNotice() {
 	const [isVisible, setIsVisible] = useState(false)
+	const pathname = usePathname()
 
 	useEffect(() => {
 		// Check local storage only on the client side
@@ -27,7 +29,7 @@ export function LicenseNotice() {
 
 	return (
 		<AnimatePresence>
-			{isVisible && (
+			{isVisible && pathname !== "/dashboard" && (
 				<motion.div
 					initial={{ opacity: 0, y: 20 }}
 					animate={{ opacity: 1, y: 0 }}
