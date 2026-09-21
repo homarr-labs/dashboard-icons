@@ -21,7 +21,7 @@ export function ReviewGallery({ record }: { record: Submission }) {
 				if (!label) label = "Additional asset · variant not specified"
 				const url = pb.files.getURL(record, file)
 				return (
-					<figure key={file} className="min-w-0 overflow-hidden rounded-xl border bg-background">
+					<figure key={file} className="min-w-0 overflow-hidden rounded-xl border bg-background only:col-span-full">
 						<figcaption className="flex items-center justify-between gap-3 border-b px-4 py-3">
 							<div className="min-w-0">
 								<p className="text-sm font-medium">{label}</p>
