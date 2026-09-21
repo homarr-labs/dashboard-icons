@@ -50239,5 +50239,17 @@
                 "login": "adamkobor"
             }
         }
+    },
+    "candlr": {
+        "base": "png",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-09-21T09:32:53.655Z",
+            "author": {
+                "id": "hcsbj0f4twurx6c",
+                "name": "bellamy"
+            }
+        }
     }
 }
