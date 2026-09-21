@@ -1,8 +1,10 @@
 "use client"
-import { ArrowUpRight, SlidersHorizontal } from "lucide-react"
+import { type ColumnDef, flexRender, getCoreRowModel, type SortingState, useReactTable } from "@tanstack/react-table"
+import { ArrowDown, ArrowUp, ArrowUpDown, ArrowUpRight, SlidersHorizontal } from "lucide-react"
 import { useEffect, useId, useRef, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import type { DashboardFilters } from "@/lib/dashboard/types"
 import { statusLabels } from "@/lib/dashboard/types"
 import type { Submission } from "@/lib/pb"
@@ -14,12 +16,14 @@ export function FilterInput({
 	label,
 	type = "text",
 	placeholder,
+	compact = false,
 }: {
 	value: string
 	onChange: (value: string) => void
 	label: string
 	type?: string
 	placeholder?: string
+	compact?: boolean
 }) {
 	const inputId = useId()
 	const [draft, setDraft] = useState(value)
@@ -33,7 +37,7 @@ export function FilterInput({
 	}, [draft, value])
 	return (
 		<label htmlFor={inputId} className="block min-w-0 space-y-1.5 text-xs text-muted-foreground">
-			<span>{label}</span>
+			<span className={cn(compact && "sr-only")}>{label}</span>
 			<Input
 				id={inputId}
 				type={type}
@@ -55,75 +59,59 @@ export function ListFilters({
 	isAdmin: boolean
 }) {
 	return (
-		<div className="space-y-3 border-b bg-background p-4">
-			<div className="flex flex-wrap items-end gap-2">
-				<div className="min-w-[160px] flex-1">
+		<div className="border-b bg-background p-2">
+			<div className="flex flex-wrap items-center gap-2">
+				<div className="min-w-36 flex-1">
 					<FilterInput
+						compact
 						label="Search submissions"
-						placeholder="Icon name or submitter…"
+						placeholder="Search icons or submitters…"
 						value={filters.search}
 						onChange={(search) => onChange({ search })}
 					/>
 				</div>
-				<label className="space-y-1.5 text-xs text-muted-foreground">
-					<span className="block">Sort</span>
+				{filters.view === "submissions" && (
 					<select
-						className="h-9 rounded-md border bg-background px-2 text-sm text-foreground"
-						aria-label="Sort submissions"
-						value={filters.sort}
-						onChange={(e) => onChange({ sort: e.target.value })}
+						aria-label="Filter status"
+						className="h-9 max-w-full rounded-md border bg-background px-2 text-sm"
+						value={filters.status}
+						onChange={(event) => onChange({ status: event.target.value })}
 					>
-						<option value="recent">Recently updated</option>
-						<option value="oldest">Oldest update</option>
-						<option value="name">Name A–Z</option>
+						<option value="">All statuses</option>
+						{Object.entries(statusLabels).map(([value, label]) => (
+							<option key={value} value={value}>
+								{label}
+							</option>
+						))}
 					</select>
-				</label>
+				)}
+				<details className="group">
+					<summary className="flex h-9 cursor-pointer list-none items-center gap-1.5 rounded-md border px-3 text-xs font-medium">
+						<SlidersHorizontal className="size-3.5" />
+						Filters
+						{(filters.submitter || filters.reviewer || filters.from || filters.to) && <span className="size-1.5 rounded-full bg-primary" />}
+					</summary>
+					<div className="mt-2 grid grid-cols-2 gap-2">
+						<FilterInput label="Submitter" value={filters.submitter} onChange={(submitter) => onChange({ submitter })} />
+						{isAdmin && <FilterInput label="Reviewer" value={filters.reviewer} onChange={(reviewer) => onChange({ reviewer })} />}
+						<FilterInput label="Updated from (UTC)" type="date" value={filters.from} onChange={(from) => onChange({ from })} />
+						<FilterInput label="Updated through (UTC)" type="date" value={filters.to} onChange={(to) => onChange({ to })} />
+					</div>
+				</details>
+				{(filters.search || filters.status || filters.submitter || filters.reviewer || filters.from || filters.to) && (
+					<Button
+						size="sm"
+						variant="ghost"
+						onClick={() => onChange({ search: "", status: "", submitter: "", reviewer: "", from: "", to: "" })}
+					>
+						Clear
+					</Button>
+				)}
 			</div>
-			<div className="flex flex-wrap gap-1.5">
-				{filters.view === "submissions" &&
-					Object.entries(statusLabels).map(([status, label]) => (
-						<Button
-							key={status}
-							variant="outline"
-							size="sm"
-							className="h-7 px-2 text-xs aria-pressed:border-primary aria-pressed:text-primary"
-							aria-pressed={filters.status === status}
-							onClick={() => {
-								let value = status
-								if (filters.status === status) value = ""
-								onChange({ status: value })
-							}}
-						>
-							{label}
-						</Button>
-					))}
-			</div>
-			<details>
-				<summary className="flex w-fit cursor-pointer list-none items-center gap-1.5 text-xs text-muted-foreground">
-					<SlidersHorizontal className="size-3" />
-					More filters
-					{(filters.submitter || filters.reviewer || filters.from || filters.to) && <span className="size-1.5 rounded-full bg-primary" />}
-				</summary>
-				<div className="mt-3 grid grid-cols-2 gap-3">
-					{isAdmin && <FilterInput label="Submitter" value={filters.submitter} onChange={(submitter) => onChange({ submitter })} />}{" "}
-					{isAdmin && <FilterInput label="Reviewer" value={filters.reviewer} onChange={(reviewer) => onChange({ reviewer })} />}
-					<FilterInput label="Updated from (UTC)" type="date" value={filters.from} onChange={(from) => onChange({ from })} />
-					<FilterInput label="Updated through (UTC)" type="date" value={filters.to} onChange={(to) => onChange({ to })} />
-				</div>
-			</details>
-			{(filters.search || filters.status || filters.submitter || filters.reviewer || filters.from || filters.to) && (
-				<Button
-					size="sm"
-					variant="ghost"
-					className="h-6 px-0 text-xs"
-					onClick={() => onChange({ search: "", status: "", submitter: "", reviewer: "", from: "", to: "" })}
-				>
-					Clear filters
-				</Button>
-			)}
 		</div>
 	)
 }
+
 export function SubmissionList({
 	records,
 	selected,
@@ -133,6 +121,8 @@ export function SubmissionList({
 	isAdmin,
 	disabled,
 	view,
+	sort,
+	onSort,
 }: {
 	records: Submission[]
 	selected: string[]
@@ -142,130 +132,148 @@ export function SubmissionList({
 	isAdmin: boolean
 	disabled: boolean
 	view: DashboardFilters["view"]
+	sort: string
+	onSort: (sort: string) => void
 }) {
 	const eligible = records.filter((row) => ["pending", "approved"].includes(row.status))
 	const allSelected = eligible.length > 0 && eligible.every((row) => selected.includes(row.id))
-	function toggle(id: string) {
-		if (selected.includes(id)) onSelection(selected.filter((value) => value !== id))
-		else onSelection([...selected, id])
+	let normalizedSort = sort
+	if (sort === "recent") normalizedSort = "updated-desc"
+	if (sort === "oldest") normalizedSort = "updated-asc"
+	if (sort === "name") normalizedSort = "name-asc"
+	let [sortId, direction] = normalizedSort.split("-")
+	if (!["name", "status", "updated", "reviewer", "submitter"].includes(sortId) || !["asc", "desc"].includes(direction)) {
+		sortId = "updated"
+		direction = "desc"
 	}
-	if (!records.length)
-		return <Empty title="No submissions here">Try another filter, or return to Overview to see recent team activity.</Empty>
+	const sorting: SortingState = [{ id: sortId, desc: direction === "desc" }]
+	const columns: ColumnDef<Submission>[] = []
+	if (isAdmin)
+		columns.push({
+			id: "select",
+			enableSorting: false,
+			header: () => (
+				<input
+					type="checkbox"
+					aria-label="Select eligible submissions on this page"
+					className="size-4 accent-[var(--primary)]"
+					checked={allSelected}
+					disabled={disabled || !eligible.length}
+					onChange={() => {
+						if (allSelected) onSelection([])
+						else onSelection(eligible.map((row) => row.id))
+					}}
+				/>
+			),
+			cell: ({ row }) => (
+				<input
+					type="checkbox"
+					aria-label={`Select ${row.original.name}`}
+					className="size-4 accent-[var(--primary)]"
+					checked={selected.includes(row.id)}
+					disabled={disabled || !["pending", "approved"].includes(row.original.status)}
+					onChange={() => {
+						if (selected.includes(row.id)) onSelection(selected.filter((id) => id !== row.id))
+						else onSelection([...selected, row.id])
+					}}
+				/>
+			),
+		})
+	columns.push({
+		id: "name",
+		accessorKey: "name",
+		header: "Icon",
+		cell: ({ row }) => (
+			<button
+				type="button"
+				onClick={() => onOpen(row.id)}
+				data-submission={row.id}
+				className="flex w-full min-w-0 items-center gap-2 text-left outline-offset-4"
+			>
+				<Thumbnail submission={row.original} />
+				<span className="truncate font-medium">{row.original.name}</span>
+			</button>
+		),
+	})
+	columns.push({ id: "submitter", accessorFn: (record) => record.expand?.created_by?.username || "Contributor", header: "Submitter" })
+	if (view === "submissions")
+		columns.push({ id: "status", accessorKey: "status", header: "Status", cell: ({ row }) => <Status status={row.original.status} /> })
+	columns.push({ id: "reviewer", accessorFn: (record) => record.expand?.approved_by?.username || "—", header: "Reviewer" })
+	columns.push({ id: "updated", accessorKey: "updated", header: "Updated", cell: ({ row }) => <Time value={row.original.updated} /> })
+	const table = useReactTable({
+		data: records,
+		columns,
+		getRowId: (record) => record.id,
+		getCoreRowModel: getCoreRowModel(),
+		manualSorting: true,
+		enableSortingRemoval: false,
+		state: { sorting },
+		onSortingChange: (updater) => {
+			const next = typeof updater === "function" ? updater(sorting) : updater
+			const entry = next[0]
+			if (entry) onSort(`${entry.id}-${entry.desc ? "desc" : "asc"}`)
+		},
+	})
+	if (!records.length) return <Empty title="No submissions found" />
+	function columnClass(id: string) {
+		if (id === "name") return "w-full min-w-40 max-w-64"
+		if (id === "select") return "w-10"
+		return "max-w-40"
+	}
 	return (
-		<div className="overflow-x-auto">
-			<table className="w-full text-left text-sm">
-				<thead className="sticky top-0 z-10 border-b bg-muted/95 text-[11px] text-muted-foreground">
-					<tr>
-						{isAdmin && (
-							<th className="w-10 py-3 pl-4">
-								<input
-									type="checkbox"
-									aria-label="Select eligible submissions on this page"
-									checked={allSelected}
-									disabled={disabled || !eligible.length}
-									onChange={() => {
-										if (allSelected) onSelection([])
-										else onSelection(eligible.map((row) => row.id))
-									}}
-									className="size-4 accent-[var(--primary)]"
-								/>
-							</th>
-						)}
-						<th className="w-full px-3 py-3 font-medium">Icon</th>
-						{view === "review" && <th className="hidden px-3 font-medium sm:table-cell">Assets</th>}
-						<th className="hidden px-3 font-medium lg:table-cell">Submitter</th>
-						{view === "submissions" && <th className="px-2 font-medium sm:px-3">Status</th>}
-						{view !== "review" && <th className="hidden px-3 font-medium lg:table-cell">Reviewer</th>}
-						<th className="px-3 text-right font-medium">Updated</th>
-					</tr>
-				</thead>
-				<tbody className="divide-y">
-					{records.map((record) => {
-						const selectable = isAdmin && ["pending", "approved"].includes(record.status)
-						const assets = record.assets || []
-						const formats = [...new Set(assets.map((asset) => asset.split(".").pop()?.toUpperCase()).filter(Boolean))].join(" / ")
-						let assetCount = `${assets.length} file`
-						if (assets.length !== 1) assetCount += "s"
-						const variants = []
-						if (assets.includes(record.extras?.colors?.light || "")) variants.push("Light")
-						if (assets.includes(record.extras?.colors?.dark || "")) variants.push("Dark")
-						if (assets.includes(record.extras?.wordmark?.light || "") || assets.includes(record.extras?.wordmark?.dark || ""))
-							variants.push("Wordmark")
-						return (
-							<tr key={record.id} className={cn("h-14 transition-colors hover:bg-muted/30", activeId === record.id && "bg-primary/5")}>
-								{isAdmin && (
-									<td className="pl-4">
-										{selectable && (
-											<input
-												type="checkbox"
-												className="size-4 accent-[var(--primary)]"
-												aria-label={`Select ${record.name}`}
-												checked={selected.includes(record.id)}
-												disabled={disabled}
-												onChange={() => toggle(record.id)}
-											/>
-										)}
-									</td>
-								)}
-								<td className="max-w-0 px-3 py-2">
-									<button
-										type="button"
-										onClick={() => onOpen(record.id)}
-										data-submission={record.id}
-										className="flex w-full min-w-0 items-center gap-2.5 text-left outline-offset-4"
-									>
-										<Thumbnail submission={record} />
-										<span className="min-w-0">
-											<span className="block truncate font-medium">{record.name}</span>
-											{view === "review" && (
-												<span className="block truncate text-[11px] text-muted-foreground sm:hidden">
-													{formats || "No assets"} · {assetCount}
-												</span>
-											)}
-											{view === "review" && record.description && (
-												<span className="hidden truncate text-xs text-muted-foreground sm:block" title={record.description}>
-													{record.description}
-												</span>
-											)}
-											<span className="mt-0.5 block truncate text-[11px] text-muted-foreground lg:hidden">
-												{record.expand?.created_by?.username || "Contributor"}
-											</span>
-										</span>
-									</button>
-								</td>
-								{view === "review" && (
-									<td className="hidden whitespace-nowrap px-3 sm:table-cell">
-										<span className="text-xs font-medium">{formats || "No assets"}</span>
-										<span className="mt-0.5 block text-[11px] text-muted-foreground">
-											{assetCount}
-											{variants.length > 0 && ` · ${variants.join(" / ")}`}
-										</span>
-									</td>
-								)}
-								<td className="hidden max-w-28 truncate px-3 text-xs text-muted-foreground lg:table-cell">
-									{record.expand?.created_by?.username || "Contributor"}
-								</td>
-								{view === "submissions" && (
-									<td className="px-2 sm:px-3">
-										<Status status={record.status} />
-									</td>
-								)}
-								{view !== "review" && (
-									<td className="hidden max-w-28 truncate px-3 text-xs text-muted-foreground lg:table-cell">
-										{record.expand?.approved_by?.username || "—"}
-									</td>
-								)}
-								<td className="px-3 text-right">
-									<Time value={record.updated} />
-								</td>
-							</tr>
-						)
-					})}
-				</tbody>
-			</table>
-		</div>
+		<Table>
+			<TableHeader className="sticky top-0 z-10 bg-muted">
+				{table.getHeaderGroups().map((group) => (
+					<TableRow key={group.id}>
+						{group.headers.map((header) => {
+							const order = header.column.getIsSorted()
+							let ariaSort: "ascending" | "descending" | "none" = "none"
+							let SortIcon = ArrowUpDown
+							if (order === "asc") {
+								ariaSort = "ascending"
+								SortIcon = ArrowUp
+							}
+							if (order === "desc") {
+								ariaSort = "descending"
+								SortIcon = ArrowDown
+							}
+							return (
+								<TableHead key={header.id} className={columnClass(header.id)} aria-sort={header.column.getCanSort() ? ariaSort : undefined}>
+									{header.column.getCanSort() ? (
+										<button
+											type="button"
+											disabled={disabled}
+											onClick={header.column.getToggleSortingHandler()}
+											className="flex items-center gap-1.5 rounded py-2 text-xs hover:text-primary focus-visible:outline-2 focus-visible:outline-primary"
+											aria-label={`Sort by ${header.column.columnDef.header}`}
+										>
+											{flexRender(header.column.columnDef.header, header.getContext())}
+											<SortIcon className="size-3.5" />
+										</button>
+									) : (
+										flexRender(header.column.columnDef.header, header.getContext())
+									)}
+								</TableHead>
+							)
+						})}
+					</TableRow>
+				))}
+			</TableHeader>
+			<TableBody>
+				{table.getRowModel().rows.map((row) => (
+					<TableRow key={row.id} data-state={row.id === activeId || selected.includes(row.id) ? "selected" : undefined} className="h-12">
+						{row.getVisibleCells().map((cell) => (
+							<TableCell key={cell.id} className={cn("truncate text-xs", columnClass(cell.column.id))}>
+								{flexRender(cell.column.columnDef.cell, cell.getContext())}
+							</TableCell>
+						))}
+					</TableRow>
+				))}
+			</TableBody>
+		</Table>
 	)
 }
+
 export function QueuePreview({ records, onOpen }: { records: Submission[]; onOpen: (id: string) => void }) {
 	if (!records.length) return <div className="p-5 text-xs text-muted-foreground">All caught up. Nothing waiting here.</div>
 	return (

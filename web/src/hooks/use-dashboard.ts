@@ -26,9 +26,23 @@ export function useDashboardSubmissions(filters: DashboardFilters, enabled: bool
 	if (filters.reviewer) conditions.push(pb.filter("approved_by.username ~ {:name}", { name: filters.reviewer }))
 	if (userId) conditions.push(pb.filter("created_by = {:id}", { id: userId }))
 	dateFilters(filters, "updated", conditions)
-	let sort = "-updated,-id"
-	if (filters.sort === "oldest") sort = "updated,id"
-	if (filters.sort === "name") sort = "name,id"
+	const sorts: Record<string, string> = {
+		recent: "-updated,-id",
+		oldest: "updated,id",
+		name: "name,id",
+		"name-asc": "name,id",
+		"name-desc": "-name,-id",
+		"status-asc": "status,id",
+		"status-desc": "-status,-id",
+		"updated-asc": "updated,id",
+		"updated-desc": "-updated,-id",
+		"reviewer-asc": "approved_by.username,id",
+		"reviewer-desc": "-approved_by.username,-id",
+		"submitter-asc": "created_by.username,id",
+		"submitter-desc": "-created_by.username,-id",
+	}
+	const sort = sorts[filters.sort] || sorts.recent
+
 	return useQuery({
 		queryKey: [...dashboardKey, "submissions", filters, userId],
 		enabled,
