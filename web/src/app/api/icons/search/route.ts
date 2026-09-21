@@ -14,6 +14,7 @@ function toCommandMenuEntry(icon: IconWithName): IconSearchEntry {
 			base: icon.data.base,
 			aliases: icon.data.aliases,
 			categories: icon.data.categories,
+			update: icon.data.update,
 		},
 		...(icon.external
 			? {

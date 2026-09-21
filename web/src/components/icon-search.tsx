@@ -23,7 +23,7 @@ import { Separator } from "@/components/ui/separator"
 import { UnoptimizedImage } from "@/components/unoptimized-image"
 import { DASHBOARD_ICONS_ICON, EXTERNAL_SOURCE_IDS, EXTERNAL_SOURCES, type ExternalSourceId } from "@/constants"
 import { cn, filterAndSortIcons, normalizeForSearch, type SortOption } from "@/lib/utils"
-import type { IconRecord, IconSearchProps } from "@/types/icons"
+import type { IconSearchEntry, IconSearchProps } from "@/types/icons"
 
 type SourceFilter = "all" | "native" | ExternalSourceId
 
@@ -51,7 +51,7 @@ function getResultsStatus(count: number): string {
 	return `Found ${count} icons.`
 }
 
-function getIconsForSource(icons: IconRecord[], source: SourceFilter) {
+function getIconsForSource(icons: IconSearchEntry[], source: SourceFilter) {
 	if (source === "all") return icons
 	return icons.filter((icon) => icon.source === source)
 }
