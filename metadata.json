@@ -50222,5 +50222,22 @@
                 "name": "mbombeck"
             }
         }
+    },
+    "kuvasz-uptime": {
+        "base": "png",
+        "aliases": [],
+        "categories": [
+            "tools",
+            "monitoring",
+            "cloud",
+            "network"
+        ],
+        "update": {
+            "timestamp": "2026-09-21T09:32:52.758Z",
+            "author": {
+                "id": 28044849,
+                "login": "adamkobor"
+            }
+        }
     }
 }
