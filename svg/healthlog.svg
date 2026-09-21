@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#282a36"/>
+      <stop offset="100%" stop-color="#1e1f29"/>
+    </linearGradient>
+    <clipPath id="heart-clip">
+      <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+    </clipPath>
+  </defs>
+  <circle cx="60" cy="60" r="58" fill="url(#bg)" stroke="#6272a4" stroke-width="2"/>
+  <g transform="translate(24, 25) scale(3)">
+    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" fill="#bd93f9" fill-opacity="0.25" stroke="#bd93f9" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="3,12.5 8,12.5 9.5,9 11,16 12.5,7 14,12.5 15.5,12.5 21,12.5" fill="none" stroke="#bd93f9" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" clip-path="url(#heart-clip)"/>
+  </g>
+</svg>
