@@ -50251,5 +50251,23 @@
                 "name": "bellamy"
             }
         }
+    },
+    "buffalo-bills": {
+        "base": "png",
+        "aliases": [
+            "buffalo-bills"
+        ],
+        "categories": [
+            "entertainment",
+            "social",
+            "media"
+        ],
+        "update": {
+            "timestamp": "2026-09-21T09:32:54.558Z",
+            "author": {
+                "id": 35277350,
+                "login": "motorcropmoon"
+            }
+        }
     }
 }
