@@ -489,7 +489,10 @@ async function main() {
 	await upsertMetadata(submission, assignments, args.dryRun)
 
 	if (args.commitMessagePath) {
-		await Bun.write(args.commitMessagePath, `Add ${submission.name} by ${approver}\n\n${coAuthors.join("\n")}\n`)
+		const creator = submission.expand?.created_by?.username || submission.created_by || "unknown"
+		const singleLine = (value: string) => value.replace(/[\r\n]+/g, " ").trim()
+		const subject = `add icon "${singleLine(submission.name)}" (submission ${singleLine(submission.id)}, approved by ${singleLine(approver)})`
+		await Bun.write(args.commitMessagePath, `${subject}\n\nSubmitted by ${singleLine(creator)}.\n\n${coAuthors.join("\n")}\n`)
 	}
 
 	if (args.ghaOutputPath) {
