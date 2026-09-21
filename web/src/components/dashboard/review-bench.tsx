@@ -276,15 +276,20 @@ export function ReviewBench({
 	}
 	const queue = (
 		<>
-			<div className="border-b p-3">
+			<div className="space-y-2 border-b p-3">
+				<Button className="hidden lg:inline-flex" disabled={!decisions.length || busy || !hydrated} onClick={() => setConfirm(true)}>
+					<Flag className="size-4" />
+					Submit review · {decisions.length}
+				</Button>
 				<FilterInput
 					label="Find in queue"
+					compact
 					placeholder="Icon or submitter…"
 					value={filters.search}
 					onChange={(search) => onChange({ search, page: "1", item: "" }, true)}
 				/>
 				<p className="mt-2 text-xs text-muted-foreground">
-					{totalItems} waiting · {approved} approved · {rejected} rejected in draft
+					{totalItems} waiting · {approved} approved · {rejected} rejected
 				</p>
 			</div>
 			<div className="flex max-h-28 gap-1 overflow-x-auto p-2 lg:max-h-[52vh] lg:flex-col lg:overflow-y-auto">
@@ -340,22 +345,19 @@ export function ReviewBench({
 
 	return (
 		<section data-review-bench aria-label="Review bench" className="space-y-4 pb-36 lg:pb-0">
-			<div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border bg-background p-3">
-				<div className="hidden sm:block">
-					<h2 className="text-sm font-semibold">Review bench</h2>
-					<p className="text-xs text-muted-foreground">Flag decisions as you go. Submit them together when you’re ready.</p>
-				</div>
-				<Button disabled={!decisions.length || busy || !hydrated} onClick={() => setConfirm(true)}>
-					<Flag className="size-4" />
-					Submit review · {decisions.length}
-				</Button>
-			</div>
 			<div className="grid min-w-0 gap-4 lg:grid-cols-[220px_minmax(0,1fr)] xl:grid-cols-[250px_minmax(0,1fr)]">
-				<aside aria-label="Review queue" className="min-w-0 self-start rounded-xl border bg-background lg:sticky lg:top-24">
+				<aside aria-label="Review queue" className="relative min-w-0 self-start rounded-xl border bg-background lg:sticky lg:top-24">
 					<div className="hidden lg:block">{queue}</div>
+					<div className="absolute right-2 top-2 lg:hidden">
+						{" "}
+						<Button disabled={!decisions.length || busy || !hydrated} onClick={() => setConfirm(true)}>
+							<Flag className="size-4" />
+							Submit · {decisions.length}
+						</Button>
+					</div>
 					<details className="lg:hidden">
-						<summary className="cursor-pointer px-3 py-3 text-xs font-medium">
-							Queue · {totalItems} waiting · {decisions.length} flagged
+						<summary className="flex min-h-14 cursor-pointer items-center py-3 pl-3 pr-32 text-xs font-medium">
+							Queue · {totalItems}
 						</summary>
 						{queue}
 					</details>
@@ -397,7 +399,7 @@ export function ReviewBench({
 							</div>
 							{drafts[record.id] && (
 								<div aria-live="polite" className="flex items-center justify-between gap-2 rounded-lg border bg-muted/30 px-3 py-2 text-sm">
-									<span>Flagged: {drafts[record.id].status}. Not submitted yet.</span>
+									<span>Draft: {drafts[record.id].status}</span>
 									<Button variant="ghost" size="sm" disabled={busy} onClick={() => clear(record.id)}>
 										<RotateCcw className="size-3" />
 										Clear
@@ -492,9 +494,7 @@ export function ReviewBench({
 									<input type="checkbox" checked={shortcuts} onChange={(event) => setShortcuts(event.target.checked)} />
 									Keyboard shortcuts
 								</label>
-								<p className="text-center text-[10px] text-muted-foreground">
-									J / K navigate · P approve · X reject · Shift X no reason · U unflag. Nothing is sent until you submit review.
-								</p>
+								<p className="text-center text-[10px] text-muted-foreground">J / K navigate · Shift X reject without reason · U unflag</p>
 							</div>
 						</>
 					)}

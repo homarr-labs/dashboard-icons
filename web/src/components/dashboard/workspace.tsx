@@ -238,28 +238,8 @@ export function DashboardWorkspace() {
 				<LoginModalContent autoFocus={false} onSuccess={() => void client.invalidateQueries({ queryKey: ["auth"] })} />
 			</div>
 		)
-	let title = "Overview"
-	let subtitle = "A clear view of your team’s latest work."
-	if (filters.view === "review") {
-		title = "Review queue"
-		subtitle = "Review contributions and leave helpful feedback."
-	}
-	if (filters.view === "publish") {
-		title = "Publish"
-		subtitle = "Approved icons, ready for the collection."
-	}
-	if (filters.view === "submissions") {
-		title = "All submissions"
-		subtitle = "Find any contribution, across every status."
-	}
-	if (filters.view === "activity") {
-		title = "Team activity"
-		subtitle = "Who changed what, in chronological order."
-	}
-	if (!isAdmin) {
-		title = "My submissions"
-		subtitle = "Track your contributions and read feedback from the team."
-	}
+	const title = isAdmin ? "Dashboard" : "My submissions"
+
 	const counts = summary.data?.counts
 	const index = rows.findIndex((record) => record.id === activeId)
 	const previous = rows[index - 1]?.id
@@ -305,64 +285,60 @@ export function DashboardWorkspace() {
 			"This starts one GitHub run for the selected icons. Publication is complete only after the repository push succeeds."
 	}
 	return (
-		<div className="mx-auto flex min-h-0 w-full max-w-[1600px] flex-1 flex-col px-3 py-4 sm:px-6 lg:px-8">
-			<div className="mb-4 flex items-center justify-between gap-3">
-				<div className="min-w-0">
-					<p className="mb-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">Dashboard Icons / Workspace</p>
-					<h1 className="text-xl font-semibold tracking-tight sm:text-2xl">{title}</h1>
-					<p className="mt-1 hidden text-sm text-muted-foreground sm:block">{subtitle}</p>
-				</div>
+		<div className="mx-auto flex min-h-0 w-full max-w-[1600px] flex-1 flex-col px-3 py-2 sm:px-6 lg:px-8">
+			<div className="mb-3 flex shrink-0 items-center justify-between gap-2 border-b pb-2">
+				<h1 className={cn("text-lg font-semibold", isAdmin && "sr-only")}>{title}</h1>
+				{isAdmin && (
+					<>
+						<nav aria-label="Dashboard views" className="hidden shrink-0 items-center gap-1 md:flex">
+							{views.map((entry) => {
+								const Icon = viewIcons[entry.id]
+								let count: number | undefined
+								if (entry.id === "review") count = counts?.pending
+								if (entry.id === "publish") count = counts?.approved
+								return (
+									<button
+										key={entry.id}
+										type="button"
+										aria-current={filters.view === entry.id ? "page" : undefined}
+										onClick={() => navigate(entry.id)}
+										className={cn(
+											"relative flex items-center gap-2 border-b-2 border-transparent px-3 py-2 text-sm font-medium text-foreground/75 transition-colors hover:text-foreground",
+											filters.view === entry.id && "border-primary text-foreground",
+										)}
+									>
+										<Icon className="size-3.5" />
+										{entry.label}
+										{count !== undefined && <span className="rounded bg-muted px-1.5 py-0.5 text-[10px] tabular-nums">{count}</span>}
+									</button>
+								)
+							})}
+						</nav>
+						<select
+							aria-label="Dashboard view"
+							className="h-9 min-w-0 flex-1 shrink-0 rounded-lg border bg-background px-3 text-sm md:hidden"
+							value={filters.view}
+							onChange={(e) => navigate(e.target.value as DashboardView)}
+						>
+							{views.map((entry) => (
+								<option key={entry.id} value={entry.id}>
+									{entry.label}
+								</option>
+							))}
+						</select>
+					</>
+				)}
 				<Button
-					variant="outline"
-					size="sm"
-					aria-label="Refresh workspace"
+					size="icon"
+					variant="ghost"
+					className="size-9 shrink-0"
+					aria-label="Refresh dashboard"
 					disabled={summary.isFetching || list.isFetching}
 					onClick={() => void reconcile().then(refresh)}
 				>
-					<RefreshCw className="size-3.5" />
-					<span className="hidden sm:inline">Refresh</span>
+					<RefreshCw className="size-4" />
 				</Button>
 			</div>
-			{isAdmin && (
-				<>
-					<nav aria-label="Dashboard views" className="mb-4 hidden shrink-0 items-center gap-1 border-b sm:flex">
-						{views.map((entry) => {
-							const Icon = viewIcons[entry.id]
-							let count: number | undefined
-							if (entry.id === "review") count = counts?.pending
-							if (entry.id === "publish") count = counts?.approved
-							return (
-								<button
-									key={entry.id}
-									type="button"
-									aria-current={filters.view === entry.id ? "page" : undefined}
-									onClick={() => navigate(entry.id)}
-									className={cn(
-										"relative flex items-center gap-2 border-b-2 border-transparent px-4 py-3 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground",
-										filters.view === entry.id && "border-primary text-foreground",
-									)}
-								>
-									<Icon className="size-3.5" />
-									{entry.label}
-									{count !== undefined && <span className="rounded bg-muted px-1.5 py-0.5 text-[10px] tabular-nums">{count}</span>}
-								</button>
-							)
-						})}
-					</nav>
-					<select
-						aria-label="Dashboard view"
-						className="mb-4 h-10 w-full shrink-0 rounded-lg border bg-background px-3 text-sm sm:hidden"
-						value={filters.view}
-						onChange={(e) => navigate(e.target.value as DashboardView)}
-					>
-						{views.map((entry) => (
-							<option key={entry.id} value={entry.id}>
-								{entry.label}
-							</option>
-						))}
-					</select>
-				</>
-			)}
 			{hasUpdates && (
 				<div className="mb-3 flex shrink-0 items-center justify-between gap-2 rounded-lg border bg-muted/30 px-3 py-2 text-xs">
 					<span>New activity available. Your current list has stayed in place.</span>
@@ -529,6 +505,8 @@ export function DashboardWorkspace() {
 											isAdmin={isAdmin}
 											disabled={busy || list.isPlaceholderData}
 											view={filters.view}
+											sort={filters.sort}
+											onSort={(sort) => changeFilters({ sort })}
 										/>
 									)}
 								</div>
