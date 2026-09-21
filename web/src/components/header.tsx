@@ -139,21 +139,21 @@ export function Header() {
 
 	return (
 		<header className="border-b sticky top-0 z-50 backdrop-blur-2xl bg-background/50 border-border/50">
-			<div className="px-4 md:px-12 flex items-center justify-between h-16 md:h-18">
-				<div className="flex items-center gap-2 md:gap-6">
-					<Link href="/" aria-label="Dashboard Icons home" className="text-lg font-bold md:hidden">
+			<div className="px-4 lg:px-12 flex items-center justify-between h-16 lg:h-18">
+				<div className="flex items-center gap-2 lg:gap-6">
+					<Link href="/" aria-label="Dashboard Icons home" className="text-lg font-bold lg:hidden">
 						DI
 					</Link>
-					<Link href="/" className="text-lg md:text-xl font-bold group hidden md:block">
+					<Link href="/" className="text-lg lg:text-xl font-bold group hidden lg:block">
 						<span className="transition-colors duration-300 group-hover:text-primary">Dashboard Icons</span>
 					</Link>
 					<div className="flex-nowrap">
 						<HeaderNav isLoggedIn={isLoggedIn} />
 					</div>
 				</div>
-				<div className="flex items-center gap-2 md:gap-4">
+				<div className="flex items-center gap-2 lg:gap-4">
 					{/* Desktop search button */}
-					<div className="hidden md:block">
+					<div className="hidden lg:block">
 						<Button variant="outline" className="gap-2 cursor-pointer transition-all duration-300" onClick={openCommandMenu}>
 							<Search className="h-4 w-4 transition-all duration-300" />
 							<span>Find icons</span>
@@ -164,7 +164,7 @@ export function Header() {
 					</div>
 
 					{/* Mobile search button */}
-					<div className="md:hidden">
+					<div className="lg:hidden">
 						<Button
 							variant="ghost"
 							size="icon"
@@ -177,7 +177,7 @@ export function Header() {
 					</div>
 
 					{/* Mobile Submit Button */}
-					<div className="md:hidden">
+					<div className="lg:hidden">
 						{isLoggedIn ? (
 							<Button variant="ghost" size="icon" className="rounded-lg cursor-pointer transition-all duration-300 hover:ring-2" asChild>
 								<Link href="/submit">
@@ -198,11 +198,11 @@ export function Header() {
 						)}
 					</div>
 
-					<div className="hidden md:flex items-center gap-2 md:gap-4">
+					<div className="hidden lg:flex items-center gap-2 lg:gap-4">
 						{isLoggedIn ? (
 							<Button
 								variant="outline"
-								className="hidden md:inline-flex cursor-pointer transition-all duration-300 items-center gap-2"
+								className="hidden lg:inline-flex cursor-pointer transition-all duration-300 items-center gap-2"
 								asChild
 							>
 								<Link href="/submit">
@@ -212,7 +212,7 @@ export function Header() {
 						) : (
 							<Button
 								variant="outline"
-								className="hidden md:inline-flex cursor-pointer transition-all duration-300 items-center gap-2"
+								className="hidden lg:inline-flex cursor-pointer transition-all duration-300 items-center gap-2"
 								onClick={handleSubmitClick}
 							>
 								<PlusCircle className="h-4 w-4 transition-all duration-300" /> Submit icon(s)

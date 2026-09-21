@@ -1,6 +1,6 @@
 "use client"
 import { ArrowLeft, ArrowRight, Check, Flag, RotateCcw, X } from "lucide-react"
-import { useCallback, useEffect, useState } from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
 import { toast } from "sonner"
 import { revalidateAllSubmissions } from "@/app/actions/submissions"
 import { Button } from "@/components/ui/button"
@@ -51,7 +51,8 @@ export function ReviewBench({
 	const [reason, setReason] = useState("")
 	const [confirm, setConfirm] = useState(false)
 	const [busy, setBusy] = useState(false)
-	const [shortcuts, setShortcuts] = useState(true)
+	const feedbackRef = useRef<HTMLTextAreaElement>(null)
+	const [focusFeedback, setFocusFeedback] = useState(false)
 	const [errors, setErrors] = useState<Record<string, string>>({})
 	const [edge, setEdge] = useState<{ page: number; last: boolean } | null>(null)
 	const record = rows.find((row) => row.id === activeId) || rows[0]
@@ -119,6 +120,13 @@ export function ReviewBench({
 		})
 		setReason("")
 	}, [record?.id])
+	useEffect(() => {
+		if (focusFeedback && reasonFor === record?.id) {
+			feedbackRef.current?.focus()
+			setFocusFeedback(false)
+		}
+	}, [focusFeedback, reasonFor, record?.id])
+
 	const move = useCallback(
 		(direction: number) => {
 			if (!loaded || busy) return
@@ -170,8 +178,13 @@ export function ReviewBench({
 	useEffect(() => {
 		function keydown(event: KeyboardEvent) {
 			const target = event.target as HTMLElement
+			if (event.key === "Escape" && target === feedbackRef.current && !busy && !confirm) {
+				event.preventDefault()
+				feedbackRef.current?.blur()
+				setReasonFor(null)
+				return
+			}
 			if (
-				!shortcuts ||
 				busy ||
 				confirm ||
 				!hydrated ||
@@ -200,11 +213,17 @@ export function ReviewBench({
 			}
 			if (key === "x" && record) {
 				event.preventDefault()
-				if (event.shiftKey) stage("rejected")
+				if (event.shiftKey || reasonFor === record.id) stage("rejected")
 				else {
 					setReason("")
 					setReasonFor(record.id)
 				}
+				return
+			}
+			if (key === "c" && record) {
+				event.preventDefault()
+				setReasonFor(record.id)
+				setFocusFeedback(true)
 				return
 			}
 			if (key === "u" && record) {
@@ -212,16 +231,16 @@ export function ReviewBench({
 				clear(record.id)
 				return
 			}
-			if (["j", "arrowright", "k", "arrowleft"].includes(key)) {
+			if (["j", "arrowright", "arrowdown", "k", "arrowleft", "arrowup"].includes(key)) {
 				event.preventDefault()
 				let direction = 1
-				if (key === "k" || key === "arrowleft") direction = -1
+				if (key === "k" || key === "arrowleft" || key === "arrowup") direction = -1
 				move(direction)
 			}
 		}
 		window.addEventListener("keydown", keydown)
 		return () => window.removeEventListener("keydown", keydown)
-	}, [record, reasonFor, stage, move, clear, busy, confirm, hydrated, loaded, shortcuts])
+	}, [record, reasonFor, stage, move, clear, busy, confirm, hydrated, loaded])
 	async function submit() {
 		if (decisions.some((draft) => draft.comment.length > 10000)) {
 			toast.error("Feedback must be 10,000 characters or fewer.")
@@ -447,11 +466,12 @@ export function ReviewBench({
 											))}
 										</div>
 										<Textarea
+											ref={feedbackRef}
 											maxLength={10000}
 											aria-label="Custom rejection feedback"
 											value={reason}
 											onChange={(event) => setReason(event.target.value)}
-											placeholder="Or write specific feedback…"
+											placeholder="Write feedback… (C)"
 										/>
 										<div className="flex flex-wrap gap-2">
 											<Button
@@ -463,7 +483,7 @@ export function ReviewBench({
 												Use feedback & next
 											</Button>
 											<Button size="sm" variant="outline" onClick={() => stage("rejected")}>
-												No reason & next · ⇧ X
+												No reason & next · X
 											</Button>
 										</div>
 									</fieldset>
@@ -490,11 +510,10 @@ export function ReviewBench({
 										Reject <kbd className="ml-1 text-xs text-muted-foreground">X</kbd>
 									</Button>
 								</div>
-								<label className="flex items-center justify-center gap-2 text-[10px] text-muted-foreground">
-									<input type="checkbox" checked={shortcuts} onChange={(event) => setShortcuts(event.target.checked)} />
-									Keyboard shortcuts
-								</label>
-								<p className="text-center text-[10px] text-muted-foreground">J / K navigate · Shift X reject without reason · U unflag</p>
+								<p className="text-center text-xs leading-relaxed text-muted-foreground">
+									← ↑ / ↓ → navigate · P approve · X reject · X again no message · C write feedback · 1–5 reason · U unflag
+								</p>
+								<p className="text-center text-xs text-muted-foreground">Decisions stay in draft until you submit review.</p>
 							</div>
 						</>
 					)}
