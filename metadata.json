@@ -50283,5 +50283,17 @@
                 "login": "SikamikanikoBG"
             }
         }
+    },
+    "siglent": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-09-21T15:53:37.754Z",
+            "author": {
+                "id": "vsqu09xgkfwab0m",
+                "name": "Anna"
+            }
+        }
     }
 }
