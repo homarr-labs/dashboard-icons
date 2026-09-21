@@ -1,0 +1,19 @@
+scripts/import-icon.ts
+  s_60857e16eff0c2::t_687425f70506e3 492-495
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "dcff22fca215de44df8f3e5fd5bcfaea09e03457",
+  "prompts": {},
+  "sessions": {
+    "s_60857e16eff0c2": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0c354-77bc-7523-9c5f-f3acf8ed01eb",
+        "model": "unknown"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
