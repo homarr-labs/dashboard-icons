@@ -1,0 +1,23 @@
+web/src/components/dashboard/review-bench.tsx
+  s_9bbf65eafab5d3::t_ab5bffff826580 3,54-55,123-129,181-186,216,223-228,234,237,243,469,474,486,513-516
+web/src/components/dashboard/review-gallery.tsx
+  s_9bbf65eafab5d3::t_959bc63b63452b 5,18-21,29,31,38-39,49-56,58-59
+web/src/components/header.tsx
+  s_9bbf65eafab5d3::t_568843dd312346 142-144,147,154,156,167,180,201,205,215
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "cc6e138e4e888cd1d559bd2aa91560e0059b9573",
+  "prompts": {},
+  "sessions": {
+    "s_9bbf65eafab5d3": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0c08f-64bb-7410-a609-482c1b7e04af",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
