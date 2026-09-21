@@ -160,6 +160,6 @@ jobs:
           PB_URL: ${{ secrets.PB_URL }}
           PB_ADMIN_TOKEN: ${{ secrets.PB_ADMIN_TOKEN }}
           PUBLISH_BATCH_ID: ${{ inputs.batchId }}
-          PUBLISH_STATE: ${{ cancelled() && 'cancelled' || 'failed' }}
+          PUBLISH_STATE: ${{ job.status == 'cancelled' && 'cancelled' || 'failed' }}
           PUBLISH_MESSAGE: Import or push did not complete. See the GitHub run for details.
         run: bun run scripts/finalize-icon-publication.ts
