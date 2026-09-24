@@ -1,5 +1,8 @@
 # Dashboard Icons
 
+<img width="1200" height="630" alt="image" src="https://github.com/user-attachments/assets/957a2fbc-beee-4bd6-b04c-4286be66ddd8" />
+
+
 [![jsDelivr hits](https://img.shields.io/jsdelivr/gh/hy/walkxcode/dashboard-icons?style=flat-square&color=%23A020F0)](https://www.jsdelivr.com/package/gh/walkxcode/dashboard-icons)
 [![jsDelivr hits](https://img.shields.io/jsdelivr/gh/hy/homarr-labs/dashboard-icons?style=flat-square&color=%23A020F0)](https://www.jsdelivr.com/package/gh/homarr-labs/dashboard-icons)
 [![GitHub Stars](https://img.shields.io/github/stars/homarr-labs/dashboard-icons?style=flat-square&color=yellow)](https://github.com/homarr-labs/dashboard-icons/stargazers)
