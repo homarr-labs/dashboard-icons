@@ -50622,5 +50622,19 @@
                 "login": "OpenSource-Templates"
             }
         }
+    },
+    "borgitory": {
+        "base": "png",
+        "aliases": [],
+        "categories": [
+            "utility"
+        ],
+        "update": {
+            "timestamp": "2026-09-29T07:31:47.080Z",
+            "author": {
+                "id": 320803826,
+                "login": "OpenSource-Templates"
+            }
+        }
     }
 }
