@@ -50672,5 +50672,38 @@
                 "name": "ishalioh"
             }
         }
+    },
+    "sinf-uinsa": {
+        "base": "svg",
+        "aliases": [
+            "Sistem Informasi Uinsa",
+            "Prodi SI",
+            "Prodi Sistem Informasi",
+            "UIN Sunan Ampel Surabaya",
+            "Surabaya",
+            "Information System",
+            "Information Systems program",
+            "UINSA"
+        ],
+        "categories": [
+            "social",
+            "utility",
+            "media"
+        ],
+        "update": {
+            "timestamp": "2026-09-29T07:31:51.068Z",
+            "author": {
+                "id": 147779314,
+                "login": "UmarAziz01"
+            }
+        },
+        "colors": {
+            "light": "sinf-uinsa-light",
+            "dark": "sinf-uinsa-dark"
+        },
+        "wordmark": {
+            "light": "sinf-uinsa-wordmark-light",
+            "dark": "sinf-uinsa-wordmark-dark"
+        }
     }
 }
