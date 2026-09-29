@@ -50744,5 +50744,17 @@
                 "login": "OpenSource-Templates"
             }
         }
+    },
+    "postfix-fixed": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-09-29T07:31:54.636Z",
+            "author": {
+                "id": 5475686,
+                "login": "yanus"
+            }
+        }
     }
 }
