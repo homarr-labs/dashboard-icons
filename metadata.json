@@ -50366,5 +50366,17 @@
                 "login": "tas50"
             }
         }
+    },
+    "abacus-research": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-09-29T07:31:33.694Z",
+            "author": {
+                "id": 1015200,
+                "login": "tas50"
+            }
+        }
     }
 }
