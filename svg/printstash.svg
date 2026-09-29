@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="268 118 426 426" width="32" height="32" fill="none" role="img" aria-label="PrintStash">
+  <defs>
+    <linearGradient id="ps-icon-light" x1="272" y1="118" x2="690" y2="544" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#2767FF"/>
+      <stop offset="1" stop-color="#0E48F0"/>
+    </linearGradient>
+  </defs>
+  <rect x="272" y="118" width="418" height="426" rx="69" fill="url(#ps-icon-light)"/>
+  <g stroke="#fff" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M397 350 V165 H485 A80 80 0 0 1 485 325 H397" stroke-width="56"/>
+    <path d="M397 450 C397 470 381 480 363 480 C345 480 335 490 335 502 C335 514 347 520 361 520 H492" stroke-width="30"/>
+  </g>
+  <rect x="335" y="330" width="124" height="48" rx="14" fill="#fff"/>
+  <rect x="375" y="382" width="44" height="22" rx="6" fill="#fff"/>
+  <path d="M367 404 H427 L409 432 L397 442 L385 432 Z" fill="#fff"/>
+</svg>

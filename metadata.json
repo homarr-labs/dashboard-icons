@@ -50337,5 +50337,22 @@
                 "login": "meledjearmel"
             }
         }
+    },
+    "printstash": {
+        "base": "svg",
+        "aliases": [
+            "PrintStash"
+        ],
+        "categories": [
+            "tools",
+            "database"
+        ],
+        "update": {
+            "timestamp": "2026-09-29T07:31:32.507Z",
+            "author": {
+                "id": "2m2efw5a5of76ll",
+                "name": "jgillman"
+            }
+        }
     }
 }
