@@ -21,6 +21,9 @@ const reasons = [
 	"The icon is too small or blurry. Please upload a higher-quality asset.",
 	"This icon is already in the collection.",
 	"Please use the official logo and correct its proportions.",
+	"Political submissions are not accepted.",
+	"This is a personal or non-public resource.",
+	"This icon is not relevant for our collection.",
 ]
 
 export function ReviewBench({
@@ -197,7 +200,7 @@ export function ReviewBench({
 			)
 				return
 			const key = event.key.toLowerCase()
-			if (reasonFor && /^[1-5]$/.test(key)) {
+			if (reasonFor && /^[1-8]$/.test(key)) {
 				event.preventDefault()
 				stage("rejected", reasons[Number(key) - 1])
 				return
@@ -511,7 +514,7 @@ export function ReviewBench({
 									</Button>
 								</div>
 								<p className="text-center text-xs leading-relaxed text-muted-foreground">
-									← ↑ / ↓ → navigate · P approve · X reject · X again no message · C write feedback · 1–5 reason · U unflag
+									← ↑ / ↓ → navigate · P approve · X reject · X again no message · C write feedback · 1–8 reason · U unflag
 								</p>
 								<p className="text-center text-xs text-muted-foreground">Decisions stay in draft until you submit review.</p>
 							</div>
