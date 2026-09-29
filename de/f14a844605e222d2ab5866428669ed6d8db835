@@ -1,0 +1,27 @@
+web/tools/README.md
+  s_8f875ca23bd6cb::t_117b56d7e242dc 10-24
+web/tools/showreel/.gitignore
+  s_8f875ca23bd6cb::t_73f2e4d114afbe 1
+web/tools/showreel/audio.py
+  s_8f875ca23bd6cb::t_8030514bce4290 1-375
+web/tools/showreel/index.html
+  s_8f875ca23bd6cb::t_e4902bc8557d9b 1-1439
+web/tools/showreel/render.mjs
+  s_8f875ca23bd6cb::t_3e3db995de1685 1-60
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "def14a844605e222d2ab5866428669ed6d8db835",
+  "prompts": {},
+  "sessions": {
+    "s_8f875ca23bd6cb": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "9a5d059b-a477-4457-9507-2f76106272b6",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
