@@ -50444,5 +50444,20 @@
                 "login": "diegoavelloso"
             }
         }
+    },
+    "dashboarr-backend": {
+        "base": "png",
+        "aliases": [],
+        "categories": [
+            "automation",
+            "monitoring"
+        ],
+        "update": {
+            "timestamp": "2026-09-29T07:31:37.732Z",
+            "author": {
+                "id": 281777244,
+                "login": "diegoavelloso"
+            }
+        }
     }
 }
