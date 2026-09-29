@@ -50636,5 +50636,21 @@
                 "login": "OpenSource-Templates"
             }
         }
+    },
+    "tdarr-white": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "media",
+            "tools",
+            "automation"
+        ],
+        "update": {
+            "timestamp": "2026-09-29T07:31:47.837Z",
+            "author": {
+                "id": "ldwi8loixpf1mrd",
+                "name": "ishalioh"
+            }
+        }
     }
 }
