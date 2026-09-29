@@ -50730,5 +50730,19 @@
                 "login": "OpenSource-Templates"
             }
         }
+    },
+    "collabora-office": {
+        "base": "png",
+        "aliases": [],
+        "categories": [
+            "utility"
+        ],
+        "update": {
+            "timestamp": "2026-09-29T07:31:54.041Z",
+            "author": {
+                "id": 320803826,
+                "login": "OpenSource-Templates"
+            }
+        }
     }
 }
