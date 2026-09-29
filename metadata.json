@@ -29306,12 +29306,16 @@
     "upsnap": {
         "base": "svg",
         "aliases": [],
-        "categories": [],
+        "categories": [
+            "automation",
+            "tools",
+            "home-automation"
+        ],
         "update": {
-            "timestamp": "2022-08-16T17:22:56Z",
+            "timestamp": "2026-09-29T07:31:49.085Z",
             "author": {
-                "id": 71191962,
-                "name": "walkxcode"
+                "id": "ldwi8loixpf1mrd",
+                "name": "ishalioh"
             }
         }
     },
