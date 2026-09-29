@@ -22,14 +22,7 @@ A collection of over 1800 curated icons for services, applications and tools, de
 - **Light & Dark Variants**: Icons optimized for both light and dark themes
 - **Community-Driven**: Easy process to request missing icons
 
-<p align="center">
-  <a href="https://dashboardicons.com">
-    <video width="650" autoplay loop muted playsinline>
-      <source src="assets/preview.mp4" type="video/mp4">
-      Your browser does not support the video tag.
-    </video>
-  </a>
-</p>
+https://github.com/user-attachments/assets/65d61e2c-c80d-4174-8d1a-4117336909e4
 
 ## Using the Icons
 
