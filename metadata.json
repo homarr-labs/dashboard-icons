@@ -50429,5 +50429,20 @@
                 "name": "izas"
             }
         }
+    },
+    "dashboarr": {
+        "base": "png",
+        "aliases": [],
+        "categories": [
+            "automation",
+            "monitoring"
+        ],
+        "update": {
+            "timestamp": "2026-09-29T07:31:36.926Z",
+            "author": {
+                "id": 281777244,
+                "login": "diegoavelloso"
+            }
+        }
     }
 }
