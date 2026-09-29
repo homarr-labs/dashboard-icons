@@ -50512,5 +50512,17 @@
                 "login": "tas50"
             }
         }
+    },
+    "aac-infotray": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-09-29T07:31:40.869Z",
+            "author": {
+                "id": 1015200,
+                "login": "tas50"
+            }
+        }
     }
 }
