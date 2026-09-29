@@ -50486,5 +50486,19 @@
                 "login": "tas50"
             }
         }
+    },
+    "proalpha": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "database"
+        ],
+        "update": {
+            "timestamp": "2026-09-29T07:31:39.568Z",
+            "author": {
+                "id": 1015200,
+                "login": "tas50"
+            }
+        }
     }
 }
