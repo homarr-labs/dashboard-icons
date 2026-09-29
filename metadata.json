@@ -50608,5 +50608,19 @@
                 "name": "leqwin"
             }
         }
+    },
+    "bonfire": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "social"
+        ],
+        "update": {
+            "timestamp": "2026-09-29T07:31:46.013Z",
+            "author": {
+                "id": 320803826,
+                "login": "OpenSource-Templates"
+            }
+        }
     }
 }
