@@ -29857,20 +29857,22 @@
         }
     },
     "ersatztv": {
-        "base": "png",
-        "aliases": [
-            "TV Stream Generator"
-        ],
+        "base": "svg",
+        "aliases": [],
         "categories": [
-            "Media-Servers",
-            "Video-Streaming"
+            "entertainment",
+            "home-automation",
+            "media"
         ],
         "update": {
-            "timestamp": "2025-01-07T17:54:03Z",
+            "timestamp": "2026-09-29T07:31:43.924Z",
             "author": {
-                "id": 71191962,
-                "name": "walkxcode"
+                "id": 60019905,
+                "login": "dpreshit"
             }
+        },
+        "colors": {
+            "light": "ersatztv-light"
         }
     },
     "apple-music": {
