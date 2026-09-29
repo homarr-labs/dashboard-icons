@@ -50574,5 +50574,20 @@
                 "login": "Hicsuntd"
             }
         }
+    },
+    "label-studio": {
+        "base": "png",
+        "aliases": [
+            "tag",
+            "tagging"
+        ],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-09-29T07:31:44.551Z",
+            "author": {
+                "id": 38002454,
+                "login": "goutham200589"
+            }
+        }
     }
 }
