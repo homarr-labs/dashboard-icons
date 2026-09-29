@@ -50723,5 +50723,20 @@
                 "login": "thegreatdanton"
             }
         }
+    },
+    "classicpress": {
+        "base": "png",
+        "aliases": [],
+        "categories": [
+            "utility",
+            "social"
+        ],
+        "update": {
+            "timestamp": "2026-09-29T07:31:52.726Z",
+            "author": {
+                "id": 320803826,
+                "login": "OpenSource-Templates"
+            }
+        }
     }
 }
