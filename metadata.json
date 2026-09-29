@@ -50402,5 +50402,17 @@
                 "login": "tas50"
             }
         }
+    },
+    "itad": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-09-29T07:31:35.582Z",
+            "author": {
+                "id": "09qr7jxynk6favk",
+                "name": "izas"
+            }
+        }
     }
 }
