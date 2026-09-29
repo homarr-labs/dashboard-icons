@@ -14969,25 +14969,17 @@
         }
     },
     "cloud9": {
-        "base": "svg",
-        "aliases": [
-            "aws-cloud9",
-            "online-ide"
-        ],
+        "base": "png",
+        "aliases": [],
         "categories": [
-            "Developer-Tools",
-            "Cloud-Computing"
+            "development"
         ],
         "update": {
-            "timestamp": "2024-10-20T17:24:03Z",
+            "timestamp": "2026-09-29T07:31:53.353Z",
             "author": {
-                "id": 71191962,
-                "name": "walkxcode"
+                "id": 320803826,
+                "login": "OpenSource-Templates"
             }
-        },
-        "colors": {
-            "dark": "cloud9",
-            "light": "cloud9-light"
         }
     },
     "zalo": {
