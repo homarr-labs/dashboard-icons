@@ -50705,5 +50705,23 @@
             "light": "sinf-uinsa-wordmark-light",
             "dark": "sinf-uinsa-wordmark-dark"
         }
+    },
+    "moneysplit": {
+        "base": "png",
+        "aliases": [
+            "money split"
+        ],
+        "categories": [
+            "finance",
+            "utility",
+            "tools"
+        ],
+        "update": {
+            "timestamp": "2026-09-29T07:31:51.956Z",
+            "author": {
+                "id": 6408288,
+                "login": "thegreatdanton"
+            }
+        }
     }
 }
