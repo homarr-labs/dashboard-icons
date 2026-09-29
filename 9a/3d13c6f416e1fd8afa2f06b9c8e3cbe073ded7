@@ -1,0 +1,19 @@
+README.md
+  s_8f875ca23bd6cb::t_f7cf980bfa759a 25
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "9a3d13c6f416e1fd8afa2f06b9c8e3cbe073ded7",
+  "prompts": {},
+  "sessions": {
+    "s_8f875ca23bd6cb": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "9a5d059b-a477-4457-9507-2f76106272b6",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
