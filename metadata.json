@@ -50310,5 +50310,20 @@
                 "name": "sujon"
             }
         }
+    },
+    "raftman": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "monitoring",
+            "network"
+        ],
+        "update": {
+            "timestamp": "2026-09-29T07:31:30.976Z",
+            "author": {
+                "id": 216128,
+                "login": "temp"
+            }
+        }
     }
 }
