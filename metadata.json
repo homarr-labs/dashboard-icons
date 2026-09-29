@@ -50295,5 +50295,20 @@
                 "name": "Anna"
             }
         }
+    },
+    "xp11-logo": {
+        "base": "png",
+        "aliases": [
+            "windows logo",
+            "xp logo"
+        ],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-09-29T07:31:29.331Z",
+            "author": {
+                "id": "p1glopswjlw9xq5",
+                "name": "sujon"
+            }
+        }
     }
 }
