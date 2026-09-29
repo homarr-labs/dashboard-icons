@@ -50536,5 +50536,23 @@
                 "login": "tas50"
             }
         }
+    },
+    "upload-assistant": {
+        "base": "png",
+        "aliases": [],
+        "categories": [
+            "automation",
+            "media",
+            "home-automation",
+            "tools",
+            "utility"
+        ],
+        "update": {
+            "timestamp": "2026-09-29T07:31:42.278Z",
+            "author": {
+                "id": 281777244,
+                "login": "diegoavelloso"
+            }
+        }
     }
 }
