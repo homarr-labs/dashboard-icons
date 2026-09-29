@@ -50589,5 +50589,24 @@
                 "login": "goutham200589"
             }
         }
+    },
+    "monbooru": {
+        "base": "png",
+        "aliases": [
+            "monbooru",
+            "monloader",
+            "monsender"
+        ],
+        "categories": [
+            "media",
+            "storage"
+        ],
+        "update": {
+            "timestamp": "2026-09-29T07:31:45.254Z",
+            "author": {
+                "id": "n3tv482bfxuazxy",
+                "name": "leqwin"
+            }
+        }
     }
 }
