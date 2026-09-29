@@ -1,0 +1,1439 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Dashboard Icons — Motion Reel</title>
+<style>
+	* { box-sizing: border-box; margin: 0; padding: 0; }
+	html, body { width: 1920px; height: 1080px; overflow: hidden; background: #06080d; }
+	body { font-family: "Inter", system-ui, sans-serif; color: #f8fafc; -webkit-font-smoothing: antialiased; }
+	#stage, #cam, .layer { position: absolute; inset: 0; }
+	#stage { overflow: hidden; background: #06080d; }
+	.abs { position: absolute; }
+	.mono { font-family: "JetBrains Mono", ui-monospace, monospace; }
+	.mask { display: inline-block; overflow: hidden; vertical-align: top; padding: 0.04em 0.07em 0.16em; margin: -0.04em -0.07em -0.16em; }
+	.word { display: inline-block; transform-origin: 0 100%; }
+	.grad { background: linear-gradient(110deg, #FA5352 0%, #FF6A48 38%, #FFA500 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+	.kicker { font-family: "JetBrains Mono", monospace; font-size: 17px; font-weight: 500; letter-spacing: 0.26em; text-transform: uppercase; color: #FFA500; }
+	.display { font-weight: 800; letter-spacing: -0.045em; line-height: 1; }
+	.orb { position: absolute; border-radius: 50%; }
+	.dots { position: absolute; inset: -88px; background-image: radial-gradient(circle, rgba(255,255,255,0.07) 1.2px, transparent 1.7px); background-size: 44px 44px; -webkit-mask-image: radial-gradient(ellipse 72% 68% at 50% 50%, #000 25%, transparent 100%); }
+	#grain { position: absolute; inset: 0; width: 1920px; height: 1080px; image-rendering: pixelated; opacity: 0.1; mix-blend-mode: overlay; }
+	#vignette { background: radial-gradient(ellipse 85% 80% at 50% 50%, transparent 50%, rgba(0,0,0,0.6) 100%); }
+
+	/* wall */
+	#wall { position: absolute; left: 50%; top: 50%; }
+	.wrow { position: absolute; left: 0; display: flex; gap: 22px; }
+	.wtile { flex: none; width: 150px; height: 150px; border-radius: 36px; background: #10161f; border: 1.5px solid #212b3a; display: grid; place-items: center; }
+	.wtile img { width: 86px; height: 86px; object-fit: contain; }
+
+
+	/* logo */
+	.cell { position: absolute; transform-style: preserve-3d; }
+	.face { position: absolute; inset: 0; backface-visibility: hidden; }
+	.back { transform: rotateY(180deg); background: #131a26; border-radius: 22%; box-shadow: inset 0 0 0 0.55px rgba(255,255,255,0.09); }
+	.back img, .slot img { position: absolute; left: 16%; top: 16%; width: 68%; height: 68%; object-fit: contain; }
+
+	/* shared ui */
+	.window { background: linear-gradient(180deg, #0f1521, #0a0f17); border: 1px solid rgba(255,255,255,0.09); border-radius: 22px; box-shadow: 0 60px 140px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.06); overflow: hidden; }
+	.winbar { height: 56px; display: flex; align-items: center; gap: 9px; padding: 0 22px; border-bottom: 1px solid rgba(255,255,255,0.06); font-family: "JetBrains Mono", monospace; font-size: 15px; color: #64748b; }
+	.winbar i { width: 13px; height: 13px; border-radius: 50%; display: block; }
+	.chip { display: inline-flex; align-items: center; gap: 10px; height: 46px; padding: 0 20px; border-radius: 999px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); font-size: 19px; font-weight: 600; color: #e2e8f0; }
+	.chip img { width: 24px; height: 24px; object-fit: contain; }
+
+	/* code */
+	.code { font-family: "JetBrains Mono", monospace; font-size: 24px; line-height: 1.75; white-space: pre; }
+	.c-k { color: #c4a5ff; } .c-v { color: #93c5fd; } .c-p { color: #7c8aa0; } .c-s { color: #86efac; } .c-t { color: #fb7185; } .c-a { color: #fdba74; }
+	.c-n { color: #fff; font-weight: 700; border-radius: 4px; }
+	.c-n.sel { background: #2f5d9c; }
+	.caret { display: inline-block; width: 3px; height: 1.1em; background: #FFA500; vertical-align: -0.2em; margin-left: 1px; }
+
+	/* dashboard mock */
+	.tile { position: absolute; width: 166px; height: 122px; border-radius: 20px; }
+	.tile .empty { position: absolute; inset: 0; border-radius: 20px; border: 1.5px dashed rgba(255,255,255,0.11); display: grid; place-items: center; color: rgba(255,255,255,0.15); font-size: 30px; font-weight: 300; }
+	.tile .full { position: absolute; inset: 0; border-radius: 20px; background: linear-gradient(180deg, #172031, #121a28); border: 1px solid rgba(255,255,255,0.08); }
+	.tile .full img { position: absolute; left: 55px; top: 18px; width: 56px; height: 56px; object-fit: contain; }
+	.tile .full span { position: absolute; left: 0; right: 0; top: 84px; text-align: center; font-size: 15px; font-weight: 600; color: #cbd5e1; }
+
+	/* chat */
+	.bubble { position: absolute; font-size: 24px; line-height: 1.4; }
+	.pill { display: inline-flex; align-items: center; gap: 8px; height: 30px; padding: 0 14px; border-radius: 999px; font-family: "JetBrains Mono", monospace; font-size: 14px; font-weight: 700; letter-spacing: 0.08em; }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute">
+	<defs>
+		<filter id="fy1" x="-5%" y="-60%" width="110%" height="220%"><feGaussianBlur stdDeviation="0 0" /></filter>
+		<filter id="fy2" x="-5%" y="-60%" width="110%" height="220%"><feGaussianBlur stdDeviation="0 0" /></filter>
+		<filter id="fy3" x="-5%" y="-60%" width="110%" height="220%"><feGaussianBlur stdDeviation="0 0" /></filter>
+		<filter id="fx1" x="-60%" y="-5%" width="220%" height="110%"><feGaussianBlur stdDeviation="0 0" /></filter>
+		<filter id="fx2" x="-60%" y="-5%" width="220%" height="110%"><feGaussianBlur stdDeviation="0 0" /></filter>
+	</defs>
+</svg>
+<div id="stage"><div id="cam"></div></div>
+<script>
+const W = 1920
+const H = 1080
+const DURATION = 22
+const ROOT = "../../../"
+const png = (name) => `${ROOT}png/${name}.png`
+
+// ---------- math ----------
+const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x))
+const prog = (t, a, b) => clamp((t - a) / (b - a))
+const lerp = (a, b, p) => a + (b - a) * p
+const mod = (a, n) => ((a % n) + n) % n
+const E = {
+	lin: (p) => p,
+	outCubic: (p) => 1 - (1 - p) ** 3,
+	inCubic: (p) => p ** 3,
+	inOutCubic: (p) => {
+		if (p < 0.5) return 4 * p ** 3
+		return 1 - (-2 * p + 2) ** 3 / 2
+	},
+	outQuart: (p) => 1 - (1 - p) ** 4,
+	outQuint: (p) => 1 - (1 - p) ** 5,
+	outExpo: (p) => (1 - 2 ** (-10 * p)) / (1 - 2 ** -10),
+	inExpo: (p) => (2 ** (10 * p) - 1) / (2 ** 10 - 1),
+	inOutExpo: (p) => {
+		if (p < 0.5) return E.inExpo(p * 2) / 2
+		return 0.5 + E.outExpo(p * 2 - 1) / 2
+	},
+	outBack: (p) => 1 + 2.8 * (p - 1) ** 3 + 1.8 * (p - 1) ** 2,
+}
+const tw = (t, a, b, from, to, ease = E.outCubic) => lerp(from, to, ease(prog(t, a, b)))
+function spring(dt, freq = 2.6, damping = 0.42) {
+	if (dt <= 0) return 0
+	const w = 2 * Math.PI * freq
+	const wd = w * Math.sqrt(1 - damping * damping)
+	return 1 - Math.exp(-damping * w * dt) * (Math.cos(wd * dt) + ((damping * w) / wd) * Math.sin(wd * dt))
+}
+// Decaying wobble used for "punch" accents.
+function punch(t, at, amount = 0.08, freq = 22, decay = 9) {
+	if (t < at) return 0
+	const dt = t - at
+	return amount * Math.exp(-dt * decay) * Math.cos(dt * freq)
+}
+function rng(seed) {
+	return () => {
+		seed = (seed + 0x6d2b79f5) | 0
+		let x = Math.imul(seed ^ (seed >>> 15), 1 | seed)
+		x = (x + Math.imul(x ^ (x >>> 7), 61 | x)) ^ x
+		return ((x ^ (x >>> 14)) >>> 0) / 4294967296
+	}
+}
+const hexA = (hex, a) => {
+	const n = parseInt(hex.slice(1), 16)
+	return `rgba(${n >> 16},${(n >> 8) & 255},${n & 255},${a})`
+}
+
+// ---------- dom ----------
+function h(tag, props = {}, ...kids) {
+	const node = document.createElement(tag)
+	for (const [key, value] of Object.entries(props)) {
+		if (key === "css") node.style.cssText = value
+		else if (key === "class") node.className = value
+		else if (key === "text") node.textContent = value
+		else if (key === "html") node.innerHTML = value
+		else node.setAttribute(key, value)
+	}
+	node.append(...kids)
+	return node
+}
+function sv(tag, attrs = {}) {
+	const node = document.createElementNS("http://www.w3.org/2000/svg", tag)
+	for (const [key, value] of Object.entries(attrs)) node.setAttribute(key, value)
+	return node
+}
+const img = (name, css = "") => h("img", { src: png(name), css, decoding: "sync", alt: "" })
+function blurCss(amount) {
+	if (amount < 0.05) return "none"
+	return `blur(${amount.toFixed(2)}px)`
+}
+function put(node, { x = 0, y = 0, s = 1, r = 0, o = 1, blur = 0, extra = "" } = {}) {
+	node.style.transform = `translate(${x}px, ${y}px) scale(${s}) rotate(${r}deg) ${extra}`
+	node.style.opacity = o
+	node.style.filter = blurCss(blur)
+}
+function dirBlur(node, id, amount, axis) {
+	if (amount < 0.1) {
+		node.style.filter = "none"
+		return
+	}
+	const blur = document.querySelector(`#${id} feGaussianBlur`)
+	if (axis === "x") blur.setAttribute("stdDeviation", `${amount} 0`)
+	else blur.setAttribute("stdDeviation", `0 ${amount}`)
+	node.style.filter = `url(#${id})`
+}
+// "Every *app*" -> masked words, *wrapped* words get the brand gradient.
+function words(text) {
+	const node = h("span")
+	const list = []
+	text.split(" ").forEach((raw, i) => {
+		let cls = "word"
+		let label = raw
+		if (raw.startsWith("*")) {
+			cls = "word grad"
+			label = raw.replaceAll("*", "")
+		}
+		const inner = h("span", { class: cls, text: label })
+		if (i > 0) node.append(" ")
+		node.append(h("span", { class: "mask" }, inner))
+		list.push(inner)
+	})
+	return { node, list }
+}
+function reveal(list, t, start, { stagger = 0.06, dur = 0.6, out = 1e9, outDur = 0.35 } = {}) {
+	list.forEach((word, i) => {
+		const pin = E.outExpo(prog(t, start + i * stagger, start + i * stagger + dur))
+		const pout = E.inCubic(prog(t, out + i * stagger * 0.5, out + i * stagger * 0.5 + outDur))
+		word.style.transform = `translateY(${(1 - pin) * 108 - pout * 108}%) rotate(${(1 - pin) * 7}deg)`
+	})
+}
+const GLYPHS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/#*+<>_"
+function kicker(text, css = "") {
+	const node = h("div", { class: "kicker", css })
+	node.dataset.text = text.toUpperCase()
+	return node
+}
+// Decoder-style text reveal: hidden → random glyphs → final characters, left to right.
+function scramble(node, t, a, b) {
+	const text = node.dataset.text
+	const rand = rng(Math.floor(t * 24) * 131 + text.length)
+	let out = ""
+	for (let i = 0; i < text.length; i++) {
+		const ch = text[i]
+		const at = a + ((b - a) * i) / text.length
+		if (ch === " ") out += " "
+		else if (t >= at + 0.14) out += ch
+		else if (t >= at) out += `<span style="color:#fff">${GLYPHS[Math.floor(rand() * GLYPHS.length)]}</span>`
+		else out += `<span style="opacity:0">${ch}</span>`
+	}
+	node.innerHTML = out
+}
+
+const cam = document.getElementById("cam")
+const stage = document.getElementById("stage")
+function layer(parent, id, css = "") {
+	const node = h("div", { id, class: "layer", css })
+	parent.append(node)
+	return node
+}
+
+// ---------- audio cue sheet (consumed by audio.py) ----------
+const EVENTS = []
+const cue = (t, type, v = 1, d = 0) => EVENTS.push({ t: Number(t.toFixed(4)), type, v, d })
+
+// ---------- icon pools ----------
+const POOL = [
+	"adguard-home", "audiobookshelf", "authentik", "bazarr", "bookstack", "calibre-web", "changedetection", "dozzle", "freshrss",
+	"homepage", "emby", "sonarr", "qbittorrent", "nextcloud", "filebrowser", "lidarr", "firefly-iii", "home-assistant",
+	"docker", "homarr", "radarr", "plex", "jellyfin", "immich", "gitea", "overseerr", "glances", "paperless-ngx", "mealie", "navidrome",
+	"syncthing", "uptime-kuma", "vaultwarden-light", "kavita", "photoprism", "prowlarr", "grafana", "proxmox", "n8n", "truenas", "tailscale-light",
+	"traefik", "actual-budget", "miniflux-light", "nginx-proxy-manager", "prometheus", "sabnzbd", "searxng", "unraid", "vikunja", "wireguard",
+	"transmission", "zigbee2mqtt", "redis", "nginx", "beszel", "jellyseerr", "heimdall-light", "cloudflare", "pi-hole", "open-webui-light",
+	"frigate-light", "node-red", "esphome", "caddy", "tautulli", "forgejo", "bitwarden", "netdata", "influxdb", "postgres", "mariadb", "minio-light",
+	"kopia", "stirling-pdf", "it-tools", "code-server", "gitlab", "spotify", "netflix", "steam", "discord", "slack", "telegram", "youtube",
+	"synology", "opnsense", "pfsense", "kubernetes", "rancher", "argo-cd", "jenkins", "sentry-light", "dashy", "memos", "excalidraw", "wallos",
+]
+
+// ================= BACKGROUND =================
+const bg = layer(cam, "bg")
+const orbs = [
+	{ c: "250,83,82", a: 0.2, x: 0.18, y: 0.28, r: 1100, fx: 0.07, fy: 0.09 },
+	{ c: "255,165,0", a: 0.1, x: 0.82, y: 0.72, r: 1200, fx: 0.05, fy: 0.08 },
+	{ c: "96,165,250", a: 0.09, x: 0.72, y: 0.18, r: 900, fx: 0.08, fy: 0.06 },
+].map((orb) => {
+	orb.node = h("div", { class: "orb", css: `width:${orb.r}px;height:${orb.r}px;background:radial-gradient(circle, rgba(${orb.c},1) 0%, rgba(${orb.c},0) 62%)` })
+	bg.append(orb.node)
+	return orb
+})
+const dots = h("div", { class: "dots" })
+bg.append(dots)
+
+// ================= ICON WALL (shared by the collection and the finale) =================
+const wallWrap = layer(cam, "wallWrap")
+const wall = h("div", { id: "wall" })
+wallWrap.append(wall)
+const ROWS = 15
+const COLS = 21
+const STEP = 172
+const ROW_W = COLS * STEP
+const wallRows = []
+const twinkles = []
+{
+	const rand = rng(7)
+	wall.style.cssText = `width:${ROW_W}px;height:${ROWS * STEP}px;margin-left:${-ROW_W / 2}px;margin-top:${(-ROWS * STEP) / 2}px`
+	for (let r = 0; r < ROWS; r++) {
+		const row = h("div", { class: "wrow", css: `top:${r * STEP}px` })
+		const names = Array.from({ length: COLS }, () => POOL[Math.floor(rand() * POOL.length)])
+		for (const name of [...names, ...names]) {
+			const tile = h("div", { class: "wtile" }, img(name))
+			row.append(tile)
+			if (rand() < 0.045) twinkles.push({ tile, f: 0.4 + rand() * 0.5, ph: rand() })
+		}
+		wall.append(row)
+		let dir = 1
+		if (r % 2) dir = -1
+		wallRows.push({ row, speed: dir * (46 + rand() * 50), phase: rand() * ROW_W })
+	}
+}
+
+// ================= SCENE 1 — LOGO BUILD =================
+const s1 = layer(cam, "s1")
+const LOGO = 420
+const K = LOGO / 232
+const s1Glow = h("div", { class: "abs", css: "left:360px; top:-60px; width:1200px; height:1200px; border-radius:50%; background:radial-gradient(circle, rgba(250,83,82,0.34), rgba(250,83,82,0) 58%)" })
+const s1Ring = h("div", { class: "abs", css: "left:740px; top:320px; width:440px; height:440px; border-radius:50%; border:2px solid rgba(255,255,255,0.8)" })
+const s1Ring2 = h("div", { class: "abs", css: "left:740px; top:320px; width:440px; height:440px; border-radius:50%; border:1px solid rgba(255,165,0,0.8)" })
+const presents = h("div", { class: "abs mono", css: "left:0; right:0; top:236px; text-align:center; font-size:16px; letter-spacing:0.55em; color:rgba(255,255,255,0.62)" })
+presents.dataset.text = "HOMARR LABS PRESENTS"
+const logo = h("div", { class: "abs", css: `left:${960 - LOGO / 2}px; top:${540 - LOGO / 2}px; width:${LOGO}px; height:${LOGO}px; perspective:1200px;` })
+const frameSvg = sv("svg", { viewBox: "0 0 232 232", width: LOGO, height: LOGO, style: "position:absolute; inset:0; overflow:visible" })
+const frameRect = sv("rect", { x: 4, y: 4, width: 224, height: 224, rx: 32, fill: "none", stroke: "#fff", "stroke-width": 8, "stroke-linecap": "round" })
+frameSvg.append(frameRect)
+logo.append(frameSvg)
+const CELLS = [
+	{ x: 24, y: 24, w: 48, stroke: "#FB7185", icon: "plex" },
+	{ x: 92, y: 24, w: 48, stroke: "#ccc", fill: "#FDBA74", icon: "jellyfin" },
+	{ x: 158, y: 22, w: 52, fill: "#86EFAC", circle: true, icon: "home-assistant" },
+	{ x: 22, y: 90, w: 52, fill: "#93C5FD", circle: true, icon: "nextcloud" },
+	{ x: 92, y: 92, w: 48, stroke: "#C4B5FD", icon: "docker" },
+	{ x: 160, y: 92, w: 48, stroke: "#ccc", icon: "proxmox" },
+	{ x: 24, y: 160, w: 48, fill: "#FDE68A", icon: "immich" },
+	{ x: 92, y: 160, w: 48, stroke: "#ccc", icon: "grafana" },
+	{ x: 160, y: 160, w: 48, stroke: "#ccc", fill: "#93C5FD", icon: "sonarr" },
+]
+const CELL_ORDER = [4, 1, 3, 5, 7, 0, 2, 6, 8]
+for (const cell of CELLS) {
+	let bx = cell.x
+	let by = cell.y
+	let bw = cell.w
+	let radius = `${8 * K}px`
+	let border = "none"
+	if (cell.stroke) {
+		bx -= 2
+		by -= 2
+		bw += 4
+		radius = `${10 * K}px`
+		border = `${4 * K}px solid ${cell.stroke}`
+	}
+	if (cell.circle) radius = "50%"
+	cell.size = bw * K
+	cell.cx = bx + bw / 2 - 116
+	cell.cy = by + bw / 2 - 116
+	cell.node = h(
+		"div",
+		{ class: "cell", css: `left:${bx * K}px; top:${by * K}px; width:${bw * K}px; height:${bw * K}px;` },
+		h("div", { class: "face", css: `border:${border}; border-radius:${radius}; background:${cell.fill ?? "transparent"}` }),
+		h("div", { class: "face back" }, img(cell.icon)),
+	)
+	logo.append(cell.node)
+}
+s1.append(s1Glow, s1Ring, s1Ring2, presents, logo)
+cue(0.1, "swell", 1, 2.3)
+cue(0.15, "whoosh", 0.55)
+cue(0.9, "impact", 0.55)
+CELL_ORDER.forEach((_, j) => {
+	cue(0.55 + j * 0.055, "pop", 0.45)
+	cue(1.32 + j * 0.045, "tick", 0.35)
+})
+cue(1.9, "riser", 0.8, 0.6)
+cue(2.5, "impact", 1)
+
+function renderS1(t) {
+	const pin = spring(t - 0.08, 1.5, 0.55)
+	const float = Math.sin(t * 2.4) * 5 * (1 - prog(t, 1.6, 2.0))
+	const rot = lerp(-120, 0, E.outExpo(prog(t, 0.08, 1.2)))
+	put(logo, { y: float, s: lerp(0.12, 1, pin), r: rot })
+	frameRect.style.strokeDasharray = `${FRAME_LEN} ${FRAME_LEN}`
+	frameRect.style.strokeDashoffset = FRAME_LEN * (1 - E.outQuart(prog(t, 0.12, 0.95)))
+
+	const pz = prog(t, 2.05, 2.5)
+	const zoomIn = E.inOutCubic(pz)
+	const fling = E.inExpo(pz)
+	frameSvg.style.transform = `scale(${1 + fling * 2.6})`
+	frameSvg.style.opacity = 1 - E.inCubic(pz)
+
+	CELL_ORDER.forEach((index, j) => {
+		const cell = CELLS[index]
+		const st = 0.55 + j * 0.055
+		const sp = spring(t - st, 2.4, 0.38)
+		let sign = -1
+		if (j % 2) sign = 1
+		const rz = (1 - E.outCubic(prog(t, st, st + 0.5))) * 90 * sign
+		const flip = E.inOutCubic(prog(t, 1.32 + j * 0.045, 1.72 + j * 0.045)) * 180
+		let scale = sp
+		let dx = 0
+		let dy = 0
+		let o = 1
+		if (index === 4) scale *= lerp(1, 360 / cell.size, zoomIn)
+		else {
+			const len = Math.hypot(cell.cx, cell.cy)
+			dx = (cell.cx / len) * fling * 1500
+			dy = (cell.cy / len) * fling * 1500
+			o = 1 - prog(pz, 0.45, 1)
+		}
+		let spin = fling * sign * 50
+		if (index === 4) spin = 0
+		cell.node.style.transform = `translate(${dx}px, ${dy}px) scale(${scale}) rotate(${rz + spin}deg) rotateY(${flip}deg)`
+		cell.node.style.opacity = o
+	})
+
+	const ring = prog(t, 0.88, 1.7)
+	put(s1Ring, { s: lerp(1, 2.6, E.outCubic(ring)), o: 0.55 * (1 - ring) * Math.min(1, ring * 20) })
+	const ring2 = prog(t, 0.98, 1.9)
+	put(s1Ring2, { s: lerp(1, 3.3, E.outCubic(ring2)), o: 0.45 * (1 - ring2) * Math.min(1, ring2 * 20) })
+	s1Glow.style.opacity = tw(t, 0.5, 1.3, 0, 1) * (1 - prog(t, 2.0, 2.45))
+	scramble(presents, t, 0.3, 0.9)
+	presents.style.opacity = 1 - prog(t, 1.75, 2.05)
+	presents.style.letterSpacing = `${tw(t, 0.3, 2.0, 0.9, 0.5, E.outQuart)}em`
+}
+
+// ================= SCENE 2 — RAPID FIRE =================
+const s2 = layer(cam, "s2")
+const s2Cam = layer(s2, "s2cam")
+const RAPID = [
+	["docker", "#1d63ed"], ["plex", "#e5a00d"], ["jellyfin", "#aa5cc3"], ["home-assistant", "#18bcf2"], ["immich", "#fa2921"],
+	["proxmox", "#e57000"], ["nextcloud", "#0082c9"], ["grafana", "#f46800"], ["sonarr", "#35c5f4"], ["radarr", "#ffc230"],
+	["overseerr", "#8c5cf6"], ["pi-hole", "#f60d1a"], ["vaultwarden-light", "#175ddc"], ["uptime-kuma", "#5cdd8b"], ["n8n", "#ea4b71"],
+	["cloudflare", "#f38020"], ["traefik", "#24a1c1"], ["unraid", "#f15a2c"], ["adguard-home", "#68bc71"], ["truenas", "#0095d5"],
+	["audiobookshelf", "#c6a15b"], ["paperless-ngx", "#3fa34d"], ["homarr", "#fa5252"],
+]
+const RAPID_TIMES = []
+{
+	let at = 2.66
+	let dt = 0.15
+	for (let i = 1; i < RAPID.length - 1; i++) {
+		RAPID_TIMES.push(at)
+		at += dt
+		dt = Math.max(0.045, dt * 0.82)
+	}
+	RAPID_TIMES.push(Math.max(at + 0.04, 4.02))
+}
+const LAND = RAPID_TIMES[RAPID_TIMES.length - 1]
+const s2Glow = h("div", { class: "abs", css: "left:160px; top:90px; width:900px; height:900px; border-radius:50%" })
+const slot = h("div", { class: "abs slot", css: "left:780px; top:360px; width:360px; height:360px; border-radius:22%; background:#131a26; box-shadow: inset 0 0 0 2px rgba(255,255,255,0.09), 0 40px 120px rgba(0,0,0,0.55)" })
+const slotIcons = RAPID.map(([name]) => {
+	const node = img(name, "display:none")
+	slot.append(node)
+	return node
+})
+const slotIndex = h("div", { class: "abs mono", css: "left:430px; top:760px; width:360px; text-align:center; font-size:15px; letter-spacing:0.28em; color:rgba(255,255,255,0.45)" })
+const s2Text = h("div", { class: "abs", css: "left:880px; top:352px; width:1000px" })
+const s2Kicker = kicker("// 01 — The collection")
+const s2L1 = words("Every app")
+const s2L2 = words("you *self-host.*")
+const s2Head = h("div", { class: "display", css: "font-size:118px; margin-top:26px" }, s2L1.node, h("br"), s2L2.node)
+const s2Name = h("div", { class: "mono", css: "font-size:36px; margin-top:34px; color:#64748b" })
+s2Text.append(s2Kicker, s2Head, s2Name)
+s2Cam.append(s2Glow, slot, slotIndex, s2Text)
+RAPID_TIMES.forEach((at, i) => cue(at, "tick", 0.55 + i * 0.01))
+cue(LAND, "impact", 0.75)
+cue(4.3, "whoosh", 1)
+cue(4.62, "impact", 1)
+
+function renderS2(t) {
+	let index = 0
+	while (index < RAPID_TIMES.length && RAPID_TIMES[index] <= t) index++
+	slotIcons.forEach((node, i) => {
+		node.style.display = "none"
+		if (i === index) node.style.display = "block"
+	})
+	const [name, color] = RAPID[index]
+	let last = 2.5
+	if (index > 0) last = RAPID_TIMES[index - 1]
+	const bump = Math.exp(-(t - last) * 20) * 0.05 * Math.min(1, index)
+	const landing = punch(t, LAND, 0.16, 26, 7)
+	const slide = E.outExpo(prog(t, 2.5, 3.0))
+	put(slot, { x: slide * -350, s: 1 + bump + landing })
+	slotIcons[index].style.transform = `translateY(${Math.exp(-(t - last) * 26) * 14 * Math.min(1, index)}px)`
+	put(s2Glow, { x: slide * -350, o: 0.55 + landing * 2 })
+	s2Glow.style.background = `radial-gradient(circle, ${hexA(color, 0.5)} 0%, ${hexA(color, 0)} 60%)`
+	slotIndex.style.opacity = prog(t, 2.8, 3.1)
+	slotIndex.textContent = `ICON ${String(index * 137 + 41).padStart(4, "0")} / 3128`
+	if (index === RAPID.length - 1) slotIndex.textContent = "YOUR DASHBOARD"
+
+	scramble(s2Kicker, t, 2.7, 3.1)
+	reveal(s2L1.list, t, 2.78, { stagger: 0.07 })
+	reveal(s2L2.list, t, 2.95, { stagger: 0.07 })
+	s2Name.style.opacity = prog(t, 3.1, 3.3)
+	s2Name.innerHTML = `→ <span style="color:#fff">${name}</span>.svg<span class="caret"></span>`
+
+	const push = prog(t, 4.33, 4.62)
+	put(s2Cam, { s: 1 + E.inExpo(push) * 1.9, o: 1 - prog(t, 4.46, 4.62), blur: E.inCubic(push) * 14 })
+}
+
+// ================= SCENE 3 — THE WALL + COUNTER =================
+const s3 = layer(cam, "s3")
+const s3Shade = layer(s3, "s3shade", "background: radial-gradient(ellipse 50% 46% at 50% 50%, rgba(6,8,13,0.97) 0%, rgba(6,8,13,0.86) 48%, rgba(6,8,13,0.2) 100%)")
+const odo = h("div", { class: "abs display", css: "left:0; right:0; top:318px; text-align:center; font-size:270px; letter-spacing:-0.035em; white-space:nowrap; font-variant-numeric: tabular-nums;" })
+const odoInner = h("div", { css: "display:inline-block; position:relative;" })
+const reels = []
+for (let i = 3; i >= 0; i--) {
+	const column = h("span", { css: "display:block" })
+	for (const digit of [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0]) column.append(h("span", { css: "display:block; height:1em; line-height:1em", text: String(digit) }))
+	const reel = h("span", { css: "display:inline-block; height:1em; line-height:1em; overflow:hidden; vertical-align:top" }, column)
+	odoInner.append(reel)
+	reels[i] = { reel, column }
+	if (i === 3) {
+		const comma = h("span", { css: "display:inline-block; height:1em; line-height:1em; vertical-align:top", text: "," })
+		odoInner.append(comma)
+		reels.comma = comma
+	}
+}
+const odoPlus = h("span", { class: "grad", css: "position:absolute; left:100%; top:0.1em; font-size:0.55em; line-height:1em; padding-left:0.06em", text: "+" })
+odoInner.append(odoPlus)
+odo.append(odoInner)
+const s3LabelA = words("hand-curated icons for your *homelab*")
+const s3LabelB = words("icons & logos, *Simple *Icons included")
+const s3Labels = h("div", { class: "abs", css: "left:0; right:0; top:626px; height:60px; text-align:center; font-size:44px; font-weight:600; letter-spacing:-0.02em; color:#cbd5e1" })
+const s3a = h("div", { class: "abs", css: "left:0; right:0; top:0" }, s3LabelA.node)
+const s3b = h("div", { class: "abs", css: "left:0; right:0; top:0" }, s3LabelB.node)
+s3Labels.append(s3a, s3b)
+const s3Kicker = kicker("Free · Open source · Built for homelabs", "position:absolute; left:0; right:0; top:282px; text-align:center")
+s3.append(s3Kicker, odo, s3Labels)
+cue(4.62, "roll", 1, 1.25)
+cue(6.35, "roll", 0.8, 0.9)
+cue(7.22, "pop", 0.8)
+cue(7.58, "whoosh", 1)
+cue(8.0, "impact", 0.8)
+
+function counterValue(t) {
+	if (t < 6.35) return 3128 * E.outExpo(prog(t, 4.62, 5.85))
+	return lerp(3128, 9222, E.inOutCubic(prog(t, 6.35, 7.2)))
+}
+function odoPos(v, i) {
+	const place = 10 ** i
+	let pos = Math.floor(v / place) % 10
+	const rest = v % place
+	if (rest > place - 1) pos += rest - (place - 1)
+	return pos
+}
+function renderWall(t) {
+	let o = 0
+	let s = 1
+	let blur = 0
+	let rz = -12
+	if (t < 8.2) {
+		o = prog(t, 4.33, 4.6)
+		s = lerp(1.7, 1.0, E.outExpo(prog(t, 4.33, 5.4))) - prog(t, 5.4, 8) * 0.07
+		rz = -12 + prog(t, 4.4, 8) * 3
+		blur = tw(t, 4.95, 5.5, 0, 2.4)
+	} else {
+		o = tw(t, 19.72, 20.4, 0, 0.13)
+		s = lerp(1.35, 1.12, E.outExpo(prog(t, 19.72, 21.5)))
+		blur = 4
+		rz = -10
+	}
+	wallWrap.style.display = "block"
+	if (o <= 0.001) {
+		wallWrap.style.display = "none"
+		return
+	}
+	wallWrap.style.opacity = o
+	wall.style.transform = `perspective(2000px) rotateX(24deg) rotateZ(${rz}deg) scale(${s})`
+	wall.style.filter = blurCss(blur)
+	for (const row of wallRows) row.row.style.transform = `translateX(${-mod(row.phase + row.speed * t, ROW_W)}px)`
+	for (const spark of twinkles) {
+		const glow = Math.max(0, Math.sin((t * spark.f + spark.ph) * Math.PI * 2)) ** 10
+		spark.tile.style.borderColor = `rgba(250,83,82,${0.15 + glow * 0.85})`
+		spark.tile.style.boxShadow = `0 0 ${glow * 50}px rgba(250,83,82,${glow * 0.55})`
+	}
+	let whip = 0
+	if (t < 8.2) whip = prog(t, 7.6, 8.0)
+	wallWrap.style.transform = `translateY(${-E.inExpo(whip) * 1400}px)`
+	dirBlur(wallWrap, "fy1", E.inCubic(whip) * 60, "y")
+}
+function renderS3(t) {
+	const v = counterValue(t)
+	const speed = Math.abs(counterValue(t + 1 / 60) - v) * 60
+	for (let i = 0; i < 4; i++) {
+		const { reel, column } = reels[i]
+		column.style.transform = `translateY(${-odoPos(v, i)}em)`
+		const place = 10 ** i
+		let o = 1
+		if (i > 0) o = lerp(0.13, 1, clamp(v - (place - 1)))
+		reel.style.opacity = o
+		reel.style.filter = blurCss(Math.min(7, (speed / place) * 0.05))
+		if (i === 3) reels.comma.style.opacity = o
+	}
+	const intro = E.outExpo(prog(t, 4.55, 5.2))
+	put(odo, { y: (1 - intro) * 80, s: lerp(0.86, 1, intro) + punch(t, 7.22, 0.035, 20, 8), o: intro })
+	put(odoPlus, { x: (1 - E.outBack(prog(t, 7.15, 7.5))) * -40, s: E.outBack(prog(t, 7.15, 7.5)), o: prog(t, 7.15, 7.25) })
+	reveal(s3LabelA.list, t, 5.0, { stagger: 0.05, out: 6.3 })
+	reveal(s3LabelB.list, t, 6.55, { stagger: 0.05 })
+	scramble(s3Kicker, t, 4.9, 5.4)
+	s3Shade.style.opacity = prog(t, 4.4, 4.9)
+	const whip = prog(t, 7.6, 8.0)
+	s3.style.transform = `translateY(${-E.inExpo(whip) * 1400}px)`
+	dirBlur(s3, "fy2", E.inCubic(whip) * 60, "y")
+}
+
+// ================= SCENE 4 — FORMATS =================
+const s4 = layer(cam, "s4")
+const HA_A = "M512 473.3c0 17.6-14.4 32-32 32H32c-17.6 0-32-14.4-32-32v-192c0-17.6 10.2-42.2 22.6-54.6L233.4 16c12.4-12.4 32.8-12.4 45.2 0l210.8 210.8c12.4 12.4 22.6 37 22.6 54.6z"
+const HA_B = "M489.4 226.7 278.6 16c-12.4-12.4-32.8-12.4-45.2 0L22.6 226.7C10.2 239.1 0 263.7 0 281.3v192c0 17.6 14.4 32 32 32h196.8l-86.7-86.7c-4.5 1.5-9.2 2.4-14.2 2.4-24.1 0-43.7-19.6-43.7-43.7s19.6-43.7 43.7-43.7 43.7 19.6 43.7 43.7c0 5-.9 9.7-2.4 14.2l67.5 67.5V211.8c-14.5-7.1-24.5-22-24.5-39.2 0-24.1 19.6-43.7 43.7-43.7s43.7 19.6 43.7 43.7c0 17.2-10 32.1-24.5 39.2v173.4l67.1-67.1c-1.3-4.2-2-8.6-2-13.2 0-24.1 19.6-43.7 43.7-43.7s43.7 19.6 43.7 43.7-19.6 43.7-43.7 43.7c-5.3 0-10.4-1-15.1-2.8l-93.7 93.7v65.9H480c17.6 0 32-14.4 32-32v-192c0-17.6-10.2-42.2-22.6-54.7"
+// Extracts on-curve anchors and cubic handles so the icon can be "edited" like in a vector tool.
+function pathGeometry(d) {
+	const tokens = d.match(/[a-zA-Z]|-?(?:\d+\.?\d*|\.\d+)(?:e[-+]?\d+)?/g)
+	const anchors = []
+	const handles = []
+	let i = 0
+	let cmd = "M"
+	let cx = 0
+	let cy = 0
+	let sx = 0
+	let sy = 0
+	const num = () => Number.parseFloat(tokens[i++])
+	while (i < tokens.length) {
+		if (/[a-zA-Z]/.test(tokens[i])) cmd = tokens[i++]
+		const rel = cmd === cmd.toLowerCase()
+		let ox = 0
+		let oy = 0
+		if (rel) {
+			ox = cx
+			oy = cy
+		}
+		const upper = cmd.toUpperCase()
+		if (upper === "Z") {
+			cx = sx
+			cy = sy
+			continue
+		}
+		if (upper === "M") {
+			cx = ox + num()
+			cy = oy + num()
+			sx = cx
+			sy = cy
+			cmd = "L"
+			if (rel) cmd = "l"
+		} else if (upper === "L" || upper === "T") {
+			cx = ox + num()
+			cy = oy + num()
+		} else if (upper === "H") cx = ox + num()
+		else if (upper === "V") cy = oy + num()
+		else if (upper === "C") {
+			const x1 = ox + num()
+			const y1 = oy + num()
+			const x2 = ox + num()
+			const y2 = oy + num()
+			const px = cx
+			const py = cy
+			cx = ox + num()
+			cy = oy + num()
+			handles.push([px, py, x1, y1], [cx, cy, x2, y2])
+		} else if (upper === "S" || upper === "Q") {
+			i += 2
+			cx = ox + num()
+			cy = oy + num()
+		} else if (upper === "A") {
+			i += 5
+			cx = ox + num()
+			cy = oy + num()
+		}
+		anchors.push([cx, cy])
+	}
+	return { anchors, handles }
+}
+const haBox = h("div", { class: "abs", css: "left:340px; top:290px; width:520px; height:520px;" })
+const haChecker = h("div", { class: "abs", css: "inset:19px; border-radius:6px; background-image: conic-gradient(rgba(255,255,255,0.035) 25%, transparent 0 50%, rgba(255,255,255,0.035) 0 75%, transparent 0); background-size: 40px 40px;" })
+const haSvg = sv("svg", { viewBox: "-20 -20 552 552", width: 520, height: 520, style: "position:absolute; inset:0; overflow:visible" })
+const haPaths = [
+	{ d: HA_A, fill: "#f2f4f9", stroke: "#ffffff", start: 8.12 },
+	{ d: HA_B, fill: "#18bcf2", stroke: "#18bcf2", start: 8.24 },
+].map((def) => {
+	const path = sv("path", { d: def.d, fill: def.fill, "fill-opacity": 0, stroke: def.stroke, "stroke-width": 2.6, "stroke-linejoin": "round" })
+	haSvg.append(path)
+	return { ...def, path, geo: pathGeometry(def.d) }
+})
+const haHandles = sv("g")
+const haNodes = sv("g")
+haSvg.append(haHandles, haNodes)
+for (const def of haPaths) {
+	def.nodes = def.geo.anchors.map(([x, y]) => {
+		const node = sv("rect", { x: x - 5, y: y - 5, width: 10, height: 10, fill: "#06080d", stroke: "#0d99ff", "stroke-width": 2, style: `transform-box: fill-box; transform-origin: center` })
+		haNodes.append(node)
+		return node
+	})
+	def.handles = def.geo.handles.filter((_, i) => i % 3 === 0).map(([ax, ay, hx, hy]) => {
+		const group = sv("g")
+		group.append(sv("line", { x1: ax, y1: ay, x2: hx, y2: hy, stroke: "#0d99ff", "stroke-width": 1.4 }), sv("circle", { cx: hx, cy: hy, r: 4.5, fill: "#0d99ff" }))
+		haHandles.append(group)
+		return group
+	})
+}
+const haSelect = h("div", { class: "abs", css: "left:19px; top:19px; width:482px; height:482px; border:1.5px solid #0d99ff;" })
+for (const [l, tp] of [["-6px", "-6px"], ["calc(100% - 5px)", "-6px"], ["-6px", "calc(100% - 5px)"], ["calc(100% - 5px)", "calc(100% - 5px)"]]) {
+	haSelect.append(h("div", { class: "abs", css: `left:${l}; top:${tp}; width:11px; height:11px; background:#fff; border:1.5px solid #0d99ff` }))
+}
+const haDim = h("div", { class: "abs mono", css: "left:50%; top:calc(100% + 14px); transform:translateX(-50%); background:#0d99ff; color:#fff; font-size:14px; font-weight:700; padding:4px 10px; border-radius:6px; white-space:nowrap", text: "512 × 512" })
+haSelect.append(haDim)
+const rulerH = h("div", { class: "abs", css: "left:19px; top:-22px; width:482px; height:14px; background: repeating-linear-gradient(90deg, rgba(255,255,255,0.35) 0 1px, transparent 1px 22px), repeating-linear-gradient(90deg, rgba(255,255,255,0.18) 0 1px, transparent 1px 5.5px); -webkit-mask-image: linear-gradient(180deg, #000 0 100%);" })
+const rulerV = h("div", { class: "abs", css: "left:-22px; top:19px; width:14px; height:482px; background: repeating-linear-gradient(180deg, rgba(255,255,255,0.35) 0 1px, transparent 1px 22px), repeating-linear-gradient(180deg, rgba(255,255,255,0.18) 0 1px, transparent 1px 5.5px);" })
+haBox.append(haChecker, rulerH, rulerV, haSvg, haSelect)
+const s4Text = h("div", { class: "abs", css: "left:1010px; top:250px; width:820px" })
+const s4Kicker = kicker("// 02 — Every format")
+const s4L1 = words("One source.")
+const s4L2 = words("*Every* *format.*")
+const s4Head = h("div", { class: "display", css: "font-size:104px; margin-top:24px" }, s4L1.node, h("br"), s4L2.node)
+const FORMATS = [
+	["SVG", "#FA5352", "svg/home-assistant.svg", "vector"],
+	["PNG", "#60a5fa", "png/home-assistant.png", "512 px"],
+	["WEBP", "#4ade80", "webp/home-assistant.webp", "512 px"],
+]
+const s4Rows = FORMATS.map(([tag, color, path, spec]) => {
+	const shine = h("div", { class: "abs", css: "inset:0; background: linear-gradient(100deg, transparent 30%, rgba(255,255,255,0.12) 50%, transparent 70%); background-size: 250% 100%;" })
+	const row = h(
+		"div",
+		{ css: "position:relative; overflow:hidden; display:flex; align-items:center; gap:22px; height:84px; padding:0 24px; margin-top:16px; border-radius:18px; background:rgba(255,255,255,0.035); border:1px solid rgba(255,255,255,0.08)" },
+		h("span", { class: "pill", css: `background:${hexA(color, 0.14)}; color:${color}; min-width:78px; justify-content:center`, text: tag }),
+		h("span", { class: "mono", css: "font-size:22px; color:#e2e8f0; flex:1", html: `<span style="color:#64748b">/</span>${path}` }),
+		h("span", { class: "mono", css: "font-size:17px; color:#64748b; letter-spacing:0.08em", text: spec }),
+		shine,
+	)
+	row.shine = shine
+	return row
+})
+const s4RowWrap = h("div", { css: "margin-top:40px" }, ...s4Rows)
+s4Text.append(s4Kicker, s4Head, s4RowWrap)
+s4.append(haBox, s4Text)
+cue(8.1, "draw", 0.9, 0.9)
+cue(9.0, "shimmer", 0.7, 0.6)
+FORMATS.forEach((_, i) => cue(8.62 + i * 0.1, "pop", 0.4))
+cue(9.55, "shimmer", 0.4, 0.6)
+
+function renderS4(t) {
+	const enter = prog(t, 7.84, 8.4)
+	s4.style.transform = `translateY(${(1 - E.outExpo(enter)) * 1100}px)`
+	dirBlur(s4, "fy3", (1 - E.outCubic(enter)) * 50, "y")
+
+	const fill = E.inOutCubic(prog(t, 8.95, 9.4))
+	for (const def of haPaths) {
+		const drawn = E.inOutCubic(prog(t, def.start, def.start + 0.85))
+		def.path.style.strokeDasharray = `${def.len} ${def.len}`
+		def.path.style.strokeDashoffset = def.len * (1 - drawn)
+		def.path.setAttribute("fill-opacity", fill)
+		def.path.setAttribute("stroke-opacity", 1 - fill)
+		def.nodes.forEach((node, i) => {
+			const at = def.start + (i / def.nodes.length) * 0.85
+			node.style.transform = `scale(${spring(t - at, 3.5, 0.45)})`
+		})
+		def.handles.forEach((group, i) => {
+			const at = def.start + 0.1 + (i / def.handles.length) * 0.8
+			group.style.opacity = prog(t, at, at + 0.12)
+		})
+	}
+	haNodes.style.opacity = 1 - fill
+	haHandles.style.opacity = 1 - fill
+	put(haSvg, { s: 1 + punch(t, 9.4, 0.04, 18, 7) })
+	const sel = E.outExpo(prog(t, 8.2, 8.6))
+	put(haSelect, { s: lerp(1.12, 1, sel), o: sel })
+	haDim.style.opacity = prog(t, 8.4, 8.55)
+	haDim.style.transform = `translateX(-50%) translateY(${(1 - E.outExpo(prog(t, 8.4, 8.8))) * -10}px)`
+	const rulers = prog(t, 8.2, 8.6)
+	rulerH.style.clipPath = `inset(0 ${(1 - E.outQuart(rulers)) * 100}% 0 0)`
+	rulerV.style.clipPath = `inset(0 0 ${(1 - E.outQuart(rulers)) * 100}% 0)`
+	haChecker.style.opacity = prog(t, 8.1, 8.5)
+
+	scramble(s4Kicker, t, 8.2, 8.6)
+	reveal(s4L1.list, t, 8.28, { stagger: 0.07 })
+	reveal(s4L2.list, t, 8.42, { stagger: 0.07 })
+	s4Rows.forEach((row, i) => {
+		const p = E.outExpo(prog(t, 8.62 + i * 0.1, 9.3 + i * 0.1))
+		put(row, { x: (1 - p) * 120, o: p })
+		row.shine.style.backgroundPosition = `${lerp(160, -60, prog(t, 9.5 + i * 0.12, 10.0 + i * 0.12))}% 0`
+	})
+}
+
+// ================= SCENE 5 — LIGHT & DARK =================
+const s5 = layer(cam, "s5")
+const THEME_ICONS = ["anthropic", "django", "k3s", "kafka", "golang", "neovim", "astro"]
+function themeLayer(dark) {
+	let bgc = "#f3f2ef"
+	let fg = "#0b0d12"
+	let sub = "#78716c"
+	let tileBg = "#ffffff"
+	let tileBorder = "#e7e5e4"
+	let suffix = "light"
+	let dotColor = "rgba(0,0,0,0.07)"
+	let shadow = "0 20px 50px rgba(28,25,23,0.1)"
+	if (dark) {
+		bgc = "#06080d"
+		fg = "#f8fafc"
+		sub = "#64748b"
+		tileBg = "#111722"
+		tileBorder = "#243042"
+		suffix = "dark"
+		dotColor = "rgba(255,255,255,0.07)"
+		shadow = "0 20px 50px rgba(0,0,0,0.5)"
+	}
+	const root = h("div", { class: "layer", css: `background:${bgc}; color:${fg}` })
+	root.append(h("div", { class: "dots", css: `background-image: radial-gradient(circle, ${dotColor} 1.2px, transparent 1.7px)` }))
+	const themeKicker = kicker("// 03 — Every theme", "position:absolute; left:0; right:0; top:228px; text-align:center")
+	const title = words("Light & *dark.*")
+	const head = h("div", { class: "abs display", css: "left:0; right:0; top:274px; text-align:center; font-size:150px" }, title.node)
+	const row = h("div", { class: "abs", css: "left:0; right:0; top:540px; display:flex; justify-content:center; gap:30px" })
+	const tiles = THEME_ICONS.map((name) => {
+		const tile = h(
+			"div",
+			{ css: `position:relative; width:156px; height:156px; border-radius:38px; background:${tileBg}; border:1.5px solid ${tileBorder}; box-shadow:${shadow}; display:grid; place-items:center` },
+			img(`${name}-${suffix}`, "width:90px; height:90px; object-fit:contain"),
+			h("div", { class: "abs mono", css: `left:-20px; right:-20px; top:176px; text-align:center; font-size:14px; color:${sub}`, text: `${name}-${suffix}.svg` }),
+		)
+		row.append(tile)
+		return tile
+	})
+	const subline = h("div", { class: "abs", css: `left:0; right:0; top:800px; text-align:center; font-size:30px; font-weight:500; color:${sub}`, text: "Variants tuned for light and dark dashboards" })
+	root.append(themeKicker, head, row, subline)
+	return { root, kicker: themeKicker, title, tiles, subline }
+}
+const lightTheme = themeLayer(false)
+const darkTheme = themeLayer(true)
+const blade = h("div", { class: "abs", css: "left:-3px; top:-200px; width:6px; height:1480px; background:linear-gradient(180deg, #FA5352, #FFA500, #FA5352); box-shadow: 0 0 40px 8px rgba(250,83,82,0.55), 0 0 120px 20px rgba(255,165,0,0.25)" })
+s5.append(lightTheme.root, darkTheme.root, blade)
+const SLANT = 150
+cue(10.32, "whoosh", 0.9)
+cue(10.72, "impact", 0.5)
+THEME_ICONS.forEach((_, i) => cue(10.6 + i * 0.05, "pop", 0.3))
+cue(10.92, "whoosh", 0.7)
+cue(11.88, "whoosh", 0.9)
+
+function wipeLine(t) {
+	if (t < 10.92) return 2400
+	if (t < 11.88) return lerp(2400, 960, E.outExpo(prog(t, 10.92, 11.4))) - prog(t, 11.3, 11.88) * 60
+	return lerp(900, -500, E.inOutCubic(prog(t, 11.88, 12.3)))
+}
+function renderS5(t) {
+	const enter = lerp(-400, 2500, E.inOutCubic(prog(t, 10.3, 10.75)))
+	if (t < 10.75) s5.style.clipPath = `polygon(0 0, ${enter + SLANT}px 0, ${enter - SLANT}px 100%, 0 100%)`
+	else s5.style.clipPath = "none"
+	const line = wipeLine(t)
+	darkTheme.root.style.clipPath = `polygon(${line + SLANT}px 0, 100% 0, 100% 100%, ${line - SLANT}px 100%)`
+	let bladeX = line
+	if (t < 10.75) bladeX = enter
+	blade.style.transform = `translateX(${bladeX}px) rotate(${(Math.atan2(2 * SLANT, 1080) * 180) / Math.PI}deg)`
+	blade.style.transformOrigin = "50% 740px"
+	blade.style.opacity = Number(bladeX > -300 && bladeX < 2300)
+	for (const theme of [lightTheme, darkTheme]) {
+		scramble(theme.kicker, t, 10.45, 10.85)
+		reveal(theme.title.list, t, 10.45, { stagger: 0.08 })
+		theme.tiles.forEach((tile, i) => {
+			const sp = spring(t - (10.58 + i * 0.05), 2.4, 0.45)
+			put(tile, { y: (1 - sp) * 60, s: lerp(0.6, 1, sp), o: prog(t, 10.58 + i * 0.05, 10.7 + i * 0.05) })
+		})
+		put(theme.subline, { y: (1 - E.outExpo(prog(t, 10.8, 11.3))) * 20, o: prog(t, 10.8, 11.1) })
+	}
+}
+
+// ================= SCENE 6 — CDN → DASHBOARD =================
+const s6 = layer(cam, "s6")
+const s6Kicker = kicker("// 04 — Any dashboard", "position:absolute; left:120px; top:150px")
+const s6L = words("One URL. *Any* *dashboard.*")
+const s6Head = h("div", { class: "abs display", css: "left:120px; top:190px; font-size:92px" }, s6L.node)
+const codeWin = h("div", { class: "abs window", css: "left:120px; top:380px; width:880px; height:392px" })
+codeWin.append(h("div", { class: "winbar" }, h("i", { css: "background:#ff5f57" }), h("i", { css: "background:#febc2e" }), h("i", { css: "background:#28c840" }), h("span", { css: "margin-left:14px", text: "Dashboard.tsx" })))
+const codeBody = h("div", { class: "code", css: "position:relative; padding:24px 0 0 0" })
+const gutter = h("div", { class: "abs code", css: "left:0; top:24px; width:64px; text-align:right; color:#334155", text: "1\n2\n3\n4\n5" })
+const codeLines = h("div", { css: "margin-left:92px" })
+const line1 = h("div", { html: '<span class="c-k">const</span> <span class="c-v">cdn</span><span class="c-p"> = </span><span class="c-s">"https://cdn.jsdelivr.net/gh"</span>' })
+const line2 = h("div", { html: '<span class="c-k">const</span> <span class="c-v">repo</span><span class="c-p"> = </span><span class="c-s">"homarr-labs/dashboard-icons"</span>' })
+const line3 = h("div", { html: "&nbsp;" })
+const line4 = h("div")
+const line5 = h("div", { html: '<span class="c-p">// works in Homarr, Homepage, Dashy…</span>' })
+codeLines.append(line1, line2, line3, line4, line5)
+codeBody.append(gutter, codeLines)
+codeWin.append(codeBody)
+const LINE4 = [["p", "<"], ["t", "img"], ["x", " "], ["a", "src"], ["p", "={"], ["s", "`"], ["p", "${"], ["v", "cdn"], ["p", "}"], ["s", "/"], ["p", "${"], ["v", "repo"], ["p", "}"], ["s", "/svg/"], ["n", ""], ["s", ".svg`"], ["p", "}"], ["x", " "], ["p", "/>"]]
+const LINE4_LEN = LINE4.reduce((sum, [, text]) => sum + text.length, 0)
+const CARET = '<span class="caret"></span>'
+function line4Html(count, name, selected, caret) {
+	let out = ""
+	let left = count
+	for (const [cls, raw] of LINE4) {
+		let text = raw
+		if (cls === "n") text = name
+		const shown = text.slice(0, Math.max(0, left))
+		left -= text.length
+		let extra = ""
+		if (cls === "n" && selected) extra = " sel"
+		if (shown || cls === "n") out += `<span class="c-${cls}${extra}">${shown}</span>`
+		if (cls === "n" && caret === "name") out += CARET
+	}
+	if (caret === "end") out += CARET
+	return out
+}
+const DASH = [
+	["jellyfin", "Jellyfin"], ["sonarr", "Sonarr"], ["radarr", "Radarr"], ["immich", "Immich"], ["vaultwarden-light", "Vaultwarden"], ["grafana", "Grafana"],
+	["nextcloud", "Nextcloud"], ["home-assistant", "Home Assistant"], ["adguard-home", "AdGuard"], ["pi-hole", "Pi-hole"], ["uptime-kuma", "Uptime Kuma"], ["plex", "Plex"],
+]
+const TYPE_START = 12.95
+const TYPE_END = 13.5
+const SWAPS = []
+{
+	let at = 13.56
+	let d = 0.17
+	for (let k = 1; k < DASH.length; k++) {
+		SWAPS.push({ start: at, dur: d })
+		at += d
+		d = Math.max(0.075, d * 0.88)
+	}
+}
+const FLIGHT = 0.38
+const FLIGHTS = [TYPE_END, ...SWAPS.map((swap) => swap.start + swap.dur)]
+const dashWin = h("div", { class: "abs window", css: "left:1060px; top:300px; width:740px; height:494px" })
+const DX = 1060
+const DY = 300
+dashWin.append(
+	h(
+		"div",
+		{ css: "height:64px; display:flex; align-items:center; gap:14px; padding:0 24px; border-bottom:1px solid rgba(255,255,255,0.06)" },
+		h("img", { src: `${ROOT}svg/dashboard-icons-dark.svg`, css: "width:30px; height:30px", alt: "" }),
+		h("span", { css: "font-size:20px; font-weight:700; letter-spacing:-0.01em", text: "Homelab" }),
+		h("span", { css: "flex:1" }),
+		h("span", { class: "mono", css: "font-size:14px; color:#64748b; padding:8px 16px; border-radius:999px; border:1px solid rgba(255,255,255,0.08)", text: "⌘K  Search apps" }),
+	),
+)
+const tiles = DASH.map(([name, label], k) => {
+	const col = k % 4
+	const row = Math.floor(k / 4)
+	const x = 24 + col * 182
+	const y = 64 + 22 + row * 134
+	const full = h("div", { class: "full" }, img(name), h("span", { text: label }))
+	const tile = h("div", { class: "tile", css: `left:${x}px; top:${y}px` }, h("div", { class: "empty", text: "+" }), full)
+	dashWin.append(tile)
+	return { tile, full, cx: DX + x + 83, cy: DY + y + 46, name }
+})
+const flyers = DASH.map(([name]) => {
+	const ghosts = [0.35, 0.18, 0.08].map((o) => {
+		const ghost = img(name, `position:absolute; left:-28px; top:-28px; width:56px; height:56px; object-fit:contain; opacity:${o}`)
+		return ghost
+	})
+	const main = img(name, "position:absolute; left:-28px; top:-28px; width:56px; height:56px; object-fit:contain; filter: drop-shadow(0 10px 20px rgba(0,0,0,0.6))")
+	const group = h("div", { class: "abs", css: "left:0; top:0" }, ...ghosts, main)
+	return { group, ghosts, main }
+})
+const works = h(
+	"div",
+	{ class: "abs", css: "left:1060px; top:830px; display:flex; align-items:center; gap:12px" },
+	h("span", { class: "mono", css: "font-size:15px; letter-spacing:0.2em; color:#64748b; margin-right:8px", text: "WORKS WITH" }),
+	h("span", { class: "chip" }, img("homarr"), "Homarr"),
+	h("span", { class: "chip" }, img("homepage"), "Homepage"),
+	h("span", { class: "chip" }, img("dashy"), "Dashy"),
+	h("span", { class: "chip", css: "color:#94a3b8", text: "+ more" }),
+)
+const flyLayer = h("div", { class: "layer" }, ...flyers.map((flyer) => flyer.group))
+s6.append(s6Kicker, s6Head, codeWin, dashWin, works, flyLayer)
+let ORIGIN = { x: 600, y: 640 }
+for (let c = 0; c < LINE4_LEN; c++) {
+	if (c % 3 === 0) cue(TYPE_START + (c / LINE4_LEN) * (TYPE_END - TYPE_START), "type", 0.3)
+}
+SWAPS.forEach((swap, k) => {
+	cue(swap.start, "tick", 0.35)
+	cue(swap.start + swap.dur * 0.45, "type", 0.3)
+	cue(swap.start + swap.dur * 0.75, "type", 0.3)
+})
+FLIGHTS.forEach((at, k) => {
+	cue(at, "zip", 0.35)
+	cue(at + FLIGHT, "pop", 0.5 + k * 0.01)
+})
+cue(15.35, "whoosh", 1)
+
+function nameAt(t) {
+	let name = DASH[0][0]
+	let selected = false
+	let typed = name.length
+	SWAPS.forEach((swap, k) => {
+		if (t < swap.start) return
+		const next = DASH[k + 1][0]
+		const p = (t - swap.start) / swap.dur
+		if (p < 0.3) {
+			selected = true
+			typed = name.length
+			return
+		}
+		selected = false
+		name = next
+		typed = Math.min(next.length, Math.ceil(next.length * prog(p, 0.3, 0.95)))
+	})
+	return { name, selected, typed }
+}
+function renderS6(t) {
+	const enter = E.outExpo(prog(t, 12.3, 12.95))
+	put(codeWin, { y: (1 - enter) * 160, o: prog(t, 12.3, 12.5) })
+	put(dashWin, { x: (1 - enter) * 240, o: prog(t, 12.35, 12.55), extra: `perspective(1600px) rotateY(${(1 - enter) * -18}deg)` })
+	put(works, { y: (1 - E.outExpo(prog(t, 12.7, 13.2))) * 30, o: prog(t, 12.7, 12.9) })
+	scramble(s6Kicker, t, 12.35, 12.75)
+	reveal(s6L.list, t, 12.4, { stagger: 0.06 })
+
+	for (const [k, line] of [line1, line2, line5].entries()) {
+		const st = 12.62 + k * 0.1
+		if (k === 2) line.style.opacity = prog(t, 13.5, 13.8)
+		else line.style.clipPath = `inset(0 ${(1 - E.outQuart(prog(t, st, st + 0.25))) * 100}% 0 0)`
+	}
+	const { name, selected, typed } = nameAt(t)
+	let count = 999
+	let shown = name.slice(0, typed)
+	let caret = "name"
+	if (t < TYPE_END) {
+		count = Math.floor((LINE4_LEN + DASH[0][0].length) * prog(t, TYPE_START, TYPE_END))
+		shown = DASH[0][0]
+		caret = "end"
+	}
+	if (t < TYPE_START - 0.2 || (t > 15.0 && Math.floor(t * 3) % 2 === 1)) caret = "none"
+	line4.innerHTML = line4Html(count, shown, selected, caret)
+
+	flyers.forEach((flyer, k) => {
+		const at = FLIGHTS[k]
+		const p = prog(t, at, at + FLIGHT)
+		if (p <= 0 || p >= 1) {
+			flyer.group.style.display = "none"
+			return
+		}
+		flyer.group.style.display = "block"
+		const target = tiles[k]
+		const pos = (u) => {
+			const cx = (ORIGIN.x + target.cx) / 2
+			const cy = Math.min(ORIGIN.y, target.cy) - 280
+			const x = (1 - u) ** 2 * ORIGIN.x + 2 * (1 - u) * u * cx + u ** 2 * target.cx
+			const y = (1 - u) ** 2 * ORIGIN.y + 2 * (1 - u) * u * cy + u ** 2 * target.cy
+			return [x, y]
+		}
+		const u = E.inOutCubic(p)
+		const [x, y] = pos(u)
+		put(flyer.main, { x, y, s: lerp(0.5, 1.15, E.outCubic(p)), r: (1 - u) * -30 })
+		flyer.ghosts.forEach((ghost, j) => {
+			const [gx, gy] = pos(Math.max(0, u - 0.07 * (j + 1)))
+			put(ghost, { x: gx, y: gy, s: lerp(0.5, 1.1, E.outCubic(p)), o: 0.3 / (j + 1) })
+		})
+	})
+	tiles.forEach((tile, k) => {
+		const land = FLIGHTS[k] + FLIGHT
+		tile.full.style.opacity = Number(t >= land)
+		put(tile.tile, { s: 1 + punch(t, land, 0.12, 24, 9) })
+		tile.full.style.boxShadow = `0 0 ${Math.exp(-(t - land) * 5) * 40 * Number(t >= land)}px rgba(250,83,82,${0.7 * Math.exp(-(t - land) * 5) * Number(t >= land)})`
+	})
+
+	const exit = prog(t, 15.35, 15.62)
+	s6.style.transform = `translateX(${-E.inExpo(exit) * 1500}px)`
+	dirBlur(s6, "fx1", E.inCubic(exit) * 70, "x")
+}
+
+// ================= SCENE 7 — MCP / AI =================
+const s7 = layer(cam, "s7")
+const s7Kicker = kicker("// 05 — AI-ready", "position:absolute; left:120px; top:300px")
+const s7L1 = words("Your AI")
+const s7L2 = words("*speaks* *icons.*")
+const s7Head = h("div", { class: "abs display", css: "left:120px; top:340px; font-size:112px" }, s7L1.node, h("br"), s7L2.node)
+const s7Sub = h("div", { class: "abs", css: "left:120px; top:606px; width:780px; font-size:30px; line-height:1.4; font-weight:500; color:#94a3b8", text: "A built-in MCP server lets any AI client search every icon and grab its CDN link." })
+const s7Endpoint = h("div", { class: "abs mono", css: "left:120px; top:730px; display:flex; align-items:center; gap:14px; height:58px; padding:0 24px; border-radius:16px; background:rgba(250,83,82,0.08); border:1px solid rgba(250,83,82,0.35); font-size:21px; color:#fecaca" }, h("span", { css: "color:#FA5352", text: "MCP" }), "dashboardicons.com/api/mcp")
+const chat = h("div", { class: "abs window", css: "left:1040px; top:230px; width:760px; height:620px" })
+chat.append(
+	h(
+		"div",
+		{ css: "height:66px; display:flex; align-items:center; gap:14px; padding:0 24px; border-bottom:1px solid rgba(255,255,255,0.06)" },
+		h("span", { css: "width:32px; height:32px; border-radius:10px; background:linear-gradient(135deg,#FA5352,#FFA500)" }),
+		h("span", { css: "font-size:20px; font-weight:700", text: "Assistant" }),
+		h("span", { css: "flex:1" }),
+		h("span", { class: "pill", css: "background:rgba(74,222,128,0.1); color:#4ade80" }, h("span", { css: "width:8px; height:8px; border-radius:50%; background:#4ade80; display:inline-block" }), "MCP · dashboard-icons"),
+	),
+)
+const USER_MSG = "Add the Proxmox icon to my dashboard"
+const BOT_MSG = "Found it — ready to drop in:"
+const userBubble = h("div", { class: "bubble", css: "right:28px; top:96px; max-width:520px; padding:16px 22px; border-radius:22px 22px 6px 22px; background:linear-gradient(135deg,#FA5352,#ff7a45); color:#fff; font-weight:500" })
+const toolCall = h("div", { class: "abs mono", css: "left:28px; top:200px; width:520px; padding:16px 20px; border-radius:16px; background:#0c121b; border:1px solid #223047; font-size:18px; line-height:1.6" })
+const toolIcon = h("span", { css: "display:inline-block; width:18px; height:18px; border-radius:50%; border:2.5px solid #334155; border-top-color:#FFA500; vertical-align:-3px; margin-right:12px" })
+const toolStatus = h("span", { css: "float:right; color:#64748b; font-size:15px" })
+toolCall.append(toolIcon, h("span", { css: "color:#e2e8f0", text: "search_icons" }), toolStatus, h("br"), h("span", { css: "color:#64748b", html: '{ <span style="color:#93c5fd">"query"</span>: <span style="color:#86efac">"proxmox"</span> }' }))
+const botText = h("div", { class: "bubble", css: "left:30px; top:330px; color:#cbd5e1" })
+const result = h(
+	"div",
+	{ class: "abs", css: "left:28px; top:394px; width:704px; height:190px; border-radius:20px; background:linear-gradient(180deg,#141c2a,#0f1520); border:1px solid rgba(255,255,255,0.1); display:flex; align-items:center; gap:28px; padding:0 28px" },
+	h("div", { css: "flex:none; width:128px; height:128px; border-radius:30px; background:#1a2333; display:grid; place-items:center" }, img("proxmox", "width:80px; height:80px; object-fit:contain")),
+	h(
+		"div",
+		{ css: "display:flex; flex-direction:column; gap:10px" },
+		h("div", { css: "font-size:34px; font-weight:800; letter-spacing:-0.02em", text: "Proxmox" }),
+		h("div", { class: "mono", css: "font-size:16px; color:#94a3b8", text: "cdn.jsdelivr.net/gh/homarr-labs/…/svg/proxmox.svg" }),
+		h(
+			"div",
+			{ css: "display:flex; gap:8px; margin-top:4px" },
+			h("span", { class: "pill", css: "background:rgba(250,83,82,0.14); color:#FA5352", text: "SVG" }),
+			h("span", { class: "pill", css: "background:rgba(96,165,250,0.14); color:#60a5fa", text: "PNG" }),
+			h("span", { class: "pill", css: "background:rgba(74,222,128,0.14); color:#4ade80", text: "WEBP" }),
+		),
+	),
+)
+chat.append(userBubble, toolCall, botText, result)
+s7.append(s7Kicker, s7Head, s7Sub, s7Endpoint, chat)
+const USER_T = [15.72, 16.12]
+const TOOL_T = 16.2
+const DONE_T = 16.55
+const BOT_T = [16.6, 16.8]
+const RESULT_T = 16.74
+for (let c = 0; c < USER_MSG.length; c += 3) cue(lerp(USER_T[0], USER_T[1], c / USER_MSG.length), "type", 0.28)
+cue(TOOL_T, "blip", 0.6)
+cue(DONE_T, "ding", 0.6)
+cue(RESULT_T, "pop", 0.7)
+cue(17.25, "whoosh", 0.8)
+
+function renderS7(t) {
+	const enter = prog(t, 15.42, 15.95)
+	dirBlur(s7, "fx2", (1 - E.outCubic(enter)) * 60, "x")
+	scramble(s7Kicker, t, 15.6, 16.0)
+	reveal(s7L1.list, t, 15.62, { stagger: 0.07 })
+	reveal(s7L2.list, t, 15.72, { stagger: 0.07 })
+	put(s7Sub, { y: (1 - E.outExpo(prog(t, 15.85, 16.4))) * 24, o: prog(t, 15.85, 16.1) })
+	put(s7Endpoint, { y: (1 - E.outExpo(prog(t, 16.0, 16.5))) * 24, o: prog(t, 16.0, 16.2) })
+
+	const typed = Math.floor(USER_MSG.length * prog(t, USER_T[0], USER_T[1]))
+	userBubble.textContent = USER_MSG.slice(0, typed)
+	const ub = spring(t - (USER_T[0] - 0.08), 3, 0.5)
+	put(userBubble, { s: lerp(0.8, 1, ub), o: prog(t, USER_T[0] - 0.08, USER_T[0]) })
+	userBubble.style.transformOrigin = "100% 100%"
+	const tb = spring(t - TOOL_T, 3, 0.5)
+	put(toolCall, { y: (1 - tb) * 20, o: prog(t, TOOL_T, TOOL_T + 0.08) })
+	const done = t >= DONE_T
+	toolIcon.style.transform = `rotate(${t * 900}deg)`
+	toolIcon.style.borderColor = "#334155"
+	toolIcon.style.borderTopColor = "#FFA500"
+	toolStatus.textContent = "running…"
+	if (done) {
+		toolIcon.style.transform = `scale(${1 + punch(t, DONE_T, 0.4, 20, 8)})`
+		toolIcon.style.borderColor = "#4ade80"
+		toolIcon.style.background = "#4ade80"
+		toolStatus.textContent = "✓ 1 match · 38 ms"
+		toolStatus.style.color = "#4ade80"
+	} else {
+		toolIcon.style.background = "transparent"
+		toolStatus.style.color = "#64748b"
+	}
+	botText.textContent = BOT_MSG.slice(0, Math.floor(BOT_MSG.length * prog(t, BOT_T[0], BOT_T[1])))
+	const rb = spring(t - RESULT_T, 2.4, 0.42)
+	put(result, { y: (1 - rb) * 40, s: lerp(0.9, 1, rb), o: prog(t, RESULT_T, RESULT_T + 0.08) })
+
+	const exit = E.inCubic(prog(t, 17.25, 17.55))
+	s7.style.transform = `translateX(${(1 - E.outExpo(enter)) * 1500}px) scale(${lerp(1, 0.9, exit)})`
+	s7.style.opacity = 1 - exit
+	if (exit > 0) s7.style.filter = blurCss(exit * 16)
+}
+
+// ================= SCENE 8 — COMMUNITY =================
+const s8 = layer(cam, "s8")
+const s8Kicker = kicker("// 06 — Community-powered", "position:absolute; left:0; right:0; top:150px; text-align:center")
+const s8L = words("Submit. Review. *Ship.*")
+const s8Head = h("div", { class: "abs display", css: "left:0; right:0; top:192px; text-align:center; font-size:112px" }, s8L.node)
+function submissionCard(name, sub) {
+	return h(
+		"div",
+		{ class: "abs", css: "left:590px; top:400px; width:740px; height:156px; border-radius:26px; background:linear-gradient(180deg,#151d2b,#10161f); border:1px solid rgba(255,255,255,0.1); box-shadow:0 40px 100px rgba(0,0,0,0.5); display:flex; align-items:center; gap:26px; padding:0 30px" },
+		h("div", { css: "flex:none; width:100px; height:100px; border-radius:26px; background:#1b2434; display:grid; place-items:center" }, img(name, "width:64px; height:64px; object-fit:contain")),
+		h("div", { css: "display:flex; flex-direction:column; gap:8px; flex:1" }, h("div", { css: "font-size:36px; font-weight:800; letter-spacing:-0.02em", text: name }), h("div", { class: "mono", css: "font-size:16px; color:#64748b", text: sub })),
+	)
+}
+const ghostB = submissionCard("azure-certificate", "icon submission")
+const ghostA = submissionCard("azure-linux", "icon submission")
+const card = submissionCard("nextflux", "new icon · svg + png + webp")
+const status = h("span", { class: "pill", css: "height:40px; font-size:15px; padding:0 18px" })
+card.append(status)
+const stamp = h("div", { class: "abs mono", css: "left:1120px; top:372px; padding:8px 18px; border:4px solid #4ade80; border-radius:12px; color:#4ade80; font-size:34px; font-weight:800; letter-spacing:0.12em; background:rgba(6,8,13,0.6)", text: "APPROVED" })
+const PIPE_X = [610, 960, 1310]
+const PIPE_Y = 700
+const PIPE_T = [17.45, 17.72, 17.99]
+const pipeBase = h("div", { class: "abs", css: `left:${PIPE_X[0]}px; top:${PIPE_Y - 2}px; width:${PIPE_X[2] - PIPE_X[0]}px; height:4px; border-radius:4px; background:rgba(255,255,255,0.08)` })
+const pipeFill = h("div", { class: "abs", css: `left:${PIPE_X[0]}px; top:${PIPE_Y - 2}px; width:${PIPE_X[2] - PIPE_X[0]}px; height:4px; border-radius:4px; background:linear-gradient(90deg,#FA5352,#FFA500); transform-origin:0 50%; box-shadow:0 0 20px rgba(250,83,82,0.7)` })
+const pipeNodes = ["Submitted", "Approved", "Published"].map((label, i) => {
+	const dot = h("div", { class: "abs", css: `left:${PIPE_X[i] - 14}px; top:${PIPE_Y - 14}px; width:28px; height:28px; border-radius:50%; background:#0f1520; border:3px solid #334155` })
+	const text = h("div", { class: "abs mono", css: `left:${PIPE_X[i] - 150}px; top:${PIPE_Y + 30}px; width:300px; text-align:center; font-size:16px; letter-spacing:0.22em; text-transform:uppercase; color:#64748b`, text: label })
+	const halo = h("div", { class: "abs", css: `left:${PIPE_X[i] - 14}px; top:${PIPE_Y - 14}px; width:28px; height:28px; border-radius:50%; border:2px solid #FFA500` })
+	return { dot, text, halo }
+})
+const commit = h("div", { class: "abs mono", css: "left:0; right:0; top:840px; text-align:center; font-size:19px; color:#64748b", html: '<span style="color:#4ade80">✓</span> chore: add icon "nextflux" <span style="color:#334155">·</span> <span style="color:#FFA500">81b4ab25</span> <span style="color:#334155">·</span> live on the CDN' })
+const confetti = h("div", { class: "layer" })
+const CONFETTI = []
+{
+	const rand = rng(42)
+	const colors = ["#FB7185", "#FDBA74", "#86EFAC", "#93C5FD", "#C4B5FD", "#FDE68A", "#FA5352", "#FFA500"]
+	for (let i = 0; i < 90; i++) {
+		const angle = -Math.PI / 2 + (rand() - 0.5) * 2.4
+		const speed = 700 + rand() * 1100
+		const node = h("div", { class: "abs", css: `left:0; top:0; width:${8 + rand() * 8}px; height:${12 + rand() * 10}px; border-radius:2px; background:${colors[i % colors.length]}` })
+		confetti.append(node)
+		CONFETTI.push({ node, vx: Math.cos(angle) * speed, vy: Math.sin(angle) * speed, spin: (rand() - 0.5) * 1400, x0: 960 + (rand() - 0.5) * 500, delay: rand() * 0.06 })
+	}
+}
+s8.append(s8Kicker, s8Head, pipeBase, pipeFill, ...pipeNodes.flatMap((node) => [node.halo, node.dot, node.text]), ghostB, ghostA, card, stamp, commit, confetti)
+PIPE_T.forEach((at) => cue(at, "pop", 0.6))
+cue(PIPE_T[1], "stamp", 1)
+cue(PIPE_T[2] + 0.02, "confetti", 0.9)
+
+function renderS8(t) {
+	const exit = E.inCubic(prog(t, 18.82, 19.12))
+	put(s8, { s: lerp(1, 0.92, exit), o: 1 - exit, blur: exit * 14 })
+	scramble(s8Kicker, t, 17.35, 17.75)
+	s8L.list.forEach((word, i) => {
+		const p = E.outExpo(prog(t, PIPE_T[i] - 0.06, PIPE_T[i] + 0.45))
+		word.style.transform = `translateY(${(1 - p) * 108}%) rotate(${(1 - p) * 7}deg)`
+	})
+	const enter = spring(t - 17.3, 2.2, 0.5)
+	put(card, { y: (1 - enter) * 120 + punch(t, PIPE_T[1], 10, 30, 10), s: 1 + punch(t, PIPE_T[2], 0.05, 22, 8), o: prog(t, 17.3, 17.42) })
+	put(ghostA, { y: (1 - enter) * 120 - 26, s: 0.94, o: prog(t, 17.34, 17.48) * 0.5 })
+	put(ghostB, { y: (1 - enter) * 120 - 50, s: 0.88, o: prog(t, 17.38, 17.52) * 0.25 })
+	ghostA.style.zIndex = 0
+	let label = "PENDING REVIEW"
+	let color = "#fbbf24"
+	if (t >= PIPE_T[1]) {
+		label = "APPROVED"
+		color = "#4ade80"
+	}
+	if (t >= PIPE_T[2]) {
+		label = "PUBLISHED"
+		color = "#FFA500"
+	}
+	status.textContent = label
+	status.style.color = color
+	status.style.background = hexA(color, 0.12)
+	status.style.border = `1px solid ${hexA(color, 0.35)}`
+	const st = prog(t, PIPE_T[1], PIPE_T[1] + 0.14)
+	put(stamp, { s: lerp(2.4, 1, E.inCubic(st)), r: -9, o: Math.min(1, st * 3) * (1 - prog(t, PIPE_T[2] + 0.2, PIPE_T[2] + 0.4)) })
+
+	pipeFill.style.transform = `scaleX(${tw(t, PIPE_T[0], PIPE_T[2], 0, 1, E.inOutCubic)})`
+	pipeNodes.forEach((node, i) => {
+		const lit = t >= PIPE_T[i]
+		const s = 1 + punch(t, PIPE_T[i], 0.5, 24, 9)
+		put(node.dot, { s })
+		node.dot.style.background = "#0f1520"
+		node.dot.style.borderColor = "#334155"
+		node.text.style.color = "#64748b"
+		if (lit) {
+			node.dot.style.background = "linear-gradient(135deg,#FA5352,#FFA500)"
+			node.dot.style.borderColor = "#FFA500"
+			node.text.style.color = "#f8fafc"
+		}
+		const halo = prog(t, PIPE_T[i], PIPE_T[i] + 0.6)
+		put(node.halo, { s: lerp(1, 3.4, E.outCubic(halo)), o: (1 - halo) * Number(halo > 0) })
+	})
+	put(commit, { y: (1 - E.outExpo(prog(t, PIPE_T[2] + 0.05, PIPE_T[2] + 0.5))) * 20, o: prog(t, PIPE_T[2] + 0.05, PIPE_T[2] + 0.2) })
+	for (const bit of CONFETTI) {
+		const dt = t - (PIPE_T[2] + bit.delay)
+		if (dt <= 0) {
+			bit.node.style.opacity = 0
+			continue
+		}
+		const x = bit.x0 + bit.vx * dt
+		const y = 470 + bit.vy * dt + 0.5 * 2200 * dt * dt
+		put(bit.node, { x, y, r: bit.spin * dt, o: 1 - prog(dt, 0.6, 1.0), extra: `rotateX(${dt * 720}deg)` })
+	}
+}
+
+// ================= SCENE 9 — FINALE =================
+const s9 = layer(cam, "s9")
+const s9Glow = h("div", { class: "abs", css: "left:260px; top:-160px; width:1400px; height:1400px; border-radius:50%; background:radial-gradient(circle, rgba(250,83,82,0.3), rgba(255,165,0,0.08) 40%, rgba(0,0,0,0) 62%)" })
+const swarm = h("div", { class: "layer" })
+const SWARM = []
+{
+	const rand = rng(99)
+	for (let i = 0; i < 96; i++) {
+		const node = img(POOL[i % POOL.length], "position:absolute; left:-36px; top:-36px; width:72px; height:72px; object-fit:contain")
+		swarm.append(node)
+		SWARM.push({ node, a0: rand() * Math.PI * 2, r0: 560 + rand() * 620, spin: 1.8 + rand() * 1.4, start: 18.9 + rand() * 0.35, rot: (rand() - 0.5) * 720 })
+	}
+}
+const IMPACT = 19.75
+const rings = [0, 0.1, 0.22].map((delay, i) => {
+	const ring = h("div", { class: "abs", css: `left:760px; top:340px; width:400px; height:400px; border-radius:50%; border:${3 - i}px solid ${["#fff", "#FFA500", "#FA5352"][i]}` })
+	return { ring, delay }
+})
+const finalLogo = h("img", { src: `${ROOT}svg/dashboard-icons-dark.svg`, class: "abs", css: "left:0; top:0; width:200px; height:200px", alt: "" })
+const wordmark = h("div", { class: "abs display", css: "left:0; top:0; font-size:156px; white-space:nowrap; letter-spacing:-0.05em" })
+const letters = []
+for (const ch of "Dashboard Icons") {
+	if (ch === " ") {
+		wordmark.append(h("span", { css: "display:inline-block; width:0.24em" }))
+		continue
+	}
+	const inner = h("span", { class: "word", text: ch })
+	wordmark.append(h("span", { class: "mask" }, inner))
+	letters.push(inner)
+}
+const shine = h("div", { class: "abs display", css: "left:0; top:0; font-size:156px; white-space:nowrap; letter-spacing:-0.05em; color:#fff; -webkit-mask-image:linear-gradient(100deg, transparent 42%, #000 50%, transparent 58%); -webkit-mask-size:300% 100%; -webkit-mask-repeat:no-repeat", text: "Dashboard Icons" })
+const tagline = words("Your definitive source for *dashboard* *icons.*")
+const taglineNode = h("div", { class: "abs", css: "left:0; right:0; top:640px; text-align:center; font-size:42px; font-weight:600; letter-spacing:-0.02em; color:#cbd5e1" }, tagline.node)
+const chips = [
+	h("span", { class: "chip", css: "background:linear-gradient(135deg,#FA5352,#FFA500); border:none; color:#fff; font-weight:800" }, "dashboardicons.com"),
+	h("span", { class: "chip" }, "Free & open source"),
+	h("span", { class: "chip" }, "SVG · PNG · WEBP"),
+	h("span", { class: "chip" }, "CDN + MCP ready"),
+]
+const chipRow = h("div", { class: "abs", css: "left:0; right:0; top:740px; display:flex; justify-content:center; gap:14px" }, ...chips)
+const s9Shade = h("div", { class: "layer", css: "background: radial-gradient(ellipse 60% 40% at 50% 52%, rgba(6,8,13,0.85), rgba(6,8,13,0) 100%)" })
+const flash = h("div", { class: "layer", css: "background:radial-gradient(circle at 50% 46%, rgba(255,255,255,0.95), rgba(255,200,150,0.5) 25%, rgba(250,83,82,0) 60%)" })
+s9.append(s9Shade, s9Glow, swarm, ...rings.map((r) => r.ring), finalLogo, wordmark, shine, taglineNode, chipRow, flash)
+let LAYOUT = { logoX: 0, wordX: 0, y: 0 }
+cue(18.85, "riser", 1, IMPACT - 18.85)
+cue(IMPACT, "boom", 1)
+letters.forEach((_, i) => {
+	if (i % 2 === 0) cue(20.02 + i * 0.03, "tick", 0.18)
+})
+cue(20.55, "shimmer", 0.5, 0.8)
+chips.forEach((_, i) => cue(20.8 + i * 0.07, "pop", 0.35))
+cue(21.0, "shimmer", 0.6, 0.7)
+
+function renderS9(t) {
+	for (const bit of SWARM) {
+		const p = prog(t, bit.start, IMPACT)
+		if (p <= 0 || p >= 1) {
+			bit.node.style.opacity = 0
+			continue
+		}
+		const e = p * p
+		const a = bit.a0 + bit.spin * e
+		const r = bit.r0 * (1 - e)
+		put(bit.node, { x: 960 + Math.cos(a) * r, y: 540 + Math.sin(a) * r * 0.75, s: lerp(1.15, 0.15, e), r: bit.rot * e, o: prog(t, bit.start, bit.start + 0.12) * (1 - prog(p, 0.88, 1)) })
+	}
+	s9Glow.style.opacity = tw(t, 19.0, IMPACT, 0.2, 1) * (0.85 + Math.sin(t * 3) * 0.1)
+	s9Shade.style.opacity = prog(t, IMPACT, IMPACT + 0.5)
+	rings.forEach(({ ring, delay }) => {
+		const p = prog(t, IMPACT + delay, IMPACT + delay + 0.9)
+		put(ring, { s: lerp(0.4, 4.2, E.outCubic(p)), o: (1 - p) * Number(p > 0) })
+	})
+	flash.style.opacity = Math.exp(-Math.max(0, t - IMPACT) * 6) * Number(t >= IMPACT) + prog(t, IMPACT - 0.12, IMPACT) * 0.4 * Number(t < IMPACT)
+
+	const pop = spring(t - IMPACT, 2.2, 0.38)
+	const slide = E.outExpo(prog(t, 20.0, 20.7))
+	const lx = lerp(960 - 100, LAYOUT.logoX, slide)
+	put(finalLogo, { x: lx, y: LAYOUT.y - 100 + (1 - slide) * 60, s: pop * lerp(1.5, 1, slide), r: (1 - pop) * -90 })
+	wordmark.style.transform = `translate(${LAYOUT.wordX}px, ${LAYOUT.y - 96}px)`
+	shine.style.transform = wordmark.style.transform
+	letters.forEach((letter, i) => {
+		const st = 20.02 + i * 0.03
+		const p = E.outExpo(prog(t, st, st + 0.7))
+		letter.style.transform = `translateY(${(1 - p) * 110}%) rotate(${(1 - p) * 12}deg)`
+		letter.style.filter = blurCss((1 - p) * 8)
+	})
+	shine.style.webkitMaskPosition = `${lerp(120, -20, E.inOutCubic(prog(t, 20.95, 21.7)))}% 0`
+	shine.style.opacity = 0.85 * Number(t > 20.95 && t < 21.7)
+	reveal(tagline.list, t, 20.45, { stagger: 0.045 })
+	chips.forEach((chip, i) => {
+		const sp = spring(t - (20.8 + i * 0.07), 2.6, 0.45)
+		put(chip, { y: (1 - sp) * 40, s: lerp(0.7, 1, sp), o: prog(t, 20.8 + i * 0.07, 20.9 + i * 0.07) })
+	})
+}
+
+// ================= HUD / POST =================
+const hud = layer(stage, "hud")
+const hudBar = h("div", { class: "abs", css: "left:0; bottom:0; height:3px; width:1920px; background:linear-gradient(90deg,#FA5352,#FFA500); transform-origin:0 50%" })
+hud.append(hudBar)
+const vignette = layer(stage, "vignette")
+const grain = h("canvas", { id: "grain", width: 960, height: 540 })
+stage.append(grain)
+const grainCtx = grain.getContext("2d")
+const grainData = grainCtx.createImageData(960, 540)
+const fade = layer(stage, "fade", "background:#000")
+const SHAKES = [[2.5, 5], [4.62, 9], [8.0, 6], [LAND, 4], [17.72, 7], [IMPACT, 24]]
+
+function renderHud(t) {
+	hud.style.opacity = tw(t, 0.5, 1.0, 0, 1) * (1 - prog(t, 18.8, 19.1))
+	hudBar.style.transform = `scaleX(${t / DURATION})`
+}
+function renderGrain(frame) {
+	const rand = rng(frame * 7919 + 1)
+	const data = grainData.data
+	for (let i = 0; i < data.length; i += 4) {
+		const v = rand() * 255
+		data[i] = v
+		data[i + 1] = v
+		data[i + 2] = v
+		data[i + 3] = 255
+	}
+	grainCtx.putImageData(grainData, 0, 0)
+}
+function renderCamera(t) {
+	let x = 0
+	let y = 0
+	for (const [at, amp] of SHAKES) {
+		if (t < at) continue
+		const dt = t - at
+		const k = amp * Math.exp(-dt * 9)
+		x += k * Math.sin(dt * 71)
+		y += k * Math.cos(dt * 57)
+	}
+	cam.style.transform = `translate(${x}px, ${y}px)`
+}
+function renderBackground(t) {
+	orbs.forEach((orb, i) => {
+		const x = orb.x * W - orb.r / 2 + Math.sin(t * orb.fx * Math.PI * 2 + i) * 160
+		const y = orb.y * H - orb.r / 2 + Math.cos(t * orb.fy * Math.PI * 2 + i * 2) * 120
+		orb.node.style.transform = `translate(${x}px, ${y}px)`
+		orb.node.style.opacity = orb.a * tw(t, 0.2, 1.5, 0, 1)
+	})
+	dots.style.transform = `translate(${mod(t * 14, 44)}px, ${mod(t * 9, 44)}px)`
+}
+
+const SCENES = [
+	[s1, 0, 2.5, renderS1],
+	[s2, 2.5, 4.62, renderS2],
+	[s3, 4.33, 8.02, renderS3],
+	[s4, 7.84, 10.8, renderS4],
+	[s5, 10.3, 12.35, renderS5],
+	[s6, 12.28, 15.64, renderS6],
+	[s7, 15.42, 17.56, renderS7],
+	[s8, 17.28, 19.14, renderS8],
+	[s9, 18.84, DURATION + 1, renderS9],
+]
+
+function render(t) {
+	renderBackground(t)
+	renderWall(t)
+	for (const [node, a, b, fn] of SCENES) {
+		const on = t >= a && t < b
+		node.style.display = "none"
+		if (on) {
+			node.style.display = "block"
+			fn(t)
+		}
+	}
+	renderCamera(t)
+	renderHud(t)
+	renderGrain(Math.round(t * 60))
+	fade.style.opacity = Math.max(1 - prog(t, 0, 0.12), prog(t, DURATION - 0.45, DURATION - 0.02))
+}
+
+let FRAME_LEN = 0
+function measure() {
+	FRAME_LEN = frameRect.getTotalLength()
+	for (const def of haPaths) def.len = def.path.getTotalLength()
+	s6.style.display = "block"
+	line4.innerHTML = line4Html(999, DASH[0][0], false, "none")
+	const nameRect = line4.querySelector(".c-n").getBoundingClientRect()
+	ORIGIN = { x: nameRect.left + nameRect.width / 2, y: nameRect.top + nameRect.height / 2 }
+	s9.style.display = "block"
+	const wordW = wordmark.getBoundingClientRect().width
+	const wordLeft = wordmark.getBoundingClientRect().left
+	for (const letter of letters) {
+		const offset = letter.getBoundingClientRect().left - wordLeft
+		letter.style.backgroundImage = "linear-gradient(110deg, #FA5352 0%, #FF6A48 40%, #FFA500 100%)"
+		letter.style.backgroundSize = `${wordW}px 100%`
+		letter.style.backgroundPosition = `${-offset}px 0`
+		letter.style.webkitBackgroundClip = "text"
+		letter.style.backgroundClip = "text"
+		letter.style.color = "transparent"
+	}
+	const group = 200 + 48 + wordW
+	LAYOUT = { logoX: 960 - group / 2, wordX: 960 - group / 2 + 248, y: 470 }
+}
+
+window.DURATION = DURATION
+window.EVENTS = EVENTS
+window.render = render
+window.ready = (async () => {
+	await Promise.all(["800 100px Inter", "600 40px Inter", "500 20px 'JetBrains Mono'", "700 20px 'JetBrains Mono'"].map((font) => document.fonts.load(font)))
+	await document.fonts.ready
+	await Promise.all([...document.images].map((node) => node.decode().catch(() => console.warn(`image failed: ${node.src}`))))
+	measure()
+	render(0)
+	return true
+})()
+</script>
+</body>
+</html>
