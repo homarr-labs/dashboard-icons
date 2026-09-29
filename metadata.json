@@ -50414,5 +50414,20 @@
                 "name": "izas"
             }
         }
+    },
+    "symfonium": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "entertainment",
+            "media"
+        ],
+        "update": {
+            "timestamp": "2026-09-29T07:31:36.206Z",
+            "author": {
+                "id": "09qr7jxynk6favk",
+                "name": "izas"
+            }
+        }
     }
 }
