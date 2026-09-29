@@ -50554,5 +50554,23 @@
                 "login": "diegoavelloso"
             }
         }
+    },
+    "nostalgiatv": {
+        "base": "png",
+        "aliases": [
+            "Nostalgia TV",
+            "Nostalgia-TV"
+        ],
+        "categories": [
+            "entertainment",
+            "media"
+        ],
+        "update": {
+            "timestamp": "2026-09-29T07:31:43.071Z",
+            "author": {
+                "id": 170339248,
+                "login": "Hicsuntd"
+            }
+        }
     }
 }
