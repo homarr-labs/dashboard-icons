@@ -1,5 +1,5 @@
 import type { Submission } from "@/lib/pb"
-export type DashboardView = "overview" | "review" | "publish" | "submissions" | "activity"
+export type DashboardView = "overview" | "review" | "publish" | "submissions" | "activity" | "manage"
 export interface DashboardFilters {
 	view: DashboardView
 	search: string
@@ -56,6 +56,7 @@ export const views: { id: DashboardView; label: string }[] = [
 	{ id: "publish", label: "Publish" },
 	{ id: "submissions", label: "Submissions" },
 	{ id: "activity", label: "Activity" },
+	{ id: "manage", label: "Manage" },
 ]
 export const statusLabels: Record<string, string> = {
 	pending: "Needs review",

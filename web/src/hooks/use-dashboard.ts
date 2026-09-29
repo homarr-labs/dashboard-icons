@@ -1,6 +1,7 @@
 "use client"
 import { keepPreviousData, useQuery, useQueryClient } from "@tanstack/react-query"
 import { useCallback, useEffect, useState } from "react"
+import type { Takedown } from "@/lib/dashboard/takedowns"
 import type { DashboardFilters, DashboardSummary, PublishBatch, SubmissionEvent } from "@/lib/dashboard/types"
 import { pb, type Submission } from "@/lib/pb"
 
@@ -98,6 +99,18 @@ export function usePublishBatches(enabled: boolean, page: number) {
 		},
 	})
 }
+export function useTakedowns(enabled: boolean, page = 1, perPage = 50) {
+	return useQuery({
+		queryKey: [...dashboardKey, "takedowns", page, perPage],
+		enabled,
+		queryFn: () => pb.collection("takedowns").getList<Takedown>(page, perPage, { sort: "-created,-id", requestKey: null }),
+		placeholderData: keepPreviousData,
+		refetchInterval: (query) => {
+			if (query.state.data?.items.some((entry) => entry.active)) return 15000
+			return false
+		},
+	})
+}
 export function useDashboardUpdates(enabled: boolean) {
 	const client = useQueryClient()
 	const [hasUpdates, setHasUpdates] = useState(false)
@@ -113,7 +126,7 @@ export function useDashboardUpdates(enabled: boolean) {
 			setHasUpdates(true)
 			void client.invalidateQueries({ queryKey: [...dashboardKey, "summary"] })
 		}
-		for (const collection of ["submissions", "submission_events", "publish_batches"]) {
+		for (const collection of ["submissions", "submission_events", "publish_batches", "takedowns"]) {
 			void pb
 				.collection(collection)
 				.subscribe("*", changed)

@@ -56,6 +56,12 @@ jobs:
         run: echo "ICON_NAME=$(python scripts/print_icon_name.py ${{ env.ICON_TYPE }} addition)" >> "$GITHUB_OUTPUT"
         env:
           INPUT_ISSUE_FORM: ${{ steps.parse_issue_form.outputs.ISSUE_FORM }}
+      - name: Check takedown blacklist
+        run: |
+          if [ -f takedowns.json ] && grep -qF "\"${{ steps.extract_icon_name.outputs.ICON_NAME }}\"" takedowns.json; then
+            echo "::error::Icon '${{ steps.extract_icon_name.outputs.ICON_NAME }}' is blacklisted due to a takedown request and cannot be added."
+            exit 1
+          fi
       - name: Compress icons
         run: |
           echo "Compressing PNGs..."
