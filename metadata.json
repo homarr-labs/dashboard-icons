@@ -50745,7 +50745,7 @@
             }
         }
     },
-    "postfix-fixed": {
+    "postfix": {
         "base": "svg",
         "aliases": [],
         "categories": [],
