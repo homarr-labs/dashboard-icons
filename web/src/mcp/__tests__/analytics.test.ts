@@ -70,6 +70,7 @@ describe("MCP analytics", () => {
 		expect(instrument).toHaveBeenCalledWith({ setRequestHandler: expect.any(Function) }, expect.anything(), {
 			context: false,
 			enableExceptionAutocapture: false,
+			beforeSend: expect.any(Function),
 		})
 		expect(flush).toHaveBeenCalled()
 	})

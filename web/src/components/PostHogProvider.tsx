@@ -3,7 +3,7 @@
 import { usePathname, useSearchParams } from "next/navigation"
 import posthog, { type CaptureResult } from "posthog-js"
 import { PostHogProvider as PHProvider, usePostHog } from "posthog-js/react"
-import { Suspense, useEffect } from "react"
+import { Suspense, useEffect, useRef } from "react"
 import { usePostHogAuth } from "@/hooks/use-posthog-auth"
 
 // Drops opaque cross-origin "Script error." reports. The browser hands window.onerror a
@@ -85,16 +85,21 @@ function PostHogPageView() {
 	const pathname = usePathname()
 	const searchParams = useSearchParams()
 	const posthogClient = usePostHog()
+	// Only pathname changes count as a new page view. The /icons search box rewrites
+	// `?q=` (and sort/source) on every settled keystroke; treating each rewrite as a
+	// page view inflated /icons to ~11.6 views/visitor. Query-param changes are still
+	// included in the URL on the first capture for a pathname (e.g. a landing on
+	// /icons?q=…), and real path changes and back/forward still fire exactly once.
+	const lastPathname = useRef<string | null>(null)
 
 	useEffect(() => {
-		if (pathname && posthogClient) {
-			let url = window.origin + pathname
-			const search = searchParams.toString()
-			if (search) {
-				url += `?${search}`
-			}
-			posthogClient.capture("$pageview", { $current_url: url })
-		}
+		if (!pathname || !posthogClient) return
+		if (lastPathname.current === pathname) return
+		lastPathname.current = pathname
+
+		const search = searchParams.toString()
+		const url = search ? `${window.origin}${pathname}?${search}` : window.origin + pathname
+		posthogClient.capture("$pageview", { $current_url: url })
 	}, [pathname, searchParams, posthogClient])
 
 	return null
