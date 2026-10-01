@@ -1,0 +1,18 @@
+web/src/components/PostHogProvider.tsx
+  h_d6e478ca18e517 6,88-93,96-102
+web/src/mcp/__tests__/analytics.test.ts
+  h_d6e478ca18e517 73
+web/src/mcp/analytics.ts
+  h_d6e478ca18e517 2,13-61,68-72
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "0ea92ac409e307808ac167f862629f5b2c4c7738",
+  "prompts": {},
+  "humans": {
+    "h_d6e478ca18e517": {
+      "author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
