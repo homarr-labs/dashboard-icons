@@ -15,7 +15,7 @@ import { Label } from "@/components/ui/label"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { UnoptimizedImage } from "@/components/unoptimized-image"
 import { pb } from "@/lib/pb"
-import { submitOrReplaceRejected } from "@/lib/submit-or-replace"
+import { submitOrReplace } from "@/lib/submit-or-replace"
 import { formatIconName } from "@/lib/utils"
 import { MagicCard } from "./magicui/magic-card"
 import { MagicCardPointerProvider } from "./magicui/magic-card-pointer"
@@ -346,7 +346,7 @@ export function EditableIconDetails({ onSubmit, initialData }: EditableIconDetai
 				extras: extras,
 			}
 
-			await submitOrReplaceRejected(submissionData)
+			await submitOrReplace(submissionData)
 
 			// Revalidate Next.js cache for community pages
 			await revalidateAllSubmissions()

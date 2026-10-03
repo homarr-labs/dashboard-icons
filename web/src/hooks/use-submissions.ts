@@ -212,6 +212,7 @@ export interface IconNameOption {
 	value: string
 	source: IconSource
 	status?: IconStatus
+	owned?: boolean
 }
 
 // Fetch existing icon names for the combobox + the metadata.json file
@@ -219,8 +220,9 @@ export function useExistingIconNames() {
 	return useQuery({
 		queryKey: ["existing-icon-names"],
 		queryFn: async (): Promise<IconNameOption[]> => {
-			const records = await pb.collection("community_gallery").getFullList<{ name: string; status: string }>({
-				fields: "name,status",
+			const username = pb.authStore.record?.username
+			const records = await pb.collection("community_gallery").getFullList<{ name: string; status: string; created_by: string }>({
+				fields: "name,status,created_by",
 				sort: "name",
 				requestKey: null,
 			})
@@ -243,17 +245,18 @@ export function useExistingIconNames() {
 			}
 
 			for (const record of records) {
+				const owned = !!username && record.created_by === username
 				const existing = iconMap.get(record.name)
 				if (existing) {
-					if (record.status === "pending" || record.status === "approved" || record.status === "rejected") {
-						existing.status = record.status as IconStatus
-					}
+					existing.status = record.status as IconStatus
+					existing.owned = owned
 				} else {
 					iconMap.set(record.name, {
 						label: record.name,
 						value: record.name,
 						source: "community",
 						status: record.status as IconStatus,
+						owned,
 					})
 				}
 			}

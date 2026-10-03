@@ -121,28 +121,29 @@ function guard(e, creating) {
 	const old = e.record.original()
 	const admin = e.hasSuperuserAuth() || e.auth.getBool("admin")
 	if (!creating && reserved(e.app, e.record.id)) throw new BadRequestError("This submission is reserved by an active publish batch")
-	if (!admin) {
-		if (creating || old.getString("status") === "rejected") {
-			if (e.record.getString("status") !== "pending" || e.record.getString("created_by") !== e.auth.id)
-				throw new ForbiddenError("Resubmit as yourself with pending status")
-			e.record.set("approved_by", "")
-			e.record.set("admin_comment", "")
-		} else {
-			if (old.getString("created_by") !== e.auth.id || old.getString("status") !== "pending")
-				throw new ForbiddenError("Only your pending submissions can be edited")
-			for (const key of ["status", "created_by", "approved_by", "admin_comment"])
-				if (e.record.getString(key) !== old.getString(key)) throw new ForbiddenError("Moderation fields are managed by administrators")
-		}
+	const previous = old.getString("status")
+	const owned = old.getString("created_by") === e.auth.id
+	// New submissions and resubmissions. Authors may replace their own icon
+	// from any status; rejected submissions stay claimable by any authenticated
+	// user so their name is never permanently locked. Either way the record
+	// goes back to pending for review. Handled before the admin moderation
+	// guard so admin authors can replace their own icons too.
+	const resubmission = !creating && previous !== "pending" && (owned || previous === "rejected")
+	if (!e.hasSuperuserAuth() && (creating || resubmission)) {
+		if (e.record.getString("status") !== "pending" || e.record.getString("created_by") !== e.auth.id)
+			throw new ForbiddenError("Resubmit as yourself with pending status")
+		e.record.set("approved_by", "")
+		e.record.set("admin_comment", "")
+	} else if (!admin) {
+		if (old.getString("created_by") !== e.auth.id)
+			throw new ForbiddenError("Only your own submissions can be edited")
+		for (const key of ["status", "created_by", "approved_by", "admin_comment"])
+			if (e.record.getString(key) !== old.getString(key)) throw new ForbiddenError("Moderation fields are managed by administrators")
 	} else if (!e.hasSuperuserAuth()) {
-		if (creating) {
-			e.record.set("status", "pending")
-			e.record.set("approved_by", "")
-			e.record.set("admin_comment", "")
-		} else
-			for (const key of ["status", "approved_by", "admin_comment"]) {
-				if (e.record.getString(key) !== old.getString(key))
-					throw new BadRequestError("Use the dashboard review action to change moderation fields")
-			}
+		for (const key of ["status", "approved_by", "admin_comment"]) {
+			if (e.record.getString(key) !== old.getString(key))
+				throw new BadRequestError("Use the dashboard review action to change moderation fields")
+		}
 	}
 	context(e.record, e.auth, "", "")
 	e.next()
