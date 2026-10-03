@@ -51,6 +51,11 @@ export function IconNameCombobox({ value, onValueChange, onIconSelected, error, 
 	}, [value, existingIcons])
 
 	const isExistingSubmission = !!matchedIcon?.status
+	const isClaimable = matchedIcon?.status === "rejected"
+	// Non-rejected submissions can only be replaced by their author, so warn
+	// when the ID is known to belong to someone else. Rejected records stay
+	// claimable by anyone, so they keep the replacement wording.
+	const isOtherSubmission = isExistingSubmission && !isClaimable && matchedIcon?.owned === false
 
 	const showSuggestions = isFocused && (rawInput || value) && filteredIcons.length > 0
 
@@ -119,8 +124,16 @@ export function IconNameCombobox({ value, onValueChange, onIconSelected, error, 
 				</p>
 			)}
 
+			{/* Another contributor's submission */}
+			{!error && isOtherSubmission && (
+				<p className="text-sm text-destructive mt-1.5 flex items-center gap-1.5">
+					<AlertCircle className="h-3.5 w-3.5 flex-shrink-0" />
+					<span>This icon ID already belongs to another contributor. Choose a different ID or add it as an alias instead.</span>
+				</p>
+			)}
+
 			{/* Existing submission notice */}
-			{!error && isExistingSubmission && (
+			{!error && isExistingSubmission && !isOtherSubmission && (
 				<p className="text-sm text-amber-600 dark:text-amber-400 mt-1.5 flex items-center gap-1.5">
 					<Info className="h-3.5 w-3.5 flex-shrink-0" />
 					<span>This icon already has a submission. Submitting will replace it and send it back for review.</span>
