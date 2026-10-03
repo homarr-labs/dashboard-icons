@@ -50,7 +50,7 @@ export function IconNameCombobox({ value, onValueChange, onIconSelected, error, 
 		return existingIcons.find((icon) => icon.value === value) ?? null
 	}, [value, existingIcons])
 
-	const isRejectedResubmit = matchedIcon?.source === "community" && matchedIcon?.status === "rejected"
+	const isExistingSubmission = !!matchedIcon?.status
 
 	const showSuggestions = isFocused && (rawInput || value) && filteredIcons.length > 0
 
@@ -119,16 +119,16 @@ export function IconNameCombobox({ value, onValueChange, onIconSelected, error, 
 				</p>
 			)}
 
-			{/* Rejected resubmit notice */}
-			{!error && isRejectedResubmit && (
+			{/* Existing submission notice */}
+			{!error && isExistingSubmission && (
 				<p className="text-sm text-amber-600 dark:text-amber-400 mt-1.5 flex items-center gap-1.5">
 					<Info className="h-3.5 w-3.5 flex-shrink-0" />
-					<span>This icon was previously rejected. Submitting will replace the old submission.</span>
+					<span>This icon already has a submission. Submitting will replace it and send it back for review.</span>
 				</p>
 			)}
 
 			{/* Helper text when no error */}
-			{!error && !isRejectedResubmit && value && (
+			{!error && !isExistingSubmission && value && (
 				<p className="text-sm text-muted-foreground mt-1.5">
 					{loading ? "Loading icon names..." : "Select an existing icon to update or enter a new ID"}
 				</p>

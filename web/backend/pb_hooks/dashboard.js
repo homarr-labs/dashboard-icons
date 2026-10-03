@@ -122,14 +122,17 @@ function guard(e, creating) {
 	const admin = e.hasSuperuserAuth() || e.auth.getBool("admin")
 	if (!creating && reserved(e.app, e.record.id)) throw new BadRequestError("This submission is reserved by an active publish batch")
 	if (!admin) {
-		if (creating || old.getString("status") === "rejected") {
+		if (creating || old.getString("status") !== "pending") {
+			// New submission or a resubmission of an existing one (rejected,
+			// approved or already published). Authors may replace their own
+			// icon, which sends the record back to pending for review.
 			if (e.record.getString("status") !== "pending" || e.record.getString("created_by") !== e.auth.id)
 				throw new ForbiddenError("Resubmit as yourself with pending status")
 			e.record.set("approved_by", "")
 			e.record.set("admin_comment", "")
 		} else {
-			if (old.getString("created_by") !== e.auth.id || old.getString("status") !== "pending")
-				throw new ForbiddenError("Only your pending submissions can be edited")
+			if (old.getString("created_by") !== e.auth.id)
+				throw new ForbiddenError("Only your own submissions can be edited")
 			for (const key of ["status", "created_by", "approved_by", "admin_comment"])
 				if (e.record.getString(key) !== old.getString(key)) throw new ForbiddenError("Moderation fields are managed by administrators")
 		}

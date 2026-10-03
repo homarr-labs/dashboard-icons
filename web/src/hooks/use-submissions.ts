@@ -245,9 +245,7 @@ export function useExistingIconNames() {
 			for (const record of records) {
 				const existing = iconMap.get(record.name)
 				if (existing) {
-					if (record.status === "pending" || record.status === "approved" || record.status === "rejected") {
-						existing.status = record.status as IconStatus
-					}
+					existing.status = record.status as IconStatus
 				} else {
 					iconMap.set(record.name, {
 						label: record.name,
