@@ -1,0 +1,24 @@
+web/backend/pb_hooks/dashboard.js
+  h_d6e478ca18e517 125-128,134-135
+web/src/components/editable-icon-details.tsx
+  h_d6e478ca18e517 18,349
+web/src/components/icon-name-combobox.tsx
+  h_d6e478ca18e517 53,122-123,126,131
+web/src/hooks/use-icon-submission-form.ts
+  h_d6e478ca18e517 11,173
+web/src/hooks/use-submissions.ts
+  h_d6e478ca18e517 248
+web/src/lib/submit-or-replace.ts
+  h_d6e478ca18e517 1,17-21,25,28,30-37
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "0f14dcb7d5d43eb264870ce1886795ed2bceadcc",
+  "prompts": {},
+  "humans": {
+    "h_d6e478ca18e517": {
+      "author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
