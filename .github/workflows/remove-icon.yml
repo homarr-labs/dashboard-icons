@@ -1,0 +1,105 @@
+name: Remove Icon from Collection
+run-name: Takedown ${{ inputs.takedownId }}
+
+on:
+  workflow_dispatch:
+    inputs:
+      takedownId:
+        description: PocketBase takedown record ID
+        required: true
+        type: string
+      dryRun:
+        description: When true, skip writes/commit/PocketBase status update
+        required: false
+        default: false
+        type: boolean
+
+concurrency:
+  group: remove-icon-queue
+  cancel-in-progress: false
+
+jobs:
+  remove-icon:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+
+      - name: Configure git user
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Record running takedown
+        if: ${{ !inputs.dryRun }}
+        continue-on-error: true
+        env:
+          PB_URL: ${{ secrets.PB_URL }}
+          PB_ADMIN_TOKEN: ${{ secrets.PB_ADMIN_TOKEN }}
+          TAKEDOWN_ID: ${{ inputs.takedownId }}
+          TAKEDOWN_STATE: running
+        run: bun run scripts/finalize-icon-publication.ts
+
+      - name: Remove icon assets
+        env:
+          PB_URL: ${{ secrets.PB_URL }}
+          PB_ADMIN_TOKEN: ${{ secrets.PB_ADMIN_TOKEN }}
+          DRY_RUN: ${{ inputs.dryRun }}
+          TAKEDOWN_ID: ${{ inputs.takedownId }}
+        run: |
+          ARGS=(--takedown-id "$TAKEDOWN_ID")
+          if [ "$DRY_RUN" = "true" ]; then
+            ARGS+=(--dry-run)
+          fi
+          message_file="$(mktemp)"
+          ARGS+=(--commit-message "$message_file")
+
+          bun run scripts/remove-icon.ts "${ARGS[@]}"
+
+          if [ "$DRY_RUN" != "true" ] && ! git diff --quiet; then
+            git add .
+            git commit -F "$message_file"
+          fi
+
+          rm -f "$message_file" || true
+
+      - name: Push changes
+        id: push
+        if: ${{ !inputs.dryRun }}
+        run: |
+          if [ "$(git rev-list --count HEAD ^origin/main)" -gt 0 ]; then
+            git pull --rebase
+            git push
+          else
+            echo "No commits to push"
+          fi
+          echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+
+      - name: Finalize takedown
+        if: ${{ steps.push.outcome == 'success' && !inputs.dryRun }}
+        continue-on-error: true
+        env:
+          PB_URL: ${{ secrets.PB_URL }}
+          PB_ADMIN_TOKEN: ${{ secrets.PB_ADMIN_TOKEN }}
+          TAKEDOWN_ID: ${{ inputs.takedownId }}
+          TAKEDOWN_STATE: succeeded
+          PUBLISHED_COMMIT: ${{ steps.push.outputs.sha }}
+        run: bun run scripts/finalize-icon-publication.ts
+
+      - name: Record unsuccessful run
+        if: ${{ (failure() || cancelled()) && steps.push.outcome != 'success' && !inputs.dryRun }}
+        continue-on-error: true
+        env:
+          PB_URL: ${{ secrets.PB_URL }}
+          PB_ADMIN_TOKEN: ${{ secrets.PB_ADMIN_TOKEN }}
+          TAKEDOWN_ID: ${{ inputs.takedownId }}
+          TAKEDOWN_STATE: ${{ job.status == 'cancelled' && 'cancelled' || 'failed' }}
+          TAKEDOWN_MESSAGE: Removal or push did not complete. See the GitHub run for details.
+        run: bun run scripts/finalize-icon-publication.ts

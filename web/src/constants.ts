@@ -2,6 +2,7 @@ export const BASE_URL = "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons
 export const DASHBOARD_ICONS_ICON = `${BASE_URL}/svg/dashboard-icons.svg`
 export const REPO_PATH = "https://github.com/homarr-labs/dashboard-icons"
 export const METADATA_URL = "https://raw.githubusercontent.com/homarr-labs/dashboard-icons/refs/heads/main/metadata.json"
+export const TAKEDOWNS_URL = "https://raw.githubusercontent.com/homarr-labs/dashboard-icons/refs/heads/main/takedowns.json"
 export const WEB_URL = "https://dashboardicons.com"
 export const REPO_NAME = "homarr-labs/dashboard-icons"
 

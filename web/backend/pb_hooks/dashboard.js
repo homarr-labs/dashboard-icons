@@ -173,6 +173,8 @@ function review(e) {
 				if (record.getString("status") !== "pending") throw new BadRequestError("Already reviewed. Refresh to see the current decision.")
 				if (record.getString("updated") !== item.updated) throw new BadRequestError("Submission changed. Refresh before reviewing.")
 				if (reserved(tx, record.id)) throw new BadRequestError("Submission is being published")
+				if (body.status === "approved" && isBlacklisted(record.getString("name")))
+					throw new BadRequestError("This icon was removed due to a takedown request and cannot be approved")
 				context(record, e.auth, operation, "")
 				if (body.status === "rejected" && body.items.length > 1) record.set("__defer_bulk_email", true)
 				record.set("status", body.status)
@@ -411,3 +413,117 @@ module.exports.deleteRecord = (e) => {
 	})
 	e.app = app
 }
+
+const RAW_BASE = "https://raw.githubusercontent.com/homarr-labs/dashboard-icons/refs/heads/main"
+let jsonCache = { url: "", data: null, at: 0 }
+function cachedJson(url) {
+	if (jsonCache.url === url && jsonCache.data && Date.now() - jsonCache.at < 10 * 60 * 1000) return jsonCache.data
+	const response = $http.send({ url, method: "GET", timeout: 15 })
+	if (response.statusCode !== 200) throw new Error("Catalogue fetch failed (" + response.statusCode + ")")
+	jsonCache = { url, data: response.json, at: Date.now() }
+	return response.json
+}
+function isBlacklisted(icon) {
+	try {
+		return !!cachedJson(RAW_BASE + "/takedowns.json")[icon]
+	} catch (_) {
+		return false
+	}
+}
+function takedown(e) {
+	requireAdmin(e)
+	const body = e.requestInfo().body
+	const icon = String(body.icon || "").trim()
+	if (!/^[a-z0-9][a-z0-9-]*$/.test(icon)) throw new BadRequestError("Invalid icon name")
+	const reason = String(body.reason || "").trim().slice(0, 500)
+	const requesterName = String(body.requester_name || "").trim().slice(0, 200)
+	const requesterEmail = String(body.requester_email || "").trim().slice(0, 320)
+	const description = String(body.description || "").trim().slice(0, 2000)
+	if (!reason) throw new BadRequestError("A reason is required")
+	// Best-effort validation against the live catalogue; the removal workflow is authoritative.
+	try {
+		if (!cachedJson(RAW_BASE + "/metadata.json")[icon]) throw new BadRequestError("Icon not found in the collection")
+	} catch (err) {
+		if (err instanceof BadRequestError) throw err
+	}
+	const existing = e.app.findRecordsByFilter(
+		"takedowns",
+		"icon = {:icon} && status != 'cancelled' && status != 'failed'",
+		"",
+		1,
+		0,
+		{ icon },
+	)
+	if (existing.length) throw new BadRequestError("A takedown for this icon is already in progress")
+	if (!$os.getenv("GITHUB_TOKEN") && !$os.getenv("DASHBOARD_MOCK_GITHUB_URL"))
+		throw new BadRequestError("Takedown is not configured: GITHUB_TOKEN is missing on PocketBase")
+	const record = new Record(e.app.findCollectionByNameOrId("takedowns"))
+	record.load({
+		icon,
+		reason,
+		requester_name: requesterName,
+		requester_email: requesterEmail,
+		description,
+		status: "requested",
+		requested_by: e.auth.id,
+		requested_by_name: actor(e.auth).name,
+		active: true,
+	})
+	e.app.save(record)
+	try {
+		const response = github("/actions/workflows/remove-icon.yml/dispatches", "POST", {
+			ref: "main",
+			inputs: { takedownId: record.id, dryRun: "false" },
+		})
+		if (response.statusCode >= 400 && response.statusCode < 500)
+			return e.json(
+				200,
+				updateTakedown(e.app, record.id, {
+					state: "failed",
+					message: "GitHub rejected the takedown request (" + response.statusCode + "). Check workflow configuration and permissions.",
+				}),
+			)
+		if (response.statusCode !== 200 || !response.json.workflow_run_id) throw new Error("No workflow run confirmation received")
+		return e.json(
+			200,
+			updateTakedown(e.app, record.id, {
+				state: "queued",
+				run_id: response.json.workflow_run_id,
+				run_url: response.json.html_url,
+			}),
+		)
+	} catch (_) {
+		return e.json(
+			200,
+			updateTakedown(e.app, record.id, {
+				state: "unknown",
+				message: "GitHub did not confirm the request. Refresh to reconcile; do not dispatch it again.",
+			}),
+		)
+	}
+}
+function updateTakedown(app, takedownId, data) {
+	let record
+	app.runInTransaction((tx) => {
+		record = tx.findRecordById("takedowns", takedownId)
+		if (record.getString("status") === "succeeded") return
+		if (data.run_id) record.set("run_id", String(data.run_id))
+		if (data.run_url) record.set("run_url", data.run_url)
+		if (data.commit_sha) record.set("commit_sha", String(data.commit_sha))
+		const status = data.state
+		if (!["requested", "queued", "running", "succeeded", "failed", "cancelled", "unknown"].includes(status))
+			throw new BadRequestError("Invalid takedown status")
+		if (status === "succeeded") {
+			if (!record.getString("commit_sha")) throw new BadRequestError("Takedown needs a pushed commit")
+			record.set("active", false)
+		}
+		if (["failed", "cancelled"].includes(status)) record.set("active", false)
+		if (["queued", "running", "unknown"].includes(status)) record.set("active", true)
+		record.set("status", status)
+		record.set("message", String(data.message || ""))
+		tx.save(record)
+	})
+	return record
+}
+module.exports.takedown = takedown
+module.exports.updateTakedown = updateTakedown

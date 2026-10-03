@@ -1,15 +1,25 @@
-// Called only after git push succeeds. Re-running the same batch is idempotent.
+// Called only after git push succeeds (or fails) for a publish batch or a
+// takedown run. Re-running the same batch/takedown is idempotent.
 const base = process.env.PB_URL
 const token = process.env.PB_ADMIN_TOKEN
 if (!base || !token) throw new Error("PocketBase workflow credentials are missing")
 const headers = { Authorization: token, "Content-Type": "application/json" }
 const batchId = process.env.PUBLISH_BATCH_ID
-const state = process.env.PUBLISH_STATE || "succeeded"
+const takedownId = process.env.TAKEDOWN_ID
+const state = process.env.PUBLISH_STATE || process.env.TAKEDOWN_STATE || "succeeded"
 async function request(path: string, body: unknown) {
 	const response = await fetch(`${base}${path}`, { method: "POST", headers, body: JSON.stringify(body) })
 	if (!response.ok) throw new Error(`Publication callback failed (${response.status})`)
 }
-if (batchId) {
+if (takedownId) {
+	await request(`/api/dashboard/icons/takedown/${takedownId}/result`, {
+		state,
+		run_id: process.env.GITHUB_RUN_ID,
+		run_url: `https://github.com/${process.env.GITHUB_REPOSITORY}/actions/runs/${process.env.GITHUB_RUN_ID}`,
+		commit_sha: process.env.PUBLISHED_COMMIT || "",
+		message: process.env.TAKEDOWN_MESSAGE || process.env.PUBLISH_MESSAGE || "",
+	})
+} else if (batchId) {
 	await request(`/api/dashboard/publish/${batchId}/result`, {
 		state,
 		run_id: process.env.GITHUB_RUN_ID,
