@@ -1,0 +1,19 @@
+web/backend/pb_hooks/dashboard.js
+  s_8b1d5a69f175a9::t_3836570b08829f 124-141,143-146
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "5161d892eb833ce44b16d2679b3922e466044026",
+  "prompts": {},
+  "sessions": {
+    "s_8b1d5a69f175a9": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0ff0d-51af-74b0-a648-dd404bc11429",
+        "model": "gpt-6.1-sol"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
