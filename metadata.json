@@ -51020,5 +51020,19 @@
                 "login": "gregnostic"
             }
         }
+    },
+    "voidauth": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "security"
+        ],
+        "update": {
+            "timestamp": "2026-10-07T14:28:20.583Z",
+            "author": {
+                "id": 27118,
+                "login": "gregnostic"
+            }
+        }
     }
 }
