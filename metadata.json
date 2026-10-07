@@ -51148,5 +51148,27 @@
         "colors": {
             "light": "hermes-agent-alt-light"
         }
+    },
+    "conduyt": {
+        "base": "svg",
+        "aliases": [
+            "conduyt-crm",
+            "Conduyt CRM"
+        ],
+        "categories": [
+            "tools",
+            "automation",
+            "development"
+        ],
+        "update": {
+            "timestamp": "2026-10-07T14:28:35.966Z",
+            "author": {
+                "id": 65972483,
+                "login": "ptaramona"
+            }
+        },
+        "wordmark": {
+            "light": "conduyt-wordmark-light"
+        }
     }
 }
