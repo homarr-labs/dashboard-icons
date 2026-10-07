@@ -51212,5 +51212,24 @@
                 "login": "EFZR"
             }
         }
+    },
+    "retriever": {
+        "base": "svg",
+        "aliases": [
+            "Download Managers"
+        ],
+        "categories": [
+            "media",
+            "home-automation",
+            "monitoring",
+            "automation"
+        ],
+        "update": {
+            "timestamp": "2026-10-07T14:28:40.304Z",
+            "author": {
+                "id": 28756856,
+                "login": "xinua"
+            }
+        }
     }
 }
