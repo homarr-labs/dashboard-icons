@@ -50817,5 +50817,19 @@
                 "login": "OpenSource-Templates"
             }
         }
+    },
+    "crawlab": {
+        "base": "png",
+        "aliases": [],
+        "categories": [
+            "tools"
+        ],
+        "update": {
+            "timestamp": "2026-10-07T14:27:59.565Z",
+            "author": {
+                "id": 320803826,
+                "login": "OpenSource-Templates"
+            }
+        }
     }
 }
