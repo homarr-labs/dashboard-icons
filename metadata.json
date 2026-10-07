@@ -51126,5 +51126,27 @@
                 "login": "itzTheMeow"
             }
         }
+    },
+    "hermes-agent-alt": {
+        "base": "svg",
+        "aliases": [
+            "hermes",
+            "hermes agent",
+            "nous",
+            "nous research"
+        ],
+        "categories": [
+            "tools"
+        ],
+        "update": {
+            "timestamp": "2026-10-07T14:28:34.366Z",
+            "author": {
+                "id": 428312,
+                "login": "chrislentz"
+            }
+        },
+        "colors": {
+            "light": "hermes-agent-alt-light"
+        }
     }
 }
