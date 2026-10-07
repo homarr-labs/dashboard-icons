@@ -51100,5 +51100,17 @@
                 "login": "sojourner353"
             }
         }
+    },
+    "radarr-3d": {
+        "base": "png",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-10-07T14:28:31.264Z",
+            "author": {
+                "id": 34410583,
+                "login": "sojourner353"
+            }
+        }
     }
 }
