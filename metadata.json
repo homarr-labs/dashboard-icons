@@ -50962,5 +50962,19 @@
             "light": "opa-ui-light",
             "dark": "opa-ui-dark"
         }
+    },
+    "lightpanda": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "automation"
+        ],
+        "update": {
+            "timestamp": "2026-10-07T14:28:15.275Z",
+            "author": {
+                "id": 106635363,
+                "login": "ooar"
+            }
+        }
     }
 }
