@@ -50877,5 +50877,33 @@
         "wordmark": {
             "light": "infor-xa-wordmark-light"
         }
+    },
+    "jtu-me": {
+        "base": "svg",
+        "aliases": [
+            "JTU.ME"
+        ],
+        "categories": [
+            "utility",
+            "tools",
+            "social",
+            "cloud",
+            "network"
+        ],
+        "update": {
+            "timestamp": "2026-10-07T14:28:06.771Z",
+            "author": {
+                "id": 42680088,
+                "login": "Koizeay"
+            }
+        },
+        "colors": {
+            "light": "jtu-me-light",
+            "dark": "jtu-me-dark"
+        },
+        "wordmark": {
+            "light": "jtu-me-wordmark-light",
+            "dark": "jtu-me-wordmark-dark"
+        }
     }
 }
