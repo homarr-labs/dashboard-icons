@@ -50991,5 +50991,19 @@
                 "login": "fall2fast"
             }
         }
+    },
+    "marreta": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "tools"
+        ],
+        "update": {
+            "timestamp": "2026-10-07T14:28:17.764Z",
+            "author": {
+                "id": 106635363,
+                "login": "ooar"
+            }
+        }
     }
 }
