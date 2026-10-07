@@ -51170,5 +51170,30 @@
         "wordmark": {
             "light": "conduyt-wordmark-light"
         }
+    },
+    "fromkai": {
+        "base": "svg",
+        "aliases": [
+            "kai",
+            "fromkai-sms"
+        ],
+        "categories": [
+            "automation",
+            "tools",
+            "social"
+        ],
+        "update": {
+            "timestamp": "2026-10-07T14:28:37.899Z",
+            "author": {
+                "id": 65972483,
+                "login": "ptaramona"
+            }
+        },
+        "colors": {
+            "dark": "fromkai-dark"
+        },
+        "wordmark": {
+            "light": "fromkai-wordmark-light"
+        }
     }
 }
