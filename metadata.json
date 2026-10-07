@@ -51005,5 +51005,20 @@
                 "login": "ooar"
             }
         }
+    },
+    "arkkvm": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "network",
+            "monitoring"
+        ],
+        "update": {
+            "timestamp": "2026-10-07T14:28:19.165Z",
+            "author": {
+                "id": 27118,
+                "login": "gregnostic"
+            }
+        }
     }
 }
