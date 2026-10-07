@@ -50831,5 +50831,17 @@
                 "login": "OpenSource-Templates"
             }
         }
+    },
+    "agentaia": {
+        "base": "png",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-10-07T14:28:00.962Z",
+            "author": {
+                "id": 77487911,
+                "login": "BURNI80"
+            }
+        }
     }
 }
