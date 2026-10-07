@@ -50803,5 +50803,19 @@
             "light": "woorigi-light",
             "dark": "woorigi-dark"
         }
+    },
+    "cookiecloud": {
+        "base": "png",
+        "aliases": [],
+        "categories": [
+            "tools"
+        ],
+        "update": {
+            "timestamp": "2026-10-07T14:27:58.162Z",
+            "author": {
+                "id": 320803826,
+                "login": "OpenSource-Templates"
+            }
+        }
     }
 }
