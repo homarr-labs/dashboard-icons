@@ -50917,5 +50917,17 @@
                 "login": "raphvw"
             }
         }
+    },
+    "ableton": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-10-07T14:28:11.764Z",
+            "author": {
+                "id": 1015200,
+                "login": "tas50"
+            }
+        }
     }
 }
