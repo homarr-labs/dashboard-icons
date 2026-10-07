@@ -50843,5 +50843,21 @@
                 "login": "BURNI80"
             }
         }
+    },
+    "autodesk-maya": {
+        "base": "svg",
+        "aliases": [
+            "Maya"
+        ],
+        "categories": [
+            "entertainment"
+        ],
+        "update": {
+            "timestamp": "2026-10-07T14:28:02.265Z",
+            "author": {
+                "id": 128638738,
+                "login": "Zolkra"
+            }
+        }
     }
 }
