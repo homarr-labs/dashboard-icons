@@ -50859,5 +50859,23 @@
                 "login": "Zolkra"
             }
         }
+    },
+    "infor-xa": {
+        "base": "svg",
+        "aliases": [
+            "erp",
+            "enterprise"
+        ],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-10-07T14:28:03.864Z",
+            "author": {
+                "id": 55576351,
+                "login": "YosefBayoude"
+            }
+        },
+        "wordmark": {
+            "light": "infor-xa-wordmark-light"
+        }
     }
 }
