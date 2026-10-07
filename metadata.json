@@ -51195,5 +51195,22 @@
         "wordmark": {
             "light": "fromkai-wordmark-light"
         }
+    },
+    "wink": {
+        "base": "png",
+        "aliases": [],
+        "categories": [
+            "cloud",
+            "development",
+            "media",
+            "home-automation"
+        ],
+        "update": {
+            "timestamp": "2026-10-07T14:28:39.382Z",
+            "author": {
+                "id": 92708639,
+                "login": "EFZR"
+            }
+        }
     }
 }
