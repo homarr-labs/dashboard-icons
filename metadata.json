@@ -50756,5 +50756,22 @@
                 "login": "yanus"
             }
         }
+    },
+    "replicaro": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "tools"
+        ],
+        "update": {
+            "timestamp": "2026-10-07T14:27:54.568Z",
+            "author": {
+                "id": "awgqe6prb1kj5xc",
+                "name": "jan_reinhardt"
+            }
+        },
+        "colors": {
+            "light": "replicaro-light"
+        }
     }
 }
