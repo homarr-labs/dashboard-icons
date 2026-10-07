@@ -51051,5 +51051,20 @@
         "colors": {
             "dark": "digitelstudios-dark"
         }
+    },
+    "mobilizon-logo": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-10-07T14:28:23.766Z",
+            "author": {
+                "id": "hmtoalkkwoamsoy",
+                "name": "Lahax"
+            }
+        },
+        "wordmark": {
+            "dark": "mobilizon-logo-wordmark-dark"
+        }
     }
 }
