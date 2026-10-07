@@ -50929,5 +50929,38 @@
                 "login": "tas50"
             }
         }
+    },
+    "opa-ui": {
+        "base": "svg",
+        "aliases": [
+            "open policy agent",
+            "opa",
+            "policy management",
+            "opa dashboard",
+            "policy engine ui",
+            "OPA",
+            "Open Policy Agent",
+            "Policy Management",
+            "OPA Dashboard",
+            "Policy Engine UI"
+        ],
+        "categories": [
+            "security",
+            "cloud",
+            "tools",
+            "utility",
+            "development"
+        ],
+        "update": {
+            "timestamp": "2026-10-07T14:28:13.766Z",
+            "author": {
+                "id": 147779314,
+                "login": "UmarAziz01"
+            }
+        },
+        "colors": {
+            "light": "opa-ui-light",
+            "dark": "opa-ui-dark"
+        }
     }
 }
