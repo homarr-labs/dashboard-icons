@@ -51066,5 +51066,27 @@
         "wordmark": {
             "dark": "mobilizon-logo-wordmark-dark"
         }
+    },
+    "beetstreamnext": {
+        "base": "svg",
+        "aliases": [
+            "BeetstreamNext"
+        ],
+        "categories": [
+            "media",
+            "utility",
+            "entertainment"
+        ],
+        "update": {
+            "timestamp": "2026-10-07T14:28:25.765Z",
+            "author": {
+                "id": 25004801,
+                "login": "FlorentLM"
+            }
+        },
+        "colors": {
+            "light": "beetstreamnext-light",
+            "dark": "beetstreamnext-dark"
+        }
     }
 }
