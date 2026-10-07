@@ -51088,5 +51088,17 @@
             "light": "beetstreamnext-light",
             "dark": "beetstreamnext-dark"
         }
+    },
+    "radarr-2d": {
+        "base": "png",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-10-07T14:28:28.668Z",
+            "author": {
+                "id": 34410583,
+                "login": "sojourner353"
+            }
+        }
     }
 }
