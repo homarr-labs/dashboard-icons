@@ -51112,5 +51112,19 @@
                 "login": "sojourner353"
             }
         }
+    },
+    "degoog": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "utility"
+        ],
+        "update": {
+            "timestamp": "2026-10-07T14:28:32.480Z",
+            "author": {
+                "id": 50887230,
+                "login": "itzTheMeow"
+            }
+        }
     }
 }
