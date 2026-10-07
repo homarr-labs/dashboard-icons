@@ -51034,5 +51034,22 @@
                 "login": "gregnostic"
             }
         }
+    },
+    "digitelstudios": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "utility"
+        ],
+        "update": {
+            "timestamp": "2026-10-07T14:28:22.168Z",
+            "author": {
+                "id": "46y815t2g3s9d4s",
+                "name": "durieu.francois"
+            }
+        },
+        "colors": {
+            "dark": "digitelstudios-dark"
+        }
     }
 }
