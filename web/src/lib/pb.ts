@@ -1,4 +1,5 @@
 import PocketBase, { type RecordService } from "pocketbase"
+import type { Takedown } from "@/lib/dashboard/takedowns"
 import type { ExternalIcon } from "@/types/icons"
 
 // Public URLs must remain browser-reachable when records are rendered on the server.
@@ -81,6 +82,7 @@ interface TypedPocketBase extends PocketBase {
 	collection(idOrName: "submissions"): RecordService<Submission>
 	collection(idOrName: "community_gallery"): RecordService<CommunityGallery>
 	collection(idOrName: "external_icons"): RecordService<ExternalIcon>
+	collection(idOrName: "takedowns"): RecordService<Takedown>
 }
 
 export const pb = new PocketBase(PUBLIC_PB_URL) as TypedPocketBase

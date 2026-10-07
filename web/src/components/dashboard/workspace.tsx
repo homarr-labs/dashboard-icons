@@ -1,6 +1,6 @@
 "use client"
 import { useQueryClient } from "@tanstack/react-query"
-import { ArrowRight, Clock3, GitPullRequest, LayoutDashboard, ListFilter, RefreshCw, Rss } from "lucide-react"
+import { ArrowRight, Ban, Clock3, GitPullRequest, LayoutDashboard, ListFilter, RefreshCw, Rss } from "lucide-react"
 import { useSearchParams } from "next/navigation"
 import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { toast } from "sonner"
@@ -24,6 +24,7 @@ import { actionLabels, type DashboardFilters, type DashboardView, type PublishBa
 import { pb } from "@/lib/pb"
 import { cn } from "@/lib/utils"
 import { ActivityFeed } from "./activity-feed"
+import { IconManager } from "./icon-manager"
 import { Inspector, type ReviewIntent } from "./inspector"
 import { Empty, ErrorState, Loading, Pagination, Panel, Time } from "./primitives"
 import { PublishRun } from "./publishing"
@@ -35,7 +36,14 @@ function numberParam(value: string | null, fallback: number, max: number) {
 	if (!Number.isInteger(parsed) || parsed < 1) return fallback
 	return Math.min(parsed, max)
 }
-const viewIcons = { overview: LayoutDashboard, review: Clock3, publish: GitPullRequest, submissions: ListFilter, activity: Rss }
+const viewIcons = {
+	overview: LayoutDashboard,
+	review: Clock3,
+	publish: GitPullRequest,
+	submissions: ListFilter,
+	activity: Rss,
+	manage: Ban,
+}
 export function DashboardWorkspace() {
 	const [mounted, setMounted] = useState(false)
 	useEffect(() => setMounted(true), [])
@@ -588,6 +596,7 @@ export function DashboardWorkspace() {
 							)}
 						</section>
 					)}
+					{filters.view === "manage" && isAdmin && <IconManager />}
 				</div>
 				{filters.view !== "review" && activeId && wide && (
 					<aside aria-label="Submission inspector" className="min-h-0 overflow-hidden rounded-xl border">
