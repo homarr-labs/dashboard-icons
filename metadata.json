@@ -50773,5 +50773,35 @@
         "colors": {
             "light": "replicaro-light"
         }
+    },
+    "woorigi": {
+        "base": "svg",
+        "aliases": [
+            "Woorigi Logo",
+            "Continuous Loop",
+            "Letter a Line",
+            "Symbol Modern",
+            "Infinity Path",
+            "Endless Connection"
+        ],
+        "categories": [
+            "utility",
+            "tools",
+            "development",
+            "automation",
+            "cloud",
+            "database"
+        ],
+        "update": {
+            "timestamp": "2026-10-07T14:27:56.767Z",
+            "author": {
+                "id": 147779314,
+                "login": "UmarAziz01"
+            }
+        },
+        "colors": {
+            "light": "woorigi-light",
+            "dark": "woorigi-dark"
+        }
     }
 }
