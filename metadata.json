@@ -51257,5 +51257,19 @@
             "light": "thingport-wordmark-light",
             "dark": "thingport-wordmark-dark"
         }
+    },
+    "ytdl-material": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "media"
+        ],
+        "update": {
+            "timestamp": "2026-10-11T09:28:19.195Z",
+            "author": {
+                "id": 106635363,
+                "login": "ooar"
+            }
+        }
     }
 }
