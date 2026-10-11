@@ -51538,5 +51538,19 @@
                 "login": "Zolkra"
             }
         }
+    },
+    "declarenta": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "finance"
+        ],
+        "update": {
+            "timestamp": "2026-10-11T09:28:45.350Z",
+            "author": {
+                "id": 9169332,
+                "login": "GeiserX"
+            }
+        }
     }
 }
