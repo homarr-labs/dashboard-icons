@@ -51523,5 +51523,20 @@
                 "login": "GeiserX"
             }
         }
+    },
+    "root-app": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "gaming",
+            "social"
+        ],
+        "update": {
+            "timestamp": "2026-10-11T09:28:44.210Z",
+            "author": {
+                "id": 128638738,
+                "login": "Zolkra"
+            }
+        }
     }
 }
