@@ -51443,5 +51443,20 @@
                 "name": "audiofader"
             }
         }
+    },
+    "qrz": {
+        "base": "png",
+        "aliases": [],
+        "categories": [
+            "social",
+            "tools"
+        ],
+        "update": {
+            "timestamp": "2026-10-11T09:28:37.001Z",
+            "author": {
+                "id": "cnotw3yun6ca957",
+                "name": "audiofader"
+            }
+        }
     }
 }
