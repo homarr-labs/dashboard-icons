@@ -51271,5 +51271,17 @@
                 "login": "ooar"
             }
         }
+    },
+    "pcloud": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-10-11T09:28:20.443Z",
+            "author": {
+                "id": 99109793,
+                "login": "hodyhq"
+            }
+        }
     }
 }
