@@ -27697,14 +27697,14 @@
         }
     },
     "dawarich": {
-        "base": "svg",
+        "base": "png",
         "aliases": [],
         "categories": [],
         "update": {
-            "timestamp": "2024-10-20T17:24:03Z",
+            "timestamp": "2026-10-11T09:28:15.025Z",
             "author": {
-                "id": 71191962,
-                "name": "walkxcode"
+                "id": 150048001,
+                "login": "bheberling01"
             }
         }
     },
