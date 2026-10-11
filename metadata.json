@@ -51367,5 +51367,17 @@
                 "login": "hodyhq"
             }
         }
+    },
+    "csv": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-10-11T09:28:29.877Z",
+            "author": {
+                "id": 99109793,
+                "login": "hodyhq"
+            }
+        }
     }
 }
