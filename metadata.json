@@ -51319,5 +51319,17 @@
                 "login": "hodyhq"
             }
         }
+    },
+    "music": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-10-11T09:28:25.147Z",
+            "author": {
+                "id": 99109793,
+                "login": "hodyhq"
+            }
+        }
     }
 }
