@@ -51470,5 +51470,17 @@
                 "login": "hodyhq"
             }
         }
+    },
+    "level-io": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-10-11T09:28:39.298Z",
+            "author": {
+                "id": 99109793,
+                "login": "hodyhq"
+            }
+        }
     }
 }

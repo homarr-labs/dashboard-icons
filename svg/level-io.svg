@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="logo" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 207.26 139.02">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: url(#Gradient_-_Purple_Amethyst);
+      }
+
+      .cls-2 {
+        fill: url(#Gradient_-_Sky_Blue);
+      }
+
+      .cls-3 {
+        fill: url(#Gradient_-_Light_Turquoise);
+      }
+    </style>
+    <linearGradient id="Gradient_-_Purple_Amethyst" data-name="Gradient - Purple Amethyst" x1="103.63" y1="69.83" x2="103.63" y2="129.84" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#8e78ff"/>
+      <stop offset="1" stop-color="#5870f3"/>
+    </linearGradient>
+    <linearGradient id="Gradient_-_Sky_Blue" data-name="Gradient - Sky Blue" x1="103.63" y1="31.08" x2="103.63" y2="107.94" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#179bff"/>
+      <stop offset=".68" stop-color="#87baff" stop-opacity=".9"/>
+      <stop offset="1" stop-color="#8effff" stop-opacity=".7"/>
+    </linearGradient>
+    <linearGradient id="Gradient_-_Light_Turquoise" data-name="Gradient - Light Turquoise" x1="103.63" y1="1.08" x2="103.63" y2="75.46" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#0eeffe"/>
+      <stop offset=".66" stop-color="#93e7ff" stop-opacity=".95"/>
+      <stop offset="1" stop-color="#c5ffff" stop-opacity=".7"/>
+    </linearGradient>
+  </defs>
+  <g id="icon">
+    <path id="bottom" class="cls-1" d="M.74,101.68l102.5,37.27c.25.09.52.09.77,0l102.5-37.27c.99-.36.99-1.76,0-2.11l-102.5-37.35c-.25-.09-.52-.09-.77,0L.74,99.57c-.99.36-.99,1.76,0,2.11Z"/>
+    <path id="middle" class="cls-2" d="M.74,70.61l102.5,37.27c.25.09.52.09.77,0l102.5-37.27c.99-.36.99-1.76,0-2.11L104.01,31.14c-.25-.09-.52-.09-.77,0L.74,68.49c-.99.36-.99,1.76,0,2.11Z"/>
+    <path id="top" class="cls-3" d="M.74,39.53l102.5,37.27c.25.09.52.09.77,0l102.5-37.27c.99-.36.99-1.76,0-2.11L104.01.07c-.25-.09-.52-.09-.77,0L.74,37.42c-.99.36-.99,1.76,0,2.11Z"/>
+  </g>
+</svg>
