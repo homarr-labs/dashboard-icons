@@ -51415,5 +51415,17 @@
                 "login": "hodyhq"
             }
         }
+    },
+    "gis-shapefile": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-10-11T09:28:34.447Z",
+            "author": {
+                "id": 99109793,
+                "login": "hodyhq"
+            }
+        }
     }
 }
