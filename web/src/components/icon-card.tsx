@@ -7,14 +7,17 @@ import { getIconImageUrl, isIconAssetUrl } from "@/lib/icon-url"
 import { formatIconName } from "@/lib/utils"
 import type { IconSearchEntry } from "@/types/icons"
 
-type IconKind = { type: "external"; slug: string; sourceId: ExternalSourceId } | { type: "community" } | { type: "native" }
+type IconKind =
+	| { type: "external"; slug: string; sourceId: ExternalSourceId }
+	| { type: "community"; submissionId?: string }
+	| { type: "native" }
 
 function getIconKind(icon: IconSearchEntry): IconKind {
 	if (icon.source && icon.source !== "native" && icon.external) {
 		return { type: "external", slug: icon.slug || icon.external.slug, sourceId: icon.source as ExternalSourceId }
 	}
 	if (isIconAssetUrl(icon.data.base)) {
-		return { type: "community" }
+		return { type: "community", submissionId: icon.slug }
 	}
 	return { type: "native" }
 }
@@ -24,7 +27,7 @@ function getLinkHref(kind: IconKind, name: string): string {
 		case "external":
 			return `/icons/external/${kind.slug}`
 		case "community":
-			return `/community/${name}`
+			return kind.submissionId ? `/community/submissions/${kind.submissionId}` : `/community/${name}`
 		case "native":
 			return `/icons/${name}`
 	}

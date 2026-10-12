@@ -73,7 +73,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 				}
 			}),
 		...communityIcons.map((icon) => ({
-			url: `${WEB_URL}/community/${icon.name}`,
+			url: `${WEB_URL}/community/submissions/${icon.slug}`,
 			lastModified: formatDate(new Date(icon.data.update.timestamp)),
 			changeFrequency: "weekly" as const,
 			priority: 0.5,

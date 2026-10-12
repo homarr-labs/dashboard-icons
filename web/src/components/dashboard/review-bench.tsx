@@ -432,6 +432,21 @@ export function ReviewBench({
 							<div className="rounded-xl border bg-background p-4 text-sm">
 								<p className="whitespace-pre-wrap break-words leading-6">{record.description || "No description provided."}</p>
 								<dl className="mt-3 grid gap-3 sm:grid-cols-2">
+									{record.target_submission && (
+										<div>
+											<dt className="text-xs text-muted-foreground">Proposed update to submission</dt>
+											<dd>
+												<a
+													href={`/community/submissions/${record.target_submission}`}
+													target="_blank"
+													rel="noreferrer"
+													className="break-all font-mono underline"
+												>
+													{record.target_submission}
+												</a>
+											</dd>
+										</div>
+									)}
 									<div>
 										<dt className="text-xs text-muted-foreground">Categories</dt>
 										<dd className="break-words">{record.extras?.categories?.join(", ") || "None"}</dd>

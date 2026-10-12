@@ -53,6 +53,7 @@ export function IconSubmissionForm() {
 		toggleCategory,
 		resetForm,
 		iconNameValidator,
+		setSelectedIcon,
 	} = useIconSubmissionForm()
 
 	const addVariant = (variantId: string) => {
@@ -84,7 +85,9 @@ export function IconSubmissionForm() {
 									</div>
 									<div>
 										<CardTitle className="text-lg sm:text-xl">Icon Identity</CardTitle>
-										<CardDescription className="text-xs sm:text-sm">Choose a unique identifier for your icon submission</CardDescription>
+										<CardDescription className="text-xs sm:text-sm">
+											Choose an icon name or select a submission to propose an update
+										</CardDescription>
 									</div>
 								</div>
 							</CardHeader>
@@ -96,6 +99,7 @@ export function IconSubmissionForm() {
 											<IconNameCombobox
 												value={field.state.value}
 												onValueChange={field.handleChange}
+												onIconSelected={setSelectedIcon}
 												error={field.state.meta.errors.join(", ")}
 												isInvalid={!field.state.meta.isValid && field.state.meta.isTouched}
 											/>
