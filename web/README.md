@@ -139,6 +139,12 @@ alongside the existing `DOKPLOY_URL`, `DOKPLOY_API_KEY`, and PocketBase admin se
 The workflow's `verify_only` dispatch option performs read-only deployment/schema
 inspection without building or deploying an image.
 
+Dashboard publication runs `Add Icon to Collection`, followed by `Update Icons
+and Resources`. When the resource workflow succeeds on `main`, Main CI builds
+and pushes the updated image, verifies the backend, and calls the Dokploy frontend
+webhook so it pulls and deploys the new `latest` image. This completion trigger is
+required because commits pushed by `GITHUB_TOKEN` do not trigger other push workflows.
+
 If post-backend schema verification fails, the frontend rollout stops and the old
 frontend remains active against the updated backend. Treat that deployment as
 incomplete; the workflow emits an error annotation and recovery summary for operators.

@@ -6,6 +6,12 @@ name: Main CI
 on:
   push:
     branches: [main]
+  # Publishing uses GITHUB_TOKEN, so its commits cannot trigger the push event above.
+  # Wait until SVG conversion and resource updates finish before building the image.
+  workflow_run:
+    workflows: ["Update Icons and Resources"]
+    types: [completed]
+    branches: [main]
   # Refresh the share image and its combined catalog count weekly.
   schedule:
     - cron: "17 6 * * 0"
@@ -44,7 +50,11 @@ jobs:
   # Push image to GitHub Packages.
   # See also https://docs.docker.com/docker-hub/builds/
   build-and-push:
-    if: ${{ !inputs.verify_only }}
+    if: >-
+      !inputs.verify_only &&
+      (github.event_name != 'workflow_run' ||
+       (github.event.workflow_run.conclusion == 'success' &&
+        github.event.workflow_run.head_repository.full_name == github.repository))
     runs-on: ubuntu-latest
     permissions:
       packages: write
