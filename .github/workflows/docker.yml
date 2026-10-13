@@ -16,6 +16,10 @@ on:
         type: boolean
         default: false
 
+concurrency:
+  group: dashboard-icons-${{ inputs.verify_only && 'verification' || 'deployment' }}
+  cancel-in-progress: false
+
 defaults:
   run:
     working-directory: ./web
@@ -116,6 +120,14 @@ jobs:
             "github_token=${{ secrets.GITHUB_TOKEN }}"
 
       # The backend is a separate, digest-pinned service. Deploy it before the frontend.
+      - name: Back up PocketBase before updating its image or schema
+        env:
+          PB_URL: ${{ secrets.PB_URL }}
+          PB_ADMIN: ${{ secrets.PB_ADMIN }}
+          PB_ADMIN_PASS: ${{ secrets.PB_ADMIN_PASS }}
+          PB_ADMIN_TOKEN: ${{ secrets.PB_ADMIN_TOKEN }}
+        run: node scripts/verify-pocketbase-schema.mjs --backup
+
       - name: Deploy PocketBase and wait for migrations
         env:
           DOKPLOY_URL: ${{ secrets.DOKPLOY_URL }}

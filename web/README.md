@@ -68,8 +68,8 @@ See [docs/MCP.md](./docs/MCP.md) for endpoints, client setup, tool schemas, envi
 1. Clone the repository
 2. Install dependencies:
    ```bash
-    pnpm install
-    ```
+   pnpm install
+   ```
    Download the PocketBase server for your platform:
    ```bash
    pnpm backend:download
@@ -131,8 +131,9 @@ Separate backend deployments must update their pinned application image along wi
 the frontend; updating only the frontend's `latest` tag leaves the backend's code
 and migrations at its previous image digest.
 
-Main CI deploys the separate backend using the built image's immutable digest,
-waits for completion, verifies the proposal schema, then triggers the frontend
+Main CI serializes deployment runs, creates a verified PocketBase backup, deploys
+the separate backend using the built image's immutable digest, waits for completion,
+verifies the proposal schema, then triggers the frontend
 deployment. Configure the repository variable `DOKPLOY_POCKETBASE_APPLICATION_ID`
 alongside the existing `DOKPLOY_URL`, `DOKPLOY_API_KEY`, and PocketBase admin secrets.
 The workflow's `verify_only` dispatch option performs read-only deployment/schema
