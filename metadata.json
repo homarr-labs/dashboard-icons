@@ -51674,5 +51674,23 @@
                 "login": "GeiserX"
             }
         }
+    },
+    "omnisight": {
+        "base": "png",
+        "aliases": [],
+        "categories": [
+            "network",
+            "monitoring",
+            "storage",
+            "utility",
+            "tools"
+        ],
+        "update": {
+            "timestamp": "2026-10-13T18:07:35.662Z",
+            "author": {
+                "id": "6glggqigmdexolp",
+                "name": "caglary"
+            }
+        }
     }
 }
