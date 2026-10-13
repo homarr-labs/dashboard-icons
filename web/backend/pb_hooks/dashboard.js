@@ -128,6 +128,12 @@ function guard(e, creating) {
 	const resubmission = !creating && previous !== "pending" && owned
 	if (!creating && !e.hasSuperuserAuth() && e.record.getString("target_submission") !== old.getString("target_submission"))
 		throw new BadRequestError("A proposal's target cannot be changed")
+	const target = e.record.getString("target_submission")
+	if (target && (creating || e.record.getString("name") !== old.getString("name"))) {
+		const targetRecord = e.app.findRecordById("submissions", target)
+		if (targetRecord.getString("name") !== e.record.getString("name"))
+			throw new BadRequestError("A proposal must use its target submission's icon name")
+	}
 	if (!e.hasSuperuserAuth() && (creating || resubmission)) {
 		if (e.record.getString("status") !== "pending" || e.record.getString("created_by") !== e.auth.id)
 			throw new ForbiddenError("Resubmit as yourself with pending status")
