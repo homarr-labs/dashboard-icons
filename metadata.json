@@ -51736,5 +51736,23 @@
                 "login": "maca134"
             }
         }
+    },
+    "sing-box": {
+        "base": "svg",
+        "aliases": [
+            "SagerNet sing-box",
+            "sing-box proxy"
+        ],
+        "categories": [
+            "cloud",
+            "network"
+        ],
+        "update": {
+            "timestamp": "2026-10-13T18:07:39.274Z",
+            "author": {
+                "id": "sowxli2ysgkofo9",
+                "name": "0xb0ec1d"
+            }
+        }
     }
 }
