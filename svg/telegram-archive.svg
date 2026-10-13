@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="20 32 312 312" width="256" height="256" role="img" aria-label="Telegram Archive">
+  <!--
+    Header logo: a paper plane with a database stack in front of it, traced
+    from the app icon. No background plate, so it sits directly on the dark
+    header bar. The plane is masked where the stack covers it, which keeps the
+    inside of the stack transparent instead of painting it a fixed colour.
+  -->
+  <defs>
+    <mask id="taBehindStack">
+      <rect x="0" y="0" width="360" height="360" fill="#fff"/>
+      <path d="M180 170 A72.5 30 0 0 1 325 170 L325 302 A72.5 30 0 0 1 180 302 Z"
+            fill="#000" stroke="#000" stroke-width="13"/>
+    </mask>
+  </defs>
+
+  <g mask="url(#taBehindStack)" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M86 176 L248 84 L128 206 Z" fill="#C5E4F3"/>
+    <path d="M86 176 L128 206 L120 252 Z" fill="#7FC1EA"/>
+    <path d="M292 46 L28 146 L86 176 L120 252 L270 200 Z"
+          fill="none" stroke="#2AABEE" stroke-width="13"/>
+  </g>
+
+  <g fill="none" stroke="#2AABEE" stroke-width="13" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M180 170 A72.5 30 0 0 1 325 170 L325 302 A72.5 30 0 0 1 180 302 Z"/>
+    <ellipse cx="252.5" cy="170" rx="72.5" ry="30"/>
+    <path d="M180 214 A72.5 30 0 0 0 325 214"/>
+    <path d="M180 258 A72.5 30 0 0 0 325 258"/>
+  </g>
+  <ellipse cx="252.5" cy="172" rx="47" ry="13" fill="#2AABEE"/>
+</svg>

@@ -51704,5 +51704,22 @@
                 "login": "hodyhq"
             }
         }
+    },
+    "telegram-archive": {
+        "base": "svg",
+        "aliases": [
+            "Telegram Archive"
+        ],
+        "categories": [
+            "social",
+            "storage"
+        ],
+        "update": {
+            "timestamp": "2026-10-13T18:07:37.607Z",
+            "author": {
+                "id": 9169332,
+                "login": "GeiserX"
+            }
+        }
     }
 }
