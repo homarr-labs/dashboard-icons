@@ -178,11 +178,7 @@ jobs:
           DOKPLOY_URL: ${{ secrets.DOKPLOY_URL }}
           DOKPLOY_API_KEY: ${{ secrets.DOKPLOY_API_KEY }}
           DOKPLOY_POCKETBASE_APPLICATION_ID: ${{ vars.DOKPLOY_POCKETBASE_APPLICATION_ID }}
-        run: |
-          for attempt in $(seq 1 20); do
-            node scripts/deploy-pocketbase.mjs --inspect || exit 1
-            sleep 5
-          done
+        run: node scripts/deploy-pocketbase.mjs --inspect
       - name: Inspect PocketBase schema without changing records
         env:
           PB_URL: ${{ secrets.PB_URL }}
