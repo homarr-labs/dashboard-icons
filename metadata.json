@@ -51564,5 +51564,17 @@
                 "login": "hodyhq"
             }
         }
+    },
+    "acme": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-10-13T18:07:27.391Z",
+            "author": {
+                "id": 206217431,
+                "login": "Hirsekekskiste"
+            }
+        }
     }
 }
