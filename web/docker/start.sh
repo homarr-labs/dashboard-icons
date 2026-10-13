@@ -6,7 +6,7 @@ trap '' HUP
 
 pids=()
 service_mode="${SERVICE_MODE:-all}"
-if [[ "$service_mode" != "all" && "$service_mode" != "web" ]]; then
+if [[ "$service_mode" != "all" && "$service_mode" != "web" && "$service_mode" != "backend" ]]; then
 	echo "Unsupported SERVICE_MODE: $service_mode" >&2
 	exit 1
 fi
@@ -21,9 +21,25 @@ shutdown() {
 trap 'shutdown; exit 0' TERM INT
 trap shutdown EXIT
 
-if [[ "$service_mode" == "all" ]]; then
-	/pb/pocketbase serve --http=127.0.0.1:8090 --dir=/pb/pb_data \
-		--hooksDir=/pb/pb_hooks --migrationsDir=/pb/pb_migrations &
+if [[ "$service_mode" != "web" ]]; then
+	expected_version="$(node -p 'require("/pb/pocketbase-release.json").version')"
+	actual_version="$(/pb/pocketbase --version)"
+	if [[ "$actual_version" != "pocketbase version $expected_version" ]]; then
+		echo "PocketBase version mismatch: expected $expected_version, got $actual_version" >&2
+		exit 1
+	fi
+	required_migration="$(< /pb/required-migration)"
+	if [[ ! -f "/pb/pb_migrations/$required_migration" ]]; then
+		echo "Required PocketBase migration is missing: $required_migration. Check migration mounts." >&2
+		exit 1
+	fi
+	pocketbase_args=(--dir=/pb/pb_data --hooksDir=/pb/pb_hooks --migrationsDir=/pb/pb_migrations --automigrate=false --dev=false)
+	echo "Applying PocketBase $expected_version migrations from /pb/pb_migrations"
+	/pb/pocketbase migrate up "${pocketbase_args[@]}"
+	if [[ "$service_mode" == "backend" ]]; then
+		exec /pb/pocketbase serve --http=0.0.0.0:8090 "${pocketbase_args[@]}"
+	fi
+	/pb/pocketbase serve --http=127.0.0.1:8090 "${pocketbase_args[@]}" &
 	pids+=("$!")
 
 	# Migrations must finish before the frontend can query the database.

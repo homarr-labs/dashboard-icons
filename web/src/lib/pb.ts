@@ -21,6 +21,7 @@ export interface User {
 export interface Submission {
 	id: string
 	name: string
+	target_submission?: string
 	assets: string[]
 	created_by: string
 	status: "approved" | "rejected" | "pending" | "added_to_collection"
@@ -51,6 +52,7 @@ export interface Submission {
 export interface CommunityGallery {
 	id: string
 	name: string
+	target_submission?: string
 	created_by: string
 	approved_by?: string
 	description?: string

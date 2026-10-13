@@ -215,7 +215,7 @@ export function SubmissionDetails({
 							</CardTitle>
 							<div className="flex flex-wrap gap-2">
 								<Button asChild size="sm" variant="outline" className="w-full sm:w-auto">
-									<Link href={`/community/${submission.name}`} target="_blank" rel="noopener noreferrer">
+									<Link href={`/community/submissions/${submission.id}`} target="_blank" rel="noopener noreferrer">
 										<Eye className="w-4 h-4 mr-2" />
 										Preview
 									</Link>
@@ -291,6 +291,14 @@ export function SubmissionDetails({
 								<p className="text-lg font-medium capitalize">{formatIconName(submission.name)}</p>
 								<p className="text-sm text-muted-foreground mt-1">Filename: {submission.name}</p>
 							</div>
+							{submission.target_submission && (
+								<div>
+									<h3 className="text-sm font-semibold text-muted-foreground mb-2">Proposed update to submission</h3>
+									<Link href={`/community/submissions/${submission.target_submission}`} className="text-sm font-mono underline">
+										{submission.target_submission}
+									</Link>
+								</div>
+							)}
 
 							{submission.description?.trim() && (
 								<div>

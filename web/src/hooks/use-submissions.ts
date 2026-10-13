@@ -212,7 +212,7 @@ export interface IconNameOption {
 	value: string
 	source: IconSource
 	status?: IconStatus
-	owned?: boolean
+	submissionId?: string
 }
 
 // Fetch existing icon names for the combobox + the metadata.json file
@@ -220,10 +220,9 @@ export function useExistingIconNames() {
 	return useQuery({
 		queryKey: ["existing-icon-names"],
 		queryFn: async (): Promise<IconNameOption[]> => {
-			const username = pb.authStore.record?.username
-			const records = await pb.collection("community_gallery").getFullList<{ name: string; status: string; created_by: string }>({
-				fields: "name,status,created_by",
-				sort: "name",
+			const records = await pb.collection("community_gallery").getFullList<{ id: string; name: string; status: IconStatus }>({
+				fields: "id,name,status",
+				sort: "-created,-id",
 				requestKey: null,
 			})
 
@@ -244,24 +243,18 @@ export function useExistingIconNames() {
 				})
 			}
 
-			for (const record of records) {
-				const owned = !!username && record.created_by === username
-				const existing = iconMap.get(record.name)
-				if (existing) {
-					existing.status = record.status as IconStatus
-					existing.owned = owned
-				} else {
-					iconMap.set(record.name, {
+			return [
+				...iconMap.values(),
+				...records.map(
+					(record): IconNameOption => ({
 						label: record.name,
 						value: record.name,
 						source: "community",
-						status: record.status as IconStatus,
-						owned,
-					})
-				}
-			}
-
-			return Array.from(iconMap.values()).sort((a, b) => a.label.localeCompare(b.label))
+						status: record.status,
+						submissionId: record.id,
+					}),
+				),
+			].sort((a, b) => a.label.localeCompare(b.label))
 		},
 		staleTime: 5 * 60 * 1000, // 5 minutes
 		retry: false,

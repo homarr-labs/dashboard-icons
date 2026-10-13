@@ -7,8 +7,9 @@ import { useRef, useState } from "react"
 import { toast } from "sonner"
 import { revalidateAllSubmissions } from "@/app/actions/submissions"
 import type { MultiSelectOption } from "@/components/ui/multi-select"
+import type { IconNameOption } from "@/hooks/use-submissions"
 import { pb } from "@/lib/pb"
-import { submitOrReplace } from "@/lib/submit-or-replace"
+import { submitProposal } from "@/lib/submit-proposal"
 
 export interface VariantConfig {
 	id: string
@@ -96,6 +97,7 @@ export const MAX_FILE_SIZE = 1024 * 1024 * 5
 export function useIconSubmissionForm() {
 	const [filePreviews, setFilePreviews] = useState<Record<string, string>>({})
 	const [isSubmitting, setIsSubmitting] = useState(false)
+	const [selectedIcon, setSelectedIcon] = useState<IconNameOption | null>(null)
 	const isSubmittingRef = useRef(false)
 	const router = useRouter()
 
@@ -167,10 +169,11 @@ export function useIconSubmissionForm() {
 					created_by: (pb.authStore.record as any)?.id ?? pb.authStore.record?.id ?? "",
 					status: "pending" as const,
 					description: value.description,
+					target_submission: selectedIcon?.submissionId,
 					extras: extras,
 				}
 
-				const record = await submitOrReplace(submissionData)
+				const record = await submitProposal(submissionData)
 
 				if (record.assets && record.assets.length > 0) {
 					const updatedExtras = JSON.parse(JSON.stringify(extras))
@@ -212,10 +215,11 @@ export function useIconSubmissionForm() {
 					description: `Your icon "${value.iconName}" has been submitted for review`,
 				})
 
-				router.push(`/community/${encodeURIComponent(record.name || value.iconName)}`)
+				router.push(`/community/submissions/${record.id}`)
 
 				form.reset()
 				setFilePreviews({})
+				setSelectedIcon(null)
 			} catch (error: any) {
 				console.error("Submission error:", error)
 				toast.error("Failed to submit icon", {
@@ -322,6 +326,7 @@ export function useIconSubmissionForm() {
 		if (isSubmittingRef.current) return
 		form.reset()
 		setFilePreviews({})
+		setSelectedIcon(null)
 	}
 
 	const iconNameValidator = ({ value }: { value: string }) => {
@@ -343,5 +348,6 @@ export function useIconSubmissionForm() {
 		toggleCategory,
 		resetForm,
 		iconNameValidator,
+		setSelectedIcon,
 	}
 }

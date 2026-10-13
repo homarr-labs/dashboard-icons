@@ -20,6 +20,7 @@ export function IconNameCombobox({ value, onValueChange, onIconSelected, error, 
 	const { data: existingIcons = [], isLoading: loading } = useExistingIconNames()
 	const [isFocused, setIsFocused] = useState(false)
 	const [rawInput, setRawInput] = useState(value)
+	const [selectedIcon, setSelectedIcon] = useState<IconNameOption | null>(null)
 
 	const sanitizeIconName = (input: string): string => {
 		return input
@@ -34,6 +35,7 @@ export function IconNameCombobox({ value, onValueChange, onIconSelected, error, 
 		setRawInput(raw)
 		const sanitized = sanitizeIconName(raw)
 		onValueChange(sanitized)
+		setSelectedIcon(null)
 		onIconSelected?.(null)
 	}
 
@@ -47,15 +49,11 @@ export function IconNameCombobox({ value, onValueChange, onIconSelected, error, 
 
 	const matchedIcon = useMemo(() => {
 		if (!value || !existingIcons.length) return null
+		if (selectedIcon?.value === value) return selectedIcon
 		return existingIcons.find((icon) => icon.value === value) ?? null
-	}, [value, existingIcons])
+	}, [value, existingIcons, selectedIcon])
 
-	const isExistingSubmission = !!matchedIcon?.status
-	const isClaimable = matchedIcon?.status === "rejected"
-	// Non-rejected submissions can only be replaced by their author, so warn
-	// when the ID is known to belong to someone else. Rejected records stay
-	// claimable by anyone, so they keep the replacement wording.
-	const isOtherSubmission = isExistingSubmission && !isClaimable && matchedIcon?.owned === false
+	const isExistingIcon = !!matchedIcon
 
 	const showSuggestions = isFocused && (rawInput || value) && filteredIcons.length > 0
 
@@ -93,17 +91,21 @@ export function IconNameCombobox({ value, onValueChange, onIconSelected, error, 
 							<CommandGroup heading={`Existing Icons (${filteredIcons.length} matches)`}>
 								{filteredIcons.slice(0, 50).map((icon) => (
 									<CommandItem
-										key={icon.value}
-										value={icon.value}
-										onSelect={(selectedValue) => {
-											setRawInput(selectedValue)
-											onValueChange(selectedValue)
+										key={icon.submissionId || `collection-${icon.value}`}
+										value={`${icon.value} ${icon.submissionId || "collection"}`}
+										onSelect={() => {
+											setRawInput(icon.value)
+											onValueChange(icon.value)
+											setSelectedIcon(icon)
 											onIconSelected?.(icon)
 											setIsFocused(false)
 										}}
 										className="cursor-pointer flex items-center justify-between"
 									>
-										<span className="font-mono text-sm">{icon.label}</span>
+										<span className="font-mono text-sm">
+											{icon.label}
+											{icon.submissionId && <span className="block text-xs text-muted-foreground">Submission {icon.submissionId}</span>}
+										</span>
 										<div className="flex items-center gap-1">
 											<SourceBadge source={icon.source} showIcon={false} />
 											{icon.source === "community" && icon.status && <StatusBadge status={icon.status} showIcon={false} />}
@@ -124,24 +126,23 @@ export function IconNameCombobox({ value, onValueChange, onIconSelected, error, 
 				</p>
 			)}
 
-			{/* Another contributor's submission */}
-			{!error && isOtherSubmission && (
-				<p className="text-sm text-destructive mt-1.5 flex items-center gap-1.5">
-					<AlertCircle className="h-3.5 w-3.5 flex-shrink-0" />
-					<span>This icon ID already belongs to another contributor. Choose a different ID or add it as an alias instead.</span>
-				</p>
-			)}
-
 			{/* Existing submission notice */}
-			{!error && isExistingSubmission && !isOtherSubmission && (
+			{!error && isExistingIcon && (
 				<p className="text-sm text-amber-600 dark:text-amber-400 mt-1.5 flex items-center gap-1.5">
 					<Info className="h-3.5 w-3.5 flex-shrink-0" />
-					<span>This icon already has a submission. Submitting will replace it and send it back for review.</span>
+					<span>
+						Submitting creates a separate update proposal for review. Anyone can propose changes to an existing icon.
+						{selectedIcon?.value === value && selectedIcon.submissionId ? (
+							<span className="block font-mono text-xs">Target submission: {selectedIcon.submissionId}</span>
+						) : (
+							<span className="block">Select a submission from the suggestions to link your proposal to its ID.</span>
+						)}
+					</span>
 				</p>
 			)}
 
 			{/* Helper text when no error */}
-			{!error && !isExistingSubmission && value && (
+			{!error && !isExistingIcon && value && (
 				<p className="text-sm text-muted-foreground mt-1.5">
 					{loading ? "Loading icon names..." : "Select an existing icon to update or enter a new ID"}
 				</p>

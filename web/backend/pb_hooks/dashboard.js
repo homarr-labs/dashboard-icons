@@ -30,6 +30,20 @@ function context(record, auth, operation, batch) {
 	record.set("__dashboard_operation", operation || "")
 	record.set("__dashboard_batch", batch || "")
 }
+function validateProposalNames(app, record, old, creating) {
+	const nameChanged = !creating && record.getString("name") !== old.getString("name")
+	if (nameChanged && app.findRecordsByFilter(
+		"submissions",
+		"target_submission = {:id} && (status = 'pending' || status = 'approved')",
+		"", 1, 0, { id: record.id },
+	).length) throw new BadRequestError("A submission with active update proposals cannot be renamed")
+	const target = record.getString("target_submission")
+	if (target && (creating || nameChanged || target !== old.getString("target_submission") || record.getString("status") !== old.getString("status"))) {
+		const targetRecord = app.findRecordById("submissions", target)
+		if (targetRecord.getString("name") !== record.getString("name"))
+			throw new BadRequestError("A proposal must use its target submission's icon name")
+	}
+}
 function event(app, record, action, changes, who, operation, batch) {
 	const entry = new Record(app.findCollectionByNameOrId("submission_events"))
 	entry.load({
@@ -96,6 +110,9 @@ function audit(e, creating) {
 			if (batch && e.record.getString("__dashboard_batch") !== batch.id)
 				throw new BadRequestError("Submission is reserved by an active publish batch")
 		}
+		// Recheck under the write transaction so concurrent creation/rename cannot
+		// produce a proposal whose target has a different destination filename.
+		validateProposalNames(tx, e.record, old, creating)
 		e.app = tx
 		e.next()
 		if (hasChanges)
@@ -123,12 +140,12 @@ function guard(e, creating) {
 	if (!creating && reserved(e.app, e.record.id)) throw new BadRequestError("This submission is reserved by an active publish batch")
 	const previous = old.getString("status")
 	const owned = old.getString("created_by") === e.auth.id
-	// New submissions and resubmissions. Authors may replace their own icon
-	// from any status; rejected submissions stay claimable by any authenticated
-	// user so their name is never permanently locked. Either way the record
-	// goes back to pending for review. Handled before the admin moderation
-	// guard so admin authors can replace their own icons too.
-	const resubmission = !creating && previous !== "pending" && (owned || previous === "rejected")
+	// Proposals are new pending records, regardless of the target's author or status.
+	// In-place edits remain restricted to the author or an administrator.
+	const resubmission = !creating && previous !== "pending" && owned
+	if (!creating && !e.hasSuperuserAuth() && e.record.getString("target_submission") !== old.getString("target_submission"))
+		throw new BadRequestError("A proposal's target cannot be changed")
+	validateProposalNames(e.app, e.record, old, creating)
 	if (!e.hasSuperuserAuth() && (creating || resubmission)) {
 		if (e.record.getString("status") !== "pending" || e.record.getString("created_by") !== e.auth.id)
 			throw new ForbiddenError("Resubmit as yourself with pending status")
@@ -221,6 +238,8 @@ function reserve(e) {
 				throw new BadRequestError("Submission changed or is no longer approved. Refresh before publishing.")
 			return { id: record.id, name: record.getString("name"), updated: record.getString("updated"), state: "waiting" }
 		})
+		if (new Set(snapshots.map((item) => item.name)).size !== snapshots.length)
+			throw new BadRequestError("Publish only one proposal per icon name in a batch")
 		batch = new Record(tx.findCollectionByNameOrId("publish_batches"))
 		batch.load({ requester_id: e.auth.id, requester_name: actor(e.auth).name, items: snapshots, state: "requesting", active: true })
 		tx.save(batch)

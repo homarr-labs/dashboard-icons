@@ -177,6 +177,19 @@ export function Inspector({
 							<h3 className="mb-1 text-xs font-medium text-muted-foreground">Description</h3>
 							<p className="whitespace-pre-wrap break-words text-sm leading-6">{record.description || "No description provided."}</p>
 						</div>
+						{record.target_submission && (
+							<div>
+								<h3 className="mb-1 text-xs font-medium text-muted-foreground">Proposed update to submission</h3>
+								<a
+									href={`/community/submissions/${record.target_submission}`}
+									target="_blank"
+									rel="noreferrer"
+									className="text-sm font-mono underline"
+								>
+									{record.target_submission}
+								</a>
+							</div>
+						)}
 						<div className="grid grid-cols-2 gap-4 text-sm">
 							<div>
 								<h3 className="mb-1 text-xs text-muted-foreground">Submitted by</h3>
@@ -221,7 +234,7 @@ export function Inspector({
 							className="inline-flex items-center gap-1.5 text-sm underline-offset-4 hover:underline"
 							target="_blank"
 							rel="noreferrer"
-							href={`/community/${encodeURIComponent(record.name)}`}
+							href={`/community/submissions/${record.id}`}
 						>
 							<ExternalLink className="size-3.5" />
 							Open community preview

@@ -61,6 +61,7 @@ See [docs/MCP.md](./docs/MCP.md) for endpoints, client setup, tool schemas, envi
 
 - Node.js 22.22+
 - pnpm
+- `unzip` (for the pinned PocketBase development download)
 
 ### Installation
 
@@ -69,6 +70,12 @@ See [docs/MCP.md](./docs/MCP.md) for endpoints, client setup, tool schemas, envi
    ```bash
    pnpm install
    ```
+   Download the PocketBase server for your platform:
+   ```bash
+   pnpm backend:download
+   ```
+   The download uses the pinned version and verified release checksums from
+   `backend/pocketbase-release.json`. Linux and macOS on AMD64 and ARM64 are supported.
 3. Create a `.env` file with the following variables:
    ```
    GITHUB_TOKEN=your_github_token
@@ -108,6 +115,42 @@ See [docs/MCP.md](./docs/MCP.md) for endpoints, client setup, tool schemas, envi
 ```bash
 pnpm build
 ```
+
+### PocketBase deployment
+
+The Docker image pins PocketBase by release tag and immutable multi-platform digest.
+The startup script checks the server version against `backend/pocketbase-release.json`
+and applies migrations before accepting backend requests. Hooks and migrations are
+packaged in the image at `/pb/pb_hooks` and `/pb/pb_migrations`; persist only
+`/pb/pb_data`, so old mounted files cannot mask newly deployed migrations.
+
+`SERVICE_MODE=backend` starts only PocketBase on port 8090 with those checks.
+`SERVICE_MODE=web` runs the stateless frontend against `PB_URL`.
+The default `SERVICE_MODE=all` runs the combined deployment on port 8080.
+Separate backend deployments must update their pinned application image along with
+the frontend; updating only the frontend's `latest` tag leaves the backend's code
+and migrations at its previous image digest.
+
+Main CI serializes deployment runs, creates a verified PocketBase backup, deploys
+the separate backend using the built image's immutable digest, waits for completion,
+verifies the proposal schema, then triggers the frontend
+deployment. Configure the repository variable `DOKPLOY_POCKETBASE_APPLICATION_ID`
+alongside the existing `DOKPLOY_URL`, `DOKPLOY_API_KEY`, and PocketBase admin secrets.
+The workflow's `verify_only` dispatch option performs read-only deployment/schema
+inspection without building or deploying an image.
+
+If post-backend schema verification fails, the frontend rollout stops and the old
+frontend remains active against the updated backend. Treat that deployment as
+incomplete; the workflow emits an error annotation and recovery summary for operators.
+Inspect the failing job and PocketBase startup logs, then prefer a forward fix and
+rerun the verified deployment. If rollback is necessary, use the verified
+pre-deployment backup with its matching previous image. A logical `migrate down`
+requires duplicate proposal names to be resolved first because restoring the old
+unique-name index is transactional; do not discard proposals to force a downgrade.
+
+When updating PocketBase, update the Docker image tag/digest and the version/checksums
+in `backend/pocketbase-release.json` together. The JavaScript SDK version is independent
+of the server version.
 
 ## Third-party sources: selfh.st
 

@@ -14,8 +14,9 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { UnoptimizedImage } from "@/components/unoptimized-image"
+import type { IconNameOption } from "@/hooks/use-submissions"
 import { pb } from "@/lib/pb"
-import { submitOrReplace } from "@/lib/submit-or-replace"
+import { submitProposal } from "@/lib/submit-proposal"
 import { formatIconName } from "@/lib/utils"
 import { MagicCard } from "./magicui/magic-card"
 import { MagicCardPointerProvider } from "./magicui/magic-card-pointer"
@@ -182,6 +183,7 @@ type EditableIconDetailsProps = {
 
 export function EditableIconDetails({ onSubmit, initialData }: EditableIconDetailsProps) {
 	const [iconName, setIconName] = useState(initialData?.iconName || "")
+	const [selectedIcon, setSelectedIcon] = useState<IconNameOption | null>(null)
 	const [variants, setVariants] = useState<VariantFile[]>(initialData?.variants || [])
 	const [categories, setCategories] = useState<string[]>(initialData?.categories || [])
 	const [aliases, setAliases] = useState<string[]>(initialData?.aliases || [])
@@ -343,10 +345,11 @@ export function EditableIconDetails({ onSubmit, initialData }: EditableIconDetai
 				assets: assetFiles,
 				created_by: pb.authStore.record?.id ?? "",
 				status: "pending" as const,
+				target_submission: selectedIcon?.submissionId,
 				extras: extras,
 			}
 
-			await submitOrReplace(submissionData)
+			await submitProposal(submissionData)
 
 			// Revalidate Next.js cache for community pages
 			await revalidateAllSubmissions()
@@ -358,6 +361,7 @@ export function EditableIconDetails({ onSubmit, initialData }: EditableIconDetai
 
 			// Reset form
 			setIconName("")
+			setSelectedIcon(null)
 			setVariants([])
 			setCategories([])
 			setAliases([])
@@ -422,7 +426,7 @@ export function EditableIconDetails({ onSubmit, initialData }: EditableIconDetai
 										<Label htmlFor="icon-name" className="text-sm font-medium mb-2 block">
 											Icon Name
 										</Label>
-										<IconNameCombobox value={iconName} onValueChange={setIconName} />
+										<IconNameCombobox value={iconName} onValueChange={setIconName} onIconSelected={setSelectedIcon} />
 									</div>
 								</div>
 							</CardHeader>
@@ -636,6 +640,7 @@ export function EditableIconDetails({ onSubmit, initialData }: EditableIconDetai
 											className="w-full"
 											onClick={() => {
 												setIconName("")
+												setSelectedIcon(null)
 												setVariants([])
 												setCategories([])
 												setAliases([])

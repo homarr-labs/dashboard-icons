@@ -50,6 +50,9 @@ next-env.d.ts
 backend/pocketbase
 backend/pb_data
 scripts/*
+!scripts/download-pocketbase.mjs
+!scripts/deploy-pocketbase.mjs
+!scripts/verify-pocketbase-schema.mjs
 !scripts/icon-blacklist.ts
 !scripts/import-selfhst.ts
 !scripts/import-lobehub.ts

@@ -1,7 +1,8 @@
 # syntax=docker/dockerfile:1
 FROM node:24-alpine AS base
 
-FROM ghcr.io/muchobien/pocketbase:0.40.4 AS pocketbase
+# Immutable multi-platform image; keep its version aligned with backend/pocketbase-release.json.
+FROM ghcr.io/muchobien/pocketbase:0.40.5@sha256:618171d6df039ab3edd74ef9e6b89d43ec836fd55f5437017b7ed3790e627ab0 AS pocketbase
 
 FROM caddy:2.11.2-alpine AS caddy
 
@@ -57,12 +58,19 @@ COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 COPY --chown=nextjs:nodejs backend/pb_hooks /pb/pb_hooks
 COPY --chown=nextjs:nodejs backend/pb_migrations /pb/pb_migrations
+COPY --chown=nextjs:nodejs backend/pocketbase-release.json /pb/pocketbase-release.json
+# Store outside the migration directory so an outdated bind mount cannot hide the required filename.
+RUN node -e 'const fs = require("node:fs"); const files = fs.readdirSync("/pb/pb_migrations").filter(f => f.endsWith(".js")).sort(); if (!files.length) throw new Error("No PocketBase migrations packaged"); fs.writeFileSync("/pb/required-migration", files.at(-1) + "\n")'
 COPY docker/Caddyfile /etc/caddy/Caddyfile
 COPY --chmod=755 docker/start.sh /usr/local/bin/start-dashboard
 USER nextjs
 VOLUME /pb/pb_data
-EXPOSE 8080
+EXPOSE 8080 8090
 HEALTHCHECK --interval=30s --timeout=5s --start-period=90s --retries=3 \
-    CMD curl -fsS http://127.0.0.1:8080/pb/api/health >/dev/null && curl -fsS http://127.0.0.1:8080/api/health >/dev/null || exit 1
+    CMD if [ "${SERVICE_MODE:-all}" = "backend" ]; then \
+          curl -fsS http://127.0.0.1:8090/api/health >/dev/null; \
+        else \
+          curl -fsS http://127.0.0.1:8080/pb/api/health >/dev/null && curl -fsS http://127.0.0.1:8080/api/health >/dev/null; \
+        fi || exit 1
 ENTRYPOINT ["/sbin/tini", "--"]
 CMD ["/usr/local/bin/start-dashboard"]

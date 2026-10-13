@@ -77,6 +77,7 @@ function transformGalleryToIcon(item: CommunityGallery): any {
 
 	const transformed = {
 		name: item.name,
+		slug: item.id,
 		status: item.status,
 		data: {
 			base: mainIcon || "svg",
@@ -86,7 +87,7 @@ function transformGalleryToIcon(item: CommunityGallery): any {
 			aliases: item.extras?.aliases || [],
 			categories: item.extras?.categories || [],
 			update: {
-				timestamp: item.created,
+				timestamp: item.updated,
 				author: {
 					id: 0,
 					name: item.created_by || "Community",
@@ -140,63 +141,39 @@ export async function fetchCommunitySubmissions(): Promise<IconWithName[]> {
  * Revalidates every 900 seconds (15 minutes)
  * Can be invalidated on-demand using revalidateTag("community-gallery")
  */
-export const getCommunitySubmissions = unstable_cache(fetchCommunitySubmissions, ["community-submissions-list-v2"], {
+export const getCommunitySubmissions = unstable_cache(fetchCommunitySubmissions, ["community-submissions-list-v3"], {
 	revalidate: 900,
 	tags: ["community-gallery"],
 })
 
-/**
- * Fetch a single community submission by name (raw function)
- * Returns null if not found
- */
-async function fetchCommunitySubmissionByName(name: string): Promise<IconWithName | null> {
+/** Fetch a proposal by record ID, independently of its icon name. */
+export async function getCommunitySubmission(id: string): Promise<IconWithName | null> {
+	const record = await getCommunityGalleryRecord(id)
+	return record ? transformGalleryToIcon(record) : null
+}
+
+/** Keep historical name-based URLs pointing to the original submission. */
+export async function getCommunityGalleryRecordByName(name: string): Promise<CommunityGallery | null> {
 	try {
 		const pb = createServerPB()
-
-		const record = await pb.collection("community_gallery").getFirstListItem<CommunityGallery>(`name="${name}"`)
-		const transformed = transformGalleryToIcon(record)
-		return transformed
+		return await pb.collection("community_gallery").getFirstListItem<CommunityGallery>(pb.filter("name = {:name}", { name }), {
+			sort: "created,id",
+		})
 	} catch {
 		return null
 	}
 }
 
-/**
- * Cached version of fetchCommunitySubmissionByName
- * Uses unstable_cache with tags for on-demand revalidation
- * Revalidates every 900 seconds (15 minutes)
- * Cache key: community-submission-{name}
- */
-export function getCommunitySubmissionByName(name: string): Promise<IconWithName | null> {
-	return unstable_cache(async () => fetchCommunitySubmissionByName(name), [`community-submission-${name}-v2`], {
-		revalidate: 900,
-		tags: ["community-gallery", "community-submission"],
-	})()
-}
-
-/**
- * Fetch raw CommunityGallery record by name (raw function, for status checks)
- */
-async function fetchCommunityGalleryRecord(name: string): Promise<CommunityGallery | null> {
-	try {
-		const pb = createServerPB()
-
-		const record = await pb.collection("community_gallery").getFirstListItem<CommunityGallery>(`name="${name}"`)
-		return record
-	} catch {
-		return null
-	}
-}
-
-/**
- * Cached version of fetchCommunityGalleryRecord
- * Uses unstable_cache with tags for on-demand revalidation
- * Revalidates every 900 seconds (15 minutes)
- * Cache key: community-gallery-record-{name}
- */
-export function getCommunityGalleryRecord(name: string): Promise<CommunityGallery | null> {
-	return unstable_cache(async () => fetchCommunityGalleryRecord(name), [`community-gallery-record-${name}`], {
-		revalidate: 900,
-		tags: ["community-gallery", "community-gallery-record"],
-	})()
+export function getCommunityGalleryRecord(id: string): Promise<CommunityGallery | null> {
+	return unstable_cache(
+		async () => {
+			try {
+				return await createServerPB().collection("community_gallery").getOne<CommunityGallery>(id)
+			} catch {
+				return null
+			}
+		},
+		[`community-gallery-record-id-${id}`],
+		{ revalidate: 900, tags: ["community-gallery", "community-gallery-record"] },
+	)()
 }
