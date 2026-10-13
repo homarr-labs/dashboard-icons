@@ -1,0 +1,9 @@
+{
+	"version": "0.40.5",
+	"checksums": {
+		"darwin_amd64": "3640f0c4d9e0e5a47e321f10ddf6698508d4f20721bcf5dfb7c4192835e5105f",
+		"darwin_arm64": "d9a176e0491bc825fff88c2a4edffb07307f785ac2bd9710e82c5d223669fc17",
+		"linux_amd64": "1dbea1b01eb3dfe64953513859d01e759c96650c4e3264fa4eecd54b769382e4",
+		"linux_arm64": "570baa1c45d2fb92fc0073582b945ca0ece03cbf9837ccabf49a222f99dd02e3"
+	}
+}

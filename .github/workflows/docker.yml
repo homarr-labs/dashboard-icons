@@ -10,6 +10,11 @@ on:
   schedule:
     - cron: "17 6 * * 0"
   workflow_dispatch:
+    inputs:
+      verify_only:
+        description: Read-only verification of PocketBase deployment and schema
+        type: boolean
+        default: false
 
 defaults:
   run:
@@ -32,6 +37,7 @@ jobs:
   # Push image to GitHub Packages.
   # See also https://docs.docker.com/docker-hub/builds/
   build-and-push:
+    if: ${{ !inputs.verify_only }}
     runs-on: ubuntu-latest
     permissions:
       packages: write
@@ -88,6 +94,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build and push
+        id: build
         uses: docker/build-push-action@v6
         env:
           NEXT_PUBLIC_POCKETBASE_URL: ${{ env.NEXT_PUBLIC_POCKETBASE_URL }}
@@ -108,7 +115,46 @@ jobs:
           secrets: |
             "github_token=${{ secrets.GITHUB_TOKEN }}"
 
-      - name: Deploy to Dokploy
+      # The backend is a separate, digest-pinned service. Deploy it before the frontend.
+      - name: Deploy PocketBase and wait for migrations
+        env:
+          DOKPLOY_URL: ${{ secrets.DOKPLOY_URL }}
+          DOKPLOY_API_KEY: ${{ secrets.DOKPLOY_API_KEY }}
+          DOKPLOY_POCKETBASE_APPLICATION_ID: ${{ vars.DOKPLOY_POCKETBASE_APPLICATION_ID }}
+          POCKETBASE_IMAGE: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}@${{ steps.build.outputs.digest }}
+        run: node scripts/deploy-pocketbase.mjs
+
+      - name: Verify PocketBase proposal schema
+        env:
+          PB_URL: ${{ secrets.PB_URL }}
+          PB_ADMIN: ${{ secrets.PB_ADMIN }}
+          PB_ADMIN_PASS: ${{ secrets.PB_ADMIN_PASS }}
+          PB_ADMIN_TOKEN: ${{ secrets.PB_ADMIN_TOKEN }}
+        run: node scripts/verify-pocketbase-schema.mjs --require-proposals
+
+      - name: Deploy frontend to Dokploy
         env:
           DOKPLOY_DEPLOY_HOOK_URL: ${{ secrets.DOKPLOY_DEPLOY_HOOK_URL }}
         run: curl --fail-with-body --silent --show-error --request POST "$DOKPLOY_DEPLOY_HOOK_URL"
+
+  verify-deployment:
+    if: ${{ inputs.verify_only }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Inspect PocketBase application without deploying
+        env:
+          DOKPLOY_URL: ${{ secrets.DOKPLOY_URL }}
+          DOKPLOY_API_KEY: ${{ secrets.DOKPLOY_API_KEY }}
+          DOKPLOY_POCKETBASE_APPLICATION_ID: ${{ vars.DOKPLOY_POCKETBASE_APPLICATION_ID }}
+        run: node scripts/deploy-pocketbase.mjs --inspect
+      - name: Inspect PocketBase schema without changing records
+        env:
+          PB_URL: ${{ secrets.PB_URL }}
+          PB_ADMIN: ${{ secrets.PB_ADMIN }}
+          PB_ADMIN_PASS: ${{ secrets.PB_ADMIN_PASS }}
+          PB_ADMIN_TOKEN: ${{ secrets.PB_ADMIN_TOKEN }}
+        run: node scripts/verify-pocketbase-schema.mjs
