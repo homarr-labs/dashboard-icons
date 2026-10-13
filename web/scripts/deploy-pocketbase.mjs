@@ -42,9 +42,19 @@ if (process.argv.includes("--inspect")) {
 	const previousIds = new Set((before.deployments || []).map((deployment) => deployment.deploymentId))
 	await request("application.deploy", { applicationId, title: "Deploy pinned PocketBase and apply migrations" })
 	let deployed = false
+	let consecutiveFailures = 0
 	for (let attempt = 0; attempt < 120; attempt++) {
 		await setTimeout(5000)
-		const application = await request("application.one")
+		let application
+		try {
+			application = await request("application.one")
+			consecutiveFailures = 0
+		} catch {
+			consecutiveFailures++
+			if (consecutiveFailures >= 3) throw new Error("PocketBase deployment status could not be confirmed after 3 consecutive failures; inspect Dokploy")
+			console.warn(`Dokploy status poll failed (${consecutiveFailures}/3); retrying`)
+			continue
+		}
 		const deployment = (application.deployments || [])
 			.filter((item) => !previousIds.has(item.deploymentId))
 			.sort((a, b) => b.createdAt.localeCompare(a.createdAt))[0]

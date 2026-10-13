@@ -139,6 +139,15 @@ alongside the existing `DOKPLOY_URL`, `DOKPLOY_API_KEY`, and PocketBase admin se
 The workflow's `verify_only` dispatch option performs read-only deployment/schema
 inspection without building or deploying an image.
 
+If post-backend schema verification fails, the frontend rollout stops and the old
+frontend remains active against the updated backend. Treat that deployment as
+incomplete; the workflow emits an error annotation and recovery summary for operators.
+Inspect the failing job and PocketBase startup logs, then prefer a forward fix and
+rerun the verified deployment. If rollback is necessary, use the verified
+pre-deployment backup with its matching previous image. A logical `migrate down`
+requires duplicate proposal names to be resolved first because restoring the old
+unique-name index is transactional; do not discard proposals to force a downgrade.
+
 When updating PocketBase, update the Docker image tag/digest and the version/checksums
 in `backend/pocketbase-release.json` together. The JavaScript SDK version is independent
 of the server version.

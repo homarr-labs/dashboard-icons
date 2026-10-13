@@ -5,7 +5,11 @@ if (!base) throw new Error("PB_URL is required")
 let token = process.env.PB_ADMIN_TOKEN
 
 async function collections() {
-	return fetch(`${base}/api/collections?perPage=100`, { headers: { Authorization: token || "" }, signal: AbortSignal.timeout(30000) })
+	const params = new URLSearchParams({
+		filter: "name='submissions'||name='community_gallery'||name='submission_events'||name='publish_batches'",
+		perPage: "4",
+	})
+	return fetch(`${base}/api/collections?${params}`, { headers: { Authorization: token || "" }, signal: AbortSignal.timeout(30000) })
 }
 let response = await collections()
 if (!response.ok && process.env.PB_ADMIN && process.env.PB_ADMIN_PASS) {

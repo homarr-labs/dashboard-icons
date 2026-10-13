@@ -20,6 +20,9 @@ concurrency:
   group: dashboard-icons-${{ inputs.verify_only && 'verification' || 'deployment' }}
   cancel-in-progress: false
 
+permissions:
+  contents: read
+
 defaults:
   run:
     working-directory: ./web
@@ -50,6 +53,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          persist-credentials: false
 
       - name: Set up pnpm
         uses: pnpm/action-setup@v4
@@ -149,11 +154,22 @@ jobs:
           DOKPLOY_DEPLOY_HOOK_URL: ${{ secrets.DOKPLOY_DEPLOY_HOOK_URL }}
         run: curl --fail-with-body --silent --show-error --request POST "$DOKPLOY_DEPLOY_HOOK_URL"
 
+      - name: Report incomplete deployment
+        if: ${{ failure() }}
+        run: |
+          echo '::error::Deployment incomplete. Check backend startup/schema verification before retrying the frontend rollout.'
+          echo '### Deployment incomplete' >> "$GITHUB_STEP_SUMMARY"
+          echo 'The backend may already have the new schema while the old frontend remains active. Follow the PocketBase recovery instructions in web/README.md; use the verified pre-deployment backup if rollback is required.' >> "$GITHUB_STEP_SUMMARY"
+
   verify-deployment:
     if: ${{ inputs.verify_only }}
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
       - uses: actions/setup-node@v4
         with:
           node-version: 24

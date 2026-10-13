@@ -30,6 +30,20 @@ function context(record, auth, operation, batch) {
 	record.set("__dashboard_operation", operation || "")
 	record.set("__dashboard_batch", batch || "")
 }
+function validateProposalNames(app, record, old, creating) {
+	const nameChanged = !creating && record.getString("name") !== old.getString("name")
+	if (nameChanged && app.findRecordsByFilter(
+		"submissions",
+		"target_submission = {:id} && (status = 'pending' || status = 'approved')",
+		"", 1, 0, { id: record.id },
+	).length) throw new BadRequestError("A submission with active update proposals cannot be renamed")
+	const target = record.getString("target_submission")
+	if (target && (creating || nameChanged || target !== old.getString("target_submission") || record.getString("status") !== old.getString("status"))) {
+		const targetRecord = app.findRecordById("submissions", target)
+		if (targetRecord.getString("name") !== record.getString("name"))
+			throw new BadRequestError("A proposal must use its target submission's icon name")
+	}
+}
 function event(app, record, action, changes, who, operation, batch) {
 	const entry = new Record(app.findCollectionByNameOrId("submission_events"))
 	entry.load({
@@ -96,6 +110,9 @@ function audit(e, creating) {
 			if (batch && e.record.getString("__dashboard_batch") !== batch.id)
 				throw new BadRequestError("Submission is reserved by an active publish batch")
 		}
+		// Recheck under the write transaction so concurrent creation/rename cannot
+		// produce a proposal whose target has a different destination filename.
+		validateProposalNames(tx, e.record, old, creating)
 		e.app = tx
 		e.next()
 		if (hasChanges)
@@ -128,12 +145,7 @@ function guard(e, creating) {
 	const resubmission = !creating && previous !== "pending" && owned
 	if (!creating && !e.hasSuperuserAuth() && e.record.getString("target_submission") !== old.getString("target_submission"))
 		throw new BadRequestError("A proposal's target cannot be changed")
-	const target = e.record.getString("target_submission")
-	if (target && (creating || e.record.getString("name") !== old.getString("name"))) {
-		const targetRecord = e.app.findRecordById("submissions", target)
-		if (targetRecord.getString("name") !== e.record.getString("name"))
-			throw new BadRequestError("A proposal must use its target submission's icon name")
-	}
+	validateProposalNames(e.app, e.record, old, creating)
 	if (!e.hasSuperuserAuth() && (creating || resubmission)) {
 		if (e.record.getString("status") !== "pending" || e.record.getString("created_by") !== e.auth.id)
 			throw new ForbiddenError("Resubmit as yourself with pending status")
