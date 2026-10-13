@@ -51721,5 +51721,20 @@
                 "login": "GeiserX"
             }
         }
+    },
+    "certshell": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "development",
+            "security"
+        ],
+        "update": {
+            "timestamp": "2026-10-13T18:07:38.440Z",
+            "author": {
+                "id": 1324939,
+                "login": "maca134"
+            }
+        }
     }
 }
