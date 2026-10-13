@@ -15,7 +15,12 @@ async function request(method, body) {
 		signal: AbortSignal.timeout(30000),
 	})
 	if (!response.ok) throw new Error(`Dokploy ${method} failed: HTTP ${response.status}`)
-	return response.json()
+	const content = await response.text()
+	if (!content.trim()) {
+		if (body) return null // Dokploy deployment mutations may acknowledge success without a body.
+		throw new Error(`Dokploy ${method} returned an empty response`)
+	}
+	return JSON.parse(content)
 }
 
 const before = await request("application.one")
