@@ -51660,5 +51660,19 @@
                 "login": "hodyhq"
             }
         }
+    },
+    "lynxprompt": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "development"
+        ],
+        "update": {
+            "timestamp": "2026-10-13T18:07:34.599Z",
+            "author": {
+                "id": 9169332,
+                "login": "GeiserX"
+            }
+        }
     }
 }
