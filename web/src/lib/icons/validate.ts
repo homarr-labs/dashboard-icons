@@ -2,6 +2,8 @@ import { z } from "zod"
 import { EXTERNAL_SOURCE_IDS } from "@/constants"
 
 export const ICON_NAME_REGEX = /^[a-z0-9]+(-[a-z0-9]+)*$/
+// Third-party slugs are not always kebab-case (e.g. `graphite_editor`, `flagstar-`).
+export const EXTERNAL_SLUG_REGEX = /^[a-z0-9][a-z0-9_-]*$/
 export const MAX_QUERY_LENGTH = 100
 export const MAX_NAME_LENGTH = 80
 export const MAX_LIMIT_SEARCH = 50
@@ -16,7 +18,7 @@ export class ValidationError extends Error {
 	}
 }
 
-export function assertIconName(name: string): string {
+function assertSafeName(name: string): string {
 	const trimmed = name.trim()
 	if (!trimmed || trimmed.length > MAX_NAME_LENGTH) {
 		throw new ValidationError(`Invalid icon name: must be 1-${MAX_NAME_LENGTH} characters`)
@@ -24,22 +26,34 @@ export function assertIconName(name: string): string {
 	if (trimmed.includes("..") || trimmed.includes("/") || trimmed.includes("\\") || trimmed.includes("\0")) {
 		throw new ValidationError("Invalid icon name: forbidden characters")
 	}
+	return trimmed
+}
+
+export function assertIconName(name: string): string {
+	const trimmed = assertSafeName(name)
 	if (!ICON_NAME_REGEX.test(trimmed)) {
 		throw new ValidationError("Invalid icon name format: expected kebab-case slug")
 	}
 	return trimmed
 }
 
-const iconNameField = z
-	.string()
-	.trim()
-	.superRefine((value, context) => {
-		try {
-			assertIconName(value)
-		} catch (error) {
-			context.addIssue({ code: "custom", message: (error as ValidationError).message })
-		}
-	})
+// Native lookups keep the kebab-case rule; external sources (and the fallback to them) accept their slug shape.
+export function assertLookupName(name: string, source?: string): string {
+	if (source === "native") return assertIconName(name)
+	const trimmed = assertSafeName(name)
+	if (!EXTERNAL_SLUG_REGEX.test(trimmed)) {
+		throw new ValidationError("Invalid icon name format: expected a lowercase slug")
+	}
+	return trimmed
+}
+
+function refineLookupName(value: { name: string; source?: string }, context: z.RefinementCtx): void {
+	try {
+		assertLookupName(value.name, value.source)
+	} catch (error) {
+		context.addIssue({ code: "custom", path: ["name"], message: (error as ValidationError).message })
+	}
+}
 
 const sourceField = z
 	.enum(["native", ...EXTERNAL_SOURCE_IDS])
@@ -52,17 +66,21 @@ export const searchIconsSchema = z.object({
 	category: z.string().trim().max(MAX_CATEGORY_LENGTH).optional(),
 })
 
-export const getIconSchema = z.object({
-	name: iconNameField,
-	source: sourceField,
-})
+export const getIconSchema = z
+	.object({
+		name: z.string().trim(),
+		source: sourceField,
+	})
+	.superRefine(refineLookupName)
 
-export const getIconUrlSchema = z.object({
-	name: iconNameField,
-	format: z.enum(["svg", "png", "webp"]).default("svg"),
-	theme: z.enum(["default", "light", "dark"]).default("default"),
-	source: sourceField,
-})
+export const getIconUrlSchema = z
+	.object({
+		name: z.string().trim(),
+		format: z.enum(["svg", "png", "webp"]).default("svg"),
+		theme: z.enum(["default", "light", "dark"]).default("default"),
+		source: sourceField,
+	})
+	.superRefine(refineLookupName)
 
 export const suggestIconSchema = z
 	.object({

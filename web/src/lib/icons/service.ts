@@ -7,7 +7,7 @@ import { canResolveExternalIconUrl, resolveExternalIconUrl } from "@/lib/externa
 import { filterAndSortIcons, scoreIcon } from "@/lib/icons/search"
 import type { IconDetail, IconSource, IconUrlResult, SearchResult, Suggestion } from "@/lib/icons/types"
 import { buildIconUrl, buildIconUrls, type IconFormat, type IconTheme } from "@/lib/icons/urls"
-import { assertIconName, ValidationError } from "@/lib/icons/validate"
+import { assertLookupName, ValidationError } from "@/lib/icons/validate"
 import type { ExternalIcon, ExternalIconRecord, Icon, IconFile, IconWithName } from "@/types/icons"
 
 const METADATA_FETCH_TIMEOUT_MS = 10_000
@@ -190,6 +190,12 @@ function resultName(icon: IconWithName): string {
 	return icon.external ? (icon.slug ?? icon.name) : icon.name
 }
 
+// Own keys only, so names like `constructor` don't resolve to Object.prototype members.
+async function getNativeIcon(name: string): Promise<Icon | undefined> {
+	const metadata = await getAllIcons()
+	return Object.hasOwn(metadata, name) ? metadata[name] : undefined
+}
+
 export async function searchIcons(query: string, limit = 20, category?: string): Promise<{ results: SearchResult[]; total: number }> {
 	const trimmed = query.trim()
 	if (!trimmed) return { results: [], total: 0 }
@@ -210,8 +216,8 @@ export async function searchIcons(query: string, limit = 20, category?: string):
 }
 
 export async function getIconByName(name: string, source?: IconSource): Promise<IconDetail | null> {
-	const validated = assertIconName(name)
-	const icon = source === undefined || source === "native" ? (await getAllIcons())[validated] : undefined
+	const validated = assertLookupName(name, source)
+	const icon = source === undefined || source === "native" ? await getNativeIcon(validated) : undefined
 	if (!icon) {
 		if (source === "native") return null
 		const external = await findExternalIcon(validated, source)
@@ -252,8 +258,8 @@ export async function getIconUrl(
 	theme: IconTheme = "default",
 	source?: IconSource,
 ): Promise<IconUrlResult | null> {
-	const validated = assertIconName(name)
-	const icon = source === undefined || source === "native" ? (await getAllIcons())[validated] : undefined
+	const validated = assertLookupName(name, source)
+	const icon = source === undefined || source === "native" ? await getNativeIcon(validated) : undefined
 	if (!icon) {
 		if (source === "native") return null
 		const external = await findExternalIcon(validated, source)

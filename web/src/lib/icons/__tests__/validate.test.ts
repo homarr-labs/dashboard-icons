@@ -54,6 +54,16 @@ describe("getIconSchema", () => {
 			expect(result.error.issues[0]?.code).toBe("custom")
 		}
 	})
+	it("accepts third-party slug shapes unless the source is native", () => {
+		expect(getIconSchema.parse({ name: "graphite_editor" }).name).toBe("graphite_editor")
+		expect(getIconSchema.parse({ name: "graphite_editor", source: "simpleicons" }).source).toBe("simpleicons")
+		const native = getIconSchema.safeParse({ name: "graphite_editor", source: "native" })
+		expect(native.success).toBe(false)
+		if (!native.success) {
+			expect(native.error.issues[0]?.path).toEqual(["name"])
+		}
+		expect(getIconUrlSchema.safeParse({ name: "../etc", source: "selfhst" }).success).toBe(false)
+	})
 })
 
 describe("getIconUrlSchema", () => {

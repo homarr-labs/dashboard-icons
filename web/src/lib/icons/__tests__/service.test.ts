@@ -65,6 +65,7 @@ const EXTERNAL_ICONS = vi.hoisted(() => {
 				webp_dark: "https://cdn.example/lobehub/dark/{slug}.webp",
 			},
 		}),
+		record("simpleicons", "graphite_editor", "Graphite", { formats: ["svg"] }),
 		record("simpleicons", "resend", "Resend", {
 			formats: ["svg", "png"],
 			brand_color: "000000",
@@ -225,6 +226,16 @@ describe("third-party icons", () => {
 			svg: "https://cdn.example/lobehub/ace.svg",
 			dark: "https://cdn.example/lobehub/dark/ace.webp",
 		})
+	})
+
+	it("looks up non-kebab external slugs but keeps native lookups strict", async () => {
+		expect((await getIconByName("graphite_editor"))?.source).toBe("simpleicons")
+		await expect(getIconByName("graphite_editor", "native")).rejects.toThrow("kebab-case")
+		await expect(getIconByName("../etc")).rejects.toThrow("forbidden characters")
+	})
+
+	it("ignores inherited object keys", async () => {
+		expect(await getIconByName("constructor", "native")).toBeNull()
 	})
 
 	it("rejects a format the source does not ship", async () => {
