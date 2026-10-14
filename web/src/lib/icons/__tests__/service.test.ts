@@ -31,6 +31,55 @@ const MOCK_METADATA = {
 	},
 }
 
+const EXTERNAL_ICONS = vi.hoisted(() => {
+	const record = (source: string, slug: string, name: string, extra: Record<string, unknown>) => {
+		const external = {
+			id: `${source}-${slug}`,
+			source,
+			slug,
+			name,
+			aliases: [],
+			categories: [],
+			variants: {},
+			url_templates: {},
+			license: "",
+			attribution: "",
+			source_url: "",
+			...extra,
+		}
+		return {
+			source,
+			slug,
+			name,
+			external,
+			data: { base: "svg", aliases: [], categories: [], update: { timestamp: "2024-01-01T00:00:00Z", author: { id: source } } },
+		}
+	}
+	return [
+		record("selfhst", "plex", "Plex", { formats: ["svg", "png", "webp"] }),
+		record("lobehub", "ace", "Ace", {
+			formats: ["svg", "webp"],
+			url_templates: {
+				svg: "https://cdn.example/lobehub/{slug}.svg",
+				webp: "https://cdn.example/lobehub/light/{slug}.webp",
+				webp_dark: "https://cdn.example/lobehub/dark/{slug}.webp",
+			},
+		}),
+		record("simpleicons", "resend", "Resend", {
+			formats: ["svg", "png"],
+			brand_color: "000000",
+			license: "CC0-1.0",
+			source_url: "https://simpleicons.org/?q=resend",
+		}),
+	]
+})
+
+vi.mock("@/lib/external-icons", () => ({
+	getExternalIcons: async () => EXTERNAL_ICONS,
+	getExternalIconBySourceAndSlug: async (source: string, slug: string) =>
+		EXTERNAL_ICONS.find((icon) => icon.source === source && icon.slug === slug) ?? null,
+}))
+
 vi.mock("next/cache", () => ({
 	unstable_cache: (fn: () => Promise<unknown>) => fn,
 }))
@@ -140,6 +189,51 @@ describe("suggestIcons", () => {
 	it("suggests plex from service name", async () => {
 		const { suggestions } = await suggestIcons("Plex media server", 5)
 		expect(suggestions[0]?.name).toBe("plex")
+	})
+})
+
+describe("third-party icons", () => {
+	it("finds icons that only exist in an external source", async () => {
+		const { results } = await searchIcons("resend", 10)
+		expect(results[0]).toMatchObject({ name: "resend", source: "simpleicons" })
+	})
+
+	it("lists a slug once, preferring the native icon", async () => {
+		const { results } = await searchIcons("plex", 10)
+		expect(results.filter((icon) => icon.name === "plex")).toEqual([expect.objectContaining({ source: "native" })])
+	})
+
+	it("returns external metadata with resolvable URLs and licence", async () => {
+		const icon = await getIconByName("resend")
+		expect(icon).toMatchObject({ name: "resend", source: "simpleicons", title: "Resend", license: "CC0-1.0" })
+		expect(icon?.urls.svg).toBe("https://cdn.simpleicons.org/resend/000000")
+		expect(icon?.urls.png).toBe("https://dashboardicons.com/api/icons/external/simpleicons/resend/brand.png")
+		expect(icon?.urls.webp).toBeUndefined()
+		expect(icon?.urls.dark).toBe("https://cdn.simpleicons.org/resend/FFFFFF")
+	})
+
+	it("honours an explicit source", async () => {
+		expect((await getIconByName("plex", "selfhst"))?.source).toBe("selfhst")
+		expect(await getIconByName("docker", "simpleicons")).toBeNull()
+		expect(await getIconByName("resend", "native")).toBeNull()
+	})
+
+	it("resolves theme variants and falls back when a source has none", async () => {
+		expect((await getIconUrl("ace", "webp", "dark"))?.url).toBe("https://cdn.example/lobehub/dark/ace.webp")
+		expect((await getIconUrl("ace", "svg", "dark"))?.url).toBe("https://cdn.example/lobehub/ace.svg")
+		expect((await getIconByName("ace"))?.urls).toMatchObject({
+			svg: "https://cdn.example/lobehub/ace.svg",
+			dark: "https://cdn.example/lobehub/dark/ace.webp",
+		})
+	})
+
+	it("rejects a format the source does not ship", async () => {
+		await expect(getIconUrl("resend", "webp")).rejects.toThrow("not available as webp")
+	})
+
+	it("suggests external icons with a direct URL", async () => {
+		const { suggestions } = await suggestIcons("resend", 5)
+		expect(suggestions[0]).toMatchObject({ name: "resend", source: "simpleicons", url: "https://cdn.simpleicons.org/resend/000000" })
 	})
 })
 

@@ -2,12 +2,13 @@ import "server-only"
 
 import { readFile } from "node:fs/promises"
 import { unstable_rethrow } from "next/navigation"
-import { METADATA_URL } from "@/constants"
+import { type ExternalSourceId, METADATA_URL, WEB_URL } from "@/constants"
+import { canResolveExternalIconUrl, resolveExternalIconUrl } from "@/lib/external-icon-urls"
 import { filterAndSortIcons, scoreIcon } from "@/lib/icons/search"
-import type { IconDetail, IconUrlResult, SearchResult, Suggestion } from "@/lib/icons/types"
-import { buildIconUrl, buildIconUrls } from "@/lib/icons/urls"
-import { assertIconName } from "@/lib/icons/validate"
-import type { Icon, IconFile, IconWithName } from "@/types/icons"
+import type { IconDetail, IconSource, IconUrlResult, SearchResult, Suggestion } from "@/lib/icons/types"
+import { buildIconUrl, buildIconUrls, type IconFormat, type IconTheme } from "@/lib/icons/urls"
+import { assertIconName, ValidationError } from "@/lib/icons/validate"
+import type { ExternalIcon, ExternalIconRecord, Icon, IconFile, IconWithName } from "@/types/icons"
 
 const METADATA_FETCH_TIMEOUT_MS = 10_000
 const CACHE_TTL_SECONDS = 900
@@ -118,16 +119,88 @@ async function getIconsArray(): Promise<IconWithName[]> {
 		.sort((a, b) => a.name.localeCompare(b.name))
 }
 
+// Lazy import: external-icons imports api, which imports this module.
+async function getExternalIconRecords(): Promise<ExternalIconRecord[]> {
+	const { getExternalIcons } = await import("@/lib/external-icons")
+	return getExternalIcons()
+}
+
+// One entry per slug, so a search is not flooded with the same brand from every
+// source: native icons win, then external sources in EXTERNAL_SOURCE_IDS order.
+async function getSearchableIcons(): Promise<IconWithName[]> {
+	const [native, external] = await Promise.all([getIconsArray(), getExternalIconRecords()])
+	const seen = new Set(native.map((icon) => icon.name))
+	const icons: IconWithName[] = native
+	for (const icon of external) {
+		if (seen.has(icon.slug)) continue
+		seen.add(icon.slug)
+		icons.push(icon)
+	}
+	return icons
+}
+
+async function findExternalIcon(slug: string, source?: ExternalSourceId): Promise<ExternalIcon | null> {
+	const icons = await getExternalIconRecords()
+	const match = icons.find((icon) => icon.slug === slug && (!source || icon.source === source))
+	if (!match) return null
+	// The cached list is trimmed; fetch the full record for licence and attribution.
+	const { getExternalIconBySourceAndSlug } = await import("@/lib/external-icons")
+	return (await getExternalIconBySourceAndSlug(match.source, match.slug))?.external ?? match.external
+}
+
+function hasExternalUrl(icon: ExternalIcon, format: IconFormat, theme: IconTheme = "default"): boolean {
+	if (!icon.formats.includes(format) || !canResolveExternalIconUrl(icon, format)) return false
+	if (theme === "default") return true
+	const key = `${format}_${theme}`
+	// Simple Icons recolours any mark; other sources only ship the variants they list.
+	return (
+		canResolveExternalIconUrl(icon, key) &&
+		(icon.source === "simpleicons" || Boolean(icon.url_templates?.[key]) || Boolean(icon.variants?.[theme]))
+	)
+}
+
+function externalIconUrl(icon: ExternalIcon, format: IconFormat, theme: IconTheme = "default"): string {
+	const url = resolveExternalIconUrl(icon, theme === "default" ? format : `${format}_${theme}`)
+	// Simple Icons PNGs are rendered by this site, so that builder returns a relative path.
+	return url.startsWith("/") ? `${WEB_URL}${url}` : url
+}
+
+function externalBaseFormat(icon: ExternalIcon): IconFormat {
+	return (["svg", "png", "webp"] as const).find((format) => hasExternalUrl(icon, format)) ?? "svg"
+}
+
+function buildExternalIconUrls(icon: ExternalIcon): IconDetail["urls"] {
+	const urls: IconDetail["urls"] = {}
+	for (const format of ["svg", "png", "webp"] as const) {
+		if (hasExternalUrl(icon, format)) urls[format] = externalIconUrl(icon, format)
+	}
+	// Variants can exist in fewer formats than the base mark (LobeHub ships them as WebP only).
+	for (const theme of ["light", "dark"] as const) {
+		const format = (["svg", "png", "webp"] as const).find((candidate) => hasExternalUrl(icon, candidate, theme))
+		if (format) urls[theme] = externalIconUrl(icon, format, theme)
+	}
+	return urls
+}
+
+function previewUrl(icon: IconWithName): string {
+	return icon.external ? externalIconUrl(icon.external, externalBaseFormat(icon.external)) : buildIconUrl(icon.name, "svg", "default")
+}
+
+function resultName(icon: IconWithName): string {
+	return icon.external ? (icon.slug ?? icon.name) : icon.name
+}
+
 export async function searchIcons(query: string, limit = 20, category?: string): Promise<{ results: SearchResult[]; total: number }> {
 	const trimmed = query.trim()
 	if (!trimmed) return { results: [], total: 0 }
 
-	const icons = await getIconsArray()
+	const icons = await getSearchableIcons()
 	const categories = category ? [category] : []
 	const matched = filterAndSortIcons({ icons, query: trimmed, categories })
 
 	const results = matched.slice(0, limit).map((icon) => ({
-		name: icon.name,
+		name: resultName(icon),
+		source: icon.source ?? "native",
 		aliases: icon.data.aliases,
 		categories: icon.data.categories,
 		score: scoreIcon(icon, trimmed),
@@ -136,14 +209,34 @@ export async function searchIcons(query: string, limit = 20, category?: string):
 	return { results, total: matched.length }
 }
 
-export async function getIconByName(name: string): Promise<IconDetail | null> {
+export async function getIconByName(name: string, source?: IconSource): Promise<IconDetail | null> {
 	const validated = assertIconName(name)
-	const metadata = await getAllIcons()
-	const icon = metadata[validated]
-	if (!icon) return null
+	const icon = source === undefined || source === "native" ? (await getAllIcons())[validated] : undefined
+	if (!icon) {
+		if (source === "native") return null
+		const external = await findExternalIcon(validated, source)
+		if (!external) return null
+		return {
+			name: validated,
+			source: external.source,
+			title: external.name,
+			base: externalBaseFormat(external),
+			aliases: external.aliases,
+			categories: external.categories,
+			update: {
+				timestamp: external.updated_at_source || external.updated || external.created || new Date(0).toISOString(),
+				author: { id: external.source },
+			},
+			urls: buildExternalIconUrls(external),
+			license: external.license || undefined,
+			attribution: external.attribution || undefined,
+			source_url: external.source_url || undefined,
+		}
+	}
 
 	return {
 		name: validated,
+		source: "native",
 		base: icon.base,
 		aliases: icon.aliases,
 		categories: icon.categories,
@@ -155,13 +248,23 @@ export async function getIconByName(name: string): Promise<IconDetail | null> {
 
 export async function getIconUrl(
 	name: string,
-	format: "svg" | "png" | "webp" = "svg",
-	theme: "default" | "light" | "dark" = "default",
+	format: IconFormat = "svg",
+	theme: IconTheme = "default",
+	source?: IconSource,
 ): Promise<IconUrlResult | null> {
 	const validated = assertIconName(name)
-	const metadata = await getAllIcons()
-	const icon = metadata[validated]
-	if (!icon) return null
+	const icon = source === undefined || source === "native" ? (await getAllIcons())[validated] : undefined
+	if (!icon) {
+		if (source === "native") return null
+		const external = await findExternalIcon(validated, source)
+		if (!external) return null
+		if (!hasExternalUrl(external, format)) {
+			throw new ValidationError(`Icon '${validated}' from ${external.source} is not available as ${format}`)
+		}
+		// Fall back to the default mark when the source has no variant for this theme.
+		const resolvedTheme = hasExternalUrl(external, format, theme) ? theme : "default"
+		return { url: externalIconUrl(external, format, resolvedTheme), name: validated, source: external.source, format, theme }
+	}
 
 	let resolvedName = validated
 	let resolvedTheme: "default" | "light" | "dark" = theme
@@ -176,6 +279,7 @@ export async function getIconUrl(
 	return {
 		url: buildIconUrl(resolvedName, format, resolvedTheme),
 		name: validated,
+		source: "native",
 		format,
 		theme,
 	}
@@ -185,13 +289,14 @@ export async function suggestIcons(serviceName: string, limit = 5): Promise<{ su
 	const trimmed = serviceName.trim()
 	if (!trimmed) return { suggestions: [] }
 
-	const icons = await getIconsArray()
+	const icons = await getSearchableIcons()
 	const matched = filterAndSortIcons({ icons, query: trimmed, limit })
 
 	const suggestions: Suggestion[] = matched.map((icon) => ({
-		name: icon.name,
+		name: resultName(icon),
+		source: icon.source ?? "native",
 		score: scoreIcon(icon, trimmed),
-		url: buildIconUrl(icon.name, "svg", "default"),
+		url: previewUrl(icon),
 	}))
 
 	return { suggestions }

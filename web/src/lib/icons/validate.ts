@@ -1,4 +1,5 @@
 import { z } from "zod"
+import { EXTERNAL_SOURCE_IDS } from "@/constants"
 
 export const ICON_NAME_REGEX = /^[a-z0-9]+(-[a-z0-9]+)*$/
 export const MAX_QUERY_LENGTH = 100
@@ -40,6 +41,11 @@ const iconNameField = z
 		}
 	})
 
+const sourceField = z
+	.enum(["native", ...EXTERNAL_SOURCE_IDS])
+	.optional()
+	.describe("Icon source. Omit to try dashboard-icons first, then third-party sources.")
+
 export const searchIconsSchema = z.object({
 	query: z.string().trim().min(1).max(MAX_QUERY_LENGTH),
 	limit: z.number().int().positive().max(MAX_LIMIT_SEARCH).default(20),
@@ -48,12 +54,14 @@ export const searchIconsSchema = z.object({
 
 export const getIconSchema = z.object({
 	name: iconNameField,
+	source: sourceField,
 })
 
 export const getIconUrlSchema = z.object({
 	name: iconNameField,
 	format: z.enum(["svg", "png", "webp"]).default("svg"),
 	theme: z.enum(["default", "light", "dark"]).default("default"),
+	source: sourceField,
 })
 
 export const suggestIconSchema = z
