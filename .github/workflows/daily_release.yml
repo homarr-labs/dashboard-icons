@@ -1,15 +1,22 @@
-name: Trigger Cloudflare Pages Build
+name: Daily Dashboard Icons Deployment
 
 on:
   schedule:
     - cron: '0 0 * * *'  # Runs every day at midnight UTC
   workflow_dispatch:
 
+permissions:
+  actions: write
+
 jobs:
-  cron_job:
+  trigger_deployment:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Run Your Cron Job
-        run: |
-          curl -X POST "${{ secrets.CLOUDFLARE_DEPLOY_HOOK_URL }}"
+      # Reuse the image build, backup, backend verification, and frontend rollout.
+      # workflow_dispatch works with GITHUB_TOKEN and avoids stale webhook URLs.
+      - name: Trigger the current image and Dokploy deployment pipeline
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: gh workflow run docker.yml --ref main -f verify_only=false
