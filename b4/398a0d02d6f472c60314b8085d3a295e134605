@@ -1,0 +1,21 @@
+.github/workflows/docker.yml
+  s_2c7f0ef337942f::t_847dabdd26fe45 134
+web/Dockerfile
+  s_2c7f0ef337942f::t_c4914eedc4422b 42,45
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "b4398a0d02d6f472c60314b8085d3a295e134605",
+  "prompts": {},
+  "sessions": {
+    "s_2c7f0ef337942f": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "c289ebc2-24fd-481d-89a5-76f047a823e9",
+        "model": "unknown"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
