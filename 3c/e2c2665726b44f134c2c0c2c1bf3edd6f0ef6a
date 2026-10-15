@@ -1,0 +1,65 @@
+web/.gitignore
+  s_970934f5ac3509::t_a115916914027c 61
+web/README.md
+  s_970934f5ac3509::t_88b974442892e2 313-315
+web/docker-compose.yml
+  s_970934f5ac3509::t_29c39516d0ba9f 11-12
+web/src/app/api/mcp/route.ts
+  s_970934f5ac3509::t_e7f92c4c4ee1eb 1,6,8,13,17,20-21,25,29-30,33,36,38-40,42,78-89,98,106-107,115-117,119
+web/src/components/mcp-setup-dialog-content.tsx
+  s_970934f5ac3509::t_23cb1ee2dd903e 182-184
+web/src/hooks/use-icon-submission-form.ts
+  s_970934f5ac3509::t_ccf21c8f320348 61
+web/src/lib/submission-categories.ts
+  s_9332bf2d96c65b::t_99b35c3072b01b 1-18
+web/src/mcp/__tests__/analytics.test.ts
+  s_9332bf2d96c65b::t_1e00a3a56c6270 187-199
+web/src/mcp/__tests__/caller.test.ts
+  s_970934f5ac3509::t_417f7ae67e6f1f 2-19
+web/src/mcp/__tests__/integration.test.ts
+  s_970934f5ac3509::t_44747cc36fb8f8 66-79,309-352
+web/src/mcp/__tests__/route.test.ts
+  s_970934f5ac3509::t_c5da38c1163282 1,5-6,11,27-31,36-122
+web/src/mcp/__tests__/server.test.ts
+  s_970934f5ac3509::t_9769892e50aa9a 35-44,49,56,59-62
+web/src/mcp/__tests__/tools.test.ts
+  s_970934f5ac3509::t_b08fa9ff75baca 42,50-51,54,71-72
+web/src/mcp/analytics.ts
+  s_970934f5ac3509::t_826b6b568f3c20 58-64,70
+web/src/mcp/caller.ts
+  s_970934f5ac3509::t_5d774ebd15b96c 7-12,16-22,26-32
+web/src/mcp/server.ts
+  s_9332bf2d96c65b::t_fbef791e42ea2b 4,18,23
+web/src/mcp/tools/account.ts
+  s_970934f5ac3509::t_20bd9ac0076f60 1-36
+web/src/mcp/tools/index.ts
+  s_970934f5ac3509::t_34b860559b02b1 2,7,10,20-21,30-32,40,43,45
+web/src/mcp/tools/list-my-submissions.ts
+  s_970934f5ac3509::t_86f21a43440dc8 1-76
+web/src/mcp/tools/types.ts
+  s_970934f5ac3509::t_9344a579ed97c1 3,32
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "3ce2c2665726b44f134c2c0c2c1bf3edd6f0ef6a",
+  "prompts": {},
+  "sessions": {
+    "s_9332bf2d96c65b": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "353db9f1-ad65-4873-95ad-ee205b84ae23",
+        "model": "unknown"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    },
+    "s_970934f5ac3509": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "ef5332f9-6ea1-4494-a194-76f4606747ab",
+        "model": "unknown"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
