@@ -1,0 +1,31 @@
+web/src/lib/icons/catalog.ts
+  s_f085983999d0da::t_7c2e3ca2849c3c 1-346
+web/src/lib/icons/svg-fetch.ts
+  s_f085983999d0da::t_f75cc480f7482a 1-86
+web/src/lib/icons/types.ts
+  s_2c7f0ef337942f::t_c229cc6c78bd82 1-2,40-131
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "4ff24dff98101d2ed5c68248267649e1b4bdbbfd",
+  "prompts": {},
+  "sessions": {
+    "s_2c7f0ef337942f": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "c289ebc2-24fd-481d-89a5-76f047a823e9",
+        "model": "unknown"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    },
+    "s_f085983999d0da": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "e6191dbc-4b08-4b95-b488-83d0cfafeb7a",
+        "model": "unknown"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
