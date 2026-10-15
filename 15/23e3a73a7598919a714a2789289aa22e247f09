@@ -1,0 +1,24 @@
+web/src/mcp/auth/__tests__/fixtures.ts
+  h_d6e478ca18e517 11-14
+web/src/mcp/auth/__tests__/http.test.ts
+  h_d6e478ca18e517 20,85-86,110,112
+web/src/mcp/auth/__tests__/pkce-replay.test.ts
+  h_d6e478ca18e517 1,27-28,49-51,53-65
+web/src/mcp/auth/__tests__/token.test.ts
+  h_d6e478ca18e517 12,15,18-19,27,29,82,86,94-120,184-188,201,205,208,210,216,228,233-285
+web/src/mcp/auth/replay.ts
+  h_d6e478ca18e517 6,11,19
+web/src/mcp/auth/token.ts
+  h_d6e478ca18e517 4,67,71,76,83-96,98-104,117,123,130,150,187-188
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "1523e3a73a7598919a714a2789289aa22e247f09",
+  "prompts": {},
+  "humans": {
+    "h_d6e478ca18e517": {
+      "author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
