@@ -38,14 +38,14 @@ if (before.mounts.some((mount) => mount.mountPath === "/pb" || packagedPaths.som
 if (process.argv.includes("--inspect")) {
 	console.log(JSON.stringify({ applicationId, image: before.dockerImage, status: before.applicationStatus, replicas, dataVolume: true }))
 } else {
-	const image = process.env.POCKETBASE_IMAGE
-	if (!image || !/^ghcr\.io\/homarr-labs\/dashboard-icons@sha256:[a-f0-9]{64}$/.test(image)) {
-		throw new Error("An immutable Dashboard Icons image digest is required")
+	const image = process.env.POCKETBASE_IMAGE || "ghcr.io/homarr-labs/dashboard-icons:latest"
+	if (!/^ghcr\.io\/homarr-labs\/dashboard-icons(?::latest|@sha256:[a-f0-9]{64})$/.test(image)) {
+		throw new Error("The Dashboard Icons latest tag or an explicit recovery image digest is required")
 	}
 	const env = (before.env || "").split("\n").filter((line) => !/^\s*SERVICE_MODE\s*=/.test(line)).concat("SERVICE_MODE=backend").join("\n")
 	await request("application.update", { applicationId, dockerImage: image, command: "/usr/local/bin/start-dashboard", args: [], env })
 	const previousIds = new Set((before.deployments || []).map((deployment) => deployment.deploymentId))
-	await request("application.deploy", { applicationId, title: "Deploy pinned PocketBase and apply migrations" })
+	await request("application.deploy", { applicationId, title: "Deploy PocketBase application and apply migrations" })
 	let deployed = false
 	let consecutiveFailures = 0
 	for (let attempt = 0; attempt < 120; attempt++) {

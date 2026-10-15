@@ -135,7 +135,7 @@ jobs:
           secrets: |
             "github_token=${{ secrets.GITHUB_TOKEN }}"
 
-      # The backend is a separate, digest-pinned service. Deploy it before the frontend.
+      # Refresh the separate backend from latest before deploying the frontend.
       - name: Back up PocketBase before updating its image or schema
         env:
           PB_URL: ${{ secrets.PB_URL }}
@@ -149,16 +149,16 @@ jobs:
           DOKPLOY_URL: ${{ secrets.DOKPLOY_URL }}
           DOKPLOY_API_KEY: ${{ secrets.DOKPLOY_API_KEY }}
           DOKPLOY_POCKETBASE_APPLICATION_ID: ${{ vars.DOKPLOY_POCKETBASE_APPLICATION_ID }}
-          POCKETBASE_IMAGE: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}@${{ steps.build.outputs.digest }}
+          POCKETBASE_IMAGE: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
         run: node scripts/deploy-pocketbase.mjs
 
-      - name: Verify PocketBase proposal schema
+      - name: Verify PocketBase schema and packaged migrations
         env:
           PB_URL: ${{ secrets.PB_URL }}
           PB_ADMIN: ${{ secrets.PB_ADMIN }}
           PB_ADMIN_PASS: ${{ secrets.PB_ADMIN_PASS }}
           PB_ADMIN_TOKEN: ${{ secrets.PB_ADMIN_TOKEN }}
-        run: node scripts/verify-pocketbase-schema.mjs --require-proposals
+        run: node scripts/verify-pocketbase-schema.mjs --require-proposals --require-current
 
       - name: Deploy frontend to Dokploy
         env:
@@ -196,4 +196,4 @@ jobs:
           PB_ADMIN: ${{ secrets.PB_ADMIN }}
           PB_ADMIN_PASS: ${{ secrets.PB_ADMIN_PASS }}
           PB_ADMIN_TOKEN: ${{ secrets.PB_ADMIN_TOKEN }}
-        run: node scripts/verify-pocketbase-schema.mjs
+        run: node scripts/verify-pocketbase-schema.mjs --require-proposals --require-current

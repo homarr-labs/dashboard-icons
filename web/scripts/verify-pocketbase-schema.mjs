@@ -1,3 +1,4 @@
+import { readdir } from "node:fs/promises"
 import { setTimeout } from "node:timers/promises"
 
 const base = process.env.PB_URL?.replace(/\/$/, "")
@@ -34,12 +35,16 @@ const galleryTarget = gallery.fields.some((field) => field.name === "target_subm
 const historyResponse = await fetch(`${base}/api/sql`, {
 	method: "POST",
 	headers: { Authorization: token, "Content-Type": "application/json" },
-	body: JSON.stringify({ query: "SELECT file, applied FROM _migrations WHERE file IN ('1790000000_dashboard_workspace.js', '1791800000_submission_proposals.js') ORDER BY file" }),
+	body: JSON.stringify({ query: "SELECT file, applied FROM _migrations ORDER BY file" }),
 	signal: AbortSignal.timeout(30000),
 })
 if (!historyResponse.ok) throw new Error(`PocketBase migration history inspection failed: HTTP ${historyResponse.status}`)
 const history = (await historyResponse.json()).rows
-const proposalsApplied = history.some(([file]) => file === "1791800000_submission_proposals.js")
+const appliedMigrations = new Set(history.map(([file]) => file))
+const packagedMigrations = (await readdir(new URL("../backend/pb_migrations/", import.meta.url))).filter((file) => file.endsWith(".js")).sort()
+if (!packagedMigrations.length) throw new Error("No packaged PocketBase migrations found")
+const missingMigrations = packagedMigrations.filter((file) => !appliedMigrations.has(file))
+const proposalsApplied = appliedMigrations.has("1791800000_submission_proposals.js")
 console.log(JSON.stringify({
 	proposalsRelation: target?.type === "relation" && target.collectionId === submissions.id,
 	uniqueName,
@@ -48,9 +53,14 @@ console.log(JSON.stringify({
 	submissionIndexes: submissions.indexes,
 	galleryQuery: gallery.viewQuery,
 	migrationHistory: history,
+	latestPackagedMigration: packagedMigrations.at(-1),
+	missingMigrations,
 }))
 if (process.argv.includes("--require-proposals") && (!proposalsApplied || target?.type !== "relation" || target.collectionId !== submissions.id || uniqueName || !galleryTarget)) {
 	throw new Error("PocketBase proposal migration has not been applied correctly")
+}
+if (process.argv.includes("--require-current") && missingMigrations.length) {
+	throw new Error(`PocketBase has unapplied migrations: ${missingMigrations.join(", ")}`)
 }
 
 if (process.argv.includes("--backup")) {
