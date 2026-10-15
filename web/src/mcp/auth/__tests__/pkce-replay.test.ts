@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest"
+import { afterEach, describe, expect, it, vi } from "vitest"
 import { isValidCodeChallenge, verifyPkce } from "@/mcp/auth/pkce"
 import { createReplayGuard } from "@/mcp/auth/replay"
 import { pkcePair } from "./fixtures"
@@ -24,6 +24,8 @@ describe("pkce", () => {
 })
 
 describe("replay guard", () => {
+	afterEach(() => vi.restoreAllMocks())
+
 	it("accepts an id once", () => {
 		const guard = createReplayGuard(10)
 		expect(guard.consume("a", Date.now() + 60_000)).toBe(true)
@@ -44,11 +46,22 @@ describe("replay guard", () => {
 		expect(guard.consume("b", Date.now() + 60_000)).toBe(false)
 	})
 
-	it("can evict the oldest live id instead of refusing when full", () => {
-		const guard = createReplayGuard(2, { evictOldest: true })
-		for (const id of ["a", "b", "c"]) expect(guard.consume(id, Date.now() + 60_000)).toBe(true)
-		expect(guard.size()).toBe(2)
+	it("never forgets a live id when full", () => {
+		const guard = createReplayGuard(2)
+		for (const id of ["a", "b"]) expect(guard.consume(id, Date.now() + 60_000)).toBe(true)
 		expect(guard.consume("c", Date.now() + 60_000)).toBe(false)
-		expect(guard.consume("a", Date.now() + 60_000)).toBe(true)
+		expect(guard.size()).toBe(2)
+		expect(guard.consume("a", Date.now() + 60_000)).toBe(false)
+	})
+
+	it("reclaims expired entries behind longer-lived entries without evicting live ids", () => {
+		const now = Date.now()
+		const guard = createReplayGuard(2)
+		guard.consume("long", now + 60_000)
+		guard.consume("short", now + 1_000)
+		vi.spyOn(Date, "now").mockReturnValue(now + 1_000)
+		expect(guard.consume("new", now + 30_000)).toBe(true)
+		expect(guard.size()).toBe(2)
+		expect(guard.consume("long", now + 60_000)).toBe(false)
 	})
 })

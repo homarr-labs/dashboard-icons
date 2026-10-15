@@ -8,6 +8,10 @@ export const RESOURCE = `${ISSUER}/api/mcp`
 export const REDIRECT_URI = "http://127.0.0.1:33418/callback"
 export const USER = { id: "user123", username: "tester", admin: false }
 
+export function pocketBaseToken(expiresAt = Math.floor(Date.now() / 1000) + 14 * 24 * 60 * 60): string {
+	return `header.${Buffer.from(JSON.stringify({ exp: expiresAt })).toString("base64url")}.signature`
+}
+
 export function pkcePair(): { verifier: string; challenge: string } {
 	const verifier = randomBytes(32).toString("base64url")
 	return { verifier, challenge: createHash("sha256").update(verifier).digest("base64url") }

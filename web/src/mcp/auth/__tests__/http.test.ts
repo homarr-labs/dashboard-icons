@@ -17,7 +17,7 @@ import {
 	handleProtectedResourceMetadata,
 	handleTokenRequest,
 } from "@/mcp/auth/http"
-import { pkcePair, REDIRECT_URI, SECRET_TEXT, USER } from "./fixtures"
+import { pkcePair, pocketBaseToken, REDIRECT_URI, SECRET_TEXT, USER } from "./fixtures"
 
 const ORIGIN = "https://dashboardicons.com"
 let ipCounter = 0
@@ -82,7 +82,8 @@ describe("OAuth HTTP endpoints", () => {
 		const client = (await registration.json()) as { client_id: string }
 
 		const { verifier, challenge } = pkcePair()
-		refreshPocketBaseSession.mockResolvedValueOnce({ ok: true, token: "pb-1", user: USER })
+		const pbToken = pocketBaseToken()
+		refreshPocketBaseSession.mockResolvedValueOnce({ ok: true, token: pbToken, user: USER })
 		const params = {
 			response_type: "code",
 			client_id: client.client_id,
@@ -106,9 +107,9 @@ describe("OAuth HTTP endpoints", () => {
 		const tokens = (await tokenResponse.json()) as { access_token: string; refresh_token: string }
 
 		const auth = await verifyMcpBearer(new Request(`${ORIGIN}/api/mcp`, { headers: { authorization: `Bearer ${tokens.access_token}` } }))
-		expect(auth?.extra).toEqual({ userId: USER.id, username: USER.username, admin: false, pbToken: "pb-1" })
+		expect(auth?.extra).toEqual({ userId: USER.id, username: USER.username, admin: false, pbToken })
 
-		refreshPocketBaseSession.mockResolvedValueOnce({ ok: true, token: "pb-2", user: USER })
+		refreshPocketBaseSession.mockResolvedValueOnce({ ok: true, token: pocketBaseToken(), user: USER })
 		const refreshed = await handleTokenRequest(
 			form({ grant_type: "refresh_token", refresh_token: tokens.refresh_token, client_id: client.client_id }),
 		)
