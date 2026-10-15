@@ -1,32 +1,132 @@
-import { beforeEach, describe, expect, it, vi } from "vitest"
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest"
 import * as rateLimit from "@/lib/icons/rate-limit"
 import { resetRateLimitsForTests } from "@/lib/icons/rate-limit"
 import { MAX_REQUEST_BODY_BYTES } from "@/lib/icons/validate"
+import { SECRET, SECRET_TEXT, tamper } from "@/mcp/auth/__tests__/fixtures"
+import { seal } from "@/mcp/auth/seal"
 
-const { mcpHandlerMock } = vi.hoisted(() => ({
-	mcpHandlerMock: vi.fn(async () => new Response("ok", { status: 200 })),
+const { afterTasks, flushDashboardIconsMcpAnalytics, handleMcpRequest } = vi.hoisted(() => ({
+	afterTasks: [] as (() => unknown)[],
+	flushDashboardIconsMcpAnalytics: vi.fn(async () => {}),
+	handleMcpRequest: vi.fn(async (_req: Request, _authInfo?: unknown) => new Response("ok", { status: 200 })),
 }))
 
-const flushDashboardIconsMcpAnalytics = vi.fn(async () => {})
+vi.mock("next/server", async (importOriginal) => ({
+	...(await importOriginal<typeof import("next/server")>()),
+	after: (task: () => unknown) => afterTasks.push(task),
+}))
 
 vi.mock("@/mcp/analytics", () => ({
 	flushDashboardIconsMcpAnalytics,
 }))
 
-vi.mock("@/mcp/handler", () => ({
-	createDashboardIconsMcpHandler: () => mcpHandlerMock,
+vi.mock("@/mcp/http", () => ({
+	handleMcpRequest,
 }))
+
+vi.mock("@/mcp/auth", async (importOriginal) => {
+	const actual = await importOriginal<typeof import("@/mcp/auth")>()
+	return { ...actual, verifyMcpBearer: vi.fn(actual.verifyMcpBearer) }
+})
 
 function nextRequest(method: string, init: RequestInit = {}) {
 	return new Request("http://localhost/api/mcp", { method, ...init }) as never
 }
 
+function toolCall(name: unknown, authorization?: string) {
+	const headers: Record<string, string> = { "content-type": "application/json" }
+	if (authorization) headers.authorization = authorization
+	return nextRequest("POST", {
+		headers,
+		body: JSON.stringify({ jsonrpc: "2.0", id: 1, method: "tools/call", params: { name, arguments: {} } }),
+	})
+}
+
+function accessToken(aud = "http://localhost/api/mcp") {
+	const claims = { sub: "user123", username: "tester", admin: false, scope: "account", aud, cid: "client", pb_token: "pb-token" }
+	return seal(SECRET, "access", claims, 3600)
+}
+
+describe("MCP route sign-in gate", () => {
+	beforeEach(() => {
+		resetRateLimitsForTests()
+		process.env.MCP_RATE_LIMIT_ENABLED = "true"
+		handleMcpRequest.mockClear()
+		vi.stubEnv("MCP_OAUTH_SECRET", SECRET_TEXT)
+		vi.stubEnv("MCP_OAUTH_ISSUER", "")
+	})
+
+	afterEach(() => {
+		vi.unstubAllEnvs()
+	})
+
+	it("challenges anonymous account tool calls so clients offer sign-in", async () => {
+		const { POST } = await import("@/app/api/mcp/route")
+		const response = await POST(toolCall("submit_icon"))
+		expect(response.status).toBe(401)
+		expect(response.headers.get("WWW-Authenticate")).toBe(
+			'Bearer resource_metadata="http://localhost/.well-known/oauth-protected-resource/api/mcp", scope="account"',
+		)
+		expect(response.headers.get("Access-Control-Expose-Headers")).toBe("WWW-Authenticate")
+		expect(response.headers.get("Cache-Control")).toBe("no-store")
+		expect(handleMcpRequest).not.toHaveBeenCalled()
+	})
+
+	it("lets anonymous callers use public tools and other methods", async () => {
+		const { GET, POST } = await import("@/app/api/mcp/route")
+		expect((await POST(toolCall("search_icons"))).status).toBe(200)
+		expect((await POST(toolCall({ name: "submit_icon" }))).status).toBe(200)
+		expect((await GET(nextRequest("GET"))).status).toBe(200)
+		expect(handleMcpRequest.mock.calls.map((call) => call[1])).toEqual([undefined, undefined, undefined])
+	})
+
+	it("rejects bad tokens on every request", async () => {
+		const { GET, POST } = await import("@/app/api/mcp/route")
+		const tampered = await POST(toolCall("search_icons", `Bearer ${tamper(accessToken())}`))
+		expect(tampered.status).toBe(401)
+		expect(tampered.headers.get("WWW-Authenticate")).toContain('error="invalid_token"')
+		expect(tampered.headers.get("Access-Control-Expose-Headers")).toBe("WWW-Authenticate")
+
+		const foreign = await GET(nextRequest("GET", { headers: { authorization: `Bearer ${accessToken("https://other.example/api/mcp")}` } }))
+		expect(foreign.status).toBe(401)
+		expect(foreign.headers.get("WWW-Authenticate")).toContain("different resource")
+		expect(handleMcpRequest).not.toHaveBeenCalled()
+	})
+
+	it("hands verified auth info to the MCP handler", async () => {
+		const { POST } = await import("@/app/api/mcp/route")
+		const response = await POST(toolCall("submit_icon", `Bearer ${accessToken()}`))
+		expect(response.status).toBe(200)
+		expect(handleMcpRequest.mock.calls[0]?.[1]).toMatchObject({
+			clientId: "client",
+			scopes: ["account"],
+			extra: { userId: "user123", username: "tester", admin: false, pbToken: "pb-token" },
+		})
+	})
+
+	it("leaves account tools to the registry refusal when sign-in is disabled", async () => {
+		vi.stubEnv("MCP_OAUTH_SECRET", "")
+		const { POST } = await import("@/app/api/mcp/route")
+		const response = await POST(toolCall("submit_icon", "Bearer anything"))
+		expect(response.status).toBe(200)
+		expect(handleMcpRequest).toHaveBeenCalledWith(expect.anything(), undefined)
+	})
+
+	it("does not swallow unexpected verifier failures", async () => {
+		const auth = await import("@/mcp/auth")
+		vi.mocked(auth.verifyMcpBearer).mockRejectedValueOnce(new Error("boom"))
+		const { POST } = await import("@/app/api/mcp/route")
+		await expect(POST(toolCall("search_icons", "Bearer x"))).rejects.toThrow("boom")
+	})
+})
+
 describe("MCP route", () => {
 	beforeEach(async () => {
 		resetRateLimitsForTests()
 		process.env.MCP_RATE_LIMIT_ENABLED = "true"
-		mcpHandlerMock.mockClear()
+		handleMcpRequest.mockClear()
 		flushDashboardIconsMcpAnalytics.mockClear()
+		afterTasks.length = 0
 	})
 
 	it("returns 429 after exceeding request rate limit", async () => {
@@ -105,8 +205,24 @@ describe("MCP route", () => {
 			}),
 		)
 		expect(response.status).toBe(200)
-		expect(mcpHandlerMock).toHaveBeenCalled()
-		expect(flushDashboardIconsMcpAnalytics).toHaveBeenCalled()
+		expect(handleMcpRequest).toHaveBeenCalled()
+	})
+
+	it("flushes analytics after the response instead of before it", async () => {
+		const { POST } = await import("@/app/api/mcp/route")
+		const response = await POST(
+			nextRequest("POST", {
+				headers: { "content-type": "application/json" },
+				body: JSON.stringify({ jsonrpc: "2.0", id: 1, method: "tools/list" }),
+			}),
+		)
+		expect(response.status).toBe(200)
+		expect(flushDashboardIconsMcpAnalytics).not.toHaveBeenCalled()
+		expect(afterTasks).toEqual([flushDashboardIconsMcpAnalytics])
+		await afterTasks[0]?.()
+		expect(flushDashboardIconsMcpAnalytics).toHaveBeenCalledTimes(1)
+		const forwarded = handleMcpRequest.mock.calls[0]?.[0]
+		expect(await forwarded?.json()).toEqual({ jsonrpc: "2.0", id: 1, method: "tools/list" })
 	})
 
 	it("sets security headers on success", async () => {

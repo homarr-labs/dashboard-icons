@@ -1,37 +1,94 @@
-import type { Icon } from "@/types/icons"
+import type { ExternalSourceId } from "@/constants"
+import type { IconFormat, IconTheme } from "@/lib/icons/urls"
 
-export type SearchResult = {
+export type CatalogSource = "native" | ExternalSourceId
+
+export type CatalogItem = {
 	name: string
+	title: string
+	source: CatalogSource
+	preview_url: string
+}
+
+export type CatalogHit = CatalogItem & { score: number }
+
+export type CatalogUrls = Partial<Record<IconFormat, Partial<Record<IconTheme, string>>>>
+
+export type CatalogLicense = {
+	name: string
+	url: string | null
+	attribution: string | null
+	source_url: string | null
+	guidelines_url: string | null
+	provider: string
+	provider_url: string
+}
+
+export type CatalogIcon = CatalogItem & {
 	aliases: string[]
 	categories: string[]
-	score: number
+	author: string | null
+	updated_at: string
+	brand_color: string | null
+	license: CatalogLicense | null
+	page_url: string
+	urls: CatalogUrls
 }
 
-export type IconDetail = {
-	name: string
-	base: Icon["base"]
-	aliases: string[]
-	categories: string[]
-	colors?: Icon["colors"]
-	update: Icon["update"]
-	urls: {
-		svg: string
-		png: string
-		webp: string
-		light?: string
-		dark?: string
-	}
+export type CatalogDegraded = { degraded_sources?: CatalogSource[] }
+
+export type CatalogResolution = { resolved_from?: string }
+
+export type CatalogNotFound = CatalogDegraded & {
+	found: false
+	did_you_mean: CatalogHit[]
 }
 
-export type Suggestion = {
+export type CatalogLookup = (CatalogResolution & { found: true; icon: CatalogIcon }) | CatalogNotFound
+
+export type CatalogSvgUnavailableReason = "no_svg" | "no_variant" | "fetch_failed"
+
+type CatalogSvgIdentity = CatalogResolution & {
+	found: true
 	name: string
-	score: number
-	url: string
+	source: CatalogSource
+	theme: IconTheme
 }
 
-export type IconUrlResult = {
-	url: string
+export type CatalogSvgResult =
+	| (CatalogSvgIdentity & { svg: string; url: string })
+	| (CatalogSvgIdentity & { svg: null; url: string | null; reason: CatalogSvgUnavailableReason })
+	| CatalogNotFound
+
+export type CatalogSearchResult = CatalogDegraded & {
+	results: CatalogHit[]
+	total: number
+}
+
+export type CatalogServiceMatch = {
+	service: string
+	best: CatalogHit | null
+	alternatives: CatalogHit[]
+	reason?: "fuzzy_limit"
+}
+
+export type CatalogMatchResult = CatalogDegraded & {
+	matches: CatalogServiceMatch[]
+}
+
+export type CatalogCategory = {
 	name: string
-	format: "svg" | "png" | "webp"
-	theme: "default" | "light" | "dark"
+	count: number
+}
+
+export type CatalogCategoriesResult = CatalogDegraded & {
+	categories: CatalogCategory[]
+}
+
+export type CatalogBrowseSort = "newest" | "alphabetical"
+
+export type CatalogBrowseResult = CatalogDegraded & {
+	items: CatalogItem[]
+	total: number
+	next_cursor: string | null
 }

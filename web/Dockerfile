@@ -39,8 +39,10 @@ RUN --mount=type=secret,id=github_token \
 
 FROM base AS runner
 WORKDIR /app
+ARG MCP_SERVER_BUILD
 ENV NODE_ENV=production \
     NEXT_TELEMETRY_DISABLED=1 \
+    MCP_SERVER_BUILD=${MCP_SERVER_BUILD} \
     PB_URL=http://127.0.0.1:8090 \
     PORT=3000 \
     HOSTNAME=127.0.0.1 \

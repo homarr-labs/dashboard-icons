@@ -1,6 +1,6 @@
 "use client"
 
-import { Check, Copy, ExternalLink, ImageIcon, Link2, type LucideIcon, Plug, Search, Sparkles } from "lucide-react"
+import { Check, Code, Copy, ExternalLink, ImageIcon, LayoutGrid, ListChecks, type LucideIcon, Plug, Search, Tags } from "lucide-react"
 import Link from "next/link"
 import posthog from "posthog-js"
 import { useState } from "react"
@@ -141,10 +141,12 @@ function ClientGuidePanel({ guide, source }: { guide: McpClientGuide; source: Mc
 }
 
 const MCP_TOOL_ICONS: Record<(typeof MCP_TOOLS)[number]["name"], LucideIcon> = {
+	match_icons: ListChecks,
 	search_icons: Search,
 	get_icon: ImageIcon,
-	get_icon_url: Link2,
-	suggest_icon: Sparkles,
+	get_icon_svg: Code,
+	browse_icons: LayoutGrid,
+	list_categories: Tags,
 }
 
 function McpToolsSection() {
@@ -177,6 +179,9 @@ function McpToolsSection() {
 					)
 				})}
 			</ul>
+			<p className="mt-2 px-2 text-[11px] leading-relaxed text-muted-foreground">
+				Sign in when your client asks to also submit icons and track their review.
+			</p>
 		</div>
 	)
 }

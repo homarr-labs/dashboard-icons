@@ -8,6 +8,9 @@ services:
       - pb_data:/pb/pb_data
     environment:
       GITHUB_TOKEN: ${GITHUB_TOKEN:-}
+      MCP_OAUTH_SECRET: ${MCP_OAUTH_SECRET:-}
+      MCP_OAUTH_REPLAY_SECRET: ${MCP_OAUTH_REPLAY_SECRET:-}
+      MCP_OAUTH_ISSUER: ${MCP_OAUTH_ISSUER:-}
     restart: unless-stopped
     stop_grace_period: 30s
 

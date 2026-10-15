@@ -1,13 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest"
-import {
-	clearMetadataCacheForTests,
-	getAllIcons,
-	getIconByName,
-	getIconUrl,
-	searchIcons,
-	suggestIcons,
-	warmMetadataCache,
-} from "@/lib/icons/service"
+import { clearMetadataCacheForTests, getAllIcons, warmMetadataCache } from "@/lib/icons/service"
 
 const MOCK_METADATA = {
 	plex: {
@@ -67,80 +59,6 @@ afterEach(() => {
 	vi.unstubAllGlobals()
 	vi.unstubAllEnvs()
 	readFileMock.mockReset()
-})
-
-describe("searchIcons", () => {
-	it("returns empty for blank query", async () => {
-		expect(await searchIcons("   ")).toEqual({ results: [], total: 0 })
-	})
-
-	it("returns plex for query plex", async () => {
-		const { results, total } = await searchIcons("plex", 10)
-		expect(total).toBeGreaterThan(0)
-		expect(results[0]?.name).toBe("plex")
-	})
-
-	it("reports total matches before applying the result limit", async () => {
-		vi.mocked(fetch).mockResolvedValueOnce({
-			ok: true,
-			status: 200,
-			headers: new Headers(),
-			json: async () => ({ ...MOCK_METADATA, plexamp: MOCK_METADATA.plex }),
-		} as Response)
-		clearMetadataCacheForTests()
-		const { results, total } = await searchIcons("plex", 1)
-		expect(results).toHaveLength(1)
-		expect(total).toBe(2)
-	})
-
-	it("filters by category", async () => {
-		const { results } = await searchIcons("plex", 10, "Media-Servers")
-		expect(results.some((icon) => icon.name === "plex")).toBe(true)
-	})
-})
-
-describe("getIconByName", () => {
-	it("returns null for missing icon", async () => {
-		expect(await getIconByName("nonexistent-icon-xyz")).toBeNull()
-	})
-
-	it("returns metadata for docker", async () => {
-		const icon = await getIconByName("docker")
-		expect(icon?.name).toBe("docker")
-		expect(icon?.urls.svg).toContain("docker.svg")
-	})
-})
-
-describe("getIconUrl", () => {
-	it("returns null for missing icon", async () => {
-		expect(await getIconUrl("missing-icon")).toBeNull()
-	})
-
-	it("resolves light theme using color variant", async () => {
-		const result = await getIconUrl("dagster", "svg", "light")
-		expect(result?.url).toContain("dagster-light")
-	})
-
-	it("resolves dark theme using color variant", async () => {
-		const result = await getIconUrl("dagster", "png", "dark")
-		expect(result?.url).toContain("dagster-dark.png")
-	})
-
-	it("uses default dark suffix when no color variant exists", async () => {
-		const result = await getIconUrl("docker", "svg", "dark")
-		expect(result?.url).toContain("docker-dark.svg")
-	})
-})
-
-describe("suggestIcons", () => {
-	it("returns empty for blank service name", async () => {
-		expect(await suggestIcons("  ")).toEqual({ suggestions: [] })
-	})
-
-	it("suggests plex from service name", async () => {
-		const { suggestions } = await suggestIcons("Plex media server", 5)
-		expect(suggestions[0]?.name).toBe("plex")
-	})
 })
 
 describe("metadata loading", () => {

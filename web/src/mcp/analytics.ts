@@ -1,14 +1,25 @@
 import type { McpServer } from "@modelcontextprotocol/server"
-import type { BeforeSendFn } from "@posthog/mcp"
+import type { BeforeSendFn, MCPAnalyticsOptions } from "@posthog/mcp"
 import { instrument, PostHog } from "@posthog/mcp"
+import { getClientIp } from "@/lib/icons/rate-limit"
+import { getMcpCaller } from "@/mcp/caller"
 
-const posthogKey = process.env.NEXT_PUBLIC_POSTHOG_KEY
-const posthog =
-	posthogKey && process.env.NEXT_PUBLIC_DISABLE_POSTHOG !== "true"
-		? new PostHog(posthogKey, {
-				host: "https://eu.i.posthog.com",
-			})
-		: null
+type McpCaptureEvent = Parameters<BeforeSendFn>[0]
+type IdentifyFn = Extract<MCPAnalyticsOptions["identify"], (...args: never[]) => unknown>
+type EventPropertiesFn = NonNullable<MCPAnalyticsOptions["eventProperties"]>
+
+const POSTHOG_HOST = "https://eu.i.posthog.com"
+const DEBUG_PROJECT_KEY = "phc_mcp_analytics_debug"
+const debug = process.env.MCP_ANALYTICS_DEBUG === "true"
+
+function createPostHogClient(): PostHog | null {
+	const key = process.env.NEXT_PUBLIC_POSTHOG_KEY
+	const sending = Boolean(key) && process.env.NEXT_PUBLIC_DISABLE_POSTHOG !== "true"
+	if (!sending && !debug) return null
+	return new PostHog(key || DEBUG_PROJECT_KEY, { host: POSTHOG_HOST, disableGeoip: false, disabled: !sending })
+}
+
+const posthog = createPostHogClient()
 
 // Connection chatter: `$mcp_tools_list` fires on every tools/list response (most of
 // which have no identifiable client). Drop it entirely — it carries no product signal.
@@ -44,32 +55,64 @@ export function isSampledIn(identity: string, rate: number): boolean {
 	return hashString(identity) % 10_000 < rate * 10_000
 }
 
+// `$identify` events carry the SDK request context, whose auth info holds the caller's
+// PocketBase token under a key PostHog's redactor does not know. Never send that context.
+function dropRequestContext(event: McpCaptureEvent): void {
+	const parameters = event.properties.$mcp_parameters
+	if (parameters && typeof parameters === "object" && "extra" in parameters) delete parameters.extra
+}
+
 /**
- * Event-volume filter passed to `instrument()`. `$mcp_tool_call` and `$exception`
+ * Event-volume filter applied before anything is sent. `$mcp_tool_call` and the rest
  * pass through untouched; only `$mcp_tools_list` and most `$mcp_initialize` are dropped.
  */
-export const mcpBeforeSend: BeforeSendFn = (event) => {
+export function mcpBeforeSend(event: McpCaptureEvent): McpCaptureEvent | null {
+	dropRequestContext(event)
 	if (event.event === MCP_TOOLS_LIST_EVENT) return null
 
 	if (event.event === MCP_INITIALIZE_EVENT) {
 		if (event.properties.$mcp_client_name === MCP_FALLBACK_TEST_CLIENT_NAME) return null
-		if (!isSampledIn(String(event.distinct_id ?? ""), MCP_INITIALIZE_SAMPLE_RATE)) return null
+		if (!isSampledIn(event.distinct_id, MCP_INITIALIZE_SAMPLE_RATE)) return null
 	}
 
 	return event
 }
 
+function beforeSend(event: McpCaptureEvent): McpCaptureEvent | null {
+	const kept = mcpBeforeSend(event)
+	if (kept && debug) process.stderr.write(`${JSON.stringify(kept)}\n`)
+	return kept
+}
+
+const identify: IdentifyFn = async (_request, extra) => {
+	const caller = getMcpCaller(extra?.http?.authInfo)
+	if (!caller) return null
+	return { distinctId: caller.userId, properties: { username: caller.username, admin: caller.admin } }
+}
+
+const clientIpProperties: EventPropertiesFn = (_request, extra) => {
+	const headers = extra?.http?.req?.headers
+	if (!(headers instanceof Headers)) return null
+	const ip = getClientIp(headers)
+	if (ip === "unknown") return null
+	return { $ip: ip }
+}
+
+const analyticsOptions: MCPAnalyticsOptions = {
+	context: true,
+	captureModel: true,
+	enableConversationId: true,
+	reportMissing: true,
+	enableExceptionAutocapture: false,
+	serverBuild: process.env.MCP_SERVER_BUILD || undefined,
+	identify,
+	eventProperties: clientIpProperties,
+	beforeSend,
+}
+
 export function instrumentDashboardIconsMcpAnalytics(server: McpServer): void {
 	if (!posthog) return
-	// @modelcontextprotocol/server v2's McpServer uses registerTool() and has no tool()
-	// method, so @posthog/mcp's high-level compatibility check rejects it. Instrument the
-	// underlying low-level Server (server.server) instead, which is what actually handles
-	// protocol requests — @posthog/mcp 0.11+ instruments it correctly for all event types.
-	instrument(server.server, posthog, {
-		context: false,
-		enableExceptionAutocapture: false,
-		beforeSend: mcpBeforeSend,
-	})
+	instrument(server, posthog, analyticsOptions)
 }
 
 export async function flushDashboardIconsMcpAnalytics(): Promise<void> {

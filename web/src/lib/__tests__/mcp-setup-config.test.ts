@@ -2,7 +2,6 @@ import { describe, expect, it } from "vitest"
 import {
 	getClaudeCodeAddCommand,
 	getHttpMcpConfigJson,
-	getIconUrlExampleJson,
 	getMcpEndpointUrl,
 	getMcpRemoteConfigJson,
 	getVscodeMcpConfigJson,
@@ -84,16 +83,15 @@ describe("mcp-setup-config", () => {
 		expect(command).toContain(ENDPOINT)
 	})
 
-	it("builds icon example json", () => {
-		const json = getIconUrlExampleJson("1337x")
-		expect(JSON.parse(json)).toEqual({
-			tool: "get_icon_url",
-			arguments: { name: "1337x", format: "svg" },
-		})
-	})
-
-	it("lists four tools", () => {
-		expect(MCP_TOOLS).toHaveLength(4)
+	it("lists the public MCP tools", () => {
+		expect(MCP_TOOLS.map((tool) => tool.name)).toEqual([
+			"match_icons",
+			"search_icons",
+			"get_icon",
+			"get_icon_svg",
+			"browse_icons",
+			"list_categories",
+		])
 	})
 
 	it("defines six client guides with valid snippets", () => {
