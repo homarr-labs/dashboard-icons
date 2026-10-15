@@ -1,0 +1,42 @@
+web/src/app/api/mcp/route.ts
+  h_d6e478ca18e517 5,48-49,53
+web/src/lib/__tests__/read-bounded-bytes.test.ts
+  h_d6e478ca18e517 1-77
+web/src/lib/icons/__tests__/catalog.test.ts
+  h_d6e478ca18e517 30-47
+web/src/lib/icons/__tests__/svg-safety.test.ts
+  h_d6e478ca18e517 17,19,73,81-86
+web/src/lib/icons/catalog.ts
+  h_d6e478ca18e517 32,360,379,407,423
+web/src/lib/icons/svg-fetch.ts
+  h_d6e478ca18e517 4,29-31
+web/src/lib/icons/svg-safety.ts
+  h_d6e478ca18e517 30,50
+web/src/lib/icons/validate.ts
+  h_d6e478ca18e517 14-17
+web/src/lib/read-bounded-bytes.ts
+  h_d6e478ca18e517 1-31
+web/src/mcp/__tests__/account-tools.test.ts
+  h_d6e478ca18e517 154-167
+web/src/mcp/__tests__/resources.test.ts
+  h_d6e478ca18e517 59-70,72-79
+web/src/mcp/auth/http.ts
+  h_d6e478ca18e517 2,37-39
+web/src/mcp/resources.ts
+  h_d6e478ca18e517 4,10,14,19,26-28
+web/src/mcp/tools/submit-icon.ts
+  h_d6e478ca18e517 23
+web/vitest.config.ts
+  h_d6e478ca18e517 7
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "92ab92a997738277bf09b52a0875470ffcc156f4",
+  "prompts": {},
+  "humans": {
+    "h_d6e478ca18e517": {
+      "author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
