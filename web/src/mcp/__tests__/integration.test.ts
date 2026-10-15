@@ -1,10 +1,54 @@
 import type { AuthInfo } from "@modelcontextprotocol/server"
+import { AjvJsonSchemaValidator } from "@modelcontextprotocol/server/validators/ajv"
 import { decodeSessionId } from "@posthog/mcp"
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest"
+import type { ExternalIconRecord, Icon, IconFile } from "@/types/icons"
 
 type CapturedEvent = { distinctId: string; event: string; properties: Record<string, unknown> }
 
 const { captured } = vi.hoisted(() => ({ captured: [] as CapturedEvent[] }))
+
+function nativeIcon(overrides: Partial<Icon> = {}): Icon {
+	return {
+		base: "svg",
+		aliases: [],
+		categories: [],
+		update: { timestamp: "2024-01-01T00:00:00Z", author: { id: 1, name: "alice" } },
+		...overrides,
+	}
+}
+
+const NATIVE_ICONS: IconFile = {
+	plex: nativeIcon({ aliases: ["Plex Media Server"], categories: ["Media"], colors: { dark: "plex-dark" } }),
+	lmstudio: nativeIcon({ aliases: ["LM Studio"], categories: ["AI"] }),
+	ntopng: nativeIcon({ base: "png", categories: ["Network"] }),
+}
+
+const EXTERNAL_ICONS: ExternalIconRecord[] = [
+	{
+		source: "selfhst",
+		slug: "qbitrr",
+		name: "qBitrr",
+		external: {
+			id: "selfhst-qbitrr",
+			source: "selfhst",
+			slug: "qbitrr",
+			name: "qBitrr",
+			aliases: [],
+			categories: ["Downloads"],
+			formats: ["svg", "png"],
+			variants: {},
+			url_templates: {
+				svg: "https://cdn.jsdelivr.net/gh/selfhst/icons/svg/{slug}.svg",
+				png: "https://cdn.jsdelivr.net/gh/selfhst/icons/png/{slug}.png",
+			},
+			license: "CC BY 4.0",
+			attribution: "selfh.st",
+			source_url: "https://selfh.st/icons/",
+		},
+		data: { base: "svg", aliases: [], categories: ["Downloads"], update: { timestamp: "2023-01-01T00:00:00Z", author: { id: "selfhst" } } },
+	},
+]
 
 vi.mock("@posthog/mcp", async (importOriginal) => {
 	const actual = await importOriginal<typeof import("@posthog/mcp")>()
@@ -19,14 +63,13 @@ vi.mock("@posthog/mcp", async (importOriginal) => {
 	}
 })
 
-vi.mock("@/lib/icons/service", () => ({
-	searchIcons: vi.fn(async () => ({ results: [{ name: "plex", aliases: [], categories: [], score: 1 }], total: 1 })),
-	getIconByName: vi.fn(async (name: string) => ({ name, urls: { svg: `https://cdn/${name}.svg` } })),
-	getIconUrl: vi.fn(async () => null),
-	suggestIcons: vi.fn(async () => ({ suggestions: [] })),
+vi.mock("@/lib/icons/service", () => ({ getAllIcons: async () => NATIVE_ICONS }))
+vi.mock("@/lib/external-icons", () => ({ getExternalIcons: async () => EXTERNAL_ICONS, getExternalIconBySourceAndSlug: async () => null }))
+vi.mock("@/lib/icons/svg-fetch", () => ({ fetchTrustedSvg: async (url: string) => `<svg data-url="${url}"/>` }))
+vi.mock("@/constants", async (importOriginal) => ({
+	...(await importOriginal<typeof import("@/constants")>()),
+	WEB_URL: "https://dashboardicons.com",
 }))
-
-vi.mock("@/constants", () => ({ WEB_URL: "https://dashboardicons.com" }))
 
 const CLIENT_IP = "203.0.113.7"
 const LEGACY_VERSION = "2025-11-25"
@@ -34,7 +77,16 @@ const MODERN_VERSION = "2026-07-28"
 const INTENT = "Finding an icon so the user can add a media server tile to their homelab dashboard."
 
 type RpcResponse = {
-	result?: { content?: { type: string; text: string }[]; isError?: boolean; tools?: { name: string }[]; serverInfo?: { name: string } }
+	result?: {
+		content?: { type: string; text: string }[]
+		structuredContent?: Record<string, unknown>
+		isError?: boolean
+		tools?: { name: string; outputSchema?: Record<string, unknown> }[]
+		serverInfo?: { name: string }
+		contents?: { uri: string; mimeType: string; text: string }[]
+		messages?: { content: { text: string } }[]
+		completion?: { values: string[] }
+	}
 	error?: unknown
 }
 
@@ -134,7 +186,15 @@ describe("MCP over HTTP (real wiring)", () => {
 
 		const list = await rpc(await handleMcpRequest(post({ jsonrpc: "2.0", id: 2, method: "tools/list" }, session)))
 		expect(list.result?.tools?.map((tool) => tool.name)).toEqual(
-			expect.arrayContaining(["search_icons", "get_icon", "get_icon_url", "suggest_icon", "get_more_tools"]),
+			expect.arrayContaining([
+				"match_icons",
+				"search_icons",
+				"get_icon",
+				"get_icon_svg",
+				"browse_icons",
+				"list_categories",
+				"get_more_tools",
+			]),
 		)
 
 		const call = await rpc(
@@ -161,6 +221,7 @@ describe("MCP over HTTP (real wiring)", () => {
 			$mcp_client_name: "legacy-client",
 			$mcp_client_version: "1.2.3",
 			$mcp_tool_name: "search_icons",
+			$mcp_tool_category: "discovery",
 			$mcp_intent: INTENT,
 			$mcp_intent_source: "context_parameter",
 			$mcp_llm_model: "claude-test-1",
@@ -193,12 +254,12 @@ describe("MCP over HTTP (real wiring)", () => {
 				),
 			),
 		)
-		expect(JSON.parse(second.result?.content?.[0]?.text ?? "{}")).toMatchObject({ name: "plex" })
+		expect(JSON.parse(second.result?.content?.[0]?.text ?? "{}")).toMatchObject({ found: true, icon: { name: "plex" } })
 		await settle()
 
 		const [searchCall, getCall] = toolCalls()
 		expect(searchCall?.properties.$mcp_tool_name).toBe("search_icons")
-		expect(getCall?.properties.$mcp_tool_name).toBe("get_icon")
+		expect(getCall?.properties).toMatchObject({ $mcp_tool_name: "get_icon", $mcp_tool_category: "details" })
 		expect(getCall?.properties.$session_id).toBe(searchCall?.properties.$session_id)
 		expect(getCall?.properties).toMatchObject({
 			$mcp_conversation_id: conversationId,
@@ -249,6 +310,91 @@ describe("MCP over HTTP (real wiring)", () => {
 		expect(captured.find((event) => event.event === "$mcp_missing_capability")?.properties.$mcp_intent).toBe(
 			"Needs a tool that recolors an SVG icon.",
 		)
+	})
+
+	it("returns structuredContent that validates against the advertised outputSchema, extra keys included", async () => {
+		const { handleMcpRequest } = await importHttp()
+		const list = await rpc(await handleMcpRequest(modernRequest(1, "tools/list", {})))
+		const schemas = new Map((list.result?.tools ?? []).map((tool) => [tool.name, tool.outputSchema]))
+		const ajv = new AjvJsonSchemaValidator()
+
+		const calls: [string, Record<string, unknown>, Record<string, unknown>][] = [
+			["match_icons", { services: ["Plex", "LM Studio", "qbitrr", "zz-unknown"] }, { matches: expect.any(Array) }],
+			["search_icons", { query: "plex" }, { total: 1 }],
+			["get_icon", { name: "plex" }, { found: true, icon: { license: null } }],
+			["get_icon", { name: "qbitrr" }, { found: true, icon: { source: "selfhst", license: { name: "CC BY 4.0" } } }],
+			["get_icon", { name: "lm-studio" }, { found: true, resolved_from: "lm-studio", icon: { name: "lmstudio" } }],
+			["get_icon", { name: "plexx" }, { found: false, did_you_mean: [expect.objectContaining({ name: "plex" })] }],
+			["get_icon_svg", { name: "plex", theme: "dark" }, { found: true, svg: expect.stringContaining("plex-dark") }],
+			["get_icon_svg", { name: "ntopng" }, { found: true, svg: null, reason: "no_svg" }],
+			["list_categories", {}, { categories: expect.any(Array) }],
+			["browse_icons", { limit: 1 }, { items: expect.any(Array), next_cursor: "1" }],
+		]
+
+		let id = 2
+		for (const [name, args, expected] of calls) {
+			const schema = schemas.get(name)
+			expect(schema?.additionalProperties).not.toBe(false)
+			const reply = await rpc(
+				await handleMcpRequest(modernRequest(id++, "tools/call", { name, arguments: { ...args, context: INTENT } }, name)),
+			)
+			const structured = reply.result?.structuredContent
+			expect(reply.result?.isError, name).toBeUndefined()
+			expect(structured, name).toMatchObject(expected)
+
+			const validate = ajv.getValidator(schema as Record<string, unknown>)
+			expect(validate(structured), name).toMatchObject({ valid: true })
+			expect(validate({ ...structured, _mcp_instructions: { conversation_id: "conv" }, future_key: 1 }), name).toMatchObject({
+				valid: true,
+			})
+		}
+		await settle()
+
+		expect(toolCalls().map((event) => event.properties.$mcp_tool_category)).toEqual([
+			"discovery",
+			"discovery",
+			"details",
+			"details",
+			"details",
+			"details",
+			"details",
+			"details",
+			"discovery",
+			"discovery",
+		])
+	})
+
+	it("serves the icon SVG resource with completion and the dashboard prompt", async () => {
+		const { handleMcpRequest } = await importHttp()
+		const call = async (id: number, method: string, params: Record<string, unknown>) =>
+			rpc(await handleMcpRequest(post({ jsonrpc: "2.0", id, method, params })))
+
+		const templates = (await call(1, "resources/templates/list", {})) as { result?: { resourceTemplates?: { uriTemplate: string }[] } }
+		expect(templates.result?.resourceTemplates?.map((template) => template.uriTemplate)).toEqual(["dashboard-icons://icons/{name}"])
+
+		const read = await call(2, "resources/read", { uri: "dashboard-icons://icons/lm-studio" })
+		expect(read.result?.contents?.[0]).toMatchObject({ mimeType: "image/svg+xml", text: expect.stringContaining("lmstudio.svg") })
+
+		const missing = await call(3, "resources/read", { uri: "dashboard-icons://icons/zz-unknown" })
+		expect(missing.error).toMatchObject({ message: expect.stringContaining('No icon named "zz-unknown"') })
+
+		const completion = await call(4, "completion/complete", {
+			ref: { type: "ref/resource", uri: "dashboard-icons://icons/{name}" },
+			argument: { name: "name", value: "pl" },
+		})
+		expect(completion.result?.completion?.values).toEqual(["plex"])
+
+		const prompt = await call(5, "prompts/get", {
+			name: "icons_for_dashboard",
+			arguments: { services: "Plex, Sonarr", dashboard: "homepage" },
+		})
+		expect(prompt.result?.messages?.[0]?.content.text).toContain('services ["Plex","Sonarr"]')
+
+		const dashboards = await call(6, "completion/complete", {
+			ref: { type: "ref/prompt", name: "icons_for_dashboard" },
+			argument: { name: "dashboard", value: "d" },
+		})
+		expect(dashboards.result?.completion?.values).toEqual(["dashy"])
 	})
 
 	it("rejects 2025-era session operations and non-JSON bodies like the SDK entry", async () => {

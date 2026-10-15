@@ -1,124 +1,139 @@
-import type { McpServer } from "@modelcontextprotocol/server"
-import { afterEach, beforeEach, describe, expect, it, vi } from "vitest"
-import { registerDashboardIconsTools } from "@/mcp/tools"
+import type { CallToolResult, McpServer } from "@modelcontextprotocol/server"
+import { beforeEach, describe, expect, it, vi } from "vitest"
+import { DASHBOARD_ICONS_TOOLS, isAccountTool, registerDashboardIconsTools } from "@/mcp/tools"
+import { READ_ONLY_ANNOTATIONS } from "@/mcp/tools/types"
 
-const searchIcons = vi.fn()
-const getIconByName = vi.fn()
-const getIconUrl = vi.fn()
-const suggestIcons = vi.fn()
-
-vi.mock("@/lib/icons/service", () => ({
-	searchIcons: (...args: unknown[]) => searchIcons(...args),
-	getIconByName: (...args: unknown[]) => getIconByName(...args),
-	getIconUrl: (...args: unknown[]) => getIconUrl(...args),
-	suggestIcons: (...args: unknown[]) => suggestIcons(...args),
+const catalog = vi.hoisted(() => ({
+	searchCatalog: vi.fn(),
+	matchServices: vi.fn(),
+	getCatalogIcon: vi.fn(),
+	getCatalogIconSvg: vi.fn(),
+	listCatalogCategories: vi.fn(),
+	browseCatalog: vi.fn(),
 }))
 
-type ToolHandler = (args: Record<string, unknown>) => Promise<{ content: { type: string; text: string }[]; isError?: boolean }>
+vi.mock("@/lib/icons/catalog", async (importOriginal) => ({
+	...(await importOriginal<typeof import("@/lib/icons/catalog")>()),
+	...catalog,
+}))
 
-function createMockServer() {
-	const handlers = new Map<string, ToolHandler>()
-	const server = {
-		registerTool: vi.fn((name: string, _config: unknown, handler: ToolHandler) => {
-			handlers.set(name, handler)
-		}),
-	} as unknown as McpServer
-	return { server, handlers }
+type ToolCallback = (args: Record<string, unknown>) => Promise<CallToolResult>
+
+function registerWithFakeServer(caller: Parameters<typeof registerDashboardIconsTools>[1]) {
+	const callbacks = new Map<string, ToolCallback>()
+	const registerTool = vi.fn((name: string, _config: unknown, callback: ToolCallback) => {
+		callbacks.set(name, callback)
+	})
+	registerDashboardIconsTools({ registerTool } as unknown as McpServer, caller)
+	return { registerTool, call: (name: string, args: Record<string, unknown>) => callbacks.get(name)?.(args) }
 }
 
-function getHandler(handlers: Map<string, ToolHandler>, name: string): ToolHandler {
-	const handler = handlers.get(name)
-	if (!handler) {
-		throw new Error(`Missing handler: ${name}`)
-	}
-	return handler
+function textOf(result: CallToolResult | undefined): string {
+	const [block] = result?.content ?? []
+	if (block?.type !== "text") throw new Error("expected a text block")
+	return block.text
 }
 
-describe("registerDashboardIconsTools", () => {
-	beforeEach(() => {
-		searchIcons.mockResolvedValue({ results: [], total: 0 })
-		getIconByName.mockResolvedValue(null)
-		getIconUrl.mockResolvedValue(null)
-		suggestIcons.mockResolvedValue({ suggestions: [] })
+beforeEach(() => {
+	vi.clearAllMocks()
+})
+
+describe("tool registry", () => {
+	it("lists the public read-only tools with categories", () => {
+		expect(DASHBOARD_ICONS_TOOLS.map((tool) => [tool.name, tool.access, tool.config._meta?.category])).toEqual([
+			["match_icons", "public", "discovery"],
+			["search_icons", "public", "discovery"],
+			["get_icon", "public", "details"],
+			["get_icon_svg", "public", "details"],
+			["browse_icons", "public", "discovery"],
+			["list_categories", "public", "discovery"],
+		])
+		for (const tool of DASHBOARD_ICONS_TOOLS) {
+			expect(tool.config.annotations).toEqual(READ_ONLY_ANNOTATIONS)
+			expect(tool.config.description.length).toBeGreaterThan(80)
+		}
 	})
 
-	afterEach(() => {
-		vi.clearAllMocks()
+	it("advertises output schemas that tolerate extra top-level keys", () => {
+		for (const tool of DASHBOARD_ICONS_TOOLS) {
+			const output = tool.config.outputSchema["~standard"].jsonSchema.output({ target: "draft-2020-12" })
+			expect(output.type).toBe("object")
+			expect(output.additionalProperties).not.toBe(false)
+			const input = tool.config.inputSchema["~standard"].jsonSchema.input({ target: "draft-2020-12" })
+			expect(input.type).toBe("object")
+			expect(input.anyOf ?? input.oneOf ?? input.allOf).toBeUndefined()
+		}
 	})
 
-	it("registers all four tools", () => {
-		const { server } = createMockServer()
-		registerDashboardIconsTools(server)
-		expect(server.registerTool).toHaveBeenCalledTimes(4)
+	it("only gates account tools", () => {
+		for (const tool of DASHBOARD_ICONS_TOOLS) expect(isAccountTool(tool.name)).toBe(false)
+		expect(isAccountTool("submit_icon")).toBe(false)
 	})
 
-	it("search_icons returns json content", async () => {
-		searchIcons.mockResolvedValue({ results: [{ name: "plex" }], total: 1 })
-		const { server, handlers } = createMockServer()
-		registerDashboardIconsTools(server)
-		const result = await getHandler(handlers, "search_icons")({ query: "plex", limit: 5 })
-		expect(JSON.parse(result.content[0].text)).toEqual({ results: [{ name: "plex" }], total: 1 })
+	it("registers every tool with its config", () => {
+		const { registerTool } = registerWithFakeServer(null)
+		expect(registerTool.mock.calls.map(([name, config]) => [name, config])).toEqual(
+			DASHBOARD_ICONS_TOOLS.map((tool) => [tool.name, tool.config]),
+		)
 	})
+})
 
-	it("get_icon returns not_found when missing", async () => {
-		const { server, handlers } = createMockServer()
-		registerDashboardIconsTools(server)
-		const result = await getHandler(handlers, "get_icon")({ name: "missing" })
-		expect(JSON.parse(result.content[0].text)).toMatchObject({ error: "not_found" })
-		expect(result.isError).toBe(true)
-	})
-
-	it("get_icon returns icon when found", async () => {
-		getIconByName.mockResolvedValue({ name: "docker", urls: { svg: "x" } })
-		const { server, handlers } = createMockServer()
-		registerDashboardIconsTools(server)
-		const result = await getHandler(handlers, "get_icon")({ name: "docker" })
-		expect(JSON.parse(result.content[0].text)).toMatchObject({ name: "docker" })
-	})
-
-	it("get_icon_url returns not_found when missing", async () => {
-		const { server, handlers } = createMockServer()
-		registerDashboardIconsTools(server)
-		const result = await getHandler(handlers, "get_icon_url")({ name: "missing", format: "svg", theme: "default" })
-		expect(JSON.parse(result.content[0].text)).toMatchObject({ error: "not_found" })
-		expect(result.isError).toBe(true)
-	})
-
-	it("get_icon_url returns url when found", async () => {
-		getIconUrl.mockResolvedValue({
-			url: "https://cdn/x.svg",
-			name: "plex",
-			format: "svg",
-			theme: "default",
+describe("tool handlers", () => {
+	it("search_icons forwards filters and returns compact JSON plus structured content", async () => {
+		const found = { results: [{ name: "plex", title: "Plex", source: "native", preview_url: "u", score: 2 }], total: 1 }
+		catalog.searchCatalog.mockResolvedValue(found)
+		const result = await registerWithFakeServer(null).call("search_icons", {
+			query: "plex",
+			sources: ["native"],
+			category: "media",
+			limit: 5,
 		})
-		const { server, handlers } = createMockServer()
-		registerDashboardIconsTools(server)
-		const result = await getHandler(handlers, "get_icon_url")({ name: "plex", format: "svg", theme: "default" })
-		expect(JSON.parse(result.content[0].text)).toMatchObject({ url: "https://cdn/x.svg" })
+		expect(catalog.searchCatalog).toHaveBeenCalledWith("plex", { sources: ["native"], category: "media", limit: 5 })
+		expect(result?.structuredContent).toEqual(found)
+		expect(textOf(result)).toBe(JSON.stringify(found))
 	})
 
-	it("suggest_icon returns suggestions with service_name", async () => {
-		suggestIcons.mockResolvedValue({ suggestions: [{ name: "plex", score: 2, url: "u" }] })
-		const { server, handlers } = createMockServer()
-		registerDashboardIconsTools(server)
-		const result = await getHandler(handlers, "suggest_icon")({ service_name: "Plex", limit: 3 })
-		expect(JSON.parse(result.content[0].text)).toEqual({
-			suggestions: [{ name: "plex", score: 2, url: "u" }],
-		})
+	it("match_icons matches every service in one call", async () => {
+		const matched = { matches: [{ service: "Plex", best: null, alternatives: [] }], degraded_sources: ["selfhst"] }
+		catalog.matchServices.mockResolvedValue(matched)
+		const result = await registerWithFakeServer(null).call("match_icons", { services: ["Plex"] })
+		expect(catalog.matchServices).toHaveBeenCalledWith(["Plex"], { sources: undefined })
+		expect(result?.structuredContent).toEqual(matched)
 	})
 
-	it("suggest_icon also accepts name alias", async () => {
-		suggestIcons.mockResolvedValue({ suggestions: [{ name: "plex", score: 2, url: "u" }] })
-		const { server, handlers } = createMockServer()
-		const { suggestIconSchema } = await import("@/lib/icons/validate")
-		registerDashboardIconsTools(server)
-		// The schema transforms `name` to `service_name`; test that the transformed
-		// args are passed to the handler correctly.
-		const transformed = suggestIconSchema.parse({ name: "Plex", limit: 3 })
-		const result = await getHandler(handlers, "suggest_icon")(transformed)
-		expect(JSON.parse(result.content[0].text)).toEqual({
-			suggestions: [{ name: "plex", score: 2, url: "u" }],
-		})
-		expect(suggestIcons).toHaveBeenCalledWith("Plex", 3)
+	it("get_icon reports misses as data, not errors", async () => {
+		const miss = { found: false, did_you_mean: [] }
+		catalog.getCatalogIcon.mockResolvedValue(miss)
+		const result = await registerWithFakeServer(null).call("get_icon", { name: "nope", source: "lobehub" })
+		expect(catalog.getCatalogIcon).toHaveBeenCalledWith("nope", { source: "lobehub" })
+		expect(result?.isError).toBeUndefined()
+		expect(result?.structuredContent).toEqual(miss)
+	})
+
+	it("get_icon_svg returns the markup as the text block when available", async () => {
+		const svg = { found: true, name: "plex", source: "native", theme: "dark", svg: "<svg>plex</svg>", url: "u" }
+		catalog.getCatalogIconSvg.mockResolvedValue(svg)
+		const { call } = registerWithFakeServer(null)
+		const result = await call("get_icon_svg", { name: "plex", theme: "dark" })
+		expect(catalog.getCatalogIconSvg).toHaveBeenCalledWith("plex", { source: undefined, theme: "dark" })
+		expect(textOf(result)).toBe("<svg>plex</svg>")
+		expect(result?.structuredContent).toEqual(svg)
+
+		const unavailable = { found: true, name: "ntopng", source: "native", theme: "default", svg: null, url: null, reason: "no_svg" }
+		catalog.getCatalogIconSvg.mockResolvedValue(unavailable)
+		expect(JSON.parse(textOf(await call("get_icon_svg", { name: "ntopng", theme: "default" })))).toEqual(unavailable)
+	})
+
+	it("list_categories and browse_icons pass their options through", async () => {
+		catalog.listCatalogCategories.mockResolvedValue({ categories: [{ name: "AI", count: 2 }] })
+		catalog.browseCatalog.mockResolvedValue({ items: [], total: 0, next_cursor: null })
+		const { call } = registerWithFakeServer(null)
+
+		expect((await call("list_categories", { source: "lobehub" }))?.structuredContent).toEqual({ categories: [{ name: "AI", count: 2 }] })
+		expect(catalog.listCatalogCategories).toHaveBeenCalledWith({ source: "lobehub" })
+
+		const options = { category: "AI", sort: "newest", limit: 10, cursor: "20" }
+		expect((await call("browse_icons", options))?.structuredContent).toEqual({ items: [], total: 0, next_cursor: null })
+		expect(catalog.browseCatalog).toHaveBeenCalledWith(options)
 	})
 })
