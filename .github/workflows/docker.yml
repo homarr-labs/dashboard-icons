@@ -131,6 +131,7 @@ jobs:
             NEXT_PUBLIC_DISABLE_POSTHOG=${{ env.NEXT_PUBLIC_DISABLE_POSTHOG }}
             NEXT_PUBLIC_POCKETBASE_URL=${{ env.NEXT_PUBLIC_POCKETBASE_URL }}
             CI_MODE=${{ env.CI_MODE }}
+            MCP_SERVER_BUILD=${{ github.sha }}
           secrets: |
             "github_token=${{ secrets.GITHUB_TOKEN }}"
 
