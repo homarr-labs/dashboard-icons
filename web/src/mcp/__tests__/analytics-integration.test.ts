@@ -25,6 +25,7 @@ vi.mock("@/lib/icons/service", () => ({
 // Mock constants (WEB_URL etc.) that may pull in server-only code
 vi.mock("@/constants", () => ({
 	WEB_URL: "https://dashboardicons.com",
+	EXTERNAL_SOURCE_IDS: ["selfhst", "lobehub", "simpleicons"],
 }))
 
 function req(body: unknown) {

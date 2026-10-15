@@ -11,7 +11,8 @@ export function registerDashboardIconsTools(server: McpServer): void {
 		"search_icons",
 		{
 			title: "Search Icons",
-			description: "Search dashboard icons by name, alias, or category.",
+			description:
+				"Search dashboard icons by name, alias, or category. Covers dashboard-icons plus the third-party sets shown on dashboardicons.com (selfh.st, LobeHub, Simple Icons); each result names its `source`.",
 			inputSchema: searchIconsSchema,
 		},
 		async ({ query, limit, category }) => jsonContent(await searchIcons(query, limit, category)),
@@ -21,11 +22,11 @@ export function registerDashboardIconsTools(server: McpServer): void {
 		"get_icon",
 		{
 			title: "Get Icon",
-			description: "Get full metadata and CDN URLs for a dashboard icon.",
+			description: "Get full metadata and CDN URLs for an icon. Pass the `source` from a search result to pick a third-party icon.",
 			inputSchema: getIconSchema,
 		},
-		async ({ name }) => {
-			const icon = await getIconByName(name)
+		async ({ name, source }) => {
+			const icon = await getIconByName(name, source)
 			if (!icon) {
 				return {
 					...jsonContent({ error: "not_found", message: `Icon '${name}' not found`, name }),
@@ -40,11 +41,11 @@ export function registerDashboardIconsTools(server: McpServer): void {
 		"get_icon_url",
 		{
 			title: "Get Icon URL",
-			description: "Get a direct CDN URL for a dashboard icon.",
+			description: "Get a direct CDN URL for an icon. Pass the `source` from a search result to pick a third-party icon.",
 			inputSchema: getIconUrlSchema,
 		},
-		async ({ name, format, theme }) => {
-			const result = await getIconUrl(name, format, theme)
+		async ({ name, format, theme, source }) => {
+			const result = await getIconUrl(name, format, theme, source)
 			if (!result) {
 				return {
 					...jsonContent({ error: "not_found", message: `Icon '${name}' not found`, name }),
