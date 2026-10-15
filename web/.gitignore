@@ -57,6 +57,7 @@ scripts/*
 !scripts/import-selfhst.ts
 !scripts/import-lobehub.ts
 !scripts/import-simple-icons.ts
+!scripts/mcp-smoke.ts
 data/sources/
 
 # Playwright
