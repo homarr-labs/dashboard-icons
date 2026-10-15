@@ -36,11 +36,8 @@ export type RegistrationResult =
 	| { ok: false; error: "invalid_client_metadata" | "invalid_redirect_uri"; description: string }
 
 function sanitizeClientName(name: string | undefined): string {
-	const cleaned = (name ?? "")
-		.replace(/\p{Cc}/gu, "")
-		.trim()
-		.slice(0, MAX_CLIENT_NAME_LENGTH)
-	return cleaned || DEFAULT_CLIENT_NAME
+	const cleaned = (name ?? "").replace(/[\p{Cc}\p{Cf}]/gu, "").trim()
+	return [...cleaned].slice(0, MAX_CLIENT_NAME_LENGTH).join("") || DEFAULT_CLIENT_NAME
 }
 
 export function registerClient(secret: Buffer, input: unknown): RegistrationResult {

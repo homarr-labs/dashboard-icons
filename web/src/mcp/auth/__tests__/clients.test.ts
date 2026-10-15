@@ -25,8 +25,12 @@ describe("registerClient", () => {
 	it("sanitizes or defaults the client name", () => {
 		const control = registerClient(SECRET, { client_name: "  Evil\u0000\u001b Client  ", redirect_uris: [REDIRECT_URI] })
 		const missing = registerClient(SECRET, { redirect_uris: [REDIRECT_URI] })
-		const blank = registerClient(SECRET, { client_name: "\u0007 ", redirect_uris: [REDIRECT_URI] })
+		const blank = registerClient(SECRET, { client_name: "\u0007 \u202e", redirect_uris: [REDIRECT_URI] })
+		const bidi = registerClient(SECRET, { client_name: "\u202eedoC\u200b VS\ufeff", redirect_uris: [REDIRECT_URI] })
+		const long = registerClient(SECRET, { client_name: `${"a".repeat(79)}😀😀`, redirect_uris: [REDIRECT_URI] })
 		expect(control.ok && control.client.client_name).toBe("Evil Client")
+		expect(bidi.ok && bidi.client.client_name).toBe("edoC VS")
+		expect(long.ok && long.client.client_name).toBe(`${"a".repeat(79)}😀`)
 		expect(missing.ok && missing.client.client_name).toBe("MCP client")
 		expect(blank.ok && blank.client.client_name).toBe("MCP client")
 	})

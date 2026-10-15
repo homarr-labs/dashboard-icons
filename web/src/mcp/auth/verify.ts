@@ -46,7 +46,6 @@ export async function verifyMcpBearer(req: Request): Promise<AuthInfo | undefine
 	}
 }
 
-/** Returns a 401 Bearer challenge pointing at the protected resource metadata, or null when MCP sign-in is disabled. */
 export function mcpAuthChallenge(req: Request, opts: { error?: "invalid_token"; description?: string } = {}): Response | null {
 	if (!getMcpAuthConfig()) return null
 	const resourceMetadataUrl = protectedResourceMetadataUrl(requestIssuer(req))
