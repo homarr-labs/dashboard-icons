@@ -127,17 +127,21 @@ packaged in the image at `/pb/pb_hooks` and `/pb/pb_migrations`; persist only
 `SERVICE_MODE=backend` starts only PocketBase on port 8090 with those checks.
 `SERVICE_MODE=web` runs the stateless frontend against `PB_URL`.
 The default `SERVICE_MODE=all` runs the combined deployment on port 8080.
-Separate backend deployments must update their pinned application image along with
-the frontend; updating only the frontend's `latest` tag leaves the backend's code
-and migrations at its previous image digest.
+Separate backend deployments use `ghcr.io/homarr-labs/dashboard-icons:latest` and
+pull it on each deployment. Both services need a deployment after publishing an
+image; updating only the frontend leaves the backend's code and migrations behind.
+The application tag is independent of the PocketBase binary's pinned release.
 
 Main CI serializes deployment runs, creates a verified PocketBase backup, deploys
-the separate backend using the built image's immutable digest, waits for completion,
-verifies the proposal schema, then triggers the frontend
-deployment. Configure the repository variable `DOKPLOY_POCKETBASE_APPLICATION_ID`
+the separate backend using `latest`, waits for completion, verifies that every
+packaged migration is recorded in `_migrations` and checks the proposal schema,
+then triggers the frontend deployment. Configure the repository variable
+`DOKPLOY_POCKETBASE_APPLICATION_ID`
 alongside the existing `DOKPLOY_URL`, `DOKPLOY_API_KEY`, and PocketBase admin secrets.
 The workflow's `verify_only` dispatch option performs read-only deployment/schema
-inspection without building or deploying an image.
+inspection without building or deploying an image. It fails if any packaged
+migration is missing, including migrations added after the proposal feature.
+The deploy script also accepts an explicit image digest for recovery deployments.
 
 Dashboard publication runs `Add Icon to Collection`, followed by `Update Icons
 and Resources`. When the resource workflow succeeds on `main`, Main CI builds
@@ -244,15 +248,16 @@ docker run -d --name dashboard-icons --restart unless-stopped \
 Or run `docker compose pull && docker compose up -d` from `web/`. Set
 `PB_DATA_VOLUME` to an existing Docker volume name when migrating data, such as
 `dashboardicons_pb_data` in Dokploy. The Compose service always checks GHCR for
-the latest published image. To deploy automatically after a successful image
-publish, configure the GitHub Actions secrets `DOKPLOY_URL`, `DOKPLOY_API_KEY`,
-and `DOKPLOY_COMPOSE_ID`. The workflow skips deployment until all three exist.
+the latest published image. For automatic deployment of the separate Dokploy
+applications, configure the backend application ID and credentials described
+above, plus the frontend's `DOKPLOY_DEPLOY_HOOK_URL` secret.
 
 To build locally instead, run `docker build --pull -t dashboard-icons:local web`
 from the repository root.
 
 One image runs Next.js, PocketBase, and Caddy as an unprivileged user.
-PocketBase is pinned to `ghcr.io/muchobien/pocketbase:0.40.4`. We copy its binary
+PocketBase is pinned to the release in `backend/pocketbase-release.json` using an
+immutable image digest in the Dockerfile. We copy its binary
 into the combined image and use our entrypoint to supervise all three processes.
 Caddy exposes port **8080**; Next.js (3000) and PocketBase (8090) listen only on
 container loopback. Use your existing HTTPS reverse proxy in front of port 8080.
