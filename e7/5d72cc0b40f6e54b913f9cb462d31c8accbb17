@@ -1,0 +1,79 @@
+web/src/app/.well-known/oauth-authorization-server/route.ts
+  s_ec121b70cd49f0::t_da51476538c1ef 1-6
+web/src/app/.well-known/oauth-protected-resource/api/mcp/route.ts
+  s_ec121b70cd49f0::t_91f8f8b53c4482 1-6
+web/src/app/.well-known/oauth-protected-resource/route.ts
+  s_ec121b70cd49f0::t_cd80aaf8d78238 1-6
+web/src/app/api/oauth/authorize/route.ts
+  s_ec121b70cd49f0::t_f1f2ddb4c2dd4e 1-4
+web/src/app/api/oauth/register/route.ts
+  s_ec121b70cd49f0::t_806797cfe30931 1-5
+web/src/app/api/oauth/token/route.ts
+  s_ec121b70cd49f0::t_0d78775f6b2cb1 1-5
+web/src/app/oauth/authorize/consent.tsx
+  s_ec121b70cd49f0::t_720f693ff966dd 1-162
+web/src/mcp/auth/__tests__/authorize.test.ts
+  s_ec121b70cd49f0::t_64132df8093e4f 1-198
+web/src/mcp/auth/__tests__/clients.test.ts
+  s_ec121b70cd49f0::t_426228152dcee0 1-73
+web/src/mcp/auth/__tests__/config.test.ts
+  s_ec121b70cd49f0::t_bb25d9ad95582a 1-122
+web/src/mcp/auth/__tests__/fixtures.ts
+  s_ec121b70cd49f0::t_cd3b71ac31dc6c 1-20
+web/src/mcp/auth/__tests__/http.test.ts
+  s_ec121b70cd49f0::t_891e64a2e03c3b 1-186
+web/src/mcp/auth/__tests__/pkce-replay.test.ts
+  s_ec121b70cd49f0::t_92e6f1f62bdcd5 1-46
+web/src/mcp/auth/__tests__/pocketbase.test.ts
+  s_ec121b70cd49f0::t_b52c4e76566b89 1-45
+web/src/mcp/auth/__tests__/redirect-uri.test.ts
+  s_ec121b70cd49f0::t_72a7c6bbb12ee1 1-62
+web/src/mcp/auth/__tests__/seal.test.ts
+  s_ec121b70cd49f0::t_54fc6220ce6e15 1-52
+web/src/mcp/auth/__tests__/token.test.ts
+  s_ec121b70cd49f0::t_e9137a09e7258d 1-237
+web/src/mcp/auth/__tests__/verify.test.ts
+  s_ec121b70cd49f0::t_3e6562f0c94461 1-129
+web/src/mcp/auth/authorize.ts
+  s_ec121b70cd49f0::t_b1f80f31377566 1-170
+web/src/mcp/auth/clients.ts
+  s_ec121b70cd49f0::t_d42ff699aca426 1-89
+web/src/mcp/auth/config.ts
+  s_ec121b70cd49f0::t_f6d80578773aa3 1-72
+web/src/mcp/auth/http.ts
+  s_ec121b70cd49f0::t_5fd5ef95a875c9 1-122
+web/src/mcp/auth/index.ts
+  s_ec121b70cd49f0::t_75d5d0d79c814e 1-2
+web/src/mcp/auth/metadata.ts
+  s_ec121b70cd49f0::t_c777d1821e02a1 1-30
+web/src/mcp/auth/pkce.ts
+  s_ec121b70cd49f0::t_7a245f5dfeb520 1-15
+web/src/mcp/auth/pocketbase.ts
+  s_ec121b70cd49f0::t_76aa62ff7e3564 1-23
+web/src/mcp/auth/redirect-uri.ts
+  s_ec121b70cd49f0::t_f4c12dda7c1e4f 1-52
+web/src/mcp/auth/replay.ts
+  s_ec121b70cd49f0::t_e7f8d6f8d5a7d3 1-27
+web/src/mcp/auth/seal.ts
+  s_ec121b70cd49f0::t_87f1847eccba28 1-54
+web/src/mcp/auth/token.ts
+  s_ec121b70cd49f0::t_9467e283ce393b 1-177
+web/src/mcp/auth/verify.ts
+  s_ec121b70cd49f0::t_6ab18e93709129 1-64
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "e75d72cc0b40f6e54b913f9cb462d31c8accbb17",
+  "prompts": {},
+  "sessions": {
+    "s_ec121b70cd49f0": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "619405f9-b58d-431f-9c97-5f3f5aa6e6af",
+        "model": "unknown"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
