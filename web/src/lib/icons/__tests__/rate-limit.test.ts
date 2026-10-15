@@ -16,6 +16,10 @@ describe("getClientIp", () => {
 		const headers = new Headers({ "x-forwarded-for": " , 1.2.3.4" })
 		expect(getClientIp(headers)).toBe("unknown")
 	})
+
+	it("falls back to unknown without proxy headers", () => {
+		expect(getClientIp(new Headers())).toBe("unknown")
+	})
 })
 
 describe("checkRateLimit", () => {
