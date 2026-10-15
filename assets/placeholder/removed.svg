@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-label="Icon removed">
+	<rect width="512" height="512" rx="96" fill="#f3f4f6" />
+	<g fill="none" stroke="#9ca3af" stroke-width="56" stroke-linecap="round">
+		<line x1="150" y1="150" x2="362" y2="362" />
+		<line x1="362" y1="150" x2="150" y2="362" />
+	</g>
+</svg>

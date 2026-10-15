@@ -295,6 +295,14 @@ async function readMetadata(): Promise<Record<string, MetadataEntry>> {
 	return JSON.parse(raw) as Record<string, MetadataEntry>
 }
 
+async function readBlacklist(): Promise<Record<string, unknown>> {
+	const file = Bun.file(path.resolve(ROOT_DIR, "takedowns.json"))
+	if (!(await file.exists())) return {}
+	const raw = await file.text()
+	if (!raw.trim()) return {}
+	return JSON.parse(raw) as Record<string, unknown>
+}
+
 async function writeMetadata(data: Record<string, MetadataEntry>) {
 	const json = `${JSON.stringify(data, null, 4)}\n`
 	await Bun.write(METADATA_PATH, json)
@@ -465,6 +473,11 @@ async function main() {
 
 	if (submission.status !== "approved") throw new Error("Only approved submissions can be imported")
 	await verifyReservation(pbUrl, submission)
+
+	// Icons removed via a takedown request are blacklisted and must never come back.
+	const blacklist = await readBlacklist()
+	if (blacklist[submission.name])
+		throw new Error(`Icon "${submission.name}" is blacklisted due to a takedown request and cannot be imported`)
 
 	const approver = submission.expand?.approved_by?.username || submission.expand?.approved_by?.email || submission.approved_by || "unknown"
 

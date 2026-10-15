@@ -1,8 +1,10 @@
 import type { Metadata, ResolvingMetadata } from "next"
 import { notFound } from "next/navigation"
 import { IconDetails } from "@/components/icon-details"
+import { TakedownNotice } from "@/components/takedown-notice"
 import { BASE_URL, WEB_URL } from "@/constants"
 import { computeRelatedIcons, getAllIcons, getAuthorData } from "@/lib/api"
+import { getPublicTakedown } from "@/lib/takedowns"
 
 export const dynamicParams = true
 export const dynamic = "force-static"
@@ -25,7 +27,26 @@ export async function generateMetadata({ params }: Props, _parent: ResolvingMeta
 	const { icon } = await params
 	const iconsData = await getAllIcons()
 	if (!iconsData[icon]) {
-		notFound()
+		const takedown = await getPublicTakedown(icon)
+		if (!takedown) {
+			notFound()
+		}
+		const formattedName = icon
+			.split("-")
+			.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+			.join(" ")
+		return {
+			title: `${formattedName} Icon — Removed`,
+			description: `The ${formattedName} icon was removed from the collection following a takedown request. Existing links now serve a placeholder image.`,
+			robots: {
+				index: false,
+				follow: false,
+				nocache: true,
+			},
+			alternates: {
+				canonical: `${WEB_URL}/icons/${icon}`,
+			},
+		}
 	}
 	const author = iconsData[icon].update.author
 	const authorData = await getAuthorData(author.id, { name: author.name, login: author.login })
@@ -122,7 +143,11 @@ export default async function IconPage({ params }: { params: Promise<{ icon: str
 	const originalIconData = iconsData[icon]
 
 	if (!originalIconData) {
-		notFound()
+		const takedown = await getPublicTakedown(icon)
+		if (!takedown) {
+			notFound()
+		}
+		return <TakedownNotice icon={icon} takedown={takedown} />
 	}
 
 	const author = originalIconData.update.author

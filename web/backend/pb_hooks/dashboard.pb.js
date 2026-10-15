@@ -23,3 +23,16 @@ routerAdd(
 )
 routerAdd("POST", "/api/dashboard/publish/dispatch", (e) => require(`${__hooks}/dashboard.js`).dispatch(e), $apis.requireAuth())
 routerAdd("POST", "/api/dashboard/publish/reconcile", (e) => require(`${__hooks}/dashboard.js`).reconcile(e), $apis.requireAuth())
+routerAdd("POST", "/api/dashboard/icons/takedown", (e) => require(`${__hooks}/dashboard.js`).takedown(e), $apis.requireAuth())
+routerAdd(
+	"POST",
+	"/api/dashboard/icons/takedown/{id}/result",
+	(e) => {
+		if (!e.hasSuperuserAuth()) throw new ForbiddenError("Workflow credentials required")
+		const result = e.requestInfo().body
+		// A failed run does not prove that the push failed. Keep its record until reconciliation.
+		if (["failed", "cancelled"].includes(result.state)) result.state = "unknown"
+		return e.json(200, require(`${__hooks}/dashboard.js`).updateTakedown(e.app, e.request.pathValue("id"), result))
+	},
+	$apis.requireAuth(),
+)

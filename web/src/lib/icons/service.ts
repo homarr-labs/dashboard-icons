@@ -197,7 +197,11 @@ export async function suggestIcons(serviceName: string, limit = 5): Promise<{ su
 	return { suggestions }
 }
 
-export function clearMetadataCacheForTests(): void {
+export function clearMetadataCache(): void {
 	globalThis.__dashboardIconsMetadata = undefined
 	globalThis.__dashboardIconsMetadataPending = undefined
+}
+
+export function clearMetadataCacheForTests(): void {
+	clearMetadataCache()
 }
