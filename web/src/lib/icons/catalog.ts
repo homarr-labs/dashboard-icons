@@ -2,10 +2,10 @@ import "server-only"
 
 import { setImmediate as yieldToEventLoop } from "node:timers/promises"
 import { unstable_rethrow } from "next/navigation"
-import { EXTERNAL_SOURCE_IDS, getExternalSource, WEB_URL } from "@/constants"
+import { EXTERNAL_SOURCE_IDS, type ExternalSourceId, getExternalSource, WEB_URL } from "@/constants"
 import { canResolveExternalIconUrl, getExternalIconPreviewUrl, resolveExternalIconUrl } from "@/lib/external-icon-urls"
 import { getExternalIconBySourceAndSlug, getExternalIcons } from "@/lib/external-icons"
-import { filterAndSortIcons, normalizeForSearch, scoreIcon } from "@/lib/icons/search"
+import { filterAndSortIcons, levenshteinDistance, normalizeForSearch, scoreIcon } from "@/lib/icons/search"
 import { getAllIcons } from "@/lib/icons/service"
 import { fetchTrustedSvg } from "@/lib/icons/svg-fetch"
 import type {
@@ -13,6 +13,7 @@ import type {
 	CatalogBrowseSort,
 	CatalogCategoriesResult,
 	CatalogCategory,
+	CatalogDegraded,
 	CatalogHit,
 	CatalogIcon,
 	CatalogItem,
@@ -20,6 +21,7 @@ import type {
 	CatalogLookup,
 	CatalogMatchResult,
 	CatalogNotFound,
+	CatalogResolution,
 	CatalogSearchResult,
 	CatalogServiceMatch,
 	CatalogSource,
@@ -38,14 +40,28 @@ const DEFAULT_SEARCH_LIMIT = 20
 const DEFAULT_MATCH_ALTERNATIVES = 3
 const DEFAULT_BROWSE_LIMIT = 50
 const DID_YOU_MEAN_LIMIT = 5
+const MIN_TYPO_KEY_LENGTH = 4
 const MAX_LIMIT = 100
+
+type SourceIndex = {
+	slugs: Map<string, IconRecord>
+	keys: Map<string, IconRecord>
+}
 
 type CatalogSnapshot = {
 	entries: IconRecord[]
+	indexes: SourceIndex[]
 	degradedSources: CatalogSource[]
 }
 
+type ResolvedEntry = {
+	entry: IconRecord
+	resolution: CatalogResolution
+}
+
 const nativeRecordsByFile = new WeakMap<IconFile, NativeIconRecord[]>()
+const externalRecordsByList = new WeakMap<ExternalIconRecord[], Map<CatalogSource, ExternalIconRecord[]>>()
+const indexByRecords = new WeakMap<IconRecord[], SourceIndex>()
 
 function toNativeRecords(file: IconFile): NativeIconRecord[] {
 	const cached = nativeRecordsByFile.get(file)
@@ -58,9 +74,23 @@ function toNativeRecords(file: IconFile): NativeIconRecord[] {
 	return records
 }
 
+function toExternalRecords(list: ExternalIconRecord[], source: ExternalSourceId): ExternalIconRecord[] {
+	let bySource = externalRecordsByList.get(list)
+	if (!bySource) {
+		bySource = new Map()
+		for (const record of list) {
+			const bucket = bySource.get(record.source)
+			if (bucket) bucket.push(record)
+			else bySource.set(record.source, [record])
+		}
+		externalRecordsByList.set(list, bySource)
+	}
+	return bySource.get(source) ?? []
+}
+
 async function loadSource(source: CatalogSource): Promise<IconRecord[] | null> {
 	if (source !== "native") {
-		const records = (await getExternalIcons()).filter((icon) => icon.source === source)
+		const records = toExternalRecords(await getExternalIcons(), source)
 		if (records.length === 0) return null
 		return records
 	}
@@ -73,6 +103,33 @@ async function loadSource(source: CatalogSource): Promise<IconRecord[] | null> {
 	}
 }
 
+function compactKey(value: string): string {
+	return value
+		.normalize("NFKD")
+		.toLowerCase()
+		.replace(/[^\p{L}\p{N}]/gu, "")
+}
+
+function indexRecords(records: IconRecord[]): SourceIndex {
+	const cached = indexByRecords.get(records)
+	if (cached) return cached
+
+	const keys = new Map<string, IconRecord>()
+	const addKey = (value: string, entry: IconRecord) => {
+		const key = compactKey(value)
+		if (key && !keys.has(key)) keys.set(key, entry)
+	}
+	for (const entry of records) addKey(entry.slug, entry)
+	for (const entry of records) addKey(entry.name, entry)
+	for (const entry of records) {
+		for (const alias of entry.data.aliases) addKey(alias, entry)
+	}
+
+	const index = { slugs: new Map(records.map((entry) => [entry.slug.toLowerCase(), entry])), keys }
+	indexByRecords.set(records, index)
+	return index
+}
+
 function resolveSources(sources?: readonly CatalogSource[]): CatalogSource[] {
 	if (!sources?.length) return [...CATALOG_SOURCES]
 	return CATALOG_SOURCES.filter((source) => sources.includes(source))
@@ -80,10 +137,60 @@ function resolveSources(sources?: readonly CatalogSource[]): CatalogSource[] {
 
 async function loadCatalog(sources?: readonly CatalogSource[]): Promise<CatalogSnapshot> {
 	const loaded = await Promise.all(resolveSources(sources).map(async (source) => ({ source, records: await loadSource(source) })))
+	const available = loaded.map(({ records }) => records).filter((records): records is IconRecord[] => records !== null)
 	return {
-		entries: loaded.flatMap(({ records }) => records ?? []),
+		entries: available.flat(),
+		indexes: available.map(indexRecords),
 		degradedSources: loaded.filter(({ records }) => !records).map(({ source }) => source),
 	}
+}
+
+function degraded(snapshot: CatalogSnapshot): CatalogDegraded {
+	if (snapshot.degradedSources.length === 0) return {}
+	return { degraded_sources: snapshot.degradedSources }
+}
+
+function resolveEntry(snapshot: CatalogSnapshot, name: string): ResolvedEntry | null {
+	const slug = name.trim().toLowerCase()
+	for (const index of snapshot.indexes) {
+		const entry = index.slugs.get(slug)
+		if (entry) return { entry, resolution: {} }
+	}
+
+	const key = compactKey(name)
+	for (const index of snapshot.indexes) {
+		const entry = index.keys.get(key)
+		if (entry) return { entry, resolution: { resolved_from: name.trim() } }
+	}
+	return null
+}
+
+function nearestEntries(snapshot: CatalogSnapshot, name: string, limit: number): IconRecord[] {
+	const key = compactKey(name)
+	if (key.length < MIN_TYPO_KEY_LENGTH) return []
+
+	const maxDistance = Math.floor(key.length / 4)
+	const near: { entry: IconRecord; distance: number }[] = []
+	for (const index of snapshot.indexes) {
+		for (const [candidate, entry] of index.keys) {
+			if (Math.abs(candidate.length - key.length) > maxDistance) continue
+			const distance = levenshteinDistance(candidate, key)
+			if (distance <= maxDistance) near.push({ entry, distance })
+		}
+	}
+	near.sort((a, b) => a.distance - b.distance)
+	return [...new Set(near.map(({ entry }) => entry))].slice(0, limit)
+}
+
+function exactMatches(snapshot: CatalogSnapshot, name: string): IconRecord[] {
+	const slug = name.trim().toLowerCase()
+	const key = compactKey(name)
+	const matches: IconRecord[] = []
+	for (const index of snapshot.indexes) {
+		const entry = index.slugs.get(slug) ?? index.keys.get(key)
+		if (entry) matches.push(entry)
+	}
+	return matches
 }
 
 function clampLimit(limit: number): number {
@@ -120,7 +227,7 @@ function pageUrlOf(entry: IconRecord): string {
 }
 
 function toItem(entry: IconRecord): CatalogItem {
-	return { name: entry.slug, title: titleOf(entry), source: entry.source, previewUrl: previewUrlOf(entry) }
+	return { name: entry.slug, title: titleOf(entry), source: entry.source, preview_url: previewUrlOf(entry) }
 }
 
 function toHit(entry: IconRecord, query: string): CatalogHit {
@@ -139,13 +246,14 @@ function inCategory(entries: IconRecord[], category?: string): IconRecord[] {
 	return entries.filter((entry) => entry.data.categories.some((candidate) => normalizeForSearch(candidate) === wanted))
 }
 
-function findBySlug(entries: IconRecord[], name: string): IconRecord | undefined {
-	const slug = name.trim().toLowerCase()
-	return entries.find((entry) => entry.slug.toLowerCase() === slug)
+function suggest(snapshot: CatalogSnapshot, name: string, limit: number): CatalogHit[] {
+	const ranked = rank(snapshot.entries, name, limit)
+	if (ranked.length > 0) return ranked
+	return nearestEntries(snapshot, name, limit).map((entry) => toHit(entry, name.trim()))
 }
 
 function notFound(snapshot: CatalogSnapshot, name: string): CatalogNotFound {
-	return { found: false, didYouMean: rank(snapshot.entries, name, DID_YOU_MEAN_LIMIT), degradedSources: snapshot.degradedSources }
+	return { found: false, did_you_mean: suggest(snapshot, name, DID_YOU_MEAN_LIMIT), ...degraded(snapshot) }
 }
 
 function themedUrls(build: (theme: IconTheme) => string | null): Partial<Record<IconTheme, string>> {
@@ -206,10 +314,10 @@ function externalLicense(icon: ExternalIcon): CatalogLicense {
 		name: icon.license || source.license,
 		url: icon.license_url || null,
 		attribution: icon.attribution || null,
-		sourceUrl: icon.source_url || null,
-		guidelinesUrl: icon.guidelines_url || null,
+		source_url: icon.source_url || null,
+		guidelines_url: icon.guidelines_url || null,
 		provider: source.label,
-		providerUrl: source.website,
+		provider_url: source.website,
 	}
 }
 
@@ -220,10 +328,10 @@ function nativeIcon(entry: NativeIconRecord): CatalogIcon {
 		aliases: entry.data.aliases,
 		categories: entry.data.categories,
 		author: author.name ?? author.login ?? null,
-		updatedAt: entry.data.update.timestamp,
-		brandColor: null,
+		updated_at: entry.data.update.timestamp,
+		brand_color: null,
 		license: null,
-		pageUrl: pageUrlOf(entry),
+		page_url: pageUrlOf(entry),
 		urls: nativeUrls(entry),
 	}
 }
@@ -237,10 +345,10 @@ function externalIcon(entry: ExternalIconRecord): CatalogIcon {
 		aliases: entry.data.aliases,
 		categories: entry.data.categories,
 		author: getExternalSource(entry.source).authorName,
-		updatedAt: entry.data.update.timestamp,
-		brandColor,
+		updated_at: entry.data.update.timestamp,
+		brand_color: brandColor,
 		license: externalLicense(external),
-		pageUrl: pageUrlOf(entry),
+		page_url: pageUrlOf(entry),
 		urls: externalUrls(external),
 	}
 }
@@ -251,11 +359,11 @@ export async function searchCatalog(
 ): Promise<CatalogSearchResult> {
 	const trimmed = query.trim()
 	const snapshot = await loadCatalog(options.sources)
-	if (!trimmed) return { results: [], total: 0, degradedSources: snapshot.degradedSources }
+	if (!trimmed) return { results: [], total: 0, ...degraded(snapshot) }
 
 	const matched = filterAndSortIcons({ icons: inCategory(snapshot.entries, options.category), query: trimmed })
 	const results = matched.slice(0, clampLimit(options.limit ?? DEFAULT_SEARCH_LIMIT)).map((entry) => toHit(entry, trimmed))
-	return { results, total: matched.length, degradedSources: snapshot.degradedSources }
+	return { results, total: matched.length, ...degraded(snapshot) }
 }
 
 export async function matchServices(
@@ -266,21 +374,27 @@ export async function matchServices(
 	const alternatives = clampLimit(options.limit ?? DEFAULT_MATCH_ALTERNATIVES)
 	const matches: CatalogServiceMatch[] = []
 	for (const service of serviceNames) {
-		const [best = null, ...rest] = rank(snapshot.entries, service, alternatives + 1)
-		matches.push({ service, best, alternatives: rest })
-		await yieldToEventLoop()
+		let hits = exactMatches(snapshot, service).map((entry) => toHit(entry, service.trim()))
+		if (hits.length === 0) {
+			hits = suggest(snapshot, service, alternatives + 1)
+			await yieldToEventLoop()
+		}
+		const [best = null, ...rest] = hits
+		matches.push({ service, best, alternatives: rest.slice(0, alternatives) })
 	}
-	return { matches, degradedSources: snapshot.degradedSources }
+	return { matches, ...degraded(snapshot) }
 }
 
 export async function getCatalogIcon(name: string, options: { source?: CatalogSource } = {}): Promise<CatalogLookup> {
 	const snapshot = await loadCatalog(options.source && [options.source])
-	const entry = findBySlug(snapshot.entries, name)
-	if (!entry) return notFound(snapshot, name)
-	if (entry.source === "native") return { found: true, icon: nativeIcon(entry) }
+	const resolved = resolveEntry(snapshot, name)
+	if (!resolved) return notFound(snapshot, name)
+
+	const { entry, resolution } = resolved
+	if (entry.source === "native") return { found: true, ...resolution, icon: nativeIcon(entry) }
 
 	const full = await getExternalIconBySourceAndSlug(entry.source, entry.slug)
-	return { found: true, icon: externalIcon(full ?? entry) }
+	return { found: true, ...resolution, icon: externalIcon(full ?? entry) }
 }
 
 export async function getCatalogIconSvg(
@@ -288,10 +402,11 @@ export async function getCatalogIconSvg(
 	options: { source?: CatalogSource; theme?: IconTheme } = {},
 ): Promise<CatalogSvgResult> {
 	const snapshot = await loadCatalog(options.source && [options.source])
-	const entry = findBySlug(snapshot.entries, name)
-	if (!entry) return notFound(snapshot, name)
+	const resolved = resolveEntry(snapshot, name)
+	if (!resolved) return notFound(snapshot, name)
 
-	const identity = { found: true as const, name: entry.slug, source: entry.source, theme: options.theme ?? "default" }
+	const { entry, resolution } = resolved
+	const identity = { found: true as const, ...resolution, name: entry.slug, source: entry.source, theme: options.theme ?? "default" }
 	const svgUrls = urlsOf(entry).svg
 	if (!svgUrls) return { ...identity, svg: null, url: null, reason: "no_svg" }
 
@@ -320,7 +435,7 @@ export async function listCatalogCategories(options: { source?: CatalogSource } 
 	}
 
 	const categories = [...buckets.values()].sort((a, b) => b.count - a.count || a.name.localeCompare(b.name))
-	return { categories, degradedSources: snapshot.degradedSources }
+	return { categories, ...degraded(snapshot) }
 }
 
 function parseCursor(cursor?: string | null): number {
@@ -342,5 +457,5 @@ export async function browseCatalog(
 	let nextCursor: string | null = null
 	if (end < sorted.length) nextCursor = String(end)
 
-	return { items: sorted.slice(offset, end).map(toItem), total: sorted.length, nextCursor, degradedSources: snapshot.degradedSources }
+	return { items: sorted.slice(offset, end).map(toItem), total: sorted.length, next_cursor: nextCursor, ...degraded(snapshot) }
 }

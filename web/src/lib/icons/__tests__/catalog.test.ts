@@ -41,7 +41,7 @@ const NATIVE: IconFile = {
 	dagster: native("2024-04-01T00:00:00Z", { colors: { light: "dagster-light", dark: "dagster-dark" } }),
 	ntopng: native("2024-05-01T00:00:00Z", { base: "png", colors: { light: "ntopng-light" } }),
 	legacy: native("2024-06-01T00:00:00Z", { base: "avif" }),
-	watchstate: native("2024-07-01T00:00:00Z", { categories: ["media servers", ""] }),
+	watchstate: native("2024-07-01T00:00:00Z", { aliases: ["Watch State", "—"], categories: ["media servers", ""] }),
 }
 
 function external(source: ExternalSourceId, slug: string, name: string, overrides: Partial<ExternalIcon> = {}): ExternalIconRecord {
@@ -124,23 +124,23 @@ describe("CATALOG_SOURCES", () => {
 
 describe("searchCatalog", () => {
 	it("returns nothing for a blank query", async () => {
-		expect(await searchCatalog("   ")).toEqual({ results: [], total: 0, degradedSources: [] })
+		expect(await searchCatalog("   ")).toEqual({ results: [], total: 0 })
 	})
 
 	it("merges sources with native winning ties and compact hits", async () => {
-		const { results, total, degradedSources } = await searchCatalog("openai")
-		expect(degradedSources).toEqual([])
+		const { results, total, degraded_sources } = await searchCatalog("openai")
+		expect(degraded_sources).toBeUndefined()
 		expect(total).toBe(4)
 		expect(results.map((hit) => hit.source)).toEqual(["native", "selfhst", "lobehub", "simpleicons"])
 		expect(results[0]).toEqual({
 			name: "openai",
 			title: "openai",
 			source: "native",
-			previewUrl: `${NATIVE_CDN}/svg/openai.svg`,
+			preview_url: `${NATIVE_CDN}/svg/openai.svg`,
 			score: 3.6,
 		})
-		expect(results[2]?.previewUrl).toBe(`${LOBEHUB_CDN}/icons/openai.svg`)
-		expect(results[3]?.previewUrl).toBe("https://cdn.simpleicons.org/openai/000000/FFFFFF")
+		expect(results[2]?.preview_url).toBe(`${LOBEHUB_CDN}/icons/openai.svg`)
+		expect(results[3]?.preview_url).toBe("https://cdn.simpleicons.org/openai/000000/FFFFFF")
 	})
 
 	it("filters by source, normalized category and limit", async () => {
@@ -159,30 +159,37 @@ describe("searchCatalog", () => {
 	it("degrades to native results when external icons are unavailable", async () => {
 		mocks.getExternalIcons.mockResolvedValue([])
 		const result = await searchCatalog("openai")
-		expect(result.degradedSources).toEqual(["selfhst", "lobehub", "simpleicons"])
+		expect(result.degraded_sources).toEqual(["selfhst", "lobehub", "simpleicons"])
 		expect(result.results.map((hit) => hit.source)).toEqual(["native"])
 	})
 
 	it("degrades native results when metadata cannot load", async () => {
 		mocks.getAllIcons.mockRejectedValue(new Error("offline"))
 		const result = await searchCatalog("openai")
-		expect(result.degradedSources).toEqual(["native"])
+		expect(result.degraded_sources).toEqual(["native"])
 		expect(result.results.map((hit) => hit.source)).toEqual(["selfhst", "lobehub", "simpleicons"])
 	})
 })
 
 describe("matchServices", () => {
 	it("returns the best match and alternatives per service", async () => {
-		const { matches, degradedSources } = await matchServices(["Plex", "LM Studio", "LiteLLM", "zzqqxxjj", "  "])
-		expect(degradedSources).toEqual([])
+		const { matches, degraded_sources } = await matchServices(["Plex", "LM Studio", "LiteLLM", "Plex Media Server", "zzqqxxjj", "  "])
+		expect(degraded_sources).toBeUndefined()
 		expect(matches.map((match) => [match.service, match.best?.name ?? null, match.best?.source ?? null])).toEqual([
 			["Plex", "plex", "native"],
 			["LM Studio", "lmstudio", "native"],
 			["LiteLLM", "litellm", "lobehub"],
+			["Plex Media Server", "plex", "native"],
 			["zzqqxxjj", null, null],
 			["  ", null, null],
 		])
-		expect(matches[3]?.alternatives).toEqual([])
+		expect(matches[4]?.alternatives).toEqual([])
+	})
+
+	it("falls back to fuzzy ranking, then to typo distance, when nothing matches exactly", async () => {
+		const { matches } = await matchServices(["iVent", "Dagst", "Plexx", "Plexxxx", "abcd"], { limit: 1 })
+		expect(matches.map((match) => match.best?.name ?? null)).toEqual(["iventoy", "dagster", "plex", null, null])
+		expect(matches.every((match) => match.alternatives.length <= 1)).toBe(true)
 	})
 
 	it("honours the alternatives limit and sources", async () => {
@@ -204,14 +211,14 @@ describe("getCatalogIcon", () => {
 				name: "dagster",
 				title: "dagster",
 				source: "native",
-				previewUrl: `${NATIVE_CDN}/svg/dagster.svg`,
+				preview_url: `${NATIVE_CDN}/svg/dagster.svg`,
 				aliases: [],
 				categories: [],
 				author: "alice",
-				updatedAt: "2024-04-01T00:00:00Z",
-				brandColor: null,
+				updated_at: "2024-04-01T00:00:00Z",
+				brand_color: null,
 				license: null,
-				pageUrl: "https://dashboardicons.com/icons/dagster",
+				page_url: "https://dashboardicons.com/icons/dagster",
 				urls: {
 					svg: {
 						default: `${NATIVE_CDN}/svg/dagster.svg`,
@@ -236,7 +243,7 @@ describe("getCatalogIcon", () => {
 	it("omits SVG for raster-only native icons and falls back on authors", async () => {
 		const ntopng = await getCatalogIcon("ntopng")
 		if (!ntopng.found) throw new Error("expected ntopng")
-		expect(ntopng.icon.previewUrl).toBe(`${NATIVE_CDN}/png/ntopng.png`)
+		expect(ntopng.icon.preview_url).toBe(`${NATIVE_CDN}/png/ntopng.png`)
 		expect(ntopng.icon.urls).toEqual({
 			png: { default: `${NATIVE_CDN}/png/ntopng.png`, light: `${NATIVE_CDN}/png/ntopng-light.png` },
 			webp: { default: `${NATIVE_CDN}/webp/ntopng.webp`, light: `${NATIVE_CDN}/webp/ntopng-light.webp` },
@@ -244,7 +251,7 @@ describe("getCatalogIcon", () => {
 
 		const legacy = await getCatalogIcon("legacy")
 		if (!legacy.found) throw new Error("expected legacy")
-		expect(legacy.icon.previewUrl).toBe(`${NATIVE_CDN}/svg/legacy.svg`)
+		expect(legacy.icon.preview_url).toBe(`${NATIVE_CDN}/svg/legacy.svg`)
 
 		const openai = await getCatalogIcon("openai")
 		const lmstudio = await getCatalogIcon("lmstudio")
@@ -273,22 +280,22 @@ describe("getCatalogIcon", () => {
 				name: "iventoy",
 				title: "iVentoy",
 				source: "selfhst",
-				previewUrl: `${SELFHST_CDN}/svg/iventoy.svg`,
+				preview_url: `${SELFHST_CDN}/svg/iventoy.svg`,
 				aliases: [],
 				categories: ["Media-Servers", "Utilities"],
 				author: "selfh.st/icons",
-				updatedAt: "2023-01-01T00:00:00Z",
-				brandColor: null,
+				updated_at: "2023-01-01T00:00:00Z",
+				brand_color: null,
 				license: {
 					name: "CC BY 4.0",
 					url: "https://creativecommons.org/licenses/by/4.0/",
 					attribution: "Icons by selfh.st",
-					sourceUrl: "https://selfh.st/icons/",
-					guidelinesUrl: "https://selfh.st/guidelines",
+					source_url: "https://selfh.st/icons/",
+					guidelines_url: "https://selfh.st/guidelines",
 					provider: "selfh.st",
-					providerUrl: "https://selfh.st/icons/",
+					provider_url: "https://selfh.st/icons/",
 				},
-				pageUrl: "https://dashboardicons.com/icons/external/iventoy",
+				page_url: "https://dashboardicons.com/icons/external/iventoy",
 				urls: {
 					svg: { default: `${SELFHST_CDN}/svg/iventoy.svg` },
 					png: { default: `${SELFHST_CDN}/png/iventoy.png` },
@@ -303,8 +310,8 @@ describe("getCatalogIcon", () => {
 			found: true,
 			icon: {
 				source: "simpleicons",
-				brandColor: "#412991",
-				license: { name: "CC0-1.0", url: null, attribution: null, sourceUrl: null, guidelinesUrl: null, provider: "Simple Icons" },
+				brand_color: "#412991",
+				license: { name: "CC0-1.0", url: null, attribution: null, source_url: null, guidelines_url: null, provider: "Simple Icons" },
 				urls: {
 					svg: {
 						default: "https://cdn.simpleicons.org/openai/412991",
@@ -337,30 +344,45 @@ describe("getCatalogIcon", () => {
 		})
 	})
 
-	it("suggests near slugs when the icon is missing", async () => {
+	it("resolves names that differ only by case, separators or an alias", async () => {
 		const cases: [string, string, string][] = [
 			["lm-studio", "lmstudio", "native"],
 			["i-ventoy", "iventoy", "selfhst"],
-			["watch-state", "watchstate", "native"],
+			["Watch State", "watchstate", "native"],
+			["plex_media_server", "plex", "native"],
+			["Q-Bitrr", "qbitrr", "selfhst"],
 		]
 		for (const [query, name, source] of cases) {
 			const result = await getCatalogIcon(query)
-			expect(result.found).toBe(false)
-			if (result.found) continue
-			expect(result.didYouMean[0]).toMatchObject({ name, source })
-			expect(result.degradedSources).toEqual([])
+			expect(result).toMatchObject({ found: true, resolved_from: query, icon: { name, source } })
 		}
+		expect(await getCatalogIcon("LMSTUDIO")).not.toHaveProperty("resolved_from")
+	})
+
+	it("suggests near slugs when nothing resolves", async () => {
+		const result = await getCatalogIcon("plexx")
+		expect(result.found).toBe(false)
+		expect(!result.found && result.did_you_mean[0]).toMatchObject({ name: "plex", source: "native" })
+		expect(result).not.toHaveProperty("degraded_sources")
+
+		const typo = await getCatalogIcon("open-aa")
+		expect(!typo.found && typo.did_you_mean.map((hit) => `${hit.source}:${hit.name}`)).toEqual([
+			"native:openai",
+			"selfhst:openai",
+			"lobehub:openai",
+			"simpleicons:openai",
+		])
 	})
 
 	it("only looks in the requested source", async () => {
 		const result = await getCatalogIcon("plex", { source: "lobehub" })
-		expect(result).toEqual({ found: false, didYouMean: [], degradedSources: [] })
+		expect(result).toEqual({ found: false, did_you_mean: [] })
 		expect(mocks.getAllIcons).not.toHaveBeenCalled()
 	})
 
 	it("reports degraded sources with an empty name", async () => {
 		mocks.getExternalIcons.mockResolvedValue([])
-		expect(await getCatalogIcon("  ")).toEqual({ found: false, didYouMean: [], degradedSources: ["selfhst", "lobehub", "simpleicons"] })
+		expect(await getCatalogIcon("  ")).toEqual({ found: false, did_you_mean: [], degraded_sources: ["selfhst", "lobehub", "simpleicons"] })
 	})
 })
 
@@ -403,10 +425,13 @@ describe("getCatalogIconSvg", () => {
 		})
 	})
 
-	it("returns suggestions when the icon is missing", async () => {
-		const result = await getCatalogIconSvg("lite-llm")
+	it("resolves loose names and returns suggestions when the icon is missing", async () => {
+		expect(await getCatalogIconSvg("Lite-LLM")).toMatchObject({ found: true, resolved_from: "Lite-LLM", name: "litellm", svg: "<svg/>" })
+		mocks.fetchTrustedSvg.mockClear()
+
+		const result = await getCatalogIconSvg("litelm")
 		expect(result.found).toBe(false)
-		expect(!result.found && result.didYouMean[0]).toMatchObject({ name: "litellm", source: "lobehub" })
+		expect(!result.found && result.did_you_mean[0]).toMatchObject({ name: "litellm", source: "lobehub" })
 		expect(mocks.fetchTrustedSvg).not.toHaveBeenCalled()
 	})
 })
@@ -419,7 +444,6 @@ describe("listCatalogCategories", () => {
 				{ name: "AI", count: 2 },
 				{ name: "Utilities", count: 1 },
 			],
-			degradedSources: [],
 		})
 	})
 
@@ -436,17 +460,17 @@ describe("browseCatalog", () => {
 		const first = await browseCatalog({ limit: 3 })
 		expect(first.items.map((item) => item.name)).toEqual(["dagster", "legacy", "lmstudio"])
 		expect(first.total).toBe(13)
-		expect(first.nextCursor).toBe("3")
+		expect(first.next_cursor).toBe("3")
 
 		const last = await browseCatalog({ limit: 100, cursor: "10" })
 		expect(last.items.map((item) => `${item.source}:${item.name}`)).toEqual(["lobehub:openai", "simpleicons:openai", "selfhst:qbitrr"])
-		expect(last.nextCursor).toBeNull()
+		expect(last.next_cursor).toBeNull()
 	})
 
 	it("sorts by newest and filters by category and source", async () => {
 		const newest = await browseCatalog({ sort: "newest", source: "native" })
 		expect(newest.items.map((item) => item.name)).toEqual(["watchstate", "legacy", "ntopng", "dagster", "lmstudio", "openai", "plex"])
-		expect(newest.nextCursor).toBeNull()
+		expect(newest.next_cursor).toBeNull()
 
 		const media = await browseCatalog({ category: "Media-Servers" })
 		expect(media.items.map((item) => item.name)).toEqual(["plex", "watchstate", "iventoy"])
@@ -454,7 +478,7 @@ describe("browseCatalog", () => {
 			name: "iventoy",
 			title: "iVentoy",
 			source: "selfhst",
-			previewUrl: `${SELFHST_CDN}/svg/iventoy.svg`,
+			preview_url: `${SELFHST_CDN}/svg/iventoy.svg`,
 		})
 	})
 

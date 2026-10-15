@@ -1,42 +1,5 @@
 import type { ExternalSourceId } from "@/constants"
 import type { IconFormat, IconTheme } from "@/lib/icons/urls"
-import type { Icon } from "@/types/icons"
-
-export type SearchResult = {
-	name: string
-	aliases: string[]
-	categories: string[]
-	score: number
-}
-
-export type IconDetail = {
-	name: string
-	base: Icon["base"]
-	aliases: string[]
-	categories: string[]
-	colors?: Icon["colors"]
-	update: Icon["update"]
-	urls: {
-		svg: string
-		png: string
-		webp: string
-		light?: string
-		dark?: string
-	}
-}
-
-export type Suggestion = {
-	name: string
-	score: number
-	url: string
-}
-
-export type IconUrlResult = {
-	url: string
-	name: string
-	format: "svg" | "png" | "webp"
-	theme: "default" | "light" | "dark"
-}
 
 export type CatalogSource = "native" | ExternalSourceId
 
@@ -44,7 +7,7 @@ export type CatalogItem = {
 	name: string
 	title: string
 	source: CatalogSource
-	previewUrl: string
+	preview_url: string
 }
 
 export type CatalogHit = CatalogItem & { score: number }
@@ -55,34 +18,37 @@ export type CatalogLicense = {
 	name: string
 	url: string | null
 	attribution: string | null
-	sourceUrl: string | null
-	guidelinesUrl: string | null
+	source_url: string | null
+	guidelines_url: string | null
 	provider: string
-	providerUrl: string
+	provider_url: string
 }
 
 export type CatalogIcon = CatalogItem & {
 	aliases: string[]
 	categories: string[]
 	author: string | null
-	updatedAt: string
-	brandColor: string | null
+	updated_at: string
+	brand_color: string | null
 	license: CatalogLicense | null
-	pageUrl: string
+	page_url: string
 	urls: CatalogUrls
 }
 
-export type CatalogNotFound = {
+export type CatalogDegraded = { degraded_sources?: CatalogSource[] }
+
+export type CatalogResolution = { resolved_from?: string }
+
+export type CatalogNotFound = CatalogDegraded & {
 	found: false
-	didYouMean: CatalogHit[]
-	degradedSources: CatalogSource[]
+	did_you_mean: CatalogHit[]
 }
 
-export type CatalogLookup = { found: true; icon: CatalogIcon } | CatalogNotFound
+export type CatalogLookup = (CatalogResolution & { found: true; icon: CatalogIcon }) | CatalogNotFound
 
 export type CatalogSvgUnavailableReason = "no_svg" | "no_variant" | "fetch_failed"
 
-type CatalogSvgIdentity = {
+type CatalogSvgIdentity = CatalogResolution & {
 	found: true
 	name: string
 	source: CatalogSource
@@ -94,10 +60,9 @@ export type CatalogSvgResult =
 	| (CatalogSvgIdentity & { svg: null; url: string | null; reason: CatalogSvgUnavailableReason })
 	| CatalogNotFound
 
-export type CatalogSearchResult = {
+export type CatalogSearchResult = CatalogDegraded & {
 	results: CatalogHit[]
 	total: number
-	degradedSources: CatalogSource[]
 }
 
 export type CatalogServiceMatch = {
@@ -106,9 +71,8 @@ export type CatalogServiceMatch = {
 	alternatives: CatalogHit[]
 }
 
-export type CatalogMatchResult = {
+export type CatalogMatchResult = CatalogDegraded & {
 	matches: CatalogServiceMatch[]
-	degradedSources: CatalogSource[]
 }
 
 export type CatalogCategory = {
@@ -116,16 +80,14 @@ export type CatalogCategory = {
 	count: number
 }
 
-export type CatalogCategoriesResult = {
+export type CatalogCategoriesResult = CatalogDegraded & {
 	categories: CatalogCategory[]
-	degradedSources: CatalogSource[]
 }
 
 export type CatalogBrowseSort = "newest" | "alphabetical"
 
-export type CatalogBrowseResult = {
+export type CatalogBrowseResult = CatalogDegraded & {
 	items: CatalogItem[]
 	total: number
-	nextCursor: string | null
-	degradedSources: CatalogSource[]
+	next_cursor: string | null
 }
