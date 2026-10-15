@@ -39,7 +39,7 @@ beforeEach(() => {
 })
 
 describe("tool registry", () => {
-	it("lists the public read-only tools with categories", () => {
+	it("lists the public read-only tools and the account tools with categories", () => {
 		expect(DASHBOARD_ICONS_TOOLS.map((tool) => [tool.name, tool.access, tool.config._meta?.category])).toEqual([
 			["match_icons", "public", "discovery"],
 			["search_icons", "public", "discovery"],
@@ -47,9 +47,11 @@ describe("tool registry", () => {
 			["get_icon_svg", "public", "details"],
 			["browse_icons", "public", "discovery"],
 			["list_categories", "public", "discovery"],
+			["submit_icon", "account", "account"],
+			["list_my_submissions", "account", "account"],
 		])
 		for (const tool of DASHBOARD_ICONS_TOOLS) {
-			expect(tool.config.annotations).toEqual(READ_ONLY_ANNOTATIONS)
+			if (tool.name !== "submit_icon") expect(tool.config.annotations).toEqual(READ_ONLY_ANNOTATIONS)
 			expect(tool.config.description.length).toBeGreaterThan(80)
 		}
 	})
@@ -66,8 +68,8 @@ describe("tool registry", () => {
 	})
 
 	it("only gates account tools", () => {
-		for (const tool of DASHBOARD_ICONS_TOOLS) expect(isAccountTool(tool.name)).toBe(false)
-		expect(isAccountTool("submit_icon")).toBe(false)
+		for (const tool of DASHBOARD_ICONS_TOOLS) expect(isAccountTool(tool.name)).toBe(tool.access === "account")
+		expect(isAccountTool("get_more_tools")).toBe(false)
 	})
 
 	it("registers every tool with its config", () => {

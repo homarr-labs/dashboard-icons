@@ -58,24 +58,7 @@ export const VARIANT_OPTIONS: MultiSelectOption[] = VARIANTS.map((variant) => ({
 	disabled: variant.id === "base",
 }))
 
-export const AVAILABLE_CATEGORIES = [
-	"automation",
-	"cloud",
-	"database",
-	"development",
-	"entertainment",
-	"finance",
-	"gaming",
-	"home-automation",
-	"media",
-	"monitoring",
-	"network",
-	"security",
-	"social",
-	"storage",
-	"tools",
-	"utility",
-]
+export { SUBMISSION_CATEGORIES as AVAILABLE_CATEGORIES } from "@/lib/submission-categories"
 
 export interface FormData {
 	iconName: string

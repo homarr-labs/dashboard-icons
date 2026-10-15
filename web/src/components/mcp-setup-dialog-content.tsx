@@ -179,6 +179,9 @@ function McpToolsSection() {
 					)
 				})}
 			</ul>
+			<p className="mt-2 px-2 text-[11px] leading-relaxed text-muted-foreground">
+				Sign in when your client asks to also submit icons and track their review.
+			</p>
 		</div>
 	)
 }

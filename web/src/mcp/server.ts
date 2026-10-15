@@ -1,7 +1,7 @@
 import type { AuthInfo } from "@modelcontextprotocol/server"
 import { McpServer } from "@modelcontextprotocol/server"
 import { instrumentDashboardIconsMcpAnalytics } from "@/mcp/analytics"
-import { getMcpCaller } from "@/mcp/caller"
+import { getMcpSession } from "@/mcp/caller"
 import { registerDashboardIconsPrompts } from "@/mcp/prompts"
 import { registerDashboardIconsResources } from "@/mcp/resources"
 import { getDashboardIconsServerInfo } from "@/mcp/server-info"
@@ -15,11 +15,12 @@ export const DASHBOARD_ICONS_INSTRUCTIONS = [
 	"get_icon and get_icon_svg resolve loose names and answer unknown ones with did_you_mean instead of failing.",
 	"browse_icons and list_categories explore the catalog without a query.",
 	"Prefer linking the CDN URLs over copying files, and show the license for icons whose source is not native.",
+	"submit_icon and list_my_submissions act on the user's dashboardicons.com account and need them to sign in to this MCP server; only submit icons the user asked for.",
 ].join(" ")
 
 export function createDashboardIconsServer(authInfo?: AuthInfo): McpServer {
 	const server = new McpServer(getDashboardIconsServerInfo(), { instructions: DASHBOARD_ICONS_INSTRUCTIONS })
-	registerDashboardIconsTools(server, getMcpCaller(authInfo))
+	registerDashboardIconsTools(server, getMcpSession(authInfo))
 	registerDashboardIconsResources(server)
 	registerDashboardIconsPrompts(server)
 	instrumentDashboardIconsMcpAnalytics(server)

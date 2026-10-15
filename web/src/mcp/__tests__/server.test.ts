@@ -32,21 +32,33 @@ describe("createDashboardIconsServer", () => {
 		]) {
 			expect(register.mock.invocationCallOrder[0]).toBeLessThan(mocks.instrumentDashboardIconsMcpAnalytics.mock.invocationCallOrder[0] ?? 0)
 		}
-		for (const tool of ["match_icons", "search_icons", "get_icon", "get_icon_svg", "browse_icons", "list_categories"]) {
+		for (const tool of [
+			"match_icons",
+			"search_icons",
+			"get_icon",
+			"get_icon_svg",
+			"browse_icons",
+			"list_categories",
+			"submit_icon",
+			"list_my_submissions",
+		]) {
 			expect(DASHBOARD_ICONS_INSTRUCTIONS).toContain(tool)
 		}
 	})
 
-	it("hands the authenticated caller to the tools", async () => {
+	it("hands the signed-in session to the tools", async () => {
 		const { createDashboardIconsServer } = await import("@/mcp/server")
 
 		const server = createDashboardIconsServer({
 			token: "t",
 			clientId: "c",
 			scopes: [],
-			extra: { userId: "user_1", username: "iconfan", admin: true },
+			extra: { userId: "user_1", username: "iconfan", admin: true, pbToken: "pb" },
 		})
 
-		expect(mocks.registerDashboardIconsTools).toHaveBeenLastCalledWith(server, { userId: "user_1", username: "iconfan", admin: true })
+		expect(mocks.registerDashboardIconsTools).toHaveBeenLastCalledWith(server, {
+			caller: { userId: "user_1", username: "iconfan", admin: true },
+			pbToken: "pb",
+		})
 	})
 })

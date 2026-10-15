@@ -58,6 +58,7 @@ scripts/*
 !scripts/import-lobehub.ts
 !scripts/import-simple-icons.ts
 !scripts/mcp-smoke.ts
+!scripts/mcp-oauth-smoke.ts
 data/sources/
 
 # Playwright

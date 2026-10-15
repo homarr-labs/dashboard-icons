@@ -310,6 +310,9 @@ the server-only runtime address and defaults to
 `http://127.0.0.1:8090`; keep that default for the bundled backend. An optional
 runtime `GITHUB_TOKEN` enables authenticated GitHub API calls. A build-time token
 can be supplied with BuildKit's `--secret id=github_token,env=GITHUB_TOKEN`.
+Set runtime `MCP_OAUTH_SECRET` (at least 32 bytes, e.g. `openssl rand -hex 48`)
+and `MCP_OAUTH_ISSUER` (your public origin, e.g. `https://dashboardicons.com`) to
+enable MCP sign-in and the account tools; see [docs/MCP-AUTH.md](docs/MCP-AUTH.md).
 
 The build uses an isolated, empty PocketBase database and never copies local
 `pb_data` or `.env` files. Native metadata and CDN icon files still come from the

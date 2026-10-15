@@ -78,7 +78,29 @@ const authInfo = await verifyMcpBearer(req);
 mcpAuthChallenge(req); // 401 + WWW-Authenticate for an anonymous call to an account tool; null when sign-in is disabled
 ```
 
-Account tools act as the user with `pb.authStore.save(extra.pbToken, null)` on a server PocketBase client.
+`src/app/api/mcp/route.ts` runs this after the rate limit and body bound: a bad token gets the `invalid_token` challenge on every request, and an anonymous `tools/call` for an account tool gets the plain challenge. With sign-in disabled the call reaches the registry, which answers with a "sign in" tool error.
+
+`createDashboardIconsServer` turns the auth info into an `McpSession` (`caller` + `pbToken`) that only account tool handlers receive. Each account call refreshes the PocketBase session first (`authRefresh`) and acts with the fresh token, so a revoked PocketBase session fails right away with a "reconnect" tool error instead of an empty result. The analytics `beforeSend` drops the SDK request context from `$identify` events, because PostHog's redactor does not know the `pbToken` key.
+
+## Local stack
+
+Run PocketBase, Next.js and the smoke script in separate terminals from `web/`. Use local-only test credentials; keep `pb_data` out of commits and stop both servers afterward.
+
+```sh
+pnpm backend:download                                    # sha-pinned PocketBase into backend/pocketbase
+cd backend
+./pocketbase superuser upsert admin@example.test 'replace-with-local-test-password' --dir pb_data
+DASHBOARD_DISABLE_EMAIL=1 ./pocketbase serve --http 127.0.0.1:8090 --dir pb_data   # pb_data is gitignored
+cd ..
+curl -X POST http://127.0.0.1:8090/api/collections/users/records -H 'content-type: application/json' \
+  -d '{"username":"mcpsmoke","email":"mcp-smoke@example.test","password":"replace-with-local-test-password","passwordConfirm":"replace-with-local-test-password"}'
+MCP_OAUTH_SECRET=$(openssl rand -hex 48) MCP_ANALYTICS_DEBUG=true MCP_RATE_LIMIT_ENABLED=false \
+  NEXT_PUBLIC_DISABLE_POSTHOG=true PB_URL=http://127.0.0.1:8090 NEXT_PUBLIC_POCKETBASE_URL=http://127.0.0.1:8090 \
+  npx next dev --webpack --port 3005 > /tmp/next.log 2>&1
+MCP_SMOKE_PASSWORD='replace-with-local-test-password' npx tsx scripts/mcp-oauth-smoke.ts http://localhost:3005 http://127.0.0.1:8090 mcp-smoke@example.test "" /tmp/next.log
+```
+
+The smoke script checks the anonymous 401 challenge, metadata, DCR, the consent POST with the user's PocketBase token, the PKCE code exchange and replay, `submit_icon` on the 2026 era (and the stored PocketBase record), `list_my_submissions` on the 2025 era, refresh rotation and a tampered bearer. With the log path it also checks that signed-in `$mcp_tool_call` events use the PocketBase user id and that no bearer token or JWT reaches the analytics log. It deletes its submission at the end. Use `--webpack`: Turbopack breaks on pnpm's global virtual store.
 
 ## Security properties
 
@@ -93,9 +115,9 @@ Account tools act as the user with `pb.authStore.save(extra.pbToken, null)` on a
 
 ## Limitations
 
-- **Single-process replay set.** Used code IDs live in memory (max 10,000, fail-closed when full). Running several web replicas behind a round-robin balancer would let a code be redeemed once per replica within its 60 s life. Move the set to PocketBase or Redis before scaling out.
-- **Refresh tokens are not reuse-detected.** Rotation issues new tokens, but a previous refresh token stays valid while the PocketBase token inside it is valid. Stateless rotation cannot revoke it.
+- **Single-process replay guards.** Used authorization-code and refresh-token IDs live in bounded in-memory guards that fail closed when full. Reuse is rejected in one process, but a restart clears the guards and several replicas do not share them. Move the guards to shared storage before scaling out.
+- **Token lifetimes are capped by PocketBase.** Access tokens last at most 1 hour and refresh tokens at most 30 days, never beyond the embedded PocketBase token's expiry. Successful refresh rotates the token and rejects reuse in the current process; it does not revoke a whole token family.
 - **PocketBase idle expiry.** PocketBase tokens last 7 days by default. A connection idle for longer cannot refresh and needs one more consent click (the browser session usually still exists).
-- **Revocation is coarse.** There is no per-client revocation. Changing the password or signing out everywhere in PocketBase (token key reset) ends MCP access within 1 hour, when the current access token expires and the next refresh fails.
+- **Revocation is coarse.** There is no per-client revocation. Changing the password or signing out everywhere in PocketBase (token key reset) stops account tools at once (they refresh the PocketBase session on every call) and ends the rest of MCP access within 1 hour, when the current access token expires and the next refresh fails.
 - **No CIMD yet.** Clients register through DCR, which the 2026-07-28 spec deprecates but still allows. Claude Code, Cursor and VS Code all support it.
 - The access token's `client_id` is a SHA-256 fingerprint of the registered client ID, which keeps tokens short.

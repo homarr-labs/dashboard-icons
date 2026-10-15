@@ -55,11 +55,19 @@ export function isSampledIn(identity: string, rate: number): boolean {
 	return hashString(identity) % 10_000 < rate * 10_000
 }
 
+// `$identify` events carry the SDK request context, whose auth info holds the caller's
+// PocketBase token under a key PostHog's redactor does not know. Never send that context.
+function dropRequestContext(event: McpCaptureEvent): void {
+	const parameters = event.properties.$mcp_parameters
+	if (parameters && typeof parameters === "object" && "extra" in parameters) delete parameters.extra
+}
+
 /**
  * Event-volume filter applied before anything is sent. `$mcp_tool_call` and the rest
  * pass through untouched; only `$mcp_tools_list` and most `$mcp_initialize` are dropped.
  */
 export function mcpBeforeSend(event: McpCaptureEvent): McpCaptureEvent | null {
+	dropRequestContext(event)
 	if (event.event === MCP_TOOLS_LIST_EVENT) return null
 
 	if (event.event === MCP_INITIALIZE_EVENT) {

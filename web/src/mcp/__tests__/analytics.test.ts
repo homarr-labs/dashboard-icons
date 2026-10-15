@@ -184,6 +184,19 @@ describe("MCP analytics", () => {
 		expect(mcpBeforeSend(captureEvent("$mcp_tool_call"))).not.toBeNull()
 	})
 
+	it("never sends the SDK request context that carries the PocketBase token", async () => {
+		const { mcpBeforeSend } = await importAnalytics()
+		const request = { method: "tools/call", params: { name: "submit_icon" } }
+		const identify = captureEvent("$identify", {
+			$mcp_parameters: { request, extra: { http: { authInfo: { extra: { pbToken: "pb-secret" } } } } },
+		})
+		expect(mcpBeforeSend(identify)?.properties.$mcp_parameters).toEqual({ request })
+		expect(mcpBeforeSend(captureEvent("$mcp_tool_call", { $mcp_parameters: { request } }))?.properties.$mcp_parameters).toEqual({ request })
+		expect(mcpBeforeSend(captureEvent("$mcp_tool_call", { $mcp_parameters: "[truncated]" }))?.properties.$mcp_parameters).toBe(
+			"[truncated]",
+		)
+	})
+
 	it("samples deterministically and honours the rate bounds", async () => {
 		const { isSampledIn } = await importAnalytics()
 

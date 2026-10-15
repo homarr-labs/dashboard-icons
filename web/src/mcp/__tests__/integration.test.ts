@@ -63,6 +63,20 @@ vi.mock("@posthog/mcp", async (importOriginal) => {
 	}
 })
 
+vi.mock("@/lib/pb", () => ({
+	createServerPB: () => ({
+		authStore: { save: () => {} },
+		filter: (expression: string) => expression,
+		collection: () => ({
+			authRefresh: async () => ({ token: "pb-fresh-secret", record: { id: "user_123", username: "iconfan", admin: false } }),
+			create: async (body: { name: string }) => ({ id: "rec1", name: body.name, status: "pending" }),
+			getList: async () => ({
+				items: [{ id: "rec1", name: "my-app", status: "pending", admin_comment: "", created: "2026-10-15", updated: "2026-10-15" }],
+				totalItems: 1,
+			}),
+		}),
+	}),
+}))
 vi.mock("@/lib/icons/service", () => ({ getAllIcons: async () => NATIVE_ICONS }))
 vi.mock("@/lib/external-icons", () => ({ getExternalIcons: async () => EXTERNAL_ICONS, getExternalIconBySourceAndSlug: async () => null }))
 vi.mock("@/lib/icons/svg-fetch", () => ({ fetchTrustedSvg: async (url: string) => `<svg data-url="${url}"/>` }))
@@ -290,6 +304,50 @@ describe("MCP over HTTP (real wiring)", () => {
 		expect(toolCall?.distinctId).toBe("user_123")
 		expect(toolCall?.properties.$set).toMatchObject({ username: "iconfan", admin: false })
 		expect(captured.some((event) => event.event === "$identify" && event.distinctId === "user_123")).toBe(true)
+	})
+
+	it("runs account tools as the signed-in user without leaking the PocketBase token to analytics", async () => {
+		const { handleMcpRequest } = await importHttp()
+		const authInfo: AuthInfo = {
+			token: "mcp-access-secret",
+			clientId: "client",
+			scopes: ["account"],
+			extra: { userId: "user_123", username: "iconfan", admin: false, pbToken: "pb-old-secret" },
+		}
+		const list = await rpc(await handleMcpRequest(modernRequest(1, "tools/list", {})))
+		const schemas = new Map((list.result?.tools ?? []).map((tool) => [tool.name, tool.outputSchema]))
+		const ajv = new AjvJsonSchemaValidator()
+		const svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1 1"><path d="M0 0h1v1z"/></svg>'
+
+		const calls: [string, Record<string, unknown>, Record<string, unknown>][] = [
+			["submit_icon", { name: "my-app", svg, categories: ["tools"] }, { id: "rec1", status: "pending" }],
+			["list_my_submissions", {}, { total: 1, submissions: [expect.objectContaining({ id: "rec1" })] }],
+		]
+		let id = 2
+		for (const [name, args, expected] of calls) {
+			const reply = await rpc(
+				await handleMcpRequest(modernRequest(id++, "tools/call", { name, arguments: { ...args, context: INTENT } }, name), authInfo),
+			)
+			expect(reply.result?.isError, name).toBeUndefined()
+			expect(reply.result?.structuredContent, name).toMatchObject(expected)
+			expect(ajv.getValidator(schemas.get(name) as Record<string, unknown>)(reply.result?.structuredContent), name).toMatchObject({
+				valid: true,
+			})
+		}
+
+		const anonymous = await rpc(
+			await handleMcpRequest(modernRequest(9, "tools/call", { name: "list_my_submissions", arguments: {} }, "list_my_submissions")),
+		)
+		expect(anonymous.result?.isError).toBe(true)
+		await settle()
+
+		expect(toolCalls().map((event) => [event.properties.$mcp_tool_name, event.properties.$mcp_tool_category, event.distinctId])).toEqual([
+			["submit_icon", "account", "user_123"],
+			["list_my_submissions", "account", "user_123"],
+			["list_my_submissions", "account", expect.not.stringMatching("user_123")],
+		])
+		const logged = JSON.stringify(captured)
+		for (const secret of ["pb-old-secret", "pb-fresh-secret", "mcp-access-secret"]) expect(logged).not.toContain(secret)
 	})
 
 	it("reports missing capabilities through get_more_tools", async () => {

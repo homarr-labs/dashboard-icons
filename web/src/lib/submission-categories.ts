@@ -1,0 +1,18 @@
+export const SUBMISSION_CATEGORIES = [
+	"automation",
+	"cloud",
+	"database",
+	"development",
+	"entertainment",
+	"finance",
+	"gaming",
+	"home-automation",
+	"media",
+	"monitoring",
+	"network",
+	"security",
+	"social",
+	"storage",
+	"tools",
+	"utility",
+] as const

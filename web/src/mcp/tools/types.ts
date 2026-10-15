@@ -1,6 +1,6 @@
 import type { CallToolResult, ToolAnnotations } from "@modelcontextprotocol/server"
 import type { z } from "zod"
-import type { McpCaller } from "@/mcp/caller"
+import type { McpCaller, McpSession } from "@/mcp/caller"
 
 export type ToolCategory = "discovery" | "details" | "account"
 
@@ -29,7 +29,7 @@ export type AccountTool<Input extends z.ZodObject = z.ZodObject, Output extends 
 	Output
 > & {
 	access: "account"
-	handler(args: z.output<Input>, context: { caller: McpCaller }): Promise<CallToolResult>
+	handler(args: z.output<Input>, context: McpSession): Promise<CallToolResult>
 }
 
 export type DashboardIconsTool = PublicTool | AccountTool
