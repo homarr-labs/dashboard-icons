@@ -1,0 +1,20 @@
+web/docs/MCP.md
+  h_d6e478ca18e517 150-164
+web/docs/research/codebase-map.md
+  h_d6e478ca18e517 1-264
+web/docs/research/mcp-v2-research.md
+  h_d6e478ca18e517 1-266
+web/docs/research/posthog-baseline.md
+  h_d6e478ca18e517 1-37
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "536f32309c27379c80654d51557ad51346c0b324",
+  "prompts": {},
+  "humans": {
+    "h_d6e478ca18e517": {
+      "author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
