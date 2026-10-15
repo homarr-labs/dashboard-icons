@@ -1,6 +1,7 @@
 import "server-only"
 
 import { BASE_URL, EXTERNAL_SOURCES } from "@/constants"
+import { readBoundedBytes } from "@/lib/read-bounded-bytes"
 
 const SVG_FETCH_TIMEOUT_MS = 5_000
 const SVG_CACHE_TTL_MS = 60 * 60 * 1000
@@ -25,22 +26,9 @@ export function isTrustedSvgUrl(url: string): boolean {
 }
 
 async function readCappedText(response: Response): Promise<string | null> {
-	if (Number(response.headers.get("content-length")) > MAX_SVG_BYTES || !response.body) return null
-
-	const reader = response.body.getReader()
-	const chunks: Uint8Array[] = []
-	let size = 0
-	let chunk = await reader.read()
-	while (!chunk.done) {
-		size += chunk.value.byteLength
-		if (size > MAX_SVG_BYTES) {
-			await reader.cancel()
-			return null
-		}
-		chunks.push(chunk.value)
-		chunk = await reader.read()
-	}
-	return new TextDecoder().decode(Buffer.concat(chunks))
+	const bytes = await readBoundedBytes(response, MAX_SVG_BYTES)
+	if (bytes === null) return null
+	return new TextDecoder().decode(bytes)
 }
 
 function remember(url: string, svg: string): void {

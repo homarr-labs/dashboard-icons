@@ -4,6 +4,7 @@ import { defineConfig } from "vitest/config"
 const coverageInclude = [
 	"src/lib/api.ts",
 	"src/lib/icon-url.ts",
+	"src/lib/read-bounded-bytes.ts",
 	"src/lib/icons/**/*.ts",
 	"src/mcp/**/*.ts",
 	"src/app/api/mcp/**/*.ts",

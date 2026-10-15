@@ -151,6 +151,20 @@ describe("submit_icon", () => {
 		expect(pb.create).not.toHaveBeenCalled()
 	})
 
+	it("rejects embedded raster images with actionable submission errors", async () => {
+		const result = await register(SESSION)("submit_icon", {
+			name: "my-app",
+			svg: '<svg xmlns="http://www.w3.org/2000/svg"><image href="data:image/png;base64,AAAA"/></svg>',
+		})
+		expect(result.isError).toBe(true)
+		expect(textOf(result)).toBe(
+			"The SVG was not accepted: external references and embedded images are not allowed (data:image/png;base64,AAAA); use local #ids only.",
+		)
+		expect(pb.getAllIcons).not.toHaveBeenCalled()
+		expect(pb.authRefresh).not.toHaveBeenCalled()
+		expect(pb.create).not.toHaveBeenCalled()
+	})
+
 	it("refuses to submit when the native catalog cannot be checked for duplicates", async () => {
 		pb.getAllIcons.mockRejectedValue(new Error("offline"))
 		const result = await register(SESSION)("submit_icon", { name: "plex", svg: SVG })

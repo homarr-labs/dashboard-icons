@@ -11,6 +11,10 @@ export class ValidationError extends Error {
 	}
 }
 
+export function assertCatalogInputLength(value: string, maxLength: number): void {
+	if (value.length > maxLength) throw new ValidationError(`Catalog input must be at most ${maxLength} characters`)
+}
+
 export function assertIconName(name: string): string {
 	const trimmed = name.trim()
 	if (!trimmed || trimmed.length > MAX_NAME_LENGTH) {

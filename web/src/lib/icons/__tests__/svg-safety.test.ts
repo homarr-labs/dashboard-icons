@@ -14,9 +14,9 @@ function reasonFor(input: string): string | undefined {
 }
 
 describe("checkSubmittedSvg", () => {
-	it("accepts plain icons, trimmed, with prolog, comments, local references and inline raster images", () => {
+	it("accepts plain icons, trimmed, with prolog, comments and local references", () => {
 		const icon = `<?xml version="1.0"?>\n<!-- logo -->\n${svg(
-			'<defs><linearGradient id="g"/></defs><use xlink:href="#shape"/><rect fill="url(#g)" style="fill: url( \'#g\' )"/><image href="data:image/png;base64,iVBORw0KGgo="/>',
+			'<defs><linearGradient id="g"/></defs><use xlink:href="#shape"/><rect fill="url(#g)" style="fill: url( \'#g\' )"/>',
 			' xmlns:xlink="http://www.w3.org/1999/xlink"',
 		)}\n<!-- end -->`
 		expect(checkSubmittedSvg(`\n ${icon} \n`)).toEqual({ ok: true, svg: icon })
@@ -70,12 +70,18 @@ describe("checkSubmittedSvg", () => {
 
 	it("rejects external and encoded references", () => {
 		expect(reasonFor(svg('<image href="https://evil.example/x.png"/>'))).toBe(
-			"external references are not allowed (https://evil.example/x.png); use #ids or inline base64 images",
+			"external references and embedded images are not allowed (https://evil.example/x.png); use local #ids only",
 		)
 		expect(reasonFor(svg("<rect style=\"fill: url('//evil.example/a.svg#x')\"/>"))).toContain("(//evil.example/a.svg#x)")
 		expect(reasonFor(svg('<use xlink:href="&#104;ttp://x"/>'))).toContain("encoded or undeclared entities")
 		expect(reasonFor(svg('<image link:href="https://evil.example/x.png"/>'))).toContain("external references")
 		expect(reasonFor(svg('<image href="data:image/svg+xml;base64,PHN2Zz4="/>'))).toContain("external references")
 		expect(reasonFor(svg('<a href=""><rect/></a>'))).toContain("(empty)")
+	})
+
+	it.each(["png", "jpeg", "jpg", "gif", "webp", "bmp", "avif"])("rejects embedded %s raster images", (format) => {
+		for (const reference of [`<image href="data:image/${format};base64,AAAA"/>`, `<rect fill="url(data:image/${format};base64,AAAA)"/>`]) {
+			expect(reasonFor(svg(reference))).toContain("embedded images are not allowed")
+		}
 	})
 })

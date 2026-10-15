@@ -56,9 +56,27 @@ describe("icon SVG resource template", () => {
 			contents: [{ uri: uri.href, mimeType: "image/svg+xml", text: "<svg/>" }],
 		})
 		expect(catalog.getCatalogIconSvg).toHaveBeenCalledWith("LM Studio")
+	})
 
-		await read(uri, { name: "100%" }, ctx)
-		expect(catalog.getCatalogIconSvg).toHaveBeenLastCalledWith("100%")
+	it("rejects oversized completion values without searching the catalog", async () => {
+		expect(await completeIconName("x".repeat(101))).toEqual([])
+		expect(catalog.searchCatalog).not.toHaveBeenCalled()
+	})
+
+	it.each(["x".repeat(81), "%61".repeat(81), "100%", "%E0%A4%A"])("rejects invalid resource names before catalog access", async (name) => {
+		const { read } = register()
+		await expect(read(new URL("dashboard-icons://icons/invalid"), { name }, ctx)).rejects.toBeInstanceOf(ResourceNotFoundError)
+		expect(catalog.getCatalogIconSvg).not.toHaveBeenCalled()
+	})
+
+	it("accepts names and completion values at their length limits", async () => {
+		catalog.searchCatalog.mockResolvedValue({ results: [] })
+		await completeIconName("x".repeat(100))
+		expect(catalog.searchCatalog).toHaveBeenCalledWith("x".repeat(100), { limit: 20 })
+		catalog.getCatalogIconSvg.mockResolvedValue({ found: false, did_you_mean: [] })
+		const { read } = register()
+		await expect(read(new URL("dashboard-icons://icons/valid"), { name: "x".repeat(80) }, ctx)).rejects.toThrow(/No icon named/)
+		expect(catalog.getCatalogIconSvg).toHaveBeenCalledWith("x".repeat(80))
 	})
 
 	it("fails with resource-not-found and suggestions for unknown icons or missing SVGs", async () => {

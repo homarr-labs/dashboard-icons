@@ -1,4 +1,5 @@
 import { checkRateLimit, getClientIp } from "@/lib/icons/rate-limit"
+import { readBoundedBytes } from "@/lib/read-bounded-bytes"
 import { approveAuthorization } from "./authorize"
 import { registerClient } from "./clients"
 import { getMcpAuthConfig, type McpAuthConfig, resolveIssuer } from "./config"
@@ -33,22 +34,9 @@ function enabledOnly(endpoint: Endpoint, rateLimited: boolean) {
 }
 
 async function readBody(req: Request): Promise<string | null> {
-	if (Number(req.headers.get("content-length")) > MAX_BODY_BYTES) return null
-	if (!req.body) return ""
-	const reader = req.body.getReader()
-	const chunks: Uint8Array[] = []
-	let size = 0
-	for (;;) {
-		const { done, value } = await reader.read()
-		if (done) break
-		size += value.byteLength
-		if (size > MAX_BODY_BYTES) {
-			await reader.cancel()
-			return null
-		}
-		chunks.push(value)
-	}
-	return Buffer.concat(chunks).toString("utf8")
+	const bytes = await readBoundedBytes(req, MAX_BODY_BYTES)
+	if (bytes === null) return null
+	return Buffer.from(bytes).toString("utf8")
 }
 
 async function readJson(req: Request): Promise<{ ok: true; value: unknown } | { ok: false }> {

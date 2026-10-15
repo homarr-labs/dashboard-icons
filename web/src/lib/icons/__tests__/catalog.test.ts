@@ -27,6 +27,24 @@ vi.mock("@/lib/external-icons", () => ({
 vi.mock("@/lib/icons/svg-fetch", () => ({ fetchTrustedSvg: mocks.fetchTrustedSvg }))
 
 const NATIVE_CDN = "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons"
+
+describe("catalog input bounds", () => {
+	it("rejects oversized inputs before loading any sources", async () => {
+		await expect(searchCatalog("x".repeat(101))).rejects.toThrow("at most 100")
+		await expect(matchServices(["plex", "x".repeat(101)])).rejects.toThrow("at most 100")
+		await expect(getCatalogIcon("x".repeat(81))).rejects.toThrow("at most 80")
+		await expect(getCatalogIconSvg("x".repeat(81))).rejects.toThrow("at most 80")
+		expect(mocks.getAllIcons).not.toHaveBeenCalled()
+		expect(mocks.getExternalIcons).not.toHaveBeenCalled()
+	})
+
+	it("allows inputs at their bounds", async () => {
+		await expect(searchCatalog("x".repeat(100))).resolves.toHaveProperty("results")
+		await expect(matchServices(["x".repeat(100)])).resolves.toHaveProperty("matches")
+		await expect(getCatalogIcon("x".repeat(80))).resolves.toHaveProperty("found", false)
+		await expect(getCatalogIconSvg("x".repeat(80))).resolves.toHaveProperty("found", false)
+	})
+})
 const SELFHST_CDN = "https://cdn.jsdelivr.net/gh/selfhst/icons"
 const LOBEHUB_CDN = "https://cdn.jsdelivr.net/npm/@lobehub/icons-static-svg@latest"
 const LOBEHUB_PNG = "https://cdn.jsdelivr.net/npm/@lobehub/icons-static-png@latest"

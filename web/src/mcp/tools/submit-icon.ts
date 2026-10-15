@@ -20,7 +20,7 @@ const inputSchema = z.object({
 		.min(1)
 		.max(MAX_SUBMITTED_SVG_BYTES)
 		.describe(
-			`Complete SVG markup from <svg xmlns="http://www.w3.org/2000/svg" ...> to </svg>, at most ${MAX_SUBMITTED_SVG_BYTES / 1024} KB. No scripts, event handlers, foreignObject or external references.`,
+			`Complete SVG markup from <svg xmlns="http://www.w3.org/2000/svg" ...> to </svg>, at most ${MAX_SUBMITTED_SVG_BYTES / 1024} KB. No scripts, event handlers, foreignObject, external references or embedded raster images.`,
 		),
 	aliases: z
 		.array(z.string().trim().min(1).max(MAX_NAME_LENGTH))

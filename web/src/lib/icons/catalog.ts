@@ -29,6 +29,7 @@ import type {
 	CatalogUrls,
 } from "@/lib/icons/types"
 import { buildIconUrl, type IconFormat, type IconTheme } from "@/lib/icons/urls"
+import { assertCatalogInputLength, MAX_NAME_LENGTH, MAX_QUERY_LENGTH } from "@/lib/icons/validate"
 import { formatIconName } from "@/lib/utils"
 import type { ExternalIcon, ExternalIconRecord, IconFile, IconRecord, NativeIconRecord } from "@/types/icons"
 
@@ -356,6 +357,7 @@ export async function searchCatalog(
 	query: string,
 	options: { sources?: readonly CatalogSource[]; category?: string; limit?: number } = {},
 ): Promise<CatalogSearchResult> {
+	assertCatalogInputLength(query, MAX_QUERY_LENGTH)
 	const trimmed = query.trim()
 	const snapshot = await loadCatalog(options.sources)
 	if (!trimmed) return { results: [], total: 0, ...degraded(snapshot) }
@@ -374,6 +376,7 @@ export async function matchServices(
 	serviceNames: readonly string[],
 	options: { sources?: readonly CatalogSource[] } = {},
 ): Promise<CatalogMatchResult> {
+	for (const name of serviceNames) assertCatalogInputLength(name, MAX_QUERY_LENGTH)
 	const snapshot = await loadCatalog(options.sources)
 	const fuzzy = new Map<string, CatalogHit[]>()
 	const matches: CatalogServiceMatch[] = []
@@ -401,6 +404,7 @@ export async function matchServices(
 }
 
 export async function getCatalogIcon(name: string, options: { source?: CatalogSource } = {}): Promise<CatalogLookup> {
+	assertCatalogInputLength(name, MAX_NAME_LENGTH)
 	const snapshot = await loadCatalog(options.source && [options.source])
 	const resolved = resolveEntry(snapshot, name)
 	if (!resolved) return notFound(snapshot, name)
@@ -416,6 +420,7 @@ export async function getCatalogIconSvg(
 	name: string,
 	options: { source?: CatalogSource; theme?: IconTheme } = {},
 ): Promise<CatalogSvgResult> {
+	assertCatalogInputLength(name, MAX_NAME_LENGTH)
 	const snapshot = await loadCatalog(options.source && [options.source])
 	const resolved = resolveEntry(snapshot, name)
 	if (!resolved) return notFound(snapshot, name)

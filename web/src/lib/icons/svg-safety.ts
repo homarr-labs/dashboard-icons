@@ -6,7 +6,6 @@ const COMMENT = String.raw`<!--(?:(?!-->)[\s\S])*-->`
 const SVG_DOCUMENT = new RegExp(String.raw`^(?:<\?xml[^>]*\?>\s*)?(?:${COMMENT}\s*)*<svg[\s>][\s\S]*<\/svg>(?:\s*${COMMENT})*$`, "i")
 const SVG_NAMESPACE = /^[^>]*\sxmlns\s*=\s*["']http:\/\/www\.w3\.org\/2000\/svg["']/i
 const REFERENCE = /(?:(?:^|[\s"'/])(?:[\w.-]+:)?href\s*=\s*["']?|url\(\s*["']?)\s*([^"'()\s>]*)/gi
-const INLINE_IMAGE = /^data:image\/(?:png|jpe?g|gif|webp);base64,/i
 const SCRIPT_URL = /(?:java|vb)script:/i
 
 const FORBIDDEN: readonly [RegExp, string][] = [
@@ -28,7 +27,7 @@ const FORBIDDEN: readonly [RegExp, string][] = [
 ]
 
 function isLocalReference(value: string): boolean {
-	return value.startsWith("#") || INLINE_IMAGE.test(value)
+	return value.startsWith("#")
 }
 
 export function checkSubmittedSvg(input: string): SvgCheck {
@@ -48,7 +47,7 @@ export function checkSubmittedSvg(input: string): SvgCheck {
 		if (!isLocalReference(reference)) {
 			return {
 				ok: false,
-				reason: `external references are not allowed (${reference.slice(0, 80) || "empty"}); use #ids or inline base64 images`,
+				reason: `external references and embedded images are not allowed (${reference.slice(0, 80) || "empty"}); use local #ids only`,
 			}
 		}
 	}

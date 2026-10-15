@@ -2,6 +2,7 @@ import { type AuthInfo, OAuthError } from "@modelcontextprotocol/server"
 import { after, NextRequest, NextResponse } from "next/server"
 import { checkRateLimit, getClientIp } from "@/lib/icons/rate-limit"
 import { MAX_REQUEST_BODY_BYTES } from "@/lib/icons/validate"
+import { readBoundedBytes } from "@/lib/read-bounded-bytes"
 import { flushDashboardIconsMcpAnalytics } from "@/mcp/analytics"
 import { mcpAuthChallenge, verifyMcpBearer } from "@/mcp/auth"
 import { handleMcpRequest } from "@/mcp/http"
@@ -44,34 +45,12 @@ async function readToolCall(req: NextRequest): Promise<ToolCall | null> {
 }
 
 async function readBoundedPostRequest(req: NextRequest): Promise<NextRequest | null> {
-	const declaredLength = Number(req.headers.get("content-length") ?? 0)
-	if (declaredLength > MAX_REQUEST_BODY_BYTES) return null
+	const body = await readBoundedBytes(req, MAX_REQUEST_BODY_BYTES)
+	if (body === null) return null
 	if (!req.body) return req
 
-	const reader = req.body.getReader()
-	const chunks: Uint8Array[] = []
-	let totalBytes = 0
-
-	while (true) {
-		const { done, value } = await reader.read()
-		if (done) break
-		totalBytes += value.byteLength
-		if (totalBytes > MAX_REQUEST_BODY_BYTES) {
-			await reader.cancel()
-			return null
-		}
-		chunks.push(value)
-	}
-
-	const body = new Uint8Array(totalBytes)
-	let offset = 0
-	for (const chunk of chunks) {
-		body.set(chunk, offset)
-		offset += chunk.byteLength
-	}
-
 	const headers = new Headers(req.headers)
-	headers.set("content-length", String(totalBytes))
+	headers.set("content-length", String(body.byteLength))
 	return new NextRequest(req.url, { method: req.method, headers, body })
 }
 
