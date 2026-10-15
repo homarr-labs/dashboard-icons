@@ -37,11 +37,12 @@ export const CATALOG_SOURCES: readonly [CatalogSource, ...CatalogSource[]] = ["n
 const FORMATS: readonly IconFormat[] = ["svg", "png", "webp"]
 const THEMES: readonly IconTheme[] = ["default", "light", "dark"]
 const DEFAULT_SEARCH_LIMIT = 20
-const DEFAULT_MATCH_ALTERNATIVES = 3
+const MATCH_ALTERNATIVES = 3
 const DEFAULT_BROWSE_LIMIT = 50
 const DID_YOU_MEAN_LIMIT = 5
 const MIN_TYPO_KEY_LENGTH = 4
-const MAX_LIMIT = 100
+
+export const MAX_FUZZY_MATCHES = 10
 
 type SourceIndex = {
 	slugs: Map<string, IconRecord>
@@ -150,19 +151,22 @@ function degraded(snapshot: CatalogSnapshot): CatalogDegraded {
 	return { degraded_sources: snapshot.degradedSources }
 }
 
-function resolveEntry(snapshot: CatalogSnapshot, name: string): ResolvedEntry | null {
+function exactMatches(snapshot: CatalogSnapshot, name: string): ResolvedEntry[] {
 	const slug = name.trim().toLowerCase()
-	for (const index of snapshot.indexes) {
-		const entry = index.slugs.get(slug)
-		if (entry) return { entry, resolution: {} }
-	}
-
 	const key = compactKey(name)
+	const matches: ResolvedEntry[] = []
 	for (const index of snapshot.indexes) {
-		const entry = index.keys.get(key)
-		if (entry) return { entry, resolution: { resolved_from: name.trim() } }
+		const bySlug = index.slugs.get(slug)
+		const byKey = index.keys.get(key)
+		if (bySlug) matches.push({ entry: bySlug, resolution: {} })
+		else if (byKey) matches.push({ entry: byKey, resolution: { resolved_from: name.trim() } })
 	}
-	return null
+	return matches
+}
+
+function resolveEntry(snapshot: CatalogSnapshot, name: string): ResolvedEntry | null {
+	const matches = exactMatches(snapshot, name)
+	return matches.find(({ resolution }) => resolution.resolved_from === undefined) ?? matches[0] ?? null
 }
 
 function nearestEntries(snapshot: CatalogSnapshot, name: string, limit: number): IconRecord[] {
@@ -182,19 +186,14 @@ function nearestEntries(snapshot: CatalogSnapshot, name: string, limit: number):
 	return [...new Set(near.map(({ entry }) => entry))].slice(0, limit)
 }
 
-function exactMatches(snapshot: CatalogSnapshot, name: string): IconRecord[] {
-	const slug = name.trim().toLowerCase()
-	const key = compactKey(name)
-	const matches: IconRecord[] = []
-	for (const index of snapshot.indexes) {
-		const entry = index.slugs.get(slug) ?? index.keys.get(key)
-		if (entry) matches.push(entry)
-	}
-	return matches
-}
-
-function clampLimit(limit: number): number {
-	return Math.min(Math.max(Math.trunc(limit), 1), MAX_LIMIT)
+function uniqueBrands(entries: IconRecord[]): IconRecord[] {
+	const seen = new Set<string>()
+	return entries.filter((entry) => {
+		const slug = entry.slug.toLowerCase()
+		if (seen.has(slug)) return false
+		seen.add(slug)
+		return true
+	})
 }
 
 function absoluteUrl(url: string): string {
@@ -361,26 +360,42 @@ export async function searchCatalog(
 	const snapshot = await loadCatalog(options.sources)
 	if (!trimmed) return { results: [], total: 0, ...degraded(snapshot) }
 
-	const matched = filterAndSortIcons({ icons: inCategory(snapshot.entries, options.category), query: trimmed })
-	const results = matched.slice(0, clampLimit(options.limit ?? DEFAULT_SEARCH_LIMIT)).map((entry) => toHit(entry, trimmed))
+	const matched = filterAndSortIcons({ icons: inCategory(uniqueBrands(snapshot.entries), options.category), query: trimmed })
+	const results = matched.slice(0, options.limit ?? DEFAULT_SEARCH_LIMIT).map((entry) => toHit(entry, trimmed))
 	return { results, total: matched.length, ...degraded(snapshot) }
+}
+
+function toMatch(service: string, hits: CatalogHit[]): CatalogServiceMatch {
+	const [best = null, ...rest] = hits
+	return { service, best, alternatives: rest.slice(0, MATCH_ALTERNATIVES) }
 }
 
 export async function matchServices(
 	serviceNames: readonly string[],
-	options: { sources?: readonly CatalogSource[]; limit?: number } = {},
+	options: { sources?: readonly CatalogSource[] } = {},
 ): Promise<CatalogMatchResult> {
 	const snapshot = await loadCatalog(options.sources)
-	const alternatives = clampLimit(options.limit ?? DEFAULT_MATCH_ALTERNATIVES)
+	const fuzzy = new Map<string, CatalogHit[]>()
 	const matches: CatalogServiceMatch[] = []
 	for (const service of serviceNames) {
-		let hits = exactMatches(snapshot, service).map((entry) => toHit(entry, service.trim()))
-		if (hits.length === 0) {
-			hits = suggest(snapshot, service, alternatives + 1)
+		const exact = exactMatches(snapshot, service).map(({ entry }) => toHit(entry, service.trim()))
+		if (exact.length > 0) {
+			matches.push(toMatch(service, exact))
+			continue
+		}
+
+		const key = compactKey(service)
+		let hits = fuzzy.get(key)
+		if (!hits && fuzzy.size >= MAX_FUZZY_MATCHES) {
+			matches.push({ ...toMatch(service, []), reason: "fuzzy_limit" })
+			continue
+		}
+		if (!hits) {
+			hits = suggest(snapshot, service, MATCH_ALTERNATIVES + 1)
+			fuzzy.set(key, hits)
 			await yieldToEventLoop()
 		}
-		const [best = null, ...rest] = hits
-		matches.push({ service, best, alternatives: rest.slice(0, alternatives) })
+		matches.push(toMatch(service, hits))
 	}
 	return { matches, ...degraded(snapshot) }
 }
@@ -422,7 +437,7 @@ export async function listCatalogCategories(options: { source?: CatalogSource } 
 	const snapshot = await loadCatalog(options.source && [options.source])
 	const buckets = new Map<string, CatalogCategory>()
 
-	for (const entry of snapshot.entries) {
+	for (const entry of uniqueBrands(snapshot.entries)) {
 		const seen = new Set<string>()
 		for (const category of entry.data.categories) {
 			const key = normalizeForSearch(category)
@@ -451,9 +466,9 @@ export async function browseCatalog(
 	let sort: "newest" | "alphabetical-asc" = "alphabetical-asc"
 	if (options.sort === "newest") sort = "newest"
 
-	const sorted = filterAndSortIcons({ icons: inCategory(snapshot.entries, options.category), sort })
+	const sorted = filterAndSortIcons({ icons: inCategory(uniqueBrands(snapshot.entries), options.category), sort })
 	const offset = parseCursor(options.cursor)
-	const end = offset + clampLimit(options.limit ?? DEFAULT_BROWSE_LIMIT)
+	const end = offset + (options.limit ?? DEFAULT_BROWSE_LIMIT)
 	let nextCursor: string | null = null
 	if (end < sorted.length) nextCursor = String(end)
 

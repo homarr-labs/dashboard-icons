@@ -10,15 +10,20 @@ export function normalizeForSearch(str: string): string {
 }
 
 export function levenshteinDistance(a: string, b: string): number {
-	let previous = Array.from({ length: a.length + 1 }, (_, index) => index)
+	let previous = new Uint32Array(a.length + 1)
+	let current = new Uint32Array(a.length + 1)
+	for (let j = 0; j <= a.length; j++) previous[j] = j
 
 	for (let i = 1; i <= b.length; i++) {
-		const current = [i]
+		current[0] = i
+		const code = b.charCodeAt(i - 1)
 		for (let j = 1; j <= a.length; j++) {
-			const cost = a[j - 1] === b[i - 1] ? 0 : 1
+			const cost = a.charCodeAt(j - 1) === code ? 0 : 1
 			current[j] = Math.min(previous[j] + 1, current[j - 1] + 1, previous[j - 1] + cost)
 		}
-		previous = current
+		const finished = current
+		current = previous
+		previous = finished
 	}
 
 	return previous[a.length]
@@ -31,6 +36,11 @@ export function calculateStringSimilarity(str1: string, str2: string): number {
 	const distance = levenshteinDistance(str1.toLowerCase(), str2.toLowerCase())
 	const maxLength = Math.max(str1.length, str2.length)
 	return 1 - distance / maxLength
+}
+
+function isSimilarWord(word: string, query: string): boolean {
+	if (5 * Math.abs(word.length - query.length) >= Math.max(word.length, query.length)) return false
+	return calculateStringSimilarity(word, query) > 0.8
 }
 
 export function containsCharsInOrder(str: string, query: string): number {
@@ -84,7 +94,7 @@ export function fuzzySearch(text: string, query: string): number {
 				textWord === queryWord ||
 				textWord.startsWith(queryWord) ||
 				textWord.includes(queryWord) ||
-				calculateStringSimilarity(textWord, queryWord) > 0.8 ||
+				isSimilarWord(textWord, queryWord) ||
 				containsCharsInOrder(textWord, queryWord) > 0.5
 			) {
 				wordMatchCount++

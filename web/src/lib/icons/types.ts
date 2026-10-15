@@ -69,6 +69,7 @@ export type CatalogServiceMatch = {
 	service: string
 	best: CatalogHit | null
 	alternatives: CatalogHit[]
+	reason?: "fuzzy_limit"
 }
 
 export type CatalogMatchResult = CatalogDegraded & {

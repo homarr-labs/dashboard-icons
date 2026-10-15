@@ -13,7 +13,7 @@ const inputSchema = z.object({
 		.describe("A service, brand or app name, alias or category, e.g. 'jellyfin', 'pihole' or 'password manager'"),
 	sources: sourcesInput,
 	category: z.string().trim().max(MAX_CATEGORY_LENGTH).optional().describe("Only icons in this category (names from list_categories)"),
-	limit: z.number().int().min(1).max(50).default(10),
+	limit: z.number().int().min(1).max(50).default(20),
 })
 
 const outputSchema = z.looseObject({

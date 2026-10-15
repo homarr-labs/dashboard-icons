@@ -1,12 +1,11 @@
 import type { GetPromptResult, McpServer } from "@modelcontextprotocol/server"
 import { completable } from "@modelcontextprotocol/server"
 import { z } from "zod"
+import { MAX_SERVICES } from "@/mcp/tools/match-icons"
 
 export const DASHBOARDS = ["homarr", "homepage", "dashy", "generic"] as const
 
 type Dashboard = (typeof DASHBOARDS)[number]
-
-const MAX_SERVICES = 50
 
 const OUTPUT_FORMATS: Record<Dashboard, string> = {
 	homarr: "a list for Homarr: one line per app with its name and the icon URL to paste into the app's icon URL field",

@@ -6,6 +6,7 @@ import {
 	getCatalogIcon,
 	getCatalogIconSvg,
 	listCatalogCategories,
+	MAX_FUZZY_MATCHES,
 	matchServices,
 	searchCatalog,
 } from "@/lib/icons/catalog"
@@ -88,7 +89,7 @@ const EXTERNAL: ExternalIconRecord[] = [
 		url_templates: SELFHST_TEMPLATES,
 		categories: ["Media-Servers", "Utilities"],
 	}),
-	external("selfhst", "openai", "OpenAI", { url_templates: SELFHST_TEMPLATES }),
+	external("selfhst", "openai", "OpenAI", { url_templates: SELFHST_TEMPLATES, categories: ["AI"] }),
 	external("selfhst", "qbitrr", "qBitrr", { url_templates: SELFHST_TEMPLATES }),
 	external("lobehub", "openai", "OpenAI", {
 		formats: ["svg", "png", "webp"],
@@ -127,33 +128,43 @@ describe("searchCatalog", () => {
 		expect(await searchCatalog("   ")).toEqual({ results: [], total: 0 })
 	})
 
-	it("merges sources with native winning ties and compact hits", async () => {
+	it("returns one compact hit per brand, preferring native then source order", async () => {
 		const { results, total, degraded_sources } = await searchCatalog("openai")
 		expect(degraded_sources).toBeUndefined()
-		expect(total).toBe(4)
-		expect(results.map((hit) => hit.source)).toEqual(["native", "selfhst", "lobehub", "simpleicons"])
-		expect(results[0]).toEqual({
-			name: "openai",
-			title: "openai",
-			source: "native",
-			preview_url: `${NATIVE_CDN}/svg/openai.svg`,
-			score: 3.6,
-		})
-		expect(results[2]?.preview_url).toBe(`${LOBEHUB_CDN}/icons/openai.svg`)
-		expect(results[3]?.preview_url).toBe("https://cdn.simpleicons.org/openai/000000/FFFFFF")
+		expect(total).toBe(1)
+		expect(results).toEqual([
+			{
+				name: "openai",
+				title: "openai",
+				source: "native",
+				preview_url: `${NATIVE_CDN}/svg/openai.svg`,
+				score: 3.6,
+			},
+		])
+
+		const external = await searchCatalog("openai", { sources: ["simpleicons", "lobehub"] })
+		expect(external.results.map((hit) => [hit.source, hit.preview_url])).toEqual([["lobehub", `${LOBEHUB_CDN}/icons/openai.svg`]])
+		expect((await searchCatalog("openai", { sources: ["simpleicons"] })).results[0]?.preview_url).toBe(
+			"https://cdn.simpleicons.org/openai/000000/FFFFFF",
+		)
+	})
+
+	it("treats slugs that differ only by case as the same brand", async () => {
+		mocks.getExternalIcons.mockResolvedValue([...EXTERNAL, external("simpleicons", "Plex", "Plex")])
+		expect((await searchCatalog("plex")).results.map((hit) => `${hit.source}:${hit.name}`)).toEqual(["native:plex"])
 	})
 
 	it("filters by source, normalized category and limit", async () => {
 		expect((await searchCatalog("openai", { sources: ["lobehub"] })).results.map((hit) => hit.source)).toEqual(["lobehub"])
-		expect((await searchCatalog("openai", { sources: [] })).total).toBe(4)
+		expect((await searchCatalog("openai", { sources: [] })).total).toBe(1)
 
 		const media = await searchCatalog("media", { category: "media servers" })
 		expect(media.results.map((hit) => hit.name).sort()).toEqual(["iventoy", "plex", "watchstate"])
-		expect((await searchCatalog("openai", { category: "  " })).total).toBe(4)
+		expect((await searchCatalog("openai", { category: "  " })).total).toBe(1)
 
-		const limited = await searchCatalog("openai", { limit: 0 })
+		const limited = await searchCatalog("media", { category: "media servers", limit: 1 })
 		expect(limited.results).toHaveLength(1)
-		expect(limited.total).toBe(4)
+		expect(limited.total).toBe(3)
 	})
 
 	it("degrades to native results when external icons are unavailable", async () => {
@@ -167,7 +178,7 @@ describe("searchCatalog", () => {
 		mocks.getAllIcons.mockRejectedValue(new Error("offline"))
 		const result = await searchCatalog("openai")
 		expect(result.degraded_sources).toEqual(["native"])
-		expect(result.results.map((hit) => hit.source)).toEqual(["selfhst", "lobehub", "simpleicons"])
+		expect(result.results.map((hit) => hit.source)).toEqual(["selfhst"])
 	})
 })
 
@@ -187,18 +198,32 @@ describe("matchServices", () => {
 	})
 
 	it("falls back to fuzzy ranking, then to typo distance, when nothing matches exactly", async () => {
-		const { matches } = await matchServices(["iVent", "Dagst", "Plexx", "Plexxxx", "abcd"], { limit: 1 })
+		const { matches } = await matchServices(["iVent", "Dagst", "Plexx", "Plexxxx", "abcd"])
 		expect(matches.map((match) => match.best?.name ?? null)).toEqual(["iventoy", "dagster", "plex", null, null])
-		expect(matches.every((match) => match.alternatives.length <= 1)).toBe(true)
+		expect(matches.every((match) => match.alternatives.length <= 3 && !match.reason)).toBe(true)
 	})
 
-	it("honours the alternatives limit and sources", async () => {
+	it("keeps per-source alternatives and honours sources", async () => {
 		const many = await matchServices(["OpenAI"])
 		expect(many.matches[0]?.alternatives.map((hit) => hit.source)).toEqual(["selfhst", "lobehub", "simpleicons"])
 
-		const one = await matchServices(["OpenAI"], { limit: 1, sources: ["lobehub", "simpleicons"] })
-		expect(one.matches[0]?.best?.source).toBe("lobehub")
-		expect(one.matches[0]?.alternatives.map((hit) => hit.source)).toEqual(["simpleicons"])
+		const some = await matchServices(["OpenAI"], { sources: ["lobehub", "simpleicons"] })
+		expect(some.matches[0]?.best?.source).toBe("lobehub")
+		expect(some.matches[0]?.alternatives.map((hit) => hit.source)).toEqual(["simpleicons"])
+	})
+
+	it("fuzzy-searches each normalized name once and only the first few per call", async () => {
+		const unmatched = Array.from({ length: MAX_FUZZY_MATCHES }, (_, index) => `nomatch${index}`)
+		const { matches } = await matchServices(["Plexx", ...unmatched, "plex x", "NoMatch-1", "Plex"])
+		const summary = matches.map((match) => [match.service, match.best?.name ?? null, match.reason ?? null])
+		expect(summary[0]).toEqual(["Plexx", "plex", null])
+		expect(summary.slice(1, MAX_FUZZY_MATCHES)).toEqual(unmatched.slice(0, -1).map((name) => [name, null, null]))
+		expect(summary.slice(MAX_FUZZY_MATCHES)).toEqual([
+			[`nomatch${MAX_FUZZY_MATCHES - 1}`, null, "fuzzy_limit"],
+			["plex x", "plex", null],
+			["NoMatch-1", null, null],
+			["Plex", "plex", null],
+		])
 	})
 })
 
@@ -437,7 +462,7 @@ describe("getCatalogIconSvg", () => {
 })
 
 describe("listCatalogCategories", () => {
-	it("merges categories across sources by normalized name", async () => {
+	it("merges categories across sources by normalized name, counting each brand once", async () => {
 		expect(await listCatalogCategories()).toEqual({
 			categories: [
 				{ name: "Media-Servers", count: 3 },
@@ -449,6 +474,7 @@ describe("listCatalogCategories", () => {
 
 	it("scopes counts to one source", async () => {
 		expect((await listCatalogCategories({ source: "selfhst" })).categories).toEqual([
+			{ name: "AI", count: 1 },
 			{ name: "Media-Servers", count: 1 },
 			{ name: "Utilities", count: 1 },
 		])
@@ -456,15 +482,20 @@ describe("listCatalogCategories", () => {
 })
 
 describe("browseCatalog", () => {
-	it("pages alphabetically with native first by default", async () => {
+	it("pages alphabetically with native first and one item per brand by default", async () => {
 		const first = await browseCatalog({ limit: 3 })
 		expect(first.items.map((item) => item.name)).toEqual(["dagster", "legacy", "lmstudio"])
-		expect(first.total).toBe(13)
+		expect(first.total).toBe(10)
 		expect(first.next_cursor).toBe("3")
 
-		const last = await browseCatalog({ limit: 100, cursor: "10" })
-		expect(last.items.map((item) => `${item.source}:${item.name}`)).toEqual(["lobehub:openai", "simpleicons:openai", "selfhst:qbitrr"])
+		const last = await browseCatalog({ limit: 100, cursor: "7" })
+		expect(last.items.map((item) => `${item.source}:${item.name}`)).toEqual(["selfhst:iventoy", "lobehub:litellm", "selfhst:qbitrr"])
 		expect(last.next_cursor).toBeNull()
+
+		expect((await browseCatalog({ category: "AI" })).items.map((item) => `${item.source}:${item.name}`)).toEqual([
+			"native:lmstudio",
+			"native:openai",
+		])
 	})
 
 	it("sorts by newest and filters by category and source", async () => {
