@@ -1,0 +1,21 @@
+web/src/mcp/auth/__tests__/clients.test.ts
+  s_9332bf2d96c65b::t_2ef297e6f2d263 28-30,32-33
+web/src/mcp/auth/clients.ts
+  s_9332bf2d96c65b::t_7fd74518ec2e30 39-40
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "14f846a8216c1edd22c3cc9502107f5ba1fb55be",
+  "prompts": {},
+  "sessions": {
+    "s_9332bf2d96c65b": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "353db9f1-ad65-4873-95ad-ee205b84ae23",
+        "model": "unknown"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
