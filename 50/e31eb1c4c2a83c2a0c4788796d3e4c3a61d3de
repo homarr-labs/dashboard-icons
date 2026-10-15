@@ -1,0 +1,19 @@
+web/scripts/mcp-smoke.ts
+  s_2c7f0ef337942f::t_9767274882db43 1-162
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "50e31eb1c4c2a83c2a0c4788796d3e4c3a61d3de",
+  "prompts": {},
+  "sessions": {
+    "s_2c7f0ef337942f": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "c289ebc2-24fd-481d-89a5-76f047a823e9",
+        "model": "unknown"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
