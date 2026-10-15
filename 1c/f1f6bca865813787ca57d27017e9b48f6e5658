@@ -1,0 +1,40 @@
+web/.gitignore
+  h_d6e478ca18e517 62
+web/backend/pb_hooks/mcp_oauth_replay.pb.js
+  h_d6e478ca18e517 1-35
+web/backend/pb_migrations/1792000000_mcp_oauth_replay.js
+  h_d6e478ca18e517 1-9
+web/docker-compose.yml
+  h_d6e478ca18e517 12
+web/docs/MCP-AUTH.md
+  h_d6e478ca18e517 3,5,58-75,105-106,113,121-122,129,131,137
+web/scripts/mcp-replay-integration.mjs
+  h_d6e478ca18e517 1-93
+web/src/instrumentation.ts
+  h_d6e478ca18e517 19-25
+web/src/mcp/auth/__tests__/durable-replay.test.ts
+  h_d6e478ca18e517 1-64
+web/src/mcp/auth/__tests__/http.test.ts
+  h_d6e478ca18e517 11-16,54-55,84-90
+web/src/mcp/auth/__tests__/pkce.test.ts
+  h_d6e478ca18e517 1
+web/src/mcp/auth/__tests__/token.test.ts
+  h_d6e478ca18e517 2,11-25,143-163,283-284,286-303
+web/src/mcp/auth/durable-replay.ts
+  h_d6e478ca18e517 1-36
+web/src/mcp/auth/http.ts
+  h_d6e478ca18e517 6,33-35
+web/src/mcp/auth/token.ts
+  h_d6e478ca18e517 5,140,145-148,159,187-190,193
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "1cf1f6bca865813787ca57d27017e9b48f6e5658",
+  "prompts": {},
+  "humans": {
+    "h_d6e478ca18e517": {
+      "author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
