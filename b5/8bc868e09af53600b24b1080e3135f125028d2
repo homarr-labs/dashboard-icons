@@ -1,0 +1,31 @@
+web/src/lib/icons/__tests__/catalog.test.ts
+  s_9332bf2d96c65b::t_418408f42e2b54 9,92,131,134-154,159,163,165,167,181,201,203,206,210-226,465,477,485,488,491-492,494-498
+web/src/lib/icons/catalog.ts
+  s_9332bf2d96c65b::t_f28f0f461d52e6 40,44-45,154,157,159-162,164-169,189-196,363-364,368-372,375,378,381-395,398,440,469,471
+web/src/lib/icons/search.ts
+  s_9332bf2d96c65b::t_af9ec37585928b 13-15,18-19,21,24-26,41-45,97
+web/src/lib/icons/types.ts
+  s_9332bf2d96c65b::t_b60d482e7f819a 72
+web/src/mcp/prompts.ts
+  s_9332bf2d96c65b::t_80ed2efde433f7 4
+web/src/mcp/tools/match-icons.ts
+  s_9332bf2d96c65b::t_04a77765feee14 2,7,25-28,40
+web/src/mcp/tools/search-icons.ts
+  s_9332bf2d96c65b::t_5c54496fc54760 16
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "b58bc868e09af53600b24b1080e3135f125028d2",
+  "prompts": {},
+  "sessions": {
+    "s_9332bf2d96c65b": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "353db9f1-ad65-4873-95ad-ee205b84ae23",
+        "model": "unknown"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
