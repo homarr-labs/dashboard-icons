@@ -2,9 +2,9 @@ import { randomUUID } from "node:crypto"
 import { z } from "zod"
 import { clientFingerprint } from "./clients"
 import { ACCESS_TOKEN_TTL_SECONDS, canonicalResource, mcpResourceUrl, nowSeconds, parseScope, REFRESH_TOKEN_TTL_SECONDS } from "./config"
+import { consumeGrant } from "./durable-replay"
 import { verifyPkce } from "./pkce"
 import { type McpUser, refreshPocketBaseSession } from "./pocketbase"
-import { createReplayGuard } from "./replay"
 import { type SealPurpose, seal, unseal } from "./seal"
 
 export type TokenContext = { secret: Buffer; issuer: string }
@@ -60,11 +60,6 @@ export const accessClaimsSchema = z.object({
 	cid: z.string(),
 	pb_token: z.string(),
 })
-
-const MAX_TRACKED_CODES = 10_000
-const MAX_TRACKED_REFRESH_TOKENS = 50_000
-const usedCodes = createReplayGuard(MAX_TRACKED_CODES)
-const usedRefreshTokens = createReplayGuard(MAX_TRACKED_REFRESH_TOKENS)
 
 type Grant = { user: McpUser; pbToken: string; cid: string; scope: string; resource: string }
 
@@ -142,12 +137,15 @@ function resourceError(requested: string | undefined, granted: string, ctx: Toke
 	return null
 }
 
-function exchangeAuthorizationCode(params: Record<string, string>, ctx: TokenContext): TokenResult {
+async function exchangeAuthorizationCode(params: Record<string, string>, ctx: TokenContext): Promise<TokenResult> {
 	const { code, client_id: clientId, code_verifier: verifier } = params
 	if (!code || !clientId || !verifier) return tokenError("invalid_request", "code, client_id and code_verifier are required.")
 	const grant = readGrant(ctx, "code", code, codeSchema)
 	if (!grant) return tokenError("invalid_grant", "The authorization code is invalid or expired.")
-	if (!usedCodes.consume(grant.jti, grant.expiresAt * 1000)) {
+	const consumption = await consumeGrant("code", grant.jti, grant.expiresAt)
+	if (consumption === "unavailable")
+		return tokenError("temporarily_unavailable", "Sign-in is temporarily unavailable. Try again shortly.", 503)
+	if (consumption === "replayed") {
 		return tokenError("invalid_grant", "The authorization code was already used.")
 	}
 	if (grant.cid !== clientFingerprint(clientId)) return tokenError("invalid_grant", "The authorization code was issued to another client.")
@@ -158,6 +156,7 @@ function exchangeAuthorizationCode(params: Record<string, string>, ctx: TokenCon
 		return tokenError("invalid_grant", "The code_verifier does not match the code_challenge.")
 	const mismatch = resourceError(params.resource, grant.resource, ctx)
 	if (mismatch) return mismatch
+	if (grant.expiresAt <= nowSeconds()) return tokenError("invalid_grant", "The authorization code is invalid or expired.")
 	return issueTokens(ctx, {
 		user: grant.user,
 		pbToken: grant.pb_token,
@@ -185,9 +184,13 @@ async function exchangeRefreshToken(params: Record<string, string>, ctx: TokenCo
 	if (!session.ok && session.reason === "invalid") return tokenError("invalid_grant", "The Dashboard Icons session ended. Sign in again.")
 	if (!session.ok) return tokenError("temporarily_unavailable", "Sign-in is temporarily unavailable. Try again shortly.", 503)
 	if (grant.expiresAt <= nowSeconds()) return tokenError("invalid_grant", "The refresh token is invalid or expired.")
-	if (!usedRefreshTokens.consume(grant.jti, grant.expiresAt * 1000)) {
+	const consumption = await consumeGrant("refresh", grant.jti, grant.expiresAt)
+	if (consumption === "unavailable")
+		return tokenError("temporarily_unavailable", "Sign-in is temporarily unavailable. Try again shortly.", 503)
+	if (consumption === "replayed") {
 		return tokenError("invalid_grant", "The refresh token was already used.")
 	}
+	if (grant.expiresAt <= nowSeconds()) return tokenError("invalid_grant", "The refresh token is invalid or expired.")
 	return issueTokens(ctx, { user: session.user, pbToken: session.token, cid: grant.cid, scope, resource: grant.resource })
 }
 

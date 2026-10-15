@@ -8,6 +8,12 @@ const { refreshPocketBaseSession } = vi.hoisted(() => ({
 
 vi.mock("@/mcp/auth/pocketbase", () => ({ refreshPocketBaseSession }))
 
+const { isReplayStoreReady, consumeGrant } = vi.hoisted(() => ({
+	isReplayStoreReady: vi.fn<() => Promise<boolean>>(),
+	consumeGrant: vi.fn<() => Promise<string>>(),
+}))
+vi.mock("@/mcp/auth/durable-replay", () => ({ isReplayStoreReady, consumeGrant }))
+
 import { verifyMcpBearer } from "@/mcp/auth"
 import {
 	handleAuthorizationDecision,
@@ -45,6 +51,8 @@ describe("OAuth HTTP endpoints", () => {
 		vi.stubEnv("MCP_RATE_LIMIT_ENABLED", "true")
 		resetRateLimitsForTests()
 		refreshPocketBaseSession.mockReset()
+		isReplayStoreReady.mockReset().mockResolvedValue(true)
+		consumeGrant.mockReset().mockResolvedValue("consumed")
 	})
 
 	afterEach(() => {
@@ -71,6 +79,13 @@ describe("OAuth HTTP endpoints", () => {
 		const preflight = handleOAuthPreflight()
 		expect(preflight.status).toBe(204)
 		expect(preflight.headers.get("access-control-allow-methods")).toContain("POST")
+	})
+
+	it("does not advertise OAuth metadata or register clients without durable storage", async () => {
+		isReplayStoreReady.mockResolvedValue(false)
+		expect((await handleAuthorizationServerMetadata(new Request(`${ORIGIN}/.well-known/oauth-authorization-server`))).status).toBe(503)
+		expect((await handleClientRegistration(json("/api/oauth/register", {}))).status).toBe(503)
+		expect((await handleTokenRequest(form({}))).status).toBe(503)
 	})
 
 	it("runs the full authorization code flow", async () => {

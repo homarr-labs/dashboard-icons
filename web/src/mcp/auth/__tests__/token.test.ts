@@ -1,4 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest"
+import type { ReplayConsumption } from "@/mcp/auth/durable-replay"
 import type { PocketBaseRefresh } from "@/mcp/auth/pocketbase"
 
 const { refreshPocketBaseSession } = vi.hoisted(() => ({
@@ -7,9 +8,23 @@ const { refreshPocketBaseSession } = vi.hoisted(() => ({
 
 vi.mock("@/mcp/auth/pocketbase", () => ({ refreshPocketBaseSession }))
 
+const { consumeGrant } = vi.hoisted(() => ({
+	consumeGrant: vi.fn<(purpose: string, id: string, expiry: number) => Promise<ReplayConsumption>>(),
+}))
+vi.mock("@/mcp/auth/durable-replay", () => ({ consumeGrant }))
+
+beforeEach(() => {
+	const consumed = new Set<string>()
+	consumeGrant.mockReset().mockImplementation(async (purpose, id) => {
+		const key = `${purpose}:${id}`
+		if (consumed.has(key)) return "replayed"
+		consumed.add(key)
+		return "consumed"
+	})
+})
+
 import { approveAuthorization } from "@/mcp/auth/authorize"
 import { clientFingerprint, registerClient } from "@/mcp/auth/clients"
-import { createReplayGuard } from "@/mcp/auth/replay"
 import { seal, unseal } from "@/mcp/auth/seal"
 import { exchangeToken, type TokenResponse, type TokenResult } from "@/mcp/auth/token"
 import { ISSUER, pkcePair, pocketBaseToken, REDIRECT_URI, RESOURCE, SECRET, USER } from "./fixtures"
@@ -125,6 +140,27 @@ describe("authorization_code grant", () => {
 		await expect(exchangeToken(params, ctx)).resolves.toMatchObject({ status: 400, body: { error: "invalid_grant" } })
 	})
 
+	it("fails closed when code consumption is unavailable", async () => {
+		const { clientId, code, verifier } = await authorize()
+		consumeGrant.mockResolvedValueOnce("unavailable")
+		await expect(
+			exchangeToken({ grant_type: "authorization_code", code, client_id: clientId, code_verifier: verifier }, ctx),
+		).resolves.toMatchObject({ status: 503, body: { error: "temporarily_unavailable" } })
+	})
+
+	it("rejects a code that expires while durable consumption responds", async () => {
+		const { clientId, code, verifier } = await authorize()
+		const claim = unseal(SECRET, "code", code)
+		if (!claim.ok) throw new Error("expected valid code")
+		consumeGrant.mockImplementationOnce(async () => {
+			vi.spyOn(Date, "now").mockReturnValue(claim.expiresAt * 1000)
+			return "consumed"
+		})
+		await expect(
+			exchangeToken({ grant_type: "authorization_code", code, client_id: clientId, code_verifier: verifier }, ctx),
+		).resolves.toMatchObject({ status: 400, body: { error: "invalid_grant" } })
+	})
+
 	it("burns the code when the first exchange fails", async () => {
 		const { clientId, code, verifier } = await authorize()
 		await exchangeToken({ grant_type: "authorization_code", code, client_id: clientId, code_verifier: pkcePair().verifier }, ctx)
@@ -183,7 +219,6 @@ describe("authorization_code grant", () => {
 describe("refresh_token grant", () => {
 	afterEach(() => {
 		vi.restoreAllMocks()
-		vi.doUnmock("@/mcp/auth/replay")
 	})
 
 	beforeEach(() => {
@@ -245,42 +280,27 @@ describe("refresh_token grant", () => {
 		for (const result of results) expect(result).toMatchObject({ status: 400, body: { error: "invalid_grant" } })
 	})
 
-	it("fails closed at replay capacity and reclaims only expired grants", async () => {
-		vi.resetModules()
-		vi.doMock("@/mcp/auth/replay", () => ({ createReplayGuard: () => createReplayGuard(2) }))
-		const { exchangeToken: exchangeWithSmallGuard } = await import("@/mcp/auth/token")
-		const now = Math.floor(Date.now() / 1000)
-		const clock = vi.spyOn(Date, "now").mockReturnValue(now * 1000)
-		const clientId = newClient()
-		const request = (jti: string, ttl: number) => ({
-			grant_type: "refresh_token",
-			client_id: clientId,
-			refresh_token: seal(
-				SECRET,
-				"refresh",
-				{
-					jti,
-					sub: USER.id,
-					cid: clientFingerprint(clientId),
-					scope: "account",
-					resource: RESOURCE,
-					pb_token: PB_TOKEN,
-				},
-				ttl,
-			),
-		})
-		const long = request("capacity-long", 3600)
-		const short = request("capacity-short", 60)
-		const third = request("capacity-third", 3600)
+	it("fails closed when durable replay storage is unavailable", async () => {
+		const { clientId, refreshToken } = await tokens()
 		refreshPocketBaseSession.mockResolvedValue({ ok: true, token: REFRESHED_PB_TOKEN, user: USER })
-		success(await exchangeWithSmallGuard(long, ctx))
-		success(await exchangeWithSmallGuard(short, ctx))
-		await expect(exchangeWithSmallGuard(third, ctx)).resolves.toMatchObject({ status: 400, body: { error: "invalid_grant" } })
-		await expect(exchangeWithSmallGuard(long, ctx)).resolves.toMatchObject({ status: 400, body: { error: "invalid_grant" } })
-		clock.mockReturnValue((now + 60) * 1000)
-		success(await exchangeWithSmallGuard(third, ctx))
-		await expect(exchangeWithSmallGuard(long, ctx)).resolves.toMatchObject({ status: 400, body: { error: "invalid_grant" } })
-		await expect(exchangeWithSmallGuard(short, ctx)).resolves.toMatchObject({ status: 400, body: { error: "invalid_grant" } })
+		consumeGrant.mockResolvedValueOnce("unavailable")
+		await expect(
+			exchangeToken({ grant_type: "refresh_token", client_id: clientId, refresh_token: refreshToken }, ctx),
+		).resolves.toMatchObject({ status: 503, body: { error: "temporarily_unavailable" } })
+	})
+
+	it("rejects a refresh that expires while durable consumption responds", async () => {
+		const { clientId, refreshToken } = await tokens()
+		const claim = unseal(SECRET, "refresh", refreshToken)
+		if (!claim.ok) throw new Error("expected valid refresh token")
+		refreshPocketBaseSession.mockResolvedValue({ ok: true, token: REFRESHED_PB_TOKEN, user: USER })
+		consumeGrant.mockImplementationOnce(async () => {
+			vi.spyOn(Date, "now").mockReturnValue(claim.expiresAt * 1000)
+			return "consumed"
+		})
+		await expect(
+			exchangeToken({ grant_type: "refresh_token", client_id: clientId, refresh_token: refreshToken }, ctx),
+		).resolves.toMatchObject({ status: 400, body: { error: "invalid_grant" } })
 	})
 
 	it("fails with invalid_grant when PocketBase rejects the session", async () => {

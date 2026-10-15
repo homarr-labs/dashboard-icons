@@ -16,6 +16,13 @@ function getPostHogClient(): PostHog | null {
 }
 
 export async function register() {
+	if (process.env.NEXT_RUNTIME === "nodejs" && process.env.MCP_OAUTH_SECRET) {
+		const { getMcpAuthConfig } = await import("@/mcp/auth/config")
+		const { isReplayStoreReady } = await import("@/mcp/auth/durable-replay")
+		if (getMcpAuthConfig() && !(await isReplayStoreReady())) {
+			throw new Error("MCP OAuth requires authenticated, migrated PocketBase replay storage. Check MCP_OAUTH_REPLAY_SECRET and PB_URL.")
+		}
+	}
 	if (process.env.NEXT_RUNTIME === "nodejs" && process.env.MCP_WARM_CACHE === "true") {
 		import("@/lib/icons/service").then((module) => module.warmMetadataCache()).catch(() => {})
 	}

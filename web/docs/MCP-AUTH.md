@@ -1,8 +1,8 @@
 # MCP sign-in (OAuth 2.1)
 
-The MCP server at `/api/mcp` works anonymously. Account tools (submit an icon, list your submissions) need the caller to sign in with their Dashboard Icons (PocketBase) account. MCP clients such as Claude Code, Cursor and VS Code do that through a small, stateless OAuth 2.1 authorization server built into the Next.js app.
+The MCP server at `/api/mcp` works anonymously. Account tools (submit an icon, list your submissions) need the caller to sign in with their Dashboard Icons (PocketBase) account. MCP clients such as Claude Code, Cursor and VS Code do that through a small OAuth 2.1 authorization server built into the Next.js app.
 
-PocketBase cannot act as an OAuth authorization server, so the Next.js app plays that role. It reuses the site's existing login and never adds a database table.
+PocketBase cannot act as an OAuth authorization server, so the Next.js app plays that role. It reuses the site's existing login and stores consumed grant IDs in the existing PocketBase SQLite database, not in process memory. Registrations and tokens remain sealed, self-contained values.
 
 ## Flow
 
@@ -55,10 +55,24 @@ Metadata, registration and token endpoints send `Access-Control-Allow-Origin: *`
 
 ## Environment variables
 
-| Variable           | Description                                                                                                                                                                                                                                               |
-| ------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `MCP_OAUTH_SECRET` | At least 32 bytes (e.g. `openssl rand -hex 48`). Unset or too short: sign-in is disabled, every OAuth route returns 404, and `/api/mcp` stays anonymous-only. Rotating it invalidates every client registration and token.                                |
-| `MCP_OAUTH_ISSUER` | Public origin, e.g. `https://dashboardicons.com`. Recommended in production. When unset the issuer comes from `X-Forwarded-Host`/`X-Forwarded-Proto` (first value) or `Host`, so the reverse proxy must overwrite those headers. Only the origin is used. |
+| Variable                  | Description                                                                                                                                                                                                                                                                                                                                            |
+| ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `MCP_OAUTH_SECRET`        | At least 32 bytes (e.g. `openssl rand -hex 48`). Unset or too short: sign-in is disabled, every OAuth route returns 404, and `/api/mcp` stays anonymous-only. Rotating it invalidates every client registration and token.                                                                                                                             |
+| `MCP_OAUTH_REPLAY_SECRET` | A distinct random server-only secret of at least 32 bytes; provision the identical value to **both Next.js and PocketBase**. Do not use `MCP_OAUTH_SECRET`, a user token or superuser credentials. Never use a `NEXT_PUBLIC_` variable. Docker Compose forwards this variable to the combined runtime; split deployments must set it on both services. |
+| `PB_URL`                  | Server-reachable PocketBase origin (including any deployment path prefix). Every Next.js replica must use the **same PocketBase service and persistent database**. Use loopback/private networking, or HTTPS across hosts. The bundled container defaults to `http://127.0.0.1:8090`.                                                                  |
+| `MCP_OAUTH_ISSUER`        | Public origin, e.g. `https://dashboardicons.com`. Recommended in production. When unset the issuer comes from `X-Forwarded-Host`/`X-Forwarded-Proto` (first value) or `Host`, so the reverse proxy must overwrite those headers. Only the origin is used.                                                                                              |
+
+With a valid `MCP_OAUTH_SECRET`, Next.js startup fails if the replay service is not authenticated, migrated and writable. OAuth metadata, registration, authorization and token endpoints recheck readiness and return `503 temporarily_unavailable` during an outage; no successful metadata is advertised without durable storage. The synchronous `isMcpAuthEnabled()` helper reports sealing configuration only, not live storage health.
+
+### Replay storage and rollout
+
+Deploy `backend/pb_migrations/1792000000_mcp_oauth_replay.js` and `backend/pb_hooks/mcp_oauth_replay.pb.js` together. Apply migrations and start PocketBase **before** starting Next.js. The bundled Docker entrypoint does this automatically, and both processes inherit `MCP_OAUTH_REPLAY_SECRET`; do not bake either secret into the image. Keep `/pb/pb_data` on its persistent volume.
+
+The hook exposes `POST /api/dashboard/mcp-oauth-replay`, authenticated using the separate `X-MCP-Replay-Key` server header, compared in constant time. It accepts `{purpose: "code" | "refresh", id, expiry}` (Unix seconds). An atomic SQLite `INSERT ... ON CONFLICT DO NOTHING` against the `(purpose, id)` primary key returns 200 for the sole winner and 409 for duplicates. No user identity, PocketBase token or OAuth token is stored. The table is not a PocketBase collection and has no public CRUD API. Requests are limited to 1 KiB, IDs to 128 characters, and retention to the maximum refresh lifetime plus clock tolerance. An authenticated `{purpose: "probe"}` tests the migrated write path without adding rows. The endpoint rejects unauthenticated callers before reading claims or writing storage; it is not a public grant-storage endpoint. Restrict its ingress to application servers where possible, and redact `X-MCP-Replay-Key` from proxy/APM logs.
+
+On the **first upgrade from memory-only guards**, stop all old Next.js replicas and rotate `MCP_OAUTH_SECRET` before serving traffic. Previously consumed grants cannot be reconstructed; keeping the old sealing key would allow them one more redemption. Users must reconnect and clients re-register. The same rule applies after restoring an older PocketBase backup, losing the replay database, or rolling back/removing this migration: stop OAuth, rotate the sealing secret, restore a consistent deployment, then reconnect clients. Never run replicas against separate PocketBase databases, or mount one SQLite file across independent PocketBase servers.
+
+Keep clocks synchronized. Cleanup runs every five minutes and removes only rows expired for at least five minutes; live rows are never evicted. Disk-full, missing-schema, credential mismatch, timeout and database errors fail closed. An ambiguous network failure after a committed consume may burn the grant: the client must reconnect rather than risk issuing a second token. Rotate the replay secret on both services together during a maintenance window; it does not itself invalidate sealed tokens.
 
 ## Integration (`src/mcp/auth`)
 
@@ -88,13 +102,15 @@ Run PocketBase, Next.js and the smoke script in separate terminals from `web/`. 
 
 ```sh
 pnpm backend:download                                    # sha-pinned PocketBase into backend/pocketbase
+export MCP_OAUTH_SECRET=$(openssl rand -hex 48)
+export MCP_OAUTH_REPLAY_SECRET=$(openssl rand -hex 48)
 cd backend
 ./pocketbase superuser upsert admin@example.test 'replace-with-local-test-password' --dir pb_data
 DASHBOARD_DISABLE_EMAIL=1 ./pocketbase serve --http 127.0.0.1:8090 --dir pb_data   # pb_data is gitignored
 cd ..
 curl -X POST http://127.0.0.1:8090/api/collections/users/records -H 'content-type: application/json' \
   -d '{"username":"mcpsmoke","email":"mcp-smoke@example.test","password":"replace-with-local-test-password","passwordConfirm":"replace-with-local-test-password"}'
-MCP_OAUTH_SECRET=$(openssl rand -hex 48) MCP_ANALYTICS_DEBUG=true MCP_RATE_LIMIT_ENABLED=false \
+MCP_ANALYTICS_DEBUG=true MCP_RATE_LIMIT_ENABLED=false \
   NEXT_PUBLIC_DISABLE_POSTHOG=true PB_URL=http://127.0.0.1:8090 NEXT_PUBLIC_POCKETBASE_URL=http://127.0.0.1:8090 \
   npx next dev --webpack --port 3005 > /tmp/next.log 2>&1
 MCP_SMOKE_PASSWORD='replace-with-local-test-password' npx tsx scripts/mcp-oauth-smoke.ts http://localhost:3005 http://127.0.0.1:8090 mcp-smoke@example.test "" /tmp/next.log
@@ -102,21 +118,23 @@ MCP_SMOKE_PASSWORD='replace-with-local-test-password' npx tsx scripts/mcp-oauth-
 
 The smoke script checks the anonymous 401 challenge, metadata, DCR, the consent POST with the user's PocketBase token, the PKCE code exchange and replay, `submit_icon` on the 2026 era (and the stored PocketBase record), `list_my_submissions` on the 2025 era, refresh rotation and a tampered bearer. With the log path it also checks that signed-in `$mcp_tool_call` events use the PocketBase user id and that no bearer token or JWT reaches the analytics log. It deletes its submission at the end. Use `--webpack`: Turbopack breaks on pnpm's global virtual store.
 
+Run `node --test scripts/mcp-replay-integration.mjs` from `web/` with Node 24 and the downloaded PocketBase binary. It uses a disposable local database and generated server secret, verifies 16 concurrent requests yield exactly one winner for each grant purpose, restarts PocketBase and rejects the same grants, and checks unauthenticated, unconfigured and missing-schema failures. It never uses a superuser account or existing `pb_data`.
+
 ## Security properties
 
 - **Sealed, not signed.** Client IDs, codes, access and refresh tokens are AES-256-GCM with a per-purpose key (HKDF-SHA256 from `MCP_OAUTH_SECRET`; purposes `client`, `code`, `access`, `refresh`) and the purpose as associated data. A token of one kind can never be replayed as another, and clients cannot read or alter the contents.
 - **PocketBase tokens never leave the server in usable form.** They only travel inside sealed tokens, so an MCP token is useless against PocketBase and a PocketBase token is useless against `/api/mcp`.
 - **Audience-bound.** Access tokens carry `aud = {issuer}/api/mcp`; the verifier rejects tokens minted for another host.
 - **PKCE S256 required**, compared in constant time. Codes live 60 seconds and are single-use (burned on first presentation, even if the exchange then fails).
+- **Durable single use.** Code consumption precedes PKCE/client checks, preserving burn-on-presentation. Refresh consumption occurs after request validation and successful PocketBase session refresh, but before issuing any replacement tokens. Concurrent refreshes can validate the upstream session, but only the SQLite insertion winner receives OAuth tokens. Replay rejection survives Next.js/PocketBase restarts and is shared across Next.js replicas using the same PocketBase database.
 - **Fresh identity.** The authorize endpoint re-validates every parameter and calls PocketBase `authRefresh` before minting a code. Every refresh calls `authRefresh` again, which also refreshes the `admin` flag.
-- **Error handling.** Rejected PocketBase sessions return `invalid_grant` (the client restarts sign-in). PocketBase outages return `503 temporarily_unavailable`, so clients keep their refresh token and retry.
+- **Error handling.** Rejected PocketBase sessions return `invalid_grant` (the client restarts sign-in). PocketBase outages before consumption return `503 temporarily_unavailable`, so clients can retry. If a consume committed but its response was lost, retry safely rejects the spent grant and requires reconnecting.
 - **No cookies.** The approval POST carries the PocketBase token in its body, so cross-site request forgery cannot approve a client. The page inherits `X-Frame-Options: DENY`.
 - **Phishing hint.** The consent card names the self-declared client and the redirect host, and says to approve only connections the user started.
 
 ## Limitations
 
-- **Single-process replay guards.** Used authorization-code and refresh-token IDs live in bounded in-memory guards that fail closed when full. Reuse is rejected in one process, but a restart clears the guards and several replicas do not share them. Move the guards to shared storage before scaling out.
-- **Token lifetimes are capped by PocketBase.** Access tokens last at most 1 hour and refresh tokens at most 30 days, never beyond the embedded PocketBase token's expiry. Successful refresh rotates the token and rejects reuse in the current process; it does not revoke a whole token family.
+- **Token lifetimes are capped by PocketBase.** Access tokens last at most 1 hour and refresh tokens at most 30 days, never beyond the embedded PocketBase token's expiry. Successful refresh rotates the token and durably rejects reuse; it does not revoke a whole token family.
 - **PocketBase idle expiry.** PocketBase tokens last 7 days by default. A connection idle for longer cannot refresh and needs one more consent click (the browser session usually still exists).
 - **Revocation is coarse.** There is no per-client revocation. Changing the password or signing out everywhere in PocketBase (token key reset) stops account tools at once (they refresh the PocketBase session on every call) and ends the rest of MCP access within 1 hour, when the current access token expires and the next refresh fails.
 - **No CIMD yet.** Clients register through DCR, which the 2026-07-28 spec deprecates but still allows. Claude Code, Cursor and VS Code all support it.

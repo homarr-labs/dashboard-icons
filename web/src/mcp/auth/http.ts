@@ -3,6 +3,7 @@ import { readBoundedBytes } from "@/lib/read-bounded-bytes"
 import { approveAuthorization } from "./authorize"
 import { registerClient } from "./clients"
 import { getMcpAuthConfig, type McpAuthConfig, resolveIssuer } from "./config"
+import { isReplayStoreReady } from "./durable-replay"
 import { authorizationServerMetadata, protectedResourceMetadata } from "./metadata"
 import { exchangeToken } from "./token"
 
@@ -28,6 +29,9 @@ function enabledOnly(endpoint: Endpoint, rateLimited: boolean) {
 					"Retry-After": String(limit.retryAfter),
 				})
 			}
+		}
+		if (!(await isReplayStoreReady())) {
+			return oauthError(503, "temporarily_unavailable", "Sign-in is temporarily unavailable. Try again shortly.", CORS_HEADERS)
 		}
 		return endpoint(req, config, resolveIssuer(req.headers, new URL(req.url).origin))
 	}

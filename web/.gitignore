@@ -59,6 +59,7 @@ scripts/*
 !scripts/import-simple-icons.ts
 !scripts/mcp-smoke.ts
 !scripts/mcp-oauth-smoke.ts
+!scripts/mcp-replay-integration.mjs
 data/sources/
 
 # Playwright
