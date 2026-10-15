@@ -147,17 +147,21 @@ When exceeded, the server returns HTTP `429` with a `Retry-After` header.
 
 ## Environment variables
 
-| Variable                        | Description                                                                                      |
-| ------------------------------- | ------------------------------------------------------------------------------------------------ |
-| `MCP_RATE_LIMIT_ENABLED`        | Set to `false` to disable rate limiting (local dev only)                                         |
-| `MCP_VERBOSE_LOGS`              | Set to `true` for verbose MCP handler logs                                                       |
-| `MCP_WARM_CACHE`                | Set to `true` to preload metadata on server start                                                |
-| `DASHBOARD_ICONS_METADATA_PATH` | Local `metadata.json` path (development only; blocked in production)                             |
-| `NEXT_PUBLIC_POSTHOG_KEY`       | Enables PostHog MCP analytics using the existing project key                                     |
-| `NEXT_PUBLIC_POSTHOG_HOST`      | Client-side PostHog ingestion host (e.g. `https://hog.homarr.dev`)                               |
-| `NEXT_PUBLIC_DISABLE_POSTHOG`   | Set to `true` to disable all PostHog capture                                                     |
-| `MCP_OAUTH_SECRET`              | Enables sign-in and account tools; at least 32 bytes (`openssl rand -hex 48`). Set in production |
-| `MCP_OAUTH_ISSUER`              | Public origin, e.g. `https://dashboardicons.com`. Set in production                              |
+| Variable                        | Description                                                                                               |
+| ------------------------------- | --------------------------------------------------------------------------------------------------------- |
+| `MCP_RATE_LIMIT_ENABLED`        | Set to `false` to disable rate limiting (local dev only)                                                  |
+| `MCP_VERBOSE_LOGS`              | Set to `true` for verbose MCP handler logs                                                                |
+| `MCP_WARM_CACHE`                | Set to `true` to preload metadata on server start                                                         |
+| `DASHBOARD_ICONS_METADATA_PATH` | Local `metadata.json` path (development only; blocked in production)                                      |
+| `NEXT_PUBLIC_POSTHOG_KEY`       | Enables PostHog MCP analytics using the existing project key                                              |
+| `NEXT_PUBLIC_POSTHOG_HOST`      | Client-side PostHog ingestion host (e.g. `https://hog.homarr.dev`)                                        |
+| `NEXT_PUBLIC_DISABLE_POSTHOG`   | Set to `true` to disable all PostHog capture                                                              |
+| `MCP_OAUTH_SECRET`              | Enables sign-in and account tools; at least 32 bytes (`openssl rand -hex 48`). Set in production          |
+| `MCP_OAUTH_REPLAY_SECRET`       | Distinct server-only secret (at least 32 bytes), identical on Next.js and PocketBase; required with OAuth |
+| `PB_URL`                        | Shared server-reachable PocketBase origin with persistent replay storage                                  |
+| `MCP_OAUTH_ISSUER`              | Public origin, e.g. `https://dashboardicons.com`. Set in production                                       |
+
+Before enabling OAuth, deploy the replay migration and hook, apply migrations, and start PocketBase before Next.js. Upgrading from memory-only guards requires stopping old replicas and rotating `MCP_OAUTH_SECRET`. See [replay storage and rollout](./MCP-AUTH.md#replay-storage-and-rollout).
 
 When enabled, the official `@posthog/mcp` SDK captures MCP lifecycle events, tool calls, latency, responses, and errors. Analytics are flushed after each serverless invocation.
 
