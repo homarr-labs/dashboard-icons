@@ -7,7 +7,13 @@ const { refreshPocketBaseSession } = vi.hoisted(() => ({
 
 vi.mock("@/mcp/auth/pocketbase", () => ({ refreshPocketBaseSession }))
 
-import { approveAuthorization, buildRedirect, resolveAuthorizePage, validateAuthorizeRequest } from "@/mcp/auth/authorize"
+import {
+	type AuthorizeValidation,
+	approveAuthorization,
+	buildRedirect,
+	resolveAuthorizePage,
+	validateAuthorizeRequest,
+} from "@/mcp/auth/authorize"
 import { clientFingerprint, registerClient } from "@/mcp/auth/clients"
 import { unseal } from "@/mcp/auth/seal"
 import { ISSUER, pkcePair, REDIRECT_URI, RESOURCE, SECRET, SECRET_TEXT, USER } from "./fixtures"
@@ -34,9 +40,10 @@ function authorizeParams(overrides: Record<string, unknown> = {}): Record<string
 	}
 }
 
-function redirectParams(result: { kind: string; redirectTo?: string }): URLSearchParams {
-	if (result.kind !== "redirect" || !result.redirectTo) throw new Error(`expected redirect, got ${result.kind}`)
-	return new URL(result.redirectTo).searchParams
+function returnParams(result: AuthorizeValidation): URLSearchParams {
+	if (result.kind !== "client_error") throw new Error(`expected client_error, got ${result.kind}`)
+	expect(result.returnHost).toBe(new URL(REDIRECT_URI).host)
+	return new URL(result.returnTo).searchParams
 }
 
 describe("validateAuthorizeRequest", () => {
@@ -84,7 +91,7 @@ describe("validateAuthorizeRequest", () => {
 		}
 	})
 
-	it("redirects protocol errors back to the client with state and iss", () => {
+	it("offers a link back to the client for protocol errors, with state and iss", () => {
 		const cases: [Record<string, unknown>, string][] = [
 			[{ response_type: "token" }, "unsupported_response_type"],
 			[{ code_challenge: undefined }, "invalid_request"],
@@ -94,8 +101,11 @@ describe("validateAuthorizeRequest", () => {
 			[{ scope: "account admin" }, "invalid_scope"],
 		]
 		for (const [overrides, error] of cases) {
-			const params = redirectParams(validateAuthorizeRequest(authorizeParams(overrides), ctx))
+			const result = validateAuthorizeRequest(authorizeParams(overrides), ctx)
+			expect(result).toMatchObject({ kind: "client_error", error })
+			const params = returnParams(result)
 			expect(params.get("error")).toBe(error)
+			expect(params.get("error_description")).toBeTruthy()
 			expect(params.get("state")).toBe("xyz")
 			expect(params.get("iss")).toBe(ISSUER)
 		}

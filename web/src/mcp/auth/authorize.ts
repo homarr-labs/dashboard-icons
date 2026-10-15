@@ -36,7 +36,7 @@ export type ValidAuthorizeRequest = {
 
 export type AuthorizeValidation =
 	| { kind: "invalid"; error: string; description: string }
-	| { kind: "redirect"; redirectTo: string }
+	| { kind: "client_error"; error: string; description: string; returnTo: string; returnHost: string }
 	| { kind: "valid"; request: ValidAuthorizeRequest }
 
 export type ApprovalResult =
@@ -84,8 +84,11 @@ export function validateAuthorizeRequest(input: Record<string, unknown>, ctx: Au
 	}
 
 	const fail = (error: string, description: string): AuthorizeValidation => ({
-		kind: "redirect",
-		redirectTo: buildRedirect(redirectUri, { error, error_description: description, state: params.state, iss: ctx.issuer }),
+		kind: "client_error",
+		error,
+		description,
+		returnTo: buildRedirect(redirectUri, { error, error_description: description, state: params.state, iss: ctx.issuer }),
+		returnHost: redirectUriLabel(redirectUri),
 	})
 
 	if (params.response_type !== "code") return fail("unsupported_response_type", "Only response_type=code is supported.")
@@ -133,7 +136,7 @@ export async function approveAuthorization(input: unknown, ctx: AuthorizeContext
 	if (!parsed.success) return approvalError(400, "invalid_request", "The approval request is malformed.")
 	const validation = validateAuthorizeRequest(parsed.data.params, ctx)
 	if (validation.kind === "invalid") return approvalError(400, validation.error, validation.description)
-	if (validation.kind === "redirect") return { status: 200, body: { redirectTo: validation.redirectTo } }
+	if (validation.kind === "client_error") return { status: 200, body: { redirectTo: validation.returnTo } }
 
 	const request = validation.request
 	if (parsed.data.deny) {
