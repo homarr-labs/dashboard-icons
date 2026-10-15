@@ -1,0 +1,19 @@
+web/src/lib/icons/__tests__/rate-limit.test.ts
+  s_ec121b70cd49f0::t_f8ecf9ac716e08 19-22
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "d41072115953fcc826751c27dc889d314534c74e",
+  "prompts": {},
+  "sessions": {
+    "s_ec121b70cd49f0": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "619405f9-b58d-431f-9c97-5f3f5aa6e6af",
+        "model": "unknown"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
