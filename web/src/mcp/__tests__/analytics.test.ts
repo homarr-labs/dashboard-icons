@@ -47,6 +47,8 @@ function sampledDistinctId(sampledIn: boolean, isSampledIn: (identity: string, r
 describe("MCP analytics", () => {
 	beforeEach(() => {
 		vi.unstubAllEnvs()
+		vi.stubEnv("NEXT_PUBLIC_POSTHOG_KEY", "")
+		vi.stubEnv("NEXT_PUBLIC_DISABLE_POSTHOG", "false")
 		vi.stubEnv("MCP_ANALYTICS_DEBUG", "")
 		vi.stubEnv("MCP_SERVER_BUILD", "")
 		PostHog.mockClear()
