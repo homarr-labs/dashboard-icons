@@ -25,7 +25,7 @@ A web application to browse, search, and download icons from the
 - **Shadcn UI** - Reusable components built with Radix UI and Tailwind
 - **PocketBase** - Backend for authentication and data storage
 - **PostHog** - Product analytics and user tracking
-- **MCP (Model Context Protocol)** - HTTP transport via `mcp-handler` for AI tool integrations
+- **MCP (Model Context Protocol)** - Streamable HTTP transport via `@modelcontextprotocol/server` for AI tool integrations
 
 ## Project Structure
 

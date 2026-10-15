@@ -3,18 +3,23 @@ import * as rateLimit from "@/lib/icons/rate-limit"
 import { resetRateLimitsForTests } from "@/lib/icons/rate-limit"
 import { MAX_REQUEST_BODY_BYTES } from "@/lib/icons/validate"
 
-const { mcpHandlerMock } = vi.hoisted(() => ({
-	mcpHandlerMock: vi.fn(async () => new Response("ok", { status: 200 })),
+const { afterTasks, flushDashboardIconsMcpAnalytics, handleMcpRequest } = vi.hoisted(() => ({
+	afterTasks: [] as (() => unknown)[],
+	flushDashboardIconsMcpAnalytics: vi.fn(async () => {}),
+	handleMcpRequest: vi.fn(async (_req: Request) => new Response("ok", { status: 200 })),
 }))
 
-const flushDashboardIconsMcpAnalytics = vi.fn(async () => {})
+vi.mock("next/server", async (importOriginal) => ({
+	...(await importOriginal<typeof import("next/server")>()),
+	after: (task: () => unknown) => afterTasks.push(task),
+}))
 
 vi.mock("@/mcp/analytics", () => ({
 	flushDashboardIconsMcpAnalytics,
 }))
 
-vi.mock("@/mcp/handler", () => ({
-	createDashboardIconsMcpHandler: () => mcpHandlerMock,
+vi.mock("@/mcp/http", () => ({
+	handleMcpRequest,
 }))
 
 function nextRequest(method: string, init: RequestInit = {}) {
@@ -25,8 +30,9 @@ describe("MCP route", () => {
 	beforeEach(async () => {
 		resetRateLimitsForTests()
 		process.env.MCP_RATE_LIMIT_ENABLED = "true"
-		mcpHandlerMock.mockClear()
+		handleMcpRequest.mockClear()
 		flushDashboardIconsMcpAnalytics.mockClear()
+		afterTasks.length = 0
 	})
 
 	it("returns 429 after exceeding request rate limit", async () => {
@@ -105,8 +111,24 @@ describe("MCP route", () => {
 			}),
 		)
 		expect(response.status).toBe(200)
-		expect(mcpHandlerMock).toHaveBeenCalled()
-		expect(flushDashboardIconsMcpAnalytics).toHaveBeenCalled()
+		expect(handleMcpRequest).toHaveBeenCalled()
+	})
+
+	it("flushes analytics after the response instead of before it", async () => {
+		const { POST } = await import("@/app/api/mcp/route")
+		const response = await POST(
+			nextRequest("POST", {
+				headers: { "content-type": "application/json" },
+				body: JSON.stringify({ jsonrpc: "2.0", id: 1, method: "tools/list" }),
+			}),
+		)
+		expect(response.status).toBe(200)
+		expect(flushDashboardIconsMcpAnalytics).not.toHaveBeenCalled()
+		expect(afterTasks).toEqual([flushDashboardIconsMcpAnalytics])
+		await afterTasks[0]?.()
+		expect(flushDashboardIconsMcpAnalytics).toHaveBeenCalledTimes(1)
+		const forwarded = handleMcpRequest.mock.calls[0]?.[0]
+		expect(await forwarded?.json()).toEqual({ jsonrpc: "2.0", id: 1, method: "tools/list" })
 	})
 
 	it("sets security headers on success", async () => {

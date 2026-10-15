@@ -1,13 +1,12 @@
-import { NextRequest, NextResponse } from "next/server"
+import { after, NextRequest, NextResponse } from "next/server"
 import { checkRateLimit, getClientIp } from "@/lib/icons/rate-limit"
 import { MAX_REQUEST_BODY_BYTES } from "@/lib/icons/validate"
 import { flushDashboardIconsMcpAnalytics } from "@/mcp/analytics"
-import { createDashboardIconsMcpHandler } from "@/mcp/handler"
+import { handleMcpRequest } from "@/mcp/http"
 
 export const runtime = "nodejs"
 export const maxDuration = 30
 
-const mcpHandler = createDashboardIconsMcpHandler()
 const SECURITY_HEADERS = {
 	"Cache-Control": "no-store",
 	"X-Content-Type-Options": "nosniff",
@@ -91,12 +90,8 @@ async function guardedHandler(req: NextRequest) {
 		}
 	}
 
-	let response: Response
-	try {
-		response = await mcpHandler(req)
-	} finally {
-		await flushDashboardIconsMcpAnalytics()
-	}
+	after(flushDashboardIconsMcpAnalytics)
+	const response = await handleMcpRequest(req)
 	applySecurityHeaders(response)
 	return response
 }
