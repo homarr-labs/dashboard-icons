@@ -1,0 +1,53 @@
+web/src/mcp/__tests__/account-tools.test.ts
+  s_1726e6cb605035::t_29b0cffbed48b9 1-56
+web/src/mcp/__tests__/integration.test.ts
+  s_1726e6cb605035::t_d4718079afb1a5 2,5,11-52,66-71,80-89,189-197,224,257,262,315-399
+web/src/mcp/__tests__/prompts.test.ts
+  s_1726e6cb605035::t_c85a35f72697fe 1-33
+web/src/mcp/__tests__/resources.test.ts
+  s_1726e6cb605035::t_b91ac54bb76eb6 1-77
+web/src/mcp/__tests__/server.test.ts
+  s_1726e6cb605035::t_2d0c16d57911ef 4,7-8,11-14,18,24-50
+web/src/mcp/__tests__/tools.test.ts
+  s_1726e6cb605035::t_ca3ba1385992f2 1-17,20,22-28,31-34,37-39,41-54,57-65,68-70,73-77,79,81-93,96-101,104-110,113-124,127-137
+web/src/mcp/prompts.ts
+  s_1726e6cb605035::t_0219afb9c96adc 1-60
+web/src/mcp/resources.ts
+  s_1726e6cb605035::t_3906d77d7c3ee2 1-3,5,7,9-15,17-33,35-38,40-43,45
+web/src/mcp/server.ts
+  s_1726e6cb605035::t_62732ec9bd18ad 4-6,10-18,20,22-24
+web/src/mcp/tools/browse-icons.ts
+  s_1726e6cb605035::t_d7ca26c0fae3e0 1-38
+web/src/mcp/tools/get-icon-svg.ts
+  s_1726e6cb605035::t_de6684479f8e08 1-55
+web/src/mcp/tools/get-icon.ts
+  s_1726e6cb605035::t_ff6576ff8f599f 1-65
+web/src/mcp/tools/index.ts
+  s_1726e6cb605035::t_dac3f19ac0fdec 1-43
+web/src/mcp/tools/list-categories.ts
+  s_1726e6cb605035::t_006d7b783c0aa4 1-31
+web/src/mcp/tools/match-icons.ts
+  s_1726e6cb605035::t_2af0a9c7571ebb 1-47
+web/src/mcp/tools/schemas.ts
+  s_1726e6cb605035::t_79023b6da43c63 1-44
+web/src/mcp/tools/search-icons.ts
+  s_1726e6cb605035::t_d761e4da5ab866 1-41
+web/src/mcp/tools/types.ts
+  s_1726e6cb605035::t_8c59ab3c9b9639 1-41
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "e41466364672caad3293047763ed0598a13c8d39",
+  "prompts": {},
+  "sessions": {
+    "s_1726e6cb605035": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "4c509061-9a5b-474f-982b-e0ead93f9aa1",
+        "model": "unknown"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
