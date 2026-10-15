@@ -1,3 +1,4 @@
+import { randomUUID } from "node:crypto"
 import { z } from "zod"
 import { clientFingerprint } from "./clients"
 import {
@@ -49,6 +50,7 @@ const codeSchema = z.object({
 })
 
 const refreshSchema = z.object({
+	jti: z.string(),
 	sub: z.string(),
 	cid: z.string(),
 	scope: z.string(),
@@ -67,7 +69,9 @@ export const accessClaimsSchema = z.object({
 })
 
 const MAX_TRACKED_CODES = 10_000
+const MAX_TRACKED_REFRESH_TOKENS = 50_000
 const usedCodes = createReplayGuard(MAX_TRACKED_CODES)
+const usedRefreshTokens = createReplayGuard(MAX_TRACKED_REFRESH_TOKENS, { evictOldest: true })
 
 type Grant = { user: McpUser; pbToken: string; cid: string; scope: string; resource: string }
 
@@ -101,7 +105,7 @@ function issueTokens(ctx: TokenContext, grant: Grant): TokenResult {
 	const refreshToken = seal(
 		ctx.secret,
 		"refresh",
-		{ sub: grant.user.id, cid: grant.cid, scope: grant.scope, resource: grant.resource, pb_token: grant.pbToken },
+		{ jti: randomUUID(), sub: grant.user.id, cid: grant.cid, scope: grant.scope, resource: grant.resource, pb_token: grant.pbToken },
 		REFRESH_TOKEN_TTL_SECONDS,
 	)
 	return {
@@ -166,6 +170,9 @@ async function exchangeRefreshToken(params: Record<string, string>, ctx: TokenCo
 	const session = await refreshPocketBaseSession(grant.pb_token)
 	if (!session.ok && session.reason === "invalid") return tokenError("invalid_grant", "The Dashboard Icons session ended. Sign in again.")
 	if (!session.ok) return tokenError("temporarily_unavailable", "Sign-in is temporarily unavailable. Try again shortly.", 503)
+	if (!usedRefreshTokens.consume(grant.jti, Date.now() + REFRESH_TOKEN_TTL_SECONDS * 1000)) {
+		return tokenError("invalid_grant", "The refresh token was already used.")
+	}
 	return issueTokens(ctx, { user: session.user, pbToken: session.token, cid: grant.cid, scope, resource: grant.resource })
 }
 

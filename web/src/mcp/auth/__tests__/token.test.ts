@@ -175,6 +175,26 @@ describe("refresh_token grant", () => {
 		expect(refreshed.ok && refreshed.data).toMatchObject({ pb_token: "pb-2" })
 	})
 
+	it("rejects a refresh token that was already used, even concurrently", async () => {
+		const { clientId, refreshToken } = await tokens()
+		const params = { grant_type: "refresh_token", refresh_token: refreshToken, client_id: clientId }
+		refreshPocketBaseSession.mockResolvedValue({ ok: true, token: "pb-2", user: USER })
+		const [first, second] = await Promise.all([exchangeToken(params, ctx), exchangeToken(params, ctx)])
+		const rotated = success(first).refresh_token
+		expect(second).toEqual({ status: 400, body: { error: "invalid_grant", error_description: "The refresh token was already used." } })
+		await expect(exchangeToken(params, ctx)).resolves.toMatchObject({ status: 400, body: { error: "invalid_grant" } })
+		success(await exchangeToken({ ...params, refresh_token: rotated }, ctx))
+	})
+
+	it("keeps the refresh token usable when PocketBase is briefly unavailable", async () => {
+		const { clientId, refreshToken } = await tokens()
+		const params = { grant_type: "refresh_token", refresh_token: refreshToken, client_id: clientId }
+		refreshPocketBaseSession.mockResolvedValueOnce({ ok: false, reason: "unavailable" })
+		refreshPocketBaseSession.mockResolvedValueOnce({ ok: true, token: "pb-2", user: USER })
+		await expect(exchangeToken(params, ctx)).resolves.toMatchObject({ status: 503 })
+		success(await exchangeToken(params, ctx))
+	})
+
 	it("fails with invalid_grant when PocketBase rejects the session", async () => {
 		const { clientId, refreshToken } = await tokens()
 		refreshPocketBaseSession.mockResolvedValueOnce({ ok: false, reason: "invalid" })
@@ -217,7 +237,7 @@ describe("refresh_token grant", () => {
 		const narrow = seal(
 			SECRET,
 			"refresh",
-			{ sub: "u", cid: clientFingerprint(clientId), scope: "other", resource: RESOURCE, pb_token: "pb" },
+			{ jti: "j", sub: "u", cid: clientFingerprint(clientId), scope: "other", resource: RESOURCE, pb_token: "pb" },
 			60,
 		)
 		await expect(exchangeToken({ grant_type: "refresh_token", refresh_token: narrow, client_id: clientId }, ctx)).resolves.toMatchObject({

@@ -43,4 +43,12 @@ describe("replay guard", () => {
 		expect(guard.consume("a", Date.now() + 60_000)).toBe(true)
 		expect(guard.consume("b", Date.now() + 60_000)).toBe(false)
 	})
+
+	it("can evict the oldest live id instead of refusing when full", () => {
+		const guard = createReplayGuard(2, { evictOldest: true })
+		for (const id of ["a", "b", "c"]) expect(guard.consume(id, Date.now() + 60_000)).toBe(true)
+		expect(guard.size()).toBe(2)
+		expect(guard.consume("c", Date.now() + 60_000)).toBe(false)
+		expect(guard.consume("a", Date.now() + 60_000)).toBe(true)
+	})
 })
