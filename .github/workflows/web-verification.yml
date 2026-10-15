@@ -1,0 +1,60 @@
+name: Web verification
+
+on:
+  pull_request:
+    paths:
+      - "web/**"
+      - ".github/workflows/web-verification.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: web-verification-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+defaults:
+  run:
+    working-directory: web
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      NEXT_PUBLIC_DISABLE_POSTHOG: "true"
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: pnpm/action-setup@v4
+        with:
+          package_json_file: web/package.json
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+          cache-dependency-path: web/pnpm-lock.yaml
+      - name: Install frozen dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Check changed source files
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha || 'origin/main' }}
+        run: |
+          mapfile -d '' files < <(git diff --relative --name-only --diff-filter=ACMR -z "$BASE_SHA"...HEAD -- src)
+          if (( ${#files[@]} )); then
+            pnpm exec biome check --no-errors-on-unmatched "${files[@]}"
+          fi
+          git diff --check "$BASE_SHA"...HEAD
+      - name: Generate Next.js types
+        run: pnpm exec next typegen
+      - name: Typecheck
+        run: pnpm exec tsc --noEmit --incremental false
+      - name: Run full suite with enforced coverage
+        run: pnpm test --coverage
+      - name: Download pinned PocketBase
+        run: pnpm backend:download
+      - name: Verify durable replay against PocketBase
+        run: node --test scripts/mcp-replay-integration.mjs
