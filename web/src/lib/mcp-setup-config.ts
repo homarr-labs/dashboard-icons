@@ -30,10 +30,12 @@ export type McpClientGuide = {
 }
 
 export const MCP_TOOLS = [
-	{ name: "search_icons", description: "Search icons by name, alias, or category" },
-	{ name: "get_icon", description: "Full metadata and CDN URLs for one icon" },
-	{ name: "get_icon_url", description: "Direct CDN URL for one icon" },
-	{ name: "suggest_icon", description: "Fuzzy match from a natural service name" },
+	{ name: "match_icons", description: "Best icon for up to 50 services in one call" },
+	{ name: "search_icons", description: "Fuzzy search across every icon source" },
+	{ name: "get_icon", description: "Every CDN URL, variant and license for one icon" },
+	{ name: "get_icon_svg", description: "Raw SVG markup to inline in code" },
+	{ name: "browse_icons", description: "Page through a category or the newest icons" },
+	{ name: "list_categories", description: "Icon categories with counts" },
 ] as const
 
 export function getMcpEndpointUrl(webUrl: string): string {
@@ -102,17 +104,6 @@ export function getZedMcpConfigJson(webUrl: string): string {
 
 export function getClaudeCodeAddCommand(webUrl: string): string {
 	return `claude mcp add dashboard-icons -- npx -y mcp-remote ${getMcpEndpointUrl(webUrl)}`
-}
-
-export function getIconUrlExampleJson(iconName: string): string {
-	return JSON.stringify(
-		{
-			tool: "get_icon_url",
-			arguments: { name: iconName, format: "svg" },
-		},
-		null,
-		2,
-	)
 }
 
 export const MCP_CLIENT_GUIDES: McpClientGuide[] = [

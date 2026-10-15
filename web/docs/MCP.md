@@ -43,42 +43,75 @@ Use [mcp-remote](https://www.npmjs.com/package/mcp-remote):
 
 ## Tools
 
+Every tool reads from one catalog: dashboardicons.com icons (`native`) plus the selfh.st (`selfhst`), LobeHub (`lobehub`) and Simple Icons (`simpleicons`) catalogs. Native icons win ties. All public tools are read-only and return `structuredContent` (matching their `outputSchema`) plus the same data as compact JSON text. When an external source cannot be loaded, results carry `degraded_sources`.
+
+Typical flow: `match_icons` for a list of services (or `search_icons` for one vague name), then `get_icon` for every URL and the license, or `get_icon_svg` for inline SVG markup.
+
+### `match_icons`
+
+Best icon for each of up to 50 service names in one call. Names, slugs and aliases match ignoring case, spaces and punctuation (`Pi-hole` = `pihole`); otherwise it falls back to fuzzy search, then to typo distance.
+
+| Parameter  | Type     | Default     | Max                 |
+| ---------- | -------- | ----------- | ------------------- |
+| `services` | string[] | required    | 50 items, 100 chars |
+| `sources`  | source[] | all sources |                     |
+
+Returns `matches: [{ service, best, alternatives }]`; `best` is `null` when nothing matched.
+
 ### `search_icons`
 
-Search icons by name, alias, or category.
+Fuzzy search by name, alias or category.
 
-| Parameter  | Type   | Default  | Max       |
-| ---------- | ------ | -------- | --------- |
-| `query`    | string | required | 100 chars |
-| `limit`    | number | 20       | 50        |
-| `category` | string | optional | 50 chars  |
+| Parameter  | Type     | Default     | Max       |
+| ---------- | -------- | ----------- | --------- |
+| `query`    | string   | required    | 100 chars |
+| `sources`  | source[] | all sources |           |
+| `category` | string   | optional    | 50 chars  |
+| `limit`    | number   | 10          | 50        |
 
 ### `get_icon`
 
-Full metadata and CDN URLs for one icon.
+Full details for one icon: CDN URLs for every available format (`svg`, `png`, `webp`) and theme (`default`, `light`, `dark`), aliases, categories, and license/attribution for external icons. Loose names resolve (`lm-studio` → `lmstudio`, reported as `resolved_from`). Unknown names return `found: false` with `did_you_mean`, not an error.
 
-| Parameter | Type            |
-| --------- | --------------- |
-| `name`    | kebab-case slug |
+| Parameter | Type   | Default                         |
+| --------- | ------ | ------------------------------- |
+| `name`    | string | required (80 chars)             |
+| `source`  | source | native, then the external order |
 
-### `get_icon_url`
+### `get_icon_svg`
 
-Direct CDN URL for one icon.
+Raw SVG markup for one icon; the text result is the markup itself. When no SVG exists, `reason` is `no_svg`, `no_variant` or `fetch_failed`.
 
 | Parameter | Type                           | Default   |
 | --------- | ------------------------------ | --------- |
 | `name`    | string                         | required  |
-| `format`  | `svg` \| `png` \| `webp`       | `svg`     |
+| `source`  | source                         | optional  |
 | `theme`   | `default` \| `light` \| `dark` | `default` |
 
-### `suggest_icon`
+### `browse_icons`
 
-Fuzzy match from a natural service name (e.g. `"Plex media server"` → `plex`).
+Page through icons without a query.
 
-| Parameter      | Type   | Default  | Max       |
-| -------------- | ------ | -------- | --------- |
-| `service_name` | string | required | 100 chars |
-| `limit`        | number | 5        | 20        |
+| Parameter  | Type                       | Default        | Max      |
+| ---------- | -------------------------- | -------------- | -------- |
+| `category` | string                     | optional       | 50 chars |
+| `source`   | source                     | all sources    |          |
+| `sort`     | `alphabetical` \| `newest` | `alphabetical` |          |
+| `limit`    | number                     | 50             | 100      |
+| `cursor`   | string (`next_cursor`)     | first page     |          |
+
+### `list_categories`
+
+Categories with icon counts, largest first. Optional `source`.
+
+### Account tools
+
+Tools that act on your dashboardicons.com account are listed for every client and require sign-in. Sign-in is documented in [MCP-AUTH.md](./MCP-AUTH.md).
+
+## Resources and prompts
+
+- Resource template `dashboard-icons://icons/{name}` returns the icon's SVG (`image/svg+xml`), with name completion.
+- Prompt `icons_for_dashboard` (`services`, `dashboard`: `homarr` | `homepage` | `dashy` | `generic`) asks the model to call `match_icons` once and write a config snippet with the CDN URLs.
 
 ## Rate limits
 
@@ -105,4 +138,4 @@ When enabled, the official `@posthog/mcp` SDK captures MCP lifecycle events, too
 
 ## Scope
 
-v1 covers **native icons** from `metadata.json` only. External sources (selfh.st, LobeHub) are not included.
+Native icons come from `metadata.json`; selfh.st, LobeHub and Simple Icons come from PocketBase. When PocketBase is unreachable, the tools still answer from native icons and report the missing sources in `degraded_sources`.

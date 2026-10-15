@@ -33,8 +33,9 @@ test.describe("MCP setup dialog", () => {
 		await expect(dialog.getByRole("heading", { name: DIALOG_TITLE })).toBeVisible()
 		await expect(dialog.getByRole("heading", { name: "Choose your client", exact: true })).toBeVisible()
 		await expect(dialog.getByRole("heading", { name: "Available tools", exact: true })).toBeVisible()
-		await expect(dialog.getByText("search_icons")).toBeVisible()
-		await expect(dialog.getByText("get_icon_url")).toBeVisible()
+		for (const tool of ["match_icons", "search_icons", "get_icon", "get_icon_svg", "browse_icons", "list_categories"]) {
+			await expect(dialog.getByText(tool, { exact: true })).toBeVisible()
+		}
 		await expect(dialog.getByText(".cursor/mcp.json", { exact: true })).toBeVisible()
 		await expect(dialog.locator("code, pre").filter({ hasText: MCP_ENDPOINT }).first()).toBeVisible()
 	})

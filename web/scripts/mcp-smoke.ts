@@ -3,6 +3,7 @@
 
 type RpcResult = {
 	content?: { type: string; text: string }[]
+	structuredContent?: Record<string, unknown>
 	isError?: boolean
 	tools?: { name: string }[]
 	serverInfo?: { name: string; version: string }
@@ -14,6 +15,8 @@ const LEGACY_VERSION = "2025-11-25"
 const MODERN_VERSION = "2026-07-28"
 const CONTEXT = "Smoke-testing the dashboard icons MCP server by looking up an icon for a media server dashboard tile."
 const LLM_MODEL = "mcp-smoke-model"
+const TOOLS = ["match_icons", "search_icons", "get_icon", "get_icon_svg", "browse_icons", "list_categories"]
+const SERVICES = ["Plex", "Home Assistant", "Pi-hole", "LM Studio"]
 
 const endpoint = new URL("/api/mcp", process.argv[2] ?? "http://localhost:3005").toString()
 const failures: string[] = []
@@ -65,10 +68,24 @@ function conversationIdOf(reply: RpcReply): string | undefined {
 	return undefined
 }
 
-function firstIconName(reply: RpcReply): string {
-	const text = reply.result?.content?.[0]?.text ?? "{}"
-	const parsed = JSON.parse(text) as { results?: { name: string }[] }
-	return parsed.results?.[0]?.name ?? "plex"
+type Hit = { name: string; source: string }
+
+function bestMatches(reply: RpcReply): string {
+	const matches = (reply.result?.structuredContent?.matches ?? []) as { service: string; best: Hit | null }[]
+	return matches.map(({ service, best }) => `${service}->${best ? `${best.source}:${best.name}` : "none"}`).join(",")
+}
+
+function lookupSummary(reply: RpcReply): string {
+	const lookup = reply.result?.structuredContent as
+		| { found?: boolean; resolved_from?: string; icon?: Hit; did_you_mean?: Hit[]; degraded_sources?: string[] }
+		| undefined
+	if (!lookup) return "no structuredContent"
+	const parts = [`found=${lookup.found}`]
+	if (lookup.icon) parts.push(`icon=${lookup.icon.source}:${lookup.icon.name}`)
+	if (lookup.resolved_from) parts.push(`resolved_from=${lookup.resolved_from}`)
+	if (lookup.did_you_mean) parts.push(`did_you_mean=${lookup.did_you_mean.map((hit) => hit.name).join("|") || "-"}`)
+	if (lookup.degraded_sources) parts.push(`degraded=${lookup.degraded_sources.join("|")}`)
+	return parts.join(" ")
 }
 
 function describe(reply: RpcReply): string {
@@ -91,20 +108,25 @@ type Era = {
 async function runToolFlow(era: Era): Promise<void> {
 	const list = await era.call("tools/list", {})
 	const toolNames = list.result?.tools?.map((tool) => tool.name) ?? []
-	check(`${era.name} tools/list`, succeeded(list) && toolNames.includes("search_icons"), `${describe(list)} tools=${toolNames.join(",")}`)
+	check(`${era.name} tools/list`, succeeded(list) && TOOLS.every((tool) => toolNames.includes(tool)), `${describe(list)} tools=${toolNames.join(",")}`)
 
-	const search = await era.call(
+	const match = await era.call(
 		"tools/call",
-		{ name: "search_icons", arguments: { query: "plex", limit: 3, context: CONTEXT, llm_model: LLM_MODEL } },
-		"search_icons",
+		{ name: "match_icons", arguments: { services: SERVICES, context: CONTEXT, llm_model: LLM_MODEL } },
+		"match_icons",
 	)
-	const conversationId = conversationIdOf(search)
-	check(`${era.name} tools/call search_icons`, succeeded(search), `${describe(search)} conversation_id=${conversationId ?? "-"}`)
+	const conversationId = conversationIdOf(match)
+	check(
+		`${era.name} tools/call match_icons`,
+		succeeded(match) && Boolean(match.result?.structuredContent),
+		`${describe(match)} ${bestMatches(match)} conversation_id=${conversationId ?? "-"}`,
+	)
 
-	const args: Record<string, unknown> = { name: firstIconName(search), context: CONTEXT, llm_model: LLM_MODEL }
+	const args: Record<string, unknown> = { name: "lm-studio", context: CONTEXT, llm_model: LLM_MODEL }
 	if (conversationId) args.conversation_id = conversationId
 	const icon = await era.call("tools/call", { name: "get_icon", arguments: args }, "get_icon")
-	check(`${era.name} tools/call get_icon(${String(args.name)})`, succeeded(icon), describe(icon))
+	const found = icon.result?.structuredContent?.found
+	check(`${era.name} tools/call get_icon(lm-studio)`, succeeded(icon) && typeof found === "boolean", `${describe(icon)} ${lookupSummary(icon)}`)
 }
 
 async function legacyEra(): Promise<void> {
