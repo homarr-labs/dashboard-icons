@@ -1,0 +1,23 @@
+web/src/app/oauth/authorize/page.tsx
+  s_9332bf2d96c65b::t_8442df6ab5f9c0 4-5,7,17-57,65
+web/src/mcp/auth/__tests__/authorize.test.ts
+  s_9332bf2d96c65b::t_5a7d0c8a516c75 10-16,43-46,94,104-106,108
+web/src/mcp/auth/authorize.ts
+  s_9332bf2d96c65b::t_b6833b2dde14e0 39,87-91,139
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "07b3752fb3a118592b54ea91cccff07fb8128125",
+  "prompts": {},
+  "sessions": {
+    "s_9332bf2d96c65b": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "353db9f1-ad65-4873-95ad-ee205b84ae23",
+        "model": "unknown"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
