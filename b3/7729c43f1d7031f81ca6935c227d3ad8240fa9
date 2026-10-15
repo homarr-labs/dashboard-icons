@@ -1,0 +1,14 @@
+web/src/mcp/__tests__/analytics.test.ts
+  h_d6e478ca18e517 50-51
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "b37729c43f1d7031f81ca6935c227d3ad8240fa9",
+  "prompts": {},
+  "humans": {
+    "h_d6e478ca18e517": {
+      "author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
