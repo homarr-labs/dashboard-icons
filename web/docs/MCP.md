@@ -35,7 +35,7 @@ Use [mcp-remote](https://www.npmjs.com/package/mcp-remote):
   "mcpServers": {
     "dashboard-icons": {
       "command": "npx",
-      "args": ["-y", "mcp-remote", "https://dashboardicons.com/api/mcp"]
+      "args": ["-y", "mcp-remote@0.15.1", "https://dashboardicons.com/api/mcp"]
     }
   }
 }

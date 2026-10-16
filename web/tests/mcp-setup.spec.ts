@@ -54,8 +54,8 @@ test.describe("MCP setup dialog", () => {
 		await dialog.getByRole("button", { name: "Claude" }).click()
 		await expect(dialog.getByText("Claude Code", { exact: true })).toBeVisible()
 		await expect(dialog.getByText("Claude Desktop", { exact: true })).toBeVisible()
-		await expect(dialog.getByText("claude mcp add dashboard-icons")).toBeVisible()
-		await expect(dialog.getByText("claude_desktop_config.json")).toBeVisible()
+		await expect(dialog.getByText("claude mcp add --transport http dashboard-icons")).toBeVisible()
+		await expect(dialog.getByText("Remote MCP server URL")).toBeVisible()
 	})
 
 	test("copy button copies the visible Cursor config", async ({ page, context }) => {
@@ -98,5 +98,40 @@ test.describe("MCP setup entry points", () => {
 
 		await expect(page.getByRole("button", { name: MCP_TRIGGER })).toHaveCount(0)
 		await expect(page.getByRole("button", { name: "Set up MCP" })).toHaveCount(0)
+	})
+})
+
+
+test.describe("native MCP snippets", () => {
+	for (const [client, wrapper, entry] of [
+		["Visual Studio Code", "servers", { type: "http", url: "https://dashboardicons.com/api/mcp" }],
+		["Windsurf", "mcpServers", { serverUrl: "https://dashboardicons.com/api/mcp" }],
+		["Zed", "context_servers", { url: "https://dashboardicons.com/api/mcp" }],
+		["Custom MCP client", "mcpServers", { command: "npx", args: ["-y", "mcp-remote@0.15.1", "https://dashboardicons.com/api/mcp"] }],
+	] as const) {
+		test(`copies the ${client} configuration`, async ({ page, context }) => {
+			await context.grantPermissions(["clipboard-read", "clipboard-write"])
+			const dialog = await openHeroMcpDialog(page)
+			const trigger = dialog.getByRole("button", { name: client, exact: true })
+			await trigger.click()
+			const panel = page.locator(`[id="${await trigger.getAttribute("aria-controls")}"]`)
+			await panel.getByRole("button", { name: /^Copy$/i }).click()
+			await expect(panel.getByRole("button", { name: /Copied/i })).toBeVisible()
+			const clipboard = await page.evaluate(() => navigator.clipboard.readText())
+			expect(JSON.parse(clipboard)).toEqual({ [wrapper]: { "dashboard-icons": entry } })
+		})
+	}
+
+	test("copies only the Claude Desktop connector URL", async ({ page, context }) => {
+		await context.grantPermissions(["clipboard-read", "clipboard-write"])
+		const dialog = await openHeroMcpDialog(page)
+		const trigger = dialog.getByRole("button", { name: "Claude", exact: true })
+		await trigger.click()
+		const panel = page.locator(`[id="${await trigger.getAttribute("aria-controls")}"]`)
+		await expect(panel.getByText("Remote MCP server URL", { exact: true })).toBeVisible()
+		await expect(panel.locator("pre").nth(1)).toHaveText("https://dashboardicons.com/api/mcp")
+		await panel.getByRole("button", { name: /^Copy$/i }).nth(1).click()
+		await expect(panel.getByRole("button", { name: /Copied/i })).toBeVisible()
+		expect(await page.evaluate(() => navigator.clipboard.readText())).toBe("https://dashboardicons.com/api/mcp")
 	})
 })
