@@ -4,7 +4,7 @@ export type McpSetupSource = "hero" | "icon_search"
 
 export type McpClientId = "vscode" | "cursor" | "claude" | "windsurf" | "zed" | "custom"
 
-export type McpSnippetKind = "json" | "bash"
+export type McpSnippetKind = "json" | "bash" | "text"
 
 export type McpClientSetupVariant = {
 	title: string
@@ -62,7 +62,7 @@ export function getMcpRemoteConfigJson(webUrl: string): string {
 			mcpServers: {
 				"dashboard-icons": {
 					command: "npx",
-					args: ["-y", "mcp-remote", getMcpEndpointUrl(webUrl)],
+					args: ["-y", "mcp-remote@0.15.1", getMcpEndpointUrl(webUrl)],
 				},
 			},
 		},
@@ -76,8 +76,22 @@ export function getVscodeMcpConfigJson(webUrl: string): string {
 		{
 			servers: {
 				"dashboard-icons": {
-					command: "npx",
-					args: ["-y", "mcp-remote", getMcpEndpointUrl(webUrl)],
+					type: "http",
+					url: getMcpEndpointUrl(webUrl),
+				},
+			},
+		},
+		null,
+		2,
+	)
+}
+
+export function getWindsurfMcpConfigJson(webUrl: string): string {
+	return JSON.stringify(
+		{
+			mcpServers: {
+				"dashboard-icons": {
+					serverUrl: getMcpEndpointUrl(webUrl),
 				},
 			},
 		},
@@ -91,9 +105,7 @@ export function getZedMcpConfigJson(webUrl: string): string {
 		{
 			context_servers: {
 				"dashboard-icons": {
-					source: "custom",
-					command: "npx",
-					args: ["-y", "mcp-remote", getMcpEndpointUrl(webUrl)],
+					url: getMcpEndpointUrl(webUrl),
 				},
 			},
 		},
@@ -103,7 +115,7 @@ export function getZedMcpConfigJson(webUrl: string): string {
 }
 
 export function getClaudeCodeAddCommand(webUrl: string): string {
-	return `claude mcp add dashboard-icons -- npx -y mcp-remote ${getMcpEndpointUrl(webUrl)}`
+	return `claude mcp add --transport http dashboard-icons ${getMcpEndpointUrl(webUrl)}`
 }
 
 export const MCP_CLIENT_GUIDES: McpClientGuide[] = [
@@ -153,11 +165,15 @@ export const MCP_CLIENT_GUIDES: McpClientGuide[] = [
 			},
 			{
 				title: "Claude Desktop",
-				configFileLabel: "claude_desktop_config.json",
-				snippetKind: "json",
+				configFileLabel: "Remote MCP server URL",
+				snippetKind: "text",
 				analyticsClient: "claude_desktop",
-				steps: ["Open your Claude Desktop config file.", "Paste the configuration below under mcpServers.", "Restart Claude Desktop."],
-				getSnippet: getMcpRemoteConfigJson,
+				steps: [
+					"Open Customize > Connectors, then Add custom connector. Team and Enterprise users may need an owner to add it first.",
+					"Name the connector Dashboard Icons, paste the URL below, and continue.",
+					"Choose No sign in for public icon tools, then add and enable the connector. Sign in instead to use account tools.",
+				],
+				getSnippet: getMcpEndpointUrl,
 			},
 		],
 	},
@@ -166,14 +182,14 @@ export const MCP_CLIENT_GUIDES: McpClientGuide[] = [
 		label: "Windsurf",
 		iconUrl: "https://cdn.simpleicons.org/windsurf",
 		monochromeIcon: true,
-		configFileLabel: ".codeium/windsurf/mcp_config.json",
+		configFileLabel: "Cascade mcp_config.json",
+		prerequisites: ["These settings are for the legacy Cascade agent in Windsurf / Devin Desktop."],
 		snippetKind: "json",
 		steps: [
-			"Navigate to Settings > Windsurf Settings > Cascade.",
-			'Click "Manage MCPs", then "View raw config".',
+			'Open the Cascade panel actions menu, then "Open MCP config file" in the MCPs section.',
 			"Paste the configuration below and refresh the MCP list if needed.",
 		],
-		getSnippet: getMcpRemoteConfigJson,
+		getSnippet: getWindsurfMcpConfigJson,
 	},
 	{
 		id: "zed",
@@ -183,9 +199,9 @@ export const MCP_CLIENT_GUIDES: McpClientGuide[] = [
 		configFileLabel: ".config/zed/settings.json",
 		snippetKind: "json",
 		steps: [
-			"Go to Settings > Open Settings.",
-			"In settings.json, add the context server block below.",
-			"Restart Zed if the server does not appear.",
+			"Run zed: open settings file from the command palette.",
+			"In settings.json, add the context server block below and save.",
+			"Follow the client sign-in prompt if you want to use account tools.",
 		],
 		getSnippet: getZedMcpConfigJson,
 	},
@@ -195,6 +211,7 @@ export const MCP_CLIENT_GUIDES: McpClientGuide[] = [
 		useLucideIcon: "plug",
 		monochromeIcon: false,
 		configFileLabel: "client MCP config",
+		prerequisites: ["Use this stdio bridge if your client does not support remote HTTP servers."],
 		snippetKind: "json",
 		steps: [
 			"Paste the configuration below into your client's MCP settings.",

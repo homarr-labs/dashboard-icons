@@ -61,26 +61,24 @@ describe("mcp-setup-config", () => {
 		const json = getMcpRemoteConfigJson(WEB)
 		const parsed = JSON.parse(json)
 		expect(parsed.mcpServers["dashboard-icons"].command).toBe("npx")
-		expect(parsed.mcpServers["dashboard-icons"].args).toContain(ENDPOINT)
+		expect(parsed.mcpServers["dashboard-icons"].args).toEqual(["-y", "mcp-remote@0.15.1", ENDPOINT])
 	})
 
 	it("builds vscode config json", () => {
 		const json = getVscodeMcpConfigJson(WEB)
 		const parsed = JSON.parse(json)
-		expect(parsed.servers["dashboard-icons"].args).toContain(ENDPOINT)
+		expect(parsed.servers["dashboard-icons"]).toEqual({ type: "http", url: ENDPOINT })
 	})
 
 	it("builds zed config json", () => {
 		const json = getZedMcpConfigJson(WEB)
 		const parsed = JSON.parse(json)
-		expect(parsed.context_servers["dashboard-icons"].command).toBe("npx")
-		expect(parsed.context_servers["dashboard-icons"].args).toContain(ENDPOINT)
+		expect(parsed.context_servers["dashboard-icons"]).toEqual({ url: ENDPOINT })
 	})
 
 	it("builds claude code command", () => {
 		const command = getClaudeCodeAddCommand(WEB)
-		expect(command).toContain("claude mcp add dashboard-icons")
-		expect(command).toContain(ENDPOINT)
+		expect(command).toBe(`claude mcp add --transport http dashboard-icons ${ENDPOINT}`)
 	})
 
 	it("lists the public MCP tools", () => {
@@ -110,6 +108,44 @@ describe("mcp-setup-config", () => {
 			if (guide.iconUrl) {
 				expect(guide.iconUrl).toMatch(/^https:\/\//)
 			}
+		}
+	})
+})
+
+describe("native MCP setup guides", () => {
+	it("uses the remote Cascade schema for Windsurf", () => {
+		const guide = MCP_CLIENT_GUIDES.find((item) => item.id === "windsurf")
+		expect(JSON.parse(guide?.getSnippet?.(WEB) ?? "")).toEqual({
+			mcpServers: { "dashboard-icons": { serverUrl: ENDPOINT } },
+		})
+	})
+
+	it("gives Claude Desktop a copyable endpoint instead of a local config", () => {
+		const desktop = MCP_CLIENT_GUIDES.find((guide) => guide.id === "claude")?.variants?.[1]
+		expect(desktop?.snippetKind).toBe("text")
+		expect(desktop?.getSnippet(WEB)).toBe(ENDPOINT)
+		expect(desktop?.steps.join(" ")).toContain("Connectors")
+		expect(desktop?.steps.join(" ")).not.toContain("Restart")
+	})
+
+	it("reserves the pinned stdio bridge for Custom MCP client", () => {
+		const snippets = getGuideSnippets(WEB)
+		expect(snippets).toHaveLength(7)
+		for (const { guide, snippet } of snippets) {
+			if (guide.id === "custom") {
+				expect(snippet).toContain("mcp-remote@0.15.1")
+			} else {
+				expect(snippet).not.toContain("mcp-remote")
+				expect(snippet).not.toContain("npx")
+			}
+		}
+	})
+
+	it("preserves alternate origins for every guide", () => {
+		const origin = "https://icons.example.test"
+		for (const { snippet } of getGuideSnippets(origin)) {
+			expect(snippet).toContain(`${origin}/api/mcp`)
+			expect(snippet).not.toContain(WEB)
 		}
 	})
 })
