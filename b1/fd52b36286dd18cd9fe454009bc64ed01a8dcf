@@ -1,0 +1,19 @@
+web/tests/external-icons.spec.ts
+  s_7e83464d99f8b9::t_cc2fbd3be8ae8f 36,41,51-57,59,74,79,90,99-100,107,112,126,134,151,164,185,198
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "b1fd52b36286dd18cd9fe454009bc64ed01a8dcf",
+  "prompts": {},
+  "sessions": {
+    "s_7e83464d99f8b9": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "9770c66b-8986-4256-8453-3f2f4f37ef6f",
+        "model": "unknown"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
