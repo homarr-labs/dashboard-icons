@@ -1,0 +1,25 @@
+@layer utilities {
+	[data-submission-form] [data-slot="button"]:not(.bg-primary):not(.text-muted-foreground):hover {
+		color: var(--foreground);
+	}
+
+	@media (width < 64rem) {
+		body:has([data-submission-actions]) footer {
+			padding-bottom: calc(5rem + env(safe-area-inset-bottom));
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		body:has([data-submission-form])
+			:is(
+				[data-slot="dialog-content"],
+				[data-slot="dialog-overlay"],
+				[data-slot="alert-dialog-content"],
+				[data-slot="alert-dialog-overlay"]
+			),
+		[data-submission-form] [data-slot="button"] {
+			animation: none;
+			transition: none;
+		}
+	}
+}

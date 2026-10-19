@@ -65,7 +65,22 @@ function prepareAssets(input: SubmissionInput): PreparedAssets {
 	return { ok: true, files, filenames, base: ASSET_EXTENSIONS[baseType] }
 }
 
-export async function createSubmission(pb: SubmissionPocketBase, userId: string, input: SubmissionInput): Promise<SubmissionOutcome> {
+export type PreparedSubmission =
+	| { ok: false; error: string }
+	| {
+			ok: true
+			data: {
+				name: string
+				assets: File[]
+				created_by: string
+				status: "pending"
+				description: string
+				target_submission: string
+				extras: Submission["extras"]
+			}
+	  }
+
+export function prepareSubmission(userId: string, input: SubmissionInput): PreparedSubmission {
 	if (input.name.length > MAX_NAME_LENGTH || !ICON_NAME_REGEX.test(input.name))
 		return { ok: false, error: "Icon name must be lowercase letters and numbers separated by single hyphens" }
 	if (input.description.length > MAX_DESCRIPTION_LENGTH)
@@ -80,8 +95,9 @@ export async function createSubmission(pb: SubmissionPocketBase, userId: string,
 		...variantExtras(prepared.filenames),
 	}
 
-	const record = await pb.collection("submissions").create(
-		{
+	return {
+		ok: true,
+		data: {
 			name: input.name,
 			assets: prepared.files,
 			created_by: userId,
@@ -90,7 +106,12 @@ export async function createSubmission(pb: SubmissionPocketBase, userId: string,
 			target_submission: input.targetSubmission,
 			extras,
 		},
-		{ requestKey: null },
-	)
+	}
+}
+
+export async function createSubmission(pb: SubmissionPocketBase, userId: string, input: SubmissionInput): Promise<SubmissionOutcome> {
+	const prepared = prepareSubmission(userId, input)
+	if (!prepared.ok) return prepared
+	const record = await pb.collection("submissions").create(prepared.data, { requestKey: null })
 	return { ok: true, record }
 }

@@ -1,444 +1,378 @@
 "use client"
 
-import { FileType, FolderOpen, Plus, Send, Sparkles, Tag, Upload, X } from "lucide-react"
+import "@/components/submission/submission-form.css"
+
+import { Check, Eye, History, Loader2, Pencil, Plus, UploadCloud } from "lucide-react"
 import Link from "next/link"
+import { useState } from "react"
+import { useDropzone } from "react-dropzone"
 import { toast } from "sonner"
-import { CustomVariantInput } from "@/components/custom-variant-input"
-import { IconPreviewCard } from "@/components/icon-card"
-import { IconNameCombobox } from "@/components/icon-name-combobox"
-import { IconSubmissionGuidelines } from "@/components/icon-submission-guidelines"
-import { MagicCardPointerProvider } from "@/components/magicui/magic-card-pointer"
-import { Badge } from "@/components/ui/badge"
+import { EditIconPicker } from "@/components/submission/edit-icon-picker"
+import { SubmissionCard } from "@/components/submission/submission-card"
+import { SubmissionPreview } from "@/components/submission/submission-preview"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Dropzone, DropzoneContent, DropzoneEmptyState } from "@/components/ui/shadcn-io/dropzone"
-import { Textarea } from "@/components/ui/textarea"
-import { VariantPreview } from "@/components/variant-preview"
-import { ACCEPTED_FILE_TYPES, AVAILABLE_CATEGORIES, MAX_FILE_SIZE, useIconSubmissionForm } from "@/hooks/use-icon-submission-form"
-import { useIsMobile } from "@/hooks/use-mobile"
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import { useSubmissionDrafts } from "@/hooks/use-submission-drafts"
+import { isEmptyDraft, moveDraftAssets, newSubmissionDraft, sameProductSuggestion } from "@/lib/submission-drafts"
 import { cn } from "@/lib/utils"
 
-export function IconSubmissionContent() {
-	return (
-		<div className="flex flex-col gap-6">
-			<div className="text-center space-y-2">
-				<h3 className="text-2xl font-semibold">
-					It looks like we don't have that one yet...
-					<br />
-				</h3>
-				<p className="text-muted-foreground">
-					Thankfully, this website is made by people just like you.
-					<br />
-					You can submit your icons using{" "}
-					<Link href="/submit" className="text-primary underline">
-						our submission form
-					</Link>{" "}
-					directly on the website.
-				</p>
-			</div>
-		</div>
-	)
-}
+export { IconSubmissionContent } from "@/components/legacy-icon-submission-form"
 
 export function IconSubmissionForm() {
-	const isMobile = useIsMobile()
-	const {
-		form,
-		filePreviews,
-		isSubmitting,
-		handleFileDrop,
-		handleAddAlias,
-		handleRemoveAlias,
-		toggleCategory,
-		resetForm,
-		iconNameValidator,
-		setSelectedIcon,
-		variants,
-		customNames,
-		addCustomVariant,
-		removeCustomVariant,
-	} = useIconSubmissionForm()
-
-	const hasAnyPreview = Object.keys(filePreviews).length > 0
-
+	const form = useSubmissionDrafts()
+	const [mode, setMode] = useState<"submit" | "edit">("submit")
+	const [editSearch, setEditSearch] = useState("")
+	const [rejectedOnly, setRejectedOnly] = useState(false)
+	const [previewOpen, setPreviewOpen] = useState(false)
+	const [collapsed, setCollapsed] = useState(false)
+	const dropzone = useDropzone({ noClick: true, noKeyboard: true, disabled: form.sending, onDrop: (files) => form.addFiles(files) })
+	const ownRejected = form.hints.data?.filter((item) => item.mine && item.status === "rejected") ?? []
+	const edit = (name = "", onlyRejected = false) => {
+		setEditSearch(name)
+		setRejectedOnly(onlyRejected)
+		setMode("edit")
+	}
+	const sendButton = (
+		<Button type="button" disabled={!form.canSend} onClick={form.send} className="min-h-11 whitespace-normal text-secondary-foreground">
+			{form.sending && <Loader2 className="animate-spin motion-reduce:animate-none" aria-hidden />}
+			{form.sending ? "Sending…" : `Send ${form.filled.length || ""} ${form.filled.length === 1 ? "Submission" : "Submissions"}`}
+		</Button>
+	)
 	return (
 		<div
-			className={cn(
-				"w-full max-w-7xl mx-auto [&_button]:min-h-11 [&_button]:min-w-11 [&_input:not([type=file])]:min-h-11 [&_[role=option]]:min-h-11 [&_button:focus-visible]:outline-2 [&_button:focus-visible]:outline-ring [&_button:focus-visible]:outline-offset-2",
-				isMobile && "pb-24",
-			)}
+			className="mx-auto max-w-6xl pb-32 lg:pb-6 [&_button]:min-h-11 [&_input:not([type=file])]:min-h-11 [&_button:focus-visible]:outline-2 [&_button:focus-visible]:outline-offset-2 [&_button:focus-visible]:outline-ring"
 			data-submission-form
 		>
-			<div className="grid lg:grid-cols-4 gap-6">
-				<div className="lg:col-span-3 space-y-6">
-					<form
-						onSubmit={(e) => {
-							e.preventDefault()
-							e.stopPropagation()
-							form.handleSubmit()
-						}}
-						className="space-y-6"
-					>
-						<Card className="group hover:shadow-xl transition-all duration-300 border-0 shadow-lg overflow-hidden border-t-4 border-t-primary rounded-none">
-							<CardHeader className="px-4 sm:px-6">
-								<div className="flex items-center gap-3">
-									<div className="h-8 w-8 sm:h-10 sm:w-10 bg-primary/10 flex items-center justify-center shrink-0">
-										<Sparkles className="h-4 w-4 sm:h-5 sm:w-5 text-primary" />
-									</div>
-									<div>
-										<CardTitle className="text-lg sm:text-xl">Icon Identity</CardTitle>
-										<CardDescription className="text-xs sm:text-sm">
-											Choose an icon name or select a submission to propose an update
-										</CardDescription>
-									</div>
-								</div>
-							</CardHeader>
-							<CardContent className="space-y-4 px-4 sm:px-6">
-								<form.Field name="iconName" validators={{ onChange: iconNameValidator }}>
-									{(field) => (
-										<div className="space-y-2">
-											<Label className="text-sm font-medium">Icon Name / ID</Label>
-											<IconNameCombobox
-												value={field.state.value}
-												onValueChange={field.handleChange}
-												onIconSelected={setSelectedIcon}
-												error={field.state.meta.errors.join(", ")}
-												isInvalid={!field.state.meta.isValid && field.state.meta.isTouched}
-											/>
-											<p className="text-xs text-muted-foreground">Use lowercase letters, numbers, and hyphens only (e.g., my-app-icon)</p>
-										</div>
-									)}
-								</form.Field>
-
-								<form.Field name="description">
-									{(field) => (
-										<div className="space-y-2">
-											<Label className="text-sm font-medium">Description (Optional)</Label>
-											<Textarea
-												placeholder="Brief description of the icon or the service/application it represents..."
-												value={field.state.value}
-												onChange={(e) => field.handleChange(e.target.value)}
-												rows={2}
-												className="resize-none"
-											/>
-											<p className="text-xs text-muted-foreground">This helps reviewers understand your submission</p>
-										</div>
-									)}
-								</form.Field>
-							</CardContent>
-						</Card>
-
-						<Card className="group hover:shadow-xl transition-all duration-300 border-0 shadow-lg overflow-hidden border-t-4 border-t-blue-500 rounded-none">
-							<CardHeader className="px-4 sm:px-6">
-								<div className="flex items-center gap-3">
-									<div className="h-8 w-8 sm:h-10 sm:w-10 bg-blue-500/10 flex items-center justify-center shrink-0">
-										<FileType className="h-4 w-4 sm:h-5 sm:w-5 text-blue-500" />
-									</div>
-									<div>
-										<CardTitle className="text-lg sm:text-xl">File Uploads</CardTitle>
-										<CardDescription className="text-xs sm:text-sm">Upload SVG or PNG icons (max 5MB each)</CardDescription>
-									</div>
-								</div>
-							</CardHeader>
-							<CardContent className="space-y-4 px-4 sm:px-6">
-								<IconSubmissionGuidelines />
-
-								<form.Field name="files">
-									{(field) => (
-										<div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
-											{variants.map((variant) => {
-												const files = field.state.value[variant.id]
-												const preview = filePreviews[variant.id]
-												const isBase = variant.id === "base"
-												return (
-													<div
-														key={variant.id}
-														className={cn(
-															"relative flex min-w-0 flex-col p-4 transition-colors",
-															files ? "bg-primary/5 ring-1 ring-primary/30" : "bg-muted/30 ring-1 ring-border",
-														)}
-													>
-														<div className="mb-1 flex min-h-6 items-center gap-2 pr-10">
-															<span className="break-all font-medium text-sm">{variant.label}</span>
-															{isBase && <span className="bg-primary/20 px-1.5 py-0.5 font-medium text-[10px] text-primary">Required</span>}
-														</div>
-														<p className="mb-3 text-muted-foreground text-xs">{variant.description}</p>
-														{(files || variant.id.startsWith("custom:")) && (
-															<Button
-																type="button"
-																variant="ghost"
-																size="icon"
-																onClick={() => {
-																	if (variant.id.startsWith("custom:")) removeCustomVariant(variant.id.slice(7))
-																	else handleFileDrop(variant.id, [])
-																}}
-																aria-label={`Remove ${variant.label} variant`}
-																className="absolute top-1 right-1 size-11 hover:bg-destructive/10 hover:text-destructive"
-															>
-																<X className="size-4" />
-															</Button>
-														)}
-														<Dropzone
-															accept={ACCEPTED_FILE_TYPES}
-															maxSize={MAX_FILE_SIZE}
-															maxFiles={1}
-															onDrop={(dropped) => handleFileDrop(variant.id, dropped)}
-															onError={(error) => toast.error(error.message)}
-															src={files}
-															className={cn(
-																"mt-auto h-auto min-h-24 whitespace-normal p-3 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
-																files && "border-primary/30",
-															)}
-														>
-															<DropzoneEmptyState>
-																<div className="flex flex-col items-center gap-1">
-																	<Upload className="size-4 text-muted-foreground" />
-																	<span className="break-all font-medium text-sm">Upload {variant.label} file</span>
-																	<span className="text-muted-foreground text-xs">SVG or PNG, drag and drop or click</span>
-																</div>
-															</DropzoneEmptyState>
-															<DropzoneContent>
-																<div className="flex w-full min-w-0 flex-col gap-2">
-																	{preview && (
-																		<VariantPreview
-																			src={preview}
-																			alt={`${variant.label} preview`}
-																			background={variant.background}
-																			className="h-20 w-full"
-																		/>
-																	)}
-																	<span className="truncate font-medium text-xs">{files?.[0]?.name}</span>
-																	<span className="text-muted-foreground text-xs">Drop or click to replace</span>
-																</div>
-															</DropzoneContent>
-														</Dropzone>
-													</div>
-												)
-											})}
-										</div>
-									)}
-								</form.Field>
-								<CustomVariantInput names={customNames} onAdd={addCustomVariant} />
-							</CardContent>
-						</Card>
-
-						<Card className="group hover:shadow-xl transition-all duration-300 border-0 shadow-lg overflow-hidden border-t-4 border-t-emerald-500 rounded-none">
-							<CardHeader className="px-4 sm:px-6">
-								<div className="flex items-center gap-3">
-									<div className="h-8 w-8 sm:h-10 sm:w-10 bg-emerald-500/10 flex items-center justify-center shrink-0">
-										<Tag className="h-4 w-4 sm:h-5 sm:w-5 text-emerald-500" />
-									</div>
-									<div>
-										<CardTitle className="text-lg sm:text-xl">Metadata</CardTitle>
-										<CardDescription className="text-xs sm:text-sm">Add categories and aliases for discoverability</CardDescription>
-									</div>
-								</div>
-							</CardHeader>
-							<CardContent className="space-y-6 px-4 sm:px-6">
-								<form.Field name="categories">
-									{(field) => (
-										<div className="space-y-3">
-											<div className="flex items-center gap-2">
-												<FolderOpen className="h-4 w-4 text-muted-foreground" />
-												<Label className="text-sm font-medium">Categories</Label>
-											</div>
-											<div className="flex flex-wrap gap-2">
-												{AVAILABLE_CATEGORIES.map((category) => {
-													const isSelected = field.state.value.includes(category)
-													return (
-														<button
-															key={category}
-															type="button"
-															onClick={() => toggleCategory(category)}
-															aria-pressed={isSelected}
-															aria-label={`${category.replace(/-/g, " ")} category`}
-															className={cn(
-																"px-3 py-1.5 text-sm transition-all cursor-pointer",
-																isSelected
-																	? "bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 ring-1 ring-emerald-500/30"
-																	: "bg-muted hover:bg-muted/80",
-															)}
-														>
-															{category.replace(/-/g, " ")}
-														</button>
-													)
-												})}
-											</div>
-											<p className="text-xs text-muted-foreground">
-												Select all categories that apply to your icon. This improves discoverability.
-											</p>
-										</div>
-									)}
-								</form.Field>
-
-								<div className="space-y-3">
-									<div className="flex items-center gap-2">
-										<Tag className="h-4 w-4 text-muted-foreground" />
-										<Label className="text-sm font-medium">Aliases</Label>
-									</div>
-									<form.Field name="aliasInput">
-										{(field) => (
-											<div className="flex gap-2">
-												<Input
-													placeholder="Add alternative names..."
-													value={field.state.value}
-													onChange={(e) => field.handleChange(e.target.value)}
-													onKeyDown={(e) => {
-														if (e.key === "Enter") {
-															e.preventDefault()
-															handleAddAlias()
-														}
-													}}
-												/>
-												<Button type="button" variant="secondary" onClick={handleAddAlias} aria-label="Add alias">
-													<Plus className="h-4 w-4" />
-												</Button>
-											</div>
-										)}
-									</form.Field>
-
-									<form.Field name="aliases">
-										{(field) =>
-											field.state.value.length > 0 && (
-												<div className="flex flex-wrap gap-2">
-													{field.state.value.map((alias) => (
-														<Badge key={alias} variant="secondary" className="pr-1 bg-muted hover:bg-muted/80">
-															{alias}
-															<button
-																type="button"
-																onClick={() => handleRemoveAlias(alias)}
-																aria-label={`Remove ${alias} alias`}
-																className="ml-1.5 hover:text-destructive transition-colors"
-															>
-																<X className="h-3 w-3" />
-															</button>
-														</Badge>
-													))}
-												</div>
-											)
-										}
-									</form.Field>
-									<p className="text-xs text-muted-foreground">
-										Add alternative names or abbreviations (e.g., "VS Code" for "visual-studio-code")
-									</p>
-								</div>
-							</CardContent>
-						</Card>
-					</form>
+			<header className="mb-6 space-y-4">
+				<div>
+					<h1 className="text-2xl font-semibold tracking-tight sm:text-3xl">Submit icons</h1>
+					<p className="mt-2 max-w-prose text-sm text-muted-foreground">
+						Each Icon is its own Submission, with all of its Variants. Reviewers check them one at a time.
+					</p>
 				</div>
-
-				<div className="lg:col-span-1">
-					<div className={cn("space-y-6", !isMobile && "sticky top-20")}>
-						<Card className="border-0 shadow-lg overflow-hidden border-t-4 border-t-violet-500 rounded-none">
-							<CardHeader>
-								<div className="flex items-center gap-3">
-									<div className="h-10 w-10 bg-violet-500/10 flex items-center justify-center">
-										<Upload className="h-5 w-5 text-violet-500" />
-									</div>
-									<div>
-										<CardTitle className="text-lg">Preview</CardTitle>
-										<CardDescription>How your icons will appear</CardDescription>
-									</div>
-								</div>
-							</CardHeader>
-							<CardContent>
-								{hasAnyPreview ? (
-									<form.Subscribe selector={(state) => state.values.iconName}>
-										{(iconName) => (
-											<MagicCardPointerProvider
-												className={cn(
-													"grid gap-3",
-													isMobile ? "grid-cols-2" : "grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 2xl:grid-cols-1",
-												)}
-											>
-												{variants.map((variant) => {
-													const preview = filePreviews[variant.id]
-													if (!preview) return null
-													return (
-														<IconPreviewCard
-															key={variant.id}
-															preview={preview}
-															label={variant.label}
-															background={variant.background}
-															name={iconName || "preview"}
-														/>
-													)
-												})}
-											</MagicCardPointerProvider>
-										)}
-									</form.Subscribe>
-								) : (
-									<div className="flex flex-col items-center justify-center py-12 text-center">
-										<div className="h-16 w-16 bg-muted/50 flex items-center justify-center mb-4">
-											<Upload className="h-8 w-8 text-muted-foreground/50" />
-										</div>
-										<p className="text-sm text-muted-foreground">Upload icons to see preview</p>
-										<p className="text-xs text-muted-foreground/70 mt-1">Your icons will appear here</p>
-									</div>
+				<div className="flex flex-wrap items-center justify-between gap-3">
+					<div className="inline-flex w-full rounded-lg bg-muted p-1 sm:w-auto">
+						{(
+							[
+								{ id: "submit", label: "Submit new icons", short: "Submit", Icon: Plus },
+								{ id: "edit", label: "Edit an existing icon", short: "Edit", Icon: Pencil },
+							] as const
+						).map(({ id, label, short, Icon }) => (
+							<button
+								key={id}
+								type="button"
+								disabled={form.sending}
+								aria-pressed={mode === id && !form.sent}
+								onClick={() => {
+									setMode(id)
+									form.setSent(null)
+									setRejectedOnly(false)
+								}}
+								className={cn(
+									"flex min-h-11 flex-1 items-center justify-center gap-2 rounded-md px-4 text-sm font-medium sm:flex-none",
+									mode === id && !form.sent ? "bg-background text-foreground" : "text-muted-foreground hover:text-foreground",
 								)}
-							</CardContent>
-						</Card>
-
-						{!isMobile && (
-							<Card className="border-0 shadow-lg overflow-hidden border-t-4 border-t-primary p-2 rounded-none">
-								<CardContent className="px-2">
-									<div className="flex flex-col gap-3">
-										<form.Subscribe
-											selector={(state) => ({
-												canSubmit: state.canSubmit,
-												hasBaseFile: Boolean(state.values.files.base?.[0]),
-											})}
-										>
-											{({ canSubmit, hasBaseFile }) => (
-												<Button
-													type="button"
-													onClick={() => form.handleSubmit()}
-													disabled={!canSubmit || !hasBaseFile || isSubmitting}
-													className="w-full gap-2 bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70"
-												>
-													<Send className="h-4 w-4" />
-													{isSubmitting ? "Submitting..." : "Submit Icon"}
-												</Button>
-											)}
-										</form.Subscribe>
-										<Button type="button" variant="outline" onClick={resetForm} className="w-full" disabled={isSubmitting}>
-											Clear Form
-										</Button>
-									</div>
-								</CardContent>
-							</Card>
-						)}
+							>
+								<Icon className="size-4" aria-hidden />
+								<span className="sm:hidden">{short}</span>
+								<span className="max-sm:hidden">{label}</span>
+							</button>
+						))}
 					</div>
-				</div>
-			</div>
-
-			{isMobile && (
-				<div className="fixed bottom-0 left-0 right-0 z-50 border-t bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80 p-3">
-					<div className="flex gap-2 max-w-7xl mx-auto">
-						<Button type="button" variant="outline" onClick={resetForm} disabled={isSubmitting} className="shrink-0">
-							Clear form
+					{ownRejected.length > 0 && (
+						<Button variant="outline" disabled={form.sending} onClick={() => edit("", true)} className="max-sm:w-full">
+							<History aria-hidden />
+							Fix a rejected Submission ({ownRejected.length})
 						</Button>
-						<form.Subscribe
-							selector={(state) => ({
-								canSubmit: state.canSubmit,
-								hasBaseFile: Boolean(state.values.files.base?.[0]),
-							})}
-						>
-							{({ canSubmit, hasBaseFile }) => (
-								<Button
-									type="button"
-									onClick={() => form.handleSubmit()}
-									disabled={!canSubmit || !hasBaseFile || isSubmitting}
-									className="flex-1 gap-2 bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70"
-								>
-									<Send className="h-4 w-4" />
-									{isSubmitting ? "Submitting..." : "Submit Icon"}
-								</Button>
-							)}
-						</form.Subscribe>
+					)}
+				</div>
+			</header>
+			{form.catalog.isError && (
+				<p aria-live="polite" className="mb-4 text-sm text-muted-foreground">
+					{form.catalog.error.message}
+					<Button variant="ghost" onClick={() => form.catalog.refetch()}>
+						Retry suggestions
+					</Button>
+				</p>
+			)}
+			{form.hints.isError && (
+				<p aria-live="polite" className="mb-4 text-sm text-muted-foreground">
+					Pending Submission hints could not be loaded.
+					<Button variant="ghost" onClick={() => form.hints.refetch()}>
+						Retry hints
+					</Button>
+				</p>
+			)}
+			{form.catalog.data?.customVariantError && (
+				<p aria-live="polite" className="mb-4 text-sm text-muted-foreground">
+					{form.catalog.data.customVariantError}
+					<Button variant="ghost" onClick={() => form.catalog.refetch()}>
+						Retry suggestions
+					</Button>
+				</p>
+			)}
+			{form.sent && (
+				<section className="mx-auto max-w-2xl space-y-5 rounded-xl border bg-background p-5" aria-live="polite">
+					<div className="flex items-center gap-3">
+						<Check className="size-8 shrink-0 text-emerald-700 dark:text-emerald-300" aria-hidden />
+						<div>
+							<h2 className="text-xl font-semibold">Sent for review</h2>
+							<p className="text-sm text-muted-foreground">
+								{form.sent.length} independent {form.sent.length === 1 ? "Submission was" : "Submissions were"} added to the review queue.
+							</p>
+						</div>
 					</div>
+					<ul className="divide-y rounded-lg border">
+						{form.sent.map((record) => (
+							<li key={record.id}>
+								<Link
+									href={`/community/submissions/${record.id}`}
+									className="flex min-h-14 flex-wrap items-center justify-between gap-2 p-3 hover:bg-muted/50"
+								>
+									<span className="break-all font-mono text-sm font-semibold">{record.name}</span>
+									<span className="text-sm text-muted-foreground">View Submission →</span>
+								</Link>
+							</li>
+						))}
+					</ul>
+					<p className="text-sm text-muted-foreground">
+						A Rejection is never final. You can fix the feedback and resubmit the same Submission.
+					</p>
+					<Button
+						onClick={() => {
+							form.setSent(null)
+							form.setSelected(null)
+							setCollapsed(false)
+						}}
+					>
+						Submit more icons
+					</Button>
+				</section>
+			)}
+			{!form.sent && (
+				<div hidden={mode !== "edit"}>
+					<EditIconPicker
+						key={`${editSearch}-${rejectedOnly}`}
+						names={form.catalog.data?.names ?? []}
+						submissions={form.hints.data ?? []}
+						initialSearch={editSearch}
+						rejectedOnly={rejectedOnly}
+					/>
+				</div>
+			)}
+			{!form.sent && mode === "submit" && (
+				<div className="grid min-w-0 grid-cols-1 gap-6 lg:grid-cols-[minmax(0,1fr)_360px]">
+					<fieldset disabled={form.sending || form.importing} className="min-w-0 space-y-3">
+						<legend className="sr-only">New Icons</legend>
+						<div
+							{...dropzone.getRootProps()}
+							className={cn("relative min-w-0 space-y-3", dropzone.isDragActive && "rounded-xl outline-2 outline-offset-4 outline-primary")}
+						>
+							<input {...dropzone.getInputProps()} aria-label="Upload files for several Icons" />
+							{form.importing && (
+								<p aria-live="polite" className="rounded-lg bg-muted/50 p-3 text-sm">
+									Loading known Variant names and sorting your files…
+								</p>
+							)}
+							<div className="flex flex-wrap items-center justify-between gap-3 rounded-lg bg-muted/40 p-3">
+								<p className="max-w-prose text-sm text-muted-foreground">
+									Drop SVG or PNG files here, or choose files. Recognised suffixes sort into one Icon’s Variants. Up to 12 Icons, 99 files
+									per Icon, 5 MB per file, 60 MB total.
+								</p>
+								<Button variant="outline" onClick={dropzone.open}>
+									<UploadCloud aria-hidden />
+									Choose files
+								</Button>
+							</div>
+							{dropzone.isDragActive && (
+								<p aria-live="polite" className="rounded-lg bg-primary/10 p-3 text-sm font-medium">
+									Drop to sort files into Icons. Duplicate slots will ask which file to keep.
+								</p>
+							)}
+							{form.drafts.map((draft, index) => {
+								const suggestionSlugs = new Set([...form.knownSlugs, ...(form.hints.data ?? []).map((item) => item.name)])
+								const suggestion = sameProductSuggestion(draft, form.drafts, suggestionSlugs)
+								const pending = form.hints.data?.filter((item) => item.name === draft.name) ?? []
+								return (
+									<SubmissionCard
+										key={draft.id}
+										draft={draft}
+										index={index + 1}
+										open={!collapsed && form.current?.id === draft.id}
+										error={form.cardErrors[draft.id]}
+										customNames={form.catalog.data?.customVariantNames ?? []}
+										onSelect={() => {
+											setCollapsed(form.current?.id === draft.id && !collapsed)
+											form.setSelected(draft.id)
+										}}
+										onChange={(patch) => form.update(draft.id, patch)}
+										onFiles={(files) => form.addFiles(files, draft.id)}
+										onRemove={() => {
+											form.setDrafts((items) => {
+												const next = items.filter((item) => item.id !== draft.id)
+												return next.length ? next : [newSubmissionDraft()]
+											})
+											form.setSelected(null)
+										}}
+										onPreview={() => {
+											form.setSelected(draft.id)
+											setPreviewOpen(true)
+										}}
+										onApplyCategories={() => {
+											form.setDrafts((items) =>
+												items.map((item) =>
+													item.id !== draft.id && !isEmptyDraft(item)
+														? { ...item, categories: [...new Set([...item.categories, ...draft.categories])] }
+														: item,
+												),
+											)
+											toast.success("Categories added to the other filled cards")
+										}}
+									>
+										{form.knownSlugs.has(draft.name) && (
+											<Button variant="outline" onClick={() => edit(draft.name)}>
+												Edit {draft.name} instead
+											</Button>
+										)}
+										{suggestion && (
+											<div className="space-y-2 rounded-lg bg-muted/50 p-3">
+												<p className="break-words text-sm">
+													Looks like a Variant of <strong className="font-mono">{suggestion.name}</strong>. Is this the same product?
+												</p>
+												<div className="flex flex-wrap gap-2">
+													{suggestion.draftId && (
+														<Button
+															variant="outline"
+															onClick={() => {
+																const targetId = suggestion.draftId
+																if (!targetId) return
+																form.setDrafts((items) => moveDraftAssets(items, draft.id, targetId, suggestion.variant))
+																form.setSelected(targetId)
+																setCollapsed(false)
+															}}
+														>
+															Move onto {suggestion.name}
+														</Button>
+													)}
+													{suggestionSlugs.has(suggestion.name) && (
+														<Button variant="outline" onClick={() => edit(suggestion.name)}>
+															Edit {suggestion.name}
+														</Button>
+													)}
+													<span className="self-center text-sm text-muted-foreground">
+														Suggestion only, keeping a separate Icon is allowed.
+													</span>
+												</div>
+											</div>
+										)}
+										{pending.map((item) => (
+											<div key={item.id} className="space-y-2 rounded-lg bg-muted/50 p-3">
+												<p className="text-sm">
+													{item.mine
+														? `You already have a ${item.status} Submission for this Icon.`
+														: "Another contributor has a pending Submission for this Icon. You can propose an update to theirs."}
+													{item.status === "rejected" && " Rejections are never final."}
+												</p>
+												<Button variant="outline" onClick={() => edit(draft.name)}>
+													{item.mine ? "Find your Submission" : "Propose an update instead"}
+												</Button>
+												<p className="text-sm text-muted-foreground">This suggestion does not block sending.</p>
+											</div>
+										))}
+									</SubmissionCard>
+								)
+							})}
+						</div>
+						<Button
+							variant="outline"
+							className="min-h-12 w-full border-dashed"
+							onClick={() => {
+								const draft = newSubmissionDraft()
+								form.setDrafts((items) => [...items, draft])
+								form.setSelected(draft.id)
+								setCollapsed(false)
+							}}
+						>
+							<Plus aria-hidden />
+							Add new Submission
+						</Button>
+					</fieldset>
+					<aside className="min-w-0 space-y-4 lg:sticky lg:top-20 lg:max-h-[calc(100dvh-6rem)] lg:overflow-y-auto lg:self-start">
+						<div className="max-lg:hidden">
+							<SubmissionPreview draft={form.current} />
+						</div>
+						<section className="space-y-3 rounded-xl border bg-background p-4">
+							<h2 className="font-semibold">Ready to send</h2>
+							<ul className="max-h-60 space-y-1 overflow-y-auto">
+								{form.filled.map((draft) => (
+									<li key={draft.id}>
+										<button
+											type="button"
+											onClick={() => {
+												form.setSelected(draft.id)
+												setCollapsed(false)
+												document.querySelector(`[data-submission-card="${draft.id}"]`)?.scrollIntoView({ block: "start" })
+											}}
+											className="flex min-h-11 w-full min-w-0 items-center justify-between gap-2 rounded px-1 text-left hover:bg-muted/50"
+										>
+											<span className="truncate font-mono text-sm">{draft.name || "Untitled icon"}</span>
+											<span className={cn("shrink-0 text-sm", form.cardErrors[draft.id] ? "text-destructive" : "text-muted-foreground")}>
+												{form.cardErrors[draft.id]
+													? "Fix needed"
+													: `${draft.assets.length} ${draft.assets.length === 1 ? "file" : "files"}`}
+											</span>
+										</button>
+									</li>
+								))}
+							</ul>
+							<p className="text-sm text-muted-foreground">
+								{form.filled.length} Icons · {form.fileCount} files · {(form.bytes / 1024 / 1024).toFixed(1)} / 60 MB
+							</p>
+							{form.limitError && (
+								<p role="alert" className="text-sm text-destructive">
+									{form.limitError}
+								</p>
+							)}
+							{form.sendError && (
+								<p role="alert" className="break-words text-sm text-destructive">
+									{form.sendError}
+								</p>
+							)}
+							<p className="text-sm text-muted-foreground">All Icons are saved together, or none are. Each is reviewed separately.</p>
+							<div className="max-lg:hidden [&>button]:w-full">{sendButton}</div>
+						</section>
+					</aside>
+					<div
+						data-submission-actions
+						className="fixed inset-x-0 bottom-0 z-40 flex items-center gap-2 border-t bg-background px-3 py-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] lg:hidden"
+					>
+						<Button variant="outline" className="min-w-11" aria-label="Preview selected Icon" onClick={() => setPreviewOpen(true)}>
+							<Eye aria-hidden />
+							<span className="sr-only sm:not-sr-only">Preview</span>
+						</Button>
+						<p
+							className={cn(
+								"min-w-0 flex-1 text-sm",
+								Object.keys(form.cardErrors).length > 0 || form.limitError ? "text-destructive" : "text-muted-foreground",
+							)}
+						>
+							{Object.keys(form.cardErrors).length > 0 || form.limitError
+								? "Fix the highlighted cards"
+								: `${form.fileCount} files, ${form.filled.length} Icons`}
+						</p>
+						{sendButton}
+					</div>
+					<Dialog open={previewOpen} onOpenChange={setPreviewOpen}>
+						<DialogContent
+							aria-describedby={undefined}
+							className="max-h-[85dvh] max-w-[calc(100%-2rem)] overflow-y-auto sm:max-w-md [&>button]:top-1 [&>button]:right-1 [&>button]:flex [&>button]:size-11 [&>button]:items-center [&>button]:justify-center"
+						>
+							<DialogHeader>
+								<DialogTitle>Selected Icon preview</DialogTitle>
+							</DialogHeader>
+							<SubmissionPreview draft={form.current} embedded />
+						</DialogContent>
+					</Dialog>
 				</div>
 			)}
 		</div>

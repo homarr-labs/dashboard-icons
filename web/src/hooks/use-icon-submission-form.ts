@@ -34,10 +34,10 @@ export const ACCEPTED_FILE_TYPES: Record<string, string[]> = Object.fromEntries(
 
 export const MAX_FILE_SIZE = MAX_ASSET_BYTES
 
-export function useIconSubmissionForm() {
+export function useIconSubmissionForm(initialIcon?: IconNameOption) {
 	const [filePreviews, setFilePreviews] = useState<Record<string, string>>({})
 	const [isSubmitting, setIsSubmitting] = useState(false)
-	const [selectedIcon, setSelectedIcon] = useState<IconNameOption | null>(null)
+	const [selectedIcon, setSelectedIcon] = useState<IconNameOption | null>(initialIcon ?? null)
 	const [customNames, setCustomNames] = useState<string[]>([])
 	const variants = [...VARIANTS, ...customNames.map((name): VariantConfig => ({ id: `custom:${name}`, ...variantKind(`custom:${name}`) }))]
 	const isSubmittingRef = useRef(false)
@@ -45,7 +45,7 @@ export function useIconSubmissionForm() {
 
 	const form = useForm({
 		defaultValues: {
-			iconName: "",
+			iconName: initialIcon?.value ?? "",
 			files: {} as Record<string, File[]>,
 			aliases: [] as string[],
 			aliasInput: "",
@@ -190,7 +190,7 @@ export function useIconSubmissionForm() {
 		if (isSubmittingRef.current) return
 		form.reset()
 		setFilePreviews({})
-		setSelectedIcon(null)
+		setSelectedIcon(initialIcon ?? null)
 		setCustomNames([])
 	}
 

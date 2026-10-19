@@ -28,7 +28,7 @@ export function LicenseNotice() {
 
 	return (
 		<AnimatePresence>
-			{isVisible && pathname !== "/dashboard" && (
+			{isVisible && pathname !== "/dashboard" && pathname !== "/submit" && (
 				<motion.div
 					initial={{ opacity: 0, y: 20 }}
 					animate={{ opacity: 1, y: 0 }}
