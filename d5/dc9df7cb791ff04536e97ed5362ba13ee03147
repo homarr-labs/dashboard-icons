@@ -1,0 +1,19 @@
+web/src/components/submissions-data-table.tsx
+  s_b6ba0fabea817a::t_2ab22bd2ec860b 513,515,531,542,553,567-569,583,593,637-638,791-792
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "d5dc9df7cb791ff04536e97ed5362ba13ee03147",
+  "prompts": {},
+  "sessions": {
+    "s_b6ba0fabea817a": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "86a24cc3-4212-4ceb-976e-cccb97b70270",
+        "model": "unknown"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
