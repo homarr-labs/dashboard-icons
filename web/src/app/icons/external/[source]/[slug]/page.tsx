@@ -1,7 +1,7 @@
-import type { Metadata, ResolvingMetadata } from "next"
+import type { Metadata } from "next"
 import { notFound } from "next/navigation"
 import { IconDetails } from "@/components/icon-details"
-import { EXTERNAL_SOURCES, isExternalSourceId, WEB_URL } from "@/constants"
+import { EXTERNAL_SOURCES, isExternalSourceId, SIMPLE_ICONS_DISCLAIMER_URL, WEB_URL } from "@/constants"
 import { getExternalIconOgPath, getExternalIconPagePath, getExternalIconPreviewUrl, resolveExternalIconUrl } from "@/lib/external-icon-urls"
 import { getExternalIconBySourceAndSlug, getExternalIcons } from "@/lib/external-icons"
 import type { AuthorData, ExternalIconRecord } from "@/types/icons"
@@ -35,7 +35,7 @@ async function getIcon(params: Params): Promise<ExternalIconRecord> {
 	return icon
 }
 
-export async function generateMetadata({ params }: Props, _parent: ResolvingMetadata): Promise<Metadata> {
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
 	const icon = await getIcon(params)
 	const sourceConfig = EXTERNAL_SOURCES[icon.source]
 	const formattedName = icon.external.name
@@ -120,6 +120,8 @@ export default async function ExternalIconPage({ params }: { params: Params }) {
 	const icon = await getIcon(params)
 	const sourceConfig = EXTERNAL_SOURCES[icon.source]
 	const previewUrl = getExternalIconPreviewUrl(icon.external)
+	const licenseFallbackUrl =
+		icon.source === "simpleicons" ? SIMPLE_ICONS_DISCLAIMER_URL : icon.external.source_url || sourceConfig.authorUrl
 
 	const authorData: AuthorData = {
 		id: sourceConfig.id,
@@ -139,9 +141,10 @@ export default async function ExternalIconPage({ params }: { params: Params }) {
 						"@context": "https://schema.org",
 						"@type": "ImageObject",
 						contentUrl: previewUrl,
-						license: icon.external.license_url || undefined,
-						acquireLicensePage: icon.external.license_url || icon.external.source_url,
+						license: icon.external.license ? icon.external.license_url : undefined,
+						acquireLicensePage: icon.external.license_url || licenseFallbackUrl,
 						creditText: icon.external.attribution,
+						copyrightNotice: icon.source === "selfhst" ? "Icons by selfh.st" : undefined,
 						creator: {
 							"@type": "Organization",
 							name: sourceConfig.authorName,

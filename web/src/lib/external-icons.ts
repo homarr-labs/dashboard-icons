@@ -30,6 +30,13 @@ function toExternalIconRecord(icon: ExternalIcon, { lite = false } = {}): Extern
 	const formats = icon.formats ?? []
 	const aliases = icon.aliases ?? []
 	const categories = icon.categories ?? []
+	let license = icon.license || ""
+	if (!license && icon.source !== "simpleicons") license = sourceConfig.license
+	let licenseUrl = icon.license_url || undefined
+	if (license && !licenseUrl) {
+		if (license === sourceConfig.license) licenseUrl = sourceConfig.licenseUrl
+		else if (license !== "custom") licenseUrl = `https://spdx.org/licenses/${encodeURIComponent(license)}.html`
+	}
 	const lightKey = sourceConfig.toneKeys.light
 	const darkKey = sourceConfig.toneKeys.dark
 	const colors =
@@ -56,7 +63,15 @@ function toExternalIconRecord(icon: ExternalIcon, { lite = false } = {}): Extern
 				source_url: "",
 				brand_color: icon.brand_color,
 			}
-		: { ...icon, formats, aliases, categories }
+		: {
+				...icon,
+				formats,
+				aliases,
+				categories,
+				license,
+				license_url: licenseUrl,
+				attribution: icon.attribution || `Icon by ${sourceConfig.label}`,
+			}
 
 	return {
 		source: icon.source,

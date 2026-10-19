@@ -5,6 +5,7 @@ export const METADATA_URL = "https://raw.githubusercontent.com/homarr-labs/dashb
 export const WEB_URL = "https://dashboardicons.com"
 export const REPO_NAME = "homarr-labs/dashboard-icons"
 export const APACHE_LICENSE_URL = "https://www.apache.org/licenses/LICENSE-2.0"
+export const SIMPLE_ICONS_DISCLAIMER_URL = "https://github.com/simple-icons/simple-icons/blob/develop/DISCLAIMER.md"
 
 export const getDescription = (totalIcons: number) =>
 	`A collection of ${totalIcons} curated icons and logos for services, applications and tools, designed specifically for dashboards and app directories.`
@@ -25,6 +26,7 @@ export interface ExternalSourceConfig {
 	authorLogin: string
 	authorUrl: string
 	license: string
+	licenseUrl: string
 	pbFilter: string
 	toneKeys: Record<ExternalToneKey, ExternalToneKey>
 	monochromeTones: boolean
@@ -41,6 +43,7 @@ export const EXTERNAL_SOURCES: Record<ExternalSourceId, ExternalSourceConfig> = 
 		authorLogin: "selfhst",
 		authorUrl: "https://selfh.st/icons/",
 		license: "CC BY 4.0",
+		licenseUrl: "https://creativecommons.org/licenses/by/4.0/",
 		pbFilter: "selfhst",
 		toneKeys: { light: "light", dark: "dark" },
 		monochromeTones: false,
@@ -55,6 +58,7 @@ export const EXTERNAL_SOURCES: Record<ExternalSourceId, ExternalSourceConfig> = 
 		authorLogin: "lobehub",
 		authorUrl: "https://github.com/lobehub/lobe-icons",
 		license: "MIT",
+		licenseUrl: "https://github.com/lobehub/lobe-icons/blob/master/LICENSE",
 		pbFilter: "lobehub",
 		toneKeys: { light: "dark", dark: "light" },
 		monochromeTones: false,
@@ -69,6 +73,7 @@ export const EXTERNAL_SOURCES: Record<ExternalSourceId, ExternalSourceConfig> = 
 		authorLogin: "simple-icons",
 		authorUrl: "https://github.com/simple-icons/simple-icons",
 		license: "CC0-1.0",
+		licenseUrl: "https://creativecommons.org/publicdomain/zero/1.0/",
 		pbFilter: "simpleicons",
 		toneKeys: { light: "dark", dark: "light" },
 		monochromeTones: true,

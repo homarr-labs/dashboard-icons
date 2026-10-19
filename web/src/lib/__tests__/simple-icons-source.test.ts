@@ -20,6 +20,7 @@ describe("Simple Icons external source registration", () => {
 			authorLogin: "simple-icons",
 			authorUrl: "https://github.com/simple-icons/simple-icons",
 			license: "CC0-1.0",
+			licenseUrl: "https://creativecommons.org/publicdomain/zero/1.0/",
 			pbFilter: "simpleicons",
 		})
 		expect(source.icon).toMatch(/^https:\/\/cdn\.simpleicons\.org\/simpleicons\//)

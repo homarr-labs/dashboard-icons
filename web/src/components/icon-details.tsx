@@ -15,7 +15,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { UnoptimizedImage } from "@/components/unoptimized-image"
-import { BASE_URL, EXTERNAL_SOURCES, type ExternalSourceId, REPO_PATH } from "@/constants"
+import { BASE_URL, EXTERNAL_SOURCES, type ExternalSourceId, REPO_PATH, SIMPLE_ICONS_DISCLAIMER_URL } from "@/constants"
 import {
 	canResolveExternalIconUrl,
 	getExternalIconPreviewUrl,
@@ -45,7 +45,6 @@ import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbP
 import { Separator } from "./ui/separator"
 
 type RenderVariantFn = (format: string, iconName: string, variant: IconImageVariant) => React.ReactNode
-const SIMPLE_ICONS_DISCLAIMER_URL = "https://github.com/simple-icons/simple-icons/blob/develop/DISCLAIMER.md"
 
 const COPY_SUPPORTED_FORMATS = new Set(["svg", "png", "webp"])
 
@@ -195,7 +194,9 @@ export function IconDetails({
 	const authorName = authorData.name || authorData.login || ""
 	const _iconColorVariants = iconData.colors
 	const _iconWordmarkVariants = iconData.wordmark
-	const formattedDate = new Date(iconData.update.timestamp).toLocaleDateString("en-GB", {
+	const updateDate = new Date(iconData.update.timestamp)
+	const hasUpdateDate = Number.isFinite(updateDate.getTime()) && updateDate.getUTCFullYear() > 1970
+	const formattedDate = updateDate.toLocaleDateString("en-GB", {
 		day: "numeric",
 		month: "long",
 		year: "numeric",
@@ -883,11 +884,13 @@ export function IconDetails({
 							<div className="space-y-4">
 								<div>
 									<div className="space-y-2">
-										<div className="flex items-center gap-2">
-											<p className="text-sm">
-												<span className="font-medium">Updated on:</span> <time dateTime={iconData.update.timestamp}>{formattedDate}</time>
-											</p>
-										</div>
+										{hasUpdateDate && (
+											<div className="flex items-center gap-2">
+												<p className="text-sm">
+													<span className="font-medium">Updated on:</span> <time dateTime={iconData.update.timestamp}>{formattedDate}</time>
+												</p>
+											</div>
+										)}
 										<div className="flex items-center gap-2">
 											<div className="flex items-center gap-2">
 												<p className="text-sm font-medium">By:</p>
@@ -968,42 +971,61 @@ export function IconDetails({
 										{isExternalIcon && externalSourceConfig && <p>External icon provided by {externalSourceConfig.label}.</p>}
 									</div>
 								</div>
-								{isExternalIcon && externalIcon && (
-									<div className="rounded-md border border-border p-3 text-xs text-muted-foreground">
-										<p className="font-medium text-foreground">{externalIcon.attribution}</p>
-										<p className="mt-1">
-											License:{" "}
-											{externalIcon.license_url && externalIcon.license ? (
+								{externalIcon && externalSourceConfig && (
+									<section aria-labelledby="icon-license-title" className="space-y-2 rounded-md bg-muted/50 p-4 text-sm leading-relaxed">
+										<h3 id="icon-license-title" className="font-semibold">
+											License and attribution
+										</h3>
+										<Link
+											href={externalSourceConfig.authorUrl}
+											target="_blank"
+											rel="noopener noreferrer"
+											className="flex min-h-11 items-center rounded-sm text-foreground underline underline-offset-4 hover:no-underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+										>
+											{externalIcon.attribution || `Icon by ${externalSourceConfig.label}`}
+										</Link>
+										{externalIcon.license && externalIcon.license_url ? (
+											<Link
+												href={externalIcon.license_url}
+												target="_blank"
+												rel="noopener noreferrer"
+												className="flex min-h-11 items-center justify-between gap-2 rounded-sm text-foreground underline underline-offset-4 hover:no-underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+											>
+												<span>Read {externalIcon.license} artwork license</span>
+												<ExternalLink className="size-4 shrink-0" aria-hidden="true" />
+											</Link>
+										) : (
+											<p>Artwork license: {externalIcon.license || "Not specified by this source"}.</p>
+										)}
+										{isSimpleIcons && (
+											<div className="space-y-2">
 												<Link
-													href={externalIcon.license_url}
+													href={externalSourceConfig.licenseUrl}
 													target="_blank"
 													rel="noopener noreferrer"
-													className="text-primary hover:underline"
+													className="flex min-h-11 items-center justify-between gap-2 rounded-sm text-foreground underline underline-offset-4 hover:no-underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
 												>
-													{externalIcon.license}
+													<span>Simple Icons collection: {externalSourceConfig.license}</span>
+													<ExternalLink className="size-4 shrink-0" aria-hidden="true" />
 												</Link>
-											) : externalIcon.license ? (
-												externalIcon.license
-											) : externalIcon.source === "simpleicons" ? (
+												<p className="text-muted-foreground">
+													The collection license does not cover every icon. Artwork rights may differ.
+												</p>
 												<Link
 													href={SIMPLE_ICONS_DISCLAIMER_URL}
 													target="_blank"
 													rel="noopener noreferrer"
-													className="text-primary hover:underline"
+													className="flex min-h-11 items-center justify-between gap-2 rounded-sm text-foreground underline underline-offset-4 hover:no-underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
 												>
-													Not specified by Simple Icons
+													<span>Read Simple Icons disclaimer</span>
+													<ExternalLink className="size-4 shrink-0" aria-hidden="true" />
 												</Link>
-											) : (
-												"Not specified"
-											)}
-										</p>
-										{externalIcon.source === "simpleicons" && (
-											<p className="mt-2">
-												Brand names and marks remain subject to their owners&apos; trademark and usage terms. Check the source and brand
-												guidelines before use.
-											</p>
+											</div>
 										)}
-									</div>
+										<p className="text-muted-foreground">
+											Brand names and marks belong to their owners. Check their trademark and usage terms before use.
+										</p>
+									</section>
 								)}
 							</div>
 						</CardContent>
