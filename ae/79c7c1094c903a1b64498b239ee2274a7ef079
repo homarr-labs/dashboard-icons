@@ -1,0 +1,20 @@
+web/src/components/dashboard/review-bench.tsx
+  h_d6e478ca18e517 6,405,484,512
+web/src/components/dashboard/review-gallery.tsx
+  h_d6e478ca18e517 32
+web/src/components/dashboard/review-presentation.tsx
+  h_d6e478ca18e517 51,62
+web/src/components/submission/rejected-round-comparison.tsx
+  h_d6e478ca18e517 6,8-16,42,69-119
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "ae79c7c1094c903a1b64498b239ee2274a7ef079",
+  "prompts": {},
+  "humans": {
+    "h_d6e478ca18e517": {
+      "author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
