@@ -1,0 +1,16 @@
+web/src/mcp/__tests__/account-tools.test.ts
+  h_d6e478ca18e517 304-324
+web/src/mcp/tools/submission-policy.ts
+  h_d6e478ca18e517 14-26,29-37
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "d1c2d1cec054bea47a0787b929de17c97c7485b2",
+  "prompts": {},
+  "humans": {
+    "h_d6e478ca18e517": {
+      "author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
