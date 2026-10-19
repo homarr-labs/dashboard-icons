@@ -1,0 +1,41 @@
+.github/workflows/docker.yml
+  s_2f890e5d2904d8::t_aaa5f14491984d 62,169-176
+web/README.md
+  s_98e4ddf2e24ed8::t_5798a64145c963 152-157
+web/public/a94baf3b0f4aa0b1fa1ac28b021a9e6b.txt
+  s_98e4ddf2e24ed8::t_4d201cb2c770f4 1
+web/scripts/ping-indexnow.mjs
+  s_d17432db00a02c::t_93b81f39523f1c 1-83
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "237ebc11d0106826f14078b70374700bef7e75a9",
+  "prompts": {},
+  "sessions": {
+    "s_2f890e5d2904d8": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "ccf8bc40-f581-465f-8ce2-5ab58d11c5b4",
+        "model": "unknown"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    },
+    "s_98e4ddf2e24ed8": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "64c187c3-3b42-418c-bd51-53c779a0e252",
+        "model": "unknown"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    },
+    "s_d17432db00a02c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "b49be8cb-28ed-4e90-bfcb-c8db84ebb725",
+        "model": "unknown"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
