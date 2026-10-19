@@ -15,7 +15,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { UnoptimizedImage } from "@/components/unoptimized-image"
-import { BASE_URL, EXTERNAL_SOURCES, type ExternalSourceId, REPO_PATH, SIMPLE_ICONS_DISCLAIMER_URL } from "@/constants"
+import { BASE_URL, EXTERNAL_SOURCES, type ExternalSourceId, REPO_PATH, SIMPLE_ICONS_DISCLAIMER_URL, WEB_URL } from "@/constants"
 import {
 	canResolveExternalIconUrl,
 	getExternalIconPreviewUrl,
@@ -616,8 +616,8 @@ export function IconDetails({
 		} else if (isCommunityIcon && mainIconUrl) {
 			let matchingUrl: string | undefined
 			if (variant.kind === "base") matchingUrl = mainIconUrl
-			else matchingUrl = assetUrls.find((url) => new URL(url).pathname.endsWith(`/${encodeURIComponent(iconName)}`))
-			if (!matchingUrl || !new URL(matchingUrl).pathname.toLowerCase().endsWith(`.${format}`)) return null
+			else matchingUrl = assetUrls.find((url) => new URL(url, WEB_URL).pathname.endsWith(`/${encodeURIComponent(iconName)}`))
+			if (!matchingUrl || !new URL(matchingUrl, WEB_URL).pathname.toLowerCase().endsWith(`.${format}`)) return null
 			imageUrl = matchingUrl
 			githubUrl = ""
 		} else {
