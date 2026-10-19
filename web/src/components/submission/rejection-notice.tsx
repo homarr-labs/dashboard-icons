@@ -31,6 +31,8 @@ export function RejectionNotice({ id, feedback, canEdit }: { id: string; feedbac
 		},
 	})
 	const editable = canEdit === true || (canEdit === undefined && ownership.data === true)
+	let who = "The contributor can"
+	if (editable) who = "You can"
 	return (
 		<section className="space-y-3 rounded-lg bg-muted/50 p-4" aria-label="Rejection feedback">
 			<h2 className="font-semibold">Rejections are never final</h2>
@@ -40,7 +42,7 @@ export function RejectionNotice({ id, feedback, canEdit }: { id: string; feedbac
 				</p>
 			)}
 			<p className="max-w-prose text-sm">
-				The contributor can fix the feedback and resubmit this same Submission. Its id and history stay the same.
+				{who} fix the feedback and resubmit this same Submission. Its id and history stay the same.
 			</p>
 			{ownership.isError && <p className="text-sm text-muted-foreground">Editing access could not be verified. Reload to try again.</p>}
 			{editable && (
