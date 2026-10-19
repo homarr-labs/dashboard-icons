@@ -1,0 +1,35 @@
+web/src/lib/utils.ts
+  s_7e83464d99f8b9::t_7ab5239645dac4 8-11
+web/tests/external-icons.spec.ts
+  s_7e83464d99f8b9::t_bec23f9b379848 162
+web/src/app/icons/[icon]/page.tsx
+  s_7e83464d99f8b9::t_5057413860f91f 6,40,131
+web/src/components/icon-details.tsx
+  s_2dda7f30f9c36c::t_bb49b1ef66487b 19-24,26-35,47,84,107,114,190-191,237-244,493,496,499-502,531-532,606-610,633,647,661,675,692,700,708,716,737-740,822,829,917,977,986,988,990,993-994,1050,1055,1066-1073,1120
+web/src/lib/icon-variant-text.ts
+  s_2dda7f30f9c36c::t_bd9e80a3cc4651 6-57,59
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "7dfeb2a1283cfbfbffa6b396c39b4781856194cd",
+  "prompts": {},
+  "sessions": {
+    "s_2dda7f30f9c36c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "5e95b9c0-6a43-43c0-8f66-04339c7d3832",
+        "model": "unknown"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    },
+    "s_7e83464d99f8b9": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "9770c66b-8986-4256-8453-3f2f4f37ef6f",
+        "model": "unknown"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
