@@ -1,0 +1,14 @@
+web/src/components/icon-details.tsx
+  h_d6e478ca18e517 1023
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "5b4b36ce58aeaf01d9f04c24f7cc78537db5de9f",
+  "prompts": {},
+  "humans": {
+    "h_d6e478ca18e517": {
+      "author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
