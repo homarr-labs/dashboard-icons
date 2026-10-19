@@ -1,0 +1,69 @@
+web/src/app/submit/page.tsx
+  s_4eda8e2dc4881d::t_fd622d1202de48 3,7-10,14-21,44-46,56-69,74-85,90-91,96-102
+web/src/components/custom-variant-input.tsx
+  s_e047af3de47cca::t_7c6639b0305a71 3,47,51-53,58-59,62-66
+web/src/components/icon-submission-form.tsx
+  s_bd17950f058b98::t_a37a5aabae6ae5 5-23,28-31,34-38,41,44,49-65,78-80,91-121,123,125,130-147,149-153,155-160,162-194,196-205,208-259,261-279,281,283-284,289,291-344,346-573,575-594,596-598
+web/src/components/icon-submission-guidelines.tsx
+  s_e047af3de47cca::t_05c74a5273e43f 3,6,44-62,67,69-89,91-93,95-98,100-106,108,110,112
+web/src/components/submission/edit-icon-picker.tsx
+  s_4eda8e2dc4881d::t_eae8e614c6c436 4-16,19-21,24-25,28-30,69-81,83-85,90,96,101-109,111-120,123-158,161-169,177-179,181-208,210-216,222-227,247-254,260-269,271
+web/src/components/submission/icon-update-editor.tsx
+  s_e047af3de47cca::t_11b627d2693a0b 4-22,24,26-27,31-45,48-49,76,84,91,100,129-133,162-163,210-215,240-259,261-279,283,285-291,298-307,309,319,334,371-377,379-399,401-402,417-445,448-457,463,465,469,477-564,566-600,603-616,619-637,642-644,646-679,681-695,697-718,720-724,726-727,729,731,733-735,738-739,741,743,745-749,751,753,761,766-776,778-780,782,786,793,801-805,809-813,819,827-836,838-846
+web/src/components/submission/legacy-asset-assignment.tsx
+  s_e047af3de47cca::t_063f1fd9ca6ee4 3,58,60,62,66,70-90,93,105,114-115
+web/src/components/submission/own-submission-editor.tsx
+  s_b6ba0fabea817a::t_23c4975995ecb4 4-5,9,12-15,18,23,84-86,90-105,107-109,111,113-117,119,123-130,134-141,146,152,156,206-215,217-238,243-244,249-262,264-265,268,271-292,314-322,328-329,335,345,350-361,376-382
+web/src/components/submission/rejected-round-comparison.tsx
+  s_e047af3de47cca::t_145a80ea5cdb1c 3,50-59,61-140,142-154,156-157
+web/src/components/submission/rejection-notice.tsx
+  s_e047af3de47cca::t_574d83a6ee47ab 4,36-48,50-59
+web/src/components/submission/submission-card.tsx
+  s_bd17950f058b98::t_d4b453d632dd4a 3-22,24-33,44,47,87-88,90-126,128,130-131,135-141,143-161,165-170,190-194,196-197,202-205,207-214,221,223-226,230-233,236-252,255-268,271-274,280-291,299,301,303-314,316-318,321-326,332-348,350-358,361-362,380-422,424-452,454-456,458,460,462-463,465,467,469-475,477-484,489,499,503
+web/src/components/submission/submission-form.css
+  s_e047af3de47cca::t_a4ebba3b643a93 6-20,35-36
+web/src/components/submission/submission-preview.tsx
+  s_e047af3de47cca::t_d2841a6ba79759 3-4,6-15,28,41-42,45,58-63,67-92,94-101,105-106,108-116
+web/src/components/submission/submission-ui.tsx
+  s_b6ba0fabea817a::t_c42c20956e86d9 1-288
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "8e6cfe9a11c3cf0573c80316a2f5a7cab60a07e0",
+  "prompts": {},
+  "sessions": {
+    "s_4eda8e2dc4881d": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "81c4c1c6-5665-4e00-8f8d-a54c5fb79894",
+        "model": "unknown"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    },
+    "s_b6ba0fabea817a": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "86a24cc3-4212-4ceb-976e-cccb97b70270",
+        "model": "unknown"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    },
+    "s_bd17950f058b98": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "367e0a17-5149-4306-bed4-5cc0e06a7574",
+        "model": "unknown"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    },
+    "s_e047af3de47cca": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "dc68b5d9-8f96-4ff2-9461-290a37969612",
+        "model": "unknown"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
