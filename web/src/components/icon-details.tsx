@@ -244,6 +244,8 @@ export type IconDetailsProps = {
 	breadcrumbItems?: IconDetailsBreadcrumbItem[]
 	relatedLinks?: React.ReactNode
 	nameRelatedLinks?: React.ReactNode
+	externalContent?: React.ReactNode
+	externalBrandColor?: string
 }
 
 export function IconDetails({
@@ -261,6 +263,8 @@ export function IconDetails({
 	breadcrumbItems,
 	relatedLinks,
 	nameRelatedLinks,
+	externalContent,
+	externalBrandColor,
 }: IconDetailsProps) {
 	const authorName = authorData.name || authorData.login || ""
 	const _iconColorVariants = iconData.colors
@@ -977,6 +981,11 @@ export function IconDetails({
 						</CardHeader>
 						<CardContent>
 							<div className="space-y-4">
+								{isExternalIcon && (
+									<Button variant="outline" className="min-h-11 w-full" asChild>
+										<a href="#icon-usage">Use this icon</a>
+									</Button>
+								)}
 								<div>
 									<div className="space-y-2">
 										{hasUpdateDate && (
@@ -1013,23 +1022,33 @@ export function IconDetails({
 									<div>
 										<h3 className="text-sm font-semibold text-muted-foreground mb-2">Categories</h3>
 										<div className="flex flex-wrap gap-2">
-											{iconData.categories.map((category) => (
-												<Link
-													key={category}
-													href={`/icons?category=${encodeURIComponent(category)}`}
-													className={cn(LINK_TOUCH_TARGET, "cursor-pointer")}
-												>
+											{iconData.categories.map((category) => {
+												const badge = (
 													<Badge
+														key={category}
 														variant="outline"
-														className="inline-flex items-center border border-primary/20 hover:border-primary px-2.5 py-0.5 text-sm"
+														className={cn(
+															"inline-flex items-center border border-primary/20 px-2.5 py-0.5 text-sm",
+															!isExternalIcon && "hover:border-primary",
+														)}
 													>
 														{category
 															.split("-")
 															.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
 															.join(" ")}
 													</Badge>
-												</Link>
-											))}
+												)
+												if (isExternalIcon) return badge
+												return (
+													<Link
+														key={category}
+														href={`/icons?category=${encodeURIComponent(category)}`}
+														className={cn(LINK_TOUCH_TARGET, "cursor-pointer")}
+													>
+														{badge}
+													</Link>
+												)
+											})}
 										</div>
 									</div>
 								)}
@@ -1063,13 +1082,18 @@ export function IconDetails({
 													: `${availableFormats[0].toUpperCase()} format `}
 												with a base format of {iconData.base.toUpperCase()}.
 												{nativeVariants && nativeVariants.length > 1 && ` Includes ${nativeVariants.length} distinct Variants.`}
-												{!nativeVariants && iconData.colors && " Includes light and dark variants for different backgrounds."}
-												{!nativeVariants && iconData.wordmark && " Wordmark variants are also available."}
+												{!nativeVariants &&
+													!isExternalIcon &&
+													iconData.colors &&
+													" Includes light and dark variants for different backgrounds."}
+												{!nativeVariants && !isExternalIcon && iconData.wordmark && " Wordmark variants are also available."}
 											</p>
 										)}
-										<p>
-											Perfect for adding to dashboards, app directories, documentation, or anywhere you need the {iconDisplayName} logo.
-										</p>
+										{!isExternalIcon && (
+											<p>
+												Perfect for adding to dashboards, app directories, documentation, or anywhere you need the {iconDisplayName} logo.
+											</p>
+										)}
 										{isExternalIcon && externalSourceConfig && <p>External icon provided by {externalSourceConfig.label}.</p>}
 									</div>
 								</div>
@@ -1241,6 +1265,20 @@ export function IconDetails({
 						</CardHeader>
 						<CardContent>
 							<div className="space-y-6">
+								{externalBrandColor && /^#?[0-9a-f]{6}$/i.test(externalBrandColor) && (
+									<div className="space-y-2">
+										<h3 className="text-sm font-semibold">Brand color</h3>
+										<div className="flex items-center gap-3">
+											<span
+												aria-hidden="true"
+												className="size-8 shrink-0 rounded-md ring-1 ring-border"
+												style={{ backgroundColor: `#${externalBrandColor.replace(/^#/, "")}` }}
+											/>
+											<code className="select-all text-base">#{externalBrandColor.replace(/^#/, "").toUpperCase()}</code>
+										</div>
+										<p className="text-sm text-foreground">Recorded by Simple Icons.</p>
+									</div>
+								)}
 								{status && statusDisplayName && statusColor && (
 									<div className="space-y-2">
 										<h3 className="text-sm font-semibold text-muted-foreground mb-2">Status</h3>
@@ -1392,6 +1430,7 @@ export function IconDetails({
 						<Carbon />
 					</Card>
 				</div>
+				{externalContent}
 			</div>
 			{nameRelatedLinks}
 			{relatedIcons.length > 0 && (

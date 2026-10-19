@@ -1,7 +1,7 @@
 import { ArrowRight } from "lucide-react"
 import Link from "next/link"
 import { EXTERNAL_SOURCES } from "@/constants"
-import { getIconPagePath, type IconRelations } from "@/lib/icon-relations"
+import { getIconPagePath, type IconCategoryRelation, type IconRelations } from "@/lib/icon-relations"
 import { formatIconName } from "@/lib/utils"
 import type { IconRecord } from "@/types/icons"
 
@@ -12,8 +12,18 @@ function iconName(icon: IconRecord): string {
 	)
 }
 
-function RelatedLinks({ title, icons, sources = false }: { title: string; icons: IconRecord[]; sources?: boolean }) {
-	if (!icons.length) return null
+function RelatedLinks({
+	title,
+	icons,
+	sources = false,
+	emptyMessage,
+}: {
+	title: string
+	icons: IconRecord[]
+	sources?: boolean
+	emptyMessage?: string
+}) {
+	if (!icons.length && !emptyMessage) return null
 	return (
 		<section className="min-w-0 space-y-2" aria-label={title}>
 			<h2 className="text-base font-semibold">{title}</h2>
@@ -34,6 +44,7 @@ function RelatedLinks({ title, icons, sources = false }: { title: string; icons:
 					</li>
 				))}
 			</ul>
+			{!icons.length && <p className="text-sm text-muted-foreground">{emptyMessage}</p>}
 		</section>
 	)
 }
@@ -53,6 +64,25 @@ export function IconNameRelatedLinks({ icons }: { icons: IconRecord[] }) {
 	return (
 		<div className="mt-12 rounded-lg bg-muted/50 p-4 sm:p-5">
 			<RelatedLinks title="Related by name" icons={icons} />
+		</div>
+	)
+}
+
+export function IconCategoryLinks({ categories }: { categories: IconCategoryRelation[] }) {
+	if (!categories.length) return null
+	return (
+		<div className="mt-10 space-y-6">
+			{categories.map(({ category, icons }) => {
+				const label = category.replaceAll("-", " ")
+				return (
+					<RelatedLinks
+						key={category}
+						title={`More from ${label}`}
+						icons={icons}
+						emptyMessage="No other icons are currently listed in this category."
+					/>
+				)
+			})}
 		</div>
 	)
 }

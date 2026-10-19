@@ -51,7 +51,7 @@ test.describe("External selfh.st icons", () => {
 	test("detail page renders attribution and jsDelivr assets", async ({ page }) => {
 		await page.goto("/icons/external/selfhst/2fauth")
 
-		await expect(page.getByRole("heading", { name: /2fauth/i })).toBeVisible()
+		await expect(page.getByRole("heading", { name: /2fauth/i, level: 1 })).toBeVisible()
 		await expect(page.getByText("Icons by selfh.st/icons (CC BY 4.0)")).toBeVisible()
 		await expect(page.getByRole("link", { name: /view on selfh\.st/i })).toBeVisible()
 
@@ -88,7 +88,7 @@ test.describe("External LobeHub icons", () => {
 	test("detail page renders attribution and jsDelivr assets", async ({ page }) => {
 		await page.goto("/icons/external/lobehub/openai")
 
-		await expect(page.getByRole("heading", { name: /openai/i })).toBeVisible()
+		await expect(page.getByRole("heading", { name: /openai/i, level: 1 })).toBeVisible()
 		await expect(page.getByRole("region", { name: "License and attribution" }).getByText("Icons by LobeHub (MIT)")).toBeVisible()
 		await expect(page.getByRole("link", { name: "Read MIT artwork license" })).toHaveAttribute(
 			"href",
@@ -176,7 +176,7 @@ test.describe("External Simple Icons", () => {
 	test("detail page credits Simple Icons and uses its brand-color CDN asset", async ({ page }) => {
 		await page.goto("/icons/external/simpleicons/stackoverflow")
 
-		await expect(page.getByRole("heading", { name: /stack overflow/i })).toBeVisible()
+		await expect(page.getByRole("heading", { name: /stack overflow/i, level: 1 })).toBeVisible()
 		const attribution = page.getByRole("region", { name: "License and attribution" })
 		await expect(
 			attribution.getByRole("link", { name: "Stack Overflow icon via Simple Icons. Brand marks remain subject to their owners' terms." }),
@@ -188,7 +188,7 @@ test.describe("External Simple Icons", () => {
 		)
 		await expect(attribution.getByText("The collection license does not cover every icon. Artwork rights may differ.")).toBeVisible()
 		await expect(attribution.getByRole("link", { name: /artwork license/i })).toHaveCount(0)
-		await expect(page.getByText(/brand color: #f58025/i)).toHaveCount(0)
+		await expect(page.getByText("#F58025", { exact: true })).toBeVisible()
 		await expect(page.getByRole("link", { name: /view original source/i })).toHaveAttribute(
 			"href",
 			"https://stackoverflow.design/brand/logo/",

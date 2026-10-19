@@ -115,7 +115,10 @@ type RelationIndex = {
 	primary: Map<string, Set<IconRecord>>
 	versions: Map<string, IconRecord[]>
 	brands: Map<string, IconRecord[]>
+	categories: Map<string, IconRecord[]>
 }
+
+export type IconCategoryRelation = { category: string; icons: IconRecord[] }
 
 export type IconRelations = {
 	sameBrand: IconRecord[]
@@ -157,12 +160,17 @@ function addKey(map: Map<string, Set<IconRecord>>, key: string, icon: IconRecord
 }
 
 function buildIndex(native: IconFile, external: ExternalIconRecord[]): RelationIndex {
-	const index: RelationIndex = { primary: new Map(), versions: new Map(), brands: new Map() }
+	const index: RelationIndex = { primary: new Map(), versions: new Map(), brands: new Map(), categories: new Map() }
 	const icons: IconRecord[] = [
 		...Object.entries(native).map(([slug, data]) => ({ source: "native" as const, slug, name: slug, data })),
 		...external,
 	]
 	for (const icon of icons) {
+		for (const category of new Set(icon.data.categories)) {
+			const matches = index.categories.get(category) ?? []
+			matches.push(icon)
+			index.categories.set(category, matches)
+		}
 		addKey(index.primary, normalizeName(icon.slug), icon)
 		addKey(index.primary, normalizeName(icon.name), icon)
 		if (icon.source === "native") {
@@ -223,4 +231,28 @@ export async function getIconRelations(icon: IconRecord): Promise<IconRelations>
 			.slice(0, MAX_RELATED_BY_NAME)
 	}
 	return { sameBrand, versions, relatedByName }
+}
+
+export async function getIconCategoryRelations(icon: IconRecord, sameBrand: IconRecord[]): Promise<IconCategoryRelation[]> {
+	if (!icon.data.categories.length) return []
+	const { index } = await getRelationIndex()
+	const excluded = new Set([getIconPagePath(icon), ...sameBrand.map(getIconPagePath)])
+	return [...new Set(icon.data.categories)].map((category) => {
+		const names = new Set<string>()
+		const icons = (index.categories.get(category) ?? [])
+			.filter((match) => !excluded.has(getIconPagePath(match)))
+			.toSorted((a, b) => {
+				if (a.source === icon.source && b.source !== icon.source) return -1
+				if (b.source === icon.source && a.source !== icon.source) return 1
+				return getIconPagePath(a).localeCompare(getIconPagePath(b))
+			})
+			.filter((match) => {
+				const name = normalizeName(match.name)
+				if (names.has(name)) return false
+				names.add(name)
+				return true
+			})
+			.slice(0, 6)
+		return { category, icons }
+	})
 }

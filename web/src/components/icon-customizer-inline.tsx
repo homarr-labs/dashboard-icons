@@ -5,6 +5,7 @@ import { motion } from "framer-motion"
 import { Copy, Download, Info, X } from "lucide-react"
 import { useCallback, useEffect, useMemo, useState } from "react"
 import { toast } from "sonner"
+import { IconUsageSnippets } from "@/components/icon-usage-snippets"
 import { Button } from "@/components/ui/button"
 import { ColorPicker } from "@/components/ui/color-picker"
 import { Label } from "@/components/ui/label"
@@ -220,9 +221,9 @@ export function IconCustomizerInline({
 
 	return (
 		<motion.div
-			initial={{ opacity: 0, height: 0 }}
-			animate={{ opacity: 1, height: "auto" }}
-			exit={{ opacity: 0, height: 0 }}
+			initial={{ opacity: 0 }}
+			animate={{ opacity: 1 }}
+			exit={{ opacity: 0 }}
 			className="space-y-4 [&_button]:min-h-11 [&_button]:min-w-11 [&_button:focus-visible]:outline-2 [&_button:focus-visible]:outline-offset-2 [&_button:focus-visible]:outline-foreground"
 		>
 			<div className="flex items-center justify-between px-1">
@@ -329,6 +330,13 @@ export function IconCustomizerInline({
 					Download SVG
 				</Button>
 			</div>
+			<details className="min-w-0">
+				<summary className="flex min-h-11 cursor-pointer items-center rounded-sm text-sm font-medium focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring">
+					Use original hosted SVG
+				</summary>
+				<p className="mb-4 text-sm">These URLs use the selected Variant’s original colours, not your custom colours.</p>
+				<IconUsageSnippets name={iconName} url={svgUrl} />
+			</details>
 		</motion.div>
 	)
 }
