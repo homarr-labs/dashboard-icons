@@ -1,6 +1,7 @@
 "use client"
 
 import { useQuery } from "@tanstack/react-query"
+import { ArrowRight, MessageSquareWarning } from "lucide-react"
 import Link from "next/link"
 import { ClientResponseError } from "pocketbase"
 import { useSyncExternalStore } from "react"
@@ -31,23 +32,36 @@ export function RejectionNotice({ id, feedback, canEdit }: { id: string; feedbac
 		},
 	})
 	const editable = canEdit === true || (canEdit === undefined && ownership.data === true)
+	let who = "The contributor can"
+	if (editable) who = "You can"
 	return (
-		<section className="space-y-3 rounded-lg bg-muted/50 p-4" aria-label="Rejection feedback">
-			<h2 className="font-semibold">Rejections are never final</h2>
-			{feedback && (
-				<p className="whitespace-pre-wrap break-words text-sm">
-					<strong>Reviewer feedback:</strong> {feedback}
+		<section
+			className="flex gap-3 rounded-lg border border-destructive/30 border-l-4 border-l-destructive bg-background p-4 shadow-sm"
+			aria-label="Rejection feedback"
+		>
+			<span className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-destructive/10 text-destructive">
+				<MessageSquareWarning className="size-[18px]" aria-hidden />
+			</span>
+			<div className="flex min-w-0 flex-col gap-2">
+				<h2 className="font-semibold">Rejections are never final</h2>
+				{feedback && (
+					<blockquote className="whitespace-pre-wrap break-words rounded-md bg-destructive/5 p-3 text-sm">
+						<strong>Reviewer feedback:</strong> {feedback}
+					</blockquote>
+				)}
+				<p className="max-w-prose text-sm text-muted-foreground">
+					{who} fix the feedback and resubmit this same Submission. Its id and history stay the same.
 				</p>
-			)}
-			<p className="max-w-prose text-sm">
-				The contributor can fix the feedback and resubmit this same Submission. Its id and history stay the same.
-			</p>
-			{ownership.isError && <p className="text-sm text-muted-foreground">Editing access could not be verified. Reload to try again.</p>}
-			{editable && (
-				<Button asChild variant="outline" className="min-h-11 max-w-full whitespace-normal">
-					<Link href={`/submit?submission=${encodeURIComponent(id)}`}>Fix and resubmit</Link>
-				</Button>
-			)}
+				{ownership.isError && <p className="text-sm text-muted-foreground">Editing access could not be verified. Reload to try again.</p>}
+				{editable && (
+					<Button asChild className="max-w-full self-start whitespace-normal">
+						<Link href={`/submit?submission=${encodeURIComponent(id)}`}>
+							Fix and resubmit
+							<ArrowRight aria-hidden />
+						</Link>
+					</Button>
+				)}
+			</div>
 		</section>
 	)
 }

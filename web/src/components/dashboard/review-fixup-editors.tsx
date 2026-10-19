@@ -1,12 +1,13 @@
 "use client"
-import { RotateCcw, Trash2 } from "lucide-react"
+import { Check, RotateCcw, Tags, Trash2, Wand2 } from "lucide-react"
 import { useEffect, useRef, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
+import { TagInput } from "@/components/ui/tag-input"
 import type { ReviewFixups } from "@/lib/dashboard/types"
 import { ICON_NAME_REGEX, MAX_NAME_LENGTH } from "@/lib/icons/validate"
 import { customVariantNameError, SUBMISSION_VARIANTS, type SubmissionVariant, variantKind } from "@/lib/submission-variants"
+import { Kbd } from "./primitives"
 
 export function ReviewRenameEditor({
 	name,
@@ -26,7 +27,7 @@ export function ReviewRenameEditor({
 	}, [])
 	return (
 		<form
-			className="mt-3 space-y-2"
+			className="mt-3 space-y-2 rounded-md border p-3"
 			onKeyDown={(event) => {
 				if (event.key === "Escape") {
 					event.preventDefault()
@@ -56,7 +57,7 @@ export function ReviewRenameEditor({
 				maxLength={MAX_NAME_LENGTH}
 				aria-invalid={!!error}
 				aria-describedby={error ? "review-rename-error" : undefined}
-				className="font-mono"
+				className="font-mono max-lg:min-h-11"
 			/>
 			{error && (
 				<p role="alert" id="review-rename-error" className="text-sm text-destructive">
@@ -64,10 +65,11 @@ export function ReviewRenameEditor({
 				</p>
 			)}
 			<div className="flex flex-wrap gap-2">
-				<Button type="submit" variant="secondary">
+				<Button type="submit" size="sm" className="max-lg:min-h-11">
+					<Check />
 					Stage rename
 				</Button>
-				<Button type="button" variant="ghost" onClick={onCancel}>
+				<Button type="button" variant="ghost" size="sm" className="max-lg:min-h-11" onClick={onCancel}>
 					Cancel
 				</Button>
 			</div>
@@ -86,72 +88,85 @@ export function ReviewMetadataEditor({
 	disabled: boolean
 	onStage: (fixups: Pick<ReviewFixups, "aliases" | "categories">) => boolean
 }) {
-	const [aliasText, setAliasText] = useState(aliases.join(", "))
-	const [categoryText, setCategoryText] = useState(categories.join(", "))
+	const [editing, setEditing] = useState(false)
+	const [aliasList, setAliasList] = useState(aliases)
+	const [categoryList, setCategoryList] = useState(categories)
 	const [error, setError] = useState("")
-	const disclosure = useRef<HTMLDetailsElement>(null)
-	return (
-		<details ref={disclosure} className="rounded-lg bg-muted/40">
-			<summary className="min-h-11 cursor-pointer rounded-lg p-3 text-sm font-medium outline-none focus-visible:ring-2 focus-visible:ring-ring">
+	if (!editing)
+		return (
+			<Button variant="outline" size="sm" disabled={disabled} onClick={() => setEditing(true)} className="max-lg:min-h-11">
+				<Tags />
 				Edit aliases & categories
-			</summary>
-			<form
-				className="space-y-3 px-3 pb-3"
-				onSubmit={(event) => {
+			</Button>
+		)
+	return (
+		<form
+			className="space-y-3 rounded-md border p-3"
+			onKeyDown={(event) => {
+				if (event.key === "Escape") {
 					event.preventDefault()
-					const split = (value: string) => [
-						...new Set(
-							value
-								.split(",")
-								.map((entry) => entry.trim())
-								.filter(Boolean),
-						),
-					]
-					const next = { aliases: split(aliasText), categories: split(categoryText) }
-					if (Object.values(next).some((entries) => entries.length > 100 || entries.some((entry) => entry.length > 200))) {
-						setError("Use up to 100 values per field, each at most 200 characters.")
-						return
-					}
-					if (onStage(next) && disclosure.current) disclosure.current.open = false
-				}}
-			>
-				<p className="text-sm text-muted-foreground">Separate values with commas. Leave a field empty to clear it.</p>
-				<label htmlFor="review-aliases" className="block space-y-2 text-sm font-medium">
+					setEditing(false)
+				}
+			}}
+			onSubmit={(event) => {
+				event.preventDefault()
+				const unique = (values: string[]) => [...new Set(values.map((entry) => entry.trim()).filter(Boolean))]
+				const next = { aliases: unique(aliasList), categories: unique(categoryList) }
+				if (Object.values(next).some((entries) => entries.length > 100 || entries.some((entry) => entry.length > 200))) {
+					setError("Use up to 100 values per field, each at most 200 characters.")
+					return
+				}
+				if (onStage(next)) setEditing(false)
+			}}
+		>
+			<p className="text-xs text-muted-foreground">Press Enter, comma or space to add a value. Leave a field empty to clear it.</p>
+			<div className="space-y-1.5">
+				<label htmlFor="review-aliases" className="text-sm font-medium">
 					Aliases
-					<Textarea
-						id="review-aliases"
-						rows={2}
-						disabled={disabled}
-						value={aliasText}
-						onChange={(event) => {
-							setAliasText(event.target.value)
-							setError("")
-						}}
-					/>
 				</label>
-				<label htmlFor="review-categories" className="block space-y-2 text-sm font-medium">
+				<TagInput
+					id="review-aliases"
+					value={aliasList}
+					maxTags={100}
+					disabled={disabled}
+					placeholder="Add an alias"
+					onValueChange={(value) => {
+						setAliasList(value)
+						setError("")
+					}}
+				/>
+			</div>
+			<div className="space-y-1.5">
+				<label htmlFor="review-categories" className="text-sm font-medium">
 					Categories
-					<Textarea
-						id="review-categories"
-						rows={2}
-						disabled={disabled}
-						value={categoryText}
-						onChange={(event) => {
-							setCategoryText(event.target.value)
-							setError("")
-						}}
-					/>
 				</label>
-				{error && (
-					<p role="alert" className="text-sm text-destructive">
-						{error}
-					</p>
-				)}
-				<Button type="submit" variant="secondary" disabled={disabled}>
-					Stage metadata
+				<TagInput
+					id="review-categories"
+					value={categoryList}
+					maxTags={100}
+					disabled={disabled}
+					placeholder="Add a category"
+					onValueChange={(value) => {
+						setCategoryList(value)
+						setError("")
+					}}
+				/>
+			</div>
+			{error && (
+				<p role="alert" className="text-sm text-destructive">
+					{error}
+				</p>
+			)}
+			<div className="flex flex-wrap gap-2">
+				<Button type="submit" size="sm" disabled={disabled} className="max-lg:min-h-11">
+					<Check />
+					Stage changes
 				</Button>
-			</form>
-		</details>
+				<Button type="button" variant="ghost" size="sm" className="max-lg:min-h-11" onClick={() => setEditing(false)}>
+					Cancel
+				</Button>
+			</div>
+		</form>
 	)
 }
 
@@ -183,17 +198,17 @@ export function ReviewVariantEditor({
 	const [error, setError] = useState("")
 	if (dropped)
 		return (
-			<Button variant="outline" className="w-full" disabled={disabled} onClick={onUndo}>
-				<RotateCcw className="size-4" />
+			<Button variant="outline" size="sm" className="w-full max-lg:min-h-11" disabled={disabled} onClick={onUndo}>
+				<RotateCcw />
 				Restore Variant
 			</Button>
 		)
 	if (!variant || !originalVariant)
 		return <p className="text-xs text-muted-foreground">Resolve this Asset's label before applying Variant fix-ups.</p>
 	if (originalVariant === "base" && !proposal)
-		return <p className="text-xs leading-5 text-muted-foreground">Base is required and cannot be dropped.</p>
+		return <p className="rounded-md bg-muted/50 px-2.5 py-2 text-xs text-muted-foreground">Base is required and cannot be dropped.</p>
 	return (
-		<div className="space-y-2 border-t pt-2">
+		<div className="space-y-2 rounded-md bg-muted/50 p-2.5">
 			<label htmlFor={`review-kind-${file}`} className="block text-xs font-medium">
 				Variant kind
 			</label>
@@ -201,7 +216,7 @@ export function ReviewVariantEditor({
 				id={`review-kind-${file}`}
 				disabled={disabled}
 				value={custom ? "custom" : variant}
-				className="min-h-11 w-full min-w-0 rounded-md border bg-background px-2 text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring"
+				className="h-9 w-full min-w-0 rounded-md border border-input bg-background px-2 text-sm shadow-xs outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 dark:bg-input/30 max-lg:min-h-11"
 				onChange={(event) => {
 					if (event.target.value === "custom") {
 						setCustom(true)
@@ -248,8 +263,9 @@ export function ReviewVariantEditor({
 						}}
 						placeholder="animated"
 						maxLength={32}
+						className="h-9 max-lg:min-h-11"
 					/>
-					<Button type="submit" variant="secondary" disabled={disabled} className="w-full">
+					<Button type="submit" size="sm" disabled={disabled} className="w-full max-lg:min-h-11">
 						Stage kind
 					</Button>
 				</form>
@@ -260,12 +276,18 @@ export function ReviewVariantEditor({
 				</p>
 			)}
 			<div className="flex flex-wrap gap-1">
-				<Button variant="ghost" disabled={disabled} className="min-w-0 flex-1 text-destructive hover:text-destructive" onClick={onDrop}>
-					<Trash2 className="size-4" />
-					Drop <kbd className="text-xs">D</kbd>
+				<Button
+					variant="ghost"
+					size="sm"
+					disabled={disabled}
+					className="min-w-0 flex-1 text-destructive hover:bg-destructive/10 hover:text-destructive max-lg:min-h-11"
+					onClick={onDrop}
+				>
+					<Trash2 />
+					Drop <Kbd>D</Kbd>
 				</Button>
 				{changed && (
-					<Button variant="ghost" disabled={disabled} onClick={onUndo}>
+					<Button variant="ghost" size="sm" disabled={disabled} className="max-lg:min-h-11" onClick={onUndo}>
 						Undo kind
 					</Button>
 				)}
@@ -285,20 +307,23 @@ export function ReviewFixupSummary({
 }) {
 	if (!changes.length) return null
 	return (
-		<section aria-label="Staged fix-ups" className="space-y-2 rounded-lg bg-muted/50 p-3">
-			<p className="text-sm font-medium">Staged fix-ups · {changes.length}</p>
-			<p className="text-xs leading-5 text-muted-foreground">
+		<section aria-label="Staged fix-ups" className="space-y-2 rounded-lg border border-l-2 border-l-primary bg-primary/5 p-3">
+			<p className="flex items-center gap-2 text-sm font-semibold">
+				<Wand2 className="size-4 text-primary" />
+				Staged fix-ups · {changes.length}
+			</p>
+			<p className="text-xs text-muted-foreground">
 				Saved with your decision and listed in the contributor's message. File bytes are unchanged.
 			</p>
-			<ul className="divide-y divide-border/60">
+			<ul className="divide-y">
 				{changes.map((change) => (
-					<li key={change.key} className="flex min-w-0 items-start gap-2 py-2 text-sm">
-						<span className="min-w-0 flex-1 py-2 [overflow-wrap:anywhere]">{change.text}</span>
+					<li key={change.key} className="flex min-w-0 items-center gap-2 py-1.5 text-sm">
+						<span className="min-w-0 flex-1 [overflow-wrap:anywhere]">{change.text}</span>
 						{onUndo && (
 							<Button
 								variant="ghost"
 								size="icon"
-								className="size-11 shrink-0"
+								className="size-8 shrink-0 max-lg:size-11"
 								aria-label={`Undo ${change.text}`}
 								disabled={disabled}
 								onClick={() => onUndo(change.key)}

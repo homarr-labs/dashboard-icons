@@ -1,12 +1,33 @@
 "use client"
-import { ArrowLeft, ArrowRight, Check, ChevronDown, Flag, MessageSquare, Pencil, RotateCcw, X } from "lucide-react"
+import confetti from "canvas-confetti"
+import {
+	ArrowLeft,
+	ArrowRight,
+	Check,
+	ChevronDown,
+	FileText,
+	Flag,
+	Layers,
+	MessageSquare,
+	PartyPopper,
+	Pencil,
+	Rocket,
+	RotateCcw,
+	SearchX,
+	X,
+} from "lucide-react"
+import { AnimatePresence, motion, useReducedMotion } from "motion/react"
 import { type CSSProperties, useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { toast } from "sonner"
 import { revalidateAllSubmissions } from "@/app/actions/submissions"
+import { NumberTicker } from "@/components/magicui/number-ticker"
 import { RejectedRoundComparison } from "@/components/submission/rejected-round-comparison"
+import { BorderBeam } from "@/components/ui/border-beam"
 import { Button } from "@/components/ui/button"
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogTitle } from "@/components/ui/dialog"
+import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
 import { reviewSubmissions } from "@/hooks/use-dashboard"
 import { useReviewShortcuts } from "@/hooks/use-review-shortcuts"
 import { useSubmissionCatalog, useSubmissionHints } from "@/hooks/use-submission-catalog"
@@ -23,7 +44,7 @@ import {
 import type { DashboardFilters, ReviewFixups } from "@/lib/dashboard/types"
 import type { Submission } from "@/lib/pb"
 import { cn } from "@/lib/utils"
-import { Empty, Pagination, Thumbnail, Time } from "./primitives"
+import { Avatar, approveButton, Empty, fileCount, Kbd, Kind, Round, rejectButton, statusStyles, Thumbnail, Time } from "./primitives"
 import { ReviewFixupSummary, ReviewMetadataEditor, ReviewRenameEditor } from "./review-fixup-editors"
 import { ReviewGallery } from "./review-gallery"
 import { ReviewHistory } from "./review-history"
@@ -38,31 +59,32 @@ import {
 	variantRejection,
 	variantSibling,
 } from "./review-presentation"
+import { QueueGallery, ReviewQueue, StagedMark } from "./review-queue"
 import { ReviewSubmitDialog } from "./review-submit-dialog"
-import { FilterInput } from "./submission-list"
 
-const primaryAction = "bg-foreground text-background hover:bg-foreground/90"
+const scrollMargin =
+	"max-lg:[&_:is(button,input,textarea,summary,a)]:scroll-mb-[calc(var(--review-action-height)+1.5rem)] lg:[&_:is(button,input,textarea,summary,a)]:scroll-mb-4"
 
 export function ReviewBench({
 	rows,
 	activeId,
 	filters,
-	totalItems,
-	totalPages,
 	loaded,
 	userId,
 	onChange,
 	refresh,
+	approvedCount,
+	onPublish,
 }: {
 	rows: Submission[]
 	activeId: string
 	filters: DashboardFilters
-	totalItems: number
-	totalPages: number
 	loaded: boolean
 	userId: string
 	onChange: (patch: Record<string, string>, replace?: boolean) => void
 	refresh: () => Promise<void>
+	approvedCount: number
+	onPublish: () => void
 }) {
 	const storageKey = `dashboard-review:${userId}`
 	const [drafts, setDrafts] = useState<Record<string, Draft>>({})
@@ -76,8 +98,13 @@ export function ReviewBench({
 	const [renaming, setRenaming] = useState(false)
 	const [selectedFile, setSelectedFile] = useState("")
 	const [fixupError, setFixupError] = useState("")
+	const [gallery, setGallery] = useState(false)
+	const reducedMotion = useReducedMotion()
+	const [flash, setFlash] = useState<{ key: number; name: string; status: "approved" | "rejected" } | null>(null)
 	const feedbackRef = useRef<HTMLTextAreaElement>(null)
 	const actionsRef = useRef<HTMLDivElement>(null)
+	const scrollRef = useRef<HTMLDivElement>(null)
+	const hadRows = useRef(false)
 	const [actionHeight, setActionHeight] = useState(180)
 	const [queueOpen, setQueueOpen] = useState(false)
 	const groups = useMemo(() => sentTogether(rows), [rows])
@@ -91,7 +118,6 @@ export function ReviewBench({
 		return [...available.values()]
 	}, [hints.data, rows])
 	const [errors, setErrors] = useState<Record<string, string>>({})
-	const [edge, setEdge] = useState<{ page: number; last: boolean } | null>(null)
 	const record = orderedRows.find((row) => row.id === activeId) || orderedRows[0]
 	const [updateReady, setUpdateReady] = useState("")
 	const canApproveTarget = !record?.icon_update || updateReady === `${record.id}:${record.updated}`
@@ -117,6 +143,7 @@ export function ReviewBench({
 	const fixupsDisabled = busy || !loaded || !hydrated || stale || !!unavailable
 	const selectedAsset = preview?.assets.find((asset) => asset.file === selectedFile) || preview?.assets[0]
 	const decisions = Object.values(drafts).filter((draft): draft is Draft & { status: "approved" | "rejected" } => !!draft.status)
+	const approvals = decisions.filter((draft) => draft.status === "approved").length
 	useEffect(() => {
 		function load() {
 			try {
@@ -160,21 +187,9 @@ export function ReviewBench({
 		}
 	}, [drafts, hydrated, storageKey])
 	useEffect(() => {
-		if (!loaded) return
-		if (filters.page > Math.max(1, totalPages)) {
-			setEdge(null)
-			onChange({ page: String(Math.max(1, totalPages)), item: "" }, true)
-			return
-		}
-		if (!orderedRows.length) return
-		if (edge && edge.page !== filters.page) return
-		if (edge) {
-			let target = orderedRows[0]
-			if (edge.last) target = orderedRows[orderedRows.length - 1]
-			onChange({ item: target.id }, true)
-			setEdge(null)
-		} else if (!orderedRows.some((row) => row.id === activeId)) onChange({ item: orderedRows[0].id }, true)
-	}, [orderedRows, activeId, loaded, edge, filters.page, totalPages, onChange])
+		if (!loaded || !orderedRows.length) return
+		if (!orderedRows.some((row) => row.id === activeId)) onChange({ item: orderedRows[0].id }, true)
+	}, [orderedRows, activeId, loaded, onChange])
 	useEffect(() => {
 		setReasonFor((current) => {
 			if (current !== record?.id) return null
@@ -185,6 +200,7 @@ export function ReviewBench({
 		setRenaming(false)
 		setSelectedFile("")
 		setFixupError("")
+		scrollRef.current?.scrollTo({ top: 0 })
 	}, [record?.id])
 	useEffect(() => {
 		if (!record?.id) return
@@ -194,20 +210,34 @@ export function ReviewBench({
 		observer.observe(actions)
 		return () => observer.disconnect()
 	}, [record?.id])
+	useEffect(() => {
+		if (!loaded) return
+		if (hadRows.current && !rows.length && !filters.search)
+			void confetti({
+				particleCount: 50,
+				startVelocity: 15,
+				spread: 180,
+				ticks: 50,
+				zIndex: 20,
+				origin: { x: 0.5, y: 0.5 },
+				colors: ["#ff0a54", "#ff477e", "#ff7096", "#ff85a1", "#fbb1bd", "#f9bec7"],
+				disableForReducedMotion: true,
+			})
+		hadRows.current = rows.length > 0
+	}, [loaded, rows.length, filters.search])
+	useEffect(() => {
+		if (!flash) return
+		const timer = setTimeout(() => setFlash(null), 1600)
+		return () => clearTimeout(timer)
+	}, [flash])
 
 	const move = useCallback(
 		(direction: number) => {
 			if (!loaded || busy) return
 			const next = orderedRows[index + direction]
 			if (next) onChange({ item: next.id }, true)
-			else {
-				const page = filters.page + direction
-				if (page < 1 || page > totalPages) return
-				setEdge({ page, last: direction < 0 })
-				onChange({ page: String(page), item: "" }, true)
-			}
 		},
-		[orderedRows, index, filters.page, totalPages, loaded, busy, onChange],
+		[orderedRows, index, loaded, busy, onChange],
 	)
 	const stage = useCallback(
 		(status: NonNullable<Draft["status"]>, reason = "") => {
@@ -249,9 +279,10 @@ export function ReviewBench({
 			})
 			setReasonFor(null)
 			setVariantFor(null)
+			setFlash({ key: Date.now(), name: preview?.record.name || record.name, status })
 			move(1)
 		},
-		[record, loaded, busy, hydrated, decisions.length, drafts, move, note, canApproveTarget],
+		[record, loaded, busy, hydrated, decisions.length, drafts, move, note, canApproveTarget, preview?.record.name],
 	)
 	const clear = useCallback((id: string) => {
 		setDrafts((current) => {
@@ -312,8 +343,13 @@ export function ReviewBench({
 			feedbackRef.current?.scrollIntoView({ block: "center" })
 		})
 	}, [])
+	const rejectAsVariant = useCallback(() => {
+		if (!record) return
+		if (sibling) stage("rejected", variantRejection(sibling.name))
+		else setVariantFor(record.id)
+	}, [record, sibling, stage])
 	useReviewShortcuts({
-		disabled: busy || confirm || !!variantFor || !hydrated || !loaded,
+		disabled: busy || confirm || !!variantFor || !hydrated || !loaded || gallery,
 		queueOpen,
 		recordId: record?.id,
 		reasonOpen: reasonFor === record?.id,
@@ -385,275 +421,346 @@ export function ReviewBench({
 			setBusy(false)
 		}
 	}
+	function select(id: string) {
+		onChange({ item: id }, true)
+		setGallery(false)
+	}
 	const queue = (
-		<>
-			<div className="space-y-2 border-b p-3">
-				<p className="text-sm font-medium">Review queue</p>
-				<FilterInput
-					label="Find in queue"
-					compact
-					placeholder="Icon or submitter…"
-					value={filters.search}
-					onChange={(search) => onChange({ search, page: "1", item: "" }, true)}
-				/>
-				<p className="mt-2 text-xs text-muted-foreground">
-					{totalItems} waiting · {decisions.length} staged
-				</p>
-			</div>
-			<div className="max-h-[50dvh] space-y-2 overflow-y-auto overscroll-contain p-2 lg:max-h-[52dvh]">
-				{groups.map((group) => (
-					<div key={group.key} className={cn("min-w-0", group.rows.length > 1 && "rounded-lg bg-muted/60 p-1")}>
-						{group.rows.length > 1 && (
-							<div className="space-y-1 px-2 py-2 text-xs text-muted-foreground">
-								<p className="font-medium text-foreground">Sent together · {group.rows.length}</p>
-								<p className="[overflow-wrap:anywhere]">
-									@{group.rows[0].expand?.created_by?.username || "Contributor"} · <Time value={group.rows[0].created} />
-								</p>
-							</div>
-						)}
-						<ul className="space-y-1">
-							{group.rows.map((row) => (
-								<li key={row.id}>
-									<button
-										type="button"
-										disabled={busy || !loaded}
-										onClick={(event) => {
-											onChange({ item: row.id }, true)
-											event.currentTarget.closest("details")?.removeAttribute("open")
-										}}
-										aria-current={record?.id === row.id || undefined}
-										className={cn(
-											"flex min-h-11 w-full min-w-0 items-center gap-2 rounded-lg p-2 text-left outline-none hover:bg-accent focus-visible:ring-2 focus-visible:ring-ring",
-											record?.id === row.id && "bg-primary/10 ring-1 ring-primary/40 [&_.text-muted-foreground]:text-foreground/80",
-										)}
-									>
-										<Thumbnail submission={row} />
-										<span className="min-w-0 flex-1">
-											<span className="block font-mono text-xs [overflow-wrap:anywhere]">{drafts[row.id]?.fixups?.name || row.name}</span>
-											<span className="block text-xs text-muted-foreground">
-												{row.assets.length - (drafts[row.id]?.fixups?.variants?.filter((change) => change.action === "drop").length || 0)}{" "}
-												Variants{row.target_submission && " · Update"}
-												{(row.round || 1) > 1 && ` · Round ${row.round}`}
-												{!!drafts[row.id]?.fixupSummary?.length && " · Fix-ups"}
-											</span>
-											{group.rows.length === 1 && (
-												<span className="block text-xs text-muted-foreground [overflow-wrap:anywhere]">
-													@{row.expand?.created_by?.username || "Contributor"}
-												</span>
-											)}
-										</span>
-										{drafts[row.id]?.status === "approved" && (
-											<Check aria-label="Approval staged" className="size-4 shrink-0 text-emerald-600" />
-										)}
-										{drafts[row.id]?.status === "rejected" && (
-											<X aria-label="Rejection staged" className="size-4 shrink-0 text-amber-600" />
-										)}
-									</button>
-								</li>
-							))}
-						</ul>
-					</div>
-				))}
-			</div>
-			<Pagination
-				page={filters.page}
-				totalPages={totalPages}
-				totalItems={totalItems}
-				perPage={filters.perPage}
-				disabled={!loaded || busy}
-				onPage={(page) => onChange({ page: String(page), item: "" }, true)}
-			/>
-			<label className="flex items-center justify-between px-3 pb-3 text-xs text-muted-foreground">
-				Per page
-				<select
-					aria-label="Review items per page"
-					className="min-h-11 rounded border bg-background px-2"
-					value={filters.perPage}
-					disabled={busy}
-					onChange={(event) => onChange({ size: event.target.value, page: "1", item: "" }, true)}
-				>
-					{[25, 50, 100].map((size) => (
-						<option key={size}>{size}</option>
-					))}
-				</select>
-			</label>
-		</>
+		<ReviewQueue
+			groups={groups}
+			total={rows.length}
+			currentId={record?.id}
+			drafts={drafts}
+			disabled={busy || !loaded}
+			search={filters.search}
+			gallery={gallery}
+			onSearch={(search) => onChange({ search, item: "" }, true)}
+			onGallery={setGallery}
+			onSelect={(id, target) => {
+				select(id)
+				target.closest("details")?.removeAttribute("open")
+			}}
+		/>
 	)
-
+	const draft = record && drafts[record.id]
+	const submitter = record?.expand?.created_by?.username || "Contributor"
+	const reasonOpen = !!record && reasonFor === record.id
+	let accent = statusStyles.pending.accent
+	let beam = ["var(--magic-border-from)", "var(--magic-border-to)"]
+	if (draft?.status === "approved") {
+		accent = statusStyles.added_to_collection.accent
+		beam = ["var(--success)", "var(--success)"]
+	}
+	if (draft?.status === "rejected") {
+		accent = statusStyles.rejected.accent
+		beam = ["var(--destructive)", "var(--destructive)"]
+	}
+	let variantLabel = "Variant of…"
+	if (sibling) variantLabel = `Variant of ${sibling.name}`
+	let emptyTitle = "Inbox zero"
+	if (decisions.length) emptyTitle = "Everything is staged"
+	const submitButton = (
+		<Button disabled={!decisions.length || busy || !hydrated} onClick={() => setConfirm(true)}>
+			<Flag />
+			Submit review · {decisions.length}
+		</Button>
+	)
 	return (
 		<section
 			data-review-bench
 			aria-label="Review bench"
 			style={{ "--review-action-height": `${actionHeight}px` } as CSSProperties}
-			className="space-y-4 pb-[calc(var(--review-action-height)+1rem)] [&_button]:min-h-11 [&_button]:min-w-11 [&_button]:scroll-mb-[calc(var(--review-action-height)+1.5rem)] [&_button]:hover:scale-100 [&_button]:motion-reduce:transition-none [&_input]:min-h-11 [&_input]:scroll-mb-[calc(var(--review-action-height)+1.5rem)] [&_textarea]:scroll-mb-[calc(var(--review-action-height)+1.5rem)] [&_summary]:scroll-mb-[calc(var(--review-action-height)+1.5rem)]"
+			className={cn("max-lg:pb-[calc(var(--review-action-height)+1.5rem)] lg:h-full", scrollMargin)}
 		>
-			<div className="grid min-w-0 items-start gap-5 lg:grid-cols-[220px_minmax(0,1fr)] xl:grid-cols-[232px_minmax(0,1fr)_240px]">
-				<aside aria-label="Review queue" className="relative min-w-0 self-start rounded-xl border bg-background lg:sticky lg:top-0">
-					<div className="hidden lg:block">{queue}</div>
+			<div className="grid min-w-0 gap-4 lg:h-full lg:grid-cols-[264px_minmax(0,1fr)] xl:grid-cols-[264px_minmax(0,1fr)_280px]">
+				<aside
+					aria-label="Review queue"
+					className="min-w-0 rounded-lg border bg-background/50 shadow-sm lg:flex lg:min-h-0 lg:flex-col lg:overflow-hidden"
+				>
+					<div className="hidden lg:flex lg:min-h-0 lg:flex-1 lg:flex-col">{queue}</div>
 					<details className="group lg:hidden" onToggle={(event) => setQueueOpen(event.currentTarget.open)}>
-						<summary className="flex min-h-14 cursor-pointer list-none items-center gap-2 rounded-xl px-3 py-3 text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring [&::-webkit-details-marker]:hidden">
-							<span className="font-medium">Queue · {totalItems}</span>
+						<summary className="flex min-h-14 list-none items-center gap-2 rounded-lg px-4 py-3 text-sm outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 [&::-webkit-details-marker]:hidden">
+							<span className="font-semibold">Queue</span>
+							<span className={cn("rounded-full border px-1.5 text-xs font-semibold leading-5 tabular-nums", statusStyles.pending.badge)}>
+								{rows.length}
+							</span>
 							<span className="ml-auto text-xs text-muted-foreground">{decisions.length} staged</span>
-							<ChevronDown className="size-4 shrink-0" />
+							<ChevronDown className="size-4 shrink-0 transition-transform group-open:rotate-180" />
 						</summary>
 						{queue}
 					</details>
 				</aside>
-				<div className="min-w-0 space-y-4">
-					{!record && <Empty title="Queue cleared">No submissions match this queue. You can still submit your staged review.</Empty>}
-					{record && (
-						<>
-							<div className="flex items-start justify-between gap-3">
-								<div className="min-w-0">
-									<p className="text-xs text-muted-foreground">
-										Submission {(filters.page - 1) * filters.perPage + index + 1} of {totalItems}
-									</p>
-									<h2 className="mt-2 font-mono text-2xl font-semibold [overflow-wrap:anywhere] sm:text-3xl">{preview?.record.name}</h2>
-									{fixups.name && <p className="mt-1 text-xs text-muted-foreground [overflow-wrap:anywhere]">Submitted as {record.name}</p>}
-									{!renaming && !renameUnavailable && (
-										<Button variant="ghost" className="mt-1 -ml-3" disabled={fixupsDisabled} onClick={() => setRenaming(true)}>
-											<Pencil className="size-3.5" />
-											Rename slug <kbd className="text-xs text-muted-foreground">E</kbd>
-										</Button>
+				<div className="flex min-w-0 flex-col lg:min-h-0">
+					<div
+						ref={scrollRef}
+						className="min-w-0 space-y-4 lg:relative lg:min-h-0 lg:flex-1 lg:overflow-y-auto lg:overscroll-contain lg:px-1 lg:pb-4"
+					>
+						{gallery && (
+							<QueueGallery rows={orderedRows} currentId={record?.id} drafts={drafts} disabled={busy || !loaded} onSelect={select} />
+						)}
+						{!gallery && !record && filters.search && (
+							<Empty
+								title="Nothing matches your search"
+								icon={SearchX}
+								className="rounded-lg border"
+								action={
+									<Button variant="outline" onClick={() => onChange({ search: "", item: "" }, true)}>
+										Clear search
+									</Button>
+								}
+							>
+								No pending submission matches “{filters.search}”.
+							</Empty>
+						)}
+						{!gallery && !record && !filters.search && (
+							<Empty
+								title={emptyTitle}
+								icon={PartyPopper}
+								tone={statusStyles.added_to_collection.badge}
+								className="rounded-lg border py-20"
+								action={
+									<>
+										{!!decisions.length && submitButton}
+										{!decisions.length && approvedCount > 0 && (
+											<Button onClick={onPublish}>
+												<Rocket />
+												Publish {approvedCount} approved
+											</Button>
+										)}
+									</>
+								}
+							>
+								{decisions.length > 0 && "Submit your staged review to send the decisions to contributors."}
+								{!decisions.length && "Nothing is waiting for review. Take a breather, new submissions land here as they arrive."}
+							</Empty>
+						)}
+						{!gallery && record && (
+							<motion.div
+								key={record.id}
+								initial={{ opacity: 0, y: 4 }}
+								animate={{ opacity: 1, y: 0 }}
+								transition={{ duration: 0.15, ease: "easeOut" }}
+								className="space-y-4"
+							>
+								<section
+									aria-label="Current submission"
+									className={cn(
+										"relative overflow-hidden rounded-lg border border-l-2 bg-background/50 p-4 shadow-sm transition-colors",
+										accent,
 									)}
-									{renameUnavailable && <p className="mt-1 text-xs leading-5 text-muted-foreground">{renameUnavailable}</p>}
-									{renaming && (
-										<ReviewRenameEditor
-											key={record.id}
-											name={fixups.name || record.name}
-											onStage={(name) => changeFixups({ ...fixups, name })}
-											onCancel={() => setRenaming(false)}
+								>
+									{!reducedMotion && <BorderBeam size={120} duration={10} borderWidth={1.5} colorFrom={beam[0]} colorTo={beam[1]} />}
+									<div className="grid grid-cols-[auto_minmax(0,1fr)] gap-x-4 gap-y-3 sm:grid-cols-[auto_minmax(0,1fr)_auto]">
+										<Thumbnail submission={record} large className="size-16 rounded-lg p-2 sm:size-20 sm:p-3" />
+										<div className="min-w-0">
+											<div className="flex flex-wrap items-center gap-1.5">
+												<Kind record={record} />
+												<Round round={record.round} />
+												<DecisionBadge draft={draft} />
+											</div>
+											<h2 className="mt-1.5 font-mono text-xl font-semibold [overflow-wrap:anywhere] sm:text-2xl">
+												{preview?.record.name}
+											</h2>
+											{fixups.name && (
+												<p className="mt-0.5 text-xs text-muted-foreground [overflow-wrap:anywhere]">
+													Submitted as <span className="font-mono">{record.name}</span>
+												</p>
+											)}
+											<p className="mt-1.5 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-muted-foreground">
+												<span className="flex min-w-0 items-center gap-1.5 [overflow-wrap:anywhere]">
+													<Avatar name={submitter} />
+													{submitter}
+												</span>
+												<span aria-hidden>·</span>
+												<Time value={record.created} className="text-sm" />
+												<span aria-hidden>·</span>
+												<span>{fileCount(record.assets.length)}</span>
+											</p>
+										</div>
+										<div className="col-span-2 flex items-center justify-between gap-2 sm:col-span-1 sm:flex-col sm:items-end sm:justify-start">
+											<p className="text-xs text-muted-foreground tabular-nums">
+												<span className="font-semibold text-foreground">{index + 1}</span> of {orderedRows.length}
+											</p>
+											<div className="flex gap-1">
+												<Tooltip>
+													<TooltipTrigger asChild>
+														<Button
+															variant="outline"
+															size="icon"
+															className="max-lg:size-11"
+															aria-label="Previous submission"
+															disabled={busy || !loaded || index <= 0}
+															onClick={() => move(-1)}
+														>
+															<ArrowLeft />
+														</Button>
+													</TooltipTrigger>
+													<TooltipContent>Previous · K</TooltipContent>
+												</Tooltip>
+												<Tooltip>
+													<TooltipTrigger asChild>
+														<Button
+															variant="outline"
+															size="icon"
+															className="max-lg:size-11"
+															aria-label="Next submission"
+															disabled={busy || !loaded || index >= orderedRows.length - 1}
+															onClick={() => move(1)}
+														>
+															<ArrowRight />
+														</Button>
+													</TooltipTrigger>
+													<TooltipContent>Next · J</TooltipContent>
+												</Tooltip>
+											</div>
+										</div>
+									</div>
+									<div className="mt-3">
+										{!renaming && !renameUnavailable && (
+											<Button
+												variant="ghost"
+												size="sm"
+												className="-ml-2 max-lg:min-h-11"
+												disabled={fixupsDisabled}
+												onClick={() => setRenaming(true)}
+											>
+												<Pencil />
+												Rename slug <Kbd>E</Kbd>
+											</Button>
+										)}
+										{renameUnavailable && <p className="text-xs leading-5 text-muted-foreground">{renameUnavailable}</p>}
+										{renaming && (
+											<ReviewRenameEditor
+												name={fixups.name || record.name}
+												onStage={(name) => changeFixups({ ...fixups, name })}
+												onCancel={() => setRenaming(false)}
+											/>
+										)}
+									</div>
+								</section>
+								<ReviewHints record={record} rows={candidates} />
+								<RejectedRoundComparison record={record} defaultOpen layout="grid" />
+								{hints.isError && (
+									<output className="block text-xs text-muted-foreground">
+										Hints are limited to this queue while other Submissions are unavailable.
+									</output>
+								)}
+								{unavailable && <p className="rounded-lg border p-3 text-sm leading-6 text-muted-foreground">{unavailable}</p>}
+								{stale && (
+									<div
+										role="alert"
+										className={cn(
+											"space-y-2 rounded-lg border border-l-2 p-3 text-sm",
+											statusStyles.pending.accent,
+											statusStyles.pending.tint,
+										)}
+									>
+										<p>This Submission changed after your draft was saved. Discard the draft before editing the current version.</p>
+										<Button
+											variant="outline"
+											size="sm"
+											disabled={busy}
+											onClick={() => {
+												clear(record.id)
+												void refresh()
+											}}
+										>
+											Discard stale draft
+										</Button>
+									</div>
+								)}
+								<ReviewGallery
+									record={record}
+									onTargetReady={targetReady}
+									edit={
+										!unavailable
+											? {
+													fixups,
+													selectedFile: selectedAsset?.file || "",
+													disabled: fixupsDisabled,
+													onSelect: setSelectedFile,
+													onRetag: (file, variant) => changeFixups(changeReviewVariant(fixups, { action: "retag", file, variant })),
+													onDrop: dropVariant,
+													onUndo: (file) => changeFixups(undoReviewFixup(fixups, `variant:${file}`)),
+												}
+											: undefined
+									}
+								/>
+								{(fixupError || errors[record.id]) && (
+									<p role="alert" className="rounded-lg border border-destructive/40 p-3 text-sm leading-6 text-destructive">
+										{fixupError || errors[record.id]}
+									</p>
+								)}
+								<ReviewFixupSummary
+									changes={preview?.changes || []}
+									onUndo={(key) => changeFixups(undoReviewFixup(fixups, key))}
+									disabled={fixupsDisabled}
+								/>
+								<section className="space-y-4 rounded-lg border bg-background/50 p-4 text-sm shadow-sm [overflow-wrap:anywhere]">
+									<h3 className="flex items-center gap-2 font-semibold">
+										<FileText className="size-4 text-muted-foreground" />
+										Details
+									</h3>
+									{record.description && <p className="whitespace-pre-wrap leading-6">{record.description}</p>}
+									{!record.description && <p className="text-muted-foreground">No description provided.</p>}
+									{!record.icon_update && (
+										<dl className="grid gap-4 sm:grid-cols-2">
+											{record.target_submission && (
+												<div className="sm:col-span-2">
+													<dt className="mb-1.5 text-xs font-medium text-muted-foreground">Proposed update to submission</dt>
+													<dd>
+														<a
+															href={`/community/submissions/${record.target_submission}`}
+															target="_blank"
+															rel="noreferrer"
+															className="break-all font-mono underline underline-offset-4 hover:text-primary"
+														>
+															{record.target_submission}
+														</a>
+													</dd>
+												</div>
+											)}
+											{(["categories", "aliases"] as const).map((field) => {
+												const values = preview?.record.extras?.[field] || []
+												return (
+													<div key={field}>
+														<dt className="mb-1.5 text-xs font-medium capitalize text-muted-foreground">{field}</dt>
+														<dd className="flex flex-wrap gap-1.5">
+															{values.map((value) => (
+																<span key={value} className="rounded-md border px-2 py-0.5 text-xs">
+																	{value}
+																</span>
+															))}
+															{!values.length && <span className="text-muted-foreground">None</span>}
+														</dd>
+													</div>
+												)
+											})}
+										</dl>
+									)}
+									{!unavailable && (
+										<ReviewMetadataEditor
+											key={JSON.stringify([fixups.aliases, fixups.categories])}
+											aliases={preview?.metadata.aliases || []}
+											categories={preview?.metadata.categories || []}
+											disabled={fixupsDisabled}
+											onStage={(metadata) => changeFixups({ ...fixups, ...metadata })}
 										/>
 									)}
-									<p className="mt-2 text-xs text-muted-foreground [overflow-wrap:anywhere]">
-										By {record.expand?.created_by?.username || "Contributor"} · <Time value={record.created} />
-									</p>
-									<div className="mt-3">
-										<DecisionBadge draft={drafts[record.id]} round={record.round || 1} />
-									</div>
-									<p className="mt-2 text-sm text-muted-foreground">
-										{record.target_submission || record.icon_update ? "Update proposal" : "New Icon"}
-									</p>
-								</div>
-								<div className="flex shrink-0 gap-1">
-									<Button
-										variant="outline"
-										size="icon"
-										className="size-11"
-										aria-label="Previous submission"
-										disabled={busy || !loaded || (index === 0 && filters.page === 1)}
-										onClick={() => move(-1)}
-									>
-										<ArrowLeft />
-									</Button>
-									<Button
-										variant="outline"
-										size="icon"
-										className="size-11"
-										aria-label="Next submission"
-										disabled={busy || !loaded || (index === rows.length - 1 && filters.page >= totalPages)}
-										onClick={() => move(1)}
-									>
-										<ArrowRight />
-									</Button>
-								</div>
-							</div>
-							<ReviewHints record={record} rows={candidates} />
-							<RejectedRoundComparison key={record.id} record={record} defaultOpen layout="grid" />
-							{hints.isError && (
-								<output className="block text-xs text-muted-foreground">
-									Hints are limited to this queue page while other Submissions are unavailable.
-								</output>
-							)}
-							{unavailable && <p className="rounded-lg bg-muted/50 p-3 text-sm leading-6 text-muted-foreground">{unavailable}</p>}
-							{stale && (
-								<div role="alert" className="space-y-2 rounded-lg bg-amber-500/10 p-3 text-sm text-amber-950 dark:text-amber-200">
-									<p>This Submission changed after your draft was saved. Discard the draft before editing the current version.</p>
-									<Button
-										variant="outline"
-										disabled={busy}
-										onClick={() => {
-											clear(record.id)
-											void refresh()
-										}}
-									>
-										Discard stale draft
-									</Button>
-								</div>
-							)}
-							<ReviewGallery
-								key={record.id}
-								record={record}
-								onTargetReady={targetReady}
-								edit={
-									!unavailable
-										? {
-												fixups,
-												selectedFile: selectedAsset?.file || "",
-												disabled: fixupsDisabled,
-												onSelect: setSelectedFile,
-												onRetag: (file, variant) => changeFixups(changeReviewVariant(fixups, { action: "retag", file, variant })),
-												onDrop: dropVariant,
-												onUndo: (file) => changeFixups(undoReviewFixup(fixups, `variant:${file}`)),
-											}
-										: undefined
-								}
-							/>
-							{(fixupError || errors[record.id]) && (
-								<p role="alert" className="text-sm leading-6 text-destructive">
-									{fixupError || errors[record.id]}
-								</p>
-							)}
-							<ReviewFixupSummary
-								changes={preview?.changes || []}
-								onUndo={(key) => changeFixups(undoReviewFixup(fixups, key))}
-								disabled={fixupsDisabled}
-							/>
-							<div className="space-y-4 text-sm [overflow-wrap:anywhere]">
-								<p className="whitespace-pre-wrap leading-6">{record.description || "No description provided."}</p>
-								{!record.icon_update && (
-									<dl className="mt-3 grid gap-3 sm:grid-cols-2">
-										{record.target_submission && (
-											<div>
-												<dt className="text-xs text-muted-foreground">Proposed update to submission</dt>
-												<dd>
-													<a
-														href={`/community/submissions/${record.target_submission}`}
-														target="_blank"
-														rel="noreferrer"
-														className="break-all font-mono underline"
-													>
-														{record.target_submission}
-													</a>
-												</dd>
-											</div>
-										)}
-										<div>
-											<dt className="text-xs text-muted-foreground">Categories</dt>
-											<dd className="break-words">{preview?.record.extras?.categories?.join(", ") || "None"}</dd>
+									{record.admin_comment && (
+										<div className="rounded-md border-l-2 border-l-primary bg-muted/50 p-3">
+											<p className="text-xs font-medium text-muted-foreground">Previous feedback</p>
+											<p className="mt-1 whitespace-pre-wrap break-words">{record.admin_comment}</p>
 										</div>
-										<div>
-											<dt className="text-xs text-muted-foreground">Aliases</dt>
-											<dd className="break-words">{preview?.record.extras?.aliases?.join(", ") || "None"}</dd>
-										</div>
-									</dl>
-								)}
-								{!unavailable && (
-									<ReviewMetadataEditor
-										key={`${record.id}:${JSON.stringify([fixups.aliases, fixups.categories])}`}
-										aliases={preview?.metadata.aliases || []}
-										categories={preview?.metadata.categories || []}
-										disabled={fixupsDisabled}
-										onStage={(metadata) => changeFixups({ ...fixups, ...metadata })}
-									/>
-								)}
-								{record.admin_comment && (
-									<p className="mt-3 whitespace-pre-wrap break-words border-t pt-3">Previous feedback: {record.admin_comment}</p>
-								)}
-								<ReviewHistory key={record.id} record={record} filters={filters} />
-								<div className="space-y-2">
-									<label htmlFor="review-note" className="text-xs font-medium">
-										Note to the contributor (optional)
+									)}
+								</section>
+								<ReviewHistory record={record} filters={filters} />
+								<section className="space-y-2 rounded-lg border bg-background/50 p-4 shadow-sm">
+									<label htmlFor="review-note" className="flex items-center gap-2 text-sm font-semibold">
+										<MessageSquare className="size-4 text-muted-foreground" />
+										Note to the contributor
+										<span className="font-normal text-muted-foreground">(optional)</span>
+										<Kbd className="ml-auto">C</Kbd>
 									</label>
 									<Textarea
 										ref={feedbackRef}
@@ -676,165 +783,266 @@ export function ReviewBench({
 												}))
 										}}
 										placeholder="Sent with your decision"
-										className="scroll-mb-[calc(var(--review-action-height)+1.5rem)] placeholder:text-muted-foreground"
 									/>
-								</div>
-							</div>
-							<div
-								ref={actionsRef}
-								data-review-actions
-								className={cn(
-									"fixed inset-x-3 bottom-0 z-20 max-h-[calc(100dvh-5rem)] space-y-3 overflow-y-auto rounded-xl border bg-background p-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] lg:sticky lg:inset-x-auto",
-									queueOpen && "max-lg:hidden",
-								)}
-							>
-								{reasonFor === record.id && (
-									<fieldset aria-label="Rejection reason" className="space-y-2">
-										<div className="flex items-center justify-between">
-											<h3 className="text-sm font-medium">Reject and invite a resubmission</h3>
-											<Button size="sm" variant="ghost" onClick={() => setReasonFor(null)}>
-												Cancel · Esc
-											</Button>
-										</div>
-										<p className="text-xs leading-5 text-muted-foreground">
-											The contributor can fix and resubmit this Submission. Pick a reason or reject without one.
-										</p>
-										<div className="grid max-h-[28dvh] gap-1 overflow-y-auto overscroll-contain p-1 sm:grid-cols-2">
-											{reasons.map((text, index) => (
-												<button
-													type="button"
-													key={text}
-													disabled={busy}
-													className="min-h-11 rounded border px-3 py-2 text-left text-xs outline-none hover:bg-muted focus-visible:ring-2 focus-visible:ring-ring [overflow-wrap:anywhere]"
-													onClick={() => stage("rejected", index === 8 && sibling ? variantRejection(sibling.name) : text)}
-												>
-													<kbd className="mr-2 font-mono text-muted-foreground">{index + 1}</kbd>
-													{text}
-												</button>
-											))}
-										</div>
-										<div className="flex flex-wrap gap-2">
-											{note.trim() && (
-												<Button size="sm" variant="destructive" disabled={busy} onClick={() => stage("rejected")}>
-													Reject with note & next
-												</Button>
-											)}
-											<Button size="sm" variant="outline" className="flex-1" onClick={() => stage("rejected")}>
-												Reject without a reason · X
-											</Button>
-										</div>
-									</fieldset>
-								)}
-								<div className="flex flex-wrap items-center gap-2">
-									<Button
-										className={cn("flex-1", primaryAction)}
-										disabled={busy || !loaded || !hydrated || !canApproveTarget || (!record.assets.length && !record.icon_update)}
-										onClick={() => stage("approved")}
-									>
-										<Check className="size-4" />
-										Approve & next <kbd className="ml-1 text-xs opacity-70">P</kbd>
-									</Button>
-									<Button
-										variant="outline"
-										className="flex-1"
-										disabled={busy || !loaded || !hydrated}
-										onClick={() => {
-											setReasonFor(record.id)
-										}}
-									>
-										<X className="size-4" />
-										Reject <kbd className="ml-1 text-xs text-muted-foreground">X</kbd>
-									</Button>
-									<div className="flex w-full gap-2 xl:w-auto">
-										<Button variant="ghost" size="icon" className="size-11" aria-label="Write a note" disabled={busy} onClick={writeNote}>
-											<MessageSquare className="size-4" />
-										</Button>
-										<Button
-											variant="ghost"
-											size="icon"
-											className="size-11"
-											aria-label="Undo this review"
-											disabled={busy || !drafts[record.id]}
-											onClick={() => clear(record.id)}
-										>
-											<RotateCcw className="size-4" />
-										</Button>
-										<Button
-											className="flex-1 xl:hidden"
-											variant="secondary"
-											disabled={!decisions.length || busy || !hydrated}
-											onClick={() => setConfirm(true)}
-										>
-											<Flag className="size-4" />
-											Submit review · {decisions.length}
-										</Button>
-									</div>
-								</div>
-								<p className="text-xs leading-5 text-muted-foreground">
-									Decisions and fix-ups stay staged until you submit review. Approving does not publish.
-								</p>
-							</div>
-						</>
-					)}
-					<div className="xl:hidden">
-						<ShortcutLegend />
+								</section>
+							</motion.div>
+						)}
+						<div className="xl:hidden">
+							<ShortcutLegend />
+						</div>
 					</div>
-					{!record && (
-						<Button className={primaryAction} disabled={!decisions.length || busy || !hydrated} onClick={() => setConfirm(true)}>
-							Submit review · {decisions.length}
-						</Button>
+					{!gallery && record && (
+						<div
+							ref={actionsRef}
+							data-review-actions
+							className={cn(
+								"z-20 shrink-0 space-y-3 rounded-lg border bg-background p-3 shadow-sm max-lg:fixed max-lg:inset-x-2 max-lg:bottom-2 max-lg:max-h-[calc(100dvh-5rem)] max-lg:overflow-y-auto max-lg:pb-[max(0.75rem,env(safe-area-inset-bottom))] max-lg:shadow-lg lg:relative lg:mt-3",
+								queueOpen && "max-lg:hidden",
+							)}
+						>
+							<div className="pointer-events-none absolute inset-x-0 -top-12 flex justify-center max-lg:hidden">
+								<AnimatePresence>
+									{flash && (
+										<motion.p
+											key={flash.key}
+											role="status"
+											initial={{ opacity: 0, y: 4 }}
+											animate={{ opacity: 1, y: 0 }}
+											exit={{ opacity: 0 }}
+											transition={{ duration: 0.15 }}
+											className="flex max-w-full items-center gap-1.5 rounded-md border bg-popover px-2.5 py-1 text-xs text-popover-foreground shadow-md"
+										>
+											{flash.status === "approved" && <Check className={cn("size-3.5", statusStyles.added_to_collection.text)} />}
+											{flash.status === "rejected" && <X className={cn("size-3.5", statusStyles.rejected.text)} />}
+											<span className="truncate font-mono">{flash.name}</span>
+											{flash.status === "approved" && "staged for approval"}
+											{flash.status === "rejected" && "staged for rejection"}
+										</motion.p>
+									)}
+								</AnimatePresence>
+							</div>
+							<AnimatePresence initial={false}>
+								{reasonOpen && (
+									<motion.fieldset
+										key="reasons"
+										aria-label="Rejection reason"
+										initial={{ height: 0, opacity: 0 }}
+										animate={{ height: "auto", opacity: 1 }}
+										exit={{ height: 0, opacity: 0 }}
+										transition={{ duration: 0.2, ease: "easeOut" }}
+										className="overflow-hidden"
+									>
+										<div className="space-y-2 pb-1">
+											<div className="flex items-center justify-between gap-2">
+												<h3 className="text-sm font-semibold">Why are you rejecting it?</h3>
+												<Button size="sm" variant="ghost" className="max-lg:min-h-11" onClick={() => setReasonFor(null)}>
+													Cancel <Kbd>Esc</Kbd>
+												</Button>
+											</div>
+											<p className="text-xs leading-5 text-muted-foreground">
+												The contributor can fix and resubmit this Submission. Pick a reason or reject without one.
+											</p>
+											<div className="relative grid max-h-[28dvh] gap-1.5 overflow-y-auto overscroll-contain p-0.5 sm:grid-cols-2 lg:max-h-[34dvh]">
+												{reasons.map((text, index) => (
+													<button
+														type="button"
+														key={text}
+														disabled={busy}
+														className="group flex min-h-10 items-start gap-2 rounded-md border px-3 py-2 text-left text-xs leading-5 outline-none transition-colors hover:border-destructive/40 hover:bg-destructive/5 focus-visible:ring-[3px] focus-visible:ring-ring/50 [overflow-wrap:anywhere]"
+														onClick={() => stage("rejected", index === 8 && sibling ? variantRejection(sibling.name) : text)}
+													>
+														<span className="mt-px flex size-5 shrink-0 items-center justify-center rounded-sm border bg-muted font-mono text-[10px] font-medium text-muted-foreground transition-colors group-hover:border-destructive/30 group-hover:bg-destructive/10 group-hover:text-destructive">
+															{index + 1}
+														</span>
+														{text}
+													</button>
+												))}
+											</div>
+											<div className="flex flex-wrap gap-2">
+												<Button
+													size="sm"
+													variant="outline"
+													className="max-lg:min-h-11 [&>svg]:text-destructive"
+													disabled={busy}
+													onClick={() => stage("rejected")}
+												>
+													Reject without a reason <Kbd>X</Kbd>
+												</Button>
+												<Button size="sm" variant="outline" className="max-lg:min-h-11" disabled={busy} onClick={rejectAsVariant}>
+													<Layers />
+													{variantLabel} <Kbd>V</Kbd>
+												</Button>
+												{note.trim() && (
+													<Button
+														size="sm"
+														variant="destructive"
+														className="max-lg:min-h-11"
+														disabled={busy}
+														onClick={() => stage("rejected")}
+													>
+														Reject with note & next
+													</Button>
+												)}
+											</div>
+										</div>
+									</motion.fieldset>
+								)}
+							</AnimatePresence>
+							<div className="grid grid-cols-2 gap-2 lg:flex lg:flex-wrap lg:items-center">
+								<Button
+									variant="outline"
+									className={cn(approveButton, "min-w-0 max-lg:h-11")}
+									disabled={busy || !loaded || !hydrated || !canApproveTarget || (!record.assets.length && !record.icon_update)}
+									onClick={() => stage("approved")}
+								>
+									<Check />
+									<span className="sm:hidden">Approve</span>
+									<span className="max-sm:hidden">Approve & next</span>
+									<Kbd className="ml-1">P</Kbd>
+								</Button>
+								<Button
+									variant="outline"
+									aria-expanded={reasonOpen}
+									className={cn(rejectButton, "min-w-0 aria-expanded:bg-destructive/20 max-lg:h-11")}
+									disabled={busy || !loaded || !hydrated}
+									onClick={() => {
+										if (reasonOpen) setReasonFor(null)
+										else setReasonFor(record.id)
+									}}
+								>
+									<X />
+									Reject
+									<Kbd className="ml-1">X</Kbd>
+								</Button>
+								<div className="col-span-2 flex gap-2 lg:contents">
+									<Tooltip>
+										<TooltipTrigger asChild>
+											<Button
+												variant="ghost"
+												size="icon"
+												className="max-lg:size-11"
+												aria-label="Write a note"
+												disabled={busy}
+												onClick={writeNote}
+											>
+												<MessageSquare />
+											</Button>
+										</TooltipTrigger>
+										<TooltipContent>Write a note · C</TooltipContent>
+									</Tooltip>
+									<Tooltip>
+										<TooltipTrigger asChild>
+											<Button
+												variant="ghost"
+												size="icon"
+												className="max-lg:size-11"
+												aria-label="Undo this review"
+												disabled={busy || !drafts[record.id]}
+												onClick={() => clear(record.id)}
+											>
+												<RotateCcw />
+											</Button>
+										</TooltipTrigger>
+										<TooltipContent>Undo this review · U</TooltipContent>
+									</Tooltip>
+									<div className="flex-1 xl:hidden lg:ml-auto lg:flex-none [&>button]:w-full max-lg:[&>button]:h-11">{submitButton}</div>
+								</div>
+							</div>
+							<p className="text-xs leading-5 text-muted-foreground max-lg:hidden">
+								Decisions and fix-ups stay staged until you submit review. Approving does not publish.
+							</p>
+						</div>
 					)}
 				</div>
-				<aside
-					aria-label="Staged decisions"
-					className="hidden min-w-0 space-y-4 rounded-xl border bg-background p-3 xl:sticky xl:top-0 xl:block"
-				>
-					<Button
-						className={cn("w-full", primaryAction)}
-						disabled={!decisions.length || busy || !hydrated}
-						onClick={() => setConfirm(true)}
-					>
-						<Flag className="size-4" />
-						Submit review · {decisions.length}
-					</Button>
-					<p className="text-xs leading-5 text-muted-foreground">
-						Approving does not publish. Decisions are sent together after confirmation.
-					</p>
-					<ul className="max-h-[42dvh] space-y-2 overflow-y-auto overscroll-contain">
-						{!decisions.length && (
-							<li className="py-4 text-sm text-muted-foreground">Approve with P or reject with X. Your staged decisions appear here.</li>
+				<aside aria-label="Staged decisions" className="hidden min-w-0 xl:flex xl:min-h-0 xl:flex-col xl:gap-3">
+					<div className="space-y-3 rounded-lg border bg-background/50 p-3 shadow-sm">
+						<p className="text-sm font-semibold">Staged review</p>
+						<dl className="grid grid-cols-2 gap-2 text-center">
+							<div className={cn("rounded-md border p-2", statusStyles.added_to_collection.badge)}>
+								<dt className="text-xs">To approve</dt>
+								<dd>
+									<NumberTicker value={approvals} className="text-xl font-semibold tracking-normal" />
+								</dd>
+							</div>
+							<div className={cn("rounded-md border p-2", statusStyles.rejected.badge)}>
+								<dt className="text-xs">To reject</dt>
+								<dd>
+									<NumberTicker value={decisions.length - approvals} className="text-xl font-semibold tracking-normal" />
+								</dd>
+							</div>
+						</dl>
+						<div className="[&>button]:w-full">{submitButton}</div>
+						<p className="text-xs text-muted-foreground">Approving does not publish. Decisions are sent together after confirmation.</p>
+					</div>
+					{!decisions.length && (
+						<div className="flex flex-col items-center gap-2 rounded-lg border border-dashed px-4 py-6 text-center text-xs text-muted-foreground">
+							<span className="flex size-8 items-center justify-center rounded-md border bg-muted">
+								<Flag className="size-4" />
+							</span>
+							Approve or reject submissions and they collect here until you submit.
+						</div>
+					)}
+					<div
+						className={cn(
+							"relative min-h-0 flex-1 overflow-y-auto overscroll-contain rounded-lg border bg-background/50 p-2 shadow-sm",
+							!decisions.length && "hidden",
 						)}
-						{decisions.map((draft) => (
-							<li key={draft.id} className="space-y-2 rounded-lg bg-muted/60 p-2 text-xs">
-								<div className="flex items-start gap-1">
-									<p className="min-w-0 flex-1 py-3 font-mono [overflow-wrap:anywhere]">{draft.fixups?.name || draft.name}</p>
-									<Button
-										variant="ghost"
-										size="icon"
-										className="size-11"
-										aria-label={`Unflag ${draft.name}`}
-										disabled={busy}
-										onClick={() => clear(draft.id)}
-									>
-										<RotateCcw className="size-3.5" />
-									</Button>
-								</div>
-								<DecisionBadge draft={draft} />
-								{!!draft.fixupSummary?.length && (
-									<ul className="space-y-1 text-muted-foreground">
-										{draft.fixupSummary.map((text) => (
-											<li key={text} className="[overflow-wrap:anywhere]">
-												{text}
-											</li>
-										))}
-									</ul>
-								)}
-								{draft.comment && <p className="whitespace-pre-wrap text-muted-foreground [overflow-wrap:anywhere]">{draft.comment}</p>}
-								{draft.status === "rejected" && <p className="text-muted-foreground">Contributor can fix and resubmit.</p>}
-							</li>
-						))}
-					</ul>
-					<ShortcutLegend />
+					>
+						<ul className="space-y-2">
+							<AnimatePresence initial={false}>
+								{decisions.map((staged) => {
+									const row = rows.find((entry) => entry.id === staged.id)
+									return (
+										<motion.li
+											key={staged.id}
+											layout="position"
+											initial={{ opacity: 0, x: 16 }}
+											animate={{ opacity: 1, x: 0 }}
+											exit={{ opacity: 0, x: 16, transition: { duration: 0.15 } }}
+											className={cn("space-y-1.5 rounded-md border p-2 text-xs")}
+										>
+											<div className="flex items-center gap-2">
+												{row && <Thumbnail submission={row} className="size-8 p-1" />}
+												<button
+													type="button"
+													onClick={() => select(staged.id)}
+													className="min-w-0 flex-1 rounded-sm text-left font-mono text-[13px] font-medium outline-none transition-colors hover:text-primary focus-visible:ring-[3px] focus-visible:ring-ring/50 [overflow-wrap:anywhere]"
+												>
+													{staged.fixups?.name || staged.name}
+												</button>
+												<StagedMark draft={staged} className="size-5" />
+												<Button
+													variant="ghost"
+													size="icon"
+													className="size-7"
+													aria-label={`Unflag ${staged.name}`}
+													disabled={busy}
+													onClick={() => clear(staged.id)}
+												>
+													<RotateCcw className="size-3.5" />
+												</Button>
+											</div>
+											{!!staged.fixupSummary?.length && (
+												<ul className="space-y-0.5 text-muted-foreground">
+													{staged.fixupSummary.map((text) => (
+														<li key={text} className="[overflow-wrap:anywhere]">
+															{text}
+														</li>
+													))}
+												</ul>
+											)}
+											{staged.comment && (
+												<p className="line-clamp-2 whitespace-pre-wrap text-muted-foreground [overflow-wrap:anywhere]">{staged.comment}</p>
+											)}
+										</motion.li>
+									)
+								})}
+							</AnimatePresence>
+						</ul>
+					</div>
+					<div className="mt-auto">
+						<ShortcutLegend />
+					</div>
 				</aside>
 			</div>
 			<Dialog
@@ -843,26 +1051,30 @@ export function ReviewBench({
 					if (!open) setVariantFor(null)
 				}}
 			>
-				<DialogContent className="max-h-[85dvh] overflow-y-auto [&_button]:min-h-11 [&_button]:min-w-11 [&_button]:hover:scale-100">
-					<DialogTitle>Reject as a Variant</DialogTitle>
+				<DialogContent className="max-h-[85dvh] overflow-y-auto">
+					<DialogTitle className="flex items-center gap-2">
+						<Layers className="size-5 text-muted-foreground" />
+						Reject as a Variant
+					</DialogTitle>
 					<DialogDescription>The contributor can fix and resubmit this Submission as a Variant of an existing Icon.</DialogDescription>
 					<label htmlFor="review-variant-parent" className="space-y-2 text-sm font-medium">
 						Existing Icon slug
-						<input
+						<Input
 							id="review-variant-parent"
 							value={variantName}
 							onChange={(event) => setVariantName(event.target.value)}
-							className="mt-2 min-h-11 w-full rounded-md border bg-background px-3 font-mono outline-none focus-visible:ring-2 focus-visible:ring-ring"
+							className="mt-2 font-mono max-lg:min-h-11"
 							placeholder="existing-icon"
 							maxLength={80}
 						/>
 					</label>
 					<DialogFooter>
-						<Button variant="outline" className="min-h-11" onClick={() => setVariantFor(null)}>
+						<Button variant="outline" className="max-lg:min-h-11" onClick={() => setVariantFor(null)}>
 							Cancel
 						</Button>
 						<Button
-							className={cn("min-h-11", primaryAction)}
+							variant="destructive"
+							className="max-lg:min-h-11"
 							disabled={!/^[a-z0-9]+(-[a-z0-9]+)*$/.test(variantName) || variantName === record?.name}
 							onClick={() => stage("rejected", variantRejection(variantName))}
 						>

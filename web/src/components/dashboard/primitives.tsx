@@ -1,12 +1,83 @@
 "use client"
-import { ChevronLeft, ChevronRight, CircleCheck, Inbox, Loader2 } from "lucide-react"
+import {
+	CheckCircle2,
+	ChevronDown,
+	Clock,
+	GitPullRequestArrow,
+	ImageOff,
+	Inbox,
+	Library,
+	Loader2,
+	type LucideIcon,
+	RotateCcw,
+	Sparkles,
+	XCircle,
+} from "lucide-react"
 import type { ReactNode } from "react"
+import { Alert, AlertDescription } from "@/components/ui/alert"
+import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
+import { Card } from "@/components/ui/card"
 import { UnoptimizedImage } from "@/components/unoptimized-image"
 import { statusLabels } from "@/lib/dashboard/types"
 import { pb, type Submission } from "@/lib/pb"
+import { labelledAssets, type VariantBackground, variantKind } from "@/lib/submission-variants"
 import { cn } from "@/lib/utils"
-export function Time({ value }: { value: string }) {
+
+export const backdrops: Record<VariantBackground, string> = {
+	any: "bg-[repeating-conic-gradient(#e4e4e7_0%_25%,#ffffff_0%_50%)] bg-[length:14px_14px] dark:bg-[repeating-conic-gradient(#27272a_0%_25%,#18181b_0%_50%)]",
+	light: "bg-white",
+	dark: "bg-zinc-950",
+}
+export const selectedRing = "ring-2 ring-primary"
+export const updateBadge = "border-community/20 bg-community/10 text-community"
+export const approveButton =
+	"border-success/40 bg-success/10 text-success hover:bg-success/20 hover:text-success dark:border-success/40 dark:bg-success/10 dark:hover:bg-success/20"
+export const rejectButton =
+	"border-destructive/40 bg-destructive/10 text-destructive hover:bg-destructive/20 hover:text-destructive dark:border-destructive/40 dark:bg-destructive/10 dark:hover:bg-destructive/20"
+export const statusStyles: Record<
+	Submission["status"],
+	{ Icon: LucideIcon; badge: string; dot: string; text: string; accent: string; tint: string }
+> = {
+	pending: {
+		Icon: Clock,
+		badge: "border-warning/20 bg-warning/10 text-warning",
+		dot: "bg-warning",
+		text: "text-warning",
+		accent: "border-l-warning",
+		tint: "bg-warning/5",
+	},
+	approved: {
+		Icon: CheckCircle2,
+		badge: "border-info/20 bg-info/10 text-info",
+		dot: "bg-info",
+		text: "text-info",
+		accent: "border-l-info",
+		tint: "bg-info/5",
+	},
+	rejected: {
+		Icon: XCircle,
+		badge: "border-destructive/20 bg-destructive/10 text-destructive",
+		dot: "bg-destructive",
+		text: "text-destructive",
+		accent: "border-l-destructive",
+		tint: "bg-destructive/5",
+	},
+	added_to_collection: {
+		Icon: Library,
+		badge: "border-success/20 bg-success/10 text-success",
+		dot: "bg-success",
+		text: "text-success",
+		accent: "border-l-success",
+		tint: "bg-success/5",
+	},
+}
+
+export function fileCount(count: number) {
+	if (count === 1) return "1 file"
+	return `${count} files`
+}
+export function Time({ value, className }: { value: string; className?: string }) {
 	const date = new Date(value)
 	const minutes = Math.max(0, Math.floor((Date.now() - date.getTime()) / 60000))
 	let label = `${Math.floor(minutes / 1440)}d ago`
@@ -14,53 +85,123 @@ export function Time({ value }: { value: string }) {
 	if (minutes < 60) label = `${minutes}m ago`
 	if (minutes < 1) label = "Just now"
 	return (
-		<time dateTime={date.toISOString()} title={date.toLocaleString()} className="shrink-0 whitespace-nowrap text-xs text-muted-foreground">
+		<time
+			dateTime={date.toISOString()}
+			title={date.toLocaleString()}
+			className={cn("shrink-0 whitespace-nowrap text-xs text-muted-foreground", className)}
+		>
 			{label}
 		</time>
 	)
 }
-export function Status({ status }: { status: string }) {
+export function Status({ status, className }: { status: string; className?: string }) {
+	const style = statusStyles[status as Submission["status"]]
+	return (
+		<Badge variant="outline" className={cn(style?.badge, className)}>
+			{style && <style.Icon aria-hidden />}
+			{statusLabels[status] || status}
+		</Badge>
+	)
+}
+export function Kind({ record, className }: { record: Submission; className?: string }) {
+	if (record.icon_update || record.target_submission)
+		return (
+			<Badge variant="outline" className={cn(updateBadge, className)}>
+				<GitPullRequestArrow aria-hidden />
+				Update proposal
+			</Badge>
+		)
+	return (
+		<Badge variant="outline" className={cn("text-muted-foreground", className)}>
+			<Sparkles aria-hidden className="text-primary" />
+			New icon
+		</Badge>
+	)
+}
+export function Round({ round, className }: { round?: number; className?: string }) {
+	if ((round || 1) < 2) return null
+	return (
+		<Badge variant="outline" className={cn("border-info/20 bg-info/10 text-info", className)}>
+			<RotateCcw aria-hidden />
+			Round {round}
+		</Badge>
+	)
+}
+export function Avatar({ name, className }: { name: string; className?: string }) {
 	return (
 		<span
-			className={cn("inline-flex items-center gap-1.5 whitespace-nowrap rounded-md border px-2 py-0.5 text-[11px] font-medium", {
-				"border-amber-500/20 bg-amber-500/10 text-amber-700 dark:text-amber-300": status === "pending",
-				"border-blue-500/20 bg-blue-500/10 text-blue-700 dark:text-blue-300": status === "approved",
-				"border-red-500/20 bg-red-500/10 text-red-700 dark:text-red-300": status === "rejected",
-				"border-emerald-500/20 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300": status === "added_to_collection",
-			})}
-		>
-			<span className="size-1.5 rounded-full bg-current" />
-			{statusLabels[status] || status}
-		</span>
-	)
-}
-export function Thumbnail({ submission }: { submission: Submission }) {
-	return (
-		<span className="flex size-9 shrink-0 items-center justify-center rounded-lg border bg-muted/30 p-1.5">
-			{submission.assets?.[0] && (
-				<UnoptimizedImage
-					src={pb.files.getURL(submission, submission.assets[0], { thumb: "100x100" })}
-					alt=""
-					className="max-h-full max-w-full object-contain"
-				/>
+			aria-hidden
+			className={cn(
+				"inline-flex size-5 shrink-0 items-center justify-center rounded-full border bg-muted text-[10px] font-semibold uppercase text-muted-foreground",
+				className,
 			)}
-			{!submission.assets?.[0] && <Inbox className="size-4 text-muted-foreground" />}
+		>
+			{name.slice(0, 1)}
 		</span>
 	)
 }
-export function Empty({ title, children }: { title: string; children?: ReactNode }) {
+export function Kbd({ children, className }: { children: ReactNode; className?: string }) {
 	return (
-		<div className="flex flex-col items-center justify-center gap-2 px-6 py-14 text-center">
-			<CircleCheck className="mb-1 size-7 text-muted-foreground/50" />
-			<p className="text-sm font-medium">{title}</p>
-			<div className="max-w-sm text-xs leading-5 text-muted-foreground">{children}</div>
+		<kbd
+			className={cn(
+				"inline-flex h-5 min-w-5 items-center justify-center rounded-sm border border-current/20 bg-current/10 px-1 font-mono text-[10px] font-medium leading-none opacity-80 max-lg:hidden pointer-coarse:hidden",
+				className,
+			)}
+		>
+			{children}
+		</kbd>
+	)
+}
+export function Thumbnail({ submission, className, large = false }: { submission: Submission; className?: string; large?: boolean }) {
+	const [asset] = labelledAssets(submission.extras, submission.assets, submission.name, submission.icon_update)
+	let background: VariantBackground = "any"
+	if (asset?.variant) background = variantKind(asset.variant).background
+	let src = ""
+	if (asset && large) src = pb.files.getURL(submission, asset.file)
+	if (asset && !large) src = pb.files.getURL(submission, asset.file, { thumb: "100x100" })
+	return (
+		<span
+			className={cn(
+				"relative flex size-10 shrink-0 items-center justify-center overflow-hidden rounded-md p-1.5 ring-1 ring-border",
+				backdrops[background],
+				className,
+			)}
+		>
+			{src && <UnoptimizedImage src={src} alt="" className="max-h-full max-w-full object-contain" />}
+			{!src && <ImageOff className="size-4 text-muted-foreground" />}
+		</span>
+	)
+}
+export function Empty({
+	title,
+	children,
+	icon: Icon = Inbox,
+	tone = "bg-muted text-muted-foreground",
+	action,
+	className,
+}: {
+	title: string
+	children?: ReactNode
+	icon?: LucideIcon
+	tone?: string
+	action?: ReactNode
+	className?: string
+}) {
+	return (
+		<div className={cn("flex flex-col items-center justify-center gap-3 px-6 py-12 text-center", className)}>
+			<span className={cn("flex size-10 items-center justify-center rounded-md border", tone)}>
+				<Icon className="size-5" />
+			</span>
+			<p className="font-semibold">{title}</p>
+			{children && <div className="max-w-sm text-sm text-muted-foreground">{children}</div>}
+			{action && <div className="mt-1 flex flex-wrap justify-center gap-2">{action}</div>}
 		</div>
 	)
 }
 export function Loading() {
 	return (
 		<output className="flex items-center justify-center gap-2 p-12 text-sm text-muted-foreground">
-			<Loader2 className="size-4 animate-spin" />
+			<Loader2 className="size-4 animate-spin motion-reduce:animate-none" />
 			Loading workspace…
 		</output>
 	)
@@ -69,87 +210,52 @@ export function ErrorState({ error, retry }: { error: unknown; retry: () => void
 	let message = "Something went wrong. Please try again."
 	if (error instanceof Error) message = error.message
 	return (
-		<div role="alert" className="m-4 rounded-lg border border-destructive/30 bg-destructive/5 p-4 text-sm">
-			<p>{message}</p>
-			<Button variant="outline" size="sm" className="mt-3" onClick={retry}>
-				Try again
+		<Alert variant="destructive" className="m-4 w-auto">
+			<XCircle />
+			<AlertDescription>
+				<p>{message}</p>
+				<Button variant="outline" size="sm" className="mt-2" onClick={retry}>
+					Try again
+				</Button>
+			</AlertDescription>
+		</Alert>
+	)
+}
+export function LoadMore({ shown, total, loading, onMore }: { shown: number; total: number; loading: boolean; onMore: () => void }) {
+	if (shown >= total) return null
+	return (
+		<div className="flex justify-center p-3">
+			<Button variant="outline" size="sm" disabled={loading} onClick={onMore}>
+				{loading && <Loader2 className="animate-spin motion-reduce:animate-none" />}
+				{!loading && <ChevronDown />}
+				Load more
 			</Button>
 		</div>
 	)
 }
-export function Pagination({
-	page,
-	totalPages,
-	totalItems,
-	perPage,
-	onPage,
-	onSize,
-	disabled,
+export function Panel({
+	title,
+	icon,
+	action,
+	children,
+	className,
 }: {
-	page: number
-	totalPages: number
-	totalItems: number
-	perPage: number
-	onPage: (n: number) => void
-	onSize?: (n: number) => void
-	disabled?: boolean
+	title: string
+	icon?: ReactNode
+	action?: ReactNode
+	children: ReactNode
+	className?: string
 }) {
-	const start = totalItems ? (page - 1) * perPage + 1 : 0
 	return (
-		<div className="flex flex-wrap items-center justify-between gap-3 border-t bg-background px-4 py-3 text-xs text-muted-foreground">
-			<span>
-				{start}–{Math.min(page * perPage, totalItems)} of {totalItems.toLocaleString()}
-			</span>
-			<div className="flex items-center gap-2">
-				{onSize && (
-					<select
-						aria-label="Rows per page"
-						className="h-8 rounded border bg-background px-2"
-						value={perPage}
-						onChange={(e) => onSize(Number(e.target.value))}
-					>
-						{[25, 50, 100].map((n) => (
-							<option key={n} value={n}>
-								{n} / page
-							</option>
-						))}
-					</select>
-				)}
-				<Button
-					size="icon"
-					variant="outline"
-					className="size-8"
-					aria-label="Previous page"
-					disabled={disabled || page <= 1}
-					onClick={() => onPage(page - 1)}
-				>
-					<ChevronLeft />
-				</Button>
-				<span>
-					{page} / {Math.max(1, totalPages)}
-				</span>
-				<Button
-					size="icon"
-					variant="outline"
-					className="size-8"
-					aria-label="Next page"
-					disabled={disabled || page >= totalPages}
-					onClick={() => onPage(page + 1)}
-				>
-					<ChevronRight />
-				</Button>
-			</div>
-		</div>
-	)
-}
-export function Panel({ title, action, children }: { title: string; action?: ReactNode; children: ReactNode }) {
-	return (
-		<section className="min-w-0 overflow-hidden rounded-xl border bg-background">
-			<div className="flex items-center justify-between gap-2 border-b px-4 py-3">
-				<h2 className="text-sm font-semibold">{title}</h2>
+		<Card className={cn("min-w-0 gap-0 overflow-hidden bg-background/50 py-0", className)}>
+			<div className="flex min-h-12 items-center justify-between gap-2 border-b px-4 py-2">
+				<h2 className="flex min-w-0 items-center gap-2 text-sm font-semibold [&>svg]:size-4">
+					{icon}
+					{title}
+				</h2>
 				{action}
 			</div>
 			{children}
-		</section>
+		</Card>
 	)
 }

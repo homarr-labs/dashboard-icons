@@ -1,12 +1,14 @@
 "use client"
 import { useQueryClient } from "@tanstack/react-query"
-import { ArrowRight, Clock3, GitPullRequest, LayoutDashboard, ListFilter, RefreshCw, Rss } from "lucide-react"
+import { Check, Clock, GitPullRequest, LayoutDashboard, ListFilter, RefreshCw, Rocket, Rss, X } from "lucide-react"
+import { MotionConfig, motion } from "motion/react"
 import { useSearchParams } from "next/navigation"
 import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { toast } from "sonner"
 import { revalidateAllSubmissions } from "@/app/actions/submissions"
 import { LoginModalContent } from "@/components/login-modal"
 import { Button } from "@/components/ui/button"
+import { Card } from "@/components/ui/card"
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Sheet, SheetContent, SheetDescription, SheetTitle } from "@/components/ui/sheet"
 import { Textarea } from "@/components/ui/textarea"
@@ -24,18 +26,44 @@ import { actionLabels, type DashboardFilters, type DashboardView, type PublishBa
 import { pb } from "@/lib/pb"
 import { cn } from "@/lib/utils"
 import { ActivityFeed } from "./activity-feed"
+import { ContributorHome } from "./contributor-home"
 import { Inspector, type ReviewIntent } from "./inspector"
-import { Empty, ErrorState, Loading, Pagination, Panel, Time } from "./primitives"
+import { AdminOverview } from "./overview"
+import { approveButton, Empty, ErrorState, Loading, LoadMore, Panel, rejectButton, statusStyles, Thumbnail } from "./primitives"
 import { PublishRun } from "./publishing"
 import { ReviewBench } from "./review-bench"
-import { FilterInput, ListFilters, QueuePreview, SubmissionList } from "./submission-list"
+import { FilterInput, ListFilters, SubmissionList } from "./submission-list"
 
-function numberParam(value: string | null, fallback: number, max: number) {
-	const parsed = Number(value)
-	if (!Number.isInteger(parsed) || parsed < 1) return fallback
-	return Math.min(parsed, max)
-}
-const viewIcons = { overview: LayoutDashboard, review: Clock3, publish: GitPullRequest, submissions: ListFilter, activity: Rss }
+const viewIcons = { overview: LayoutDashboard, review: Clock, publish: GitPullRequest, submissions: ListFilter, activity: Rss }
+const intentStyles = {
+	approved: {
+		title: "Approve submissions",
+		description: "Your feedback will be sent to the submitter. Approval does not publish the icon.",
+		Icon: Check,
+		variant: "outline",
+		button: approveButton,
+		tone: statusStyles.added_to_collection.badge,
+		label: "Approve",
+	},
+	rejected: {
+		title: "Reject submissions",
+		description: "The submitter will see this feedback and can submit an improved version.",
+		Icon: X,
+		variant: "outline",
+		button: rejectButton,
+		tone: statusStyles.rejected.badge,
+		label: "Reject",
+	},
+	publish: {
+		title: "Publish to the collection",
+		description: "This starts one GitHub run for the selected icons. Publication is complete only after the repository push succeeds.",
+		Icon: Rocket,
+		variant: "default",
+		button: "",
+		tone: "border-primary/20 bg-primary/10 text-primary",
+		label: "Publish",
+	},
+} as const
 export function DashboardWorkspace() {
 	const [mounted, setMounted] = useState(false)
 	useEffect(() => setMounted(true), [])
@@ -48,8 +76,6 @@ export function DashboardWorkspace() {
 		let view: DashboardView = "overview"
 		if (views.some((entry) => entry.id === params.get("view"))) view = params.get("view") as DashboardView
 		if (authenticated && !isAdmin) view = "submissions"
-		let perPage = Number(params.get("size"))
-		if (![25, 50, 100].includes(perPage)) perPage = 50
 		return {
 			view,
 			search: params.get("search") || "",
@@ -59,8 +85,6 @@ export function DashboardWorkspace() {
 			from: params.get("from") || "",
 			to: params.get("to") || "",
 			sort: params.get("sort") || "recent",
-			page: numberParam(params.get("page"), 1, 100000),
-			perPage,
 			actor: params.get("actor") || "",
 			action: params.get("action") || "",
 			submission: params.get("submission") || "",
@@ -73,19 +97,26 @@ export function DashboardWorkspace() {
 	const [busy, setBusy] = useState(false)
 	const [failures, setFailures] = useState<{ id: string; error: string }[]>([])
 	const [wide, setWide] = useState(false)
-	const [nextPageSelection, setNextPageSelection] = useState<{ position: "first" | "last"; page: number } | null>(null)
+	const [activityLimit, setActivityLimit] = useState(50)
+	const [runsLimit, setRunsLimit] = useState(10)
 	const returnFocus = useRef<HTMLElement | null>(null)
 	const lastInspectedId = useRef(activeId)
 	if (activeId) lastInspectedId.current = activeId
 	const listActive = authenticated && ["review", "publish", "submissions"].includes(filters.view)
-	const list = useDashboardSubmissions(filters, listActive, isAdmin ? undefined : auth.data?.userId)
+	let listFilters = filters
+	if (!isAdmin) listFilters = { ...filters, search: "", status: "" }
+	const list = useDashboardSubmissions(listFilters, listActive, isAdmin ? undefined : auth.data?.userId)
 	const summary = useDashboardSummary(authenticated && isAdmin)
-	const overviewFilters = { ...filters, page: 1, actor: "", action: "", submission: "", from: "", to: "" }
-	const activity = useDashboardActivity(filters, authenticated && isAdmin && filters.view === "activity")
-	const recent = useDashboardActivity(overviewFilters, authenticated && isAdmin && filters.view === "overview", undefined, 8)
-	const batches = usePublishBatches(authenticated && isAdmin && filters.view === "publish", numberParam(params.get("runsPage"), 1, 100000))
+	const activity = useDashboardActivity(filters, authenticated && isAdmin && filters.view === "activity", undefined, activityLimit)
+	const recent = useDashboardActivity(
+		{ ...filters, actor: "", action: "", submission: "", from: "", to: "" },
+		authenticated && isAdmin && filters.view === "overview",
+		undefined,
+		8,
+	)
+	const batches = usePublishBatches(authenticated && isAdmin && filters.view === "publish", runsLimit)
 	const { hasUpdates, refresh } = useDashboardUpdates(authenticated && isAdmin)
-	const rows = list.data?.items || []
+	const rows = list.data || []
 	const selectionKey = JSON.stringify(filters)
 	const previousSelectionKey = useRef(selectionKey)
 	useEffect(() => {
@@ -93,6 +124,7 @@ export function DashboardWorkspace() {
 		previousSelectionKey.current = selectionKey
 		setSelected([])
 		setFailures([])
+		setActivityLimit(50)
 	}, [selectionKey])
 	useEffect(() => {
 		const mq = window.matchMedia("(min-width: 1280px)")
@@ -120,12 +152,11 @@ export function DashboardWorkspace() {
 		else window.history.pushState(null, "", url)
 	}, [])
 	function changeFilters(patch: Record<string, string>) {
-		update({ ...patch, page: "1" }, true)
+		update(patch, true)
 	}
-	function navigate(view: DashboardView) {
+	function navigate(view: DashboardView, patch: Record<string, string> = {}) {
 		update({
 			view,
-			page: "1",
 			item: "",
 			status: "",
 			search: "",
@@ -136,6 +167,7 @@ export function DashboardWorkspace() {
 			actor: "",
 			action: "",
 			submission: "",
+			...patch,
 		})
 	}
 	function open(id: string) {
@@ -176,14 +208,6 @@ export function DashboardWorkspace() {
 		}, 15000)
 		return () => clearInterval(timer)
 	}, [filters.view, summary.data, reconcile])
-	useEffect(() => {
-		if (!nextPageSelection || list.isFetching || !list.data || list.data.page !== nextPageSelection.page) return
-		const pageRows = list.data.items
-		let target = pageRows[0]
-		if (nextPageSelection.position === "last") target = pageRows[pageRows.length - 1]
-		if (target) update({ item: target.id }, true)
-		setNextPageSelection(null)
-	}, [nextPageSelection, list.isFetching, list.data, update])
 	async function submit() {
 		if (!intent) return
 		setBusy(true)
@@ -208,19 +232,7 @@ export function DashboardWorkspace() {
 				if (result.emailFailed) toast.warning("Reviews saved, but feedback email delivery failed.")
 				if (succeeded) toast.success(`${succeeded} submission(s) reviewed`)
 				if (failed.length) toast.error(`${failed.length} submission(s) need attention`)
-				if (!failed.length && intent.nextId) {
-					let nextId = intent.nextId
-					if (nextId === "__next_page__") {
-						const position = rows.findIndex((row) => row.id === intent.records[0].id)
-						const refreshed = await list.refetch()
-						if (refreshed.data?.items.some((row) => row.id === intent.records[0].id)) {
-							setNextPageSelection({ position: "first", page: filters.page + 1 })
-							update({ page: String(filters.page + 1), item: "" }, true)
-							nextId = ""
-						} else nextId = refreshed.data?.items[position]?.id || ""
-					}
-					update({ item: nextId }, true)
-				}
+				if (!failed.length && intent.nextId) update({ item: intent.nextId }, true)
 				setIntent(null)
 				await revalidateAllSubmissions()
 			}
@@ -234,12 +246,10 @@ export function DashboardWorkspace() {
 	if (!mounted || auth.isLoading) return <Loading />
 	if (!authenticated)
 		return (
-			<div className="mx-auto my-10 w-full max-w-md rounded-xl border bg-background p-6">
+			<div className="mx-auto my-10 w-full max-w-md rounded-lg border bg-background p-6 shadow-sm">
 				<LoginModalContent autoFocus={false} onSuccess={() => void client.invalidateQueries({ queryKey: ["auth"] })} />
 			</div>
 		)
-	const title = isAdmin ? "Dashboard" : "My submissions"
-
 	const counts = summary.data?.counts
 	const index = rows.findIndex((record) => record.id === activeId)
 	const previous = rows[index - 1]?.id
@@ -255,405 +265,360 @@ export function DashboardWorkspace() {
 		next,
 		busy,
 		publishBlocked: summary.data?.batches.some((batch) => batch.active) || false,
-		onPrevious:
-			index === 0 && filters.page > 1
-				? () => {
-						setNextPageSelection({ position: "last", page: filters.page - 1 })
-						update({ page: String(filters.page - 1) })
-					}
-				: undefined,
-		onNext:
-			index === rows.length - 1 && filters.page < (list.data?.totalPages || 0)
-				? () => {
-						setNextPageSelection({ position: "first", page: filters.page + 1 })
-						update({ page: String(filters.page + 1) })
-					}
-				: undefined,
 	}
 	const activeBatch = summary.data?.batches.find((batch) => batch.active)
 	const pendingSelected = rows.filter((record) => selected.includes(record.id) && record.status === "pending")
 	const approvedSelected = rows.filter((record) => selected.includes(record.id) && record.status === "approved")
-	let confirmTitle = "Approve submissions"
-	let confirmDescription = "Your feedback will be sent to the submitter. Approval does not publish the icon."
-	if (intent?.kind === "rejected") {
-		confirmTitle = "Reject submissions"
-		confirmDescription = "The submitter will see this feedback and can submit an improved version."
-	}
-	if (intent?.kind === "publish") {
-		confirmTitle = "Publish to the collection"
-		confirmDescription =
-			"This starts one GitHub run for the selected icons. Publication is complete only after the repository push succeeds."
-	}
+	const intentStyle = intent && intentStyles[intent.kind]
+	const sidePanel = filters.view !== "review" && !!activeId && wide
+	const refreshing = summary.isFetching || list.isFetching
 	return (
-		<div className="mx-auto flex min-h-0 w-full max-w-[1600px] flex-1 flex-col px-3 py-2 sm:px-6 lg:px-8">
-			<div className="mb-3 flex shrink-0 items-center justify-between gap-2 border-b pb-2">
-				<h1 className={cn("text-lg font-semibold", isAdmin && "sr-only")}>{title}</h1>
+		<MotionConfig reducedMotion="user">
+			<div className="mx-auto flex min-h-0 w-full max-w-[1600px] flex-1 flex-col px-3 pt-3 pb-2 sm:px-6 lg:px-8">
+				<h1 className="sr-only">{isAdmin ? "Review workbench" : "My submissions"}</h1>
 				{isAdmin && (
-					<>
-						<nav aria-label="Dashboard views" className="hidden shrink-0 items-center gap-1 md:flex">
+					<div className="mb-4 flex shrink-0 items-center gap-2 border-b">
+						<nav
+							aria-label="Dashboard views"
+							className="-mb-px flex min-w-0 flex-1 items-center gap-1 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+						>
 							{views.map((entry) => {
 								const Icon = viewIcons[entry.id]
+								const active = filters.view === entry.id
 								let count: number | undefined
-								if (entry.id === "review") count = counts?.pending
-								if (entry.id === "publish") count = counts?.approved
+								let tone = ""
+								if (entry.id === "review") {
+									count = counts?.pending
+									tone = statusStyles.pending.badge
+								}
+								if (entry.id === "publish") {
+									count = counts?.approved
+									tone = statusStyles.approved.badge
+								}
 								return (
 									<button
 										key={entry.id}
 										type="button"
-										aria-current={filters.view === entry.id ? "page" : undefined}
+										aria-current={active ? "page" : undefined}
 										onClick={() => navigate(entry.id)}
 										className={cn(
-											"relative flex items-center gap-2 border-b-2 border-transparent px-3 py-2 text-sm font-medium text-foreground/75 transition-colors hover:text-foreground",
-											filters.view === entry.id && "border-primary text-foreground",
+											"flex h-11 shrink-0 items-center gap-2 border-b-2 border-transparent px-3 text-sm font-medium text-muted-foreground outline-none transition-colors hover:text-primary focus-visible:ring-[3px] focus-visible:ring-ring/50 [&>svg]:size-4",
+											active && "border-primary font-semibold text-primary",
 										)}
 									>
-										<Icon className="size-3.5" />
+										<Icon />
 										{entry.label}
-										{count !== undefined && <span className="rounded bg-muted px-1.5 py-0.5 text-[10px] tabular-nums">{count}</span>}
+										{!!count && (
+											<span
+												className={cn(
+													"min-w-5 rounded-full border px-1.5 text-center text-[11px] font-semibold leading-4 tabular-nums",
+													tone,
+												)}
+											>
+												{count}
+											</span>
+										)}
 									</button>
 								)
 							})}
 						</nav>
-						<select
-							aria-label="Dashboard view"
-							className="h-9 min-w-0 flex-1 shrink-0 rounded-lg border bg-background px-3 text-sm md:hidden"
-							value={filters.view}
-							onChange={(e) => navigate(e.target.value as DashboardView)}
+						{hasUpdates && (
+							<Button variant="ghost" size="sm" className="mb-1 shrink-0 max-lg:min-h-11" onClick={() => void refresh()}>
+								<span className="size-2 rounded-full bg-primary" />
+								<span className="max-sm:sr-only">New activity</span>
+							</Button>
+						)}
+						<Button
+							size="icon"
+							variant="ghost"
+							className="mb-1 shrink-0 max-lg:size-11"
+							aria-label="Refresh dashboard"
+							disabled={refreshing}
+							onClick={() => void reconcile().then(refresh)}
 						>
-							{views.map((entry) => (
-								<option key={entry.id} value={entry.id}>
-									{entry.label}
-								</option>
-							))}
-						</select>
-					</>
+							<RefreshCw className={cn(refreshing && "animate-spin motion-reduce:animate-none")} />
+						</Button>
+					</div>
 				)}
-				<Button
-					size="icon"
-					variant="ghost"
-					className="size-9 shrink-0"
-					aria-label="Refresh dashboard"
-					disabled={summary.isFetching || list.isFetching}
-					onClick={() => void reconcile().then(refresh)}
-				>
-					<RefreshCw className="size-4" />
-				</Button>
-			</div>
-			{hasUpdates && (
-				<div className="mb-3 flex shrink-0 items-center justify-between gap-2 rounded-lg border bg-muted/30 px-3 py-2 text-xs">
-					<span>New activity available. Your current list has stayed in place.</span>
-					<Button size="sm" variant="ghost" className="h-7" onClick={() => void refresh()}>
-						Refresh
-					</Button>
-				</div>
-			)}
-			{!!failures.length && (
-				<div role="alert" className="mb-3 max-h-28 overflow-y-auto rounded-lg border border-destructive/30 p-3 text-xs">
-					{failures.map((failure) => (
-						<p key={failure.id}>
-							{rows.find((row) => row.id === failure.id)?.name || failure.id}: {failure.error}
-						</p>
-					))}
-				</div>
-			)}
-			<div className={cn("grid min-h-0 flex-1 gap-4", filters.view !== "review" && activeId && wide && "grid-cols-[minmax(0,1fr)_400px]")}>
-				<div className="min-h-0 min-w-0 overflow-y-auto overscroll-contain">
-					{filters.view === "overview" && isAdmin && (
-						<>
-							{summary.error && <ErrorState error={summary.error} retry={() => void summary.refetch()} />}
-							<div className="mb-4 grid grid-cols-3 gap-2 sm:gap-3">
-								{[
-									{ label: "Needs review", value: counts?.pending, view: "review" },
-									{ label: "Ready to publish", value: counts?.approved, view: "publish" },
-									{ label: "Published", value: counts?.added_to_collection, view: "submissions" },
-								].map((metric) => (
-									<button
-										key={metric.label}
-										type="button"
-										onClick={() => {
-											navigate(metric.view as DashboardView)
-											if (metric.label === "Published") update({ status: "added_to_collection" }, true)
-										}}
-										className="rounded-xl border bg-background px-3 py-3 text-left hover:bg-muted/30 sm:px-4"
-									>
-										<span className="block text-[11px] text-muted-foreground">{metric.label}</span>
-										<span className="mt-1 block text-xl font-semibold tabular-nums">{metric.value ?? "—"}</span>
-									</button>
-								))}
-							</div>
-							<div className={cn("grid items-start gap-4", !activeId && "lg:grid-cols-[minmax(0,1.35fr)_minmax(300px,1fr)]")}>
-								<Panel
-									title="Recent team activity"
-									action={
-										<Button size="sm" variant="ghost" className="h-7 text-xs" onClick={() => navigate("activity")}>
-											View all
-											<ArrowRight className="size-3" />
-										</Button>
-									}
-								>
-									{recent.isLoading && <Loading />}
-									{recent.error && <ErrorState error={recent.error} retry={() => void recent.refetch()} />}{" "}
-									{recent.data && <ActivityFeed events={recent.data.items} onOpen={open} />}
-								</Panel>
-								<div className="space-y-4">
-									<Panel
-										title="Waiting for review"
-										action={
-											<Button size="sm" variant="ghost" className="h-7 text-xs" onClick={() => navigate("review")}>
-												Review
-												<ArrowRight className="size-3" />
-											</Button>
-										}
-									>
-										{summary.data?.oldest && (
-											<div className="border-b px-4 py-2 text-[11px] text-muted-foreground">
-												Oldest submission: <Time value={summary.data.oldest.created} />
-											</div>
-										)}
-										<QueuePreview records={summary.data?.pending || []} onOpen={open} />
-									</Panel>
-									<Panel
-										title="Ready to publish"
-										action={
-											<Button size="sm" variant="ghost" className="h-7 text-xs" onClick={() => navigate("publish")}>
-												Open
-												<ArrowRight className="size-3" />
-											</Button>
-										}
-									>
-										<QueuePreview records={summary.data?.approved || []} onOpen={open} />
-									</Panel>
-									{summary.data?.batches[0] && <PublishRun batch={activeBatch || summary.data.batches[0]} compact />}
-								</div>
-							</div>
-						</>
-					)}
-					{filters.view === "review" && isAdmin && (
-						<>
-							{list.isLoading && <Loading />}
-							{list.error && <ErrorState error={list.error} retry={() => void list.refetch()} />}
-							{list.data && (
-								<ReviewBench
-									key={auth.data?.userId}
-									userId={auth.data?.userId || ""}
-									rows={rows}
-									activeId={activeId}
-									filters={filters}
-									totalItems={list.data.totalItems}
-									totalPages={list.data.totalPages}
-									loaded={!list.isPlaceholderData && !list.isFetching && list.data.page === filters.page}
-									onChange={update}
-									refresh={refresh}
-								/>
-							)}
-						</>
-					)}
-					{listActive && filters.view !== "review" && (
-						<div className="flex h-full min-h-0 flex-col gap-3">
-							{filters.view === "publish" && activeBatch && <PublishRun batch={activeBatch} compact />}
-							<section className="flex min-h-[280px] flex-1 flex-col overflow-hidden rounded-xl border bg-background">
-								<ListFilters filters={filters} onChange={changeFilters} isAdmin={isAdmin} />
-								{selected.length > 0 && (
-									<div className="flex flex-wrap items-center gap-2 border-b bg-muted/40 px-4 py-2">
-										<span className="mr-auto text-xs">{selected.length} selected on this page</span>
-										<Button size="sm" variant="ghost" className="h-7 px-2 text-xs" onClick={() => setSelected([])}>
-											Clear
-										</Button>
-										{pendingSelected.length > 0 && (
-											<>
-												<Button
-													size="sm"
-													variant="outline"
-													className="h-7 text-xs"
-													disabled={busy || list.isPlaceholderData}
-													onClick={() => action({ kind: "rejected", records: pendingSelected })}
-												>
-													Reject {pendingSelected.length}
-												</Button>
-												<Button
-													size="sm"
-													className="h-7 text-xs"
-													disabled={busy || list.isPlaceholderData}
-													onClick={() => action({ kind: "approved", records: pendingSelected })}
-												>
-													Approve {pendingSelected.length}
-												</Button>
-											</>
-										)}
-										{approvedSelected.length > 0 && (
-											<Button
-												size="sm"
-												className="h-7 text-xs"
-												disabled={busy || !!activeBatch || list.isPlaceholderData}
-												onClick={() => action({ kind: "publish", records: approvedSelected })}
-											>
-												Publish {approvedSelected.length}
-											</Button>
-										)}
-									</div>
-								)}
-								<div className="min-h-0 flex-1 overflow-y-auto">
-									{list.isLoading && <Loading />}
-									{list.error && <ErrorState error={list.error} retry={() => void list.refetch()} />}{" "}
-									{list.data && (
-										<SubmissionList
-											records={rows}
-											selected={selected}
-											onSelection={setSelected}
-											onOpen={open}
-											activeId={activeId}
-											isAdmin={isAdmin}
-											disabled={busy || list.isPlaceholderData}
-											view={filters.view}
-											sort={filters.sort}
-											onSort={(sort) => changeFilters({ sort })}
-										/>
-									)}
-								</div>
+				{!!failures.length && (
+					<div
+						role="alert"
+						className="mb-3 max-h-28 shrink-0 overflow-y-auto rounded-lg border border-destructive/40 p-3 text-xs text-destructive"
+					>
+						{failures.map((failure) => (
+							<p key={failure.id}>
+								{rows.find((row) => row.id === failure.id)?.name || failure.id}: {failure.error}
+							</p>
+						))}
+					</div>
+				)}
+				<div className={cn("grid min-h-0 flex-1 gap-4", sidePanel && "grid-cols-[minmax(0,1fr)_420px]")}>
+					<div
+						className={cn(
+							"relative min-h-0 min-w-0 overscroll-contain lg:overflow-y-auto",
+							filters.view === "review" && "lg:overflow-hidden",
+						)}
+					>
+						{!isAdmin && (
+							<ContributorHome
+								records={rows}
+								loading={list.isLoading}
+								error={list.error}
+								retry={() => void list.refetch()}
+								filters={filters}
+								activeId={activeId}
+								onFilter={changeFilters}
+								onOpen={open}
+								refresh={() => void list.refetch()}
+								refreshing={list.isFetching}
+							/>
+						)}
+						{filters.view === "overview" && isAdmin && (
+							<AdminOverview
+								summary={summary}
+								recent={recent}
+								onNavigate={navigate}
+								onOpen={open}
+								onReview={(id) => navigate("review", { item: id })}
+							/>
+						)}
+						{filters.view === "review" && isAdmin && (
+							<>
+								{list.isLoading && <Loading />}
+								{list.error && <ErrorState error={list.error} retry={() => void list.refetch()} />}
 								{list.data && (
-									<Pagination
-										page={filters.page}
-										totalPages={list.data.totalPages}
-										totalItems={list.data.totalItems}
-										perPage={filters.perPage}
-										onPage={(page) => update({ page: String(page) })}
-										onSize={(size) => changeFilters({ size: String(size) })}
-										disabled={list.isPlaceholderData}
+									<ReviewBench
+										key={auth.data?.userId}
+										userId={auth.data?.userId || ""}
+										rows={rows}
+										activeId={activeId}
+										filters={filters}
+										loaded={!list.isPlaceholderData && !list.isFetching}
+										onChange={update}
+										refresh={refresh}
+										approvedCount={counts?.approved || 0}
+										onPublish={() => navigate("publish")}
 									/>
 								)}
-							</section>
-							{filters.view === "publish" && (
-								<details className="shrink-0 rounded-xl border bg-background">
-									<summary className="cursor-pointer px-4 py-3 text-sm font-medium">Publication history</summary>
-									<div className="max-h-80 space-y-2 overflow-y-auto px-3 pb-3">
-										{batches.error && <ErrorState error={batches.error} retry={() => void batches.refetch()} />}{" "}
-										{batches.data?.items.map((batch) => (
-											<PublishRun key={batch.id} batch={batch} />
-										))}
-										{batches.data?.items.length === 0 && (
-											<Empty title="No publish runs yet">Select approved icons to publish your first batch.</Empty>
+							</>
+						)}
+						{isAdmin && ["publish", "submissions"].includes(filters.view) && (
+							<div className="flex min-h-full flex-col gap-3">
+								{filters.view === "publish" && (
+									<div className="space-y-1">
+										<h2 className="font-semibold">Ready to publish</h2>
+										<p className="text-sm text-muted-foreground">
+											Select approved icons and start one GitHub run. They join the collection once the push succeeds.
+										</p>
+									</div>
+								)}
+								{filters.view === "publish" && activeBatch && <PublishRun batch={activeBatch} compact />}
+								<Card className="min-h-[320px] flex-1 gap-0 overflow-hidden bg-background/50 py-0">
+									<ListFilters filters={filters} onChange={changeFilters} counts={counts} />
+									{selected.length > 0 && (
+										<motion.div
+											initial={{ opacity: 0, y: -4 }}
+											animate={{ opacity: 1, y: 0 }}
+											className="flex flex-wrap items-center gap-2 border-b bg-primary/5 px-4 py-2"
+										>
+											<span className="mr-auto text-sm font-medium">{selected.length} selected</span>
+											<Button size="sm" variant="ghost" onClick={() => setSelected([])}>
+												Clear
+											</Button>
+											{pendingSelected.length > 0 && (
+												<>
+													<Button
+														size="sm"
+														variant="outline"
+														className={rejectButton}
+														disabled={busy || list.isPlaceholderData}
+														onClick={() => action({ kind: "rejected", records: pendingSelected })}
+													>
+														<X />
+														Reject {pendingSelected.length}
+													</Button>
+													<Button
+														size="sm"
+														variant="outline"
+														className={approveButton}
+														disabled={busy || list.isPlaceholderData}
+														onClick={() => action({ kind: "approved", records: pendingSelected })}
+													>
+														<Check />
+														Approve {pendingSelected.length}
+													</Button>
+												</>
+											)}
+											{approvedSelected.length > 0 && (
+												<Button
+													size="sm"
+													disabled={busy || !!activeBatch || list.isPlaceholderData}
+													onClick={() => action({ kind: "publish", records: approvedSelected })}
+												>
+													<Rocket />
+													Publish {approvedSelected.length}
+												</Button>
+											)}
+										</motion.div>
+									)}
+									<div className="relative min-h-0 flex-1 overflow-y-auto">
+										{list.isLoading && <Loading />}
+										{list.error && <ErrorState error={list.error} retry={() => void list.refetch()} />}
+										{list.data && (
+											<SubmissionList
+												records={rows}
+												selected={selected}
+												onSelection={setSelected}
+												onOpen={open}
+												activeId={activeId}
+												disabled={busy || list.isPlaceholderData}
+												view={filters.view}
+												sort={filters.sort}
+												onSort={(sort) => changeFilters({ sort })}
+											/>
 										)}
 									</div>
-									{batches.data && (
-										<Pagination
-											page={batches.data.page}
-											totalPages={batches.data.totalPages}
-											totalItems={batches.data.totalItems}
-											perPage={10}
-											onPage={(page) => update({ runsPage: String(page) })}
+								</Card>
+								{filters.view === "publish" && (
+									<Panel title="Publication history" icon={<GitPullRequest className="text-primary" />}>
+										<div className="space-y-2 p-3">
+											{batches.error && <ErrorState error={batches.error} retry={() => void batches.refetch()} />}
+											{batches.data?.items.map((batch) => (
+												<PublishRun key={batch.id} batch={batch} />
+											))}
+											{batches.data?.items.length === 0 && (
+												<Empty title="No publish runs yet" icon={Rocket}>
+													Select approved icons to publish your first batch.
+												</Empty>
+											)}
+										</div>
+										{batches.data && (
+											<LoadMore
+												shown={batches.data.items.length}
+												total={batches.data.totalItems}
+												loading={batches.isFetching}
+												onMore={() => setRunsLimit((limit) => limit + 10)}
+											/>
+										)}
+									</Panel>
+								)}
+							</div>
+						)}
+						{filters.view === "activity" && isAdmin && (
+							<Card className="min-h-full gap-0 overflow-hidden bg-background/50 py-0">
+								<div className="grid shrink-0 grid-cols-2 gap-3 border-b p-4 sm:grid-cols-3 lg:grid-cols-5">
+									<FilterInput label="Actor" value={filters.actor} onChange={(actor) => changeFilters({ actor })} />
+									<FilterInput label="Icon" value={filters.submission} onChange={(submission) => changeFilters({ submission })} />
+									<label className="space-y-1.5 text-xs text-muted-foreground">
+										<span className="block font-medium">Action</span>
+										<select
+											aria-label="Activity action"
+											className="h-9 w-full rounded-md border border-input bg-transparent px-3 text-sm text-foreground shadow-xs outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 dark:bg-input/30 max-lg:min-h-11"
+											value={filters.action}
+											onChange={(e) => changeFilters({ action: e.target.value })}
+										>
+											<option value="">All actions</option>
+											{Object.entries(actionLabels).map(([value, label]) => (
+												<option key={value} value={value}>
+													{label}
+												</option>
+											))}
+										</select>
+									</label>
+									<FilterInput label="From (UTC)" value={filters.from} type="date" onChange={(from) => changeFilters({ from })} />
+									<FilterInput label="Through (UTC)" value={filters.to} type="date" onChange={(to) => changeFilters({ to })} />
+								</div>
+								<div className="min-h-0 flex-1">
+									{activity.isLoading && <Loading />}
+									{activity.error && <ErrorState error={activity.error} retry={() => void activity.refetch()} />}
+									{activity.data && <ActivityFeed events={activity.data.items} onOpen={open} />}
+									{activity.data && (
+										<LoadMore
+											shown={activity.data.items.length}
+											total={activity.data.totalItems}
+											loading={activity.isFetching}
+											onMore={() => setActivityLimit((limit) => limit + 50)}
 										/>
 									)}
-								</details>
-							)}
-						</div>
-					)}
-					{filters.view === "activity" && isAdmin && (
-						<section className="flex h-full min-h-0 flex-col overflow-hidden rounded-xl border bg-background">
-							<div className="grid shrink-0 grid-cols-2 gap-3 border-b p-4 sm:grid-cols-3">
-								<FilterInput label="Actor" value={filters.actor} onChange={(actor) => changeFilters({ actor })} />
-								<FilterInput label="Icon" value={filters.submission} onChange={(submission) => changeFilters({ submission })} />
-								<label className="space-y-1.5 text-xs text-muted-foreground">
-									<span className="block">Action</span>
-									<select
-										aria-label="Activity action"
-										className="h-9 w-full rounded border bg-background px-2 text-foreground"
-										value={filters.action}
-										onChange={(e) => changeFilters({ action: e.target.value })}
-									>
-										<option value="">All actions</option>
-										{Object.entries(actionLabels).map(([value, label]) => (
-											<option key={value} value={value}>
-												{label}
-											</option>
-										))}
-									</select>
-								</label>
-								<FilterInput label="From (UTC)" value={filters.from} type="date" onChange={(from) => changeFilters({ from })} />
-								<FilterInput label="Through (UTC)" value={filters.to} type="date" onChange={(to) => changeFilters({ to })} />
-							</div>
-							<div className="min-h-0 flex-1 overflow-y-auto">
-								{activity.isLoading && <Loading />}
-								{activity.error && <ErrorState error={activity.error} retry={() => void activity.refetch()} />}{" "}
-								{activity.data && <ActivityFeed events={activity.data.items} onOpen={open} />}
-							</div>
-							{activity.data && (
-								<Pagination
-									page={filters.page}
-									perPage={filters.perPage}
-									totalItems={activity.data.totalItems}
-									totalPages={activity.data.totalPages}
-									onPage={(page) => update({ page: String(page) })}
-									onSize={(size) => changeFilters({ size: String(size) })}
-								/>
-							)}
-						</section>
+								</div>
+							</Card>
+						)}
+					</div>
+					{sidePanel && (
+						<aside aria-label="Submission inspector" className="min-h-0 overflow-hidden rounded-lg border bg-background shadow-sm">
+							<Inspector {...inspectorProps} />
+						</aside>
 					)}
 				</div>
-				{filters.view !== "review" && activeId && wide && (
-					<aside aria-label="Submission inspector" className="min-h-0 overflow-hidden rounded-xl border">
-						<Inspector {...inspectorProps} />
-					</aside>
-				)}
-			</div>
-			<Sheet
-				open={filters.view !== "review" && !!activeId && !wide}
-				onOpenChange={(value) => {
-					if (!value) close()
-				}}
-			>
-				<SheetContent
-					className="w-full gap-0 bg-background p-0 sm:max-w-lg"
-					onCloseAutoFocus={(event) => {
-						event.preventDefault()
-						focusQueue()
+				<Sheet
+					open={filters.view !== "review" && !!activeId && !wide}
+					onOpenChange={(value) => {
+						if (!value) close()
 					}}
 				>
-					<SheetTitle className="sr-only">Submission inspector</SheetTitle>
-					<SheetDescription className="sr-only">Review assets, feedback, and history without leaving your queue.</SheetDescription>
-					{activeId && <Inspector {...inspectorProps} />}
-				</SheetContent>
-			</Sheet>
-			<Dialog
-				open={!!intent}
-				onOpenChange={(value) => {
-					if (!value && !busy) setIntent(null)
-				}}
-			>
-				<DialogContent className="max-h-[90dvh] overflow-y-auto">
-					<DialogHeader>
-						<DialogTitle>{confirmTitle}</DialogTitle>
-						<DialogDescription>{confirmDescription}</DialogDescription>
-					</DialogHeader>
-					<ul className="max-h-36 overflow-y-auto rounded-lg border bg-muted/20 px-4 py-3 text-sm">
-						{intent?.records.map((record) => (
-							<li key={record.id} className="truncate py-0.5">
-								{record.name}
-							</li>
-						))}
-					</ul>
-					{intent?.kind !== "publish" && (
-						<label htmlFor="dashboard-review-feedback" className="space-y-2 text-sm">
-							<span>Feedback to submitter (optional)</span>
-							<Textarea
-								id="dashboard-review-feedback"
-								value={comment}
-								onChange={(e) => setComment(e.target.value)}
-								placeholder="Explain your decision or suggest an improvement…"
-								rows={4}
-								maxLength={10000}
-							/>
-						</label>
-					)}
-					<DialogFooter>
-						<Button variant="outline" disabled={busy} onClick={() => setIntent(null)}>
-							Cancel
-						</Button>
-						<Button disabled={busy} onClick={() => void submit()}>
-							{busy ? "Working…" : "Confirm"}
-						</Button>
-					</DialogFooter>
-				</DialogContent>
-			</Dialog>
-		</div>
+					<SheetContent
+						className="w-full gap-0 bg-background p-0 sm:max-w-lg"
+						onCloseAutoFocus={(event) => {
+							event.preventDefault()
+							focusQueue()
+						}}
+					>
+						<SheetTitle className="sr-only">Submission inspector</SheetTitle>
+						<SheetDescription className="sr-only">Review assets, feedback, and history without leaving your queue.</SheetDescription>
+						{activeId && <Inspector {...inspectorProps} />}
+					</SheetContent>
+				</Sheet>
+				<Dialog
+					open={!!intent}
+					onOpenChange={(value) => {
+						if (!value && !busy) setIntent(null)
+					}}
+				>
+					<DialogContent className="max-h-[90dvh] overflow-y-auto">
+						<DialogHeader className="flex-row items-start gap-3 space-y-0 text-left">
+							{intentStyle && (
+								<span className={cn("flex size-9 shrink-0 items-center justify-center rounded-md border", intentStyle.tone)}>
+									<intentStyle.Icon className="size-4" />
+								</span>
+							)}
+							<div className="space-y-1.5">
+								<DialogTitle>{intentStyle?.title}</DialogTitle>
+								<DialogDescription>{intentStyle?.description}</DialogDescription>
+							</div>
+						</DialogHeader>
+						<ul className="relative max-h-48 space-y-1 overflow-y-auto rounded-md border p-2 text-sm">
+							{intent?.records.map((record) => (
+								<li key={record.id} className="flex min-w-0 items-center gap-2 p-1">
+									<Thumbnail submission={record} className="size-8" />
+									<span className="truncate font-mono">{record.name}</span>
+								</li>
+							))}
+						</ul>
+						{intent?.kind !== "publish" && (
+							<label htmlFor="dashboard-review-feedback" className="space-y-2 text-sm font-medium">
+								<span>Feedback to submitter (optional)</span>
+								<Textarea
+									id="dashboard-review-feedback"
+									value={comment}
+									onChange={(e) => setComment(e.target.value)}
+									placeholder="Explain your decision or suggest an improvement…"
+									rows={4}
+									maxLength={10000}
+								/>
+							</label>
+						)}
+						<DialogFooter>
+							<Button variant="outline" disabled={busy} onClick={() => setIntent(null)}>
+								Cancel
+							</Button>
+							<Button variant={intentStyle?.variant} className={intentStyle?.button} disabled={busy} onClick={() => void submit()}>
+								{intentStyle && <intentStyle.Icon />}
+								{busy ? "Working…" : `${intentStyle?.label} ${intent?.records.length || ""}`}
+							</Button>
+						</DialogFooter>
+					</DialogContent>
+				</Dialog>
+			</div>
+		</MotionConfig>
 	)
 }

@@ -33,8 +33,6 @@ export interface DashboardFilters {
 	from: string
 	to: string
 	sort: string
-	page: number
-	perPage: number
 	actor: string
 	action: string
 	submission: string

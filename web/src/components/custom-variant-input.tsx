@@ -1,6 +1,6 @@
 "use client"
 
-import { Plus } from "lucide-react"
+import { Plus, WandSparkles } from "lucide-react"
 import { useEffect, useId, useRef, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -44,21 +44,26 @@ export function CustomVariantInput({ names, onAdd }: { names: string[]; onAdd: (
 		trigger.current?.focus()
 	}
 	return (
-		<div className="space-y-3" data-custom-variant-input>
+		<div className="flex flex-col items-start gap-3" data-custom-variant-input>
 			<Button
 				ref={trigger}
 				type="button"
-				variant="outline"
-				className="min-h-11 min-w-11"
+				variant="ghost"
+				size="sm"
+				className="min-h-11 min-w-11 sm:min-h-9"
 				aria-expanded={open}
 				aria-controls={`${id}-editor`}
 				onClick={() => setOpen(!open)}
 			>
-				<Plus className="size-4" /> Add custom variant
+				<Plus aria-hidden />
+				Custom variant
 			</Button>
 			{open && (
-				<div id={`${id}-editor`} className="space-y-2 rounded-md bg-muted/40 p-4">
-					<Label htmlFor={id}>Custom variant name</Label>
+				<div id={`${id}-editor`} className="flex w-full flex-col gap-2 rounded-md border border-community/30 bg-community/5 p-3">
+					<Label htmlFor={id} className="flex items-center gap-1.5">
+						<WandSparkles className="size-4 text-community" aria-hidden />
+						Custom variant name
+					</Label>
 					<div className="flex flex-col gap-2 sm:flex-row">
 						<Input
 							ref={input}

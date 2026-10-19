@@ -57,7 +57,7 @@ export function useDashboardSubmissions(filters: DashboardFilters, enabled: bool
 		queryKey: [...dashboardKey, "submissions", filters, userId],
 		enabled,
 		queryFn: () =>
-			pb.collection("submissions").getList<Submission>(filters.page, filters.perPage, {
+			pb.collection("submissions").getFullList<Submission>({
 				filter: conditions.join(" && "),
 				sort,
 				expand: "created_by,approved_by",
@@ -76,20 +76,18 @@ export function useSubmissionDetail(id: string, enabled: boolean) {
 export function useDashboardSummary(enabled: boolean) {
 	return useQuery({ queryKey: [...dashboardKey, "summary"], enabled, queryFn: () => dashboardRequest<DashboardSummary>("summary") })
 }
-export function useDashboardActivity(filters: DashboardFilters, enabled: boolean, submissionId?: string, limit?: number) {
+export function useDashboardActivity(filters: DashboardFilters, enabled: boolean, submissionId?: string, limit = 50) {
 	const conditions: string[] = []
 	if (submissionId) conditions.push(pb.filter("submission_id = {:id}", { id: submissionId }))
 	if (filters.actor) conditions.push(pb.filter("actor_name ~ {:q}", { q: filters.actor }))
 	if (filters.action) conditions.push(pb.filter("action = {:action}", { action: filters.action }))
 	if (filters.submission) conditions.push(pb.filter("submission_name ~ {:q}", { q: filters.submission }))
 	dateFilters(filters, "created", conditions)
-	let page = filters.page
-	if (limit) page = 1
 	return useQuery({
 		queryKey: [...dashboardKey, "activity", filters, submissionId, limit],
 		enabled,
 		queryFn: () =>
-			pb.collection("submission_events").getList<SubmissionEvent>(page, limit || filters.perPage, {
+			pb.collection("submission_events").getList<SubmissionEvent>(1, limit, {
 				filter: conditions.join(" && "),
 				sort: "-created,-id",
 				requestKey: null,
@@ -97,11 +95,12 @@ export function useDashboardActivity(filters: DashboardFilters, enabled: boolean
 		placeholderData: keepPreviousData,
 	})
 }
-export function usePublishBatches(enabled: boolean, page: number) {
+export function usePublishBatches(enabled: boolean, limit: number) {
 	return useQuery({
-		queryKey: [...dashboardKey, "batches", page],
+		queryKey: [...dashboardKey, "batches", limit],
 		enabled,
-		queryFn: () => pb.collection("publish_batches").getList<PublishBatch>(page, 10, { sort: "-created,-id", requestKey: null }),
+		queryFn: () => pb.collection("publish_batches").getList<PublishBatch>(1, limit, { sort: "-created,-id", requestKey: null }),
+		placeholderData: keepPreviousData,
 		refetchInterval: (query) => {
 			if (query.state.data?.items.some((batch) => batch.active)) return 15000
 			return false

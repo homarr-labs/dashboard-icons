@@ -1,19 +1,40 @@
 "use client"
-import { Bot, Check, GitPullRequest, MessageSquare, Pencil, Plus, X } from "lucide-react"
+import {
+	Bot,
+	Check,
+	ChevronRight,
+	GitPullRequest,
+	Library,
+	type LucideIcon,
+	MessageSquare,
+	Pencil,
+	Plus,
+	RotateCcw,
+	Rss,
+	X,
+} from "lucide-react"
 import { savedReviewFixups } from "@/lib/dashboard/review-fixup-draft"
 import { actionLabels, type SubmissionEvent } from "@/lib/dashboard/types"
-import { Empty, Time } from "./primitives"
+import { cn } from "@/lib/utils"
+import { Empty, statusStyles, Time } from "./primitives"
+
+function actionStyle(action: string): { Icon: LucideIcon; tone: string } {
+	if (action === "approved") return { Icon: Check, tone: statusStyles.added_to_collection.badge }
+	if (action === "rejected") return { Icon: X, tone: statusStyles.rejected.badge }
+	if (action === "submitted") return { Icon: Plus, tone: "border-primary/20 bg-primary/10 text-primary" }
+	if (action === "resubmitted") return { Icon: RotateCcw, tone: statusStyles.approved.badge }
+	if (action === "published" || action === "publish_succeeded") return { Icon: Library, tone: statusStyles.added_to_collection.badge }
+	if (action.startsWith("publish")) return { Icon: GitPullRequest, tone: statusStyles.pending.badge }
+	return { Icon: Pencil, tone: "bg-muted text-muted-foreground" }
+}
+const actionIcon = "flex size-7 shrink-0 items-center justify-center rounded-md border [&>svg]:size-3.5"
 
 function ActivityItem({ event, onOpen }: { event: SubmissionEvent; onOpen: (id: string) => void }) {
-	let Icon = Pencil
-	if (event.action === "approved") Icon = Check
-	if (event.action === "rejected") Icon = X
-	if (event.action === "submitted" || event.action === "resubmitted") Icon = Plus
-	if (event.action.startsWith("publish")) Icon = GitPullRequest
+	const { Icon, tone } = actionStyle(event.action)
 	return (
-		<div className="flex items-start gap-3 px-4 py-3.5">
-			<span className="mt-0.5 flex size-8 shrink-0 items-center justify-center rounded-full border bg-muted/30">
-				<Icon className="size-3.5 text-muted-foreground" />
+		<div className="flex items-start gap-3 px-4 py-3 transition-colors hover:bg-muted/50">
+			<span className={cn(actionIcon, "mt-0.5", tone)}>
+				<Icon />
 			</span>
 			<div className="min-w-0 flex-1">
 				<div className="flex items-baseline justify-between gap-3">
@@ -26,7 +47,7 @@ function ActivityItem({ event, onOpen }: { event: SubmissionEvent; onOpen: (id: 
 						<span className="text-muted-foreground">{actionLabels[event.action] || event.action}</span>{" "}
 						<button
 							type="button"
-							className="text-left font-medium underline-offset-4 hover:underline"
+							className="rounded-sm text-left font-mono font-medium underline-offset-4 outline-none hover:text-primary hover:underline focus-visible:ring-[3px] focus-visible:ring-ring/50"
 							onClick={() => onOpen(event.submission_id)}
 						>
 							{event.submission_name}
@@ -35,14 +56,14 @@ function ActivityItem({ event, onOpen }: { event: SubmissionEvent; onOpen: (id: 
 					<Time value={event.created} />
 				</div>
 				{event.feedback && ["approved", "rejected"].includes(event.action) && (
-					<p className="mt-1 line-clamp-2 text-xs leading-5 text-muted-foreground">
+					<p className="mt-1 line-clamp-2 border-l-2 pl-2.5 text-xs leading-5 text-muted-foreground">
 						<MessageSquare className="mr-1 inline size-3" />
 						{event.feedback}
 					</p>
 				)}
 				{Object.keys(event.changes || {}).length > 0 && event.action === "edited" && (
 					<details className="mt-1 text-xs text-muted-foreground">
-						<summary className="cursor-pointer">View changes</summary>
+						<summary className="w-fit rounded-sm py-1 hover:text-foreground">View changes</summary>
 						<dl className="mt-2 space-y-2">
 							{Object.entries(event.changes).map(([key, value]) => (
 								<div key={key}>
@@ -81,7 +102,7 @@ export function ActivityFeed({
 }) {
 	if (!events.length)
 		return (
-			<Empty title="No activity recorded yet">
+			<Empty title="No activity recorded yet" icon={Rss} tone="border-primary/20 bg-primary/10 text-primary">
 				History begins when activity tracking is enabled. Older submissions show their current state, not a reconstructed history.
 			</Empty>
 		)
@@ -102,11 +123,12 @@ export function ActivityFeed({
 			{groups.map((rows) => {
 				const first = rows[0]
 				if (rows.length === 1) return <ActivityItem key={first.id} event={first} onOpen={onOpen} />
+				const { Icon, tone } = actionStyle(first.action)
 				return (
 					<details key={first.id} className="group">
-						<summary className="flex cursor-pointer list-none items-center gap-3 px-4 py-4 text-sm">
-							<span className="flex size-8 shrink-0 items-center justify-center rounded-full border bg-muted/30">
-								<GitPullRequest className="size-3.5" />
+						<summary className="flex list-none items-center gap-3 px-4 py-3 text-sm transition-colors hover:bg-muted/50 [&::-webkit-details-marker]:hidden">
+							<span className={cn(actionIcon, tone)}>
+								<Icon />
 							</span>
 							<span className="min-w-0 flex-1">
 								<span className="flex items-baseline justify-between gap-3">
@@ -116,10 +138,13 @@ export function ActivityFeed({
 									</span>
 									<Time value={first.created} />
 								</span>
-								<span className="mt-1 block text-xs text-muted-foreground">Expand this group</span>
+								<span className="mt-0.5 flex items-center gap-1 text-xs text-muted-foreground">
+									<ChevronRight className="size-3 transition-transform group-open:rotate-90" />
+									Show the {rows.length} icons
+								</span>
 							</span>
 						</summary>
-						<div className="border-t bg-muted/10 pl-4">
+						<div className="border-t bg-muted/30 pl-4">
 							{rows.map((event) => (
 								<ActivityItem key={event.id} event={event} onOpen={onOpen} />
 							))}
