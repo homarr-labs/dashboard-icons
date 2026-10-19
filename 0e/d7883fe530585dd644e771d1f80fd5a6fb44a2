@@ -1,0 +1,49 @@
+web/src/components/dashboard/activity-feed.tsx
+  s_b6ba0fabea817a::t_eaf90a0ff73697 22-28,30-31,105
+web/src/components/dashboard/contributor-home.tsx
+  s_b6ba0fabea817a::t_5a9d26b7e53e69 7-8,19-22,33-42,78-85,118,129,155-159,210-237,253,259,269,271-272,277-280,283-287,289-291,305-307,343
+web/src/components/dashboard/icon-update-diff.tsx
+  s_b6ba0fabea817a::t_8e664de65eedeb 108,158,160,208-214,225
+web/src/components/dashboard/inspector.tsx
+  s_b6ba0fabea817a::t_c250f9d8b7783b 19-32,97,297,350,359
+web/src/components/dashboard/overview.tsx
+  s_b6ba0fabea817a::t_bd4fe036fad5b9 7,40,48,56,64,71,73-97,99,104,114,127-131,144,160
+web/src/components/dashboard/primitives.tsx
+  s_b6ba0fabea817a::t_95631712d0b5fb 33-41,44-48,52-56,60-64,68-72,116,124,179,186,192,252
+web/src/components/dashboard/publishing.tsx
+  s_b6ba0fabea817a::t_6ec43a1e542278 19,22,26,30,33,35
+web/src/components/dashboard/review-bench.tsx
+  s_b6ba0fabea817a::t_f2616ef020324a 19,23,25,47,102,448-457,463,519,545-552,650-657,815,851,854,893-894,904,906,960-965,967-971
+web/src/components/dashboard/review-fixup-editors.tsx
+  s_b6ba0fabea817a::t_f598f047dfc0ce 283,310
+web/src/components/dashboard/review-gallery.tsx
+  s_b6ba0fabea817a::t_5e90d29e41e44f 82
+web/src/components/dashboard/review-history.tsx
+  s_b6ba0fabea817a::t_04877684a61b17 18
+web/src/components/dashboard/review-presentation.tsx
+  s_b6ba0fabea817a::t_4455eb5a7228fa 62,67,91-94
+web/src/components/dashboard/review-queue.tsx
+  s_b6ba0fabea817a::t_1409453bbc53c9 6,28,81,104,147-149,180-182,185
+web/src/components/dashboard/review-submit-dialog.tsx
+  s_b6ba0fabea817a::t_b01021fa8af565 59,69-76
+web/src/components/dashboard/submission-list.tsx
+  s_b6ba0fabea817a::t_54b80d09585d99 267,328-331
+web/src/components/dashboard/workspace.tsx
+  s_b6ba0fabea817a::t_c885bcd7d515cf 32,43-45,52-54,62-63,422,433,442-443,483,580,614
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "0ed7883fe530585dd644e771d1f80fd5a6fb44a2",
+  "prompts": {},
+  "sessions": {
+    "s_b6ba0fabea817a": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "86a24cc3-4212-4ceb-976e-cccb97b70270",
+        "model": "unknown"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
