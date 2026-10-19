@@ -1,18 +1,16 @@
 "use client"
-// PROTOTYPE: four radically different multi-icon /submit variants, mounted on /submit?variant=A..D outside production with a stub user and in-memory state.
+// PROTOTYPE pass 2: three structurally different /submit variants (each with Submit one / Modify one / Submit many), on /submit?variant=A..C outside production with a stub user and in-memory state.
 import { useSearchParams } from "next/navigation"
 import type { ReactNode } from "react"
 import { PrototypeSwitcher } from "@/components/prototype/prototype-switcher"
 import { VariantA } from "./variant-a"
 import { VariantB } from "./variant-b"
 import { VariantC } from "./variant-c"
-import { VariantD } from "./variant-d"
 
 const VARIANTS = [
-	{ key: "A", name: "Drop & sort", Component: VariantA },
-	{ key: "B", name: "One icon at a time", Component: VariantB },
-	{ key: "C", name: "Spreadsheet", Component: VariantC },
-	{ key: "D", name: "Board of slot matrices", Component: VariantD },
+	{ key: "A", name: "Mode cards", Component: VariantA },
+	{ key: "B", name: "Adaptive page + sheet", Component: VariantB },
+	{ key: "C", name: "Card stack + preview", Component: VariantC },
 ]
 
 export function SubmitPrototypeGate({ children }: { children: ReactNode }) {

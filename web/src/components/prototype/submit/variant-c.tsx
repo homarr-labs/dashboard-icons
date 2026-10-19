@@ -1,375 +1,478 @@
 "use client"
-// PROTOTYPE variant C "Spreadsheet": dense table, one row per icon and one column per variant (custom variants are extra columns), a shared defaults row, payload in a bottom sheet.
-import { Columns3, FileUp, ListPlus, PanelBottomOpen, Plus, Trash2, X } from "lucide-react"
+// PROTOTYPE pass 2 variant C "Card stack + preview": mode rail on the left, a stack of submission cards (expand one at a time, "+ add new"), and a persistent panel previewing the selected icon on light/dark/checker; Modify one is an inline diff list.
+import { ChevronDown, History, Layers, Pencil, Plus, Trash2, Undo2, Upload } from "lucide-react"
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
-import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet"
 import { cn } from "@/lib/utils"
 import {
-	addFiles,
-	addIcon,
-	CATEGORIES,
-	type Draft,
-	type DraftIcon,
-	emptyDraft,
-	lookupExisting,
-	moveVariant,
-	nudges,
-	parseStem,
-	removeIcon,
-	removeVariant,
-	renameIcon,
-	sanitizeSlug,
-	setIconMeta,
-	setShared,
-	setSlotFile,
-	type Tone,
+	addFilesAuto,
+	addFilesTo,
+	type Bg,
+	bgForKey,
+	type DraftSubmission,
+	EXISTING,
+	findExisting,
+	type ModifyDraft,
+	modifyNudges,
+	modifyPayload,
+	modifyRows,
+	moveFile,
+	newPayload,
+	newSubmission,
+	putVariant,
+	removeFile,
+	removeSub,
+	removeVariantOp,
+	renameSub,
+	SLOTS,
+	type Subs,
+	setMeta,
+	setSlot,
+	slotTitle,
+	submissionNudges,
 	targetFilename,
-	toneLabel,
-	variantKey,
-	variantLabel,
+	undoOp,
 } from "./mock"
 import {
-	bgFor,
+	AliasInput,
+	CategoryChips,
+	CustomVariantAdder,
 	DemoButtons,
-	demoDraft,
-	dragVariant,
-	NudgeItem,
-	PayloadTree,
+	DiffView,
+	ExistingHeader,
+	ExistingPicker,
+	errorsOf,
+	MODES,
+	NewPayloadView,
+	NudgeList,
+	Preview,
+	type Proto,
 	ProtoNotice,
 	pickFiles,
+	SlotTile,
 	SubmitButton,
-	useDraft,
 	useDrop,
+	usePrototype,
 } from "./shared"
 
-type Apply = (fn: (d: Draft) => Draft) => void
-type Col = { form: string; tone: Tone }
-
-const BASE_COLS: Col[] = [
-	{ form: "icon", tone: "colour" },
-	{ form: "icon", tone: "light" },
-	{ form: "icon", tone: "dark" },
-	{ form: "wordmark", tone: "colour" },
-	{ form: "wordmark", tone: "light" },
-	{ form: "wordmark", tone: "dark" },
-]
-
-function splitList(s: string) {
-	return s
-		.split(",")
-		.map((x) => x.trim())
-		.filter(Boolean)
-}
+const MODE_ICONS = { one: Plus, modify: Pencil, many: Layers }
+type Shown = { key: string; url: string; label: string }
 
 export function VariantC() {
-	const { draft, apply, setDraft } = useDraft()
-	const [extraCols, setExtraCols] = useState<Col[]>([])
-	const [sheet, setSheet] = useState(false)
-	const fromDraft = draft.icons.flatMap((i) => i.variants.map((v) => ({ form: v.form, tone: v.tone })))
-	const cols = [...BASE_COLS, ...extraCols, ...fromDraft].filter(
-		(c, idx, arr) => arr.findIndex((x) => x.form === c.form && x.tone === c.tone) === idx,
-	)
-	const issues = nudges(draft)
-	const tableDrop = useDrop(
-		() => {},
-		(files) => apply((d) => addFiles(d, files, true)),
-	)
-	const addColumn = () => {
-		const raw = sanitizeSlug(window.prompt("New variant column, e.g. animated, animated-dark, mono, outline-light") || "")
-		if (!raw) return
-		const p = parseStem(`x-${raw}`)
-		const col = p.form === "icon" && p.tone === "colour" ? { form: raw, tone: "colour" as Tone } : { form: p.form, tone: p.tone }
-		setExtraCols((c) => [...c, col])
+	const p = usePrototype()
+	const [selected, setSelected] = useState<string | null>(null)
+	const rejected = EXISTING.filter((e) => e.mine && e.status === "rejected")
+	let subs: Subs = p.many
+	let set = p.setMany
+	if (p.mode === "one") {
+		subs = p.one
+		set = p.setOne
 	}
-	const pasteNames = () => {
-		const raw = window.prompt("Icon names, comma separated (e.g. exe, msi, txt)") || ""
-		apply((d) =>
-			splitList(raw)
-				.map(sanitizeSlug)
-				.filter(Boolean)
-				.reduce((acc, n) => addIcon(acc, n), d),
-		)
+	const current = subs.find((s) => s.id === selected) ?? subs[0]
+	const nudges = submissionNudges(subs)
+	let shown: { slug: string; items: Shown[] } = {
+		slug: current?.slug ?? "",
+		items: (current?.files ?? []).map((f) => ({ key: f.key, url: f.url, label: f.file.name })),
 	}
+	if (p.mode === "modify") shown = modifyShown(p.modify)
+	const pageDrop = useDrop((files) => {
+		if (p.mode === "many") p.setMany((s) => addFilesAuto(s, files))
+		if (p.mode === "one") p.setOne((s) => addFilesTo(s, s[0].id, files))
+	})
 	return (
-		<div className="mx-auto max-w-[1600px] px-4 py-6 sm:py-8">
-			<div className="mb-4 flex flex-wrap items-end justify-between gap-3">
-				<div>
-					<h1 className="text-2xl font-bold">Submission sheet</h1>
-					<p className="text-sm text-muted-foreground">
-						One row per icon, one column per variant. Drop files anywhere on the table to auto-fill cells.
-					</p>
-					<ProtoNotice />
-				</div>
-				<DemoButtons
-					onLoad={(k) => setDraft(demoDraft(k, true))}
-					onReset={() => {
-						setDraft(emptyDraft())
-						setExtraCols([])
-					}}
-				/>
-			</div>
-
-			<div className="sticky top-14 z-20 mb-2 flex flex-wrap items-center gap-2 rounded-lg border bg-background/95 p-2 backdrop-blur">
-				<Button size="sm" variant="outline" onClick={() => apply((d) => addIcon(d))}>
-					<Plus /> Row
-				</Button>
-				<Button size="sm" variant="outline" onClick={pasteNames}>
-					<ListPlus /> Paste names
-				</Button>
-				<Button size="sm" variant="outline" onClick={() => pickFiles((files) => apply((d) => addFiles(d, files, true)))}>
-					<FileUp /> Fill from files
-				</Button>
-				<Button size="sm" variant="outline" onClick={addColumn}>
-					<Columns3 /> Variant column
-				</Button>
-				<span className="text-xs text-muted-foreground">
-					{draft.icons.length} icons · {draft.icons.reduce((n, i) => n + i.variants.length, 0)} files ·{" "}
-					<span className={cn(issues.some((n) => n.level === "error") && "text-red-600")}>
-						{issues.filter((n) => n.level === "error").length} blocking
-					</span>
-				</span>
-				<span className="flex-1" />
-				<Button size="sm" variant="ghost" onClick={() => setSheet(true)}>
-					<PanelBottomOpen /> Payload
-				</Button>
-				<SubmitButton draft={draft} label="Submit sheet" className="h-8" />
-			</div>
-
-			<div
-				{...tableDrop.props}
-				className={cn("overflow-x-auto rounded-lg border bg-background", tableDrop.active && "ring-2 ring-primary")}
-			>
-				<table className="w-full border-collapse text-xs">
-					<thead className="bg-muted/50 text-left">
-						<tr>
-							<th className="sticky left-0 z-10 min-w-44 border-b border-r bg-muted px-2 py-2 font-medium">Icon (slug)</th>
-							<th className="border-b border-r px-2 py-2 font-medium">Status</th>
-							{cols.map((c) => (
-								<th
-									key={variantKey(c.form, c.tone)}
-									className="border-b border-r px-1 py-1 text-center font-medium"
-									title={toneLabel(c.tone)}
-								>
-									<div>{variantLabel(c)}</div>
-									<div className="font-mono text-[9px] font-normal text-muted-foreground">
-										slug{variantKey(c.form, c.tone) === "base" ? "" : `-${variantKey(c.form, c.tone)}`}
-									</div>
-									{c.tone !== "colour" && (
-										<div className="text-[9px] font-normal text-muted-foreground">
-											{c.tone === "light" ? "for dark bg" : "for light bg"}
-										</div>
-									)}
-								</th>
-							))}
-							<th className="min-w-40 border-b border-r px-2 py-2 font-medium">Aliases</th>
-							<th className="min-w-48 border-b border-r px-2 py-2 font-medium">Categories</th>
-							<th className="min-w-48 border-b px-2 py-2 font-medium">Description</th>
-							<th className="border-b" />
-						</tr>
-					</thead>
-					<tbody>
-						<tr className="bg-emerald-500/5">
-							<td className="sticky left-0 z-10 border-b border-r bg-emerald-50 px-2 py-1.5 font-medium dark:bg-emerald-950">
-								All icons (defaults)
-							</td>
-							<td className="border-b border-r" />
-							<td colSpan={cols.length} className="border-b border-r px-2 text-muted-foreground">
-								Defaults fill every row's empty categories / description.
-							</td>
-							<td className="border-b border-r px-2 text-muted-foreground">per icon</td>
-							<td className="border-b border-r p-1">
-								<CommitInput
-									value={draft.shared.categories.join(", ")}
-									onCommit={(v) => apply((d) => setShared(d, { categories: splitList(v) }))}
-									list="proto-c-cats"
-								/>
-							</td>
-							<td className="border-b p-1">
-								<CommitInput value={draft.shared.description} onCommit={(v) => apply((d) => setShared(d, { description: v }))} />
-							</td>
-							<td className="border-b" />
-						</tr>
-						{draft.icons.map((icon) => (
-							<Row key={icon.id} icon={icon} draft={draft} apply={apply} cols={cols} />
-						))}
-						{draft.icons.length === 0 && (
-							<tr>
-								<td colSpan={cols.length + 6} className="px-4 py-12 text-center text-muted-foreground">
-									Empty sheet. Drop files here, paste names, or load an example.
-								</td>
-							</tr>
-						)}
-					</tbody>
-				</table>
-				<datalist id="proto-c-cats">
-					{CATEGORIES.map((c) => (
-						<option key={c} value={c} />
-					))}
-				</datalist>
-			</div>
-
-			<Sheet open={sheet} onOpenChange={setSheet}>
-				<SheetContent side="bottom" className="max-h-[70vh] overflow-auto">
-					<SheetHeader>
-						<SheetTitle>Payload</SheetTitle>
-						<SheetDescription>Live state of this submission.</SheetDescription>
-					</SheetHeader>
-					<div className="px-4 pb-6">
-						<PayloadTree draft={draft} />
+		<div className="mx-auto max-w-[1500px] px-4 py-6 sm:py-8">
+			<div className="grid grid-cols-1 gap-6 lg:grid-cols-[200px_minmax(0,1fr)_340px]">
+				<nav className="space-y-4">
+					<div>
+						<h1 className="text-xl font-bold">Submit</h1>
+						<ProtoNotice />
 					</div>
-				</SheetContent>
-			</Sheet>
+					<ul className="flex gap-1 overflow-x-auto lg:flex-col">
+						{MODES.map((m) => {
+							const Icon = MODE_ICONS[m.id]
+							return (
+								<li key={m.id} className="shrink-0">
+									<button
+										type="button"
+										onClick={() => p.setMode(m.id)}
+										className={cn(
+											"flex w-full items-center gap-2 rounded-md px-2.5 py-2 text-left text-sm",
+											p.mode === m.id ? "bg-primary text-primary-foreground" : "hover:bg-muted",
+										)}
+									>
+										<Icon className="size-4" /> {m.title}
+									</button>
+								</li>
+							)
+						})}
+						{rejected.length > 0 && (
+							<li className="shrink-0">
+								<button
+									type="button"
+									onClick={p.demos.fixRejected}
+									className="flex w-full items-center gap-2 rounded-md px-2.5 py-2 text-left text-sm text-muted-foreground hover:bg-muted"
+								>
+									<History className="size-4" /> Fix rejected ({rejected.length})
+								</button>
+							</li>
+						)}
+					</ul>
+					<DemoButtons p={p} className="lg:flex-col lg:items-stretch lg:[&>button]:justify-start" />
+				</nav>
+
+				<main
+					{...pageDrop.props}
+					className={cn("min-w-0 space-y-3", pageDrop.active && "rounded-xl ring-2 ring-primary ring-offset-4 ring-offset-background")}
+				>
+					<p className="text-sm text-muted-foreground">{MODES.find((m) => m.id === p.mode)?.desc}. Drop files anywhere here.</p>
+					{p.mode !== "modify" &&
+						subs.map((sub, i) => (
+							<SubCard
+								key={sub.id}
+								sub={sub}
+								index={i + 1}
+								open={sub.id === current?.id}
+								onOpen={() => setSelected(sub.id)}
+								set={set}
+								nudges={nudges.filter((n) => n.subId === sub.id)}
+								onAction={(a) => p.run(a, p.mode === "one" ? "one" : "many")}
+								removable={p.mode === "many"}
+							/>
+						))}
+					{p.mode === "many" && (
+						<button
+							type="button"
+							onClick={() => {
+								const s = newSubmission()
+								p.setMany((x) => [...x, s])
+								setSelected(s.id)
+							}}
+							className="flex w-full items-center justify-center gap-2 rounded-xl border-2 border-dashed py-6 text-sm text-muted-foreground hover:border-primary/50 hover:text-foreground"
+						>
+							<Plus className="size-4" /> Add new submission
+						</button>
+					)}
+					{p.mode === "modify" && <ModifyList p={p} />}
+				</main>
+
+				<aside className="min-w-0 space-y-4 lg:sticky lg:top-20 lg:self-start">
+					<PreviewPanel slug={shown.slug} items={shown.items} />
+					<section className="rounded-xl border bg-background p-4">
+						{p.mode !== "modify" && <NewPayloadView subs={subs} />}
+						{p.mode === "modify" && <DiffView md={p.modify} />}
+						{p.mode === "one" && (
+							<SubmitButton className="mt-4 w-full" payload={newPayload(p.one)[0]} label="Submit icon" blocking={errorsOf(nudges)} />
+						)}
+						{p.mode === "many" && (
+							<SubmitButton
+								className="mt-4 w-full"
+								payload={p.many.length ? newPayload(p.many) : null}
+								label={`Send ${p.many.length} submissions`}
+								blocking={errorsOf(nudges)}
+							/>
+						)}
+						{p.mode === "modify" && (
+							<SubmitButton
+								className="mt-4 w-full"
+								payload={modifyPayload(p.modify)}
+								label="Propose update"
+								blocking={errorsOf(modifyNudges(p.modify))}
+							/>
+						)}
+					</section>
+				</aside>
+			</div>
 		</div>
 	)
 }
 
-function Row({ icon, draft, apply, cols }: { icon: DraftIcon; draft: Draft; apply: Apply; cols: Col[] }) {
-	const existing = lookupExisting(icon.slug)
-	const rowIssues = nudges(draft).filter((n) => n.iconId === icon.id)
-	let status = <span className="text-emerald-700 dark:text-emerald-300">new</span>
-	if (existing?.kind === "collection") status = <span className="text-blue-700 dark:text-blue-300">update</span>
-	if (existing?.kind === "pending") status = <span className="text-amber-700 dark:text-amber-300">pending elsewhere</span>
-	const inherited = icon.inheritMeta ? draft.shared : undefined
+function modifyShown(md: ModifyDraft) {
+	const items: Shown[] = []
+	for (const r of modifyRows(md)) {
+		if (r.op?.type === "remove") continue
+		if (r.op) items.push({ key: r.key, url: r.op.url, label: r.op.file.name })
+		else if (r.current) items.push({ key: r.key, url: r.current.url, label: r.current.filename })
+	}
+	return { slug: md.slug ?? "", items }
+}
+
+function PreviewPanel({ slug, items }: { slug: string; items: Shown[] }) {
+	const base = items.find((i) => i.key === "base")
+	const bgs: Bg[] = ["light", "dark", "checker"]
 	return (
-		<>
-			<tr className="group hover:bg-muted/30">
-				<td className="sticky left-0 z-10 border-b border-r bg-background p-1 group-hover:bg-muted">
-					<input
-						value={icon.slug}
-						onChange={(e) => apply((d) => renameIcon(d, icon.id, e.target.value))}
-						placeholder="slug"
-						aria-label="Icon slug"
-						className="h-8 w-full rounded bg-transparent px-1.5 font-mono font-semibold outline-none focus:ring-1 focus:ring-primary"
-					/>
-				</td>
-				<td className="whitespace-nowrap border-b border-r px-2">{status}</td>
-				{cols.map((c) => (
-					<FileCell key={variantKey(c.form, c.tone)} icon={icon} col={c} apply={apply} />
+		<section className="space-y-3 rounded-xl border bg-background p-4">
+			<h2 className="text-sm font-semibold">
+				Preview <span className="font-mono font-normal text-muted-foreground">{slug || ""}</span>
+			</h2>
+			<div className="grid grid-cols-3 gap-2">
+				{bgs.map((bg) => (
+					<div key={bg} className="space-y-1 text-center">
+						{base && <Preview src={base.url} bg={bg} className="aspect-square size-auto w-full p-3" />}
+						{!base && <div className="aspect-square w-full rounded-md border border-dashed" />}
+						<span className="text-[10px] text-muted-foreground">base on {bg}</span>
+					</div>
 				))}
-				<td className="border-b border-r p-1">
-					<CommitInput
-						value={icon.meta.aliases.join(", ")}
-						onCommit={(v) => apply((d) => setIconMeta(d, icon.id, { aliases: splitList(v) }))}
-					/>
-				</td>
-				<td className="border-b border-r p-1">
-					<CommitInput
-						value={icon.meta.categories.join(", ")}
-						placeholder={inherited?.categories.join(", ")}
-						onCommit={(v) => apply((d) => setIconMeta(d, icon.id, { categories: splitList(v) }))}
-						list="proto-c-cats"
-					/>
-				</td>
-				<td className="border-b p-1">
-					<CommitInput
-						value={icon.meta.description}
-						placeholder={inherited?.description}
-						onCommit={(v) => apply((d) => setIconMeta(d, icon.id, { description: v }))}
-					/>
-				</td>
-				<td className="border-b px-1">
-					<button
-						type="button"
-						aria-label="Delete row"
-						onClick={() => apply((d) => removeIcon(d, icon.id))}
-						className="text-muted-foreground hover:text-destructive"
-					>
-						<Trash2 className="size-3.5" />
-					</button>
-				</td>
-			</tr>
-			{rowIssues.length > 0 && (
-				<tr>
-					<td className="sticky left-0 border-b border-r bg-background" />
-					<td colSpan={cols.length + 5} className="border-b px-2 py-1">
-						<ul className="flex flex-col gap-1">
-							{rowIssues.map((n) => (
-								<NudgeItem key={n.id} nudge={n} apply={apply} compact />
-							))}
-						</ul>
-					</td>
-				</tr>
-			)}
-		</>
-	)
-}
-
-function FileCell({ icon, col, apply }: { icon: DraftIcon; col: Col; apply: Apply }) {
-	const matches = icon.variants.filter((v) => v.form === col.form && v.tone === col.tone)
-	const v = matches[0]
-	const drop = useDrop(
-		(vid) => apply((d) => moveVariant(d, vid, icon.id, col.form, col.tone)),
-		(files) => files[0] && apply((d) => setSlotFile(d, icon.id, col.form, col.tone, files[0])),
-	)
-	return (
-		<td {...drop.props} className={cn("border-b border-r p-1 text-center", drop.active && "bg-primary/10")}>
-			{v ? (
-				<div
-					className="group/cell relative mx-auto w-fit"
-					{...dragVariant(v.id)}
-					title={`${v.file.name} → ${targetFilename(icon.slug, v)}`}
-				>
-					<span className={cn("flex size-10 cursor-grab items-center justify-center rounded border p-1", bgFor(col.tone))}>
-						{/* biome-ignore lint/performance/noImgElement: prototype blob previews */}
-						<img src={v.url} alt="" className="size-full object-contain" />
-					</span>
-					{matches.length > 1 && (
-						<span className="absolute -top-1 -left-1 rounded-full bg-red-600 px-1 text-[9px] text-white">{matches.length}</span>
-					)}
-					<button
-						type="button"
-						aria-label="Clear cell"
-						onClick={() => apply((d) => removeVariant(d, v.id))}
-						className="absolute -top-1.5 -right-1.5 hidden rounded-full bg-background p-0.5 shadow group-hover/cell:block"
-					>
-						<X className="size-3" />
-					</button>
+			</div>
+			<div>
+				<h3 className="mb-1.5 text-[11px] font-medium text-muted-foreground">Each variant on the background it's for</h3>
+				<div className="grid grid-cols-3 gap-2">
+					{items.map((i) => (
+						<div key={i.key + i.url} className="min-w-0 text-center">
+							<Preview src={i.url} bg={bgForKey(i.key)} className="aspect-square size-auto w-full p-2" alt={i.label} />
+							<div className="truncate font-mono text-[9px] text-muted-foreground" title={i.label}>
+								{targetFilename(slug, i.key)}
+							</div>
+						</div>
+					))}
 				</div>
-			) : (
-				<button
-					type="button"
-					aria-label={`Add ${variantLabel(col)} file`}
-					onClick={() => pickFiles((files) => files[0] && apply((d) => setSlotFile(d, icon.id, col.form, col.tone, files[0])))}
-					className={cn(
-						"mx-auto flex size-10 items-center justify-center rounded border border-dashed text-muted-foreground/60 opacity-60 hover:opacity-100",
-						bgFor(col.tone),
-					)}
-				>
-					<Plus className="size-3.5" />
-				</button>
-			)}
-		</td>
+				{items.length === 0 && <p className="text-xs text-muted-foreground">Nothing to preview yet.</p>}
+			</div>
+		</section>
 	)
 }
 
-function CommitInput({
-	value,
-	onCommit,
-	placeholder,
-	list,
+function SubCard({
+	sub,
+	index,
+	open,
+	onOpen,
+	set,
+	nudges,
+	onAction,
+	removable,
 }: {
-	value: string
-	onCommit: (v: string) => void
-	placeholder?: string
-	list?: string
+	sub: DraftSubmission
+	index: number
+	open: boolean
+	onOpen: () => void
+	set: (fn: (s: Subs) => Subs) => void
+	nudges: ReturnType<typeof submissionNudges>
+	onAction: Parameters<typeof NudgeList>[0]["onAction"]
+	removable: boolean
 }) {
-	const [text, setText] = useState<string | null>(null)
+	const errors = nudges.filter((n) => n.level === "error").length
+	const warns = nudges.length - errors
+	const base = sub.files.find((f) => f.key === "base")
 	return (
-		<input
-			value={text ?? value}
-			list={list}
-			placeholder={placeholder}
-			onFocus={() => setText(value)}
-			onChange={(e) => setText(e.target.value)}
-			onBlur={() => {
-				if (text !== null) onCommit(text)
-				setText(null)
-			}}
-			onKeyDown={(e) => {
-				if (e.key === "Enter") (e.target as HTMLInputElement).blur()
-			}}
-			className="h-8 w-full rounded bg-transparent px-1.5 outline-none placeholder:text-muted-foreground/60 placeholder:italic focus:ring-1 focus:ring-primary"
-		/>
+		<article className={cn("rounded-xl border bg-background transition-shadow", open && "shadow-md ring-1 ring-primary/30")}>
+			<button type="button" onClick={onOpen} className="flex w-full items-center gap-3 p-3 text-left">
+				{base && <Preview src={base.url} bg="checker" className="size-10" />}
+				{!base && <span className="flex size-10 items-center justify-center rounded-md border border-dashed text-muted-foreground">?</span>}
+				<span className="min-w-0 flex-1">
+					<span className="flex items-center gap-2">
+						<span className="text-[11px] text-muted-foreground">#{index}</span>
+						<span className="truncate font-mono font-semibold">{sub.slug || "untitled"}</span>
+					</span>
+					<span className="flex flex-wrap gap-1 pt-0.5">
+						{sub.files
+							.filter((f) => f.key !== "base")
+							.map((f) => (
+								<span
+									key={f.id}
+									className={cn(
+										"rounded px-1 text-[10px]",
+										f.custom ? "bg-violet-500/15 text-violet-700 dark:text-violet-300" : "bg-muted text-muted-foreground",
+									)}
+								>
+									{f.key}
+								</span>
+							))}
+					</span>
+				</span>
+				{errors > 0 && (
+					<span className="rounded-full bg-red-500/15 px-1.5 text-[10px] text-red-700 dark:text-red-300">{errors} to fix</span>
+				)}
+				{warns > 0 && (
+					<span className="rounded-full bg-amber-500/15 px-1.5 text-[10px] text-amber-700 dark:text-amber-300">{warns} hint</span>
+				)}
+				<ChevronDown className={cn("size-4 shrink-0 transition-transform", open && "rotate-180")} />
+			</button>
+			{open && (
+				<div className="space-y-3 border-t p-3">
+					<div className="flex items-center gap-2">
+						<input
+							value={sub.slug}
+							onChange={(e) => set((s) => renameSub(s, sub.id, e.target.value))}
+							placeholder="icon-slug"
+							aria-label="Icon slug"
+							className="h-9 min-w-0 flex-1 rounded-md border bg-transparent px-2 font-mono font-semibold"
+						/>
+						<Button size="sm" variant="outline" onClick={() => pickFiles((files) => set((s) => addFilesTo(s, sub.id, files)))}>
+							<Upload /> Files
+						</Button>
+						{removable && (
+							<Button size="icon" variant="ghost" aria-label="Remove submission" onClick={() => set((s) => removeSub(s, sub.id))}>
+								<Trash2 />
+							</Button>
+						)}
+					</div>
+					<NudgeList compact nudges={nudges} onAction={onAction} />
+					<div className="grid grid-cols-3 gap-2">
+						{SLOTS.map((slot) => {
+							const f = sub.files.find((x) => x.key === slot.key)
+							return (
+								<SlotTile
+									key={slot.key}
+									compact
+									slug={sub.slug}
+									slotKey={slot.key}
+									title={slot.title}
+									src={f?.url}
+									sourceName={f?.file.name}
+									dragId={f?.id}
+									onFile={(file) => set((s) => setSlot(s, sub.id, slot.key, file))}
+									onClear={f && (() => set((s) => removeFile(s, f.id)))}
+									onFileId={(id) => set((s) => moveFile(s, id, sub.id, slot.key))}
+								/>
+							)
+						})}
+						{sub.files
+							.filter((f) => f.custom)
+							.map((f) => (
+								<SlotTile
+									key={f.id}
+									compact
+									slug={sub.slug}
+									slotKey={f.key}
+									title={`${f.key} · custom`}
+									src={f.url}
+									sourceName={f.file.name}
+									onClear={() => set((s) => removeFile(s, f.id))}
+								/>
+							))}
+					</div>
+					<CustomVariantAdder
+						slug={sub.slug}
+						taken={sub.files.map((f) => f.key)}
+						onAdd={(name, file) => set((s) => setSlot(s, sub.id, name, file, true))}
+					/>
+					<div className="space-y-2">
+						<AliasInput value={sub.aliases} onChange={(aliases) => set((s) => setMeta(s, sub.id, { aliases }))} />
+						<CategoryChips compact value={sub.categories} onChange={(categories) => set((s) => setMeta(s, sub.id, { categories }))} />
+					</div>
+				</div>
+			)}
+		</article>
+	)
+}
+
+function ModifyList({ p }: { p: Proto }) {
+	const md = p.modify
+	const e = findExisting(md.slug ?? "")
+	const set = (fn: (m: ModifyDraft) => ModifyDraft) => p.setModify(fn)
+	const [addKey, setAddKey] = useState("")
+	if (!e)
+		return (
+			<article className="rounded-xl border bg-background p-4">
+				<h2 className="mb-3 font-semibold">Pick the icon to change</h2>
+				<ExistingPicker value={null} onPick={(slug) => p.run({ kind: "modify", slug, carry: [] }, "one")} />
+			</article>
+		)
+	const rows = modifyRows(md)
+	const missing = SLOTS.filter((s) => !rows.some((r) => r.key === s.key))
+	return (
+		<article className="space-y-3 rounded-xl border bg-background p-4">
+			<div className="flex flex-wrap items-center justify-between gap-2">
+				<ExistingHeader e={e} />
+				<Button size="sm" variant="ghost" onClick={() => p.setModify({ ...md, slug: null, ops: {} })}>
+					Change icon
+				</Button>
+			</div>
+			<NudgeList nudges={modifyNudges(md)} onAction={(a) => p.run(a, "one")} />
+			<ul className="divide-y rounded-lg border font-mono text-xs">
+				{rows.map((r) => {
+					let sign = "="
+					let tone = ""
+					if (r.op?.type === "add") {
+						sign = "+"
+						tone = "bg-emerald-500/10"
+					}
+					if (r.op?.type === "replace") {
+						sign = "~"
+						tone = "bg-amber-500/10"
+					}
+					if (r.op?.type === "remove") {
+						sign = "−"
+						tone = "bg-red-500/10"
+					}
+					return (
+						<li key={r.key} className={cn("flex flex-wrap items-center gap-2 px-2 py-1.5", tone)}>
+							<span className="w-3 text-center font-bold">{sign}</span>
+							{r.current && <Preview src={r.current.url} bg={bgForKey(r.key)} className={cn("size-9", r.op && "opacity-50")} />}
+							{r.op && r.op.type !== "remove" && (
+								<>
+									{r.current && <span className="text-muted-foreground">→</span>}
+									<Preview src={r.op.url} bg={bgForKey(r.key)} className="size-9" />
+								</>
+							)}
+							<span className={cn("min-w-0 flex-1 truncate", r.op?.type === "remove" && "line-through")}>
+								{targetFilename(e.slug, r.key)} <span className="font-sans text-[10px] text-muted-foreground">{slotTitle(r.key)}</span>
+							</span>
+							<span className="flex gap-1 font-sans">
+								{r.op?.type !== "remove" && (
+									<Button
+										size="sm"
+										variant="ghost"
+										className="h-7 px-2"
+										onClick={() => pickFiles((f) => f[0] && set((m) => putVariant(m, r.key, f[0])), false)}
+									>
+										<Upload /> {r.current ? "Replace" : "Change"}
+									</Button>
+								)}
+								{r.current && !r.op && r.key !== "base" && (
+									<Button size="sm" variant="ghost" className="h-7 px-2 text-red-600" onClick={() => set((m) => removeVariantOp(m, r.key))}>
+										Remove
+									</Button>
+								)}
+								{r.op && (
+									<Button size="sm" variant="ghost" className="h-7 px-2" onClick={() => set((m) => undoOp(m, r.key))}>
+										<Undo2 /> Undo
+									</Button>
+								)}
+							</span>
+						</li>
+					)
+				})}
+				<li className="flex flex-wrap items-center gap-2 px-2 py-2 font-sans">
+					<span className="w-3 text-center font-mono font-bold text-emerald-600">+</span>
+					{missing.length > 0 && (
+						<select
+							aria-label="Add a missing slot"
+							value={addKey}
+							onChange={(ev) => {
+								const k = ev.target.value
+								setAddKey("")
+								if (k) pickFiles((f) => f[0] && set((m) => putVariant(m, k, f[0])), false)
+							}}
+							className="h-8 w-full min-w-0 rounded-md border bg-background px-2 text-xs sm:w-auto sm:max-w-xs"
+						>
+							<option value="">Add {missing.map((m) => m.title.toLowerCase()).join(", ")}…</option>
+							{missing.map((m) => (
+								<option key={m.key} value={m.key}>
+									{m.title} ({targetFilename(e.slug, m.key)})
+								</option>
+							))}
+						</select>
+					)}
+					<CustomVariantAdder
+						compact
+						slug={e.slug}
+						taken={rows.map((r) => r.key)}
+						onAdd={(name, file) => set((m) => putVariant(m, name, file))}
+					/>
+				</li>
+			</ul>
+			<div className="space-y-2">
+				<AliasInput value={md.aliases} onChange={(aliases) => set((m) => ({ ...m, aliases }))} />
+				<CategoryChips compact value={md.categories} onChange={(categories) => set((m) => ({ ...m, categories }))} />
+				<textarea
+					value={md.note}
+					onChange={(ev) => set((m) => ({ ...m, note: ev.target.value }))}
+					placeholder="Note for the reviewer"
+					rows={2}
+					className="w-full rounded-md border bg-background p-2 text-xs"
+				/>
+			</div>
+		</article>
 	)
 }

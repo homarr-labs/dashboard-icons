@@ -1,83 +1,125 @@
 "use client"
-// PROTOTYPE: small shared bits (state hook, previews, payload view, demo buttons, nudges, metadata editor) for the /submit variants.
-import { AlertTriangle, Braces, CircleAlert, FileStack, Info, ListTree, Send, Sparkles, X } from "lucide-react"
-import { type DragEvent, useCallback, useState } from "react"
+// PROTOTYPE pass 2: shared state hook (3 modes), background-correct previews, slot tile, custom-variant combobox, existing-icon picker, nudges, payload views, demo buttons.
+import {
+	AlertTriangle,
+	Braces,
+	CircleAlert,
+	FileStack,
+	Info,
+	ListTree,
+	Plus,
+	Search,
+	Send,
+	Sparkles,
+	Trash2,
+	Upload,
+	X,
+} from "lucide-react"
+import { type DragEvent, type ReactNode, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { cn } from "@/lib/utils"
 import {
-	addFiles,
-	buildPayload,
+	type Action,
+	addFilesAuto,
+	addFilesFlat,
+	type Bg,
+	bgForKey,
+	bgLabel,
 	CATEGORIES,
-	type Draft,
-	type DraftVariant,
-	emptyDraft,
+	CUSTOM_SUGGESTIONS,
+	demoFile,
+	diffLines,
+	EXISTING,
+	type ExistingIcon,
+	emptyModify,
+	existingLabel,
 	fileTypeFiles,
-	formLabel,
-	type IconMeta,
+	findExisting,
+	type Mode,
+	type ModifyDraft,
+	modifyPayload,
 	type Nudge,
-	nudges,
+	newPayload,
+	newSubmission,
+	putVariant,
 	STUB_USER,
-	SUGGESTED_CUSTOM_FORMS,
+	type Subs,
 	sanitizeSlug,
 	selfHostFiles,
-	TONES,
-	type Tone,
+	sonarr4kFile,
+	startModify,
 	targetFilename,
-	toneShort,
-	variantKey,
-	variantLabel,
+	validateCustomName,
 } from "./mock"
 
-export function useDraft() {
-	const [draft, setDraft] = useState<Draft>(emptyDraft)
-	const apply = useCallback((fn: (d: Draft) => Draft) => setDraft((d) => fn(d)), [])
-	return { draft, apply, setDraft }
+export const MODES: { id: Mode; title: string; desc: string }[] = [
+	{ id: "one", title: "Submit one", desc: "A new icon with its variants" },
+	{ id: "modify", title: "Modify one", desc: "Add, replace or remove variants of an existing icon" },
+	{ id: "many", title: "Submit many", desc: "Several new icons at once, each its own submission" },
+]
+
+export function usePrototype() {
+	const [mode, setMode] = useState<Mode>("one")
+	const [one, setOne] = useState<Subs>(() => [newSubmission()])
+	const [many, setMany] = useState<Subs>([])
+	const [modify, setModify] = useState<ModifyDraft>(emptyModify)
+	const run = (a: Action, target: "one" | "many") => {
+		if (a.kind === "modify") {
+			setModify(startModify(a.slug, a.carry))
+			setMode("modify")
+			return
+		}
+		if (target === "one") setOne(a.fn)
+		else setMany(a.fn)
+	}
+	const demos = {
+		selfHost: (flat = false) => {
+			setMode("many")
+			if (flat) setMany(addFilesFlat([], selfHostFiles()))
+			else setMany(addFilesAuto([], selfHostFiles()))
+		},
+		fileTypes: () => {
+			setMode("many")
+			setMany(addFilesAuto([], fileTypeFiles()))
+		},
+		sonarr4k: () => {
+			setMode("modify")
+			setModify(putVariant(startModify("sonarr"), "4k", sonarr4kFile()))
+		},
+		oneLooksLikeVariant: () => {
+			setMode("one")
+			setOne(addFilesAuto([newSubmission("plex-amp")], [demoFile("plex-amp.svg")]).filter((s) => s.files.length))
+		},
+		fixRejected: () => {
+			setMode("modify")
+			setModify(startModify("immich-kiosk"))
+		},
+		reset: () => {
+			setOne([newSubmission()])
+			setMany([])
+			setModify(emptyModify())
+		},
+	}
+	return { mode, setMode, one, setOne, many, setMany, modify, setModify, run, demos }
+}
+export type Proto = ReturnType<typeof usePrototype>
+
+export function bgClass(bg: Bg) {
+	if (bg === "dark") return "bg-zinc-900"
+	if (bg === "light") return "bg-white"
+	return "bg-[conic-gradient(#d4d4d8_0_25%,#fafafa_0_50%,#d4d4d8_0_75%,#fafafa_0)] bg-[length:12px_12px]"
 }
 
-export function demoDraft(kind: "self-host" | "file-types", group = true) {
-	const files = kind === "self-host" ? selfHostFiles() : fileTypeFiles()
-	const d = addFiles(emptyDraft(), files, group)
-	if (kind === "file-types") return { ...d, shared: { ...d.shared, categories: ["utility"] } }
-	return d
-}
-
-export function bgFor(tone: Tone) {
-	if (tone === "light") return "bg-zinc-900"
-	if (tone === "dark") return "bg-white"
-	return "bg-[linear-gradient(135deg,#ffffff_50%,#18181b_50%)]"
-}
-
-export function VariantThumb({ variant, className }: { variant: Pick<DraftVariant, "url" | "tone" | "file">; className?: string }) {
+export function Preview({ src, bg, className, alt = "" }: { src: string; bg: Bg; className?: string; alt?: string }) {
 	return (
-		<span className={cn("flex size-12 shrink-0 items-center justify-center rounded-md border p-1.5", bgFor(variant.tone), className)}>
+		<span
+			className={cn("flex size-12 shrink-0 items-center justify-center overflow-hidden rounded-md border p-1.5", bgClass(bg), className)}
+			title={bgLabel(bg)}
+		>
 			{/* biome-ignore lint/performance/noImgElement: prototype blob previews */}
-			<img src={variant.url} alt={variant.file.name} className="size-full object-contain" />
+			<img src={src} alt={alt} className="size-full object-contain" />
 		</span>
-	)
-}
-
-export function DemoButtons({
-	onLoad,
-	onReset,
-	size = "sm",
-}: {
-	onLoad: (kind: "self-host" | "file-types") => void
-	onReset: () => void
-	size?: "sm" | "default"
-}) {
-	return (
-		<div className="flex flex-wrap items-center gap-2">
-			<Button size={size} variant="outline" onClick={() => onLoad("self-host")}>
-				<Sparkles /> Load self-host example
-			</Button>
-			<Button size={size} variant="outline" onClick={() => onLoad("file-types")}>
-				<FileStack /> Load file-types example
-			</Button>
-			<Button size={size} variant="ghost" onClick={onReset}>
-				Reset
-			</Button>
-		</div>
 	)
 }
 
@@ -89,155 +131,237 @@ export function ProtoNotice() {
 	)
 }
 
-const nudgeStyle = {
-	error: "border-red-500/30 bg-red-500/5 text-red-800 dark:text-red-200",
-	warn: "border-amber-500/30 bg-amber-500/5 text-amber-900 dark:text-amber-200",
-	info: "border-blue-500/30 bg-blue-500/5 text-blue-900 dark:text-blue-200",
+export function pickFiles(onFiles: (files: File[]) => void, multiple = true) {
+	const input = document.createElement("input")
+	input.type = "file"
+	input.multiple = multiple
+	input.accept = ".svg,.png,image/svg+xml,image/png"
+	input.onchange = () => onFiles([...(input.files ?? [])])
+	input.click()
 }
-const nudgeIcon = { error: CircleAlert, warn: AlertTriangle, info: Info }
 
-export function NudgeList({
-	draft,
-	apply,
-	iconId,
+export function dragFile(fileId: string) {
+	return {
+		draggable: true,
+		onDragStart: (e: DragEvent<HTMLElement>) => {
+			e.dataTransfer.setData("text/x-file", fileId)
+			e.dataTransfer.effectAllowed = "move"
+		},
+	}
+}
+
+export function useDrop(onFiles: (files: File[]) => void, onFileId?: (id: string) => void) {
+	const [active, setActive] = useState(false)
+	return {
+		active,
+		props: {
+			onDragOver: (e: DragEvent<HTMLElement>) => {
+				e.preventDefault()
+				e.stopPropagation()
+				setActive(true)
+			},
+			onDragLeave: () => setActive(false),
+			onDrop: (e: DragEvent<HTMLElement>) => {
+				e.preventDefault()
+				e.stopPropagation()
+				setActive(false)
+				const id = e.dataTransfer.getData("text/x-file")
+				if (id && onFileId) onFileId(id)
+				else if (e.dataTransfer.files.length) onFiles([...e.dataTransfer.files])
+			},
+		},
+	}
+}
+
+export type TileState = "add" | "replace" | "remove" | "keep" | null
+
+export function SlotTile({
+	slug,
+	slotKey,
+	title,
+	hint,
+	src,
+	sourceName,
+	onFile,
+	onClear,
+	onFileId,
+	state,
 	compact,
+	dragId,
 }: {
-	draft: Draft
-	apply: (fn: (d: Draft) => Draft) => void
-	iconId?: string
+	slug: string
+	slotKey: string
+	title: string
+	hint?: string
+	src?: string
+	sourceName?: string
+	onFile?: (file: File) => void
+	onClear?: () => void
+	onFileId?: (id: string) => void
+	state?: TileState
 	compact?: boolean
+	dragId?: string
 }) {
-	const list = nudges(draft).filter((n) => !iconId || n.iconId === iconId)
-	if (!list.length) return null
+	const bg = bgForKey(slotKey)
+	const drop = useDrop((files) => files[0] && onFile?.(files[0]), onFileId)
+	const removed = state === "remove"
 	return (
-		<ul className="space-y-1.5">
-			{list.map((n) => (
-				<NudgeItem key={n.id} nudge={n} apply={apply} compact={compact} />
-			))}
-		</ul>
-	)
-}
-
-export function NudgeItem({ nudge, apply, compact }: { nudge: Nudge; apply: (fn: (d: Draft) => Draft) => void; compact?: boolean }) {
-	const Icon = nudgeIcon[nudge.level]
-	return (
-		<li
+		<div
 			className={cn(
-				"flex flex-wrap items-center gap-2 rounded-md border px-2.5 py-1.5",
-				compact ? "text-[11px]" : "text-xs",
-				nudgeStyle[nudge.level],
+				"group/tile relative overflow-hidden rounded-lg border bg-background",
+				drop.active && "ring-2 ring-primary",
+				state === "add" && "border-emerald-500/60",
+				state === "replace" && "border-amber-500/60",
+				removed && "border-red-500/60",
 			)}
 		>
-			<Icon className="size-3.5 shrink-0" />
-			<span className="min-w-0 flex-1">{nudge.text}</span>
-			{nudge.actions.map((a) => (
-				<button
-					key={a.label}
-					type="button"
-					onClick={() => apply(a.apply)}
-					className="rounded border border-current/30 bg-background/70 px-2 py-0.5 font-medium hover:bg-background"
+			<button
+				type="button"
+				{...(onFile ? drop.props : {})}
+				{...(dragId ? dragFile(dragId) : {})}
+				disabled={!onFile}
+				onClick={() => onFile && pickFiles((f) => f[0] && onFile(f[0]), false)}
+				className={cn("flex w-full items-center justify-center", compact ? "h-14" : "h-24", bgClass(bg), removed && "opacity-30 grayscale")}
+				title={`${title} · ${bgLabel(bg)}`}
+			>
+				{src && (
+					// biome-ignore lint/performance/noImgElement: prototype blob previews
+					<img src={src} alt={sourceName ?? title} className={cn("object-contain", compact ? "size-10" : "size-16")} />
+				)}
+				{!src && onFile && (
+					<span className={cn("flex items-center gap-1 rounded bg-background/80 px-1.5 py-0.5 text-[10px] text-muted-foreground")}>
+						<Upload className="size-3" /> {compact ? "" : "Drop or click"}
+					</span>
+				)}
+			</button>
+			{state && state !== "keep" && (
+				<span
+					className={cn("absolute top-1 left-1 rounded px-1 text-[9px] font-semibold text-white", {
+						"bg-emerald-600": state === "add",
+						"bg-amber-600": state === "replace",
+						"bg-red-600": removed,
+					})}
 				>
-					{a.label}
+					{state === "add" && "+ added"}
+					{state === "replace" && "~ replaced"}
+					{removed && "− removed"}
+				</span>
+			)}
+			{onClear && src && (
+				<button
+					type="button"
+					aria-label={`Clear ${title}`}
+					onClick={onClear}
+					className="absolute top-1 right-1 hidden rounded bg-background/90 p-0.5 shadow group-hover/tile:block"
+				>
+					<Trash2 className="size-3" />
 				</button>
-			))}
-		</li>
+			)}
+			<div className={cn("space-y-0.5", compact ? "px-1.5 py-1" : "p-2")}>
+				<div className={cn("font-medium", compact ? "text-[11px]" : "text-sm")}>{title}</div>
+				{hint && !compact && <p className="text-[11px] leading-4 text-muted-foreground">{hint}</p>}
+				<p className={cn("truncate font-mono text-muted-foreground", compact ? "text-[9px]" : "text-[10px]")} title={sourceName}>
+					{targetFilename(slug, slotKey)}
+				</p>
+			</div>
+		</div>
 	)
 }
 
-export function PayloadTree({ draft, className }: { draft: Draft; className?: string }) {
-	const [json, setJson] = useState(false)
-	const payload = buildPayload(draft)
-	const variantCount = draft.icons.reduce((n, i) => n + i.variants.length, 0)
+export function CustomVariantAdder({
+	slug,
+	taken,
+	onAdd,
+	compact,
+}: {
+	slug: string
+	taken: string[]
+	onAdd: (name: string, file: File) => void
+	compact?: boolean
+}) {
+	const [open, setOpen] = useState(false)
+	const [name, setName] = useState("")
+	const [focus, setFocus] = useState(false)
+	const clean = sanitizeSlug(name)
+	const error = name ? validateCustomName(slug, clean, taken) : null
+	const suggestions = CUSTOM_SUGGESTIONS.filter((s) => !taken.includes(s) && s.includes(clean))
+	const choose = () => {
+		if (error || !clean) return
+		pickFiles((files) => {
+			if (!files[0]) return
+			onAdd(clean, files[0])
+			setName("")
+			setOpen(false)
+		}, false)
+	}
+	if (!open)
+		return (
+			<button
+				type="button"
+				onClick={() => setOpen(true)}
+				className={cn(
+					"inline-flex items-center gap-1 rounded-md border border-dashed px-2 text-xs text-muted-foreground hover:text-foreground",
+					compact ? "h-7" : "h-9",
+				)}
+			>
+				<Plus className="size-3.5" /> Add custom variant
+			</button>
+		)
 	return (
-		<div className={cn("text-xs", className)}>
-			<div className="mb-2 flex items-center justify-between gap-2">
-				<span className="font-medium">
-					1 Submission · {draft.icons.length} icon{draft.icons.length === 1 ? "" : "s"} · {variantCount} file{variantCount === 1 ? "" : "s"}
-				</span>
-				<button
-					type="button"
-					onClick={() => setJson(!json)}
-					className="inline-flex items-center gap-1 rounded border px-1.5 py-0.5 text-muted-foreground hover:text-foreground"
-				>
-					{json ? <ListTree className="size-3" /> : <Braces className="size-3" />}
-					{json ? "Tree" : "JSON"}
-				</button>
+		<div className="relative w-full max-w-sm space-y-1">
+			<div className="flex items-center gap-1">
+				<span className="font-mono text-xs text-muted-foreground">{slug || "<slug>"}-</span>
+				<input
+					value={name}
+					onChange={(e) => setName(e.target.value)}
+					onFocus={() => setFocus(true)}
+					onBlur={() => setTimeout(() => setFocus(false), 150)}
+					onKeyDown={(e) => {
+						if (e.key === "Enter") choose()
+						if (e.key === "Escape") setOpen(false)
+					}}
+					placeholder="animated, 4k, mono…"
+					aria-label="Custom variant name"
+					className={cn("h-8 min-w-0 flex-1 rounded-md border bg-background px-2 font-mono text-xs", error && "border-red-500")}
+				/>
+				<Button size="sm" className="h-8" onClick={choose} disabled={!clean || !!error}>
+					Choose file
+				</Button>
+				<Button size="icon" variant="ghost" className="size-8" aria-label="Cancel" onClick={() => setOpen(false)}>
+					<X />
+				</Button>
 			</div>
-			{json && (
-				<pre className="max-h-[60vh] overflow-auto rounded-md bg-muted/50 p-2 font-mono text-[10px] leading-4">
-					{JSON.stringify(payload, null, 2)}
-				</pre>
-			)}
-			{!json && (
-				<ul className="space-y-2 font-mono text-[11px]">
-					{draft.icons.length === 0 && <li className="font-sans text-muted-foreground">Empty. Drop files or load an example.</li>}
-					{draft.icons.map((icon, idx) => (
-						<li key={icon.id}>
-							<div className="flex items-center gap-1.5">
-								<span className="text-muted-foreground">Icon</span>
-								<span className="font-semibold">{icon.slug || "(unnamed)"}</span>
-								<span className="rounded bg-muted px-1 text-[10px] text-muted-foreground">{payload.icons[idx].intent}</span>
-							</div>
-							<ul className="ml-3 border-l pl-2">
-								{icon.variants.map((v) => (
-									<li key={v.id} className="flex flex-wrap gap-x-1.5 leading-5">
-										<span className="text-violet-600 dark:text-violet-400">{variantKey(v.form, v.tone)}</span>
-										<span className="text-muted-foreground">{v.file.name}</span>
-										<span>→ {targetFilename(icon.slug, v)}</span>
-									</li>
-								))}
-								{icon.variants.length === 0 && <li className="font-sans text-muted-foreground">no files</li>}
-							</ul>
-						</li>
-					))}
-				</ul>
+			{error && <p className="text-[11px] text-red-600 dark:text-red-400">{error}</p>}
+			{!error && clean && <p className="font-mono text-[11px] text-muted-foreground">→ {targetFilename(slug, clean)}</p>}
+			{focus && suggestions.length > 0 && (
+				<div className="absolute z-20 mt-1 w-full rounded-md border bg-popover p-1 shadow-md">
+					<p className="px-1.5 pb-1 text-[10px] text-muted-foreground">Used by other contributors</p>
+					<div className="flex flex-wrap gap-1">
+						{suggestions.map((s) => (
+							<button
+								key={s}
+								type="button"
+								onMouseDown={(e) => {
+									e.preventDefault()
+									setName(s)
+								}}
+								className="rounded bg-muted px-1.5 py-0.5 font-mono text-[11px] hover:bg-muted/70"
+							>
+								{s}
+							</button>
+						))}
+					</div>
+				</div>
 			)}
 		</div>
 	)
 }
 
-export function SubmitButton({ draft, className, label = "Submit" }: { draft: Draft; className?: string; label?: string }) {
-	const [open, setOpen] = useState(false)
-	const blocking = nudges(draft).filter((n) => n.level === "error").length
-	return (
-		<>
-			<Button className={className} onClick={() => setOpen(true)} disabled={!draft.icons.length}>
-				<Send /> {label}
-				{blocking > 0 && <span className="rounded bg-background/20 px-1 text-[10px]">{blocking} to fix</span>}
-			</Button>
-			<Dialog open={open} onOpenChange={setOpen}>
-				<DialogContent className="max-h-[85vh] overflow-auto sm:max-w-2xl">
-					<DialogHeader>
-						<DialogTitle>Stub submit: final payload</DialogTitle>
-						<DialogDescription>
-							{blocking > 0
-								? `${blocking} blocking issue(s) would stop this in the real form.`
-								: "This is what would be sent as one Submission."}
-						</DialogDescription>
-					</DialogHeader>
-					<pre className="overflow-auto rounded-md bg-muted/50 p-3 font-mono text-[11px] leading-4">
-						{JSON.stringify(buildPayload(draft), null, 2)}
-					</pre>
-				</DialogContent>
-			</Dialog>
-		</>
-	)
-}
-
-export function CategoryChips({
-	value,
-	onChange,
-	inherited = [],
-}: {
-	value: string[]
-	onChange: (v: string[]) => void
-	inherited?: string[]
-}) {
+export function CategoryChips({ value, onChange, compact }: { value: string[]; onChange: (v: string[]) => void; compact?: boolean }) {
 	return (
 		<div className="flex flex-wrap gap-1">
 			{CATEGORIES.map((c) => {
 				const on = value.includes(c)
-				const fromShared = inherited.includes(c)
 				return (
 					<button
 						key={c}
@@ -245,14 +369,11 @@ export function CategoryChips({
 						aria-pressed={on}
 						onClick={() => onChange(on ? value.filter((x) => x !== c) : [...value, c])}
 						className={cn(
-							"rounded px-2 py-0.5 text-[11px] transition-colors",
+							"rounded px-2 py-0.5 transition-colors",
+							compact ? "text-[10px]" : "text-[11px]",
 							on && "bg-emerald-500/20 text-emerald-800 ring-1 ring-emerald-500/30 dark:text-emerald-200",
-							!on &&
-								fromShared &&
-								"border border-dashed border-emerald-500/50 bg-emerald-500/10 text-emerald-700/80 dark:text-emerald-300/80",
-							!on && !fromShared && "bg-muted text-muted-foreground hover:text-foreground",
+							!on && "bg-muted text-muted-foreground hover:text-foreground",
 						)}
-						title={fromShared && !on ? "Inherited from the submission" : undefined}
 					>
 						{c.replace(/-/g, " ")}
 					</button>
@@ -262,15 +383,7 @@ export function CategoryChips({
 	)
 }
 
-export function AliasInput({
-	value,
-	onChange,
-	placeholder = "Add alias, Enter",
-}: {
-	value: string[]
-	onChange: (v: string[]) => void
-	placeholder?: string
-}) {
+export function AliasInput({ value, onChange }: { value: string[]; onChange: (v: string[]) => void }) {
 	const [text, setText] = useState("")
 	const add = () => {
 		const t = text.trim()
@@ -297,116 +410,245 @@ export function AliasInput({
 					}
 				}}
 				onBlur={add}
-				placeholder={placeholder}
+				placeholder="Add alias, Enter"
+				aria-label="Add alias"
 				className="min-w-24 flex-1 bg-transparent text-xs outline-none"
 			/>
 		</div>
 	)
 }
 
-export function MetaEditor({
-	meta,
-	onChange,
-	inherited,
-}: {
-	meta: IconMeta
-	onChange: (patch: Partial<IconMeta>) => void
-	inherited?: IconMeta
-}) {
+const nudgeStyle = {
+	error: "border-red-500/30 bg-red-500/5 text-red-800 dark:text-red-200",
+	warn: "border-amber-500/30 bg-amber-500/5 text-amber-900 dark:text-amber-200",
+	info: "border-blue-500/30 bg-blue-500/5 text-blue-900 dark:text-blue-200",
+}
+const nudgeIcon = { error: CircleAlert, warn: AlertTriangle, info: Info }
+
+export function NudgeList({ nudges, onAction, compact }: { nudges: Nudge[]; onAction: (a: Action) => void; compact?: boolean }) {
+	if (!nudges.length) return null
+	return (
+		<ul className="space-y-1.5">
+			{nudges.map((n) => {
+				const Icon = nudgeIcon[n.level]
+				return (
+					<li
+						key={n.id}
+						className={cn(
+							"flex flex-wrap items-center gap-2 rounded-md border px-2.5 py-1.5",
+							compact ? "text-[11px]" : "text-xs",
+							nudgeStyle[n.level],
+						)}
+					>
+						<Icon className="size-3.5 shrink-0" />
+						<span className="min-w-0 flex-1">{n.text}</span>
+						{n.actions.map((a) => (
+							<button
+								key={a.label}
+								type="button"
+								onClick={() => onAction(a.action)}
+								className="rounded border border-current/30 bg-background/70 px-2 py-0.5 font-medium hover:bg-background"
+							>
+								{a.label}
+							</button>
+						))}
+					</li>
+				)
+			})}
+		</ul>
+	)
+}
+
+export function ExistingPicker({ value, onPick }: { value: string | null; onPick: (slug: string) => void }) {
+	const [q, setQ] = useState("")
+	const list = EXISTING.filter((e) => e.slug.includes(sanitizeSlug(q)))
 	return (
 		<div className="space-y-2">
-			<AliasInput value={meta.aliases} onChange={(aliases) => onChange({ aliases })} />
-			<CategoryChips value={meta.categories} onChange={(categories) => onChange({ categories })} inherited={inherited?.categories} />
-			<textarea
-				value={meta.description}
-				onChange={(e) => onChange({ description: e.target.value })}
-				placeholder={inherited?.description || "Description (optional)"}
-				rows={2}
-				className="w-full resize-none rounded-md border bg-background px-2 py-1 text-xs"
-			/>
+			<div className="flex items-center gap-2 rounded-md border bg-background px-2">
+				<Search className="size-4 text-muted-foreground" />
+				<input
+					value={q}
+					onChange={(e) => setQ(e.target.value)}
+					placeholder="Search icons and community submissions…"
+					aria-label="Search existing icons"
+					className="h-9 flex-1 bg-transparent text-sm outline-none"
+				/>
+			</div>
+			<ul className="grid gap-1 sm:grid-cols-2">
+				{list.map((e) => (
+					<li key={e.slug}>
+						<button
+							type="button"
+							onClick={() => onPick(e.slug)}
+							className={cn(
+								"flex w-full items-center gap-2 rounded-md border p-1.5 text-left hover:bg-muted",
+								value === e.slug && "border-primary bg-primary/5",
+							)}
+						>
+							<Preview src={e.variants[0].url} bg="checker" className="size-9" />
+							<span className="min-w-0 flex-1">
+								<span className="block truncate font-mono text-sm font-semibold">{e.slug}</span>
+								<span className="block text-[11px] text-muted-foreground">
+									{existingLabel(e)} · {e.variants.length} variant(s)
+								</span>
+							</span>
+						</button>
+					</li>
+				))}
+			</ul>
 		</div>
 	)
 }
 
-export function KindSelect({
-	forms,
-	value,
-	onChange,
-	className,
-}: {
-	forms: string[]
-	value: { form: string; tone: Tone }
-	onChange: (form: string, tone: Tone) => void
-	className?: string
-}) {
-	const all = [...new Set(["icon", "wordmark", ...forms, ...SUGGESTED_CUSTOM_FORMS])]
+export function ExistingHeader({ e }: { e: ExistingIcon }) {
 	return (
-		<select
-			aria-label="Variant kind"
-			value={`${value.form}|${value.tone}`}
-			onChange={(e) => {
-				if (e.target.value === "__custom") {
-					const name = sanitizeSlug(window.prompt("Custom variant form (e.g. animated, mono, outline, 3d)") || "")
-					if (name) onChange(name, value.tone)
-					return
-				}
-				const [f, t] = e.target.value.split("|")
-				onChange(f, t as Tone)
-			}}
-			className={cn("h-7 rounded border bg-background px-1 text-[11px]", className)}
-		>
-			{all.map((f) => (
-				<optgroup key={f} label={formLabel(f)}>
-					{TONES.map((t) => (
-						<option key={t} value={`${f}|${t}`}>
-							{variantLabel({ form: f, tone: t })} · {toneShort(t)}
-						</option>
-					))}
-				</optgroup>
-			))}
-			<option value="__custom">+ Custom form…</option>
-		</select>
+		<div className="flex items-center gap-3">
+			<Preview src={e.variants[0].url} bg="checker" className="size-12" />
+			<div>
+				<div className="font-mono text-lg font-semibold">{e.slug}</div>
+				<div className="text-xs text-muted-foreground">{existingLabel(e)}</div>
+			</div>
+		</div>
 	)
 }
 
-export function dragVariant(vid: string) {
-	return {
-		draggable: true,
-		onDragStart: (e: DragEvent<HTMLElement>) => {
-			e.dataTransfer.setData("text/x-variant", vid)
-			e.dataTransfer.effectAllowed = "move"
-		},
-	}
+function JsonToggle({ title, json, children }: { title: ReactNode; json: unknown; children: ReactNode }) {
+	const [raw, setRaw] = useState(false)
+	return (
+		<div className="text-xs">
+			<div className="mb-2 flex items-center justify-between gap-2">
+				<span className="font-medium">{title}</span>
+				<button
+					type="button"
+					onClick={() => setRaw(!raw)}
+					className="inline-flex items-center gap-1 rounded border px-1.5 py-0.5 text-muted-foreground hover:text-foreground"
+				>
+					{raw && <ListTree className="size-3" />}
+					{!raw && <Braces className="size-3" />}
+					{raw ? "Tree" : "JSON"}
+				</button>
+			</div>
+			{raw && (
+				<pre className="max-h-[60vh] overflow-auto rounded-md bg-muted/50 p-2 font-mono text-[10px] leading-4">
+					{JSON.stringify(json, null, 2)}
+				</pre>
+			)}
+			{!raw && children}
+		</div>
+	)
 }
 
-export function useDrop(onVariant: (vid: string) => void, onFiles: (files: File[]) => void) {
-	const [active, setActive] = useState(false)
-	return {
-		active,
-		props: {
-			onDragOver: (e: DragEvent<HTMLElement>) => {
-				e.preventDefault()
-				e.stopPropagation()
-				setActive(true)
-			},
-			onDragLeave: () => setActive(false),
-			onDrop: (e: DragEvent<HTMLElement>) => {
-				e.preventDefault()
-				e.stopPropagation()
-				setActive(false)
-				const vid = e.dataTransfer.getData("text/x-variant")
-				if (vid) onVariant(vid)
-				else if (e.dataTransfer.files.length) onFiles([...e.dataTransfer.files])
-			},
-		},
-	}
+export function NewPayloadView({ subs }: { subs: Subs }) {
+	const payload = newPayload(subs)
+	return (
+		<JsonToggle json={payload} title={`${subs.length} independent submission${subs.length === 1 ? "" : "s"}`}>
+			<ol className="space-y-2 font-mono text-[11px]">
+				{subs.length === 0 && <li className="font-sans text-muted-foreground">Nothing yet.</li>}
+				{payload.map((p) => (
+					<li key={p.submission}>
+						<div>
+							<span className="text-muted-foreground">#{p.submission}</span> <span className="font-semibold">{p.slug || "(no slug)"}</span>
+						</div>
+						<ul className="ml-3 border-l pl-2">
+							{p.variants.map((v) => (
+								<li key={v.target + v.source} className="leading-5">
+									<span className={cn(v.custom ? "text-violet-600 dark:text-violet-400" : "text-sky-600 dark:text-sky-400")}>
+										{v.variant}
+									</span>{" "}
+									<span className="text-muted-foreground">{v.source}</span> → {v.target}
+								</li>
+							))}
+							{p.variants.length === 0 && <li className="font-sans text-muted-foreground">no files</li>}
+						</ul>
+					</li>
+				))}
+			</ol>
+		</JsonToggle>
+	)
 }
 
-export function pickFiles(onFiles: (files: File[]) => void) {
-	const input = document.createElement("input")
-	input.type = "file"
-	input.multiple = true
-	input.accept = ".svg,.png,image/svg+xml,image/png"
-	input.onchange = () => onFiles([...(input.files ?? [])])
-	input.click()
+export function DiffView({ md }: { md: ModifyDraft }) {
+	const lines = diffLines(md)
+	return (
+		<JsonToggle json={modifyPayload(md)} title={md.slug ? `Delta for ${md.slug}` : "Pick an icon"}>
+			<ul className="space-y-0.5 font-mono text-[11px]">
+				{md.slug && lines.length === 0 && <li className="font-sans text-muted-foreground">No changes yet.</li>}
+				{lines.map((l, i) => (
+					<li
+						key={i}
+						className={cn("rounded px-1.5 py-0.5", {
+							"bg-emerald-500/10 text-emerald-700 dark:text-emerald-300": l.sign === "+",
+							"bg-amber-500/10 text-amber-700 dark:text-amber-300": l.sign === "~",
+							"bg-red-500/10 text-red-700 dark:text-red-300": l.sign === "−",
+						})}
+					>
+						{l.sign} {l.text}
+					</li>
+				))}
+			</ul>
+		</JsonToggle>
+	)
+}
+
+export function SubmitButton({
+	payload,
+	label,
+	blocking,
+	className,
+}: {
+	payload: unknown
+	label: string
+	blocking: number
+	className?: string
+}) {
+	const [open, setOpen] = useState(false)
+	return (
+		<>
+			<Button className={className} onClick={() => setOpen(true)} disabled={!payload}>
+				<Send /> {label}
+				{blocking > 0 && <span className="rounded bg-background/20 px-1 text-[10px]">{blocking} to fix</span>}
+			</Button>
+			<Dialog open={open} onOpenChange={setOpen}>
+				<DialogContent className="max-h-[85vh] overflow-auto sm:max-w-2xl">
+					<DialogHeader>
+						<DialogTitle>Stub submit: final payload</DialogTitle>
+						<DialogDescription>
+							{blocking > 0 ? `${blocking} blocking issue(s) would stop this in the real form.` : "Nothing is sent; this is what would be."}
+						</DialogDescription>
+					</DialogHeader>
+					<pre className="overflow-auto rounded-md bg-muted/50 p-3 font-mono text-[11px] leading-4">{JSON.stringify(payload, null, 2)}</pre>
+				</DialogContent>
+			</Dialog>
+		</>
+	)
+}
+
+export function DemoButtons({ p, flatSelfHost, className }: { p: Proto; flatSelfHost?: boolean; className?: string }) {
+	return (
+		<div className={cn("flex flex-wrap items-center gap-1.5", className)}>
+			<Button size="sm" variant="outline" onClick={() => p.demos.selfHost(flatSelfHost)}>
+				<Sparkles /> Load self-host example
+			</Button>
+			<Button size="sm" variant="outline" onClick={p.demos.fileTypes}>
+				<FileStack /> Load file-types example
+			</Button>
+			<Button size="sm" variant="outline" onClick={p.demos.sonarr4k}>
+				<Plus /> Add 4k to sonarr
+			</Button>
+			<Button size="sm" variant="outline" onClick={p.demos.oneLooksLikeVariant}>
+				Try plex-amp as new
+			</Button>
+			<Button size="sm" variant="ghost" onClick={p.demos.reset}>
+				Reset
+			</Button>
+		</div>
+	)
+}
+
+export function errorsOf(nudges: Nudge[]) {
+	return nudges.filter((n) => n.level === "error").length
+}
+
+export function useExisting(slug: string | null) {
+	return findExisting(slug ?? "")
 }
