@@ -1,0 +1,19 @@
+web/src/lib/community.ts
+  s_17ef26bd27b71a::t_b7b0ec8b184ee6 2-3,68-75,77,81,88,93-106,130-132
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "9c165ef8449197311223e656e406734dc98b3acf",
+  "prompts": {},
+  "sessions": {
+    "s_17ef26bd27b71a": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "9db86f57-96e0-4df5-bd49-18e907fb1fe1",
+        "model": "unknown"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
