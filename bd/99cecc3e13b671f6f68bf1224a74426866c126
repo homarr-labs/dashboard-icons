@@ -1,0 +1,20 @@
+web/docs/MCP.md
+  h_d6e478ca18e517 127,131-140,142,144
+web/src/mcp/__tests__/account-tools.test.ts
+  h_d6e478ca18e517 505,516-518,526-531,534,571-572,580-596,598-603
+web/src/mcp/__tests__/integration.test.ts
+  h_d6e478ca18e517 413,430-440
+web/src/mcp/tools/propose-icon-update.ts
+  h_d6e478ca18e517 36-41,45,64,82-85
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "bd99cecc3e13b671f6f68bf1224a74426866c126",
+  "prompts": {},
+  "humans": {
+    "h_d6e478ca18e517": {
+      "author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
