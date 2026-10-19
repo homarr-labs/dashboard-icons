@@ -1,0 +1,20 @@
+web/src/app/icons/external/[source]/[slug]/page.tsx
+  h_d6e478ca18e517 142-143,145
+web/src/components/icon-details.tsx
+  h_d6e478ca18e517 182-184,843-849,930-953,955
+web/src/constants.ts
+  h_d6e478ca18e517 28,45,60,75
+web/src/lib/external-icons.ts
+  h_d6e478ca18e517 33-37,64-72
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "4e8b229446bd26753aa8809a2d54feb3acac4f6d",
+  "prompts": {},
+  "humans": {
+    "h_d6e478ca18e517": {
+      "author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
