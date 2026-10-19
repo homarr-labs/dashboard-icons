@@ -1,0 +1,25 @@
+.github/ISSUE_TEMPLATE/bug_report.yml
+  s_17ef26bd27b71a::t_36a983e486d122 1-28
+.github/ISSUE_TEMPLATE/config.yml
+  s_17ef26bd27b71a::t_76290ee97c2651 1,3,5-11
+.github/ISSUE_TEMPLATE/feature_request.yml
+  s_17ef26bd27b71a::t_5539c818197046 1-20
+.github/ISSUE_TEMPLATE/icon_request.yml
+  s_17ef26bd27b71a::t_4088d08c55b202 1-52
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "b409eb0d1fa960277f8510d3ae3a19093b910ca4",
+  "prompts": {},
+  "sessions": {
+    "s_17ef26bd27b71a": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "9db86f57-96e0-4df5-bd49-18e907fb1fe1",
+        "model": "unknown"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
