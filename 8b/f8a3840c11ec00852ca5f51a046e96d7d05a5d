@@ -1,0 +1,26 @@
+web/scripts/import-lobehub.ts
+  h_d6e478ca18e517 4,48,109,125-126,128-130,146-148,155,161-162,165-166,172-173,176-177,198,200,207-210,215,217,219,224-226,230-241,249-251,254,275,292-294,350-353,360,368,370,373-382,391,392-393,396,417-419
+web/src/app/icons/external/[source]/[slug]/page.tsx
+  h_d6e478ca18e517 2,7,32-34,38-41
+web/src/components/icon-customizer-inline.tsx
+  h_d6e478ca18e517 24,39,49,226,246,262,306-309,322-325,327-329
+web/src/components/icon-details.tsx
+  h_d6e478ca18e517 31,37,69,80,83,89,97-151,271-274,581,586,587,620,634,638,659,708-712,846,864-865,1119-1127,1159-1162,1295
+web/src/lib/external-icons.ts
+  h_d6e478ca18e517 3,161-162,163
+web/src/lib/icon-variant-text.ts
+  h_d6e478ca18e517 7,60,61,62
+web/src/lib/lobehub-variants.ts
+  h_d6e478ca18e517 1,2-14,15-16,17-20,21-37,38-41
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "8bf8a3840c11ec00852ca5f51a046e96d7d05a5d",
+  "prompts": {},
+  "humans": {
+    "h_d6e478ca18e517": {
+      "author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
