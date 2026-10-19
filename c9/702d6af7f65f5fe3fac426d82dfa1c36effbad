@@ -1,0 +1,50 @@
+web/backend/pb_hooks/submission-batch.js
+  h_d6e478ca18e517 1-23
+web/backend/pb_hooks/submission-batch.pb.js
+  h_d6e478ca18e517 1
+web/backend/pb_migrations/1792200000_submission_atomic_send.js
+  h_d6e478ca18e517 1-18
+web/docs/research/multi-icon-submission-constraints.md
+  h_d6e478ca18e517 196-205
+web/src/app/api/submissions/catalog/route.ts
+  h_d6e478ca18e517 7
+web/src/app/api/submissions/many/route.ts
+  h_d6e478ca18e517 1-141
+web/src/app/submit/page.tsx
+  h_d6e478ca18e517 23,55,77
+web/src/components/icon-submission-form.tsx
+  h_d6e478ca18e517 3-4,27,36,106-113,115,145,152-161,165,172-176,179-180,193-194,201,204-207,251,257,293,304,306,313,320-322,345-349,366-369,373
+web/src/components/legacy-icon-submission-form.tsx
+  h_d6e478ca18e517 419-422
+web/src/components/license-notice.tsx
+  h_d6e478ca18e517 31
+web/src/components/submission/edit-icon-picker.tsx
+  h_d6e478ca18e517 29-36,54,85,90,134-137
+web/src/components/submission/submission-card.tsx
+  h_d6e478ca18e517 19,54,155,160-184,186-196,212,365-368
+web/src/components/submission/submission-form.css
+  h_d6e478ca18e517 1-25
+web/src/components/submission/submission-preview.tsx
+  h_d6e478ca18e517 53,56,58
+web/src/hooks/use-icon-submission-form.ts
+  h_d6e478ca18e517 193
+web/src/hooks/use-submission-catalog.ts
+  h_d6e478ca18e517 9,24-41
+web/src/hooks/use-submission-drafts.ts
+  h_d6e478ca18e517 18-19,50,60,62-72,75,86,111
+web/src/lib/submission-drafts.ts
+  h_d6e478ca18e517 116,126-133
+web/src/lib/submission-service.ts
+  h_d6e478ca18e517 99
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "c9702d6af7f65f5fe3fac426d82dfa1c36effbad",
+  "prompts": {},
+  "humans": {
+    "h_d6e478ca18e517": {
+      "author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
