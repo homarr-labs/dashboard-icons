@@ -1,0 +1,21 @@
+web/src/components/footer.tsx
+  s_803668e520dc04::t_89a618ea0eb89f 6
+web/src/components/license-notice.tsx
+  s_803668e520dc04::t_edadc9b385f5d9 60
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "5d9318bb50901f1b1c1012b7fc0a4a94341fd9fe",
+  "prompts": {},
+  "sessions": {
+    "s_803668e520dc04": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "cc3399fc-43f8-4b39-9b90-4b801b173c70",
+        "model": "unknown"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
