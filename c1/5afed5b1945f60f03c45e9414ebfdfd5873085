@@ -1,0 +1,31 @@
+web/src/app/og/external/[source]/[slug]/route.tsx
+  s_4854be81efa5b9::t_da62e6f8476f44 3,14-16,18,23
+web/src/app/og/external/[source]/route.ts
+  s_4854be81efa5b9::t_4b574fb34f315c 1-12
+web/src/app/og/__tests__/external-route.test.ts
+  s_2dda7f30f9c36c::t_041a767d912cb6 70-71
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "c15afed5b1945f60f03c45e9414ebfdfd5873085",
+  "prompts": {},
+  "sessions": {
+    "s_2dda7f30f9c36c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "5e95b9c0-6a43-43c0-8f66-04339c7d3832",
+        "model": "unknown"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    },
+    "s_4854be81efa5b9": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "c17c40db-cb81-4429-83ce-ec6ddb96650e",
+        "model": "unknown"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
