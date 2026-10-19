@@ -1,0 +1,22 @@
+web/src/components/dashboard/review-bench.tsx
+  h_d6e478ca18e517 2-3,10,16-27,30,57-59,63-75,78-81,97-98,131,134-135,138-139,145-146,149-155,160,169,172,182-190,197,200,214-220,225,228,231-232,234,238-243,246,248,250-252,266-273,278,286,289,293-294,296-303,349,360,369,372-381,383-421,436,450-457,459-463,474,477-478,481-484,490,500,509-513,516-517,546-574,576-583,585,587,592-595,601-602,610-616,623,641-664,666-667,672-679,681-722,724-757,764,767-768,772,781-783,791-795,810
+web/src/components/dashboard/review-gallery.tsx
+  h_d6e478ca18e517 3,9-15,18-36,38-111,113,116,118-119,121-161
+web/src/components/dashboard/review-history.tsx
+  h_d6e478ca18e517 1-64
+web/src/components/dashboard/review-presentation.tsx
+  h_d6e478ca18e517 1-131
+web/src/hooks/use-submission-catalog.ts
+  h_d6e478ca18e517 4,18,53-55,57-62,70-77,79-86
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "ac3e4d8848f335a464d74d562555f05b3c67b526",
+  "prompts": {},
+  "humans": {
+    "h_d6e478ca18e517": {
+      "author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
