@@ -59,32 +59,30 @@ function CodeBlock({
 	}
 
 	return (
-		<div className="space-y-1.5">
-			<p className="text-xs font-medium text-muted-foreground font-mono">{fileLabel}</p>
-			<div className="relative overflow-hidden rounded-lg border border-zinc-800 bg-zinc-950 shadow-inner">
-				<div className="absolute top-2 right-2 z-10">
-					<Button
-						variant="outline"
-						size="sm"
-						className="flex items-center gap-2 border-zinc-600 bg-zinc-100 text-zinc-900 shadow-sm hover:bg-white dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-white"
-						type="button"
-						onClick={handleCopy}
-					>
-						{copied ? (
-							<>
-								<Check className="h-4 w-4" /> Copied
-							</>
-						) : (
-							<>
-								<Copy className="h-4 w-4" /> Copy
-							</>
-						)}
-					</Button>
-				</div>
-				<pre className="max-h-52 overflow-auto p-3 pr-28 text-zinc-100">
-					<McpHighlightedCode code={value} language={language} />
-				</pre>
+		<div className="overflow-hidden rounded-lg border border-zinc-800 bg-zinc-950 shadow-inner">
+			<div className="flex items-center justify-between gap-2 border-b border-zinc-800 py-1.5 pr-1.5 pl-3">
+				<p className="min-w-0 truncate font-mono text-xs text-zinc-400">{fileLabel}</p>
+				<Button
+					variant="outline"
+					size="sm"
+					className="flex shrink-0 items-center gap-2 border-zinc-600 bg-zinc-100 text-zinc-900 shadow-sm hover:bg-white dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-white"
+					type="button"
+					onClick={handleCopy}
+				>
+					{copied ? (
+						<>
+							<Check className="h-4 w-4" /> Copied
+						</>
+					) : (
+						<>
+							<Copy className="h-4 w-4" /> Copy
+						</>
+					)}
+				</Button>
 			</div>
+			<pre className="max-h-52 overflow-auto whitespace-pre-wrap break-words p-3 text-zinc-100">
+				<McpHighlightedCode code={value} language={language} />
+			</pre>
 		</div>
 	)
 }
@@ -199,7 +197,7 @@ export function McpSetupDialogContent({ source }: { source: McpSetupSource }) {
 					</p>
 				</div>
 
-				<Accordion type="single" collapsible defaultValue="cursor" className="w-full space-y-2">
+				<Accordion type="single" collapsible defaultValue="chatgpt" className="w-full space-y-2">
 					{MCP_CLIENT_GUIDES.map((guide) => (
 						<AccordionItem key={guide.id} value={guide.id} className="rounded-md border px-3 last:border-b">
 							<AccordionTrigger className="py-3 hover:no-underline">
@@ -220,7 +218,7 @@ export function McpSetupDialogContent({ source }: { source: McpSetupSource }) {
 				<McpToolsSection />
 
 				<div className="space-y-2 border-t pt-4 text-xs leading-relaxed text-muted-foreground">
-					<p>Covers native Dashboard Icons. External sources are coming soon.</p>
+					<p>Covers Dashboard Icons plus selfh.st, LobeHub and Simple Icons.</p>
 					<div className="flex flex-wrap gap-x-4 gap-y-2">
 						<Link
 							href={MCP_DOCS_URL}

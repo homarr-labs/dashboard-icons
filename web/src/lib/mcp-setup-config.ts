@@ -2,9 +2,9 @@ import { BASE_URL } from "@/constants"
 
 export type McpSetupSource = "hero" | "icon_search"
 
-export type McpClientId = "vscode" | "cursor" | "claude" | "windsurf" | "zed" | "custom"
+export type McpClientId = "chatgpt" | "vscode" | "cursor" | "claude" | "custom"
 
-export type McpSnippetKind = "json" | "bash"
+export type McpSnippetKind = "json" | "bash" | "text"
 
 export type McpClientSetupVariant = {
 	title: string
@@ -62,7 +62,7 @@ export function getMcpRemoteConfigJson(webUrl: string): string {
 			mcpServers: {
 				"dashboard-icons": {
 					command: "npx",
-					args: ["-y", "mcp-remote", getMcpEndpointUrl(webUrl)],
+					args: ["-y", "mcp-remote@0.15.1", getMcpEndpointUrl(webUrl)],
 				},
 			},
 		},
@@ -76,24 +76,8 @@ export function getVscodeMcpConfigJson(webUrl: string): string {
 		{
 			servers: {
 				"dashboard-icons": {
-					command: "npx",
-					args: ["-y", "mcp-remote", getMcpEndpointUrl(webUrl)],
-				},
-			},
-		},
-		null,
-		2,
-	)
-}
-
-export function getZedMcpConfigJson(webUrl: string): string {
-	return JSON.stringify(
-		{
-			context_servers: {
-				"dashboard-icons": {
-					source: "custom",
-					command: "npx",
-					args: ["-y", "mcp-remote", getMcpEndpointUrl(webUrl)],
+					type: "http",
+					url: getMcpEndpointUrl(webUrl),
 				},
 			},
 		},
@@ -103,10 +87,27 @@ export function getZedMcpConfigJson(webUrl: string): string {
 }
 
 export function getClaudeCodeAddCommand(webUrl: string): string {
-	return `claude mcp add dashboard-icons -- npx -y mcp-remote ${getMcpEndpointUrl(webUrl)}`
+	return `claude mcp add --transport http dashboard-icons ${getMcpEndpointUrl(webUrl)}`
 }
 
 export const MCP_CLIENT_GUIDES: McpClientGuide[] = [
+	{
+		id: "chatgpt",
+		label: "ChatGPT",
+		iconUrl: `${BASE_URL}/svg/chatgpt.svg`,
+		monochromeIcon: false,
+		prerequisites: ["Use ChatGPT on the web. Workspace plans may need an admin to allow custom MCP servers."],
+		configFileLabel: "MCP server URL",
+		snippetKind: "text",
+		steps: [
+			"Open Plugins in ChatGPT, select +, then Add custom MCP server.",
+			"Name it Dashboard Icons and paste the URL below as the server URL.",
+			"Choose No authentication for the public icon tools, or OAuth to also submit icons.",
+			"Accept the warning, select Create as a plugin, then install it.",
+			"Type @Dashboard Icons in a chat to use it.",
+		],
+		getSnippet: getMcpEndpointUrl,
+	},
 	{
 		id: "vscode",
 		label: "Visual Studio Code",
@@ -153,41 +154,17 @@ export const MCP_CLIENT_GUIDES: McpClientGuide[] = [
 			},
 			{
 				title: "Claude Desktop",
-				configFileLabel: "claude_desktop_config.json",
-				snippetKind: "json",
+				configFileLabel: "Remote MCP server URL",
+				snippetKind: "text",
 				analyticsClient: "claude_desktop",
-				steps: ["Open your Claude Desktop config file.", "Paste the configuration below under mcpServers.", "Restart Claude Desktop."],
-				getSnippet: getMcpRemoteConfigJson,
+				steps: [
+					"Open Customize > Connectors, then Add custom connector. Team and Enterprise users may need an owner to add it first.",
+					"Name the connector Dashboard Icons, paste the URL below, and continue.",
+					"Choose No sign in for public icon tools, then add and enable the connector. Sign in instead to use account tools.",
+				],
+				getSnippet: getMcpEndpointUrl,
 			},
 		],
-	},
-	{
-		id: "windsurf",
-		label: "Windsurf",
-		iconUrl: "https://cdn.simpleicons.org/windsurf",
-		monochromeIcon: true,
-		configFileLabel: ".codeium/windsurf/mcp_config.json",
-		snippetKind: "json",
-		steps: [
-			"Navigate to Settings > Windsurf Settings > Cascade.",
-			'Click "Manage MCPs", then "View raw config".',
-			"Paste the configuration below and refresh the MCP list if needed.",
-		],
-		getSnippet: getMcpRemoteConfigJson,
-	},
-	{
-		id: "zed",
-		label: "Zed",
-		iconUrl: "https://cdn.simpleicons.org/zedindustries",
-		monochromeIcon: true,
-		configFileLabel: ".config/zed/settings.json",
-		snippetKind: "json",
-		steps: [
-			"Go to Settings > Open Settings.",
-			"In settings.json, add the context server block below.",
-			"Restart Zed if the server does not appear.",
-		],
-		getSnippet: getZedMcpConfigJson,
 	},
 	{
 		id: "custom",
@@ -195,6 +172,7 @@ export const MCP_CLIENT_GUIDES: McpClientGuide[] = [
 		useLucideIcon: "plug",
 		monochromeIcon: false,
 		configFileLabel: "client MCP config",
+		prerequisites: ["Use this stdio bridge if your client does not support remote HTTP servers."],
 		snippetKind: "json",
 		steps: [
 			"Paste the configuration below into your client's MCP settings.",

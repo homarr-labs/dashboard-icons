@@ -1,8 +1,8 @@
 import type { ReactNode } from "react"
 
-export type McpCodeLanguage = "json" | "bash"
+export type McpCodeLanguage = "json" | "bash" | "text"
 
-const MCP_CODE_LANGUAGES = ["json", "bash"] as const satisfies readonly McpCodeLanguage[]
+const MCP_CODE_LANGUAGES = ["json", "bash", "text"] as const satisfies readonly McpCodeLanguage[]
 
 type HighlightClassName = "text-sky-400" | "text-emerald-400" | "text-amber-400" | "text-violet-400" | "text-zinc-500" | "text-zinc-200"
 
@@ -72,6 +72,7 @@ const BASH_TOKEN_STRATEGY: LineHighlightStrategy = {
 const LINE_HIGHLIGHT_STRATEGIES: Record<McpCodeLanguage, LineHighlightStrategy> = {
 	json: JSON_TOKEN_STRATEGY,
 	bash: BASH_TOKEN_STRATEGY,
+	text: { pattern: /.+/g, renderToken: (_match, token) => ({ text: token, className: "text-zinc-200" }) },
 }
 
 function isMcpCodeLanguage(value: string): value is McpCodeLanguage {

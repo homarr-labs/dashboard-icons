@@ -2,7 +2,7 @@
 
 import confetti from "canvas-confetti"
 import { AnimatePresence, motion } from "framer-motion"
-import { ArrowRight, ExternalLink, FileType, Github, Moon, Palette, PaletteIcon, Sun, Type } from "lucide-react"
+import { ArrowRight, ExternalLink, FileType, Moon, Palette, PaletteIcon, Sun, Type } from "lucide-react"
 import Link from "next/link"
 import posthog from "posthog-js"
 import type React from "react"
@@ -25,21 +25,16 @@ import {
 import { isIconAssetUrl } from "@/lib/icon-url"
 import {
 	buildIconAltText,
-	getIconImageVariant,
-	getIconVariantLabel,
 	getToneDescription,
 	getToneEntries,
 	getToneLabel,
-	ICON_TONES,
 	type IconImageVariant,
 	type IconTone,
 	TONE_BACKGROUND,
 	TONE_TITLE,
 } from "@/lib/icon-variant-text"
 import type { NativeIconVariant } from "@/lib/icons/files"
-import { buildIconUrl } from "@/lib/icons/urls"
-import { customVariantTone, variantToneClass } from "@/lib/icons/variants"
-import { getLobehubVariants, getLobehubVariantUrlKey, type LobehubVariant } from "@/lib/lobehub-variants"
+import { customVariantTone } from "@/lib/icons/variants"
 import { variantKind } from "@/lib/submission-variants"
 import { isClipboardAvailable } from "@/lib/svg-color-utils"
 import { cn, formatIconName } from "@/lib/utils"
@@ -57,11 +52,19 @@ type RenderVariantFn = (format: string, iconName: string, variant: IconImageVari
 const COPY_SUPPORTED_FORMATS = new Set(["svg", "png", "webp"])
 
 const TONE_ICON: Record<IconTone, React.ReactNode> = {
-	light: <Sun className="w-4 h-4 text-amber-500" aria-hidden="true" />,
-	dark: <Moon className="w-4 h-4 text-indigo-500" aria-hidden="true" />,
+	light: <Sun className="w-4 h-4 text-amber-500" />,
+	dark: <Moon className="w-4 h-4 text-indigo-500" />,
 }
 
-const LINK_TOUCH_TARGET = "inline-flex min-h-11 min-w-11 items-center rounded-sm focus-visible:outline-2 focus-visible:outline-ring"
+const TONE_TILE_CLASS: Record<IconTone, string> = {
+	light: "bg-zinc-950 ring-zinc-800",
+	dark: "bg-white ring-zinc-200",
+}
+
+function hasNativeFile(nativeFiles: NativeIconVariant[] | undefined, stem: string, format: string) {
+	if (!nativeFiles) return true
+	return !!nativeFiles.find((variant) => variant.stem === stem)?.formats.some((available) => available === format)
+}
 
 type IconVariantsSectionProps = {
 	title: string
@@ -71,7 +74,6 @@ type IconVariantsSectionProps = {
 	iconName: string
 	variant: IconImageVariant
 	renderVariant: RenderVariantFn
-	children?: React.ReactNode
 }
 
 function IconVariantsSection({
@@ -82,75 +84,19 @@ function IconVariantsSection({
 	iconName,
 	variant,
 	renderVariant,
-	children,
 }: IconVariantsSectionProps) {
+	const tiles = availableFormats.map((format) => renderVariant(format, iconName, variant))
+	if (tiles.every((tile) => tile === null)) return null
+
 	return (
-		<section id={variant.kind === "named" ? `variant-${variant.name}` : undefined} className="scroll-mt-24">
-			<h3 className="text-lg font-semibold flex items-center gap-2 mb-1 text-balance break-words">
+		<div>
+			<h3 className="text-lg font-semibold flex items-center gap-2 mb-1">
 				{iconElement}
-				<span className="min-w-0 break-words">{title}</span>
+				{title}
 			</h3>
 			<p className="text-sm text-muted-foreground mb-4">{description}</p>
-			{children}
-			<MagicCardPointerProvider className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-				{availableFormats.map((format) => renderVariant(format, iconName, variant))}
-			</MagicCardPointerProvider>
-		</section>
-	)
-}
-
-type NamedVariantSectionProps = {
-	externalIcon: ExternalIcon
-	variant: LobehubVariant
-	renderVariant: RenderVariantFn
-}
-
-function NamedVariantSection({ externalIcon, variant, renderVariant }: NamedVariantSectionProps) {
-	const [selectedTone, setSelectedTone] = useState<IconTone>("dark")
-	const tones = ICON_TONES.filter((tone) =>
-		["png", "webp"].some((format) => getLobehubVariantUrlKey(externalIcon, format, variant.name, tone)),
-	)
-	let activeTone: IconTone | undefined = tones[0]
-	if (tones.includes(selectedTone)) activeTone = selectedTone
-	const formats = ["svg", "png", "webp"].filter((format) => getLobehubVariantUrlKey(externalIcon, format, variant.name, activeTone))
-	const renderNamedVariant: RenderVariantFn = (format, fileName) => {
-		let tone: IconTone | undefined
-		if (format !== "svg") tone = activeTone
-		let downloadName = fileName
-		if (tone) downloadName += `-${tone}`
-		return renderVariant(format, downloadName, { kind: "named", name: variant.name, label: variant.label, tone })
-	}
-
-	return (
-		<IconVariantsSection
-			title={variant.label}
-			description={variant.description}
-			iconElement={<Type className="w-4 h-4 text-muted-foreground" aria-hidden="true" />}
-			availableFormats={formats}
-			iconName={`${externalIcon.slug}-${variant.name}`}
-			variant={{ kind: "named", name: variant.name, label: variant.label }}
-			renderVariant={renderNamedVariant}
-		>
-			{tones.length > 0 && (
-				<fieldset aria-label={`${variant.label} raster background`} className="space-y-2 mb-4">
-					<legend className="text-sm font-medium">PNG and WebP background</legend>
-					<div className="flex flex-wrap gap-2">
-						{tones.map((tone) => (
-							<Button
-								key={tone}
-								variant={activeTone === tone ? "secondary" : "outline"}
-								className="min-h-11"
-								aria-pressed={activeTone === tone}
-								onClick={() => setSelectedTone(tone)}
-							>
-								Use {tone === "light" ? "dark" : "light"} background
-							</Button>
-						))}
-					</div>
-					{activeTone && <p className="text-sm text-muted-foreground">{getToneDescription(activeTone, false)} SVG artwork is unchanged.</p>}
-				</fieldset>
-			)}
-		</IconVariantsSection>
+			<MagicCardPointerProvider className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">{tiles}</MagicCardPointerProvider>
+		</div>
 	)
 }
 
@@ -160,61 +106,66 @@ type WordmarkSectionProps = {
 	renderVariant: RenderVariantFn
 }
 
+type WordmarkGroup = {
+	key: string
+	heading: React.ReactNode
+	fileName: string
+	variant: IconImageVariant
+}
+
 function WordmarkSection({ iconData, availableFormats, renderVariant }: WordmarkSectionProps) {
 	if (!iconData.wordmark) return null
 
+	const wordmarkGroups: WordmarkGroup[] = []
+	if (iconData.wordmark.default) {
+		wordmarkGroups.push({
+			key: "default",
+			heading: (
+				<>
+					<Palette className="w-4 h-4 text-pink-500" />
+					Colour wordmark <span className="font-normal text-muted-foreground">for any background</span>
+				</>
+			),
+			fileName: iconData.wordmark.default,
+			variant: { kind: "wordmark", tone: "default" },
+		})
+	}
+	for (const { tone, fileName } of getToneEntries(iconData.wordmark)) {
+		wordmarkGroups.push({
+			key: tone,
+			heading: (
+				<>
+					{TONE_ICON[tone]}
+					{TONE_TITLE[tone]} wordmark <span className="font-normal text-muted-foreground">for {TONE_BACKGROUND[tone]}</span>
+				</>
+			),
+			fileName,
+			variant: { kind: "wordmark", tone },
+		})
+	}
+
+	const groups = wordmarkGroups
+		.map((group) => ({ ...group, tiles: availableFormats.map((format) => renderVariant(format, group.fileName, group.variant)) }))
+		.filter((group) => group.tiles.some((tile) => tile !== null))
+	if (groups.length === 0) return null
+
 	return (
-		<section>
+		<div>
 			<h3 className="text-lg font-semibold flex items-center gap-2 mb-1">
-				<Type className="w-4 h-4 text-green-500" aria-hidden="true" />
-				Wordmark
+				<Type className="w-4 h-4 text-green-500" />
+				Wordmark Variants
 			</h3>
-			<p className="text-sm text-muted-foreground mb-4">The logo with the brand name as text.</p>
+			<p className="text-sm text-muted-foreground mb-4">Icon variants that include the brand name. Click to copy URL.</p>
 			<div className="space-y-6">
-				{iconData.wordmark.default && (
-					<div>
-						<h4 className="text-md font-medium flex items-center gap-2 mb-1">
-							<Palette className="w-4 h-4 text-pink-500" />
-							Wordmark
-						</h4>
-						<p className="text-sm text-muted-foreground mb-3">Colour brand name for any background</p>
+				{groups.map((group) => (
+					<div key={group.key}>
+						<h4 className="text-md font-medium flex flex-wrap items-center gap-x-2 gap-y-1 mb-3">{group.heading}</h4>
 						<MagicCardPointerProvider className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-							{availableFormats.map((format) => {
-								if (!iconData.wordmark?.default) return null
-								return renderVariant(format, iconData.wordmark.default, { kind: "wordmark", tone: "default" })
-							})}
-						</MagicCardPointerProvider>
-					</div>
-				)}
-				{getToneEntries(iconData.wordmark).map(({ tone, fileName }) => (
-					<div key={tone}>
-						<h4 className="text-md font-medium flex flex-wrap items-center gap-x-2 gap-y-1 mb-3">
-							{TONE_ICON[tone]}
-							{TONE_TITLE[tone]} wordmark <span className="font-normal text-muted-foreground">for {TONE_BACKGROUND[tone]}</span>
-						</h4>
-						<MagicCardPointerProvider className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-							{availableFormats.map((format) => renderVariant(format, fileName, { kind: "wordmark", tone }))}
+							{group.tiles}
 						</MagicCardPointerProvider>
 					</div>
 				))}
 			</div>
-		</section>
-	)
-}
-
-type VariantFileRowProps = {
-	icon: React.ReactNode
-	tone: IconTone
-	fileName: string
-}
-
-function VariantFileRow({ icon, tone, fileName }: VariantFileRowProps) {
-	return (
-		<div className="flex flex-wrap items-center gap-x-2 gap-y-1">
-			{icon}
-			<span className="font-medium text-sm">{TONE_TITLE[tone]}:</span>
-			<code className="min-w-0 break-all border border-border px-2 py-0.5 rounded-lg text-xs">{fileName}</code>
-			<span className="basis-full pl-6 text-xs text-muted-foreground">For {TONE_BACKGROUND[tone]}</span>
 		</div>
 	)
 }
@@ -242,10 +193,6 @@ export type IconDetailsProps = {
 	rejectionReason?: string
 	externalIcon?: ExternalIcon
 	breadcrumbItems?: IconDetailsBreadcrumbItem[]
-	relatedLinks?: React.ReactNode
-	nameRelatedLinks?: React.ReactNode
-	externalContent?: React.ReactNode
-	externalBrandColor?: string
 }
 
 export function IconDetails({
@@ -261,17 +208,11 @@ export function IconDetails({
 	rejectionReason,
 	externalIcon,
 	breadcrumbItems,
-	relatedLinks,
-	nameRelatedLinks,
-	externalContent,
-	externalBrandColor,
 }: IconDetailsProps) {
 	const authorName = authorData.name || authorData.login || ""
 	const _iconColorVariants = iconData.colors
 	const _iconWordmarkVariants = iconData.wordmark
-	const updateDate = new Date(iconData.update.timestamp)
-	const hasUpdateDate = Number.isFinite(updateDate.getTime()) && updateDate.getUTCFullYear() > 1970
-	const formattedDate = updateDate.toLocaleDateString("en-GB", {
+	const formattedDate = new Date(iconData.update.timestamp).toLocaleDateString("en-GB", {
 		day: "numeric",
 		month: "long",
 		year: "numeric",
@@ -281,12 +222,7 @@ export function IconDetails({
 	const isSimpleIcons = externalIcon?.source === "simpleicons"
 	const externalSourceConfig = externalIcon ? EXTERNAL_SOURCES[externalIcon.source as ExternalSourceId] : undefined
 	const externalPreviewUrl = externalIcon ? getExternalIconPreviewUrl(externalIcon) : null
-	const iconDisplayName = externalIcon?.name ?? formatIconName(icon, { capitalize: true, aliases: iconData.aliases })
-	const hasMonochromeTones = externalSourceConfig?.monochromeTones ?? false
-	const namedVariants = useMemo(() => {
-		if (!externalIcon) return []
-		return getLobehubVariants(externalIcon)
-	}, [externalIcon])
+	const formatedIconName = externalIcon?.name ?? formatIconName(icon, { capitalize: true, aliases: iconData.aliases })
 
 	type CommunityIconData = Icon & {
 		mainIconUrl?: string
@@ -297,12 +233,10 @@ export function IconDetails({
 	const isCommunityIcon = !isExternalIcon && (!!communityData.mainIconUrl || isIconAssetUrl(iconData.base))
 	const mainIconUrl = communityData.mainIconUrl || (isCommunityIcon ? iconData.base : null)
 	const assetUrls = communityData.assetUrls || []
+	const nativeFiles = nativeVariants?.length ? nativeVariants : undefined
 
-	const nativeBase = nativeVariants?.find((variant) => variant.key === "default")
-	const nativeHeroFormat = nativeBase?.formats.find((format) => format === iconData.base) ?? nativeBase?.formats[0]
-	const nativeHeroTone = nativeBase?.keys.map((key) => variantToneClass({ ...nativeBase, key })).find(Boolean)
-	let heroImageUrl = externalPreviewUrl ?? mainIconUrl ?? `${BASE_URL}/${iconData.base}/${icon}.${iconData.base}`
-	if (nativeVariants) heroImageUrl = nativeBase && nativeHeroFormat ? buildIconUrl(nativeBase.stem, nativeHeroFormat) : ""
+	const heroImageUrl = externalPreviewUrl ?? mainIconUrl ?? `${BASE_URL}/${iconData.base}/${icon}.${iconData.base}`
+	const heroFormat = isIconAssetUrl(iconData.base) ? iconData.base.split("?")[0].split(".").pop()?.toLowerCase() : iconData.base
 
 	const shouldShowBaseIcon = () => {
 		if (!iconData.colors) return true
@@ -336,18 +270,8 @@ export function IconDetails({
 		return true
 	}
 
-	const toneEntries = getToneEntries(iconData.colors)
-
-	const getHeroFormat = () => {
-		if (nativeVariants) return nativeHeroFormat
-		if (!isIconAssetUrl(iconData.base)) return iconData.base
-		const extension = iconData.base.split("?")[0].split(".").pop()?.toLowerCase()
-		if (extension && COPY_SUPPORTED_FORMATS.has(extension)) return extension
-		return undefined
-	}
-
 	const getAvailableFormats = (): string[] => {
-		if (nativeVariants) return [...new Set(nativeVariants.flatMap((variant) => variant.formats))]
+		if (nativeFiles) return [...new Set(nativeFiles.flatMap((variant) => variant.formats))]
 		if (isExternalIcon && externalIcon) {
 			return (externalIcon.formats ?? []).filter((f) => COPY_SUPPORTED_FORMATS.has(f))
 		}
@@ -599,16 +523,12 @@ export function IconDetails({
 		let githubUrl: string
 		let theme: IconTone | undefined
 		if (variant.kind === "tone") theme = variant.tone
-		if (variant.kind === "named") theme = variant.tone
 		if (variant.kind === "wordmark" && variant.tone !== "default") theme = variant.tone
 		if (variant.kind === "custom") theme = customVariantTone(variant.name)
-		const nativeVariant = nativeVariants?.find((item) => item.stem === iconName)
-		const previewTone = nativeVariant?.keys.map((key) => variantToneClass({ ...nativeVariant, key })).find(Boolean)
 
 		if (isExternalIcon && externalIcon) {
 			let key: string | null = format
-			if (variant.kind === "named") key = getLobehubVariantUrlKey(externalIcon, format, variant.name, theme)
-			else if (theme) key = getExternalToneUrlKey(externalIcon, format, theme)
+			if (theme) key = getExternalToneUrlKey(externalIcon, format, theme)
 			else if (!externalIcon.formats?.includes(format)) key = null
 			if (!key || !canResolveExternalIconUrl(externalIcon, key)) return null
 			imageUrl = resolveExternalIconUrl(externalIcon, key)
@@ -621,61 +541,63 @@ export function IconDetails({
 			imageUrl = matchingUrl
 			githubUrl = ""
 		} else {
-			if (nativeVariants && !nativeVariant?.formats.some((available) => available === format)) return null
+			if (!hasNativeFile(nativeFiles, iconName, format)) return null
 			imageUrl = `${BASE_URL}/${format}/${iconName}.${format}`
 			githubUrl = `${REPO_PATH}/tree/main/${format}/${iconName}.${format}`
 		}
 
 		let variantKey = `${format}-${theme || "default"}`
 		if (variant.kind === "wordmark") variantKey = `${format}-wordmark-${variant.tone}`
-		if (variant.kind === "named") variantKey = `${format}-${variant.name}-${theme || "default"}`
 		if (variant.kind === "custom") variantKey = `${format}-custom-${variant.name}`
-		if (nativeVariant) variantKey = `${format}-${iconName}`
-		const altText = buildIconAltText(iconDisplayName, variant, format)
-		let tileBackground = "bg-primary/15 dark:bg-secondary/10"
-		if (variant.kind === "named") tileBackground = "bg-white"
-		if (theme === "light") tileBackground = "bg-zinc-950"
-		if (theme === "dark") tileBackground = "bg-white"
+		const altText = buildIconAltText(formatedIconName, variant, format)
+		const tileBackground = theme ? TONE_TILE_CLASS[theme] : "bg-primary/15 dark:bg-secondary/10"
 
 		return (
 			<TooltipProvider key={variantKey} delayDuration={500}>
-				<MagicCard className="min-w-0 p-0 rounded-md">
-					<figure className="flex min-w-0 flex-col items-center p-4">
+				<MagicCard className="p-0 rounded-md">
+					<div className="flex flex-col items-center p-4 transition-all">
 						<Tooltip>
 							<TooltipTrigger asChild>
-								<button
-									type="button"
+								<motion.div
 									className={cn(
-										"relative flex h-28 w-full max-w-56 items-center justify-center mb-3 ring-1 ring-border cursor-pointer rounded-xl overflow-hidden group outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
-										previewTone || tileBackground,
+										"relative flex h-28 w-28 items-center justify-center mb-3 ring-1 ring-white/5 dark:ring-white/10 cursor-pointer rounded-xl overflow-hidden group",
+										tileBackground,
 									)}
+									whileHover={{ scale: 1.05 }}
+									whileTap={{ scale: 0.95 }}
 									onClick={(e) => handleCopyUrl(imageUrl, variantKey, e)}
+									onKeyDown={(event) => {
+										if (event.key === "Enter" || event.key === " ") {
+											event.preventDefault()
+											handleCopyUrl(imageUrl, variantKey)
+										}
+									}}
+									role="button"
+									tabIndex={0}
 									aria-label={`Copy URL for ${altText}`}
 								>
 									<div className="absolute inset-0 border-2 border-transparent group-hover:border-primary/20 rounded-xl z-10 transition-colors" />
 
-									<UnoptimizedImage src={imageUrl} alt={altText} width={88} height={88} className="h-full w-full object-contain p-4" />
-								</button>
+									<UnoptimizedImage
+										src={imageUrl}
+										alt={altText}
+										width={88}
+										height={88}
+										className="max-h-full max-w-full object-contain p-4"
+									/>
+								</motion.div>
 							</TooltipTrigger>
 							<TooltipContent>
 								<p>Click to copy direct URL to clipboard</p>
 							</TooltipContent>
 						</Tooltip>
 
-						<figcaption className="w-full text-center text-sm">
-							<span className="font-medium">{format === "webp" ? "WebP" : format.toUpperCase()}</span>
-							{nativeVariant && (
-								<code className="mt-1 block break-all text-sm text-muted-foreground">
-									{iconName}.{format}
-								</code>
-							)}
-						</figcaption>
+						<p className="text-sm font-medium">{format.toUpperCase()}</p>
 
 						<IconActions
 							imageUrl={imageUrl}
 							githubUrl={githubUrl}
 							iconName={iconName}
-							label={altText}
 							format={format}
 							variantKey={variantKey}
 							copiedUrlKey={copiedUrlKey}
@@ -684,7 +606,7 @@ export function IconDetails({
 							handleCopyUrl={handleCopyUrl}
 							handleCopyImage={handleCopyImage}
 						/>
-					</figure>
+					</div>
 				</MagicCard>
 			</TooltipProvider>
 		)
@@ -698,29 +620,15 @@ export function IconDetails({
 
 	const availableVariants = useMemo((): VariantOption[] => {
 		const variants: VariantOption[] = []
-		if (nativeVariants) {
-			return nativeVariants
-				.filter((variant) => variant.formats.includes("svg"))
-				.map((variant) => ({
-					value: variant.key,
-					label: getIconVariantLabel(variant),
-					iconName: variant.stem,
-				}))
-		}
 
 		if (isExternalIcon && externalIcon) {
 			if (externalIcon.formats.includes("svg")) {
-				variants.push({ value: "base", label: isSimpleIcons ? "Brand color" : "Base", iconName: externalIcon.slug })
+				variants.push({ value: "base", label: isSimpleIcons ? "Brand color" : "Base Icon", iconName: externalIcon.slug })
 			}
 			for (const { tone, fileName } of getToneEntries(iconData.colors)) {
 				const key = getExternalToneUrlKey(externalIcon, "svg", tone)
 				if (key && canResolveExternalIconUrl(externalIcon, key)) {
 					variants.push({ value: tone, label: getToneLabel(tone), iconName: fileName })
-				}
-			}
-			for (const variant of namedVariants) {
-				if (externalIcon.url_templates[`svg_${variant.name}`]) {
-					variants.push({ value: variant.name, label: variant.label, iconName: `${externalIcon.slug}-${variant.name}` })
 				}
 			}
 			return variants
@@ -731,7 +639,7 @@ export function IconDetails({
 			if (baseSvg || mainIconUrl?.toLowerCase().endsWith(".svg")) {
 				variants.push({
 					value: "base",
-					label: "Base",
+					label: "Base Icon",
 					iconName: icon,
 				})
 			}
@@ -764,20 +672,6 @@ export function IconDetails({
 				}
 			}
 
-			const wordmarkDefault = iconData.wordmark?.default
-			if (wordmarkDefault) {
-				const wordmarkDefaultSvg = assetUrls.find(
-					(url: string) => typeof url === "string" && url.toLowerCase().endsWith(".svg") && url.includes(wordmarkDefault),
-				)
-				if (wordmarkDefaultSvg) {
-					variants.push({
-						value: "wordmark",
-						label: "Wordmark",
-						iconName: wordmarkDefault,
-					})
-				}
-			}
-
 			const wordmarkLight = iconData.wordmark?.light
 			if (wordmarkLight) {
 				const wordmarkLightSvg = assetUrls.find(
@@ -806,15 +700,17 @@ export function IconDetails({
 				}
 			}
 		} else {
-			if (iconData.base === "svg") {
+			const hasSvg = (stem: string) => iconData.base === "svg" && hasNativeFile(nativeFiles, stem, "svg")
+
+			if (hasSvg(icon)) {
 				variants.push({
 					value: "base",
-					label: "Base",
+					label: "Base Icon",
 					iconName: icon,
 				})
 			}
 
-			if (iconData.colors?.light && iconData.base === "svg") {
+			if (iconData.colors?.light && hasSvg(iconData.colors.light)) {
 				variants.push({
 					value: "light",
 					label: getToneLabel("light"),
@@ -822,7 +718,7 @@ export function IconDetails({
 				})
 			}
 
-			if (iconData.colors?.dark && iconData.base === "svg") {
+			if (iconData.colors?.dark && hasSvg(iconData.colors.dark)) {
 				variants.push({
 					value: "dark",
 					label: getToneLabel("dark"),
@@ -830,15 +726,7 @@ export function IconDetails({
 				})
 			}
 
-			if (iconData.wordmark?.default && iconData.base === "svg") {
-				variants.push({
-					value: "wordmark",
-					label: "Wordmark",
-					iconName: iconData.wordmark.default,
-				})
-			}
-
-			if (iconData.wordmark?.light && iconData.base === "svg") {
+			if (iconData.wordmark?.light && hasSvg(iconData.wordmark.light)) {
 				variants.push({
 					value: "wordmark-light",
 					label: getToneLabel("light", "wordmark"),
@@ -846,7 +734,7 @@ export function IconDetails({
 				})
 			}
 
-			if (iconData.wordmark?.dark && iconData.base === "svg") {
+			if (iconData.wordmark?.dark && hasSvg(iconData.wordmark.dark)) {
 				variants.push({
 					value: "wordmark-dark",
 					label: getToneLabel("dark", "wordmark"),
@@ -856,7 +744,7 @@ export function IconDetails({
 		}
 
 		return variants
-	}, [nativeVariants, isExternalIcon, externalIcon, isSimpleIcons, isCommunityIcon, assetUrls, mainIconUrl, icon, iconData, namedVariants])
+	}, [isExternalIcon, externalIcon, isSimpleIcons, isCommunityIcon, assetUrls, mainIconUrl, icon, iconData, nativeFiles])
 
 	const getSvgUrl = useCallback(
 		(variantValue?: string): string | null => {
@@ -874,8 +762,6 @@ export function IconDetails({
 					const key = getExternalToneUrlKey(externalIcon, "svg", variant)
 					if (key && canResolveExternalIconUrl(externalIcon, key)) return resolveExternalIconUrl(externalIcon, key)
 				}
-				const key = `svg_${variant}`
-				if (canResolveExternalIconUrl(externalIcon, key)) return resolveExternalIconUrl(externalIcon, key)
 				return null
 			}
 
@@ -894,13 +780,13 @@ export function IconDetails({
 				return matchingUrl || null
 			}
 
-			if (nativeVariants || iconData.base === "svg") {
+			if (iconData.base === "svg") {
 				return `${BASE_URL}/svg/${variantOption.iconName}.svg`
 			}
 
 			return null
 		},
-		[selectedVariant, availableVariants, isExternalIcon, externalIcon, isCommunityIcon, mainIconUrl, assetUrls, iconData, nativeVariants],
+		[selectedVariant, availableVariants, isExternalIcon, externalIcon, isCommunityIcon, mainIconUrl, assetUrls, iconData],
 	)
 
 	const svgUrl = useMemo(() => getSvgUrl(selectedVariant), [selectedVariant, getSvgUrl])
@@ -924,12 +810,7 @@ export function IconDetails({
 									<BreadcrumbItem key={index}>
 										{item.href ? (
 											<BreadcrumbLink asChild>
-												<Link
-													href={item.href}
-													className="inline-flex min-h-11 min-w-11 items-center rounded-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
-												>
-													{item.label}
-												</Link>
+												<Link href={item.href}>{item.label}</Link>
 											</BreadcrumbLink>
 										) : (
 											<BreadcrumbPage>{item.label}</BreadcrumbPage>
@@ -941,60 +822,47 @@ export function IconDetails({
 						</Breadcrumb>
 					</div>
 				)}
-				{relatedLinks}
-				<div className="min-w-0 lg:col-span-1">
+				<div className="lg:col-span-1">
 					<Card className="h-full gap-2 bg-background/50 border shadow-lg">
 						<CardHeader className="pb-2">
 							<div className="flex flex-col items-center bg-background">
 								<div className="relative w-full">
-									<div
-										className={cn(
-											"relative mx-auto flex aspect-square w-full max-w-md items-center justify-center rounded-xl ring-1 ring-border overflow-hidden p-3",
-											nativeHeroTone || "bg-muted",
-										)}
-									>
+									<div className="relative mx-auto flex aspect-square w-full max-w-md items-center justify-center rounded-xl ring-1 ring-white/5 dark:ring-white/10 bg-primary/15 dark:bg-secondary/10 overflow-hidden p-3">
 										{isSimpleIcons && externalIcon ? (
 											<UnoptimizedImage
 												src={resolveExternalIconUrl(externalIcon, "svg_light")}
 												priority
 												width={96}
 												height={96}
-												alt={buildIconAltText(iconDisplayName, { kind: "base" }, "svg")}
+												alt={buildIconAltText(formatedIconName, { kind: "base" }, "svg")}
 												className="h-full w-full object-contain dark:invert"
 											/>
-										) : heroImageUrl ? (
+										) : (
 											<UnoptimizedImage
 												src={heroImageUrl}
 												priority
 												width={96}
 												height={96}
-												alt={buildIconAltText(iconDisplayName, { kind: "base" }, getHeroFormat())}
+												alt={buildIconAltText(formatedIconName, { kind: "base" }, heroFormat)}
 												className="h-full w-full object-contain"
 											/>
-										) : null}
+										)}
 									</div>
 								</div>
-								<CardTitle className="mt-3 text-3xl font-bold text-center tracking-wide break-words max-w-full">
-									<h1>{iconDisplayName}</h1>
+								<CardTitle className="mt-3 text-3xl font-bold text-center tracking-wide">
+									<h1>{formatedIconName}</h1>
 								</CardTitle>
 							</div>
 						</CardHeader>
 						<CardContent>
 							<div className="space-y-4">
-								{isExternalIcon && (
-									<Button variant="outline" className="min-h-11 w-full" asChild>
-										<a href="#icon-usage">Use this icon</a>
-									</Button>
-								)}
 								<div>
 									<div className="space-y-2">
-										{hasUpdateDate && (
-											<div className="flex items-center gap-2">
-												<p className="text-sm">
-													<span className="font-medium">Updated on:</span> <time dateTime={iconData.update.timestamp}>{formattedDate}</time>
-												</p>
-											</div>
-										)}
+										<div className="flex items-center gap-2">
+											<p className="text-sm">
+												<span className="font-medium">Updated on:</span> <time dateTime={iconData.update.timestamp}>{formattedDate}</time>
+											</p>
+										</div>
 										<div className="flex items-center gap-2">
 											<div className="flex items-center gap-2">
 												<p className="text-sm font-medium">By:</p>
@@ -1007,7 +875,7 @@ export function IconDetails({
 														href={authorData.html_url}
 														target="_blank"
 														rel="noopener noreferrer"
-														className={cn(LINK_TOUCH_TARGET, "text-primary hover:underline text-sm")}
+														className="text-primary hover:underline text-sm"
 													>
 														{authorName}
 													</Link>
@@ -1022,33 +890,19 @@ export function IconDetails({
 									<div>
 										<h3 className="text-sm font-semibold text-muted-foreground mb-2">Categories</h3>
 										<div className="flex flex-wrap gap-2">
-											{iconData.categories.map((category) => {
-												const badge = (
+											{iconData.categories.map((category) => (
+												<Link key={category} href={`/icons?category=${encodeURIComponent(category)}`} className="cursor-pointer">
 													<Badge
-														key={category}
 														variant="outline"
-														className={cn(
-															"inline-flex items-center border border-primary/20 px-2.5 py-0.5 text-sm",
-															!isExternalIcon && "hover:border-primary",
-														)}
+														className="inline-flex items-center border border-primary/20 hover:border-primary px-2.5 py-0.5 text-sm"
 													>
 														{category
 															.split("-")
 															.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
 															.join(" ")}
 													</Badge>
-												)
-												if (isExternalIcon) return badge
-												return (
-													<Link
-														key={category}
-														href={`/icons?category=${encodeURIComponent(category)}`}
-														className={cn(LINK_TOUCH_TARGET, "cursor-pointer")}
-													>
-														{badge}
-													</Link>
-												)
-											})}
+												</Link>
+											))}
 										</div>
 									</div>
 								)}
@@ -1074,144 +928,92 @@ export function IconDetails({
 								<div>
 									<h3 className="text-sm font-semibold text-muted-foreground mb-2">About this icon</h3>
 									<div className="text-xs text-muted-foreground space-y-2">
-										{availableFormats.length > 0 && (
-											<p>
-												Available in{" "}
-												{availableFormats.length > 1
-													? `${availableFormats.length} formats (${availableFormats.map((f) => f.toUpperCase()).join(", ")}) `
-													: `${availableFormats[0].toUpperCase()} format `}
-												with a base format of {iconData.base.toUpperCase()}.
-												{nativeVariants && nativeVariants.length > 1 && ` Includes ${nativeVariants.length} distinct Variants.`}
-												{!nativeVariants &&
-													!isExternalIcon &&
-													iconData.colors &&
-													" Includes light and dark variants for different backgrounds."}
-												{!nativeVariants && !isExternalIcon && iconData.wordmark && " Wordmark variants are also available."}
-											</p>
-										)}
-										{!isExternalIcon && (
-											<p>
-												Perfect for adding to dashboards, app directories, documentation, or anywhere you need the {iconDisplayName} logo.
-											</p>
-										)}
+										<p>
+											Available in{" "}
+											{availableFormats.length > 1
+												? `${availableFormats.length} formats (${availableFormats.map((f) => f.toUpperCase()).join(", ")}) `
+												: `${availableFormats[0].toUpperCase()} format `}
+											with a base format of {iconData.base.toUpperCase()}.
+											{iconData.colors && " Includes both light and dark theme variants for better integration with different UI designs."}
+											{iconData.wordmark && " Wordmark variants are also available for enhanced branding options."}
+										</p>
+										<p>
+											Perfect for adding to dashboards, app directories, documentation, or anywhere you need the {formatedIconName} logo.
+										</p>
 										{isExternalIcon && externalSourceConfig && <p>External icon provided by {externalSourceConfig.label}.</p>}
 									</div>
 								</div>
-								{externalIcon && externalSourceConfig && (
-									<section aria-labelledby="icon-license-title" className="space-y-2 rounded-md bg-muted/50 p-4 text-sm leading-relaxed">
-										<h3 id="icon-license-title" className="font-semibold">
-											License and attribution
-										</h3>
-										<Link
-											href={externalSourceConfig.authorUrl}
-											target="_blank"
-											rel="noopener noreferrer"
-											className="flex min-h-11 items-center rounded-sm text-foreground underline underline-offset-4 hover:no-underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
-										>
-											{externalIcon.attribution || `Icon by ${externalSourceConfig.label}`}
-										</Link>
-										{externalIcon.license && externalIcon.license_url ? (
-											<Link
-												href={externalIcon.license_url}
-												target="_blank"
-												rel="noopener noreferrer"
-												className="flex min-h-11 items-center justify-between gap-2 rounded-sm text-foreground underline underline-offset-4 hover:no-underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
-											>
-												<span>Read {externalIcon.license} artwork license</span>
-												<ExternalLink className="size-4 shrink-0" aria-hidden="true" />
-											</Link>
-										) : (
-											<p>Artwork license: {externalIcon.license || "Not specified by this source"}.</p>
-										)}
-										{isSimpleIcons && (
-											<div className="space-y-2">
+								{isExternalIcon && externalIcon && (
+									<div className="rounded-md border border-border p-3 text-xs text-muted-foreground">
+										<p className="font-medium text-foreground">{externalIcon.attribution}</p>
+										<p className="mt-1">
+											{!isSimpleIcons && externalIcon.license === externalSourceConfig?.license ? "Collection license" : "Artwork license"}:{" "}
+											{externalIcon.license_url && externalIcon.license ? (
 												<Link
-													href={externalSourceConfig.licenseUrl}
+													href={externalIcon.license_url}
 													target="_blank"
 													rel="noopener noreferrer"
-													className="flex min-h-11 items-center justify-between gap-2 rounded-sm text-foreground underline underline-offset-4 hover:no-underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+													className="text-primary hover:underline"
 												>
-													<span>Simple Icons collection: {externalSourceConfig.license}</span>
-													<ExternalLink className="size-4 shrink-0" aria-hidden="true" />
+													{externalIcon.license}
 												</Link>
-												<p className="text-muted-foreground">
-													The collection license does not cover every icon. Artwork rights may differ.
-												</p>
+											) : externalIcon.license ? (
+												externalIcon.license
+											) : externalIcon.source === "simpleicons" ? (
 												<Link
 													href={SIMPLE_ICONS_DISCLAIMER_URL}
 													target="_blank"
 													rel="noopener noreferrer"
-													className="flex min-h-11 items-center justify-between gap-2 rounded-sm text-foreground underline underline-offset-4 hover:no-underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+													className="text-primary hover:underline"
 												>
-													<span>Read Simple Icons disclaimer</span>
-													<ExternalLink className="size-4 shrink-0" aria-hidden="true" />
+													Not specified by Simple Icons
 												</Link>
-											</div>
-										)}
-										<p className="text-muted-foreground">
-											Brand names and marks belong to their owners. Check their trademark and usage terms before use.
+											) : (
+												"Not specified"
+											)}
 										</p>
-									</section>
+										{isSimpleIcons && externalSourceConfig && (
+											<>
+												<p className="mt-1">
+													Simple Icons collection:{" "}
+													<Link
+														href={externalSourceConfig.licenseUrl}
+														target="_blank"
+														rel="noopener noreferrer"
+														className="text-primary hover:underline"
+													>
+														{externalSourceConfig.license}
+													</Link>
+												</p>
+												<p className="mt-2">The collection license does not cover every icon. Artwork rights may differ.</p>
+												<p className="mt-2">
+													Brand names and marks remain subject to their owners&apos; trademark and usage terms. Check the source and brand
+													guidelines before use.
+												</p>
+											</>
+										)}
+									</div>
 								)}
 							</div>
 						</CardContent>
 					</Card>
 				</div>
 
-				<div className="min-w-0 lg:col-span-2">
+				<div className="lg:col-span-2">
 					<Card className="h-full bg-background/50 shadow-lg">
 						<CardHeader>
 							<CardTitle>
 								<h2>Icon variants</h2>
 							</CardTitle>
 							<CardDescription>Click on any icon to copy its URL to your clipboard.</CardDescription>
-							{namedVariants.length > 0 && (
-								<nav aria-label="More icon variants" className="flex flex-wrap gap-2 pt-2">
-									{namedVariants.map((variant) => (
-										<Button key={variant.name} variant="outline" size="sm" className="min-h-11" asChild>
-											<a href={`#variant-${variant.name}`}>View {variant.label}</a>
-										</Button>
-									))}
-								</nav>
-							)}
 						</CardHeader>
 						<CardContent>
 							<div className="space-y-10">
-								{nativeVariants?.length === 0 && (
-									<p className="text-sm text-muted-foreground">File downloads are not available in this build yet.</p>
-								)}
-								{nativeVariants?.map((variant) => {
-									const imageVariant = getIconImageVariant(variant)
-									let description = "The original brand icon."
-									let iconElement: React.ReactNode = <FileType className="w-4 h-4 shrink-0" aria-hidden="true" />
-									if (imageVariant.kind === "tone") {
-										description = getToneDescription(imageVariant.tone, false)
-										iconElement = TONE_ICON[imageVariant.tone]
-									}
-									if (imageVariant.kind === "wordmark") {
-										description = "The brand name as text, in colour."
-										if (imageVariant.tone !== "default") description = getToneDescription(imageVariant.tone, false)
-										iconElement = <Type className="w-4 h-4 shrink-0" aria-hidden="true" />
-									}
-									if (imageVariant.kind === "custom") description = variantKind(`custom:${variant.key}`).description
-									return (
-										<IconVariantsSection
-											key={variant.stem}
-											title={`${iconDisplayName} ${getIconVariantLabel(variant)}`}
-											description={description}
-											iconElement={iconElement}
-											availableFormats={variant.formats}
-											iconName={variant.stem}
-											variant={imageVariant}
-											renderVariant={renderVariant}
-										/>
-									)
-								})}
-								{!nativeVariants && shouldShowBaseIcon() && (
+								{shouldShowBaseIcon() && (
 									<IconVariantsSection
-										title={isSimpleIcons ? "Brand color" : "Base"}
-										description={isSimpleIcons ? "Official brand color." : "The default variant."}
-										iconElement={<FileType className="w-4 h-4 text-blue-500" aria-hidden="true" />}
+										title={isSimpleIcons ? "Brand color" : "Base Icon"}
+										description={isSimpleIcons ? "Official brand color" : "Original icon version"}
+										iconElement={<FileType className="w-4 h-4 text-blue-500" />}
 										availableFormats={availableFormats}
 										iconName={icon}
 										variant={{ kind: "base" }}
@@ -1219,66 +1021,47 @@ export function IconDetails({
 									/>
 								)}
 
-								{!nativeVariants &&
-									toneEntries.map(({ tone, fileName }) => (
-										<IconVariantsSection
-											key={tone}
-											title={TONE_TITLE[tone]}
-											description={getToneDescription(tone, hasMonochromeTones)}
-											iconElement={TONE_ICON[tone]}
-											availableFormats={availableFormats}
-											iconName={fileName}
-											variant={{ kind: "tone", tone, monochrome: hasMonochromeTones }}
-											renderVariant={renderVariant}
-										/>
-									))}
+								{getToneEntries(iconData.colors).map(({ tone, fileName }) => (
+									<IconVariantsSection
+										key={tone}
+										title={TONE_TITLE[tone]}
+										description={getToneDescription(tone, externalSourceConfig?.monochromeTones ?? false)}
+										iconElement={TONE_ICON[tone]}
+										availableFormats={availableFormats}
+										iconName={fileName}
+										variant={{ kind: "tone", tone, monochrome: externalSourceConfig?.monochromeTones ?? false }}
+										renderVariant={renderVariant}
+									/>
+								))}
 
-								{!nativeVariants && iconData.wordmark && (
+								{iconData.wordmark && (
 									<WordmarkSection iconData={iconData} availableFormats={availableFormats} renderVariant={renderVariant} />
 								)}
-								{externalIcon &&
-									namedVariants.map((variant) => (
-										<NamedVariantSection key={variant.name} externalIcon={externalIcon} variant={variant} renderVariant={renderVariant} />
-									))}
-								{!nativeVariants &&
-									Object.entries(iconData.variants ?? {}).map(([name, file]) => (
-										<IconVariantsSection
-											key={`custom:${name}`}
-											title={name}
-											description={variantKind(`custom:${name}`).description}
-											iconElement={<FileType className="size-4 shrink-0" aria-hidden="true" />}
-											availableFormats={availableFormats}
-											iconName={file}
-											variant={{ kind: "custom", name }}
-											renderVariant={renderVariant}
-										/>
-									))}
+
+								{Object.entries(iconData.variants ?? {}).map(([name, fileName]) => (
+									<IconVariantsSection
+										key={`custom-${name}`}
+										title={name}
+										description={`${variantKind(`custom:${name}`).description}.`}
+										iconElement={<FileType className="w-4 h-4 text-blue-500" />}
+										availableFormats={availableFormats}
+										iconName={fileName}
+										variant={{ kind: "custom", name }}
+										renderVariant={renderVariant}
+									/>
+								))}
 							</div>
 						</CardContent>
 					</Card>
 				</div>
 
-				<div className="min-w-0 lg:col-span-1">
+				<div className="lg:col-span-1">
 					<Card className="h-full bg-background/50 border shadow-lg">
 						<CardHeader>
 							<CardTitle>Technical details</CardTitle>
 						</CardHeader>
 						<CardContent>
 							<div className="space-y-6">
-								{externalBrandColor && /^#?[0-9a-f]{6}$/i.test(externalBrandColor) && (
-									<div className="space-y-2">
-										<h3 className="text-sm font-semibold">Brand color</h3>
-										<div className="flex items-center gap-3">
-											<span
-												aria-hidden="true"
-												className="size-8 shrink-0 rounded-md ring-1 ring-border"
-												style={{ backgroundColor: `#${externalBrandColor.replace(/^#/, "")}` }}
-											/>
-											<code className="select-all text-base">#{externalBrandColor.replace(/^#/, "").toUpperCase()}</code>
-										</div>
-										<p className="text-sm text-foreground">Recorded by Simple Icons.</p>
-									</div>
-								)}
 								{status && statusDisplayName && statusColor && (
 									<div className="space-y-2">
 										<h3 className="text-sm font-semibold text-muted-foreground mb-2">Status</h3>
@@ -1311,43 +1094,39 @@ export function IconDetails({
 									</div>
 								</div>
 
-								{iconData.colors && !isSimpleIcons && !nativeVariants && (
+								{iconData.colors && !isSimpleIcons && (
 									<div className="">
 										<h3 className="text-sm font-semibold text-muted-foreground mb-2">Color variants</h3>
 										<div className="space-y-2">
-											{toneEntries.map(({ tone, fileName }) => (
-												<VariantFileRow
-													key={tone}
-													icon={<PaletteIcon className="w-4 h-4 shrink-0 text-purple-500" aria-hidden="true" />}
-													tone={tone}
-													fileName={fileName}
-												/>
+											{Object.entries(iconData.colors).map(([theme, variant]) => (
+												<div key={theme} className="flex items-center gap-2">
+													<PaletteIcon className="w-4 h-4 text-purple-500" />
+													<span className="capitalize font-medium text-sm">{theme}:</span>
+													<code className="border border-border px-2 py-0.5 rounded-lg text-xs">{variant}</code>
+												</div>
 											))}
 										</div>
 									</div>
 								)}
 
-								{iconData.wordmark && !nativeVariants && (
+								{iconData.wordmark && (
 									<div className="">
 										<h3 className="text-sm font-semibold text-muted-foreground">Wordmark variants</h3>
 										<div className="space-y-2">
-											{iconData.wordmark.default && (
+											{iconData.wordmark.light && (
 												<div className="flex items-center gap-2">
-													<Type className="w-4 h-4 shrink-0 text-green-500" />
-													<span className="capitalize font-medium text-sm">Colour:</span>
-													<code className="min-w-0 break-all border border-border px-2 py-0.5 rounded-lg text-xs">
-														{iconData.wordmark.default}
-													</code>
+													<Type className="w-4 h-4 text-green-500" />
+													<span className="capitalize font-medium text-sm">Light:</span>
+													<code className="border border-border px-2 py-0.5 rounded-lg text-xs">{iconData.wordmark.light}</code>
 												</div>
 											)}
-											{getToneEntries(iconData.wordmark).map(({ tone, fileName }) => (
-												<VariantFileRow
-													key={tone}
-													icon={<Type className="w-4 h-4 shrink-0 text-green-500" aria-hidden="true" />}
-													tone={tone}
-													fileName={fileName}
-												/>
-											))}
+											{iconData.wordmark.dark && (
+												<div className="flex items-center gap-2">
+													<Type className="w-4 h-4 text-green-500" />
+													<span className="capitalize font-medium text-sm">Dark:</span>
+													<code className="border border-border px-2 py-0.5 rounded-lg text-xs">{iconData.wordmark.dark}</code>
+												</div>
+											)}
 										</div>
 									</div>
 								)}
@@ -1355,7 +1134,7 @@ export function IconDetails({
 								{isExternalIcon && externalIcon && externalSourceConfig && (
 									<div className="space-y-2">
 										<h3 className="text-sm font-semibold text-muted-foreground mb-2">Source</h3>
-										<Button variant="outline" className="h-11 w-full gap-2" asChild>
+										<Button variant="outline" className="w-full gap-2" asChild>
 											<Link href={externalIcon.source_url} target="_blank" rel="noopener noreferrer">
 												<UnoptimizedImage src={externalSourceConfig.icon} alt="" width={16} height={16} className="shrink-0" />
 												{externalIcon.source === "simpleicons" ? "View original source" : `View on ${externalSourceConfig.label}`}
@@ -1363,7 +1142,7 @@ export function IconDetails({
 											</Link>
 										</Button>
 										{externalIcon.guidelines_url && (
-											<Button variant="outline" className="h-11 w-full gap-2" asChild>
+											<Button variant="outline" className="w-full gap-2" asChild>
 												<Link href={externalIcon.guidelines_url} target="_blank" rel="noopener noreferrer">
 													<FileType className="w-4 h-4" />
 													Read brand guidelines
@@ -1371,18 +1150,6 @@ export function IconDetails({
 												</Link>
 											</Button>
 										)}
-									</div>
-								)}
-
-								{!isCommunityIcon && !isExternalIcon && (
-									<div className="">
-										<h3 className="text-sm font-semibold text-muted-foreground mb-2">Source</h3>
-										<Button variant="outline" className="min-h-11 w-full" asChild>
-											<Link href={`${REPO_PATH}/blob/main/meta/${icon}.json`} target="_blank" rel="noopener noreferrer">
-												<Github className="w-4 h-4 mr-2" />
-												View on GitHub
-											</Link>
-										</Button>
 									</div>
 								)}
 
@@ -1394,12 +1161,11 @@ export function IconDetails({
 												<IconCustomizerInline
 													key={`customizer-${selectedVariant}`}
 													svgUrl={svgUrl}
-													iconName={iconDisplayName}
+													iconName={formatedIconName}
 													onClose={() => setIsCustomizerOpen(false)}
 													availableVariants={availableVariants}
 													selectedVariant={selectedVariant}
 													onVariantChange={setSelectedVariant}
-													previewOnLightBackground={namedVariants.some((variant) => variant.name === selectedVariant)}
 												/>
 											) : (
 												<motion.div
@@ -1410,7 +1176,7 @@ export function IconDetails({
 													exit={{ opacity: 0 }}
 													className="relative"
 												>
-													<Button onClick={() => setIsCustomizerOpen(true)} variant="outline" className="h-11 w-full">
+													<Button onClick={() => setIsCustomizerOpen(true)} variant="outline" className="w-full" size="sm">
 														<Palette className="w-4 h-4 mr-2" />
 														Customize Icon
 													</Button>
@@ -1430,9 +1196,7 @@ export function IconDetails({
 						<Carbon />
 					</Card>
 				</div>
-				{externalContent}
 			</div>
-			{nameRelatedLinks}
 			{relatedIcons.length > 0 && (
 				<section className="container mx-auto mt-12" aria-labelledby="related-icons-title">
 					<Card className="bg-background/50 border shadow-lg">
@@ -1450,7 +1214,7 @@ export function IconDetails({
 								<Button
 									asChild
 									variant="link"
-									className="min-h-11 text-muted-foreground hover:text-primary transition-colors duration-200 hover:no-underline"
+									className="text-muted-foreground hover:text-primary transition-colors duration-200 hover:no-underline"
 								>
 									<Link
 										href={`/icons?${relatedCategories.map((cat) => `category=${encodeURIComponent(cat)}`).join("&")}`}

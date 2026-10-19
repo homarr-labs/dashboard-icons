@@ -1,4 +1,6 @@
 import { unstable_cache } from "next/cache"
+import { unstable_rethrow } from "next/navigation"
+import { ClientResponseError } from "pocketbase"
 import type { CommunityGallery } from "@/lib/pb"
 import { createServerPB, getPocketBaseUrl } from "@/lib/pb"
 import { resolveSubmissionAssets, variantExtras } from "@/lib/submission-variants"
@@ -63,36 +65,44 @@ function logCommunityFetchFailure(error: unknown): void {
 	const message = error instanceof Error ? error.message : String(error)
 	console.warn(`Community submissions unavailable (${message}); continuing without community icons.`)
 }
+
+async function loadCommunitySubmissions(): Promise<IconWithName[]> {
+	const records = await createServerPB().collection("community_gallery").getFullList<CommunityGallery>({
+		sort: "-updated",
+	})
+	return records.filter((item) => item.assets && item.assets.length > 0).map(transformGalleryToIcon)
+}
+
 /**
- * Fetch community gallery items (not added to collection)
- * Uses the community_gallery view collection for public-facing data
- * This is the raw fetch function without caching
+ * Fetch community gallery items without caching. Uses the community_gallery view collection for public-facing data.
  */
 export async function fetchCommunitySubmissions(): Promise<IconWithName[]> {
 	try {
-		const pb = createServerPB()
-
-		const records = await pb.collection("community_gallery").getFullList<CommunityGallery>({
-			sort: "-updated",
-		})
-
-		return records.filter((item) => item.assets && item.assets.length > 0).map(transformGalleryToIcon)
+		return await loadCommunitySubmissions()
 	} catch (error) {
 		logCommunityFetchFailure(error)
 		return []
 	}
 }
 
-/**
- * Cached version of fetchCommunitySubmissions
- * Uses unstable_cache with tags for on-demand revalidation
- * Revalidates every 900 seconds (15 minutes)
- * Can be invalidated on-demand using revalidateTag("community-gallery")
- */
-export const getCommunitySubmissions = unstable_cache(fetchCommunitySubmissions, ["community-submissions-list-v3"], {
+const getCachedCommunitySubmissions = unstable_cache(loadCommunitySubmissions, ["community-submissions-list-v3"], {
 	revalidate: 900,
 	tags: ["community-gallery"],
 })
+
+/**
+ * Cached community gallery items, revalidated every 15 minutes or on demand with revalidateTag("community-gallery").
+ * Failures are never cached: the previous list keeps being served, or an empty list is returned for this request only.
+ */
+export async function getCommunitySubmissions(): Promise<IconWithName[]> {
+	try {
+		return await getCachedCommunitySubmissions()
+	} catch (error) {
+		unstable_rethrow(error)
+		logCommunityFetchFailure(error)
+		return []
+	}
+}
 
 /** Fetch a proposal by record ID, independently of its icon name. */
 export async function getCommunitySubmission(id: string): Promise<IconWithName | null> {
@@ -117,8 +127,9 @@ export function getCommunityGalleryRecord(id: string): Promise<CommunityGallery 
 		async () => {
 			try {
 				return await createServerPB().collection("community_gallery").getOne<CommunityGallery>(id)
-			} catch {
-				return null
+			} catch (error) {
+				if (error instanceof ClientResponseError && error.status === 404) return null
+				throw error
 			}
 		},
 		[`community-gallery-record-id-${id}`],

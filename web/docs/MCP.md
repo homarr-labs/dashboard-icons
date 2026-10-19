@@ -14,6 +14,10 @@ Local development:
 http://localhost:3005/api/mcp
 ```
 
+## ChatGPT
+
+On ChatGPT web, open **Plugins**, select **+**, then **Add custom MCP server**. Name it Dashboard Icons, use the endpoint above as the server URL, and choose **No authentication** for the public icon tools or **OAuth** to also submit icons. Accept the warning, select **Create as a plugin**, install it, then type `@Dashboard Icons` in a chat. Workspace plans may need an admin to allow custom MCP servers.
+
 ## Cursor configuration
 
 ```json
@@ -35,7 +39,7 @@ Use [mcp-remote](https://www.npmjs.com/package/mcp-remote):
   "mcpServers": {
     "dashboard-icons": {
       "command": "npx",
-      "args": ["-y", "mcp-remote", "https://dashboardicons.com/api/mcp"]
+      "args": ["-y", "mcp-remote@0.15.1", "https://dashboardicons.com/api/mcp"]
     }
   }
 }

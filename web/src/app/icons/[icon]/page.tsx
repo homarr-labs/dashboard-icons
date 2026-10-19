@@ -1,10 +1,9 @@
 import type { Metadata, ResolvingMetadata } from "next"
 import { notFound } from "next/navigation"
 import { IconDetails, type IconDetailsBreadcrumbItem } from "@/components/icon-details"
-import { IconNameRelatedLinks, IconRelatedLinks } from "@/components/icon-related-links"
 import { APACHE_LICENSE_URL, BASE_URL, WEB_URL } from "@/constants"
 import { computeRelatedIcons, getAllIcons, getAuthorData } from "@/lib/api"
-import { getIconRelations, getVersionParent } from "@/lib/icon-relations"
+import { getVersionParent } from "@/lib/icon-relations"
 import { buildIconAltText, getIconImageVariant, getIconVariantLabel } from "@/lib/icon-variant-text"
 import { getNativeIconVariants } from "@/lib/icons/files"
 import { buildIconUrl } from "@/lib/icons/urls"
@@ -141,7 +140,6 @@ export default async function IconPage({ params }: { params: Promise<{ icon: str
 	const relatedIcons = computeRelatedIcons(icon, categories, iconsData)
 
 	const formattedName = formatIconName(icon, { capitalize: true, aliases: originalIconData.aliases })
-	const relations = await getIconRelations({ source: "native", slug: icon, name: icon, data: originalIconData })
 	const parent = getVersionParent(icon, iconsData)
 	const breadcrumbItems: IconDetailsBreadcrumbItem[] = [
 		{ label: "Home", href: "/" },
@@ -220,8 +218,6 @@ export default async function IconPage({ params }: { params: Promise<{ icon: str
 			/>
 			<IconDetails
 				breadcrumbItems={breadcrumbItems}
-				relatedLinks={<IconRelatedLinks relations={relations} />}
-				nameRelatedLinks={<IconNameRelatedLinks icons={relations.relatedByName} />}
 				icon={icon}
 				iconData={originalIconData}
 				nativeVariants={variants}

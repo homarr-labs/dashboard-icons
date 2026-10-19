@@ -36,14 +36,14 @@ test.describe("MCP setup dialog", () => {
 		for (const tool of ["match_icons", "search_icons", "get_icon", "get_icon_svg", "browse_icons", "list_categories"]) {
 			await expect(dialog.getByText(tool, { exact: true })).toBeVisible()
 		}
-		await expect(dialog.getByText(".cursor/mcp.json", { exact: true })).toBeVisible()
+		await expect(dialog.getByText("MCP server URL", { exact: true })).toBeVisible()
 		await expect(dialog.locator("code, pre").filter({ hasText: MCP_ENDPOINT }).first()).toBeVisible()
 	})
 
 	test("lists all supported MCP clients in the setup accordion", async ({ page }) => {
 		const dialog = await openHeroMcpDialog(page)
 
-		for (const client of ["Visual Studio Code", "Cursor", "Claude", "Windsurf", "Zed", "Custom MCP client"]) {
+		for (const client of ["ChatGPT", "Visual Studio Code", "Cursor", "Claude", "Custom MCP client"]) {
 			await expect(dialog.getByRole("button", { name: client })).toBeVisible()
 		}
 	})
@@ -54,20 +54,18 @@ test.describe("MCP setup dialog", () => {
 		await dialog.getByRole("button", { name: "Claude" }).click()
 		await expect(dialog.getByText("Claude Code", { exact: true })).toBeVisible()
 		await expect(dialog.getByText("Claude Desktop", { exact: true })).toBeVisible()
-		await expect(dialog.getByText("claude mcp add dashboard-icons")).toBeVisible()
-		await expect(dialog.getByText("claude_desktop_config.json")).toBeVisible()
+		await expect(dialog.getByText("claude mcp add --transport http dashboard-icons")).toBeVisible()
+		await expect(dialog.getByText("Remote MCP server URL")).toBeVisible()
 	})
 
-	test("copy button copies the visible Cursor config", async ({ page, context }) => {
+	test("copy button copies the visible ChatGPT server URL", async ({ page, context }) => {
 		await context.grantPermissions(["clipboard-read", "clipboard-write"])
 		const dialog = await openHeroMcpDialog(page)
 
 		await dialog.getByRole("button", { name: /^Copy$/i }).first().click()
 		await expect(dialog.getByRole("button", { name: /Copied/i })).toBeVisible()
 
-		const clipboard = await page.evaluate(() => navigator.clipboard.readText())
-		expect(clipboard).toMatch(MCP_ENDPOINT)
-		expect(clipboard).toContain("dashboard-icons")
+		expect(await page.evaluate(() => navigator.clipboard.readText())).toBe("https://dashboardicons.com/api/mcp")
 	})
 
 	test("links to MCP documentation", async ({ page }) => {
@@ -98,5 +96,38 @@ test.describe("MCP setup entry points", () => {
 
 		await expect(page.getByRole("button", { name: MCP_TRIGGER })).toHaveCount(0)
 		await expect(page.getByRole("button", { name: "Set up MCP" })).toHaveCount(0)
+	})
+})
+
+
+test.describe("native MCP snippets", () => {
+	for (const [client, wrapper, entry] of [
+		["Visual Studio Code", "servers", { type: "http", url: "https://dashboardicons.com/api/mcp" }],
+		["Custom MCP client", "mcpServers", { command: "npx", args: ["-y", "mcp-remote@0.15.1", "https://dashboardicons.com/api/mcp"] }],
+	] as const) {
+		test(`copies the ${client} configuration`, async ({ page, context }) => {
+			await context.grantPermissions(["clipboard-read", "clipboard-write"])
+			const dialog = await openHeroMcpDialog(page)
+			const trigger = dialog.getByRole("button", { name: client, exact: true })
+			await trigger.click()
+			const panel = page.locator(`[id="${await trigger.getAttribute("aria-controls")}"]`)
+			await panel.getByRole("button", { name: /^Copy$/i }).click()
+			await expect(panel.getByRole("button", { name: /Copied/i })).toBeVisible()
+			const clipboard = await page.evaluate(() => navigator.clipboard.readText())
+			expect(JSON.parse(clipboard)).toEqual({ [wrapper]: { "dashboard-icons": entry } })
+		})
+	}
+
+	test("copies only the Claude Desktop connector URL", async ({ page, context }) => {
+		await context.grantPermissions(["clipboard-read", "clipboard-write"])
+		const dialog = await openHeroMcpDialog(page)
+		const trigger = dialog.getByRole("button", { name: "Claude", exact: true })
+		await trigger.click()
+		const panel = page.locator(`[id="${await trigger.getAttribute("aria-controls")}"]`)
+		await expect(panel.getByText("Remote MCP server URL", { exact: true })).toBeVisible()
+		await expect(panel.locator("pre").nth(1)).toHaveText("https://dashboardicons.com/api/mcp")
+		await panel.getByRole("button", { name: /^Copy$/i }).nth(1).click()
+		await expect(panel.getByRole("button", { name: /Copied/i })).toBeVisible()
+		expect(await page.evaluate(() => navigator.clipboard.readText())).toBe("https://dashboardicons.com/api/mcp")
 	})
 })
