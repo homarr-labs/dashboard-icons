@@ -1,6 +1,21 @@
 @layer utilities {
-	[data-submission-form] [data-slot="button"]:not(.bg-primary):not(.text-muted-foreground):hover {
+	[data-submission-form] [data-slot="button"]:not(.bg-primary, .text-muted-foreground, .text-destructive, .text-community):hover {
 		color: var(--foreground);
+	}
+
+	[data-submission-form]
+		:is([data-slot="input"], [data-slot="textarea"], [data-slot="tag-input"]):not(:focus-visible, :focus-within, [aria-invalid="true"]) {
+		border-color: var(--border);
+	}
+
+	[data-submission-form]
+		:is([data-slot="input"], [data-slot="textarea"], [data-slot="tag-input"]):not(
+			:focus-visible,
+			:focus-within,
+			:disabled,
+			[aria-invalid="true"]
+		):hover {
+		border-color: color-mix(in oklab, var(--primary) 45%, var(--border));
 	}
 
 	@media (width < 64rem) {
@@ -17,7 +32,8 @@
 				[data-slot="alert-dialog-content"],
 				[data-slot="alert-dialog-overlay"]
 			),
-		[data-submission-form] [data-slot="button"] {
+		[data-submission-form] [data-slot="button"],
+		[data-submission-form] .animate-aurora {
 			animation: none;
 			transition: none;
 		}

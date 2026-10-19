@@ -1,9 +1,9 @@
 "use client"
 
-import { Check, ChevronDown, X } from "lucide-react"
+import { BookOpenCheck, Check, ChevronDown, X } from "lucide-react"
 import { useState } from "react"
-import { Button } from "@/components/ui/button"
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible"
+import { cn } from "@/lib/utils"
 
 interface GuidelineItem {
 	type: "do" | "dont"
@@ -41,84 +41,68 @@ const GUIDELINES: GuidelineItem[] = [
 	},
 ]
 
+const SECTIONS = [
+	{
+		type: "do",
+		label: "DO",
+		Icon: Check,
+		tone: "text-success",
+		row: "border-success/20 bg-success/5",
+	},
+	{
+		type: "dont",
+		label: "DON'T",
+		Icon: X,
+		tone: "text-destructive",
+		row: "border-destructive/20 bg-destructive/5",
+	},
+] as const
+
 export function IconSubmissionGuidelines() {
 	const [isOpen, setIsOpen] = useState(false)
 
-	const doItems = GUIDELINES.filter((item) => item.type === "do")
-	const dontItems = GUIDELINES.filter((item) => item.type === "dont")
-
 	return (
-		<div className="rounded-lg border border-blue-500/50 bg-blue-500/10 dark:bg-blue-500/5">
+		<div className="@container rounded-lg border border-info/30 bg-background shadow-sm">
 			<Collapsible open={isOpen} onOpenChange={setIsOpen}>
-				<div className="p-4">
-					<div className="flex items-center justify-between gap-4">
-						<div className="flex-1">
-							<p className="text-sm font-semibold text-blue-700 dark:text-blue-300">Icon Submission Guidelines</p>
-							<p className="text-sm text-blue-700/90 dark:text-blue-300/80 mt-1">Review these important guidelines before submitting</p>
-						</div>
-						<CollapsibleTrigger asChild>
-							<Button
-								variant="ghost"
-								size="sm"
-								className="ml-2 text-blue-700 dark:text-blue-300 hover:bg-blue-500/20 dark:hover:bg-blue-500/30 shrink-0"
-								aria-label={isOpen ? "Hide guidelines" : "Show guidelines"}
-							>
-								{isOpen ? "Hide" : "Show"} Details
-								<ChevronDown className={`ml-2 h-4 w-4 transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`} />
-							</Button>
-						</CollapsibleTrigger>
-					</div>
-				</div>
-
+				<CollapsibleTrigger asChild>
+					<button
+						type="button"
+						className="group/guide flex min-h-11 w-full items-center gap-3 rounded-lg p-4 text-left transition-colors hover:bg-info/5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+					>
+						<span className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-info/10 text-info">
+							<BookOpenCheck className="size-[18px]" aria-hidden />
+						</span>
+						<span className="min-w-0 flex-1">
+							<span className="block text-sm font-semibold">Icon Submission Guidelines</span>
+							<span className="block text-xs text-muted-foreground">Review these important guidelines before submitting</span>
+						</span>
+						<ChevronDown
+							className={cn(
+								"size-4 shrink-0 text-muted-foreground transition-transform duration-200 motion-reduce:transition-none",
+								isOpen && "rotate-180",
+							)}
+							aria-hidden
+						/>
+					</button>
+				</CollapsibleTrigger>
 				<CollapsibleContent>
-					<div className="px-4 pb-4 pt-0">
-						<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-							{/* DO's Section */}
-							<div className="space-y-3">
-								<div className="flex items-center gap-2">
-									<div className="p-1.5 rounded-full bg-green-500/20 dark:bg-green-500/30">
-										<Check className="h-4 w-4 text-green-600 dark:text-green-400" />
-									</div>
-									<h4 className="text-sm font-semibold text-green-700 dark:text-green-300">DO</h4>
-								</div>
-								<div className="space-y-3">
-									{doItems.map((item, index) => (
-										<div key={index} className="rounded-lg border border-green-500/30 bg-green-500/5 dark:bg-green-500/10 p-3">
-											<div className="flex gap-3">
-												<Check className="h-4 w-4 text-green-600 dark:text-green-400 mt-0.5 flex-shrink-0" />
-												<div className="min-w-0 flex-1">
-													<p className="text-sm font-medium text-foreground">{item.title}</p>
-													<p className="text-xs text-muted-foreground mt-1 leading-relaxed">{item.description}</p>
-												</div>
+					<div className="grid grid-cols-1 gap-5 px-4 pb-4 @lg:grid-cols-2">
+						{SECTIONS.map(({ type, label, Icon, tone, row }) => (
+							<div key={type} className="flex flex-col gap-2">
+								<h4 className={cn("text-xs font-semibold", tone)}>{label}</h4>
+								<ul className="flex flex-col gap-2">
+									{GUIDELINES.filter((item) => item.type === type).map((item) => (
+										<li key={item.title} className={cn("flex gap-3 rounded-md border p-3", row)}>
+											<Icon className={cn("mt-0.5 size-4 shrink-0", tone)} aria-hidden />
+											<div className="min-w-0 flex-1">
+												<p className="text-sm font-medium text-foreground">{item.title}</p>
+												<p className="mt-1 text-xs leading-relaxed text-muted-foreground">{item.description}</p>
 											</div>
-										</div>
+										</li>
 									))}
-								</div>
+								</ul>
 							</div>
-
-							{/* DON'Ts Section */}
-							<div className="space-y-3">
-								<div className="flex items-center gap-2">
-									<div className="p-1.5 rounded-full bg-red-500/20 dark:bg-red-500/30">
-										<X className="h-4 w-4 text-red-600 dark:text-red-400" />
-									</div>
-									<h4 className="text-sm font-semibold text-red-700 dark:text-red-300">DON'T</h4>
-								</div>
-								<div className="space-y-3">
-									{dontItems.map((item, index) => (
-										<div key={index} className="rounded-lg border border-red-500/30 bg-red-500/5 dark:bg-red-500/10 p-3">
-											<div className="flex gap-3">
-												<X className="h-4 w-4 text-red-600 dark:text-red-400 mt-0.5 flex-shrink-0" />
-												<div className="min-w-0 flex-1">
-													<p className="text-sm font-medium text-foreground">{item.title}</p>
-													<p className="text-xs text-muted-foreground mt-1 leading-relaxed">{item.description}</p>
-												</div>
-											</div>
-										</div>
-									))}
-								</div>
-							</div>
-						</div>
+						))}
 					</div>
 				</CollapsibleContent>
 			</Collapsible>

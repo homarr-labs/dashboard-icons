@@ -1,16 +1,50 @@
 "use client"
 
 import { useQueryClient } from "@tanstack/react-query"
-import { Check, Minus, Undo2 } from "lucide-react"
+import {
+	AlertTriangle,
+	ArrowLeft,
+	ArrowRight,
+	Check,
+	FileStack,
+	GitCompareArrows,
+	Layers,
+	Loader2,
+	Minus,
+	Plus,
+	RefreshCw,
+	Send,
+	Tags,
+	Undo2,
+	WandSparkles,
+	X,
+} from "lucide-react"
+import { motion } from "motion/react"
 import Link from "next/link"
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { revalidateAllSubmissions } from "@/app/actions/submissions"
+import { NumberTicker } from "@/components/magicui/number-ticker"
 import { RejectedRoundComparison } from "@/components/submission/rejected-round-comparison"
 import { RejectionNotice } from "@/components/submission/rejection-notice"
-import { FileChooser } from "@/components/submission/submission-card"
 import { AssetPreview } from "@/components/submission/submission-preview"
+import {
+	CategoryPicker,
+	DropPrompt,
+	FileChooser,
+	FileDrop,
+	PANEL_CLASS,
+	SectionHeading,
+	splitAliases,
+	VariantGlyph,
+	variantBackdrop,
+} from "@/components/submission/submission-ui"
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
+import { Badge } from "@/components/ui/badge"
+import { BorderBeam } from "@/components/ui/border-beam"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { Skeleton } from "@/components/ui/skeleton"
+import { TagInput } from "@/components/ui/tag-input"
 import { Textarea } from "@/components/ui/textarea"
 import { UnoptimizedImage } from "@/components/unoptimized-image"
 import type { IconNameOption } from "@/hooks/use-submissions"
@@ -37,6 +71,7 @@ export function UpdateArtwork({
 	name,
 	compact = false,
 	present = false,
+	className,
 }: {
 	preview?: UpdatePreview
 	variant: SubmissionVariant
@@ -44,13 +79,14 @@ export function UpdateArtwork({
 	name: string
 	compact?: boolean
 	present?: boolean
+	className?: string
 }) {
 	const kind = variantKind(variant)
 	let background: "light" | "dark" | "checker" = "checker"
 	if (kind.background !== "any") background = kind.background
 	let size = "h-24 w-full"
 	if (compact) size = "size-14 p-1"
-	if (file) return <AssetPreview asset={{ id: variant, file, variant }} background={background} className={size} />
+	if (file) return <AssetPreview asset={{ id: variant, file, variant }} background={background} className={cn(size, className)} />
 	return (
 		<div
 			className={cn(
@@ -59,6 +95,7 @@ export function UpdateArtwork({
 				background === "checker" && "bg-muted",
 				background === "light" && "bg-white",
 				background === "dark" && "bg-zinc-950",
+				className,
 			)}
 		>
 			{preview && (
@@ -79,6 +116,18 @@ export function UpdateArtwork({
 	)
 }
 
+const ACTION_BADGE = {
+	add: "border-success/20 bg-success/10 text-success",
+	replace: "border-warning/20 bg-warning/10 text-warning",
+	remove: "border-destructive/20 bg-destructive/10 text-destructive",
+} as const
+
+const ACTION_TILE = {
+	add: "border-success/40 bg-success/5",
+	replace: "border-warning/40 bg-warning/5",
+	remove: "border-destructive/40 bg-destructive/5",
+} as const
+
 export function ChangeBadge({ action }: { action?: "add" | "replace" | "remove" }) {
 	let label = "Unchanged"
 	if (action === "add") label = "+ added"
@@ -87,11 +136,9 @@ export function ChangeBadge({ action }: { action?: "add" | "replace" | "remove" 
 	return (
 		<span
 			className={cn(
-				"shrink-0 rounded px-2 py-1 text-xs font-medium",
-				!action && "bg-muted text-muted-foreground",
-				action === "add" && "bg-emerald-500/10 text-emerald-800 dark:text-emerald-200",
-				action === "replace" && "bg-amber-500/10 text-amber-800 dark:text-amber-200",
-				action === "remove" && "bg-red-500/10 text-red-800 dark:text-red-200",
+				"shrink-0 rounded-md border px-2 py-0.5 text-xs font-medium",
+				!action && "text-muted-foreground",
+				action && ACTION_BADGE[action],
 			)}
 		>
 			{label}
@@ -120,6 +167,8 @@ export function IconUpdateEditor({
 	const [aliasesEdited, setAliasesEdited] = useState(false)
 	const [categories, setCategories] = useState<string[]>([])
 	const [custom, setCustom] = useState("")
+	const [customOpen, setCustomOpen] = useState(false)
+	const customInput = useRef<HTMLInputElement>(null)
 	const [customNames, setCustomNames] = useState<string[]>([])
 	const [suggestionsError, setSuggestionsError] = useState("")
 	const [note, setNote] = useState("")
@@ -166,6 +215,9 @@ export function IconUpdateEditor({
 			.catch(() => setSuggestionsError("Suggested names are unavailable. You can still enter a Custom variant name."))
 		return () => controller.abort()
 	}, [selection.value, selection.submissionId, attempt, owned])
+	useEffect(() => {
+		if (customOpen) customInput.current?.focus()
+	}, [customOpen])
 	const changeFile = (key: SubmissionVariant, file: File) => {
 		if (!/\.(svg|png)$/i.test(file.name) || !file.size || file.size > MAX_ASSET_BYTES) {
 			setError("Choose a non-empty SVG or PNG, up to 5 MB.")
@@ -190,40 +242,69 @@ export function IconUpdateEditor({
 	}
 	if (sent)
 		return (
-			<section className="mx-auto max-w-2xl space-y-4 rounded-xl bg-muted/40 p-6" aria-live="polite">
-				<Check className="size-8 text-emerald-700 dark:text-emerald-300" aria-hidden />
-				<h2 className="text-xl font-semibold">{owned ? "Update proposal saved" : "Update proposal sent"}</h2>
-				<p className="text-sm">
-					Your changes to {selection.value} are awaiting review. Unchanged Variants and metadata are preserved. Approval does not publish
-					automatically.
+			<motion.section
+				initial={{ opacity: 0, y: 8 }}
+				animate={{ opacity: 1, y: 0 }}
+				className={cn(PANEL_CLASS, "mx-auto flex max-w-2xl flex-col gap-4 border-success/30 p-4 sm:p-6")}
+				aria-live="polite"
+			>
+				<div className="flex items-center gap-3">
+					<motion.span
+						initial={{ scale: 0.6, opacity: 0 }}
+						animate={{ scale: 1, opacity: 1 }}
+						transition={{ duration: 0.3, delay: 0.1 }}
+						className="flex size-11 shrink-0 items-center justify-center rounded-lg bg-success/10 text-success"
+					>
+						<Check className="size-6" aria-hidden />
+					</motion.span>
+					<h2 className="text-xl font-semibold">{owned ? "Update proposal saved" : "Update proposal sent"}</h2>
+				</div>
+				<p className="text-sm text-muted-foreground">
+					Your changes to <strong className="font-mono text-foreground">{selection.value}</strong> are awaiting review. Unchanged Variants
+					and metadata are preserved. Approval does not publish automatically.
 				</p>
-				<Button asChild className="min-h-11 text-secondary-foreground">
-					<Link href={`/community/submissions/${sent}`}>View Update proposal</Link>
-				</Button>
-				<Button variant="outline" className="min-h-11" onClick={onCancel}>
-					Choose another Icon
-				</Button>
-			</section>
+				<div className="flex flex-wrap gap-2">
+					<Button asChild>
+						<Link href={`/community/submissions/${sent}`}>
+							View Update proposal
+							<ArrowRight aria-hidden />
+						</Link>
+					</Button>
+					<Button variant="outline" onClick={onCancel}>
+						Choose another Icon
+					</Button>
+				</div>
+			</motion.section>
 		)
 	if (!loaded)
 		return (
-			<section className="mx-auto max-w-3xl space-y-4" aria-live="polite">
+			<section className={cn(PANEL_CLASS, "mx-auto flex max-w-3xl flex-col gap-4 p-5")} aria-live="polite">
 				{!error && (
-					<output className="block h-48 animate-pulse rounded-xl bg-muted motion-reduce:animate-none" aria-label="Loading current Icon" />
+					<output className="flex flex-col gap-3" aria-label="Loading current Icon">
+						<Skeleton className="h-20 w-full" />
+						<div className="grid gap-3 sm:grid-cols-2">
+							<Skeleton className="h-40" />
+							<Skeleton className="h-40" />
+						</div>
+					</output>
 				)}
 				{error && (
 					<p role="alert" className="text-sm text-destructive">
 						{error}
 					</p>
 				)}
-				{error && (
-					<Button variant="outline" className="min-h-11" onClick={() => setAttempt((value) => value + 1)}>
-						Retry loading Icon
+				<div className="flex flex-wrap gap-2">
+					{error && (
+						<Button variant="outline" className="min-h-11" onClick={() => setAttempt((value) => value + 1)}>
+							<RefreshCw aria-hidden />
+							Retry loading Icon
+						</Button>
+					)}
+					<Button variant="ghost" className="min-h-11" onClick={onCancel}>
+						<ArrowLeft aria-hidden />
+						Choose another Icon
 					</Button>
-				)}
-				<Button variant="ghost" className="min-h-11" onClick={onCancel}>
-					Choose another Icon
-				</Button>
+				</div>
 			</section>
 		)
 	const { target, previews } = loaded
@@ -233,11 +314,7 @@ export function IconUpdateEditor({
 	] as SubmissionVariant[]
 	const rows = [...SUBMISSION_VARIANTS.filter((key) => keys.includes(key)), ...keys.filter((key) => key.startsWith("custom:"))]
 	let proposedAliases = target.metadata.aliases
-	if (aliasesEdited)
-		proposedAliases = aliases
-			.split(",")
-			.map((item) => item.trim())
-			.filter(Boolean)
+	if (aliasesEdited) proposedAliases = splitAliases(aliases)
 	const aliasDelta = listDelta(target.metadata.aliases, proposedAliases)
 	const categoryDelta = listDelta(target.metadata.categories, categories)
 	const changes =
@@ -252,6 +329,7 @@ export function IconUpdateEditor({
 	if (owned) saveLabel = "Save Update proposal"
 	if (owned?.record.status === "rejected") saveLabel = "Resubmit Update proposal"
 	if (busy) saveLabel = "Saving proposal…"
+	const disabled = !changes || busy || Boolean(target.unresolved) || stale || Boolean(owned && !live)
 	const send = async () => {
 		setBusy(true)
 		setError("")
@@ -288,23 +366,37 @@ export function IconUpdateEditor({
 			setBusy(false)
 		}
 	}
+	const cta = (
+		<Button disabled={disabled} onClick={() => void send()} className="w-full max-lg:w-auto max-lg:shrink-0">
+			{busy && <Loader2 className="animate-spin motion-reduce:animate-none" aria-hidden />}
+			{!busy && <Send aria-hidden />}
+			{saveLabel}
+		</Button>
+	)
 	return (
-		<div className="grid min-w-0 gap-6 lg:grid-cols-[minmax(0,1fr)_320px]" data-icon-update-editor>
-			<div className="min-w-0 space-y-5">
-				<header className="flex flex-wrap items-center justify-between gap-3 rounded-xl bg-muted/40 p-4">
-					<div className="min-w-0">
-						<h2 className="break-all font-mono text-xl font-semibold">{target.name}</h2>
-						<p className="mt-1 text-sm text-muted-foreground">
-							{target.kind === "published" ? "Published Icon" : "Community Submission"} · Update proposal
-						</p>
+		<div className="grid min-w-0 gap-6 lg:grid-cols-[minmax(0,1fr)_340px]" data-icon-update-editor>
+			<div className="flex min-w-0 flex-col gap-6">
+				<header className={cn(PANEL_CLASS, "flex flex-wrap items-center gap-4 p-4 sm:p-5")}>
+					<span className="flex size-16 shrink-0 items-center justify-center rounded-lg bg-primary/15 ring-1 ring-border dark:bg-secondary/10">
+						{previews.base && <UnoptimizedImage src={previews.base.url} alt="" width={48} height={48} className="size-12 object-contain" />}
+						{!previews.base && <Layers className="size-6 text-muted-foreground" aria-hidden />}
+					</span>
+					<div className="min-w-0 flex-1 basis-56">
+						<div className="flex flex-wrap items-center gap-2">
+							<Badge variant="outline" className="border-community/20 bg-community/10 text-community">
+								Update proposal
+							</Badge>
+							<Badge variant="outline" className="text-muted-foreground">
+								{target.kind === "published" ? "Published Icon" : "Community Submission"}
+							</Badge>
+						</div>
+						<h2 className="mt-1.5 break-all font-mono text-2xl font-semibold">{target.name}</h2>
 					</div>
-					<Button variant="outline" className="min-h-11" disabled={busy} onClick={onCancel}>
+					<Button variant="ghost" disabled={busy} onClick={onCancel}>
+						<ArrowLeft aria-hidden />
 						Choose another Icon
 					</Button>
 				</header>
-				<p className="max-w-prose text-sm text-muted-foreground">
-					Replace artwork or remove an optional Variant. Untouched Variants stay as they are. Base is required and cannot be removed.
-				</p>
 				{owned?.record.status === "rejected" && (
 					<RejectionNotice id={owned.record.id} feedback={owned.record.admin_comment} canEdit={false} />
 				)}
@@ -316,44 +408,55 @@ export function IconUpdateEditor({
 				)}
 				{owned && <RejectedRoundComparison record={owned.record} />}
 				{stale && live && (
-					<section role="alert" className="space-y-3 rounded-xl bg-amber-500/10 p-4">
-						<h3 className="font-semibold">The target Icon changed</h3>
-						<p className="text-sm">
-							Your saved proposal has not been applied. Explicitly choose the latest target and review your artwork against it before
-							saving. This reloads metadata; your selected Variant changes stay in this proposal.
-						</p>
-						<Button
-							variant="outline"
-							disabled={busy}
-							onClick={() => {
-								setLoaded(live)
-								setRefreshChosen(true)
-								const update = owned?.record.icon_update
-								if (update) {
-									setAliases(applyList(live.target.metadata.aliases, update.aliases).join(", "))
-									setAliasesEdited(true)
-									setCategories(applyList(live.target.metadata.categories, update.categories))
-								}
-							}}
-						>
-							Use latest target for this proposal
-						</Button>
-					</section>
+					<Alert className="border-warning/30 bg-warning/5 [&>svg]:text-warning">
+						<AlertTriangle aria-hidden />
+						<AlertTitle className="line-clamp-none">The target Icon changed</AlertTitle>
+						<AlertDescription>
+							<p>
+								Your saved proposal has not been applied. Explicitly choose the latest target and review your artwork against it before
+								saving. This reloads metadata; your selected Variant changes stay in this proposal.
+							</p>
+							<Button
+								variant="outline"
+								size="sm"
+								className="mt-1"
+								disabled={busy}
+								onClick={() => {
+									setLoaded(live)
+									setRefreshChosen(true)
+									const update = owned?.record.icon_update
+									if (update) {
+										setAliases(applyList(live.target.metadata.aliases, update.aliases).join(", "))
+										setAliasesEdited(true)
+										setCategories(applyList(live.target.metadata.categories, update.categories))
+									}
+								}}
+							>
+								<RefreshCw aria-hidden />
+								Use latest target for this proposal
+							</Button>
+						</AlertDescription>
+					</Alert>
 				)}
 				{target.unresolved && (
-					<section className="space-y-3 rounded-xl bg-amber-500/10 p-4" aria-label="Unassigned target artwork">
-						<h3 className="font-semibold">The contributor needs to assign the existing files</h3>
-						<p className="text-sm">
-							Every original file is kept. An update cannot be sent until each file has an unambiguous Variant, including Base.
-						</p>
+					<section
+						className={cn(PANEL_CLASS, "flex flex-col gap-3 border-warning/30 bg-warning/5 p-4")}
+						aria-label="Unassigned target artwork"
+					>
+						<SectionHeading
+							icon={FileStack}
+							tone="warning"
+							title="The contributor needs to assign the existing files"
+							description="Every original file is kept. An update cannot be sent until each file has an unambiguous Variant, including Base."
+						/>
 						{target.unresolved.references.map((reference) => (
 							<p key={`${reference.variant}:${reference.reference}`} className="break-all text-sm">
 								{variantKind(reference.variant).label}: {reference.reference} could not be matched to exactly one file.
 							</p>
 						))}
-						<ul className="grid grid-cols-2 gap-3">
+						<ul className="grid grid-cols-2 gap-3 sm:grid-cols-3">
 							{target.unresolved.assets.map((file) => (
-								<li key={file} className="min-w-0 space-y-2">
+								<li key={file} className="flex min-w-0 flex-col gap-2">
 									<UnoptimizedImage
 										src={pb.files.getURL({ collectionName: "submissions", id: target.id }, file)}
 										alt={`Unassigned original ${file}`}
@@ -365,218 +468,279 @@ export function IconUpdateEditor({
 						</ul>
 					</section>
 				)}
-				<fieldset disabled={busy} className="min-w-0 space-y-3">
-					<legend className="mb-3 font-semibold">Variants</legend>
-					<ul className="divide-y rounded-xl border bg-background">
-						{rows.map((key) => {
-							const kind = variantKind(key)
-							const file = files[key]
-							const saved = retained.find((change) => change.key === key)
-							const savedAction = saved?.action
-							let proposedPreview = previews[key]
-							if (saved && "file" in saved && owned)
-								proposedPreview = {
-									url: pb.files.getURL(owned.record, saved.file),
-									formats: [saved.file.split(".").pop() || ""],
-									filename: saved.file,
-								}
-							const removed = key !== "base" && Object.hasOwn(removals, key)
-							let action: "add" | "replace" | "remove" | undefined
-							if (file || saved) action = target.files[key] ? "replace" : "add"
-							if (removed) action = "remove"
-							return (
-								<li key={key} className="min-w-0 space-y-3 p-4">
-									<div className="flex flex-wrap items-center justify-between gap-2">
-										<h3 className="break-all text-sm font-semibold">{kind.label}</h3>
-										<ChangeBadge action={action} />
-									</div>
-									<div className="flex items-center gap-3">
-										<figure className="shrink-0 space-y-1">
-											<UpdateArtwork
-												compact
-												present={Boolean(target.files[key])}
-												preview={previews[key]}
-												variant={key}
-												name={target.name}
-											/>
-											<figcaption className="text-xs text-muted-foreground">Now</figcaption>
-										</figure>
-										<figure className="shrink-0 space-y-1">
-											{removed ? (
-												<div
-													className="flex size-14 items-center justify-center rounded-md bg-red-500/10 text-red-800 dark:text-red-200"
-													aria-label="Variant removed"
-													role="img"
-												>
-													<Minus aria-hidden />
-												</div>
-											) : (
+				<section className={cn(PANEL_CLASS, "flex min-w-0 flex-col gap-4 p-3 sm:p-5")}>
+					<SectionHeading
+						icon={Layers}
+						tone="info"
+						title="Variants"
+						description="Replace artwork or remove an optional Variant. Untouched Variants stay as they are. Base is required and cannot be removed."
+					/>
+					<fieldset disabled={busy} className="flex min-w-0 flex-col gap-4">
+						<legend className="sr-only">Variants</legend>
+						<div className="grid min-w-0 gap-3 sm:grid-cols-2">
+							{rows.map((key) => {
+								const kind = variantKind(key)
+								const file = files[key]
+								const saved = retained.find((change) => change.key === key)
+								const savedAction = saved?.action
+								let proposedPreview = previews[key]
+								if (saved && "file" in saved && owned)
+									proposedPreview = {
+										url: pb.files.getURL(owned.record, saved.file),
+										formats: [saved.file.split(".").pop() || ""],
+										filename: saved.file,
+									}
+								const removed = key !== "base" && Object.hasOwn(removals, key)
+								let action: "add" | "replace" | "remove" | undefined
+								if (file || saved) action = target.files[key] ? "replace" : "add"
+								if (removed) action = "remove"
+								return (
+									<div
+										key={key}
+										className={cn(
+											"flex min-w-0 flex-col gap-3 rounded-md border p-3 transition-colors duration-300",
+											action && ACTION_TILE[action],
+										)}
+									>
+										<div className="flex min-w-0 items-center justify-between gap-2">
+											<h4 className="flex min-w-0 items-center gap-1.5 text-sm font-semibold">
+												<VariantGlyph variant={key} />
+												<span className="truncate">{kind.label}</span>
+											</h4>
+											<ChangeBadge action={action} />
+										</div>
+										<div className="grid min-w-0 grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-start gap-2">
+											<figure className="flex min-w-0 flex-col gap-1">
 												<UpdateArtwork
-													compact
 													present={Boolean(target.files[key])}
-													preview={proposedPreview}
-													file={file}
+													preview={previews[key]}
 													variant={key}
 													name={target.name}
+													className="ring-1 ring-inset ring-border"
 												/>
-											)}
-											<figcaption className="text-xs text-muted-foreground">Proposed</figcaption>
-										</figure>
-										<div className="min-w-0 space-y-1">
-											<p className="break-all font-mono text-xs text-muted-foreground">
+												<figcaption className="text-xs text-muted-foreground">Now</figcaption>
+											</figure>
+											<ArrowRight className="mt-10 size-4 text-muted-foreground" aria-hidden />
+											<figure className="flex min-w-0 flex-col gap-1">
+												{removed && (
+													<div
+														className="flex h-24 items-center justify-center rounded-md border border-dashed border-destructive/40 text-destructive"
+														aria-label="Variant removed"
+														role="img"
+													>
+														<Minus aria-hidden />
+													</div>
+												)}
+												{!removed && (
+													<FileDrop
+														label={`Replace ${kind.label}`}
+														backdrop={variantBackdrop(key)}
+														className="h-24 rounded-md"
+														onFiles={(chosen) => {
+															if (chosen[0]) changeFile(key, chosen[0])
+														}}
+													>
+														<UpdateArtwork
+															present={Boolean(target.files[key])}
+															preview={proposedPreview}
+															file={file}
+															variant={key}
+															name={target.name}
+															className="ring-1 ring-inset ring-border"
+														/>
+														<span className="pointer-events-none absolute right-1 bottom-1 inline-flex items-center gap-1 rounded-sm border bg-background px-1.5 py-0.5 text-xs font-medium text-foreground">
+															<RefreshCw className="size-3" aria-hidden />
+															Replace
+														</span>
+													</FileDrop>
+												)}
+												<figcaption className="text-xs text-muted-foreground">Proposed</figcaption>
+											</figure>
+										</div>
+										<div className="flex min-w-0 flex-col gap-0.5">
+											<p
+												className="truncate font-mono text-xs text-muted-foreground"
+												title={file?.name || proposedPreview?.filename || target.files[key]}
+											>
 												{file?.name || proposedPreview?.filename || target.files[key]}
 											</p>
 											{!file && previews[key] && (
 												<p className="text-xs text-muted-foreground">{previews[key].formats.join(" / ").toUpperCase()}</p>
 											)}
-											<p className="text-sm text-muted-foreground">{kind.description}</p>
+											<p className="text-xs text-muted-foreground">{kind.description}</p>
 											{saved && !("file" in saved) && <p className="text-sm">Saved {savedAction} operation retained.</p>}
 										</div>
+										{((key !== "base" && target.files[key] && !removed) || file || saved || removed) && (
+											<div className="mt-auto flex flex-wrap gap-1">
+												{key !== "base" && target.files[key] && !removed && (
+													<Button
+														variant="ghost"
+														size="sm"
+														className="h-auto min-h-9 max-w-full whitespace-normal text-left text-destructive hover:bg-destructive/10"
+														onClick={() => {
+															undoVariant(key)
+															setRemovals((current) => ({ ...current, [key]: "" }))
+														}}
+													>
+														<Minus aria-hidden />
+														Remove {kind.label}
+													</Button>
+												)}
+												{(file || saved || removed) && (
+													<Button
+														variant="ghost"
+														size="sm"
+														className="h-auto min-h-9 max-w-full whitespace-normal text-left"
+														onClick={() => undoVariant(key)}
+													>
+														<Undo2 aria-hidden />
+														Undo {kind.label}
+													</Button>
+												)}
+											</div>
+										)}
+										{removed && (
+											<div className="flex flex-col gap-2">
+												<label htmlFor={`remove-${key}`} className="text-sm font-medium">
+													Why remove {kind.label}? (optional)
+												</label>
+												<Textarea
+													id={`remove-${key}`}
+													value={removals[key]}
+													maxLength={10000}
+													onChange={(event) => setRemovals((current) => ({ ...current, [key]: event.target.value }))}
+													placeholder="Help the reviewer understand this removal"
+												/>
+											</div>
+										)}
 									</div>
-									<div className="flex flex-wrap justify-end gap-2">
-										{!removed && (
-											<FileChooser
-												label={`Replace ${kind.label}`}
-												onFiles={(chosen) => {
-													if (chosen[0]) changeFile(key, chosen[0])
-												}}
-											/>
-										)}
-										{key !== "base" && target.files[key] && !removed && (
-											<Button
-												variant="ghost"
-												className="h-auto min-h-11 max-w-full whitespace-normal text-left text-red-800 hover:bg-red-500/10 dark:text-red-200"
-												onClick={() => {
-													undoVariant(key)
-													setRemovals((current) => ({ ...current, [key]: "" }))
-												}}
-											>
-												<Minus aria-hidden />
-												Remove {kind.label}
-											</Button>
-										)}
-										{(file || saved || removed) && (
-											<Button
-												variant="ghost"
-												className="h-auto min-h-11 max-w-full whitespace-normal text-left"
-												onClick={() => undoVariant(key)}
-											>
-												<Undo2 aria-hidden />
-												Undo {kind.label}
-											</Button>
-										)}
-									</div>
-									{removed && (
-										<div className="space-y-2">
-											<label htmlFor={`remove-${key}`} className="text-sm font-medium">
-												Why remove {kind.label}? (optional)
-											</label>
-											<Textarea
-												id={`remove-${key}`}
-												value={removals[key]}
-												maxLength={10000}
-												onChange={(event) => setRemovals((current) => ({ ...current, [key]: event.target.value }))}
-												placeholder="Help the reviewer understand this removal"
-											/>
+								)
+							})}
+							{SUBMISSION_VARIANTS.filter((key) => !rows.includes(key)).map((key) => {
+								const kind = variantKind(key)
+								return (
+									<div key={key} className="flex min-w-0 flex-col gap-3 rounded-md border border-dashed p-3">
+										<div className="flex min-w-0 items-center justify-between gap-2">
+											<h4 className="flex min-w-0 items-center gap-1.5 text-sm font-semibold">
+												<VariantGlyph variant={key} />
+												<span className="truncate">{kind.label}</span>
+											</h4>
+											<span className="text-xs text-muted-foreground">Not present</span>
 										</div>
+										<FileDrop
+											label={`Add ${kind.label}`}
+											backdrop={variantBackdrop(key)}
+											className="h-24 rounded-md"
+											onFiles={(chosen) => {
+												if (chosen[0]) changeFile(key, chosen[0])
+											}}
+										>
+											<DropPrompt backdrop={variantBackdrop(key)} title={`Add ${kind.label}`} />
+										</FileDrop>
+										<p className="mt-auto text-xs text-muted-foreground">{kind.description}</p>
+									</div>
+								)
+							})}
+						</div>
+						{!customOpen && !custom && (
+							<Button variant="ghost" size="sm" className="self-start" onClick={() => setCustomOpen(true)}>
+								<Plus aria-hidden />
+								Custom variant
+							</Button>
+						)}
+						{(customOpen || custom) && (
+							<motion.div
+								initial={{ opacity: 0, y: -4 }}
+								animate={{ opacity: 1, y: 0 }}
+								className="flex flex-col gap-2 rounded-md border border-community/30 bg-community/5 p-3"
+							>
+								<div className="flex items-center justify-between gap-2">
+									<label htmlFor="update-custom" className="flex items-center gap-1.5 text-sm font-medium">
+										<WandSparkles className="size-4 text-community" aria-hidden />
+										Custom variant name
+									</label>
+									<Button
+										variant="ghost"
+										size="icon"
+										className="size-8 text-muted-foreground"
+										aria-label="Cancel Custom variant"
+										onClick={() => {
+											setCustomOpen(false)
+											setCustom("")
+										}}
+									>
+										<X aria-hidden />
+									</Button>
+								</div>
+								{suggestionsError && <p className="text-sm text-muted-foreground">{suggestionsError}</p>}
+								<div className="flex flex-wrap items-center gap-2">
+									<Input
+										ref={customInput}
+										id="update-custom"
+										value={custom}
+										onChange={(event) => setCustom(event.target.value)}
+										placeholder="For example 4k or animated"
+										list="update-custom-names"
+										className="min-w-0 flex-1 basis-48 font-mono"
+										aria-invalid={Boolean(customError)}
+									/>
+									<datalist id="update-custom-names">
+										{customNames.map((name) => (
+											<option key={name} value={name} />
+										))}
+									</datalist>
+									{custom && !customError && !rows.includes(`custom:${custom}`) && (
+										<FileChooser
+											label="Choose Custom file"
+											className="h-10"
+											onFiles={(chosen) => {
+												if (chosen[0]) {
+													changeFile(`custom:${custom}`, chosen[0])
+													setCustom("")
+													setCustomOpen(false)
+												}
+											}}
+										/>
 									)}
-								</li>
-							)
-						})}
-						<li className="space-y-3 p-4">
-							<h3 className="text-sm font-semibold">Add a Variant</h3>
-							<div className="flex flex-wrap gap-2">
-								{SUBMISSION_VARIANTS.filter((key) => !rows.includes(key)).map((key) => (
-									<FileChooser
-										key={key}
-										label={`Add ${variantKind(key).label}`}
-										onFiles={(chosen) => {
-											if (chosen[0]) changeFile(key, chosen[0])
-										}}
-									/>
-								))}
-							</div>
-							<label htmlFor="update-custom" className="block text-sm font-medium">
-								Custom variant name
-							</label>
-							{suggestionsError && <p className="text-sm text-muted-foreground">{suggestionsError}</p>}
-							<div className="flex flex-wrap gap-2">
-								<Input
-									id="update-custom"
-									value={custom}
-									onChange={(event) => setCustom(event.target.value)}
-									placeholder="For example 4k or animated"
-									list="update-custom-names"
-									className="min-w-0 flex-1 font-mono"
-									aria-invalid={Boolean(customError)}
-								/>
-								<datalist id="update-custom-names">
-									{customNames.map((name) => (
-										<option key={name} value={name} />
-									))}
-								</datalist>
-								{custom && !customError && !rows.includes(`custom:${custom}`) && (
-									<FileChooser
-										label="Choose Custom file"
-										onFiles={(chosen) => {
-											if (chosen[0]) {
-												changeFile(`custom:${custom}`, chosen[0])
-												setCustom("")
-											}
-										}}
-									/>
+								</div>
+								{customError && <p className="text-sm text-destructive">{customError}</p>}
+								{custom && rows.includes(`custom:${custom}`) && (
+									<p className="text-sm text-muted-foreground">This Variant is listed above. Replace its file there.</p>
 								)}
-							</div>
-							{customError && <p className="text-sm text-destructive">{customError}</p>}
-							{custom && rows.includes(`custom:${custom}`) && (
-								<p className="text-sm text-muted-foreground">This Variant is listed above. Replace its file there.</p>
-							)}
-						</li>
-					</ul>
-				</fieldset>
-				<fieldset disabled={busy} className="space-y-5 rounded-xl bg-muted/40 p-4">
+							</motion.div>
+						)}
+					</fieldset>
+				</section>
+				<fieldset disabled={busy} className={cn(PANEL_CLASS, "flex min-w-0 flex-col gap-5 p-3 sm:p-5")}>
 					<legend className="sr-only">Icon metadata</legend>
-					<div className="space-y-2">
+					<SectionHeading icon={Tags} tone="success" title="Details" description="Aliases and categories help people find this Icon." />
+					<div className="flex flex-col gap-2">
 						<label htmlFor="update-aliases" className="text-sm font-medium">
-							Aliases (comma-separated)
+							Aliases
 						</label>
-						<Input
+						<TagInput
 							id="update-aliases"
-							value={aliases}
-							onChange={(event) => {
-								setAliases(event.target.value)
+							value={splitAliases(aliases)}
+							onValueChange={(next) => {
+								setAliases(next.join(", "))
 								setAliasesEdited(true)
 							}}
+							placeholder="Alternative names or abbreviations"
+							className="min-h-11"
 						/>
+						<p className="text-xs text-muted-foreground">Space, comma or Enter adds an alias. Backspace removes the last one.</p>
 					</div>
-					<fieldset className="space-y-2">
+					<fieldset className="flex flex-col gap-2">
 						<legend className="mb-2 text-sm font-medium">Categories</legend>
-						<div className="flex flex-wrap gap-2">
-							{[...new Set([...SUBMISSION_CATEGORIES, ...target.metadata.categories])].map((category) => (
-								<button
-									type="button"
-									key={category}
-									aria-pressed={categories.includes(category)}
-									onClick={() =>
-										setCategories((current) =>
-											current.includes(category) ? current.filter((item) => item !== category) : [...current, category],
-										)
-									}
-									className={cn(
-										"min-h-11 rounded-md px-3 py-2 text-sm",
-										categories.includes(category)
-											? "bg-primary/15 font-medium ring-1 ring-inset ring-primary"
-											: "bg-background hover:bg-muted",
-									)}
-								>
-									{category}
-								</button>
-							))}
-						</div>
+						<CategoryPicker
+							options={[...new Set([...SUBMISSION_CATEGORIES, ...target.metadata.categories])]}
+							value={categories}
+							onChange={setCategories}
+						/>
 					</fieldset>
-					<div className="space-y-2">
+					<div className="flex flex-col gap-2">
 						<label htmlFor="update-note" className="text-sm font-medium">
-							Note for the reviewer (optional)
+							Note for the reviewer <span className="font-normal text-muted-foreground">(optional)</span>
 						</label>
 						<Textarea
 							id="update-note"
@@ -588,21 +752,43 @@ export function IconUpdateEditor({
 					</div>
 				</fieldset>
 			</div>
-			<aside className="min-w-0 space-y-4 self-start rounded-xl bg-muted/40 p-4 lg:sticky lg:top-24" aria-label="Proposal changes">
-				<h2 className="font-semibold">Changes in this proposal</h2>
-				{!changes && (
-					<p className="text-sm text-muted-foreground">Add, replace or remove a Variant, or edit aliases and categories to start.</p>
+			<aside
+				className={cn(
+					PANEL_CLASS,
+					"relative flex min-w-0 flex-col gap-4 self-start overflow-hidden p-4 lg:sticky lg:top-24",
+					!disabled && "border-primary/30",
 				)}
-				<ul className="space-y-2 break-words text-sm" aria-live="polite">
+				aria-label="Proposal changes"
+			>
+				<SectionHeading
+					icon={GitCompareArrows}
+					tone="community"
+					level={2}
+					title="Changes in this proposal"
+					description={
+						<>
+							<span className="sr-only">{changes}</span>
+							<NumberTicker value={changes} className="tracking-normal" aria-hidden /> {changes === 1 ? "change" : "changes"}
+						</>
+					}
+				/>
+				{!changes && (
+					<p className="rounded-md border border-dashed p-4 text-center text-sm text-muted-foreground">
+						Add, replace or remove a Variant, or edit aliases and categories to start.
+					</p>
+				)}
+				<ul className="flex flex-col gap-1.5 break-words text-sm" aria-live="polite">
 					{Object.keys(removals).map((key) => (
 						<li key={key} className="flex flex-wrap items-center gap-2">
 							<ChangeBadge action="remove" />
+							<VariantGlyph variant={key as RemovableVariantKey} className="size-3.5" />
 							<span>{variantKind(key as RemovableVariantKey).label}</span>
 						</li>
 					))}
 					{[...new Set([...Object.keys(files), ...retained.map((change) => change.key)])].map((key) => (
 						<li key={key} className="flex flex-wrap items-center gap-2">
 							<ChangeBadge action={target.files[key as SubmissionVariant] ? "replace" : "add"} />
+							<VariantGlyph variant={key as SubmissionVariant} className="size-3.5" />
 							<span>{variantKind(key as SubmissionVariant).label}</span>
 						</li>
 					))}
@@ -610,19 +796,21 @@ export function IconUpdateEditor({
 						const delta = field === "aliases" ? aliasDelta : categoryDelta
 						return [
 							...delta.add.map((value) => (
-								<li key={`${field}+${value}`}>
-									+ {field}: {value}
+								<li key={`${field}+${value}`} className="flex flex-wrap items-center gap-2">
+									<span className={cn("rounded-md border px-2 py-0.5 text-xs font-medium", ACTION_BADGE.add)}>+ {field}</span>
+									<span className="font-mono text-xs">{value}</span>
 								</li>
 							)),
 							...delta.remove.map((value) => (
-								<li key={`${field}-${value}`}>
-									− {field}: {value}
+								<li key={`${field}-${value}`} className="flex flex-wrap items-center gap-2">
+									<span className={cn("rounded-md border px-2 py-0.5 text-xs font-medium", ACTION_BADGE.remove)}>− {field}</span>
+									<span className="font-mono text-xs">{value}</span>
 								</li>
 							)),
 						]
 					})}
 				</ul>
-				<p className="text-sm text-muted-foreground">
+				<p className="text-xs text-muted-foreground">
 					Every unrelated Variant, alias and category stays as it is. A reviewer checks this proposal before publication.
 				</p>
 				{error && (
@@ -630,14 +818,26 @@ export function IconUpdateEditor({
 						{error}
 					</p>
 				)}
-				<Button
-					disabled={!changes || busy || Boolean(target.unresolved) || stale || Boolean(owned && !live)}
-					onClick={() => void send()}
-					className="min-h-11 w-full whitespace-normal text-secondary-foreground"
-				>
-					{saveLabel}
-				</Button>
+				<div className="max-lg:hidden">{cta}</div>
+				{!disabled && (
+					<BorderBeam
+						size={100}
+						duration={8}
+						colorFrom="var(--magic-border-from)"
+						colorTo="var(--magic-border-to)"
+						className="motion-reduce:hidden"
+					/>
+				)}
 			</aside>
+			<div
+				data-submission-actions
+				className="fixed inset-x-0 bottom-0 z-40 flex items-center gap-2 border-t border-border/50 bg-background/50 px-3 py-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] backdrop-blur-2xl lg:hidden"
+			>
+				<p className="min-w-0 flex-1 text-sm text-muted-foreground">
+					{changes} {changes === 1 ? "change" : "changes"}
+				</p>
+				{cta}
+			</div>
 		</div>
 	)
 }

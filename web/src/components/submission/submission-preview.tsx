@@ -1,6 +1,17 @@
 "use client"
 
+import { Grid2x2, ImageIcon, Moon, Sun } from "lucide-react"
+import { motion } from "motion/react"
 import { useEffect, useState } from "react"
+import {
+	BACKDROP_CLASS,
+	type Backdrop,
+	CHECKER_STYLE,
+	PANEL_CLASS,
+	SectionHeading,
+	VariantGlyph,
+	variantBackdrop,
+} from "@/components/submission/submission-ui"
 import { UnoptimizedImage } from "@/components/unoptimized-image"
 import type { DraftAsset, SubmissionDraft } from "@/lib/submission-drafts"
 import { variantKind } from "@/lib/submission-variants"
@@ -13,7 +24,7 @@ export function AssetPreview({
 	alt,
 }: {
 	asset: DraftAsset
-	background?: "light" | "dark" | "checker"
+	background?: Backdrop
 	className?: string
 	alt?: string
 }) {
@@ -27,19 +38,10 @@ export function AssetPreview({
 		<div
 			className={cn(
 				"flex min-w-0 items-center justify-center overflow-hidden rounded-md p-3 ring-1 ring-inset ring-border",
-				background === "light" && "bg-white",
-				background === "dark" && "bg-zinc-950",
-				background === "checker" && "bg-muted",
+				BACKDROP_CLASS[background],
 				className,
 			)}
-			style={
-				background === "checker"
-					? {
-							backgroundImage: "conic-gradient(#a1a1aa30 25%, transparent 0 50%, #a1a1aa30 0 75%, transparent 0)",
-							backgroundSize: "16px 16px",
-						}
-					: undefined
-			}
+			style={background === "checker" ? CHECKER_STYLE : undefined}
 		>
 			{url && (
 				<UnoptimizedImage
@@ -52,45 +54,58 @@ export function AssetPreview({
 	)
 }
 
+const PAGES = [
+	{ background: "light", label: "Light page", Icon: Sun },
+	{ background: "dark", label: "Dark page", Icon: Moon },
+	{ background: "checker", label: "Transparent", Icon: Grid2x2 },
+] as const
+
 export function SubmissionPreview({ draft, embedded = false }: { draft: SubmissionDraft | undefined; embedded?: boolean }) {
 	const base = draft?.assets.find((asset) => asset.variant === "base")
 	return (
-		<section className={cn("min-w-0 space-y-4", !embedded && "rounded-xl border bg-background p-4")} aria-label="Selected Icon preview">
-			<div className="flex min-w-0 items-baseline justify-between gap-2">
-				{!embedded && <h2 className="shrink-0 text-sm font-semibold">Preview</h2>}
-				<span className="truncate font-mono text-sm text-muted-foreground">{draft?.name || "Untitled icon"}</span>
-			</div>
-			{base ? (
+		<section className={cn("flex min-w-0 flex-col gap-4", !embedded && cn(PANEL_CLASS, "p-4"))} aria-label="Selected Icon preview">
+			{!embedded && (
+				<SectionHeading icon={ImageIcon} tone="community" level={2} title="Preview">
+					<span className="max-w-40 truncate rounded-md border px-2 py-0.5 font-mono text-xs text-muted-foreground">
+						{draft?.name || "Untitled icon"}
+					</span>
+				</SectionHeading>
+			)}
+			{embedded && <span className="truncate font-mono text-sm text-muted-foreground">{draft?.name || "Untitled icon"}</span>}
+			{base && (
 				<div className="grid grid-cols-3 gap-2">
-					{(["light", "dark", "checker"] as const).map((background) => (
-						<figure key={background} className="min-w-0 space-y-2 text-center">
-							<AssetPreview asset={base} background={background} className="aspect-square w-full" />
-							<figcaption className="text-sm text-muted-foreground">
-								{background === "checker" ? "Transparent" : `${background[0].toUpperCase()}${background.slice(1)} page`}
+					{PAGES.map(({ background, label, Icon }) => (
+						<figure key={background} className="flex min-w-0 flex-col gap-1.5">
+							<motion.div key={base.id} initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+								<AssetPreview asset={base} background={background} className="aspect-square w-full p-4" />
+							</motion.div>
+							<figcaption className="flex items-center justify-center gap-1 text-xs text-muted-foreground">
+								<Icon className="size-3 shrink-0" aria-hidden />
+								<span className="truncate">{label}</span>
 							</figcaption>
 						</figure>
 					))}
 				</div>
-			) : (
-				<p className="rounded-lg bg-muted/50 px-3 py-6 text-center text-sm text-muted-foreground">
-					Add a Base to see it on light, dark and transparent backgrounds.
-				</p>
+			)}
+			{!base && (
+				<div className="flex flex-col items-center gap-2 rounded-md border border-dashed px-4 py-8 text-center">
+					<ImageIcon className="size-5 text-muted-foreground" aria-hidden />
+					<p className="max-w-56 text-sm text-muted-foreground">Add a Base to see it on light, dark and transparent backgrounds.</p>
+				</div>
 			)}
 			{draft && draft.assets.length > 1 && (
-				<div className="space-y-2">
-					<h3 className="text-sm text-muted-foreground">Variants on their intended backgrounds</h3>
+				<div className="flex flex-col gap-2">
+					<h3 className="text-xs font-medium text-muted-foreground">Variants on their intended backgrounds</h3>
 					<ul className="grid grid-cols-3 gap-2">
-						{draft.assets.map((asset) => {
-							const kind = variantKind(asset.variant)
-							let background: "light" | "dark" | "checker" = "checker"
-							if (kind.background !== "any") background = kind.background
-							return (
-								<li key={asset.id} className="min-w-0 text-center">
-									<AssetPreview asset={asset} background={background} className="aspect-square w-full" />
-									<p className="mt-1 break-words text-sm">{kind.label}</p>
-								</li>
-							)
-						})}
+						{draft.assets.map((asset) => (
+							<motion.li key={asset.id} className="min-w-0" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+								<AssetPreview asset={asset} background={variantBackdrop(asset.variant)} className="aspect-square w-full" />
+								<p className="mt-1 flex items-center justify-center gap-1 text-xs">
+									<VariantGlyph variant={asset.variant} className="size-3" />
+									<span className="truncate">{variantKind(asset.variant).label}</span>
+								</p>
+							</motion.li>
+						))}
 					</ul>
 				</div>
 			)}
