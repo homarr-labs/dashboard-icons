@@ -1,0 +1,45 @@
+meta/yuno-host.json
+  s_98e4ddf2e24ed8::t_22b0fc5553094a 19
+metadata.json
+  s_98e4ddf2e24ed8::t_aae0a69ecbe3ed 26078
+svg/dagster.svg
+  s_3390356665e00c::t_9a4c4b2e0e83f7 1-11
+svg/infomaniak-kdrive.svg
+  s_3390356665e00c::t_224b19692eea44 1-21
+svg/infomaniak-kmeet.svg
+  s_3390356665e00c::t_2463a8a31659d2 1-23
+svg/infomaniak-swisstransfer.svg
+  s_3390356665e00c::t_c0096b19152a8b 1-31
+svg/medium.svg
+  s_3390356665e00c::t_4f78c7aba833bc 1
+svg/odysee-full.svg
+  s_3390356665e00c::t_f9b1b0cd355db8 1
+svg/pgbackweb.svg
+  s_3390356665e00c::t_46e43800c8a333 1
+svg/yuno-host.svg
+  s_3390356665e00c::t_d3c26b0904322a 1
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "2efe858d8c8b55896f4f86e1f1b5be0434718c79",
+  "prompts": {},
+  "sessions": {
+    "s_3390356665e00c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "7d103887-c20f-4662-b19c-5258cdda545c",
+        "model": "unknown"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    },
+    "s_98e4ddf2e24ed8": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "64c187c3-3b42-418c-bd51-53c779a0e252",
+        "model": "unknown"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
