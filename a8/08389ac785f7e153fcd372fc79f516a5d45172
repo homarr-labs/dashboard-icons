@@ -1,0 +1,26 @@
+metadata.json
+  h_d6e478ca18e517 743,1501-1503,1625-1627,1660-1662,4283,7464,9774,11665-11667,14473-14475,14975-14977,15757-15759,17378-17380,18153,18517-18519,18866,20723-20725,20784-20786,21876,21912-21914,22717,22931-22933,23146,23716-23718,26775,31962,32090-32092,34447
+web/docs/native-display-names.md
+  h_d6e478ca18e517 1-9
+web/src/app/icons/[icon]/page.tsx
+  h_d6e478ca18e517 40,131,142
+web/src/app/og/[icon]/route.tsx
+  h_d6e478ca18e517 5,21
+web/src/app/og/__tests__/route.test.ts
+  h_d6e478ca18e517 24-26,89-94,98
+web/src/components/icon-details.tsx
+  h_d6e478ca18e517 193,833
+web/src/lib/utils.ts
+  h_d6e478ca18e517 8-11,14-16
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "a808389ac785f7e153fcd372fc79f516a5d45172",
+  "prompts": {},
+  "humans": {
+    "h_d6e478ca18e517": {
+      "author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
