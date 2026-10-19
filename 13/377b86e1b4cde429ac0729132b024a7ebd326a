@@ -1,0 +1,36 @@
+scripts/import-icon-update.ts
+  h_d6e478ca18e517 5,8,11,15,43-60,81,83-84,99-107,113,117-125,154,167,180-184
+scripts/import-icon.ts
+  h_d6e478ca18e517 456
+web/backend/pb_hooks/icon-update-policy.d.ts
+  h_d6e478ca18e517 11-14,24-28,42
+web/backend/pb_hooks/icon-update-policy.js
+  h_d6e478ca18e517 14-20,31-45,85-88,136
+web/backend/pb_hooks/icon-updates.js
+  h_d6e478ca18e517 14-15,20-32,40-42,46,48,50-52,85,90
+web/backend/pb_hooks/published-icon-snapshot.js
+  h_d6e478ca18e517 1-80
+web/src/app/community/submissions/[id]/page.tsx
+  h_d6e478ca18e517 129,134-139
+web/src/components/dashboard/icon-update-diff.tsx
+  h_d6e478ca18e517 47,66-70
+web/src/components/submission/icon-update-editor.tsx
+  h_d6e478ca18e517 225-249,462
+web/src/components/submission/rejection-notice.tsx
+  h_d6e478ca18e517 1-3,5-6,8,10-33,45-46
+web/src/lib/icon-update-previews.ts
+  h_d6e478ca18e517 3,12-14,16-20
+web/src/lib/icon-update-service.ts
+  h_d6e478ca18e517 20-21
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "13377b86e1b4cde429ac0729132b024a7ebd326a",
+  "prompts": {},
+  "humans": {
+    "h_d6e478ca18e517": {
+      "author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
