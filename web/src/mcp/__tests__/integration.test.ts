@@ -87,6 +87,9 @@ vi.mock("@/lib/pb", () => ({
 vi.mock("@/lib/icons/service", () => ({ getAllIcons: async () => NATIVE_ICONS }))
 vi.mock("@/lib/external-icons", () => ({ getExternalIcons: async () => EXTERNAL_ICONS, getExternalIconBySourceAndSlug: async () => null }))
 vi.mock("@/lib/icons/svg-fetch", () => ({ fetchTrustedSvg: async (url: string) => `<svg data-url="${url}"/>` }))
+vi.mock("@/lib/icons/native-icon-files.json", () => ({
+	default: { "svg,png,webp": ["plex", "plex-dark", "lmstudio"], "png,webp": ["ntopng"] },
+}))
 vi.mock("@/constants", async (importOriginal) => ({
 	...(await importOriginal<typeof import("@/constants")>()),
 	WEB_URL: "https://dashboardicons.com",

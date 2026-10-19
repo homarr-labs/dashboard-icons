@@ -14,10 +14,6 @@ for (const [group, stems] of Object.entries(nativeIconFiles)) {
 	for (const stem of stems) formatsByStem.set(stem, formats)
 }
 
-export function getNativeIconFormats(stem: string): IconFormat[] {
-	return formatsByStem.get(stem) ?? []
-}
-
 export function getNativeIconVariants(name: string, data: Icon): NativeIconVariant[] {
 	return resolveIconVariants(name, data).flatMap((variant) => {
 		const formats = formatsByStem.get(variant.stem)
