@@ -1,0 +1,26 @@
+web/src/app/api/mcp/route.ts
+  h_d6e478ca18e517 9,48-49,58,66,77-81,84,86-91,96-99,106-109
+web/src/mcp/__tests__/account-tools.test.ts
+  h_d6e478ca18e517 4,15-16,17,33-39,69,70,86-88,104,120,152-250,257,276,283-411,412-432,433-448
+web/src/mcp/__tests__/integration.test.ts
+  h_d6e478ca18e517 9-12,75-79,177,331-335,349-354,371-395
+web/src/mcp/__tests__/route.test.ts
+  h_d6e478ca18e517 7,108-214
+web/src/mcp/limits.ts
+  h_d6e478ca18e517 1
+web/src/mcp/tools/submission-policy.ts
+  h_d6e478ca18e517 1-13,14-26,27-28,29-37,38-43
+web/src/mcp/tools/submit-icon.ts
+  h_d6e478ca18e517 7-9,11,14-20,28-30,31-46,48,67,69,77,87,93,94-111,112-119,120-121,126-143,144-149,151-153,154,155-157,158-164
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "beb13733dc7602f84faf752284a175ed20e30751",
+  "prompts": {},
+  "humans": {
+    "h_d6e478ca18e517": {
+      "author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
