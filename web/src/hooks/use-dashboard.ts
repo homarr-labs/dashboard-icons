@@ -1,7 +1,14 @@
 "use client"
 import { keepPreviousData, useQuery, useQueryClient } from "@tanstack/react-query"
 import { useCallback, useEffect, useState } from "react"
-import type { DashboardFilters, DashboardSummary, PublishBatch, SubmissionEvent } from "@/lib/dashboard/types"
+import type {
+	DashboardFilters,
+	DashboardSummary,
+	PublishBatch,
+	ReviewRequest,
+	ReviewResponse,
+	SubmissionEvent,
+} from "@/lib/dashboard/types"
 import { pb, type Submission } from "@/lib/pb"
 
 export const dashboardKey = ["dashboard"] as const
@@ -9,6 +16,9 @@ export function dashboardRequest<T>(path: string, body?: unknown) {
 	let method = "GET"
 	if (body !== undefined) method = "POST"
 	return pb.send<T>(`/api/dashboard/${path}`, { method, body, requestKey: null })
+}
+export function reviewSubmissions(body: ReviewRequest) {
+	return dashboardRequest<ReviewResponse>("review", body)
 }
 function dateFilters(filters: DashboardFilters, field: string, conditions: string[]) {
 	if (/^\d{4}-\d{2}-\d{2}$/.test(filters.from)) conditions.push(pb.filter(`${field} >= {:from}`, { from: `${filters.from} 00:00:00.000Z` }))

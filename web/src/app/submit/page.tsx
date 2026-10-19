@@ -20,8 +20,7 @@ export default function SubmitPage() {
 
 		checkAuth()
 
-		// Subscribe to auth changes
-		pb.authStore.onChange(() => {
+		return pb.authStore.onChange(() => {
 			checkAuth()
 		})
 	}, [])
@@ -53,7 +52,7 @@ export default function SubmitPage() {
 									<h2 className="font-semibold text-base sm:text-lg">Before you start</h2>
 									<ul className="space-y-2 text-sm text-muted-foreground list-disc list-inside">
 										<li>You need to be logged in to submit icons</li>
-										<li>Icons should be in SVG, PNG, or WebP format</li>
+										<li>Upload SVG or PNG files, with one Base per Icon</li>
 										<li>Maximum file size: 5MB per variant</li>
 										<li>All submissions are reviewed before being added</li>
 									</ul>
@@ -75,14 +74,7 @@ export default function SubmitPage() {
 	}
 
 	return (
-		<div className="container mx-auto px-4 py-6 sm:py-12">
-			<div className="mb-6 sm:mb-8 text-center">
-				<h1 className="text-2xl sm:text-4xl font-bold mb-2">Submit an Icon</h1>
-				<p className="text-muted-foreground text-sm sm:text-lg">
-					{isAuthenticated ? "Create a new icon or update an existing one" : "Sign in to submit icons"}
-				</p>
-			</div>
-
+		<div className="container mx-auto px-4 py-6 sm:py-10">
 			<IconSubmissionForm />
 		</div>
 	)

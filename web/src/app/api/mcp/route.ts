@@ -6,6 +6,7 @@ import { readBoundedBytes } from "@/lib/read-bounded-bytes"
 import { flushDashboardIconsMcpAnalytics } from "@/mcp/analytics"
 import { mcpAuthChallenge, verifyMcpBearer } from "@/mcp/auth"
 import { handleMcpRequest } from "@/mcp/http"
+import { MAX_ACCOUNT_REQUEST_BODY_BYTES } from "@/mcp/limits"
 import { isAccountTool } from "@/mcp/tools"
 
 export const runtime = "nodejs"
@@ -44,8 +45,8 @@ async function readToolCall(req: NextRequest): Promise<ToolCall | null> {
 	}
 }
 
-async function readBoundedPostRequest(req: NextRequest): Promise<NextRequest | null> {
-	const body = await readBoundedBytes(req, MAX_REQUEST_BODY_BYTES)
+async function readBoundedPostRequest(req: NextRequest, maxBytes: number): Promise<NextRequest | null> {
+	const body = await readBoundedBytes(req, maxBytes)
 	if (body === null) return null
 	if (!req.body) return req
 
@@ -54,7 +55,7 @@ async function readBoundedPostRequest(req: NextRequest): Promise<NextRequest | n
 	return new NextRequest(req.url, { method: req.method, headers, body })
 }
 
-async function authenticate(req: NextRequest, toolCall: ToolCall | null): Promise<AuthInfo | Response | null | undefined> {
+async function authenticate(req: NextRequest): Promise<AuthInfo | Response | null | undefined> {
 	let authInfo: AuthInfo | undefined
 	try {
 		authInfo = await verifyMcpBearer(req)
@@ -62,8 +63,7 @@ async function authenticate(req: NextRequest, toolCall: ToolCall | null): Promis
 		if (!(error instanceof OAuthError)) throw error
 		return mcpAuthChallenge(req, { error: "invalid_token", description: error.message })
 	}
-	if (authInfo || typeof toolCall?.name !== "string" || !isAccountTool(toolCall.name)) return authInfo
-	return mcpAuthChallenge(req)
+	return authInfo
 }
 
 async function guardedHandler(req: NextRequest) {
@@ -74,25 +74,40 @@ async function guardedHandler(req: NextRequest) {
 		return tooManyRequests(requestLimit.retryAfter ?? 60)
 	}
 
+	const auth = await authenticate(req)
+	if (auth instanceof Response) return withResponseHeaders(auth)
+	let maxBytes = MAX_REQUEST_BODY_BYTES
+	if (auth?.scopes.includes("account")) maxBytes = MAX_ACCOUNT_REQUEST_BODY_BYTES
+
 	let toolCall: ToolCall | null = null
 	if (req.method === "POST") {
-		const boundedRequest = await readBoundedPostRequest(req)
+		const boundedRequest = await readBoundedPostRequest(req, maxBytes)
 		if (!boundedRequest) {
-			return new NextResponse("Payload Too Large", { status: 413 })
+			return withResponseHeaders(
+				new NextResponse(
+					`Payload Too Large: the complete encoded JSON request must be at most ${maxBytes / 1024} KiB. Signed-in account tool calls allow 512 KiB; each SVG allows 48 KiB.`,
+					{ status: 413 },
+				),
+			)
 		}
 		req = boundedRequest
 
 		toolCall = await readToolCall(req)
+		const accountCall = typeof toolCall?.name === "string" && isAccountTool(toolCall.name)
+		if (!accountCall && Number(req.headers.get("content-length")) > MAX_REQUEST_BODY_BYTES) {
+			return withResponseHeaders(new NextResponse("Payload Too Large: public calls allow at most 64 KiB of encoded JSON.", { status: 413 }))
+		}
 		if (toolCall) {
 			const toolLimit = checkRateLimit(ip, "tool")
 			if (!toolLimit.allowed) {
 				return tooManyRequests(toolLimit.retryAfter ?? 60)
 			}
 		}
+		if (accountCall && !auth) {
+			const challenge = mcpAuthChallenge(req)
+			if (challenge) return withResponseHeaders(challenge)
+		}
 	}
-
-	const auth = await authenticate(req, toolCall)
-	if (auth instanceof Response) return withResponseHeaders(auth)
 
 	after(flushDashboardIconsMcpAnalytics)
 	return withResponseHeaders(await handleMcpRequest(req, auth ?? undefined))

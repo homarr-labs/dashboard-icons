@@ -25,6 +25,25 @@ vi.mock("@/lib/external-icons", () => ({
 	getExternalIconBySourceAndSlug: mocks.getExternalIconBySourceAndSlug,
 }))
 vi.mock("@/lib/icons/svg-fetch", () => ({ fetchTrustedSvg: mocks.fetchTrustedSvg }))
+vi.mock("@/lib/icons/native-icon-files.json", () => ({
+	default: {
+		"svg,png,webp": [
+			"plex",
+			"openai",
+			"lmstudio",
+			"dagster",
+			"dagster-light",
+			"dagster-dark",
+			"watchstate",
+			"sonarr",
+			"sonarr-dark",
+			"sonarr-wordmark",
+			"sonarr-wordmark-light",
+			"ntopng-wordmark",
+		],
+		"png,webp": ["ntopng", "ntopng-light", "sonarr-4k"],
+	},
+}))
 
 const NATIVE_CDN = "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons"
 
@@ -142,6 +161,24 @@ describe("CATALOG_SOURCES", () => {
 })
 
 describe("searchCatalog", () => {
+	it("returns the parent with the matched Custom Variant on search hits", async () => {
+		mocks.getAllIcons.mockResolvedValue({ sonarr: native("2024-08-01T00:00:00Z", { variants: { "4k": "sonarr-4k" } }) })
+		const result = await searchCatalog("sonarr 4k", { sources: ["native"] })
+		expect(result).toEqual({
+			total: 1,
+			results: [
+				{
+					name: "sonarr",
+					title: "sonarr",
+					source: "native",
+					preview_url: `${NATIVE_CDN}/svg/sonarr.svg`,
+					score: 3.6,
+					matched_variant: { key: "4k", label: "4k", stem: "sonarr-4k" },
+				},
+			],
+		})
+	})
+
 	it("returns nothing for a blank query", async () => {
 		expect(await searchCatalog("   ")).toEqual({ results: [], total: 0 })
 	})
@@ -283,6 +320,30 @@ describe("getCatalogIcon", () => {
 		})
 	})
 
+	it("lists every Variant key, wordmarks, Custom variants and legacy keys on the base file included", async () => {
+		mocks.getAllIcons.mockResolvedValue({
+			sonarr: native("2024-08-01T00:00:00Z", {
+				colors: { light: "sonarr", dark: "sonarr-dark" },
+				wordmark: { default: "sonarr-wordmark", light: "sonarr-wordmark-light" },
+				variants: { "4k": "sonarr-4k" },
+			}),
+		})
+		const sonarr = await getCatalogIcon("sonarr")
+		if (!sonarr.found) throw new Error("expected sonarr")
+		expect(sonarr.icon.urls.svg).toEqual({
+			default: `${NATIVE_CDN}/svg/sonarr.svg`,
+			light: `${NATIVE_CDN}/svg/sonarr.svg`,
+			dark: `${NATIVE_CDN}/svg/sonarr-dark.svg`,
+			wordmark: `${NATIVE_CDN}/svg/sonarr-wordmark.svg`,
+			"wordmark-light": `${NATIVE_CDN}/svg/sonarr-wordmark-light.svg`,
+		})
+		expect(sonarr.icon.urls.png?.["4k"]).toBe(`${NATIVE_CDN}/png/sonarr-4k.png`)
+		expect(sonarr.icon.urls.webp?.["4k"]).toBe(`${NATIVE_CDN}/webp/sonarr-4k.webp`)
+
+		mocks.fetchTrustedSvg.mockResolvedValue("<svg>sonarr</svg>")
+		expect(await getCatalogIconSvg("sonarr", { theme: "light" })).toMatchObject({ url: `${NATIVE_CDN}/svg/sonarr.svg` })
+	})
+
 	it("omits SVG for raster-only native icons and falls back on authors", async () => {
 		const ntopng = await getCatalogIcon("ntopng")
 		if (!ntopng.found) throw new Error("expected ntopng")
@@ -291,6 +352,11 @@ describe("getCatalogIcon", () => {
 			png: { default: `${NATIVE_CDN}/png/ntopng.png`, light: `${NATIVE_CDN}/png/ntopng-light.png` },
 			webp: { default: `${NATIVE_CDN}/webp/ntopng.webp`, light: `${NATIVE_CDN}/webp/ntopng-light.webp` },
 		})
+		mocks.getAllIcons.mockResolvedValue({ ntopng: { ...NATIVE.ntopng, wordmark: { default: "ntopng-wordmark" } } })
+		const mixed = await getCatalogIcon("ntopng")
+		expect(mixed.found && mixed.icon.urls.svg).toEqual({ wordmark: `${NATIVE_CDN}/svg/ntopng-wordmark.svg` })
+		expect(mixed.found && mixed.icon.urls.png?.wordmark).toBe(`${NATIVE_CDN}/png/ntopng-wordmark.png`)
+		mocks.getAllIcons.mockResolvedValue(NATIVE)
 
 		const legacy = await getCatalogIcon("legacy")
 		if (!legacy.found) throw new Error("expected legacy")
@@ -338,7 +404,7 @@ describe("getCatalogIcon", () => {
 					provider: "selfh.st",
 					provider_url: "https://selfh.st/icons/",
 				},
-				page_url: "https://dashboardicons.com/icons/external/iventoy",
+				page_url: "https://dashboardicons.com/icons/external/selfhst/iventoy",
 				urls: {
 					svg: { default: `${SELFHST_CDN}/svg/iventoy.svg` },
 					png: { default: `${SELFHST_CDN}/png/iventoy.png` },
@@ -358,13 +424,13 @@ describe("getCatalogIcon", () => {
 				urls: {
 					svg: {
 						default: "https://cdn.simpleicons.org/openai/412991",
-						light: "https://cdn.simpleicons.org/openai/000000",
-						dark: "https://cdn.simpleicons.org/openai/FFFFFF",
+						light: "https://cdn.simpleicons.org/openai/FFFFFF",
+						dark: "https://cdn.simpleicons.org/openai/000000",
 					},
 					png: {
 						default: "https://dashboardicons.com/api/icons/external/simpleicons/openai/brand.png",
-						light: "https://dashboardicons.com/api/icons/external/simpleicons/openai/light.png",
-						dark: "https://dashboardicons.com/api/icons/external/simpleicons/openai/dark.png",
+						light: "https://dashboardicons.com/api/icons/external/simpleicons/openai/dark.png",
+						dark: "https://dashboardicons.com/api/icons/external/simpleicons/openai/light.png",
 					},
 				},
 			},
@@ -375,8 +441,8 @@ describe("getCatalogIcon", () => {
 			svg: { default: `${LOBEHUB_CDN}/icons/openai.svg` },
 			png: {
 				default: `${LOBEHUB_PNG}/light/openai.png`,
-				light: `${LOBEHUB_PNG}/light/openai.png`,
-				dark: `${LOBEHUB_PNG}/dark/openai.png`,
+				light: `${LOBEHUB_PNG}/dark/openai.png`,
+				dark: `${LOBEHUB_PNG}/light/openai.png`,
 			},
 		})
 
@@ -458,6 +524,12 @@ describe("getCatalogIconSvg", () => {
 			reason: "no_svg",
 		})
 		expect(await getCatalogIconSvg("openai", { source: "lobehub", theme: "light" })).toMatchObject({ svg: null, reason: "no_variant" })
+
+		mocks.fetchTrustedSvg.mockResolvedValue("<svg>white</svg>")
+		expect(await getCatalogIconSvg("openai", { source: "simpleicons", theme: "light" })).toMatchObject({
+			svg: "<svg>white</svg>",
+			url: "https://cdn.simpleicons.org/openai/FFFFFF",
+		})
 
 		mocks.fetchTrustedSvg.mockResolvedValue(null)
 		expect(await getCatalogIconSvg("plex")).toMatchObject({

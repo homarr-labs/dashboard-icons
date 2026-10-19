@@ -13,7 +13,7 @@ function register() {
 	const [name, template, config, read] = registerResource.mock.calls[0] as [
 		string,
 		ResourceTemplate,
-		{ mimeType: string },
+		{ mimeType: string; description: string },
 		ReadResourceTemplateCallback,
 	]
 	return { name, template, config, read }
@@ -33,6 +33,8 @@ describe("icon SVG resource template", () => {
 		expect(template.listCallback).toBeUndefined()
 		expect(template.completeCallback("name")).toBe(completeIconName)
 		expect(config.mimeType).toBe("image/svg+xml")
+		expect(config.description).toContain("Read-only")
+		expect(config.description).toContain("propose_icon_update")
 	})
 
 	it("completes names from search, deduped across sources", async () => {

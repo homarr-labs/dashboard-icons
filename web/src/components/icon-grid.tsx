@@ -1,12 +1,14 @@
 import { useWindowVirtualizer } from "@tanstack/react-virtual"
 import { useEffect, useMemo, useState } from "react"
 import { MagicCardPointerProvider } from "@/components/magicui/magic-card-pointer"
+import type { IconVariantMatch } from "@/lib/icons/variants"
 import type { IconSearchEntry } from "@/types/icons"
 import { IconCard } from "./icon-card"
 
 interface IconsGridProps {
 	filteredIcons: IconSearchEntry[]
 	matchedAliases: Record<string, string>
+	matchedVariants?: ReadonlyMap<IconSearchEntry, IconVariantMatch>
 }
 
 /**
@@ -19,11 +21,16 @@ export const GRID_CLASSES = "grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:g
  * Simple non-virtualized grid for displaying icons
  * Used for smaller lists (e.g., related icons, first 120 results)
  */
-export function IconsGrid({ filteredIcons, matchedAliases }: IconsGridProps) {
+export function IconsGrid({ filteredIcons, matchedAliases, matchedVariants }: IconsGridProps) {
 	return (
 		<MagicCardPointerProvider className={`${GRID_CLASSES} mt-2`}>
 			{filteredIcons.slice(0, 120).map((icon) => (
-				<IconCard key={`${icon.source || "native"}-${icon.slug || icon.name}`} icon={icon} matchedAlias={matchedAliases[icon.name]} />
+				<IconCard
+					key={`${icon.source || "native"}-${icon.slug || icon.name}`}
+					icon={icon}
+					matchedAlias={matchedAliases[icon.name]}
+					matchedVariant={matchedVariants?.get(icon)}
+				/>
 			))}
 		</MagicCardPointerProvider>
 	)
@@ -33,7 +40,7 @@ export function IconsGrid({ filteredIcons, matchedAliases }: IconsGridProps) {
  * Virtualized grid for displaying large lists of icons efficiently
  * Only renders visible rows for better performance with thousands of icons
  */
-export function VirtualizedIconsGrid({ filteredIcons, matchedAliases }: IconsGridProps) {
+export function VirtualizedIconsGrid({ filteredIcons, matchedAliases, matchedVariants }: IconsGridProps) {
 	const [windowWidth, setWindowWidth] = useState(0)
 
 	useEffect(() => {
@@ -93,6 +100,7 @@ export function VirtualizedIconsGrid({ filteredIcons, matchedAliases }: IconsGri
 									key={`${icon.source || "native"}-${icon.slug || icon.name}`}
 									icon={icon}
 									matchedAlias={matchedAliases[icon.name]}
+									matchedVariant={matchedVariants?.get(icon)}
 								/>
 							))}
 						</div>

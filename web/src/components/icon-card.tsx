@@ -1,10 +1,13 @@
 import Link from "next/link"
 import { MagicCard } from "@/components/magicui/magic-card"
 import { UnoptimizedImage } from "@/components/unoptimized-image"
+import { VariantPreview } from "@/components/variant-preview"
 import { EXTERNAL_SOURCES, type ExternalSourceId } from "@/constants"
-import { resolveExternalIconUrl } from "@/lib/external-icon-urls"
+import { getExternalIconPagePath, resolveExternalIconUrl } from "@/lib/external-icon-urls"
 import { getIconImageUrl, isIconAssetUrl } from "@/lib/icon-url"
-import { formatIconName } from "@/lib/utils"
+import { type IconVariantMatch, variantToneClass } from "@/lib/icons/variants"
+import type { VariantBackground } from "@/lib/submission-variants"
+import { cn, formatIconName } from "@/lib/utils"
 import type { IconSearchEntry } from "@/types/icons"
 
 type IconKind =
@@ -25,7 +28,7 @@ function getIconKind(icon: IconSearchEntry): IconKind {
 function getLinkHref(kind: IconKind, name: string): string {
 	switch (kind.type) {
 		case "external":
-			return `/icons/external/${kind.slug}`
+			return getExternalIconPagePath({ source: kind.sourceId, slug: kind.slug })
 		case "community":
 			return kind.submissionId ? `/community/submissions/${kind.submissionId}` : `/community/${name}`
 		case "native":
@@ -33,11 +36,22 @@ function getLinkHref(kind: IconKind, name: string): string {
 	}
 }
 
-export function IconCard({ icon, matchedAlias }: { icon: IconSearchEntry; matchedAlias?: string }) {
+export function IconCard({
+	icon,
+	matchedAlias,
+	matchedVariant,
+}: {
+	icon: IconSearchEntry
+	matchedAlias?: string
+	matchedVariant?: IconVariantMatch
+}) {
 	const { name } = icon
 	const kind = getIconKind(icon)
 	const sourceConfig = kind.type === "external" ? EXTERNAL_SOURCES[kind.sourceId] : undefined
-	const imageUrl = getIconImageUrl(icon)
+	const imageUrl = getIconImageUrl(icon, matchedVariant?.stem)
+	const toneClass = variantToneClass(matchedVariant)
+	let imageAlt = `${name} icon and logo`
+	if (matchedVariant) imageAlt = `${name} ${matchedVariant.label} variant`
 	const themedExternalIcon = kind.type === "external" && kind.sourceId === "simpleicons" ? icon.external : undefined
 
 	return (
@@ -49,7 +63,12 @@ export function IconCard({ icon, matchedAlias }: { icon: IconSearchEntry; matche
 				</div>
 			)}
 			<Link prefetch={false} href={getLinkHref(kind, name)} className="group flex flex-col items-center p-3 sm:p-4 cursor-pointer">
-				<div className="mb-2 flex h-16 w-16 items-center justify-center rounded-lg ring-1 ring-white/5 dark:ring-white/10 bg-primary/15 dark:bg-secondary/10">
+				<div
+					className={cn(
+						"mb-2 flex h-16 w-16 items-center justify-center rounded-lg ring-1",
+						toneClass ?? "ring-white/5 dark:ring-white/10 bg-primary/15 dark:bg-secondary/10",
+					)}
+				>
 					{themedExternalIcon ? (
 						<UnoptimizedImage
 							src={resolveExternalIconUrl(themedExternalIcon, "svg_light")}
@@ -61,7 +80,7 @@ export function IconCard({ icon, matchedAlias }: { icon: IconSearchEntry; matche
 					) : (
 						<UnoptimizedImage
 							src={imageUrl}
-							alt={`${name} icon and logo`}
+							alt={imageAlt}
 							width={56}
 							height={56}
 							className="max-h-full max-w-full object-contain p-2 transition-transform duration-300 group-hover:scale-110"
@@ -71,27 +90,34 @@ export function IconCard({ icon, matchedAlias }: { icon: IconSearchEntry; matche
 				<span className="text-xs sm:text-sm text-center truncate w-full capitalize group-hover:text-primary dark:group-hover:text-primary transition-colors duration-200 font-medium">
 					{formatIconName(name)}
 				</span>
-				{matchedAlias && <span className="mt-1 max-w-full truncate text-[10px] text-muted-foreground">Alias: {matchedAlias}</span>}
+				{matchedVariant && (
+					<span className="mt-1 max-w-full truncate text-[10px] text-muted-foreground">{matchedVariant.label} variant</span>
+				)}
+				{!matchedVariant && matchedAlias && (
+					<span className="mt-1 max-w-full truncate text-[10px] text-muted-foreground">Alias: {matchedAlias}</span>
+				)}
 			</Link>
 		</MagicCard>
 	)
 }
 
-export function IconPreviewCard({ preview, label, name }: { preview: string; label: string; name: string }) {
+export function IconPreviewCard({
+	preview,
+	label,
+	name,
+	background,
+}: {
+	preview: string
+	label: string
+	name: string
+	background: VariantBackground
+}) {
 	return (
 		<MagicCard className="rounded-md shadow-md">
 			<div className="flex flex-col items-center p-3 sm:p-4">
-				<div className="mb-2 flex h-16 w-16 items-center justify-center overflow-hidden rounded-lg ring-1 ring-white/5 dark:ring-white/10 bg-primary/15 dark:bg-secondary/10">
-					<UnoptimizedImage
-						src={preview}
-						alt={`${name} - ${label}`}
-						width={56}
-						height={56}
-						className="max-h-full max-w-full object-contain p-2"
-					/>
-				</div>
+				<VariantPreview src={preview} alt={`${name} - ${label}`} background={background} className="mb-2 h-16 w-full" />
 				<span className="text-xs sm:text-sm text-center truncate w-full capitalize font-medium">{name || "icon-name"}</span>
-				<span className="text-[10px] text-muted-foreground">{label}</span>
+				<span className="w-full break-all text-center text-xs text-muted-foreground">{label}</span>
 			</div>
 		</MagicCard>
 	)

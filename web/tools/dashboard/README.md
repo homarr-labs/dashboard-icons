@@ -58,3 +58,26 @@ unknown batches stay reserved until GitHub reconciliation establishes the result
 If a completed run cannot be correlated with a pushed batch-marked commit,
 inspect its logs before resolving the reservation through PocketBase administration.
 Keep the new audit collections on rollback so collected history is preserved.
+
+## Custom variants
+
+Custom files use `extras.variants`, a flat name-to-asset map in the existing JSON
+field. No schema migration is needed. PocketBase checks destination ownership
+across Base, colour, Wordmark and Custom stems in published metadata and active
+Submissions, in both request and transactional model hooks. The same Icon may
+replace its files; another Icon may not claim them. Unchanged rejections skip
+content validation so a later collision cannot prevent moderation.
+`GET /api/submissions/variant-names` combines published metadata names with pending
+and approved Submissions; the web endpoint proxies this same source.
+
+`variant-policy.js` is a pure CommonJS module shared by the browser-facing
+resolver, submission validation, PocketBase and import. It contains no PocketBase
+globals; its declaration file supplies TypeScript types without a second policy.
+
+PocketBase reads published metadata from GitHub with a 60-second cache and rejects
+content writes if that check is unavailable. Import checks active Submissions and
+the current repository metadata before downloading, and rechecks metadata
+immediately before each file write. For isolated development, pass
+`--dev` and set `DASHBOARD_ICONS_METADATA_PATH` to an absolute local metadata file
+on PocketBase, and set the same environment variable on Next.js. Never use that
+override in production.

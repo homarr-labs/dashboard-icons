@@ -1,4 +1,28 @@
 import type { Submission } from "@/lib/pb"
+import type { SubmissionVariant } from "@/lib/submission-variants"
+
+export type ReviewVariantFixup = { action: "retag"; file: string; variant: SubmissionVariant } | { action: "drop"; file: string }
+export interface ReviewFixups {
+	name?: string
+	aliases?: string[]
+	categories?: string[]
+	variants?: ReviewVariantFixup[]
+}
+export interface ReviewItem {
+	id: string
+	updated: string
+	fixups?: ReviewFixups
+}
+export interface ReviewRequest {
+	status: "approved" | "rejected"
+	items: ReviewItem[]
+	comment?: string
+}
+export interface ReviewResponse {
+	results: ({ id: string; success: true; fixups: string[] } | { id: string; success: false; error: string; current: Submission | null })[]
+	emailFailed: boolean
+}
+
 export type DashboardView = "overview" | "review" | "publish" | "submissions" | "activity"
 export interface DashboardFilters {
 	view: DashboardView

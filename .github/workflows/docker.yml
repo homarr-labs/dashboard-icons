@@ -52,19 +52,26 @@ jobs:
   build-and-push:
     if: >-
       !inputs.verify_only &&
+      github.ref == 'refs/heads/main' &&
       (github.event_name != 'workflow_run' ||
        (github.event.workflow_run.conclusion == 'success' &&
         github.event.workflow_run.head_repository.full_name == github.repository))
     runs-on: ubuntu-latest
+    timeout-minutes: 60
     permissions:
       packages: write
       contents: read
+      actions: read
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
           persist-credentials: false
+
+      - name: Record checked-out revision
+        id: revision
+        run: echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
 
       - name: Set up pnpm
         uses: pnpm/action-setup@v4
@@ -80,6 +87,9 @@ jobs:
 
       - name: Install share-image generator dependencies
         run: pnpm install --frozen-lockfile
+
+      - name: Record available native Icon files
+        run: pnpm generate:icon-files
 
       # The path build context below includes this generated asset.
       - name: Refresh share image
@@ -122,7 +132,9 @@ jobs:
           context: ./web
           push: true
           tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+          labels: |
+            ${{ steps.meta.outputs.labels }}
+            org.opencontainers.image.revision=${{ steps.revision.outputs.sha }}
           no-cache: true
           pull: true
           build-args: |
@@ -131,11 +143,24 @@ jobs:
             NEXT_PUBLIC_DISABLE_POSTHOG=${{ env.NEXT_PUBLIC_DISABLE_POSTHOG }}
             NEXT_PUBLIC_POCKETBASE_URL=${{ env.NEXT_PUBLIC_POCKETBASE_URL }}
             CI_MODE=${{ env.CI_MODE }}
-            MCP_SERVER_BUILD=${{ github.sha }}
+            MCP_SERVER_BUILD=${{ steps.revision.outputs.sha }}
           secrets: |
             "github_token=${{ secrets.GITHUB_TOKEN }}"
 
-      # Refresh the separate backend from latest before deploying the frontend.
+      - name: Check PocketBase data-node placement before rollout
+        env:
+          DOKPLOY_URL: ${{ secrets.DOKPLOY_URL }}
+          DOKPLOY_API_KEY: ${{ secrets.DOKPLOY_API_KEY }}
+          DOKPLOY_POCKETBASE_APPLICATION_ID: ${{ vars.DOKPLOY_POCKETBASE_APPLICATION_ID }}
+        run: node scripts/deploy-pocketbase.mjs --inspect
+
+      - name: Check frontend application access before backend rollout
+        env:
+          DOKPLOY_URL: ${{ secrets.DOKPLOY_URL }}
+          DOKPLOY_API_KEY: ${{ secrets.DOKPLOY_API_KEY }}
+          DOKPLOY_FRONTEND_APPLICATION_ID: ${{ vars.DOKPLOY_FRONTEND_APPLICATION_ID }}
+        run: node scripts/deploy-pocketbase.mjs --frontend --inspect
+
       - name: Back up PocketBase before updating its image or schema
         env:
           PB_URL: ${{ secrets.PB_URL }}
@@ -149,7 +174,8 @@ jobs:
           DOKPLOY_URL: ${{ secrets.DOKPLOY_URL }}
           DOKPLOY_API_KEY: ${{ secrets.DOKPLOY_API_KEY }}
           DOKPLOY_POCKETBASE_APPLICATION_ID: ${{ vars.DOKPLOY_POCKETBASE_APPLICATION_ID }}
-          POCKETBASE_IMAGE: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+          DEPLOY_IMAGE: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}@${{ steps.build.outputs.digest }}
+          EXPECTED_REVISION: ${{ steps.revision.outputs.sha }}
         run: node scripts/deploy-pocketbase.mjs
 
       - name: Verify PocketBase schema and packaged migrations
@@ -160,10 +186,22 @@ jobs:
           PB_ADMIN_TOKEN: ${{ secrets.PB_ADMIN_TOKEN }}
         run: node scripts/verify-pocketbase-schema.mjs --require-proposals --require-current
 
-      - name: Deploy frontend to Dokploy
+      - name: Deploy frontend and wait for Swarm convergence
         env:
-          DOKPLOY_DEPLOY_HOOK_URL: ${{ secrets.DOKPLOY_DEPLOY_HOOK_URL }}
-        run: curl --fail-with-body --silent --show-error --request POST "$DOKPLOY_DEPLOY_HOOK_URL"
+          DOKPLOY_URL: ${{ secrets.DOKPLOY_URL }}
+          DOKPLOY_API_KEY: ${{ secrets.DOKPLOY_API_KEY }}
+          DOKPLOY_FRONTEND_APPLICATION_ID: ${{ vars.DOKPLOY_FRONTEND_APPLICATION_ID }}
+          DEPLOY_IMAGE: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}@${{ steps.build.outputs.digest }}
+          EXPECTED_REVISION: ${{ steps.revision.outputs.sha }}
+        run: node scripts/deploy-pocketbase.mjs --frontend
+
+      # Notify IndexNow engines (Bing and others) of icon pages changed since the last deployment.
+      - name: Ping IndexNow with changed icon pages
+        continue-on-error: true
+        timeout-minutes: 5
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: node scripts/ping-indexnow.mjs
 
       - name: Report incomplete deployment
         if: ${{ failure() }}
@@ -173,7 +211,7 @@ jobs:
           echo 'The backend may already have the new schema while the old frontend remains active. Follow the PocketBase recovery instructions in web/README.md; use the verified pre-deployment backup if rollback is required.' >> "$GITHUB_STEP_SUMMARY"
 
   verify-deployment:
-    if: ${{ inputs.verify_only }}
+    if: ${{ inputs.verify_only && github.ref == 'refs/heads/main' }}
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -190,6 +228,12 @@ jobs:
           DOKPLOY_API_KEY: ${{ secrets.DOKPLOY_API_KEY }}
           DOKPLOY_POCKETBASE_APPLICATION_ID: ${{ vars.DOKPLOY_POCKETBASE_APPLICATION_ID }}
         run: node scripts/deploy-pocketbase.mjs --inspect
+      - name: Inspect frontend rollout without deploying
+        env:
+          DOKPLOY_URL: ${{ secrets.DOKPLOY_URL }}
+          DOKPLOY_API_KEY: ${{ secrets.DOKPLOY_API_KEY }}
+          DOKPLOY_FRONTEND_APPLICATION_ID: ${{ vars.DOKPLOY_FRONTEND_APPLICATION_ID }}
+        run: node scripts/deploy-pocketbase.mjs --frontend --inspect
       - name: Inspect PocketBase schema without changing records
         env:
           PB_URL: ${{ secrets.PB_URL }}

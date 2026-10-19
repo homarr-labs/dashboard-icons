@@ -14,7 +14,11 @@ import { type PublicTool, READ_ONLY_ANNOTATIONS, structuredResult } from "@/mcp/
 const inputSchema = z.object({
 	name: iconNameInput,
 	source: sourceInput,
-	theme: themeSchema.default("default").describe("'light' and 'dark' are variants for light and dark backgrounds, when the icon has them"),
+	theme: themeSchema
+		.default("default")
+		.describe(
+			"'light' is the light-coloured Variant for dark backgrounds and 'dark' the Variant for light backgrounds, when the icon has them",
+		),
 })
 
 const outputSchema = z.looseObject({

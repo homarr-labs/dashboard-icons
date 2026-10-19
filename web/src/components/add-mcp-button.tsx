@@ -10,7 +10,7 @@ import { cn } from "@/lib/utils"
 import { McpSetupDialogContent } from "./mcp-setup-dialog-content"
 import { Badge } from "./ui/badge"
 
-// LobeHub external icon: https://dashboardicons.com/icons/external/mcp
+// LobeHub external icon: https://dashboardicons.com/icons/external/lobehub/mcp
 const LOBEHUB_MCP_PNG = "https://cdn.jsdelivr.net/npm/@lobehub/icons-static-png@latest"
 const MCP_ICON_LIGHT_URL = `${LOBEHUB_MCP_PNG}/light/mcp.png`
 const MCP_ICON_DARK_URL = `${LOBEHUB_MCP_PNG}/dark/mcp.png`

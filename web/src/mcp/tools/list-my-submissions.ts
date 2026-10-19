@@ -9,7 +9,7 @@ const inputSchema = z.object({
 		.enum(STATUSES)
 		.optional()
 		.describe(
-			"Only this state: pending (waiting for review), approved (accepted, not published yet), added_to_collection (published), rejected",
+			"Only this state: pending (awaiting review), approved (accepted, not published yet), added_to_collection (published), rejected (not final; fix and resubmit)",
 		),
 	limit: z.number().int().min(1).max(50).default(20),
 })
@@ -22,6 +22,8 @@ const submissionSchema = z.object({
 	created: z.string(),
 	updated: z.string(),
 	url: z.string().describe("Public page of the submission"),
+	resubmit_url: z.string().optional().describe("Open the owner's rejected Submission for full editing in place"),
+	next_step: z.string().optional().describe("How to fix a rejected Submission without creating a duplicate"),
 })
 
 const outputSchema = z.looseObject({
@@ -64,6 +66,10 @@ export const listMySubmissionsTool: AccountTool<typeof inputSchema, typeof outpu
 					created: item.created,
 					updated: item.updated,
 					url: submissionUrl(item.id),
+					...(item.status === "rejected" && {
+						resubmit_url: `https://dashboardicons.com/submit?submission=${encodeURIComponent(item.id)}`,
+						next_step: "Rejections are never final. Fix the feedback and resubmit this same Submission; its id and history are kept.",
+					}),
 				})),
 				total: page.totalItems,
 				dashboard_url: DASHBOARD_URL,

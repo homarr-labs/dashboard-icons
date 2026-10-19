@@ -3,6 +3,7 @@ onRecordUpdate((e) => require(`${__hooks}/dashboard.js`).audit(e, false), "submi
 onRecordDelete((e) => require(`${__hooks}/dashboard.js`).deleteRecord(e), "submissions")
 onRecordCreateRequest((e) => require(`${__hooks}/dashboard.js`).guard(e, true), "submissions")
 onRecordUpdateRequest((e) => require(`${__hooks}/dashboard.js`).guard(e, false), "submissions")
+routerAdd("GET", "/api/submissions/variant-names", (e) => require(`${__hooks}/custom-variants.js`).suggestions(e))
 onRecordDeleteRequest((e) => {
 	if (require(`${__hooks}/dashboard.js`).reserved(e.app, e.record.id)) throw new BadRequestError("Submission is being published")
 	e.next()

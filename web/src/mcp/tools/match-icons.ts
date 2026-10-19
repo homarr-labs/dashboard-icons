@@ -37,7 +37,7 @@ export const matchIconsTool: PublicTool<typeof inputSchema, typeof outputSchema>
 	access: "public",
 	config: {
 		title: "Match icons to services",
-		description: `Find the best icon for each of up to ${MAX_SERVICES} service names in one call, e.g. a whole homelab or docker-compose stack. Names, slugs and aliases are matched ignoring case, spaces and punctuation ('Pi-hole' = 'pihole'); otherwise the first ${MAX_FUZZY_MATCHES} unmatched names fall back to fuzzy search and typo tolerance. Use this first whenever you have more than one name. best.preview_url is a ready CDN image URL; call get_icon with best.name and best.source for light/dark or PNG/WebP variants. When best is null, try search_icons with a shorter or alternative name.`,
+		description: `Find the best icon for each of up to ${MAX_SERVICES} service names in one call, e.g. a whole homelab or docker-compose stack. Names, slugs and aliases are matched ignoring case, spaces and punctuation ('Pi-hole' = 'pihole'); otherwise the first ${MAX_FUZZY_MATCHES} unmatched names fall back to fuzzy search and typo tolerance. Use this first whenever you have more than one name. best.preview_url is a ready CDN image URL; call get_icon with best.name and best.source for light/dark, wordmark and Custom variants or PNG/WebP files. When best is null, try search_icons with a shorter or alternative name.`,
 		inputSchema,
 		outputSchema,
 		annotations: READ_ONLY_ANNOTATIONS,

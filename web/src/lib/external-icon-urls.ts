@@ -1,4 +1,4 @@
-import { EXTERNAL_SOURCES, type ExternalSourceId } from "@/constants"
+import { EXTERNAL_SOURCES, type ExternalSourceId, type ExternalToneKey } from "@/constants"
 import type { ExternalIcon, ExternalIconUrlData } from "@/types/icons"
 
 const FALLBACK_URL_BUILDERS: Partial<
@@ -48,10 +48,28 @@ export function resolveExternalIconUrl(icon: Pick<ExternalIcon, "source" | "slug
 	return `${sourceConfig?.cdnBase ?? ""}/${format}/${icon.slug}.${format}`
 }
 
+export function getExternalIconPagePath(icon: Pick<ExternalIcon, "source" | "slug">): string {
+	return `/icons/external/${icon.source}/${icon.slug}`
+}
+
+export function getExternalIconOgPath(icon: Pick<ExternalIcon, "source" | "slug">): string {
+	return `/og/external/${icon.source}/${icon.slug}`
+}
+
 export function getExternalIconPreviewUrl(icon: ExternalIconUrlData): string {
 	if (icon.url_templates?.svg_auto || icon.source === "simpleicons") return resolveExternalIconUrl(icon, "svg_auto")
 
 	const formats = icon.formats ?? []
 	const format = formats.includes("svg") ? "svg" : formats.includes("png") ? "png" : formats[0] || "svg"
 	return resolveExternalIconUrl(icon, format)
+}
+
+export function getExternalToneUrlKey(
+	icon: Pick<ExternalIcon, "source" | "variants">,
+	format: string,
+	tone: ExternalToneKey,
+): string | null {
+	const sourceKey = EXTERNAL_SOURCES[icon.source].toneKeys[tone]
+	if (!icon.variants?.[sourceKey]) return null
+	return `${format}_${sourceKey}`
 }

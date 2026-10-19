@@ -1,4 +1,5 @@
 import { describe, expect, it, vi } from "vitest"
+import nativeIcons from "../../../../../metadata.json"
 
 const mockNotFound = vi.fn()
 const mockImageResponse = vi.fn()
@@ -21,6 +22,22 @@ vi.mock("next/og", () => ({
 }))
 
 const mockIconsData: Record<string, unknown> = {
+	github: { aliases: ["code-repository", "GitHub"], categories: ["development"] },
+	"1password": { aliases: ["1Password"], categories: ["security"] },
+	pfsense: { aliases: ["Firewall", "pfSense"], categories: ["networking"] },
+	"rocket-money": nativeIcons["rocket-money"],
+	"check-point": nativeIcons["check-point"],
+	rapid7: nativeIcons.rapid7,
+	"elgato-wave-link": nativeIcons["elgato-wave-link"],
+	notediscovery: nativeIcons.notediscovery,
+	"paperless-ai": nativeIcons["paperless-ai"],
+	"mlb-tv": nativeIcons["mlb-tv"],
+	magicinfo: nativeIcons.magicinfo,
+	statuspage: nativeIcons.statuspage,
+	waves: nativeIcons.waves,
+	chipsound: nativeIcons.chipsound,
+	nostalgiatv: nativeIcons.nostalgiatv,
+	"jtu-me": nativeIcons["jtu-me"],
 	"adguard-home": { name: "AdGuard Home", categories: ["security"] },
 	bitwarden: { name: "Bitwarden", categories: ["security"] },
 	grafana: { name: "Grafana", categories: ["monitoring"] },
@@ -61,10 +78,11 @@ vi.mock("@/constants", () => ({
 describe("OG icon route handler", () => {
 	const validIcons = Object.keys(mockIconsData)
 
-	it("exports correct content type and size", async () => {
-		const mod = await import("../[icon]/route")
-		expect(mod.contentType).toBe("image/png")
-		expect(mod.size).toEqual({ width: 1200, height: 630 })
+	it("uses the correct image size", async () => {
+		mockImageResponse.mockClear()
+		const { GET } = await import("../[icon]/route")
+		await GET(new Request("http://localhost/og/grafana"), { params: Promise.resolve({ icon: "grafana" }) })
+		expect(mockImageResponse.mock.calls[0][1]).toMatchObject({ width: 1200, height: 630 })
 	})
 
 	it("returns ImageResponse for valid icons", async () => {
@@ -83,10 +101,29 @@ describe("OG icon route handler", () => {
 		mockImageResponse.mockClear()
 		const { GET } = await import("../[icon]/route")
 
-		for (const icon of validIcons) {
+		for (const [icon, expectedName] of [
+			["github", "GitHub"],
+			["1password", "1Password"],
+			["pfsense", "pfSense"],
+			["home-assistant", "Home Assistant"],
+			["rocket-money", "Rocket Money"],
+			["check-point", "Check Point"],
+			["rapid7", "Rapid7"],
+			["elgato-wave-link", "Elgato Wave Link"],
+			["notediscovery", "NoteDiscovery"],
+			["paperless-ai", "Paperless-AI"],
+			["mlb-tv", "MLB.TV"],
+			["magicinfo", "MagicINFO"],
+			["statuspage", "Statuspage"],
+			["waves", "Waves"],
+			["chipsound", "Chipsound"],
+			["nostalgiatv", "Nostalgiatv"],
+			["jtu-me", "JTU.ME"],
+		]) {
 			const request = new Request(`http://localhost/og/${icon}`)
 			await GET(request, { params: Promise.resolve({ icon }) })
 			expect(mockImageResponse).toHaveBeenCalledTimes(1)
+			expect(JSON.stringify(mockImageResponse.mock.calls[0][0])).toContain(`"alt":"${expectedName}"`)
 			mockImageResponse.mockClear()
 		}
 	})

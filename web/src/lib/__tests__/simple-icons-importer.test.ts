@@ -1,5 +1,19 @@
-import { describe, expect, it } from "vitest"
+import { describe, expect, it, vi } from "vitest"
+import ExternalIconPage, { generateMetadata } from "@/app/icons/external/[source]/[slug]/page"
+import { getExternalIconBySourceAndSlug } from "@/lib/external-icons"
 import { buildSimpleIconRecords, mergeSimpleIconsSchemaFields } from "../../../scripts/import-simple-icons"
+
+const mockGetFirstListItem = vi.hoisted(() => vi.fn())
+
+vi.mock("@/lib/pb", () => ({
+	createServerPB: () => ({
+		filter: vi.fn(),
+		collection: () => ({ getFirstListItem: mockGetFirstListItem, getFullList: vi.fn().mockResolvedValue([]) }),
+	}),
+}))
+
+vi.mock("@/lib/api", () => ({ getIconsArray: vi.fn(), getAllIcons: vi.fn().mockResolvedValue({}) }))
+vi.mock("@/components/icon-details", () => ({ IconDetails: () => null }))
 
 const upstreamIcons = [
 	{
@@ -74,21 +88,58 @@ describe("buildSimpleIconRecords", () => {
 		expect(records[0]?.aliases).toEqual(["GitHub, Inc.", "githubactions"])
 	})
 
-	it("uses per-icon license metadata without treating the collection license as an icon license", () => {
+	it("uses per-icon license metadata without treating the collection license as an icon license", async () => {
 		const records = buildSimpleIconRecords(upstreamIcons, new Set<string>())
 
 		expect(records[0]?.license).toBe("CC BY 4.0")
 		expect(records[1]?.license).toBe("")
 		expect(records[1]?.license_url).toBe("")
 		expect(records[1]?.attribution).toBe("Home Assistant icon via Simple Icons. Brand marks remain subject to their owners' terms.")
+
+		mockGetFirstListItem.mockResolvedValue({ ...records[1], id: "unknown-license" })
+		const icon = await getExternalIconBySourceAndSlug("simpleicons", "homeassistant")
+		expect(icon?.external.license).toBe("")
+		expect(icon?.external.license_url).toBeUndefined()
+
+		const params = Promise.resolve({ source: "simpleicons", slug: "homeassistant" })
+		const metadata = await generateMetadata({ params, searchParams: Promise.resolve({}) })
+		expect(metadata.description).not.toContain("CC0")
+		expect(metadata.openGraph?.description).not.toContain("CC0")
+
+		const page = await ExternalIconPage({ params })
+		const imageObject = JSON.parse(page.props.children[0].props.dangerouslySetInnerHTML.__html)
+		expect(imageObject).not.toHaveProperty("license")
+		expect(imageObject.acquireLicensePage).toBe("https://github.com/simple-icons/simple-icons/blob/develop/DISCLAIMER.md")
 	})
 
-	it("does not link an icon-specific license to the collection's different license text", () => {
+	it("does not link an icon-specific license to the collection's different license text", async () => {
 		const [record] = buildSimpleIconRecords([{ ...upstreamIcons[1], license: { type: "Apache-2.0" } }], new Set<string>())
 
 		expect(record?.license).toBe("Apache-2.0")
 		expect(record?.license_url).toBe("")
 		expect(record?.attribution).toContain("(Apache-2.0)")
+
+		mockGetFirstListItem.mockResolvedValue({ ...record, id: "apache-license" })
+		const icon = await getExternalIconBySourceAndSlug("simpleicons", "homeassistant")
+		expect(icon?.external.license).toBe("Apache-2.0")
+		expect(icon?.external.license_url).toBe("https://spdx.org/licenses/Apache-2.0.html")
+
+		const params = Promise.resolve({ source: "simpleicons", slug: "homeassistant" })
+		const page = await ExternalIconPage({ params })
+		const imageObject = JSON.parse(page.props.children[0].props.dangerouslySetInnerHTML.__html)
+		expect(imageObject.license).toBe("https://spdx.org/licenses/Apache-2.0.html")
+		expect(imageObject.acquireLicensePage).toBe(imageObject.license)
+
+		mockGetFirstListItem.mockResolvedValue({
+			...record,
+			id: "custom-license",
+			license: "custom",
+			license_url: "https://example.com/artwork-license",
+		})
+		const customPage = await ExternalIconPage({ params })
+		const customImageObject = JSON.parse(customPage.props.children[0].props.dangerouslySetInnerHTML.__html)
+		expect(customImageObject.license).toBe("https://example.com/artwork-license")
+		expect(customImageObject.acquireLicensePage).toBe(customImageObject.license)
 	})
 })
 

@@ -55,6 +55,28 @@ src/
 The app exposes a native-icons MCP server over HTTP at `/api/mcp`. AI clients can search the collection, fetch icon metadata, and resolve CDN URLs without scraping the website.
 See [docs/MCP.md](./docs/MCP.md) for endpoints, client setup, tool schemas, environment variables, analytics, and rate limits.
 
+## Native Icon file availability
+
+Native Icon pages, image metadata and the image sitemap use the shared Variant resolver,
+filtered by `src/lib/icons/native-icon-files.json`. This compact manifest records only
+formats that exist in the repository, including Wordmarks and Custom variants. It checks
+SVG markup, PNG signatures and WebP RIFF headers against each extension, allowing XML
+prologs, comments, document type declarations and a BOM before SVG markup. Incompatible
+assets are excluded, while valid formats of the same stem remain available. The generator warns with each skipped
+path, its expected format and its detected type; it never converts or changes artwork.
+This keeps missing or mislabeled files out of the page and sitemap without probing the
+CDN at runtime.
+
+After changing files in the repository's `svg/`, `png/` or `webp/` directories, run this
+from `web/` and commit the updated manifest:
+
+```bash
+pnpm generate:icon-files
+```
+
+The deployment workflow refreshes it before building the Docker image. The checked-in
+manifest also supports local development and builds with only the `web/` directory.
+
 ## Development
 
 ### Prerequisites
@@ -127,27 +149,47 @@ packaged in the image at `/pb/pb_hooks` and `/pb/pb_migrations`; persist only
 `SERVICE_MODE=backend` starts only PocketBase on port 8090 with those checks.
 `SERVICE_MODE=web` runs the stateless frontend against `PB_URL`.
 The default `SERVICE_MODE=all` runs the combined deployment on port 8080.
-Separate backend deployments use `ghcr.io/homarr-labs/dashboard-icons:latest` and
-pull it on each deployment. Both services need a deployment after publishing an
+Main CI publishes `ghcr.io/homarr-labs/dashboard-icons:latest`, but deploys both
+services using the immutable digest returned by that build. Both services need a deployment after publishing an
 image; updating only the frontend leaves the backend's code and migrations behind.
 The application tag is independent of the PocketBase binary's pinned release.
 
 Main CI serializes deployment runs, creates a verified PocketBase backup, deploys
-the separate backend using `latest`, waits for completion, verifies that every
+the separate backend using the build digest, waits for Swarm convergence, verifies that every
 packaged migration is recorded in `_migrations` and checks the proposal schema,
-then triggers the frontend deployment. Configure the repository variable
-`DOKPLOY_POCKETBASE_APPLICATION_ID`
+then deploys the frontend and waits for all replicas to run the same digest.
+Both application configurations are preflighted before the backend update: the
+frontend must target exactly three replicas and the backend exactly one.
+Paused or rolled-back updates fail the workflow, even if Dokploy reports its deployment job done.
+Configure the repository variables `DOKPLOY_POCKETBASE_APPLICATION_ID` and
+`DOKPLOY_FRONTEND_APPLICATION_ID`
 alongside the existing `DOKPLOY_URL`, `DOKPLOY_API_KEY`, and PocketBase admin secrets.
-The workflow's `verify_only` dispatch option performs read-only deployment/schema
+Production publication and deployment (including manual dispatch) are restricted
+to `main`. The workflow's `verify_only` dispatch option performs read-only deployment/schema
 inspection without building or deploying an image. It fails if any packaged
 migration is missing, including migrations added after the proposal feature.
-The deploy script also accepts an explicit image digest for recovery deployments.
+The deploy script requires `DEPLOY_IMAGE=ghcr.io/homarr-labs/dashboard-icons@sha256:…`
+and `EXPECTED_REVISION` (the image's 40-character Git revision) for deployment;
+`--frontend` selects the frontend application. `--inspect` never mutates Dokploy.
+CI stamps the checked-out Git revision into the image's OCI revision label and
+`MCP_SERVER_BUILD`. Rollout verification checks the service and every running task
+against that build's immutable digest, which identifies the image content. The
+expected revision is passed and logged for traceability, not independently read
+from the running image: Swarm service/task inspection does not expose baked OCI
+labels, and task labels are not image labels.
 
 Dashboard publication runs `Add Icon to Collection`, followed by `Update Icons
 and Resources`. When the resource workflow succeeds on `main`, Main CI builds
-and pushes the updated image, verifies the backend, and calls the Dokploy frontend
-webhook so it pulls and deploys the new `latest` image. This completion trigger is
+and pushes the updated image, verifies the backend, and deploys the frontend through
+the Dokploy API at that exact digest. This completion trigger is
 required because commits pushed by `GITHUB_TOKEN` do not trigger other push workflows.
+
+After frontend convergence, `scripts/ping-indexnow.mjs` compares `metadata.json` at the
+last successfully deployed commit with the current one, waits until the site serves the
+new deployment, and posts the changed `/icons/<slug>` URLs to IndexNow (Bing and other
+participating engines; Google keeps using the sitemap). The public IndexNow key is the file
+name and content of `public/<key>.txt`, served from the site root, and must match `KEY` in
+the script. A failed ping marks its step as failed without failing the deployment.
 
 If post-backend schema verification fails, the frontend rollout stops and the old
 frontend remains active against the updated backend. Treat that deployment as
@@ -157,6 +199,24 @@ rerun the verified deployment. If rollback is necessary, use the verified
 pre-deployment backup with its matching previous image. A logical `migrate down`
 requires duplicate proposal names to be resolved first because restoring the old
 unique-name index is transactional; do not discard proposals to force a downgrade.
+
+Operator checklist:
+
+- Before rollout, pin PocketBase's node-local `dashboardicons_pb_data` volume to
+  its current data node using `placementSwarm.Constraints: ["node.id==<current-node-id>"]`.
+  Confirm the running task and volume are on that node; an identically named volume
+  on another node is not the same database. CI refuses to roll out an unpinned backend.
+  Production pinning is a separate operator operation, not performed by this script.
+- Check both application IDs/API read access and preserve the previous image digest,
+  revision, and verified backup name. Do not mount over packaged migrations or hooks.
+- Keep migrations additive and compatible with the old frontend. Review the backend
+  startup log, full `_migrations` check, and every frontend replica's digest before
+  treating a deployment as complete. A webhook acknowledgement is not completion.
+- On failure, stop frontend retries until backend state is understood. Prefer a
+  forward fix; never automatically run `migrate down` or restore a backup while writes
+  continue. A required restore needs a maintenance window, the matching old image,
+  and an explicit decision about writes since the backup. Recheck schema, health,
+  and all replica images after recovery. Swarm image rollback does not undo migrations.
 
 When updating PocketBase, update the Docker image tag/digest and the version/checksums
 in `backend/pocketbase-release.json` together. The JavaScript SDK version is independent

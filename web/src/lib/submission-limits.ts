@@ -1,0 +1,3 @@
+export const MAX_SUBMISSIONS_PER_SEND = 12
+export const MAX_SEND_ASSET_BYTES = 60 * 1024 * 1024
+export const MAX_SEND_BODY_BYTES = 64 * 1024 * 1024

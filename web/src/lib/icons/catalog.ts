@@ -3,9 +3,16 @@ import "server-only"
 import { setImmediate as yieldToEventLoop } from "node:timers/promises"
 import { unstable_rethrow } from "next/navigation"
 import { EXTERNAL_SOURCE_IDS, type ExternalSourceId, getExternalSource, WEB_URL } from "@/constants"
-import { canResolveExternalIconUrl, getExternalIconPreviewUrl, resolveExternalIconUrl } from "@/lib/external-icon-urls"
+import {
+	canResolveExternalIconUrl,
+	getExternalIconPagePath,
+	getExternalIconPreviewUrl,
+	getExternalToneUrlKey,
+	resolveExternalIconUrl,
+} from "@/lib/external-icon-urls"
 import { getExternalIconBySourceAndSlug, getExternalIcons } from "@/lib/external-icons"
-import { filterAndSortIcons, levenshteinDistance, normalizeForSearch, scoreIcon } from "@/lib/icons/search"
+import { getNativeIconVariants } from "@/lib/icons/files"
+import { filterAndSortIcons, findMatchedVariant, levenshteinDistance, normalizeForSearch, scoreIcon } from "@/lib/icons/search"
 import { getAllIcons } from "@/lib/icons/service"
 import { fetchTrustedSvg } from "@/lib/icons/svg-fetch"
 import type {
@@ -223,7 +230,7 @@ function previewUrlOf(entry: IconRecord): string {
 
 function pageUrlOf(entry: IconRecord): string {
 	if (entry.source === "native") return `${WEB_URL}/icons/${entry.slug}`
-	return `${WEB_URL}/icons/external/${entry.slug}`
+	return `${WEB_URL}${getExternalIconPagePath(entry)}`
 }
 
 function toItem(entry: IconRecord): CatalogItem {
@@ -231,7 +238,10 @@ function toItem(entry: IconRecord): CatalogItem {
 }
 
 function toHit(entry: IconRecord, query: string): CatalogHit {
-	return { ...toItem(entry), score: Math.round(scoreIcon(entry, query) * 100) / 100 }
+	const hit: CatalogHit = { ...toItem(entry), score: Math.round(scoreIcon(entry, query) * 100) / 100 }
+	const matchedVariant = findMatchedVariant(entry, query)
+	if (matchedVariant) hit.matched_variant = matchedVariant
+	return hit
 }
 
 function rank(entries: IconRecord[], query: string, limit: number): CatalogHit[] {
@@ -265,27 +275,22 @@ function themedUrls(build: (theme: IconTheme) => string | null): Partial<Record<
 	return urls
 }
 
-function nativeFile(entry: NativeIconRecord, theme: IconTheme): string | null {
-	if (theme === "default") return entry.name
-	return entry.data.colors?.[theme] ?? null
-}
-
 function nativeUrls(entry: NativeIconRecord): CatalogUrls {
+	const variants = getNativeIconVariants(entry.name, entry.data)
 	const urls: CatalogUrls = {}
 	for (const format of FORMATS) {
-		if (format === "svg" && entry.data.base !== "svg") continue
-		urls[format] = themedUrls((theme) => {
-			const file = nativeFile(entry, theme)
-			if (!file) return null
-			return buildIconUrl(file, format)
-		})
+		const available = variants.filter((variant) => variant.formats.includes(format))
+		if (available.length)
+			urls[format] = Object.fromEntries(
+				available.flatMap((variant) => variant.keys.map((key) => [key, buildIconUrl(variant.stem, format)])),
+			)
 	}
 	return urls
 }
 
-function externalUrlKey(format: IconFormat, theme: IconTheme): string {
+function externalUrlKey(icon: ExternalIcon, format: IconFormat, theme: IconTheme): string | null {
 	if (theme === "default") return format
-	return `${format}_${theme}`
+	return getExternalToneUrlKey(icon, format, theme)
 }
 
 function externalUrls(icon: ExternalIcon): CatalogUrls {
@@ -293,9 +298,8 @@ function externalUrls(icon: ExternalIcon): CatalogUrls {
 	for (const format of FORMATS) {
 		if (!icon.formats.includes(format)) continue
 		const themed = themedUrls((theme) => {
-			const key = externalUrlKey(format, theme)
-			if (theme !== "default" && !icon.variants?.[theme]) return null
-			if (!canResolveExternalIconUrl(icon, key)) return null
+			const key = externalUrlKey(icon, format, theme)
+			if (!key || !canResolveExternalIconUrl(icon, key)) return null
 			return absoluteUrl(resolveExternalIconUrl(icon, key))
 		})
 		if (Object.keys(themed).length > 0) urls[format] = themed

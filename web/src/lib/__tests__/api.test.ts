@@ -1,6 +1,7 @@
+import { readFileSync } from "node:fs"
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest"
 import { ApiError } from "@/lib/errors"
-import type { IconFile } from "@/types/icons"
+import type { ExternalIconRecord, IconFile, NativeIconRecord } from "@/types/icons"
 
 const MOCK_METADATA: IconFile = {
 	plex: {
@@ -28,18 +29,20 @@ vi.mock("next/cache", () => ({
 }))
 
 const getAllIconsMock = vi.fn(async () => MOCK_METADATA)
+const getExternalIconsMock = vi.fn()
 
 vi.mock("@/lib/icons/service", () => ({
 	getAllIcons: () => getAllIconsMock(),
 }))
 
 vi.mock("@/lib/external-icons", () => ({
-	getExternalIcons: vi.fn().mockResolvedValue([{ source: "selfhst" }, { source: "selfhst" }, { source: "lobehub" }]),
+	getExternalIcons: () => getExternalIconsMock(),
 }))
 
 describe("api", () => {
 	beforeEach(() => {
 		getAllIconsMock.mockResolvedValue(MOCK_METADATA)
+		getExternalIconsMock.mockResolvedValue([{ source: "selfhst" }, { source: "selfhst" }, { source: "lobehub" }])
 	})
 
 	afterEach(() => {
@@ -490,6 +493,113 @@ describe("api", () => {
 
 			const related = computeRelatedIcons("current", ["Shared"], metadata)
 			expect(related[0]?.data.aliases).toEqual([])
+		})
+	})
+
+	describe("getIconRelations", () => {
+		const metadata = JSON.parse(readFileSync("../metadata.json", "utf8")) as IconFile
+
+		function native(slug: string): NativeIconRecord {
+			return { source: "native", slug, name: slug, data: metadata[slug] }
+		}
+
+		function external(source: ExternalIconRecord["source"], slug: string, name: string, aliases: string[] = []): ExternalIconRecord {
+			return {
+				source,
+				slug,
+				name,
+				data: { ...MOCK_METADATA.nginx, aliases },
+				external: {
+					id: `${source}-${slug}`,
+					source,
+					slug,
+					name,
+					aliases,
+					categories: [],
+					formats: ["svg"],
+					variants: {},
+					url_templates: {},
+					license: "",
+					attribution: "",
+					source_url: "",
+				},
+			}
+		}
+
+		it("does not treat native or external search aliases as brand identities in either direction", async () => {
+			const slugs = ["homarr", "homepage", "roguedashboard", "dashy", "homer", "glance", "mediathekarr", "sonarr", "radarr"]
+			getAllIconsMock.mockResolvedValue(metadata)
+			const icons = slugs.map((slug) => external("selfhst", slug, slug))
+			icons[0].data.aliases = ["homepage", "dashy"]
+			getExternalIconsMock.mockResolvedValue(icons)
+			const { getIconRelations, getIconPagePath } = await import("@/lib/icon-relations")
+			for (const slug of slugs) {
+				const { sameBrand } = await getIconRelations(native(slug))
+				expect(sameBrand.map(getIconPagePath)).toEqual([`/icons/external/selfhst/${slug}`])
+			}
+			for (const icon of icons) {
+				const { sameBrand } = await getIconRelations(icon)
+				expect(sameBrand.map(getIconPagePath)).toEqual([`/icons/${icon.slug}`])
+			}
+		})
+
+		it("matches normalized primary names and keeps folded source-qualified identities", async () => {
+			getAllIconsMock.mockResolvedValue(metadata)
+			const icons = [
+				external("selfhst", "digitalocean", "DigitalOcean"),
+				external("lobehub", "digitalocean", "DigitalOcean"),
+				external("lobehub", "alibaba", "Alibaba", ["alibaba-color", "alibaba-text-cn"]),
+				external("selfhst", "alibaba", "Alibaba"),
+			]
+			getExternalIconsMock.mockResolvedValue(icons)
+			const { getIconRelations, getIconPagePath } = await import("@/lib/icon-relations")
+			expect((await getIconRelations(native("digital-ocean"))).sameBrand.map(getIconPagePath)).toEqual([
+				"/icons/external/lobehub/digitalocean",
+				"/icons/external/selfhst/digitalocean",
+			])
+			expect((await getIconRelations(icons[0])).sameBrand.map(getIconPagePath)).toEqual([
+				"/icons/digital-ocean",
+				"/icons/external/lobehub/digitalocean",
+			])
+			expect((await getIconRelations(icons[3])).sameBrand.map(getIconPagePath)).toEqual(["/icons/external/lobehub/alibaba"])
+			expect((await getIconRelations(icons[2])).sameBrand.map(getIconPagePath)).toEqual(["/icons/external/selfhst/alibaba"])
+		})
+
+		it("preserves meaningful symbols instead of conflating similarly named products", async () => {
+			getAllIconsMock.mockResolvedValue({})
+			const icons = [external("selfhst", "cpp", "C++"), external("simpleicons", "csharp", "C#")]
+			getExternalIconsMock.mockResolvedValue(icons)
+			const { getIconRelations } = await import("@/lib/icon-relations")
+			for (const icon of icons) expect((await getIconRelations(icon)).sameBrand).toEqual([])
+		})
+
+		it("links reviewed category-free product families in both directions", async () => {
+			getAllIconsMock.mockResolvedValue(metadata)
+			getExternalIconsMock.mockResolvedValue([])
+			const { getIconRelations } = await import("@/lib/icon-relations")
+			for (const [parent, child] of [
+				["jellyfin", "jellyfin-vue"],
+				["docker", "docker-compose"],
+				["qnap", "qnap-qsync"],
+				["truenas-core", "truenas-scale"],
+				["filebrowser", "filebrowser-quantum"],
+			]) {
+				expect((await getIconRelations(native(parent))).relatedByName.map((icon) => icon.slug)).toContain(child)
+				expect((await getIconRelations(native(child))).relatedByName.map((icon) => icon.slug)).toContain(parent)
+			}
+			expect((await getIconRelations(native("immich"))).relatedByName.map((icon) => icon.slug)).toContain("immich-kiosk")
+		})
+
+		it("does not infer families from generic or ambiguous parent names", async () => {
+			const slugs = ["code", "shell", "cockpit", "plane", "flux", "music", "sphinx"]
+			const uncategorized = { ...metadata }
+			for (const slug of slugs) uncategorized[slug] = { ...metadata[slug], categories: [] }
+			getAllIconsMock.mockResolvedValue(uncategorized)
+			getExternalIconsMock.mockResolvedValue([])
+			const { getIconRelations } = await import("@/lib/icon-relations")
+			for (const slug of slugs) {
+				expect((await getIconRelations({ ...native(slug), data: uncategorized[slug] })).relatedByName).toEqual([])
+			}
 		})
 	})
 

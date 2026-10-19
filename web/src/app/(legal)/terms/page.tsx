@@ -67,7 +67,7 @@ export default function TermsPage() {
 				third-party copies cannot be guaranteed.
 			</p>
 
-			<h2>Rights complaints</h2>
+			<h2 id="rights-complaints">Rights complaints</h2>
 			<p>
 				If an asset infringes your rights, email <a href="mailto:homarr-labs@proton.me">homarr-labs@proton.me</a> with the affected URL, the
 				work or mark involved, your relationship to the rights holder, and a way to contact you. We will review the request and may remove

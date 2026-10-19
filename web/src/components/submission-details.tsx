@@ -22,9 +22,10 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
-import { UnoptimizedImage } from "@/components/unoptimized-image"
 import { UserDisplay } from "@/components/user-display"
+import { VariantPreview } from "@/components/variant-preview"
 import { pb, type Submission, type User } from "@/lib/pb"
+import { labelledAssets, variantKind } from "@/lib/submission-variants"
 import { formatIconName } from "@/lib/utils"
 import type { Icon } from "@/types/icons"
 
@@ -73,6 +74,7 @@ export function SubmissionDetails({
 	workflowUrl,
 }: SubmissionDetailsProps) {
 	const expandedData = submission.expand
+	const assets = labelledAssets(submission.extras, submission.assets, submission.name, submission.icon_update)
 	const displayName = getDisplayName(submission, expandedData)
 
 	// Sanitize extras to ensure we have safe defaults
@@ -120,6 +122,7 @@ export function SubmissionDetails({
 			: undefined,
 		wordmark: sanitizedExtras.wordmark
 			? {
+					default: sanitizedExtras.wordmark.default,
 					dark: sanitizedExtras.wordmark.dark,
 					light: sanitizedExtras.wordmark.light,
 				}
@@ -156,48 +159,53 @@ export function SubmissionDetails({
 					</CardHeader>
 					<CardContent className="pt-0">
 						<div className="space-y-4">
-							{submission.assets.map((asset, index) => (
-								<MagicCard key={index} className="p-0 rounded-md">
-									<div className="relative">
-										<div className="aspect-square rounded-lg border flex items-center justify-center p-4 sm:p-8 bg-muted/30">
-											<UnoptimizedImage
-												src={`${pb.baseURL}/api/files/submissions/${submission.id}/${asset}` || "/placeholder.svg"}
-												alt={`${submission.name} asset ${index + 1}`}
-												width={200}
-												height={200}
-												className="max-h-full max-w-full object-contain"
-											/>
+							{assets.map(({ file, variant }, index) => {
+								const kind = variant ? variantKind(variant) : null
+								const label = kind?.label ?? "Unlabelled asset"
+								const url = `${pb.baseURL}/api/files/submissions/${submission.id}/${file}`
+								return (
+									<MagicCard key={file} className="p-0 rounded-md">
+										<div className="flex items-start justify-between gap-2 p-3 pb-2">
+											<div className="min-w-0">
+												<p className="break-all font-medium text-sm">{label}</p>
+												<p className="text-muted-foreground text-xs">{kind?.description ?? "Not tagged as a Variant"}</p>
+											</div>
+											<div className="flex shrink-0 gap-1">
+												<Button
+													size="icon"
+													variant="secondary"
+													className="size-11"
+													aria-label={`Open ${label} original`}
+													onClick={(e) => {
+														e.stopPropagation()
+														window.open(url, "_blank")
+													}}
+												>
+													<ExternalLink className="size-3.5" />
+												</Button>
+												<Button
+													size="icon"
+													variant="secondary"
+													className="size-11"
+													aria-label={`Download ${label}`}
+													onClick={(e) => {
+														e.stopPropagation()
+														handleDownload(url, `${submission.name}-${index + 1}.${file.split(".").pop()}`)
+													}}
+												>
+													<Download className="size-3.5" />
+												</Button>
+											</div>
 										</div>
-										<div className="absolute top-2 right-2 flex gap-1">
-											<Button
-												size="sm"
-												variant="secondary"
-												className="h-9 w-9 sm:h-8 sm:w-8 p-0"
-												onClick={(e) => {
-													e.stopPropagation()
-													window.open(`${pb.baseUrl}/api/files/submissions/${submission.id}/${asset}`, "_blank")
-												}}
-											>
-												<ExternalLink className="h-3.5 w-3.5 sm:h-3 sm:w-3" />
-											</Button>
-											<Button
-												size="sm"
-												variant="secondary"
-												className="h-9 w-9 sm:h-8 sm:w-8 p-0"
-												onClick={(e) => {
-													e.stopPropagation()
-													handleDownload(
-														`${pb.baseUrl}/api/files/submissions/${submission.id}/${asset}`,
-														`${submission.name}-${index + 1}.${sanitizedExtras.base}`,
-													)
-												}}
-											>
-												<Download className="h-3.5 w-3.5 sm:h-3 sm:w-3" />
-											</Button>
-										</div>
-									</div>
-								</MagicCard>
-							))}
+										<VariantPreview
+											src={url}
+											alt={`${submission.name}, ${label}`}
+											background={kind?.background ?? "any"}
+											className="mx-3 mb-3 h-32 sm:h-40"
+										/>
+									</MagicCard>
+								)
+							})}
 							{submission.assets.length === 0 && <div className="text-center py-8 text-muted-foreground text-sm">No assets available</div>}
 						</div>
 					</CardContent>
@@ -350,6 +358,12 @@ export function SubmissionDetails({
 										Wordmark Variants
 									</h3>
 									<div className="space-y-2">
+										{sanitizedExtras.wordmark.default && (
+											<div className="flex items-center gap-2">
+												<span className="text-sm text-muted-foreground min-w-12">Colour:</span>
+												<code className="text-xs bg-muted px-2 py-1 rounded font-mono">{sanitizedExtras.wordmark.default}</code>
+											</div>
+										)}
 										{sanitizedExtras.wordmark.dark && (
 											<div className="flex items-center gap-2">
 												<span className="text-sm text-muted-foreground min-w-12">Dark:</span>

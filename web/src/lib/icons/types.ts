@@ -1,5 +1,6 @@
 import type { ExternalSourceId } from "@/constants"
 import type { IconFormat, IconTheme } from "@/lib/icons/urls"
+import type { IconVariantMatch } from "@/lib/icons/variants"
 
 export type CatalogSource = "native" | ExternalSourceId
 
@@ -10,9 +11,9 @@ export type CatalogItem = {
 	preview_url: string
 }
 
-export type CatalogHit = CatalogItem & { score: number }
+export type CatalogHit = CatalogItem & { score: number; matched_variant?: IconVariantMatch }
 
-export type CatalogUrls = Partial<Record<IconFormat, Partial<Record<IconTheme, string>>>>
+export type CatalogUrls = Partial<Record<IconFormat, Record<string, string>>>
 
 export type CatalogLicense = {
 	name: string

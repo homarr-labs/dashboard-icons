@@ -38,8 +38,8 @@ constants.ts          ← Source registry (single source of truth)
            ├── hero.tsx              → Hover popover with per-source counts
            ├── header.tsx            → Loads external icons for CMD+K
            ├── icons/page.tsx        → Browse page copy + merged results
-           ├── icons/external/[slug] → Static detail pages
-           ├── sitemap.ts            → External URLs + images
+           ├── icons/external/[source]/[slug] → Static detail pages
+           ├── lib/sitemap.ts        → Per-source sitemaps with URLs + images
            └── api.ts                → getTotalIcons() breakdown
 ```
 
@@ -379,7 +379,7 @@ test.describe("External yoursource icons", () => {
   })
 
   test("external detail page renders attribution", async ({ page }) => {
-    await page.goto("/icons/external/some-known-slug")
+    await page.goto("/icons/external/yoursource/some-known-slug")
 
     await expect(page.getByRole("heading", { name: /some-known-slug/i })).toBeVisible()
     await expect(page.getByRole("link", { name: /view on your source/i })).toBeVisible()
@@ -414,13 +414,15 @@ The unified `IconDetails` component handles external icons via the `externalIcon
 - Format/variant sections derived from `externalIcon.formats` and `externalIcon.variants`
 - SVG customizer when SVG format is available
 
-### Detail page route — `src/app/icons/external/[slug]/page.tsx`
+### Detail page route — `src/app/icons/external/[source]/[slug]/page.tsx`
 
-All external icons share this single route. `generateStaticParams()` calls `getExternalIcons()` which fetches icons from **all** registered sources. Metadata (title, Open Graph, JSON-LD) uses `EXTERNAL_SOURCES[icon.source]` for labels, license, and author info.
+All external icons share this route, so every source gets its own URL even when two sources use the same slug. Build links with `getExternalIconPagePath()` and OG images with `getExternalIconOgPath()` from `src/lib/external-icon-urls.ts`. `generateStaticParams()` calls `getExternalIcons()` which fetches icons from **all** registered sources. Metadata (title, Open Graph, JSON-LD) uses `EXTERNAL_SOURCES[icon.source]` for labels, license, and author info.
+
+Old one-segment URLs (`/icons/external/<slug>` and `/og/external/<slug>`) 308-redirect to the source returned by `getSlugOwner()`, the first source in `EXTERNAL_SOURCE_IDS` order that has the slug.
 
 ### CMD+K palette — `src/components/command-menu.tsx`
 
-The command menu receives all icons (native + external) from the header. For each result, it checks if `source !== "native"` and shows a source badge. Selecting an external icon navigates to `/icons/external/${slug}`.
+The command menu receives all icons (native + external) from the header. For each result, it checks if `source !== "native"` and shows a source badge. Selecting an external icon navigates to `/icons/external/${source}/${slug}`.
 
 ### Header — `src/components/header.tsx`
 
@@ -430,9 +432,9 @@ On mount, loads both `getIconsArray()` (native) and `getExternalIcons()` (all ex
 
 Merges native and external icons. The subtitle dynamically lists all registered source labels: *"Search through N icons from Dashboard Icons and selfh.st, Your Source."*
 
-### Sitemap — `src/app/sitemap.ts`
+### Sitemap — `src/lib/sitemap.ts`
 
-Iterates over all external icons and generates `<url>` entries with `<image>` tags for each supported format (svg, png, webp).
+Each source gets its own sitemap (`external-<source>`) listing every icon of that source at its `/icons/external/<source>/<slug>` URL, with `<image>` tags for self-hosted formats.
 
 ### API layer — `src/lib/api.ts`
 
@@ -483,8 +485,8 @@ Files that pick up changes **automatically** (no edits needed):
 | `web/src/components/command-menu.tsx` | CMD+K shows source badge on results |
 | `web/src/components/header.tsx` | Loads all external icons for CMD+K |
 | `web/src/app/icons/page.tsx` | Browse page merges new source icons |
-| `web/src/app/icons/external/[slug]/page.tsx` | Static detail pages generated for all sources |
-| `web/src/app/sitemap.ts` | Sitemap includes new source URLs |
+| `web/src/app/icons/external/[source]/[slug]/page.tsx` | Static detail pages generated for all sources |
+| `web/src/lib/sitemap.ts` | Per-source sitemap includes new source URLs |
 | `web/src/lib/api.ts` | `getTotalIcons()` includes new source count |
 | `web/src/lib/external-icons.ts` | Fetches + caches new source from PocketBase |
 | `web/src/lib/external-icon-urls.ts` | Resolves URLs using new source's `cdnBase` |
@@ -504,7 +506,7 @@ These are pitfalls encountered during the LobeHub integration that future integr
 
 4. **Auth headers must be passed through.** The `fetchBrandMetadata` function initially hardcoded its fetch headers, ignoring the `GITHUB_TOKEN` passed from CI. This caused rate limiting on the GitHub raw content API.
 
-5. **Sitemap and `generateStaticParams` need deduplication.** When multiple sources share a slug (e.g. `openai`), both sitemap and static params must deduplicate by slug to avoid build failures and duplicate URLs.
+5. **Slugs are only unique per source.** Several sources can share a slug (e.g. `openai`), so routes, sitemaps and static params key on `source` + `slug`. Importers must not skip a slug because another source already has it.
 
 ---
 
