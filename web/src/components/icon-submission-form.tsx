@@ -70,9 +70,15 @@ export function IconSubmissionForm() {
 	const [rejectedOnly, setRejectedOnly] = useState(false)
 	const [initialSubmissionId, setInitialSubmissionId] = useState("")
 	useEffect(() => {
-		const id = new URLSearchParams(window.location.search).get("submission")
-		if (!id) return
-		setInitialSubmissionId(id)
+		const params = new URLSearchParams(window.location.search)
+		const id = params.get("submission")
+		if (id) {
+			setInitialSubmissionId(id)
+			setMode("edit")
+			return
+		}
+		if (params.get("mode") !== "edit") return
+		setEditSearch(params.get("icon") ?? "")
 		setMode("edit")
 	}, [])
 	const [previewOpen, setPreviewOpen] = useState(false)
@@ -151,12 +157,12 @@ export function IconSubmissionForm() {
 										disabled={form.sending}
 										aria-pressed={selected}
 										onClick={() => {
+											form.setSent(null)
 											if (id === "rejected") {
 												edit("", true)
 												return
 											}
 											setMode(id)
-											form.setSent(null)
 											setRejectedOnly(false)
 										}}
 										className={cn(

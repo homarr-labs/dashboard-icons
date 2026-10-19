@@ -4,7 +4,7 @@ import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { useDashboardActivity } from "@/hooks/use-dashboard"
 import { savedReviewFixups } from "@/lib/dashboard/review-fixup-draft"
-import type { DashboardFilters } from "@/lib/dashboard/types"
+import { actionLabels, type DashboardFilters } from "@/lib/dashboard/types"
 import type { Submission } from "@/lib/pb"
 import { LoadMore, Time } from "./primitives"
 
@@ -40,7 +40,7 @@ export function ReviewHistory({ record, filters }: { record: Submission; filters
 							<span className="absolute top-1 -left-[21px] size-2.5 rounded-full border-2 border-background bg-muted-foreground/60" />
 							<p className="flex flex-wrap items-center gap-x-1.5">
 								<span className="font-medium">{event.actor_name || "Automation"}</span>
-								<span className="text-muted-foreground">{event.action}</span>
+								<span className="text-muted-foreground">{actionLabels[event.action] || event.action}</span>
 								<Time value={event.created} />
 							</p>
 							{event.feedback && <p className="whitespace-pre-wrap leading-5 text-muted-foreground">{event.feedback}</p>}

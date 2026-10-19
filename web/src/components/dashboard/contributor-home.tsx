@@ -91,7 +91,7 @@ export function ContributorHome({
 				{!empty && (
 					<div className="flex flex-wrap gap-2">
 						<Button asChild variant="outline" className="max-lg:min-h-11">
-							<Link href="/submit">
+							<Link href="/submit?mode=edit">
 								<GitPullRequestArrow />
 								Propose an update
 							</Link>
@@ -326,7 +326,7 @@ function SubmissionCard({ record, active, onOpen }: { record: Submission; active
 				)}
 				{record.status === "added_to_collection" && (
 					<Button asChild size="sm" variant="ghost" className="max-lg:min-h-11">
-						<Link href="/submit">
+						<Link href={`/submit?mode=edit&icon=${encodeURIComponent(record.name)}`}>
 							<GitPullRequestArrow />
 							Propose an update
 						</Link>
