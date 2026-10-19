@@ -49,7 +49,7 @@ export function RejectedRoundComparison({
 	return (
 		<details open={defaultOpen} className="group/compare rounded-lg border bg-background shadow-sm">
 			<summary className="flex min-h-11 cursor-pointer list-none items-center gap-3 rounded-lg p-3 text-sm font-semibold transition-colors hover:bg-muted/40 focus-visible:outline-2 focus-visible:outline-ring sm:px-4 [&::-webkit-details-marker]:hidden">
-				<span className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-red-500/10 text-red-500">
+				<span className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-warning/10 text-warning">
 					<GitCompareArrows className="size-4" aria-hidden />
 				</span>
 				<span className="min-w-0 flex-1">Compare with rejected Round {previous.round}</span>
@@ -59,7 +59,7 @@ export function RejectedRoundComparison({
 				/>
 			</summary>
 			<div className="flex flex-col gap-4 border-t p-3 sm:p-4">
-				<blockquote className="whitespace-pre-wrap break-words border-l-2 border-red-500/40 pl-3 text-sm">
+				<blockquote className="whitespace-pre-wrap break-words rounded-md bg-destructive/5 p-3 text-sm">
 					Reviewer feedback: {previous.admin_comment || "No written feedback."}
 				</blockquote>
 				{previous.unresolved_variants?.map((reference) => (

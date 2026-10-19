@@ -6,6 +6,7 @@ import {
 	ArrowRight,
 	ExternalLink,
 	History,
+	Library,
 	type LucideIcon,
 	MessageSquareWarning,
 	PencilLine,
@@ -16,6 +17,8 @@ import {
 } from "lucide-react"
 import Link from "next/link"
 import { useState } from "react"
+import { MagicCard } from "@/components/magicui/magic-card"
+import { MagicCardPointerProvider } from "@/components/magicui/magic-card-pointer"
 import { StatusBadge } from "@/components/status-badge"
 import { IconUpdateEditor } from "@/components/submission/icon-update-editor"
 import { OwnSubmissionEditor } from "@/components/submission/own-submission-editor"
@@ -67,14 +70,14 @@ export function EditIconPicker({
 		return <IconUpdateEditor key={selection.submissionId ?? selection.value} selection={selection} onCancel={() => setSelection(null)} />
 	let heading: { icon: LucideIcon; tone: Tone; title: string; description: string } = {
 		icon: PencilLine,
-		tone: "violet",
+		tone: "community",
 		title: "Which Icon do you want to change?",
 		description: "Find a published Icon or a community Submission. Your new-Icon cards stay here when you switch modes.",
 	}
 	if (rejectedOnly)
 		heading = {
 			icon: History,
-			tone: "red",
+			tone: "destructive",
 			title: "Which rejected Submission do you want to fix?",
 			description: "Each one keeps its id and history when you resubmit it.",
 		}
@@ -99,9 +102,11 @@ export function EditIconPicker({
 			{matches.length > 0 && (
 				<div className="flex flex-col gap-3">
 					<h3 className="flex items-center gap-2 text-sm font-semibold">
-						<Users className="size-4 text-muted-foreground" aria-hidden />
+						<Users className="size-4 text-community" aria-hidden />
 						Community Submissions
-						<Badge variant="outline">{matches.length}</Badge>
+						<Badge variant="outline" className="border-community/20 bg-community/10 text-community">
+							{matches.length}
+						</Badge>
 					</h3>
 					<ul className="flex flex-col gap-2">
 						{matches.slice(0, 30).map((submission) => (
@@ -125,7 +130,9 @@ export function EditIconPicker({
 										</Button>
 										{!submission.mine && submission.status === "pending" && (
 											<Button
+												variant="outline"
 												size="sm"
+												className="border-community/40 text-community hover:bg-community/10"
 												onClick={() =>
 													setSelection({
 														label: submission.name,
@@ -148,8 +155,8 @@ export function EditIconPicker({
 									</div>
 								</div>
 								{submission.status === "rejected" && (
-									<div className="flex gap-2.5 border-t pt-3 text-sm">
-										<MessageSquareWarning className="mt-0.5 size-4 shrink-0 text-red-500" aria-hidden />
+									<div className="flex gap-2.5 rounded-md border-l-2 border-destructive bg-destructive/5 p-3 text-sm">
+										<MessageSquareWarning className="mt-0.5 size-4 shrink-0 text-destructive" aria-hidden />
 										<p>
 											{submission.feedback && <span className="block break-words font-medium">Reviewer: {submission.feedback}</span>}
 											<span className="text-muted-foreground">
@@ -165,34 +172,45 @@ export function EditIconPicker({
 			)}
 			{!rejectedOnly && (
 				<div className="flex flex-col gap-3">
-					<h3 className="text-sm font-semibold">Published Icons</h3>
-					<ul className="grid gap-2 sm:grid-cols-2">
+					<h3 className="flex items-center gap-2 text-sm font-semibold">
+						<Library className="size-4 text-success" aria-hidden />
+						Published Icons
+					</h3>
+					<MagicCardPointerProvider className="grid gap-2 sm:grid-cols-2">
 						{published.map((name) => (
-							<li key={name} className="flex min-w-0 items-center gap-3 rounded-md border p-2">
-								<span className="flex size-11 shrink-0 items-center justify-center rounded-lg bg-primary/15 dark:bg-secondary/10">
-									<UnoptimizedImage src={`${BASE_URL}/webp/${name}.webp`} alt="" width={32} height={32} className="size-8 object-contain" />
-								</span>
-								<Link
-									href={`/icons/${name}`}
-									className="flex min-h-11 min-w-0 flex-1 items-center truncate font-mono text-sm font-medium underline-offset-4 hover:text-primary hover:underline"
-								>
-									<span className="truncate">{name}</span>
-								</Link>
-								<Button
-									variant="outline"
-									size="sm"
-									className="shrink-0"
-									onClick={() => setSelection({ label: name, value: name, source: "collection" })}
-								>
-									<PencilLine aria-hidden />
-									<span className="max-sm:sr-only">Propose an update</span>
-									<span className="sm:hidden" aria-hidden>
-										Update
+							<MagicCard key={name} className="min-w-0 rounded-md">
+								<div className="flex min-w-0 items-center gap-3 p-2">
+									<span className="flex size-11 shrink-0 items-center justify-center rounded-lg bg-primary/15 ring-1 ring-border dark:bg-secondary/10">
+										<UnoptimizedImage
+											src={`${BASE_URL}/webp/${name}.webp`}
+											alt=""
+											width={32}
+											height={32}
+											className="size-8 object-contain"
+										/>
 									</span>
-								</Button>
-							</li>
+									<Link
+										href={`/icons/${name}`}
+										className="flex min-h-11 min-w-0 flex-1 items-center truncate font-mono text-sm font-medium underline-offset-4 hover:text-primary hover:underline"
+									>
+										<span className="truncate">{name}</span>
+									</Link>
+									<Button
+										variant="outline"
+										size="sm"
+										className="shrink-0 border-community/40 text-community hover:bg-community/10"
+										onClick={() => setSelection({ label: name, value: name, source: "collection" })}
+									>
+										<PencilLine aria-hidden />
+										<span className="max-sm:sr-only">Propose an update</span>
+										<span className="sm:hidden" aria-hidden>
+											Update
+										</span>
+									</Button>
+								</div>
+							</MagicCard>
 						))}
-					</ul>
+					</MagicCardPointerProvider>
 					{published.length === 0 && (
 						<p className="flex flex-col items-center gap-2 rounded-md border border-dashed py-8 text-sm text-muted-foreground">
 							<SearchX className="size-6" aria-hidden />

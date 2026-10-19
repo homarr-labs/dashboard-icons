@@ -59,9 +59,9 @@ export function CustomVariantInput({ names, onAdd }: { names: string[]; onAdd: (
 				Custom variant
 			</Button>
 			{open && (
-				<div id={`${id}-editor`} className="flex w-full flex-col gap-2 rounded-md border p-3">
+				<div id={`${id}-editor`} className="flex w-full flex-col gap-2 rounded-md border border-community/30 bg-community/5 p-3">
 					<Label htmlFor={id} className="flex items-center gap-1.5">
-						<WandSparkles className="size-4 text-violet-500" aria-hidden />
+						<WandSparkles className="size-4 text-community" aria-hidden />
 						Custom variant name
 					</Label>
 					<div className="flex flex-col gap-2 sm:flex-row">

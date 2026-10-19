@@ -25,12 +25,17 @@ import { useEffect, useState } from "react"
 import { useDropzone } from "react-dropzone"
 import { toast } from "sonner"
 import { IconSubmissionGuidelines } from "@/components/icon-submission-guidelines"
+import { AuroraText } from "@/components/magicui/aurora-text"
+import { InteractiveHoverButton } from "@/components/magicui/interactive-hover-button"
+import { MagicCard } from "@/components/magicui/magic-card"
+import { NumberTicker } from "@/components/magicui/number-ticker"
 import { EditIconPicker } from "@/components/submission/edit-icon-picker"
 import { SubmissionCard } from "@/components/submission/submission-card"
 import { AssetPreview, SubmissionPreview } from "@/components/submission/submission-preview"
-import { PANEL_CLASS, SectionHeading, TONES, type Tone } from "@/components/submission/submission-ui"
+import { AURORA_COLORS, PANEL_CLASS, SectionHeading, TONES } from "@/components/submission/submission-ui"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { Badge } from "@/components/ui/badge"
+import { BorderBeam } from "@/components/ui/border-beam"
 import { Button } from "@/components/ui/button"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Progress } from "@/components/ui/progress"
@@ -43,13 +48,19 @@ export { IconSubmissionContent } from "@/components/legacy-icon-submission-form"
 
 type ModeId = "submit" | "edit" | "rejected"
 
+const MODE_STYLE = {
+	primary: { selected: "border-primary bg-primary/5", hover: "hover:border-primary/50", check: "text-primary" },
+	community: { selected: "border-community bg-community/5", hover: "hover:border-community/50", check: "text-community" },
+	destructive: { selected: "border-destructive bg-destructive/5", hover: "hover:border-destructive/50", check: "text-destructive" },
+} as const
+
 interface ModeOption {
 	id: ModeId
 	title: string
 	short: string
 	description: string
 	Icon: LucideIcon
-	tone: Tone
+	tone: keyof typeof MODE_STYLE
 }
 
 export function IconSubmissionForm() {
@@ -84,7 +95,7 @@ export function IconSubmissionForm() {
 			short: "New icon",
 			description: "Upload one or several icons that aren’t in the collection yet.",
 			Icon: ImagePlus,
-			tone: "blue",
+			tone: "primary",
 		},
 		{
 			id: "edit",
@@ -92,7 +103,7 @@ export function IconSubmissionForm() {
 			short: "Update icon",
 			description: "Propose new artwork or metadata, or edit one of your Submissions.",
 			Icon: PencilLine,
-			tone: "violet",
+			tone: "community",
 		},
 	]
 	if (ownRejected.length > 0)
@@ -102,7 +113,7 @@ export function IconSubmissionForm() {
 			short: "Fix rejected",
 			description: "Address the reviewer’s feedback and resubmit the same Submission.",
 			Icon: History,
-			tone: "red",
+			tone: "destructive",
 		})
 	const blocked = Object.keys(form.cardErrors).length > 0 || Boolean(form.limitError)
 	const sendButton = (
@@ -120,7 +131,9 @@ export function IconSubmissionForm() {
 			>
 				<header className="mb-6 flex flex-col gap-4">
 					<div>
-						<h1 className="text-3xl font-bold">Submit icons</h1>
+						<h1 className="text-3xl font-bold">
+							Contribute to <AuroraText colors={AURORA_COLORS}>dashboard icons</AuroraText>
+						</h1>
 						<p className="text-muted-foreground">
 							Add a brand-new icon or improve one that’s already in the collection. A maintainer reviews every Submission before it’s
 							published.
@@ -148,13 +161,14 @@ export function IconSubmissionForm() {
 										}}
 										className={cn(
 											PANEL_CLASS,
-											"flex min-h-16 items-center gap-3 p-3 text-left transition-colors hover:bg-accent/50 sm:items-start sm:p-4",
+											"flex min-h-16 items-center gap-3 p-3 text-left transition-colors duration-200 sm:items-start sm:p-4",
+											MODE_STYLE[tone].hover,
 											id === "rejected" && "max-lg:col-span-2",
-											selected && "border-primary",
+											selected && MODE_STYLE[tone].selected,
 										)}
 									>
-										<span className={cn("flex size-8 shrink-0 items-center justify-center rounded-lg", TONES[tone])}>
-											<Icon className="size-4" aria-hidden />
+										<span className={cn("flex size-10 shrink-0 items-center justify-center rounded-lg", TONES[tone])}>
+											<Icon className="size-5" aria-hidden />
 										</span>
 										<span className="min-w-0 flex-1">
 											<span className="flex items-center gap-2 font-semibold leading-tight">
@@ -163,14 +177,14 @@ export function IconSubmissionForm() {
 												</span>
 												<span className="max-sm:sr-only">{title}</span>
 												{id === "rejected" && (
-													<Badge variant="outline" className="border-red-500/20 bg-red-500/10 text-red-500">
+													<Badge variant="outline" className="border-destructive/20 bg-destructive/10 text-destructive">
 														{ownRejected.length}
 													</Badge>
 												)}
 											</span>
 											<span className="mt-1 block text-sm text-muted-foreground max-sm:sr-only">{description}</span>
 										</span>
-										{selected && <CheckCircle2 className="size-4 shrink-0 text-primary max-sm:hidden" aria-hidden />}
+										{selected && <CheckCircle2 className={cn("size-5 shrink-0 max-sm:hidden", MODE_STYLE[tone].check)} aria-hidden />}
 									</button>
 								)
 							})}
@@ -178,7 +192,10 @@ export function IconSubmissionForm() {
 					</fieldset>
 				</header>
 				{form.catalog.isError && (
-					<p aria-live="polite" className="mb-4 flex flex-wrap items-center gap-2 rounded-md border p-3 text-sm text-muted-foreground">
+					<p
+						aria-live="polite"
+						className="mb-4 flex flex-wrap items-center gap-2 rounded-md border border-warning/30 bg-warning/5 p-3 text-sm"
+					>
 						{form.catalog.error.message}
 						<Button variant="ghost" size="sm" onClick={() => form.catalog.refetch()}>
 							<RefreshCw aria-hidden />
@@ -187,7 +204,10 @@ export function IconSubmissionForm() {
 					</p>
 				)}
 				{form.hints.isError && (
-					<p aria-live="polite" className="mb-4 flex flex-wrap items-center gap-2 rounded-md border p-3 text-sm text-muted-foreground">
+					<p
+						aria-live="polite"
+						className="mb-4 flex flex-wrap items-center gap-2 rounded-md border border-warning/30 bg-warning/5 p-3 text-sm"
+					>
 						Pending Submission hints could not be loaded.
 						<Button variant="ghost" size="sm" onClick={() => form.hints.refetch()}>
 							<RefreshCw aria-hidden />
@@ -196,7 +216,10 @@ export function IconSubmissionForm() {
 					</p>
 				)}
 				{form.catalog.data?.customVariantError && (
-					<p aria-live="polite" className="mb-4 flex flex-wrap items-center gap-2 rounded-md border p-3 text-sm text-muted-foreground">
+					<p
+						aria-live="polite"
+						className="mb-4 flex flex-wrap items-center gap-2 rounded-md border border-warning/30 bg-warning/5 p-3 text-sm"
+					>
 						{form.catalog.data.customVariantError}
 						<Button variant="ghost" size="sm" onClick={() => form.catalog.refetch()}>
 							<RefreshCw aria-hidden />
@@ -208,13 +231,18 @@ export function IconSubmissionForm() {
 					<motion.section
 						initial={{ opacity: 0, y: 8 }}
 						animate={{ opacity: 1, y: 0 }}
-						className={cn(PANEL_CLASS, "mx-auto flex max-w-2xl flex-col gap-5 p-4 sm:p-6")}
+						className={cn(PANEL_CLASS, "mx-auto flex max-w-2xl flex-col gap-5 border-success/30 p-4 sm:p-6")}
 						aria-live="polite"
 					>
 						<div className="flex items-center gap-3">
-							<span className={cn("flex size-10 shrink-0 items-center justify-center rounded-lg", TONES.emerald)}>
-								<Check className="size-5" aria-hidden />
-							</span>
+							<motion.span
+								initial={{ scale: 0.6, opacity: 0 }}
+								animate={{ scale: 1, opacity: 1 }}
+								transition={{ duration: 0.3, delay: 0.1 }}
+								className={cn("flex size-11 shrink-0 items-center justify-center rounded-lg", TONES.success)}
+							>
+								<Check className="size-6" aria-hidden />
+							</motion.span>
 							<div>
 								<h2 className="text-xl font-semibold">Sent for review</h2>
 								<p className="text-sm text-muted-foreground">
@@ -225,33 +253,40 @@ export function IconSubmissionForm() {
 						<ul className="flex flex-col gap-2">
 							{form.sent.map((record) => (
 								<li key={record.id}>
-									<Link
-										href={`/community/submissions/${record.id}`}
-										className="group/link flex min-h-12 flex-wrap items-center justify-between gap-2 rounded-md border p-3 transition-colors hover:bg-accent/50"
-									>
-										<span className="break-all font-mono text-sm font-medium">{record.name}</span>
-										<span className="flex items-center gap-1 text-sm text-muted-foreground group-hover/link:text-primary">
-											View Submission
-											<ArrowRight className="size-4" aria-hidden />
-										</span>
-									</Link>
+									<MagicCard className="rounded-md">
+										<Link
+											href={`/community/submissions/${record.id}`}
+											className="group/link flex min-h-12 flex-wrap items-center justify-between gap-2 rounded-md p-3"
+										>
+											<span className="flex min-w-0 items-center gap-2">
+												<span className="size-2 shrink-0 rounded-full bg-warning" aria-hidden />
+												<span className="break-all font-mono text-sm font-medium">{record.name}</span>
+											</span>
+											<span className="flex items-center gap-1 text-sm text-muted-foreground transition-colors group-hover/link:text-primary">
+												View Submission
+												<ArrowRight
+													className="size-4 transition-transform group-hover/link:translate-x-0.5 motion-reduce:transition-none"
+													aria-hidden
+												/>
+											</span>
+										</Link>
+									</MagicCard>
 								</li>
 							))}
 						</ul>
 						<p className="text-sm text-muted-foreground">
 							A Rejection is never final. You can fix the feedback and resubmit the same Submission.
 						</p>
-						<Button
-							className="sm:self-start"
+						<InteractiveHoverButton
+							className="rounded-md sm:self-start"
 							onClick={() => {
 								form.setSent(null)
 								form.setSelected(null)
 								setCollapsed(false)
 							}}
 						>
-							<Plus aria-hidden />
 							Submit more icons
-						</Button>
+						</InteractiveHoverButton>
 					</motion.section>
 				)}
 				{!form.sent && (
@@ -273,9 +308,9 @@ export function IconSubmissionForm() {
 							<legend className="sr-only">New Icons</legend>
 							<div {...dropzone.getRootProps()} className="relative flex min-w-0 flex-col gap-4">
 								<input {...dropzone.getInputProps()} aria-label="Upload files for several Icons" />
-								<div className={cn(PANEL_CLASS, "flex flex-wrap items-center gap-3 border-dashed p-3 sm:p-4")}>
-									<span className={cn("flex size-8 shrink-0 items-center justify-center rounded-lg", TONES.blue)}>
-										<UploadCloud className="size-4" aria-hidden />
+								<div className={cn(PANEL_CLASS, "flex flex-wrap items-center gap-3 border-dashed border-info/40 bg-info/5 p-3 sm:p-4")}>
+									<span className={cn("flex size-10 shrink-0 items-center justify-center rounded-lg", TONES.info)}>
+										<UploadCloud className="size-5" aria-hidden />
 									</span>
 									<div className="min-w-0 flex-1 basis-56">
 										<p className="text-sm font-medium">Drop SVG or PNG files anywhere on this form</p>
@@ -289,14 +324,17 @@ export function IconSubmissionForm() {
 									</Button>
 								</div>
 								{form.importing && (
-									<p aria-live="polite" className="flex items-center gap-2 rounded-md border p-3 text-sm">
-										<Loader2 className="size-4 animate-spin text-primary motion-reduce:animate-none" aria-hidden />
+									<p aria-live="polite" className="flex items-center gap-2 rounded-md border border-info/30 bg-info/5 p-3 text-sm">
+										<Loader2 className="size-4 animate-spin text-info motion-reduce:animate-none" aria-hidden />
 										Loading known Variant names and sorting your files…
 									</p>
 								)}
 								{dropzone.isDragActive && (
-									<div className="pointer-events-none absolute inset-0 z-20 flex items-start justify-center rounded-lg border-2 border-dashed border-primary bg-background/80 pt-24">
-										<p aria-live="polite" className={cn(PANEL_CLASS, "flex items-center gap-2 px-3 py-2 text-sm font-medium text-primary")}>
+									<div className="pointer-events-none absolute inset-0 z-20 flex items-start justify-center rounded-lg border-2 border-dashed border-primary bg-primary/10 pt-24">
+										<p
+											aria-live="polite"
+											className="flex items-center gap-2 rounded-md bg-primary px-3 py-2 text-sm font-semibold text-primary-foreground shadow-sm"
+										>
 											<UploadCloud className="size-4" aria-hidden />
 											Drop to sort files into Icons. Duplicate slots will ask which file to keep.
 										</p>
@@ -357,7 +395,7 @@ export function IconSubmissionForm() {
 														</Button>
 													)}
 													{suggestion && (
-														<Alert role="status" className="bg-transparent [&>svg]:text-blue-500">
+														<Alert role="status" className="border-info/30 bg-info/5 [&>svg]:text-info">
 															<Lightbulb aria-hidden />
 															<AlertTitle className="line-clamp-none break-words">
 																Looks like a Variant of <strong className="font-mono">{suggestion.name}</strong>. Is this the same product?
@@ -390,7 +428,7 @@ export function IconSubmissionForm() {
 														</Alert>
 													)}
 													{pending.map((item) => (
-														<Alert key={item.id} role="status" className="bg-transparent [&>svg]:text-yellow-500">
+														<Alert key={item.id} role="status" className="border-warning/30 bg-warning/5 [&>svg]:text-warning">
 															<UserRound aria-hidden />
 															<AlertTitle className="line-clamp-none">
 																{item.mine
@@ -415,7 +453,7 @@ export function IconSubmissionForm() {
 							</div>
 							<Button
 								variant="outline"
-								className="mt-4 w-full"
+								className="mt-4 w-full border-dashed"
 								onClick={() => {
 									const draft = newSubmissionDraft()
 									form.setDrafts((items) => [...items, draft])
@@ -428,13 +466,13 @@ export function IconSubmissionForm() {
 							</Button>
 						</fieldset>
 						<aside className="flex min-w-0 flex-col gap-4 lg:sticky lg:top-20 lg:max-h-[calc(100dvh-6rem)] lg:self-start lg:overflow-y-auto [&>*]:shrink-0">
-							<section className={cn(PANEL_CLASS, "flex flex-col gap-4 p-4")}>
+							<section className={cn(PANEL_CLASS, "relative flex flex-col gap-4 overflow-hidden p-4", form.canSend && "border-primary/30")}>
 								<SectionHeading
 									icon={Send}
-									tone="emerald"
+									tone="success"
 									level={2}
 									title="Ready to send"
-									description={`${form.filled.length} of ${MAX_SUBMISSIONS_PER_SEND} Icons`}
+									description={`Up to ${MAX_SUBMISSIONS_PER_SEND} Icons per send`}
 								/>
 								{form.filled.length === 0 && (
 									<p className="rounded-md border border-dashed p-4 text-center text-sm text-muted-foreground">
@@ -475,13 +513,22 @@ export function IconSubmissionForm() {
 										})}
 									</ul>
 								)}
-								<div className="flex flex-col gap-2 rounded-md border p-3">
-									<div className="flex items-center justify-between gap-2 text-xs">
-										<span className="text-muted-foreground">
-											{form.filled.length} Icons · {form.fileCount} files
-										</span>
-										<span className="font-medium tabular-nums">{(form.bytes / 1024 / 1024).toFixed(1)} / 60 MB</span>
-									</div>
+								<div className="flex flex-col gap-3 rounded-md border p-3">
+									<dl className="grid grid-cols-3 divide-x text-center">
+										{[
+											{ label: "Icons", value: form.filled.length, decimals: 0 },
+											{ label: "Files", value: form.fileCount, decimals: 0 },
+											{ label: "MB of 60", value: form.bytes / 1024 / 1024, decimals: 1 },
+										].map((stat) => (
+											<div key={stat.label} className="flex flex-col-reverse">
+												<dt className="text-xs text-muted-foreground">{stat.label}</dt>
+												<dd className="text-xl font-semibold">
+													<span className="sr-only">{stat.value.toFixed(stat.decimals)}</span>
+													<NumberTicker value={stat.value} decimalPlaces={stat.decimals} className="tracking-normal" aria-hidden />
+												</dd>
+											</div>
+										))}
+									</dl>
 									<Progress
 										value={Math.min(100, (form.bytes / MAX_SEND_ASSET_BYTES) * 100)}
 										aria-label="Total upload size"
@@ -500,6 +547,15 @@ export function IconSubmissionForm() {
 								)}
 								<p className="text-xs text-muted-foreground">All Icons are saved together, or none are. Each is reviewed separately.</p>
 								<div className="max-lg:hidden">{sendButton}</div>
+								{form.canSend && (
+									<BorderBeam
+										size={100}
+										duration={8}
+										colorFrom="var(--magic-border-from)"
+										colorTo="var(--magic-border-to)"
+										className="motion-reduce:hidden"
+									/>
+								)}
 							</section>
 							<div className="max-lg:hidden">
 								<SubmissionPreview draft={form.current} />

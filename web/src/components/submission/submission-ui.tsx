@@ -12,16 +12,18 @@ import { cn } from "@/lib/utils"
 
 export const TONES = {
 	primary: "bg-primary/10 text-primary",
-	blue: "bg-blue-500/10 text-blue-500",
-	emerald: "bg-emerald-500/10 text-emerald-500",
-	violet: "bg-violet-500/10 text-violet-500",
-	yellow: "bg-yellow-500/10 text-yellow-500",
-	red: "bg-red-500/10 text-red-500",
+	info: "bg-info/10 text-info",
+	success: "bg-success/10 text-success",
+	warning: "bg-warning/10 text-warning",
+	destructive: "bg-destructive/10 text-destructive",
+	community: "bg-community/10 text-community",
 } as const
 
 export type Tone = keyof typeof TONES
 
 export const PANEL_CLASS = "rounded-lg border bg-background shadow-sm"
+
+export const AURORA_COLORS = ["var(--primary)", "var(--community)", "var(--primary)"]
 
 export type Backdrop = "light" | "dark" | "checker"
 
@@ -32,7 +34,8 @@ export const BACKDROP_CLASS: Record<Backdrop, string> = {
 }
 
 export const CHECKER_STYLE: CSSProperties = {
-	backgroundImage: "conic-gradient(#a1a1aa30 25%, transparent 0 50%, #a1a1aa30 0 75%, transparent 0)",
+	backgroundImage:
+		"conic-gradient(color-mix(in oklab, var(--muted-foreground) 18%, transparent) 25%, transparent 0 50%, color-mix(in oklab, var(--muted-foreground) 18%, transparent) 0 75%, transparent 0)",
 	backgroundSize: "16px 16px",
 }
 
@@ -64,8 +67,8 @@ export function SectionHeading({
 	return (
 		<div className={cn("flex flex-wrap items-center justify-between gap-x-3 gap-y-2", className)}>
 			<div className="flex min-w-0 items-center gap-3">
-				<span className={cn("flex size-8 shrink-0 items-center justify-center rounded-lg", TONES[tone])}>
-					<Icon className="size-4" aria-hidden />
+				<span className={cn("flex size-9 shrink-0 items-center justify-center rounded-lg", TONES[tone])}>
+					<Icon className="size-[18px]" aria-hidden />
 				</span>
 				<div className="min-w-0">
 					<Heading className="font-semibold leading-tight">{title}</Heading>
@@ -80,21 +83,21 @@ export function SectionHeading({
 export function VariantGlyph({ variant, className }: { variant: SubmissionVariant; className?: string }) {
 	const { background } = variantKind(variant)
 	let Icon: LucideIcon = Palette
-	let tone = "text-pink-500"
+	let tone = "text-primary"
 	if (variant.startsWith("custom:")) {
 		Icon = WandSparkles
-		tone = "text-violet-500"
+		tone = "text-community"
 	}
 	if (background === "dark") {
 		Icon = Sun
-		tone = "text-amber-500"
+		tone = "text-warning"
 	}
 	if (background === "light") {
 		Icon = Moon
-		tone = "text-indigo-500"
+		tone = "text-info"
 	}
 	if (variant.startsWith("wordmark")) Icon = Type
-	if (variant === "wordmark") tone = "text-green-500"
+	if (variant === "wordmark") tone = "text-success"
 	return <Icon className={cn("size-4 shrink-0", tone, className)} aria-hidden />
 }
 
@@ -133,10 +136,10 @@ export function FileDrop({
 		<div
 			{...dropzone.getRootProps({
 				className: cn(
-					"group/drop relative isolate flex flex-col items-center justify-center overflow-hidden rounded-md",
+					"group/drop relative isolate flex flex-col items-center justify-center overflow-hidden rounded-md transition-[outline-color]",
 					"has-[input:focus-visible]:outline-2 has-[input:focus-visible]:outline-offset-2 has-[input:focus-visible]:outline-ring",
 					backdrop && BACKDROP_CLASS[backdrop],
-					dropzone.isDragActive && "ring-2 ring-primary",
+					dropzone.isDragActive && "outline-2 outline-offset-2 outline-primary",
 					className,
 				),
 				style: backdrop === "checker" ? CHECKER_STYLE : undefined,
@@ -144,7 +147,7 @@ export function FileDrop({
 		>
 			{children}
 			{dropzone.isDragActive && (
-				<span className="pointer-events-none absolute inset-0 flex items-center justify-center bg-background/90 p-2 text-center text-sm font-medium text-primary">
+				<span className="pointer-events-none absolute inset-0 flex items-center justify-center bg-primary/15 p-2 text-center text-sm font-semibold text-primary">
 					Drop to add
 				</span>
 			)}
@@ -179,7 +182,10 @@ export function DropPrompt({ backdrop = "checker", title, hint }: { backdrop?: B
 				PROMPT_CLASS[backdrop],
 			)}
 		>
-			<UploadCloud className="size-4 group-hover/drop:text-primary" aria-hidden />
+			<UploadCloud
+				className="size-4 transition-transform group-hover/drop:-translate-y-0.5 group-hover/drop:text-primary motion-reduce:transition-none"
+				aria-hidden
+			/>
 			{title}
 			{hint && <span className="font-normal opacity-80">{hint}</span>}
 		</span>
@@ -245,7 +251,7 @@ export function CategoryPicker({
 							if (pressed) onChange([...value, category])
 							else onChange(value.filter((item) => item !== category))
 						}}
-						className="border-border px-2.5 font-normal capitalize data-[state=on]:border-primary/50"
+						className="border-border px-2.5 font-normal capitalize hover:border-success/40 hover:bg-success/5 hover:text-foreground data-[state=on]:border-success/40 data-[state=on]:bg-success/10 data-[state=on]:text-success"
 					>
 						{selected && <Check className="size-3.5" aria-hidden />}
 						{category.replaceAll("-", " ")}

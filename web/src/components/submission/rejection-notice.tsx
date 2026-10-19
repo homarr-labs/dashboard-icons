@@ -33,14 +33,17 @@ export function RejectionNotice({ id, feedback, canEdit }: { id: string; feedbac
 	})
 	const editable = canEdit === true || (canEdit === undefined && ownership.data === true)
 	return (
-		<section className="flex gap-3 rounded-lg border bg-background p-4" aria-label="Rejection feedback">
-			<span className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-red-500/10 text-red-500">
-				<MessageSquareWarning className="size-4" aria-hidden />
+		<section
+			className="flex gap-3 rounded-lg border border-destructive/30 border-l-4 border-l-destructive bg-background p-4 shadow-sm"
+			aria-label="Rejection feedback"
+		>
+			<span className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-destructive/10 text-destructive">
+				<MessageSquareWarning className="size-[18px]" aria-hidden />
 			</span>
 			<div className="flex min-w-0 flex-col gap-2">
 				<h2 className="font-semibold">Rejections are never final</h2>
 				{feedback && (
-					<blockquote className="whitespace-pre-wrap break-words border-l-2 border-red-500/40 pl-3 text-sm">
+					<blockquote className="whitespace-pre-wrap break-words rounded-md bg-destructive/5 p-3 text-sm">
 						<strong>Reviewer feedback:</strong> {feedback}
 					</blockquote>
 				)}

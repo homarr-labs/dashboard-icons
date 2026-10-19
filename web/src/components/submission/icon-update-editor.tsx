@@ -23,6 +23,7 @@ import { motion } from "motion/react"
 import Link from "next/link"
 import { useEffect, useRef, useState } from "react"
 import { revalidateAllSubmissions } from "@/app/actions/submissions"
+import { NumberTicker } from "@/components/magicui/number-ticker"
 import { RejectedRoundComparison } from "@/components/submission/rejected-round-comparison"
 import { RejectionNotice } from "@/components/submission/rejection-notice"
 import { AssetPreview } from "@/components/submission/submission-preview"
@@ -39,6 +40,7 @@ import {
 } from "@/components/submission/submission-ui"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { Badge } from "@/components/ui/badge"
+import { BorderBeam } from "@/components/ui/border-beam"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Skeleton } from "@/components/ui/skeleton"
@@ -114,6 +116,18 @@ export function UpdateArtwork({
 	)
 }
 
+const ACTION_BADGE = {
+	add: "border-success/20 bg-success/10 text-success",
+	replace: "border-warning/20 bg-warning/10 text-warning",
+	remove: "border-destructive/20 bg-destructive/10 text-destructive",
+} as const
+
+const ACTION_TILE = {
+	add: "border-success/40 bg-success/5",
+	replace: "border-warning/40 bg-warning/5",
+	remove: "border-destructive/40 bg-destructive/5",
+} as const
+
 export function ChangeBadge({ action }: { action?: "add" | "replace" | "remove" }) {
 	let label = "Unchanged"
 	if (action === "add") label = "+ added"
@@ -124,9 +138,7 @@ export function ChangeBadge({ action }: { action?: "add" | "replace" | "remove" 
 			className={cn(
 				"shrink-0 rounded-md border px-2 py-0.5 text-xs font-medium",
 				!action && "text-muted-foreground",
-				action === "add" && "border-emerald-500/20 bg-emerald-500/10 text-emerald-500",
-				action === "replace" && "border-yellow-500/20 bg-yellow-500/10 text-yellow-500",
-				action === "remove" && "border-red-500/20 bg-red-500/10 text-red-500",
+				action && ACTION_BADGE[action],
 			)}
 		>
 			{label}
@@ -233,13 +245,18 @@ export function IconUpdateEditor({
 			<motion.section
 				initial={{ opacity: 0, y: 8 }}
 				animate={{ opacity: 1, y: 0 }}
-				className={cn(PANEL_CLASS, "mx-auto flex max-w-2xl flex-col gap-4 p-4 sm:p-6")}
+				className={cn(PANEL_CLASS, "mx-auto flex max-w-2xl flex-col gap-4 border-success/30 p-4 sm:p-6")}
 				aria-live="polite"
 			>
 				<div className="flex items-center gap-3">
-					<span className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-emerald-500/10 text-emerald-500">
-						<Check className="size-5" aria-hidden />
-					</span>
+					<motion.span
+						initial={{ scale: 0.6, opacity: 0 }}
+						animate={{ scale: 1, opacity: 1 }}
+						transition={{ duration: 0.3, delay: 0.1 }}
+						className="flex size-11 shrink-0 items-center justify-center rounded-lg bg-success/10 text-success"
+					>
+						<Check className="size-6" aria-hidden />
+					</motion.span>
 					<h2 className="text-xl font-semibold">{owned ? "Update proposal saved" : "Update proposal sent"}</h2>
 				</div>
 				<p className="text-sm text-muted-foreground">
@@ -360,13 +377,13 @@ export function IconUpdateEditor({
 		<div className="grid min-w-0 gap-6 lg:grid-cols-[minmax(0,1fr)_340px]" data-icon-update-editor>
 			<div className="flex min-w-0 flex-col gap-6">
 				<header className={cn(PANEL_CLASS, "flex flex-wrap items-center gap-4 p-4 sm:p-5")}>
-					<span className="flex size-16 shrink-0 items-center justify-center rounded-lg bg-primary/15 dark:bg-secondary/10">
+					<span className="flex size-16 shrink-0 items-center justify-center rounded-lg bg-primary/15 ring-1 ring-border dark:bg-secondary/10">
 						{previews.base && <UnoptimizedImage src={previews.base.url} alt="" width={48} height={48} className="size-12 object-contain" />}
 						{!previews.base && <Layers className="size-6 text-muted-foreground" aria-hidden />}
 					</span>
 					<div className="min-w-0 flex-1 basis-56">
 						<div className="flex flex-wrap items-center gap-2">
-							<Badge variant="outline" className="border-primary/20">
+							<Badge variant="outline" className="border-community/20 bg-community/10 text-community">
 								Update proposal
 							</Badge>
 							<Badge variant="outline" className="text-muted-foreground">
@@ -391,7 +408,7 @@ export function IconUpdateEditor({
 				)}
 				{owned && <RejectedRoundComparison record={owned.record} />}
 				{stale && live && (
-					<Alert className="bg-transparent [&>svg]:text-yellow-500">
+					<Alert className="border-warning/30 bg-warning/5 [&>svg]:text-warning">
 						<AlertTriangle aria-hidden />
 						<AlertTitle className="line-clamp-none">The target Icon changed</AlertTitle>
 						<AlertDescription>
@@ -422,10 +439,13 @@ export function IconUpdateEditor({
 					</Alert>
 				)}
 				{target.unresolved && (
-					<section className={cn(PANEL_CLASS, "flex flex-col gap-3 border-yellow-500/20 p-4")} aria-label="Unassigned target artwork">
+					<section
+						className={cn(PANEL_CLASS, "flex flex-col gap-3 border-warning/30 bg-warning/5 p-4")}
+						aria-label="Unassigned target artwork"
+					>
 						<SectionHeading
 							icon={FileStack}
-							tone="yellow"
+							tone="warning"
 							title="The contributor needs to assign the existing files"
 							description="Every original file is kept. An update cannot be sent until each file has an unambiguous Variant, including Base."
 						/>
@@ -451,7 +471,7 @@ export function IconUpdateEditor({
 				<section className={cn(PANEL_CLASS, "flex min-w-0 flex-col gap-4 p-3 sm:p-5")}>
 					<SectionHeading
 						icon={Layers}
-						tone="blue"
+						tone="info"
 						title="Variants"
 						description="Replace artwork or remove an optional Variant. Untouched Variants stay as they are. Base is required and cannot be removed."
 					/>
@@ -475,7 +495,13 @@ export function IconUpdateEditor({
 								if (file || saved) action = target.files[key] ? "replace" : "add"
 								if (removed) action = "remove"
 								return (
-									<div key={key} className={cn("flex min-w-0 flex-col gap-3 rounded-md border p-3", removed && "border-red-500/40")}>
+									<div
+										key={key}
+										className={cn(
+											"flex min-w-0 flex-col gap-3 rounded-md border p-3 transition-colors duration-300",
+											action && ACTION_TILE[action],
+										)}
+									>
 										<div className="flex min-w-0 items-center justify-between gap-2">
 											<h4 className="flex min-w-0 items-center gap-1.5 text-sm font-semibold">
 												<VariantGlyph variant={key} />
@@ -498,7 +524,7 @@ export function IconUpdateEditor({
 											<figure className="flex min-w-0 flex-col gap-1">
 												{removed && (
 													<div
-														className="flex h-24 items-center justify-center rounded-md border border-dashed border-red-500/40 text-red-500"
+														className="flex h-24 items-center justify-center rounded-md border border-dashed border-destructive/40 text-destructive"
 														aria-label="Variant removed"
 														role="img"
 													>
@@ -550,7 +576,7 @@ export function IconUpdateEditor({
 													<Button
 														variant="ghost"
 														size="sm"
-														className="h-auto min-h-9 max-w-full whitespace-normal text-left"
+														className="h-auto min-h-9 max-w-full whitespace-normal text-left text-destructive hover:bg-destructive/10"
 														onClick={() => {
 															undoVariant(key)
 															setRemovals((current) => ({ ...current, [key]: "" }))
@@ -593,7 +619,7 @@ export function IconUpdateEditor({
 							{SUBMISSION_VARIANTS.filter((key) => !rows.includes(key)).map((key) => {
 								const kind = variantKind(key)
 								return (
-									<div key={key} className="flex min-w-0 flex-col gap-3 rounded-md border p-3">
+									<div key={key} className="flex min-w-0 flex-col gap-3 rounded-md border border-dashed p-3">
 										<div className="flex min-w-0 items-center justify-between gap-2">
 											<h4 className="flex min-w-0 items-center gap-1.5 text-sm font-semibold">
 												<VariantGlyph variant={key} />
@@ -626,11 +652,11 @@ export function IconUpdateEditor({
 							<motion.div
 								initial={{ opacity: 0, y: -4 }}
 								animate={{ opacity: 1, y: 0 }}
-								className="flex flex-col gap-2 rounded-md border p-3"
+								className="flex flex-col gap-2 rounded-md border border-community/30 bg-community/5 p-3"
 							>
 								<div className="flex items-center justify-between gap-2">
 									<label htmlFor="update-custom" className="flex items-center gap-1.5 text-sm font-medium">
-										<WandSparkles className="size-4 text-violet-500" aria-hidden />
+										<WandSparkles className="size-4 text-community" aria-hidden />
 										Custom variant name
 									</label>
 									<Button
@@ -687,7 +713,7 @@ export function IconUpdateEditor({
 				</section>
 				<fieldset disabled={busy} className={cn(PANEL_CLASS, "flex min-w-0 flex-col gap-5 p-3 sm:p-5")}>
 					<legend className="sr-only">Icon metadata</legend>
-					<SectionHeading icon={Tags} tone="emerald" title="Details" description="Aliases and categories help people find this Icon." />
+					<SectionHeading icon={Tags} tone="success" title="Details" description="Aliases and categories help people find this Icon." />
 					<div className="flex flex-col gap-2">
 						<label htmlFor="update-aliases" className="text-sm font-medium">
 							Aliases
@@ -726,13 +752,25 @@ export function IconUpdateEditor({
 					</div>
 				</fieldset>
 			</div>
-			<aside className={cn(PANEL_CLASS, "flex min-w-0 flex-col gap-4 self-start p-4 lg:sticky lg:top-24")} aria-label="Proposal changes">
+			<aside
+				className={cn(
+					PANEL_CLASS,
+					"relative flex min-w-0 flex-col gap-4 self-start overflow-hidden p-4 lg:sticky lg:top-24",
+					!disabled && "border-primary/30",
+				)}
+				aria-label="Proposal changes"
+			>
 				<SectionHeading
 					icon={GitCompareArrows}
-					tone="violet"
+					tone="community"
 					level={2}
 					title="Changes in this proposal"
-					description={`${changes} ${changes === 1 ? "change" : "changes"}`}
+					description={
+						<>
+							<span className="sr-only">{changes}</span>
+							<NumberTicker value={changes} className="tracking-normal" aria-hidden /> {changes === 1 ? "change" : "changes"}
+						</>
+					}
 				/>
 				{!changes && (
 					<p className="rounded-md border border-dashed p-4 text-center text-sm text-muted-foreground">
@@ -759,17 +797,13 @@ export function IconUpdateEditor({
 						return [
 							...delta.add.map((value) => (
 								<li key={`${field}+${value}`} className="flex flex-wrap items-center gap-2">
-									<span className="rounded-md border border-emerald-500/20 bg-emerald-500/10 px-2 py-0.5 text-xs font-medium text-emerald-500">
-										+ {field}
-									</span>
+									<span className={cn("rounded-md border px-2 py-0.5 text-xs font-medium", ACTION_BADGE.add)}>+ {field}</span>
 									<span className="font-mono text-xs">{value}</span>
 								</li>
 							)),
 							...delta.remove.map((value) => (
 								<li key={`${field}-${value}`} className="flex flex-wrap items-center gap-2">
-									<span className="rounded-md border border-red-500/20 bg-red-500/10 px-2 py-0.5 text-xs font-medium text-red-500">
-										− {field}
-									</span>
+									<span className={cn("rounded-md border px-2 py-0.5 text-xs font-medium", ACTION_BADGE.remove)}>− {field}</span>
 									<span className="font-mono text-xs">{value}</span>
 								</li>
 							)),
@@ -785,6 +819,15 @@ export function IconUpdateEditor({
 					</p>
 				)}
 				<div className="max-lg:hidden">{cta}</div>
+				{!disabled && (
+					<BorderBeam
+						size={100}
+						duration={8}
+						colorFrom="var(--magic-border-from)"
+						colorTo="var(--magic-border-to)"
+						className="motion-reduce:hidden"
+					/>
+				)}
 			</aside>
 			<div
 				data-submission-actions

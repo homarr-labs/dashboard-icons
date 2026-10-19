@@ -4,6 +4,9 @@ import { Check, Loader2, LogIn } from "lucide-react"
 import { useEffect, useState } from "react"
 import { IconSubmissionForm } from "@/components/icon-submission-form"
 import { LoginModal } from "@/components/login-modal"
+import { AuroraText } from "@/components/magicui/aurora-text"
+import { AURORA_COLORS } from "@/components/submission/submission-ui"
+import { BorderBeam } from "@/components/ui/border-beam"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader } from "@/components/ui/card"
 import { pb } from "@/lib/pb"
@@ -49,9 +52,11 @@ export default function SubmitPage() {
 			<>
 				<div className="container mx-auto px-4 py-6 sm:py-12">
 					<div className="mx-auto max-w-2xl">
-						<Card className="bg-background/50 shadow-lg">
+						<Card className="relative overflow-hidden bg-background/50 shadow-lg">
 							<CardHeader className="gap-2 px-4 text-center sm:px-6">
-								<h1 className="text-2xl font-semibold leading-none sm:text-3xl">Submit an Icon</h1>
+								<h1 className="text-2xl font-bold sm:text-3xl">
+									Submit an <AuroraText colors={AURORA_COLORS}>Icon</AuroraText>
+								</h1>
 								<CardDescription className="text-sm sm:text-base">
 									Share your icons with the community and help expand our collection
 								</CardDescription>
@@ -62,7 +67,7 @@ export default function SubmitPage() {
 									<ul className="flex flex-col gap-2.5 text-sm text-muted-foreground">
 										{REQUIREMENTS.map((requirement) => (
 											<li key={requirement} className="flex items-start gap-2.5">
-												<Check className="mt-0.5 size-4 shrink-0 text-emerald-500" aria-hidden />
+												<Check className="mt-0.5 size-4 shrink-0 text-success" aria-hidden />
 												{requirement}
 											</li>
 										))}
@@ -76,6 +81,13 @@ export default function SubmitPage() {
 									</Button>
 								</div>
 							</CardContent>
+							<BorderBeam
+								size={120}
+								duration={10}
+								colorFrom="var(--magic-border-from)"
+								colorTo="var(--magic-border-to)"
+								className="motion-reduce:hidden"
+							/>
 						</Card>
 					</div>
 				</div>

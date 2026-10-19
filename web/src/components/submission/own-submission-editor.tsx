@@ -86,13 +86,18 @@ export function OwnSubmissionEditor({ id, customNames, onBack }: { id: string; c
 			<motion.section
 				initial={{ opacity: 0, y: 8 }}
 				animate={{ opacity: 1, y: 0 }}
-				className={cn(PANEL_CLASS, "mx-auto flex max-w-2xl flex-col gap-4 p-4 sm:p-6")}
+				className={cn(PANEL_CLASS, "mx-auto flex max-w-2xl flex-col gap-4 border-success/30 p-4 sm:p-6")}
 				aria-live="polite"
 			>
 				<div className="flex items-center gap-3">
-					<span className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-emerald-500/10 text-emerald-500">
-						<Check className="size-5" aria-hidden />
-					</span>
+					<motion.span
+						initial={{ scale: 0.6, opacity: 0 }}
+						animate={{ scale: 1, opacity: 1 }}
+						transition={{ duration: 0.3, delay: 0.1 }}
+						className="flex size-11 shrink-0 items-center justify-center rounded-lg bg-success/10 text-success"
+					>
+						<Check className="size-6" aria-hidden />
+					</motion.span>
 					<h2 className="text-xl font-semibold">Awaiting review · Round {saved.round || 1}</h2>
 				</div>
 				<p className="break-words text-sm text-muted-foreground">
@@ -208,7 +213,7 @@ export function OwnSubmissionEditor({ id, customNames, onBack }: { id: string; c
 				)}
 				<div className="min-w-0 flex-1 basis-60">
 					<div className="flex flex-wrap items-center gap-2">
-						<Badge variant="outline" className="border-primary/20">
+						<Badge variant="outline" className="border-community/20 bg-community/10 text-community">
 							Your Submission
 						</Badge>
 						<StatusBadge status={record.status} />
@@ -229,14 +234,14 @@ export function OwnSubmissionEditor({ id, customNames, onBack }: { id: string; c
 				</Button>
 			</header>
 			{record.status === "rejected" && (
-				<section className={cn(PANEL_CLASS, "flex gap-3 p-4")}>
-					<span className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-red-500/10 text-red-500">
-						<MessageSquareWarning className="size-4" aria-hidden />
+				<section className={cn(PANEL_CLASS, "flex gap-3 border-destructive/30 border-l-4 border-l-destructive p-4")}>
+					<span className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-destructive/10 text-destructive">
+						<MessageSquareWarning className="size-[18px]" aria-hidden />
 					</span>
 					<div className="flex min-w-0 flex-col gap-2">
 						<h3 className="font-semibold">Rejections are never final</h3>
 						{record.admin_comment && (
-							<blockquote className="whitespace-pre-wrap break-words border-l-2 border-red-500/40 pl-3 text-sm">
+							<blockquote className="whitespace-pre-wrap break-words rounded-md bg-destructive/5 p-3 text-sm">
 								<strong>Reviewer feedback:</strong> {record.admin_comment}
 							</blockquote>
 						)}
@@ -251,10 +256,10 @@ export function OwnSubmissionEditor({ id, customNames, onBack }: { id: string; c
 				<fieldset disabled={saving} className="flex min-w-0 flex-col gap-4">
 					<legend className="sr-only">Edit Submission files and metadata</legend>
 					{unassigned.length > 0 && (
-						<section className={cn(PANEL_CLASS, "flex flex-col gap-4 border-yellow-500/20 p-4")} aria-label="Assign legacy files">
+						<section className={cn(PANEL_CLASS, "flex flex-col gap-4 border-warning/30 bg-warning/5 p-4")} aria-label="Assign legacy files">
 							<SectionHeading
 								icon={FileStack}
-								tone="yellow"
+								tone="warning"
 								title="Choose Variants for these original files"
 								description="Older filenames cannot always be matched safely. Every original file is kept here. Assign each to an empty Variant slot, or give additional artwork a distinct Custom name."
 							/>
@@ -295,7 +300,7 @@ export function OwnSubmissionEditor({ id, customNames, onBack }: { id: string; c
 					<div className={cn(PANEL_CLASS, "flex flex-col gap-4 p-4")}>
 						<SectionHeading
 							icon={Save}
-							tone="emerald"
+							tone="success"
 							level={2}
 							title="Save changes"
 							description={`${draft.assets.length + unassigned.length} files · Base is required.`}

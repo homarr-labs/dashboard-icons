@@ -1,5 +1,5 @@
 @layer utilities {
-	[data-submission-form] [data-slot="button"]:not(.bg-primary):not(.text-muted-foreground):hover {
+	[data-submission-form] [data-slot="button"]:not(.bg-primary, .text-muted-foreground, .text-destructive, .text-community):hover {
 		color: var(--foreground);
 	}
 
@@ -32,7 +32,8 @@
 				[data-slot="alert-dialog-content"],
 				[data-slot="alert-dialog-overlay"]
 			),
-		[data-submission-form] [data-slot="button"] {
+		[data-submission-form] [data-slot="button"],
+		[data-submission-form] .animate-aurora {
 			animation: none;
 			transition: none;
 		}

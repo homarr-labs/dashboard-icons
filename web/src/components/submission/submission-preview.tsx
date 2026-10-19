@@ -65,7 +65,7 @@ export function SubmissionPreview({ draft, embedded = false }: { draft: Submissi
 	return (
 		<section className={cn("flex min-w-0 flex-col gap-4", !embedded && cn(PANEL_CLASS, "p-4"))} aria-label="Selected Icon preview">
 			{!embedded && (
-				<SectionHeading icon={ImageIcon} tone="violet" level={2} title="Preview">
+				<SectionHeading icon={ImageIcon} tone="community" level={2} title="Preview">
 					<span className="max-w-40 truncate rounded-md border px-2 py-0.5 font-mono text-xs text-muted-foreground">
 						{draft?.name || "Untitled icon"}
 					</span>
