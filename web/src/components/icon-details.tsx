@@ -2,7 +2,7 @@
 
 import confetti from "canvas-confetti"
 import { AnimatePresence, motion } from "framer-motion"
-import { ArrowRight, ExternalLink, FileType, Github, Moon, Palette, PaletteIcon, Sun, Type } from "lucide-react"
+import { ArrowRight, ExternalLink, FileType, Moon, Palette, PaletteIcon, Sun, Type } from "lucide-react"
 import Link from "next/link"
 import posthog from "posthog-js"
 import type React from "react"
@@ -15,11 +15,29 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { UnoptimizedImage } from "@/components/unoptimized-image"
-import { BASE_URL, EXTERNAL_SOURCES, type ExternalSourceId, REPO_PATH } from "@/constants"
-import { canResolveExternalIconUrl, getExternalIconPreviewUrl, resolveExternalIconUrl } from "@/lib/external-icon-urls"
+import { BASE_URL, EXTERNAL_SOURCES, type ExternalSourceId, REPO_PATH, SIMPLE_ICONS_DISCLAIMER_URL, WEB_URL } from "@/constants"
+import {
+	canResolveExternalIconUrl,
+	getExternalIconPreviewUrl,
+	getExternalToneUrlKey,
+	resolveExternalIconUrl,
+} from "@/lib/external-icon-urls"
 import { isIconAssetUrl } from "@/lib/icon-url"
+import {
+	buildIconAltText,
+	getToneDescription,
+	getToneEntries,
+	getToneLabel,
+	type IconImageVariant,
+	type IconTone,
+	TONE_BACKGROUND,
+	TONE_TITLE,
+} from "@/lib/icon-variant-text"
+import type { NativeIconVariant } from "@/lib/icons/files"
+import { customVariantTone } from "@/lib/icons/variants"
+import { variantKind } from "@/lib/submission-variants"
 import { isClipboardAvailable } from "@/lib/svg-color-utils"
-import { formatIconName } from "@/lib/utils"
+import { cn, formatIconName } from "@/lib/utils"
 import type { AuthorData, ExternalIcon, Icon } from "@/types/icons"
 import { Carbon } from "./carbon"
 import { IconActions } from "./icon-actions"
@@ -29,19 +47,32 @@ import { Badge } from "./ui/badge"
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "./ui/breadcrumb"
 import { Separator } from "./ui/separator"
 
-type RenderVariantFn = (format: string, iconName: string, theme?: "light" | "dark") => React.ReactNode
-const SIMPLE_ICONS_DISCLAIMER_URL = "https://github.com/simple-icons/simple-icons/blob/develop/DISCLAIMER.md"
+type RenderVariantFn = (format: string, iconName: string, variant: IconImageVariant) => React.ReactNode
 
 const COPY_SUPPORTED_FORMATS = new Set(["svg", "png", "webp"])
+
+const TONE_ICON: Record<IconTone, React.ReactNode> = {
+	light: <Sun className="w-4 h-4 text-amber-500" />,
+	dark: <Moon className="w-4 h-4 text-indigo-500" />,
+}
+
+const TONE_TILE_CLASS: Record<IconTone, string> = {
+	light: "bg-zinc-950 ring-zinc-800",
+	dark: "bg-white ring-zinc-200",
+}
+
+function hasNativeFile(nativeFiles: NativeIconVariant[] | undefined, stem: string, format: string) {
+	if (!nativeFiles) return true
+	return !!nativeFiles.find((variant) => variant.stem === stem)?.formats.some((available) => available === format)
+}
 
 type IconVariantsSectionProps = {
 	title: string
 	description: string
 	iconElement: React.ReactNode
 	availableFormats: string[]
-	icon: string
-	iconData: Icon
-	theme?: "light" | "dark"
+	iconName: string
+	variant: IconImageVariant
 	renderVariant: RenderVariantFn
 }
 
@@ -50,12 +81,13 @@ function IconVariantsSection({
 	description,
 	iconElement,
 	availableFormats,
-	icon,
-	iconData,
-	theme,
+	iconName,
+	variant,
 	renderVariant,
 }: IconVariantsSectionProps) {
-	const iconName = theme && iconData.colors?.[theme] ? iconData.colors[theme] : icon
+	const tiles = availableFormats.map((format) => renderVariant(format, iconName, variant))
+	if (tiles.every((tile) => tile === null)) return null
+
 	return (
 		<div>
 			<h3 className="text-lg font-semibold flex items-center gap-2 mb-1">
@@ -63,22 +95,59 @@ function IconVariantsSection({
 				{title}
 			</h3>
 			<p className="text-sm text-muted-foreground mb-4">{description}</p>
-			<MagicCardPointerProvider className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-				{availableFormats.map((format) => renderVariant(format, iconName, theme))}
-			</MagicCardPointerProvider>
+			<MagicCardPointerProvider className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">{tiles}</MagicCardPointerProvider>
 		</div>
 	)
 }
 
 type WordmarkSectionProps = {
 	iconData: Icon
-	icon: string
 	availableFormats: string[]
 	renderVariant: RenderVariantFn
 }
 
+type WordmarkGroup = {
+	key: string
+	heading: React.ReactNode
+	fileName: string
+	variant: IconImageVariant
+}
+
 function WordmarkSection({ iconData, availableFormats, renderVariant }: WordmarkSectionProps) {
 	if (!iconData.wordmark) return null
+
+	const wordmarkGroups: WordmarkGroup[] = []
+	if (iconData.wordmark.default) {
+		wordmarkGroups.push({
+			key: "default",
+			heading: (
+				<>
+					<Palette className="w-4 h-4 text-pink-500" />
+					Colour wordmark <span className="font-normal text-muted-foreground">for any background</span>
+				</>
+			),
+			fileName: iconData.wordmark.default,
+			variant: { kind: "wordmark", tone: "default" },
+		})
+	}
+	for (const { tone, fileName } of getToneEntries(iconData.wordmark)) {
+		wordmarkGroups.push({
+			key: tone,
+			heading: (
+				<>
+					{TONE_ICON[tone]}
+					{TONE_TITLE[tone]} wordmark <span className="font-normal text-muted-foreground">for {TONE_BACKGROUND[tone]}</span>
+				</>
+			),
+			fileName,
+			variant: { kind: "wordmark", tone },
+		})
+	}
+
+	const groups = wordmarkGroups
+		.map((group) => ({ ...group, tiles: availableFormats.map((format) => renderVariant(format, group.fileName, group.variant)) }))
+		.filter((group) => group.tiles.some((tile) => tile !== null))
+	if (groups.length === 0) return null
 
 	return (
 		<div>
@@ -88,34 +157,14 @@ function WordmarkSection({ iconData, availableFormats, renderVariant }: Wordmark
 			</h3>
 			<p className="text-sm text-muted-foreground mb-4">Icon variants that include the brand name. Click to copy URL.</p>
 			<div className="space-y-6">
-				{iconData.wordmark.light && (
-					<div>
-						<h4 className="text-md font-medium flex items-center gap-2 mb-3">
-							<Sun className="w-4 h-4 text-amber-500" />
-							Light Theme Wordmark
-						</h4>
+				{groups.map((group) => (
+					<div key={group.key}>
+						<h4 className="text-md font-medium flex flex-wrap items-center gap-x-2 gap-y-1 mb-3">{group.heading}</h4>
 						<MagicCardPointerProvider className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-							{availableFormats.map((format) => {
-								if (!iconData.wordmark?.light) return null
-								return renderVariant(format, iconData.wordmark.light, "light")
-							})}
+							{group.tiles}
 						</MagicCardPointerProvider>
 					</div>
-				)}
-				{iconData.wordmark.dark && (
-					<div>
-						<h4 className="text-md font-medium flex items-center gap-2 mb-3">
-							<Moon className="w-4 h-4 text-indigo-500" />
-							Dark Theme Wordmark
-						</h4>
-						<MagicCardPointerProvider className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-							{availableFormats.map((format) => {
-								if (!iconData.wordmark?.dark) return null
-								return renderVariant(format, iconData.wordmark.dark, "dark")
-							})}
-						</MagicCardPointerProvider>
-					</div>
-				)}
+				))}
 			</div>
 		</div>
 	)
@@ -134,6 +183,7 @@ export type IconDetailsBreadcrumbItem = {
 export type IconDetailsProps = {
 	icon: string
 	iconData: Icon
+	nativeVariants?: NativeIconVariant[]
 	authorData: AuthorData
 	relatedIcons?: RelatedIcon[]
 	relatedCategories?: string[]
@@ -148,6 +198,7 @@ export type IconDetailsProps = {
 export function IconDetails({
 	icon,
 	iconData,
+	nativeVariants,
 	authorData,
 	relatedIcons = [],
 	relatedCategories = [],
@@ -171,6 +222,7 @@ export function IconDetails({
 	const isSimpleIcons = externalIcon?.source === "simpleicons"
 	const externalSourceConfig = externalIcon ? EXTERNAL_SOURCES[externalIcon.source as ExternalSourceId] : undefined
 	const externalPreviewUrl = externalIcon ? getExternalIconPreviewUrl(externalIcon) : null
+	const formatedIconName = externalIcon?.name ?? formatIconName(icon, { capitalize: true, aliases: iconData.aliases })
 
 	type CommunityIconData = Icon & {
 		mainIconUrl?: string
@@ -181,8 +233,10 @@ export function IconDetails({
 	const isCommunityIcon = !isExternalIcon && (!!communityData.mainIconUrl || isIconAssetUrl(iconData.base))
 	const mainIconUrl = communityData.mainIconUrl || (isCommunityIcon ? iconData.base : null)
 	const assetUrls = communityData.assetUrls || []
+	const nativeFiles = nativeVariants?.length ? nativeVariants : undefined
 
 	const heroImageUrl = externalPreviewUrl ?? mainIconUrl ?? `${BASE_URL}/${iconData.base}/${icon}.${iconData.base}`
+	const heroFormat = isIconAssetUrl(iconData.base) ? iconData.base.split("?")[0].split(".").pop()?.toLowerCase() : iconData.base
 
 	const shouldShowBaseIcon = () => {
 		if (!iconData.colors) return true
@@ -217,6 +271,7 @@ export function IconDetails({
 	}
 
 	const getAvailableFormats = (): string[] => {
+		if (nativeFiles) return [...new Set(nativeFiles.flatMap((variant) => variant.formats))]
 		if (isExternalIcon && externalIcon) {
 			return (externalIcon.formats ?? []).filter((f) => COPY_SUPPORTED_FORMATS.has(f))
 		}
@@ -463,45 +518,39 @@ export function IconDetails({
 		}
 	}
 
-	const renderVariant = (format: string, iconName: string, theme?: "light" | "dark") => {
+	const renderVariant = (format: string, iconName: string, variant: IconImageVariant) => {
 		let imageUrl: string
 		let githubUrl: string
+		let theme: IconTone | undefined
+		if (variant.kind === "tone") theme = variant.tone
+		if (variant.kind === "wordmark" && variant.tone !== "default") theme = variant.tone
+		if (variant.kind === "custom") theme = customVariantTone(variant.name)
 
 		if (isExternalIcon && externalIcon) {
-			const key = theme ? `${format}_${theme}` : format
-			const hasVariant = theme ? externalIcon.variants?.[theme] : externalIcon.formats?.includes(format)
-			if (!hasVariant || !canResolveExternalIconUrl(externalIcon, key)) return null
+			let key: string | null = format
+			if (theme) key = getExternalToneUrlKey(externalIcon, format, theme)
+			else if (!externalIcon.formats?.includes(format)) key = null
+			if (!key || !canResolveExternalIconUrl(externalIcon, key)) return null
 			imageUrl = resolveExternalIconUrl(externalIcon, key)
 			githubUrl = ""
 		} else if (isCommunityIcon && mainIconUrl) {
-			const formatExt = format === "svg" ? "svg" : format === "png" ? "png" : "webp"
-
-			// Try to find a specific asset URL that matches the requested variant filename
-			// This is important because assetUrls contains all variants (base, dark, light)
 			let matchingUrl: string | undefined
-
-			if (theme && iconName && iconName !== icon) {
-				// If a theme is specified, iconName holds the specific filename for that variant
-				matchingUrl = assetUrls.find(
-					(url: string) => typeof url === "string" && url.includes(iconName) && url.toLowerCase().endsWith(`.${formatExt}`),
-				)
-			}
-
-			if (!matchingUrl) {
-				// Fallback: find any asset with the matching extension
-				matchingUrl = assetUrls.find((url: string) => typeof url === "string" && url.toLowerCase().endsWith(`.${formatExt}`))
-			}
-
-			const _variantKey = `${format}-${theme || "default"}`
-
-			imageUrl = matchingUrl || mainIconUrl
+			if (variant.kind === "base") matchingUrl = mainIconUrl
+			else matchingUrl = assetUrls.find((url) => new URL(url, WEB_URL).pathname.endsWith(`/${encodeURIComponent(iconName)}`))
+			if (!matchingUrl || !new URL(matchingUrl, WEB_URL).pathname.toLowerCase().endsWith(`.${format}`)) return null
+			imageUrl = matchingUrl
 			githubUrl = ""
 		} else {
+			if (!hasNativeFile(nativeFiles, iconName, format)) return null
 			imageUrl = `${BASE_URL}/${format}/${iconName}.${format}`
 			githubUrl = `${REPO_PATH}/tree/main/${format}/${iconName}.${format}`
 		}
 
-		const variantKey = `${format}-${theme || "default"}`
+		let variantKey = `${format}-${theme || "default"}`
+		if (variant.kind === "wordmark") variantKey = `${format}-wordmark-${variant.tone}`
+		if (variant.kind === "custom") variantKey = `${format}-custom-${variant.name}`
+		const altText = buildIconAltText(formatedIconName, variant, format)
+		const tileBackground = theme ? TONE_TILE_CLASS[theme] : "bg-primary/15 dark:bg-secondary/10"
 
 		return (
 			<TooltipProvider key={variantKey} delayDuration={500}>
@@ -510,7 +559,10 @@ export function IconDetails({
 						<Tooltip>
 							<TooltipTrigger asChild>
 								<motion.div
-									className="relative flex h-28 w-28 items-center justify-center mb-3 ring-1 ring-white/5 dark:ring-white/10 bg-primary/15 dark:bg-secondary/10 cursor-pointer rounded-xl overflow-hidden group"
+									className={cn(
+										"relative flex h-28 w-28 items-center justify-center mb-3 ring-1 ring-white/5 dark:ring-white/10 cursor-pointer rounded-xl overflow-hidden group",
+										tileBackground,
+									)}
 									whileHover={{ scale: 1.05 }}
 									whileTap={{ scale: 0.95 }}
 									onClick={(e) => handleCopyUrl(imageUrl, variantKey, e)}
@@ -522,13 +574,13 @@ export function IconDetails({
 									}}
 									role="button"
 									tabIndex={0}
-									aria-label={`Copy ${format.toUpperCase()} URL for ${iconName}${theme ? ` (${theme} theme)` : ""}`}
+									aria-label={`Copy URL for ${altText}`}
 								>
 									<div className="absolute inset-0 border-2 border-transparent group-hover:border-primary/20 rounded-xl z-10 transition-colors" />
 
 									<UnoptimizedImage
 										src={imageUrl}
-										alt={`${iconName} in ${format} format${theme ? ` (${theme} theme)` : ""}`}
+										alt={altText}
 										width={88}
 										height={88}
 										className="max-h-full max-w-full object-contain p-4"
@@ -560,8 +612,6 @@ export function IconDetails({
 		)
 	}
 
-	const formatedIconName = externalIcon?.name ?? formatIconName(icon)
-
 	type VariantOption = {
 		value: string
 		label: string
@@ -575,11 +625,11 @@ export function IconDetails({
 			if (externalIcon.formats.includes("svg")) {
 				variants.push({ value: "base", label: isSimpleIcons ? "Brand color" : "Base Icon", iconName: externalIcon.slug })
 			}
-			if (externalIcon.variants?.light && canResolveExternalIconUrl(externalIcon, "svg_light")) {
-				variants.push({ value: "light", label: "Light Variant", iconName: `${externalIcon.slug}-light` })
-			}
-			if (externalIcon.variants?.dark && canResolveExternalIconUrl(externalIcon, "svg_dark")) {
-				variants.push({ value: "dark", label: "Dark Variant", iconName: `${externalIcon.slug}-dark` })
+			for (const { tone, fileName } of getToneEntries(iconData.colors)) {
+				const key = getExternalToneUrlKey(externalIcon, "svg", tone)
+				if (key && canResolveExternalIconUrl(externalIcon, key)) {
+					variants.push({ value: tone, label: getToneLabel(tone), iconName: fileName })
+				}
 			}
 			return variants
 		}
@@ -602,7 +652,7 @@ export function IconDetails({
 				if (lightSvg) {
 					variants.push({
 						value: "light",
-						label: "Light Variant",
+						label: getToneLabel("light"),
 						iconName: lightVariant,
 					})
 				}
@@ -616,7 +666,7 @@ export function IconDetails({
 				if (darkSvg) {
 					variants.push({
 						value: "dark",
-						label: "Dark Variant",
+						label: getToneLabel("dark"),
 						iconName: darkVariant,
 					})
 				}
@@ -630,7 +680,7 @@ export function IconDetails({
 				if (wordmarkLightSvg) {
 					variants.push({
 						value: "wordmark-light",
-						label: "Wordmark Light",
+						label: getToneLabel("light", "wordmark"),
 						iconName: wordmarkLight,
 					})
 				}
@@ -644,13 +694,15 @@ export function IconDetails({
 				if (wordmarkDarkSvg) {
 					variants.push({
 						value: "wordmark-dark",
-						label: "Wordmark Dark",
+						label: getToneLabel("dark", "wordmark"),
 						iconName: wordmarkDark,
 					})
 				}
 			}
 		} else {
-			if (iconData.base === "svg") {
+			const hasSvg = (stem: string) => iconData.base === "svg" && hasNativeFile(nativeFiles, stem, "svg")
+
+			if (hasSvg(icon)) {
 				variants.push({
 					value: "base",
 					label: "Base Icon",
@@ -658,41 +710,41 @@ export function IconDetails({
 				})
 			}
 
-			if (iconData.colors?.light && iconData.base === "svg") {
+			if (iconData.colors?.light && hasSvg(iconData.colors.light)) {
 				variants.push({
 					value: "light",
-					label: "Light Variant",
+					label: getToneLabel("light"),
 					iconName: iconData.colors.light,
 				})
 			}
 
-			if (iconData.colors?.dark && iconData.base === "svg") {
+			if (iconData.colors?.dark && hasSvg(iconData.colors.dark)) {
 				variants.push({
 					value: "dark",
-					label: "Dark Variant",
+					label: getToneLabel("dark"),
 					iconName: iconData.colors.dark,
 				})
 			}
 
-			if (iconData.wordmark?.light && iconData.base === "svg") {
+			if (iconData.wordmark?.light && hasSvg(iconData.wordmark.light)) {
 				variants.push({
 					value: "wordmark-light",
-					label: "Wordmark Light",
+					label: getToneLabel("light", "wordmark"),
 					iconName: iconData.wordmark.light,
 				})
 			}
 
-			if (iconData.wordmark?.dark && iconData.base === "svg") {
+			if (iconData.wordmark?.dark && hasSvg(iconData.wordmark.dark)) {
 				variants.push({
 					value: "wordmark-dark",
-					label: "Wordmark Dark",
+					label: getToneLabel("dark", "wordmark"),
 					iconName: iconData.wordmark.dark,
 				})
 			}
 		}
 
 		return variants
-	}, [isExternalIcon, externalIcon, isSimpleIcons, isCommunityIcon, assetUrls, mainIconUrl, icon, iconData])
+	}, [isExternalIcon, externalIcon, isSimpleIcons, isCommunityIcon, assetUrls, mainIconUrl, icon, iconData, nativeFiles])
 
 	const getSvgUrl = useCallback(
 		(variantValue?: string): string | null => {
@@ -706,10 +758,10 @@ export function IconDetails({
 			if (isExternalIcon && externalIcon) {
 				if (!externalIcon.formats.includes("svg")) return null
 				if (variant === "base") return resolveExternalIconUrl(externalIcon, "svg")
-				if (variant === "light" && externalIcon.variants?.light && canResolveExternalIconUrl(externalIcon, "svg_light"))
-					return resolveExternalIconUrl(externalIcon, "svg_light")
-				if (variant === "dark" && externalIcon.variants?.dark && canResolveExternalIconUrl(externalIcon, "svg_dark"))
-					return resolveExternalIconUrl(externalIcon, "svg_dark")
+				if (variant === "light" || variant === "dark") {
+					const key = getExternalToneUrlKey(externalIcon, "svg", variant)
+					if (key && canResolveExternalIconUrl(externalIcon, key)) return resolveExternalIconUrl(externalIcon, key)
+				}
 				return null
 			}
 
@@ -782,7 +834,7 @@ export function IconDetails({
 												priority
 												width={96}
 												height={96}
-												alt={`${formatedIconName} icon and logo`}
+												alt={buildIconAltText(formatedIconName, { kind: "base" }, "svg")}
 												className="h-full w-full object-contain dark:invert"
 											/>
 										) : (
@@ -791,13 +843,13 @@ export function IconDetails({
 												priority
 												width={96}
 												height={96}
-												alt={`${formatedIconName} icon and logo in ${iconData.base.toUpperCase()} format`}
+												alt={buildIconAltText(formatedIconName, { kind: "base" }, heroFormat)}
 												className="h-full w-full object-contain"
 											/>
 										)}
 									</div>
 								</div>
-								<CardTitle className="mt-3 text-3xl font-bold capitalize text-center tracking-wide">
+								<CardTitle className="mt-3 text-3xl font-bold text-center tracking-wide">
 									<h1>{formatedIconName}</h1>
 								</CardTitle>
 							</div>
@@ -895,7 +947,7 @@ export function IconDetails({
 									<div className="rounded-md border border-border p-3 text-xs text-muted-foreground">
 										<p className="font-medium text-foreground">{externalIcon.attribution}</p>
 										<p className="mt-1">
-											License:{" "}
+											{!isSimpleIcons && externalIcon.license === externalSourceConfig?.license ? "Collection license" : "Artwork license"}:{" "}
 											{externalIcon.license_url && externalIcon.license ? (
 												<Link
 													href={externalIcon.license_url}
@@ -920,11 +972,25 @@ export function IconDetails({
 												"Not specified"
 											)}
 										</p>
-										{externalIcon.source === "simpleicons" && (
-											<p className="mt-2">
-												Brand names and marks remain subject to their owners&apos; trademark and usage terms. Check the source and brand
-												guidelines before use.
-											</p>
+										{isSimpleIcons && externalSourceConfig && (
+											<>
+												<p className="mt-1">
+													Simple Icons collection:{" "}
+													<Link
+														href={externalSourceConfig.licenseUrl}
+														target="_blank"
+														rel="noopener noreferrer"
+														className="text-primary hover:underline"
+													>
+														{externalSourceConfig.license}
+													</Link>
+												</p>
+												<p className="mt-2">The collection license does not cover every icon. Artwork rights may differ.</p>
+												<p className="mt-2">
+													Brand names and marks remain subject to their owners&apos; trademark and usage terms. Check the source and brand
+													guidelines before use.
+												</p>
+											</>
 										)}
 									</div>
 								)}
@@ -949,41 +1015,41 @@ export function IconDetails({
 										description={isSimpleIcons ? "Official brand color" : "Original icon version"}
 										iconElement={<FileType className="w-4 h-4 text-blue-500" />}
 										availableFormats={availableFormats}
-										icon={icon}
-										iconData={iconData}
+										iconName={icon}
+										variant={{ kind: "base" }}
 										renderVariant={renderVariant}
 									/>
 								)}
 
-								{iconData.colors?.light && (
+								{getToneEntries(iconData.colors).map(({ tone, fileName }) => (
 									<IconVariantsSection
-										title="Light mode"
-										description={isSimpleIcons ? "Black icon for light backgrounds" : "Icon variants optimized for light backgrounds"}
-										iconElement={<Sun className="w-4 h-4 text-amber-500" />}
+										key={tone}
+										title={TONE_TITLE[tone]}
+										description={getToneDescription(tone, externalSourceConfig?.monochromeTones ?? false)}
+										iconElement={TONE_ICON[tone]}
 										availableFormats={availableFormats}
-										icon={icon}
-										theme="light"
-										iconData={iconData}
+										iconName={fileName}
+										variant={{ kind: "tone", tone, monochrome: externalSourceConfig?.monochromeTones ?? false }}
 										renderVariant={renderVariant}
 									/>
-								)}
-
-								{iconData.colors?.dark && (
-									<IconVariantsSection
-										title="Dark mode"
-										description={isSimpleIcons ? "White icon for dark backgrounds" : "Icon variants optimized for dark backgrounds"}
-										iconElement={<Moon className="w-4 h-4 text-indigo-500" />}
-										availableFormats={availableFormats}
-										icon={icon}
-										theme="dark"
-										iconData={iconData}
-										renderVariant={renderVariant}
-									/>
-								)}
+								))}
 
 								{iconData.wordmark && (
-									<WordmarkSection iconData={iconData} icon={icon} availableFormats={availableFormats} renderVariant={renderVariant} />
+									<WordmarkSection iconData={iconData} availableFormats={availableFormats} renderVariant={renderVariant} />
 								)}
+
+								{Object.entries(iconData.variants ?? {}).map(([name, fileName]) => (
+									<IconVariantsSection
+										key={`custom-${name}`}
+										title={name}
+										description={`${variantKind(`custom:${name}`).description}.`}
+										iconElement={<FileType className="w-4 h-4 text-blue-500" />}
+										availableFormats={availableFormats}
+										iconName={fileName}
+										variant={{ kind: "custom", name }}
+										renderVariant={renderVariant}
+									/>
+								))}
 							</div>
 						</CardContent>
 					</Card>
@@ -1084,18 +1150,6 @@ export function IconDetails({
 												</Link>
 											</Button>
 										)}
-									</div>
-								)}
-
-								{!isCommunityIcon && !isExternalIcon && (
-									<div className="">
-										<h3 className="text-sm font-semibold text-muted-foreground mb-2">Source</h3>
-										<Button variant="outline" className="w-full" asChild>
-											<Link href={`${REPO_PATH}/blob/main/meta/${icon}.json`} target="_blank" rel="noopener noreferrer">
-												<Github className="w-4 h-4 mr-2" />
-												View on GitHub
-											</Link>
-										</Button>
 									</div>
 								)}
 

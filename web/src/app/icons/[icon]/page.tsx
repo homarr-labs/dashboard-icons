@@ -220,6 +220,7 @@ export default async function IconPage({ params }: { params: Promise<{ icon: str
 				breadcrumbItems={breadcrumbItems}
 				icon={icon}
 				iconData={originalIconData}
+				nativeVariants={variants}
 				authorData={authorData}
 				relatedIcons={relatedIcons}
 				relatedCategories={categories}
