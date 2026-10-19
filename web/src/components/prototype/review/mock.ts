@@ -1,4 +1,4 @@
-// PROTOTYPE (throwaway): pass 2 mock model — one Submission = one icon (new or update delta), 6 well-known variants + custom variants, "sent together" batches, sibling/collision hints.
+// PROTOTYPE (throwaway): pass 3 mock model: one Submission = one icon (new or update delta), 6 well-known variants + custom variants, "sent together" batches, sibling/collision hints.
 export const wellKnown = ["base", "light", "dark", "wordmark", "wordmark-light", "wordmark-dark"] as const
 export type CheckId = "opaque-background" | "low-resolution" | "raster"
 export interface Check {
@@ -33,7 +33,7 @@ export interface Revision {
 	round: number
 	reviewer: string
 	at: string
-	reason: string
+	reason?: string
 	previous: Variant[]
 	changes: string[]
 }
@@ -306,7 +306,7 @@ const kioskDevon = base({
 	contributor: "devon",
 	created: ago(60 * 52),
 	slug: "kiosk-panel",
-	note: "Kiosk Panel – wall-mounted dashboard frontend.",
+	note: "Kiosk Panel, a wall-mounted dashboard frontend.",
 	categories: ["Dashboards"],
 	variants: [v("base", asset(kiosk("#0ea5e9", "#e0f2fe")))],
 })
@@ -320,6 +320,32 @@ const kioskKiki = base({
 	variants: [v("base", asset(kiosk("#f97316", "#ffedd5"))), v("dark", asset(kiosk("#27272a", "#d4d4d8")))],
 })
 
+function office(fill: string, text: string, label = "") {
+	const word = label
+		? `<text x="70" y="33" font-family="ui-sans-serif,system-ui,sans-serif" font-size="20" font-weight="700" fill="${text}">${label}</text>`
+		: ""
+	const width = label ? 220 : 64
+	return `<svg viewBox="0 0 ${width} 48"><rect x="6" y="4" width="40" height="40" rx="9" fill="${fill}"/><path d="M16 16h20M16 24h20M16 32h12" stroke="${text}" stroke-width="4" stroke-linecap="round"/>${word}</svg>`
+}
+const longSlug = base({
+	id: "sub-quinn",
+	contributor: "quinn-from-the-collabora-community",
+	created: ago(60 * 12),
+	slug: "collabora-online-development-edition-office-suite",
+	note: "Full set for CODE (Collabora Online Development Edition), including the wordmarks used on wide dashboard tiles and an animated loading version that Collabora ships in its own web UI when documents open.",
+	aliases: ["collabora", "code", "collabora-online", "collabora-office", "libreoffice-online"],
+	categories: ["Office", "Productivity", "Document Editing"],
+	variants: [
+		v("base", asset(office("#5c2d91", "#ffffff"))),
+		v("light", asset(office("#f4f4f5", "#5c2d91"))),
+		v("dark", asset(office("#2e1065", "#e9d5ff"))),
+		v("wordmark", asset(office("#5c2d91", "#5c2d91", "collabora"))),
+		v("wordmark-light", asset(office("#f4f4f5", "#fafafa", "collabora"))),
+		v("wordmark-dark", asset(office("#2e1065", "#18181b", "collabora"))),
+		v("loading-animation-for-document-open", asset(office("#7c3aed", "#ffffff"))),
+	],
+})
+
 export const initialSubmissions: Submission[] = [
 	...lune,
 	kioskKiki,
@@ -328,6 +354,7 @@ export const initialSubmissions: Submission[] = [
 	bookshelf,
 	rio,
 	pulsar,
+	longSlug,
 	sonarrUpdate,
 	vaultUpdate,
 	kioskDevon,
@@ -336,18 +363,17 @@ export const initialSubmissions: Submission[] = [
 export interface Reason {
 	key: string
 	text: string
-	final: boolean
 }
 export const reasons: Reason[] = [
-	{ key: "svg", text: "Please provide a clean SVG vector file.", final: false },
-	{ key: "transparent", text: "Please remove the background and use transparency.", final: false },
-	{ key: "quality", text: "The icon is too small or blurry. Please upload a higher-quality asset.", final: false },
-	{ key: "official", text: "Please use the official logo and correct its proportions.", final: false },
-	{ key: "variant-of", text: "This should be a variant of another icon. Please resubmit it as an update to that icon.", final: false },
-	{ key: "exists", text: "This icon is already in the collection.", final: true },
-	{ key: "political", text: "Political submissions are not accepted.", final: true },
-	{ key: "personal", text: "This is a personal or non-public resource.", final: true },
-	{ key: "irrelevant", text: "This icon is not relevant for our collection.", final: true },
+	{ key: "svg", text: "Please provide a clean SVG vector file." },
+	{ key: "transparent", text: "Please remove the background and use transparency." },
+	{ key: "quality", text: "The icon is too small or blurry. Please upload a higher-quality asset." },
+	{ key: "official", text: "Please use the official logo and correct its proportions." },
+	{ key: "variant-of", text: "This should be a variant of another icon. Please resubmit it as an update to that icon." },
+	{ key: "exists", text: "This icon is already in the collection." },
+	{ key: "political", text: "Political submissions are not accepted." },
+	{ key: "personal", text: "This is a personal or non-public resource." },
+	{ key: "irrelevant", text: "This icon is not relevant for our collection." },
 ]
 export function variantOfText(parent: string) {
 	return `This should be a variant of ${parent}. Please resubmit it as an update to ${parent}.`
@@ -380,7 +406,7 @@ export function backgroundHint(kind: string) {
 	const intended = intendedBackground(kind)
 	if (intended === "dark") return "for dark backgrounds"
 	if (intended === "light") return "for light backgrounds"
-	return "colour"
+	return "any background"
 }
 export function blocking(variant: Variant) {
 	return variant.asset.checks.some((check) => check.severity === "block")

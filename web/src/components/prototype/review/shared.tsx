@@ -1,9 +1,10 @@
-// PROTOTYPE (throwaway): pass 2 shared pieces — background-correct variant tiles (now vs proposed), reason picker, fix-up fields, hints, decision badge and the payload dialog.
+// PROTOTYPE (throwaway): pass 3 shared pieces for the review bench: background-correct variant tiles (now vs proposed), reason picker, fix-up fields, hints, round diff and the payload dialog.
 "use client"
-import { AlertTriangle, Layers } from "lucide-react"
+import { AlertTriangle, ArrowRight, Layers, Trash2, Undo2 } from "lucide-react"
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogTitle } from "@/components/ui/dialog"
+import { Input } from "@/components/ui/input"
 import { UnoptimizedImage } from "@/components/unoptimized-image"
 import { cn } from "@/lib/utils"
 import {
@@ -25,6 +26,7 @@ import {
 } from "./mock"
 import type { Decision, EffectiveRow, Review, ReviewPayload } from "./state"
 
+export const focusRing = "outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:border-ring"
 export const checker = {
 	backgroundImage: "repeating-conic-gradient(#d4d4d8 0% 25%, #ffffff 0% 50%)",
 	backgroundSize: "14px 14px",
@@ -48,14 +50,18 @@ export function Swatch({
 	return (
 		<span
 			className={cn(
-				"relative flex items-center justify-center overflow-hidden",
+				"relative flex min-w-0 items-center justify-center overflow-hidden",
 				backdrop === "light" && "bg-white",
 				backdrop === "dark" && "bg-zinc-950",
 				className,
 			)}
 			style={backdrop === "checker" ? checker : undefined}
 		>
-			<UnoptimizedImage src={variant.asset.url} alt={kind || variant.kind} className="h-full max-h-full w-full max-w-full object-contain" />
+			<UnoptimizedImage
+				src={variant.asset.url}
+				alt={kindLabel(kind || variant.kind)}
+				className="h-full max-h-full w-full max-w-full object-contain"
+			/>
 		</span>
 	)
 }
@@ -64,17 +70,18 @@ export function KindBadge({ kind, className }: { kind: string; className?: strin
 	const intended = intendedBackground(kind)
 	return (
 		<span
+			title={kindLabel(kind)}
 			className={cn(
-				"inline-flex items-center rounded border px-1.5 py-0.5 text-[10px] font-medium leading-none",
-				intended === "dark" && "border-zinc-700 bg-zinc-900 text-zinc-100",
+				"inline-flex min-w-0 max-w-full items-center gap-1 rounded-md border px-1.5 py-0.5 text-xs font-medium leading-tight",
+				intended === "dark" && "border-zinc-700 bg-zinc-900 text-zinc-50",
 				intended === "light" && "border-zinc-300 bg-white text-zinc-900",
-				intended === "any" && "bg-muted/60",
-				isCustom(kind) && "border-dashed border-violet-500/60",
+				intended === "any" && "bg-muted text-foreground",
+				isCustom(kind) && "border-dashed border-violet-500/70",
 				className,
 			)}
 		>
-			{kindLabel(kind)}
-			{isCustom(kind) && <span className="ml-1 opacity-60">custom</span>}
+			<span className="truncate">{kindLabel(kind)}</span>
+			{isCustom(kind) && <span className="shrink-0 font-normal opacity-75">custom</span>}
 		</span>
 	)
 }
@@ -88,7 +95,7 @@ export function KindSelect({ value, onChange, className }: { value: string; onCh
 			value={value}
 			onChange={(event) => {
 				if (event.target.value !== "__custom") return onChange(event.target.value)
-				const name = window.prompt("Custom variant name (file becomes <slug>-<name>)")
+				const name = window.prompt("Custom variant name. The file becomes <slug>-<name>.")
 				if (name?.trim())
 					onChange(
 						name
@@ -97,7 +104,11 @@ export function KindSelect({ value, onChange, className }: { value: string; onCh
 							.replace(/[^a-z0-9-]+/g, "-"),
 					)
 			}}
-			className={cn("h-6 min-w-0 rounded border bg-background text-[11px]", className)}
+			className={cn(
+				"h-8 w-full min-w-0 truncate rounded-md border bg-background px-2 text-xs pointer-coarse:h-11 pointer-coarse:text-sm",
+				focusRing,
+				className,
+			)}
 		>
 			{options.map((kind) => (
 				<option key={kind} value={kind}>
@@ -105,11 +116,17 @@ export function KindSelect({ value, onChange, className }: { value: string; onCh
 					{isCustom(kind) && " (custom)"}
 				</option>
 			))}
-			<option value="__custom">Custom…</option>
+			<option value="__custom">Custom name…</option>
 		</select>
 	)
 }
 
+const changeTone = {
+	added: "bg-emerald-600 text-white",
+	replaced: "bg-amber-400 text-amber-950",
+	removed: "bg-red-600 text-white",
+	unchanged: "bg-background/90 text-muted-foreground border",
+}
 export function VariantTile({
 	row,
 	slug,
@@ -119,7 +136,6 @@ export function VariantTile({
 	onSelect,
 	review,
 	submissionId,
-	compact,
 	update,
 }: {
 	row: EffectiveRow
@@ -130,174 +146,191 @@ export function VariantTile({
 	onSelect?: () => void
 	review?: Review
 	submissionId?: string
-	compact?: boolean
 	update?: boolean
 }) {
 	const shown = row.proposed || row.published
 	if (!shown) return null
-	const showNow = !!row.published && row.change !== "added"
-	const retagged = row.kind !== row.originalKind
+	const editable = !!review && !!submissionId && !!row.proposed && row.change !== "removed" && row.change !== "unchanged"
+	const split = update && row.change === "replaced" && row.published && row.proposed
+	const file = fileName(slug, { kind: row.kind, asset: shown.asset })
 	return (
-		<figure className={cn("min-w-0", row.dropped && "opacity-40")}>
+		<figure
+			className={cn(
+				"flex min-w-0 flex-col gap-2 rounded-xl border bg-background p-2 transition-colors",
+				selected && "border-foreground/50 ring-2 ring-foreground/15",
+				row.proposed && row.change !== "unchanged" && blocking(row.proposed) && "border-red-500/70",
+			)}
+		>
 			<button
 				type="button"
 				onClick={onSelect}
-				className={cn(
-					"relative block w-full overflow-hidden rounded-lg border text-left",
-					selected && "ring-2 ring-primary",
-					row.change === "removed" && "border-red-500/60",
-					row.proposed && blocking(row.proposed) && "border-red-500",
-				)}
+				aria-pressed={selected}
+				aria-label={`${kindLabel(row.kind)} variant, ${file}`}
+				className={cn("relative block h-32 w-full overflow-hidden rounded-lg border sm:h-36", focusRing)}
 			>
+				<span className={cn("flex h-full", row.dropped && "opacity-30")}>
+					{split && row.published && row.proposed && (
+						<>
+							<span className="relative flex w-2/5 border-r">
+								<Swatch variant={row.published} mode={mode} className="h-full w-full p-2 opacity-70" />
+								<span className="absolute bottom-1 left-1 rounded bg-background/90 px-1 text-[11px] font-medium text-muted-foreground">
+									Now
+								</span>
+							</span>
+							<span className="relative flex flex-1">
+								<Swatch variant={row.proposed} kind={row.kind} mode={mode} className="h-full w-full p-3" />
+								<span className="absolute bottom-1 left-1 rounded bg-background/90 px-1 text-[11px] font-medium">Proposed</span>
+							</span>
+						</>
+					)}
+					{!split && row.change !== "removed" && (
+						<Swatch
+							variant={row.proposed || shown}
+							kind={row.kind}
+							mode={mode}
+							className={cn("h-full w-full p-4", row.change === "unchanged" && "opacity-60")}
+						/>
+					)}
+					{row.change === "removed" && row.published && (
+						<span className="relative flex flex-1">
+							<Swatch variant={row.published} mode={mode} className="h-full w-full p-4 opacity-40 grayscale" />
+							<span className="absolute inset-0 bg-red-500/10" />
+						</span>
+					)}
+				</span>
 				{number !== undefined && (
-					<span className="absolute left-1.5 top-1.5 z-10 rounded bg-background/90 px-1 font-mono text-[10px]">{number}</span>
+					<span className="absolute left-1.5 top-1.5 flex size-5 items-center justify-center rounded bg-background/90 font-mono text-[11px] font-medium shadow-sm">
+						{number}
+					</span>
 				)}
-				{(row.change !== "added" || update) && (
+				{update && (
 					<span
-						className={cn(
-							"absolute right-1.5 top-1.5 z-10 rounded px-1 text-[9px] font-semibold uppercase tracking-wider",
-							row.change === "removed" && "bg-red-600 text-white",
-							row.change === "replaced" && "bg-amber-500 text-black",
-							row.change === "added" && "bg-emerald-600 text-white",
-							row.change === "unchanged" && "bg-muted text-muted-foreground",
-						)}
+						className={cn("absolute right-1.5 top-1.5 rounded px-1.5 py-0.5 text-[11px] font-semibold capitalize", changeTone[row.change])}
 					>
 						{row.change}
 					</span>
 				)}
-				<span className={cn("flex", compact && "h-16", !compact && "h-28")}>
-					{showNow && row.published && (
-						<Swatch
-							variant={row.published}
-							mode={mode}
-							className={cn("border-r p-2", row.change === "unchanged" && "flex-1", row.change !== "unchanged" && "w-2/5 opacity-70")}
-						/>
-					)}
-					{row.proposed && row.change !== "unchanged" && (
-						<Swatch variant={row.proposed} kind={row.kind} mode={mode} className="flex-1 p-3" />
-					)}
-					{row.change === "removed" && (
-						<span className="flex flex-1 items-center justify-center bg-[repeating-linear-gradient(45deg,transparent_0_6px,rgba(239,68,68,.15)_6px_12px)] text-[10px] font-medium text-red-600">
-							removed
-						</span>
-					)}
-				</span>
-				{showNow && row.change !== "unchanged" && (
-					<span className="flex border-t text-[9px] uppercase tracking-wider text-muted-foreground">
-						<span className="w-2/5 border-r px-1.5">now</span>
-						<span className="px-1.5">proposed</span>
+				{row.dropped && (
+					<span className="absolute inset-x-0 top-1/2 mx-auto w-fit -translate-y-1/2 rounded-md bg-foreground px-2 py-0.5 text-xs font-medium text-background">
+						Dropped
 					</span>
 				)}
 			</button>
-			<figcaption className="mt-1 space-y-0.5">
-				<span className="flex flex-wrap items-center gap-1">
+			<figcaption className="min-w-0 space-y-1">
+				<div className="flex min-w-0 flex-wrap items-center gap-x-1.5 gap-y-1">
 					<KindBadge kind={row.kind} />
-					{!compact && <span className="text-[10px] text-muted-foreground">{backgroundHint(row.kind)}</span>}
-					{retagged && <span className="text-[10px] text-blue-600">was {kindLabel(row.originalKind)}</span>}
-				</span>
-				<span className="block truncate font-mono text-[10px] text-muted-foreground">
-					{fileName(slug, { kind: row.kind, asset: shown.asset })}
-				</span>
+					<span className="text-xs text-muted-foreground">{backgroundHint(row.kind)}</span>
+				</div>
+				<FileName slug={slug} file={file} />
+				{row.kind !== row.originalKind && (
+					<p className="text-xs text-blue-700 dark:text-blue-300">Retagged from {kindLabel(row.originalKind)}</p>
+				)}
 				{row.proposed?.asset.checks.map((check) => (
-					<span key={check.id} className={cn("block text-[10px]", check.severity === "block" && "text-red-600")}>
-						⚠ {check.label}
-					</span>
+					<p key={check.id} className={cn("text-xs", check.severity === "block" && "text-red-600 dark:text-red-400")}>
+						{check.label}
+					</p>
 				))}
-				{review && submissionId && row.proposed && row.change !== "removed" && row.change !== "unchanged" && (
-					<span className="flex items-center gap-1">
-						<KindSelect value={row.kind} onChange={(kind) => review.retag(submissionId, row.proposed?.id || "", kind)} className="flex-1" />
-						<button
-							type="button"
-							className="rounded border px-1.5 text-[10px] hover:bg-muted"
-							onClick={() => review.toggleDrop(submissionId, row.proposed?.id || "")}
-						>
+			</figcaption>
+			{editable && row.proposed && review && submissionId && (
+				<div className="mt-auto grid grid-cols-[minmax(0,1fr)_auto] gap-1.5">
+					<KindSelect value={row.kind} onChange={(kind) => review.retag(submissionId, row.proposed?.id || "", kind)} />
+					<Button
+						type="button"
+						variant="outline"
+						size="sm"
+						className="h-8 px-2 text-xs hover:scale-100 pointer-coarse:h-11 pointer-coarse:px-3"
+						onClick={() => review.toggleDrop(submissionId, row.proposed?.id || "")}
+					>
+						{row.dropped && <Undo2 className="size-3.5" />}
+						{!row.dropped && <Trash2 className="size-3.5" />}
+						<span className="max-sm:sr-only">
 							{row.dropped && "Keep"}
 							{!row.dropped && "Drop"}
-						</button>
-					</span>
-				)}
-			</figcaption>
+						</span>
+					</Button>
+				</div>
+			)}
 		</figure>
 	)
+}
+
+export function FileName({ slug, file, className }: { slug: string; file: string; className?: string }) {
+	const suffix = file.slice(slug.length)
+	return (
+		<p title={file} className={cn("flex min-w-0 font-mono text-xs text-muted-foreground", className)}>
+			<span className="min-w-[3ch] shrink-[20] truncate">{slug}</span>
+			<span className="min-w-0 truncate">{suffix}</span>
+		</p>
+	)
+}
+
+export function plural(count: number, word: string) {
+	if (count === 1) return `${count} ${word}`
+	return `${count} ${word}s`
 }
 
 export function reasonFor(reason: Reason, hint?: Hint) {
 	if (reason.key === "variant-of" && hint?.parent) return variantOfText(hint.parent)
 	return reason.text
 }
-export function ReasonPicker({
-	onPick,
-	hint,
-	columns = 2,
-}: {
-	onPick: (text: string, final: boolean) => void
-	hint?: Hint
-	columns?: 1 | 2
-}) {
+export function ReasonPicker({ onPick, hint }: { onPick: (text: string) => void; hint?: Hint }) {
 	return (
-		<div className={cn("grid gap-1", columns === 2 && "sm:grid-cols-2")}>
+		<ol className="grid gap-1.5 md:grid-cols-2">
 			{reasons.map((reason, index) => (
-				<button
-					type="button"
-					key={reason.key}
-					onClick={() => onPick(reasonFor(reason, hint), reason.final)}
-					className="flex items-start gap-2 rounded border px-2 py-1.5 text-left text-xs hover:bg-muted"
-				>
-					<kbd className="font-mono text-muted-foreground">{index + 1}</kbd>
-					<span className="flex-1">{reasonFor(reason, hint)}</span>
-					<span
+				<li key={reason.key} className="min-w-0">
+					<button
+						type="button"
+						onClick={() => onPick(reasonFor(reason, hint))}
 						className={cn(
-							"shrink-0 rounded px-1 text-[9px] font-medium uppercase",
-							reason.final && "bg-red-500/10 text-red-600",
-							!reason.final && "bg-blue-500/10 text-blue-600",
+							"flex min-h-9 w-full items-start gap-2 rounded-md border bg-background px-2.5 py-2 text-left text-sm leading-snug hover:bg-muted pointer-coarse:min-h-11",
+							focusRing,
 						)}
 					>
-						{reason.final && "final"}
-						{!reason.final && "resubmit"}
-					</span>
-				</button>
+						<kbd className="mt-px flex size-5 shrink-0 items-center justify-center rounded border bg-muted font-mono text-[11px]">
+							{index + 1}
+						</kbd>
+						<span className="min-w-0 flex-1 text-pretty">{reasonFor(reason, hint)}</span>
+					</button>
+				</li>
 			))}
-		</div>
+		</ol>
 	)
 }
 
-export function DecisionBadge({ decision, className }: { decision?: Decision; className?: string }) {
-	let label = "Pending"
-	let tone = "border-border bg-muted/40 text-muted-foreground"
+export function DecisionBadge({ decision, round, className }: { decision?: Decision; round?: number; className?: string }) {
+	let label = "Awaiting review"
+	if (round && round > 1) label = `Awaiting review · round ${round}`
+	let tone = "border-border bg-muted text-foreground/80"
 	if (decision?.outcome === "approve") {
-		label = "Approve"
-		tone = "border-emerald-500/30 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300"
+		label = "Approve staged"
+		tone = "border-emerald-600/30 bg-emerald-500/10 text-emerald-800 dark:text-emerald-300"
 	}
-	if (decision?.outcome === "reject" && decision.final) {
-		label = "Reject · final"
-		tone = "border-red-500/30 bg-red-500/10 text-red-700 dark:text-red-300"
-	}
-	if (decision?.outcome === "reject" && !decision.final) {
-		label = "Reject · can resubmit"
-		tone = "border-amber-500/30 bg-amber-500/10 text-amber-700 dark:text-amber-300"
+	if (decision?.outcome === "reject") {
+		label = "Reject staged"
+		tone = "border-amber-600/30 bg-amber-500/10 text-amber-900 dark:text-amber-300"
 	}
 	return (
-		<span className={cn("inline-flex items-center rounded-md border px-1.5 py-0.5 text-[11px] font-medium", tone, className)}>{label}</span>
+		<span
+			className={cn(
+				"inline-flex shrink-0 items-center whitespace-nowrap rounded-md border px-2 py-0.5 text-xs font-medium",
+				tone,
+				className,
+			)}
+		>
+			{label}
+		</span>
 	)
 }
 
-export function FinalToggle({ review, id }: { review: Review; id: string }) {
-	const decision = review.decisions[id]
-	if (decision?.outcome !== "reject") return null
-	return (
-		<label className="flex items-center gap-1.5 text-xs">
-			<input type="checkbox" checked={decision.final} onChange={(event) => review.setFinal(id, event.target.checked)} />
-			Final (contributor cannot resubmit)
-		</label>
-	)
-}
-
-function ListField({ label, value, onCommit }: { label: string; value: string[]; onCommit: (next: string[]) => void }) {
+function ListField({ id, label, value, onCommit }: { id: string; label: string; value: string[]; onCommit: (next: string[]) => void }) {
 	const [draft, setDraft] = useState(value.join(", "))
 	return (
-		<label className="block text-[11px] text-muted-foreground">
-			{label}
-			<input
+		<div className="min-w-0 space-y-1.5">
+			<label htmlFor={id} className="text-xs font-medium text-muted-foreground">
+				{label}
+			</label>
+			<Input
+				id={id}
 				value={draft}
 				onChange={(event) => setDraft(event.target.value)}
 				onBlur={() =>
@@ -308,29 +341,40 @@ function ListField({ label, value, onCommit }: { label: string; value: string[];
 							.filter(Boolean),
 					)
 				}
-				className="mt-0.5 h-7 w-full rounded border bg-background px-2 font-mono text-xs text-foreground"
+				placeholder="Comma separated"
+				className="h-9 font-mono text-xs placeholder:font-sans pointer-coarse:h-11"
 			/>
-		</label>
+		</div>
 	)
 }
 export function MetadataFields({ sub, review }: { sub: Submission; review: Review }) {
 	const view = review.effective(sub)
 	const [slug, setSlug] = useState(view.slug)
 	return (
-		<div key={sub.id} className="grid gap-2 sm:grid-cols-3">
-			<label className="block text-[11px] text-muted-foreground">
-				Slug
-				<input
+		<div className="grid gap-3 sm:grid-cols-3">
+			<div className="min-w-0 space-y-1.5">
+				<label htmlFor={`meta-slug-${sub.id}`} className="text-xs font-medium text-muted-foreground">
+					Slug {sub.type === "update" && "(fixed for updates)"}
+				</label>
+				<Input
 					id={`meta-slug-${sub.id}`}
 					value={slug}
 					disabled={sub.type === "update"}
 					onChange={(event) => setSlug(event.target.value)}
 					onBlur={() => review.rename(sub.id, slug)}
-					className="mt-0.5 h-7 w-full rounded border bg-background px-2 font-mono text-xs text-foreground disabled:opacity-60"
+					onKeyDown={(event) => {
+						if (event.key === "Enter") event.currentTarget.blur()
+					}}
+					className="h-9 font-mono text-xs placeholder:font-sans pointer-coarse:h-11"
 				/>
-			</label>
-			<ListField label="Aliases" value={view.aliases} onCommit={(next) => review.setAliases(sub.id, next)} />
-			<ListField label="Categories" value={view.categories} onCommit={(next) => review.setCategories(sub.id, next)} />
+			</div>
+			<ListField id={`meta-aliases-${sub.id}`} label="Aliases" value={view.aliases} onCommit={(next) => review.setAliases(sub.id, next)} />
+			<ListField
+				id={`meta-categories-${sub.id}`}
+				label="Categories"
+				value={view.categories}
+				onCommit={(next) => review.setCategories(sub.id, next)}
+			/>
 		</div>
 	)
 }
@@ -349,28 +393,41 @@ export function Hints({
 	const list = hints(sub, review.subs)
 	if (!list.length) return null
 	return (
-		<div className="space-y-1.5">
+		<ul className="space-y-2">
 			{list.map((hint) => (
-				<div
+				<li
 					key={`${hint.type}-${hint.submissionId}`}
-					className="flex flex-wrap items-center gap-2 rounded-lg border border-amber-500/40 bg-amber-500/5 px-3 py-1.5 text-xs"
+					className="flex flex-wrap items-center gap-x-3 gap-y-2 rounded-lg border border-amber-500/30 bg-amber-500/5 px-3 py-2 text-sm"
 				>
-					{hint.type === "variant-of" && <Layers className="size-3.5 text-amber-600" />}
-					{hint.type === "collision" && <AlertTriangle className="size-3.5 text-amber-600" />}
-					<span className="flex-1">{hint.text}</span>
-					{onOpen && hint.submissionId && (
-						<button type="button" className="underline" onClick={() => onOpen(hint.submissionId || "")}>
-							Open
-						</button>
-					)}
-					{hint.type === "variant-of" && onRejectAsVariant && (
-						<Button size="sm" variant="outline" className="h-6 text-[11px]" onClick={() => onRejectAsVariant(hint)}>
-							Reject: “variant of {hint.parent}” <kbd className="opacity-60">V</kbd>
-						</Button>
-					)}
-				</div>
+					{hint.type === "variant-of" && <Layers className="size-4 shrink-0 text-amber-700 dark:text-amber-400" />}
+					{hint.type === "collision" && <AlertTriangle className="size-4 shrink-0 text-amber-700 dark:text-amber-400" />}
+					<span className="min-w-0 flex-1 basis-56 break-words">{hint.text}</span>
+					<span className="flex flex-wrap gap-2">
+						{onOpen && hint.submissionId && (
+							<Button
+								size="sm"
+								variant="ghost"
+								className="h-8 hover:scale-100 pointer-coarse:h-11"
+								onClick={() => onOpen(hint.submissionId || "")}
+							>
+								Open it
+							</Button>
+						)}
+						{hint.type === "variant-of" && onRejectAsVariant && (
+							<Button
+								size="sm"
+								variant="outline"
+								className="h-8 hover:scale-100 pointer-coarse:h-11"
+								onClick={() => onRejectAsVariant(hint)}
+							>
+								Reject as variant of {hint.parent}
+								<kbd className="hidden rounded border px-1 font-mono text-[11px] text-muted-foreground lg:inline">V</kbd>
+							</Button>
+						)}
+					</span>
+				</li>
 			))}
-		</div>
+		</ul>
 	)
 }
 
@@ -391,78 +448,149 @@ export function batches(subs: Submission[]) {
 	return groups
 }
 
+export function RoundDiff({ previous, current, mode }: { previous: Variant[]; current: Variant[]; mode: Backdrop }) {
+	const kinds = [...new Set([...previous.map((entry) => entry.kind), ...current.map((entry) => entry.kind)])]
+	return (
+		<ul className="grid gap-2 sm:grid-cols-2 xl:grid-cols-3">
+			{kinds.map((kind) => {
+				const before = previous.find((entry) => entry.kind === kind)
+				const after = current.find((entry) => entry.kind === kind)
+				let change = "Replaced"
+				if (!before) change = "Added"
+				if (!after) change = "Removed"
+				return (
+					<li key={kind} className="flex min-w-0 items-center gap-2 rounded-lg border bg-background p-2">
+						<span className="flex flex-col items-center gap-1">
+							{before && <Swatch variant={before} mode={mode} className="size-16 rounded-md border p-1.5" />}
+							{!before && (
+								<span className="flex size-16 items-center justify-center rounded-md border border-dashed text-xs text-muted-foreground">
+									None
+								</span>
+							)}
+							<span className="text-[11px] text-muted-foreground">Rejected</span>
+						</span>
+						<ArrowRight className="size-4 shrink-0 text-muted-foreground" />
+						<span className="flex flex-col items-center gap-1">
+							{after && <Swatch variant={after} mode={mode} className="size-16 rounded-md border p-1.5" />}
+							{!after && (
+								<span className="flex size-16 items-center justify-center rounded-md border border-dashed text-xs text-muted-foreground">
+									None
+								</span>
+							)}
+							<span className="text-[11px] text-muted-foreground">Now</span>
+						</span>
+						<span className="min-w-0 flex-1 space-y-1">
+							<KindBadge kind={kind} />
+							<span
+								className={cn(
+									"block text-xs font-medium",
+									change === "Added" && "text-emerald-700 dark:text-emerald-400",
+									change === "Replaced" && "text-amber-800 dark:text-amber-300",
+									change === "Removed" && "text-red-700 dark:text-red-400",
+								)}
+							>
+								{change}
+							</span>
+						</span>
+					</li>
+				)
+			})}
+		</ul>
+	)
+}
+
 export function PayloadDialog({
 	open,
 	onOpenChange,
 	payload,
+	onRemove,
 	onConfirm,
 }: {
 	open: boolean
 	onOpenChange: (open: boolean) => void
 	payload: ReviewPayload
+	onRemove: (id: string) => void
 	onConfirm: () => void
 }) {
 	const approved = payload.items.filter((item) => item.decision === "approve").length
 	return (
 		<Dialog open={open} onOpenChange={onOpenChange}>
-			<DialogContent className="max-h-[90dvh] overflow-y-auto sm:max-w-3xl">
-				<DialogTitle>Submit review (prototype payload)</DialogTitle>
-				<DialogDescription>
-					{approved} approved · {payload.items.length - approved} rejected. Approval does not publish: {payload.publishQueue.length} files
-					join the publish queue. Nothing is sent from this prototype.
-				</DialogDescription>
-				{!payload.items.length && <p className="text-sm text-muted-foreground">No staged decisions yet.</p>}
-				<div className="space-y-3">
+			<DialogContent className="flex max-h-[90dvh] w-[calc(100vw-1.5rem)] flex-col gap-4 overflow-hidden p-4 sm:max-w-3xl sm:p-6">
+				<div className="space-y-1.5 pr-6">
+					<DialogTitle>Submit review</DialogTitle>
+					<DialogDescription>
+						{approved} approved, {payload.items.length - approved} sent back for changes. Approving does not publish:{" "}
+						{payload.publishQueue.length} files wait in the publish queue. Prototype only, nothing is sent.
+					</DialogDescription>
+				</div>
+				<div className="min-h-0 flex-1 space-y-3 overflow-y-auto overscroll-contain">
+					{!payload.items.length && <p className="text-sm text-muted-foreground">No staged decisions yet.</p>}
 					{payload.items.map((item) => (
-						<section key={item.id} className="rounded-lg border">
-							<header className="flex flex-wrap items-center gap-2 border-b px-3 py-2 text-xs">
-								<span className="font-mono font-medium">{item.slug}</span>
-								<span className="text-muted-foreground">
-									{item.type === "update" && "update · "}@{item.contributor} · round {item.round}
-								</span>
-								<span className="ml-auto">
+						<section key={item.id} className="overflow-hidden rounded-lg border">
+							<header className="space-y-1.5 border-b bg-muted/30 px-3 py-2">
+								<div className="flex items-start gap-2">
+									<span className="min-w-0 flex-1 break-all pt-1 font-mono text-sm font-medium">{item.slug}</span>
+									<Button
+										size="sm"
+										variant="ghost"
+										className="h-8 shrink-0 hover:scale-100 pointer-coarse:h-11"
+										onClick={() => onRemove(item.id)}
+									>
+										Unstage
+									</Button>
+								</div>
+								<div className="flex flex-wrap items-center gap-2">
 									<DecisionBadge
-										decision={
-											item.decision === "approve"
-												? { outcome: "approve" }
-												: { outcome: "reject", reason: item.reason || "", final: !!item.final }
-										}
+										decision={item.decision === "approve" ? { outcome: "approve" } : { outcome: "reject", reason: item.reason }}
 									/>
-								</span>
+									<span className="text-xs text-muted-foreground">
+										{item.type === "update" && "Update · "}@{item.contributor} · round {item.round}
+									</span>
+								</div>
 							</header>
-							<div className="space-y-1 px-3 py-2 text-xs">
-								{item.reason && <p>Reason: {item.reason}</p>}
+							<div className="space-y-2 px-3 py-2 text-sm">
+								{item.decision === "reject" && (
+									<p>
+										{item.reason || "No reason given."}{" "}
+										<span className="text-muted-foreground">Returns as round {item.resubmitAs} when resubmitted.</span>
+									</p>
+								)}
 								{!!item.fixups.length && (
-									<ul className="list-inside list-disc text-blue-700 dark:text-blue-300">
+									<ul className="list-inside list-disc space-y-0.5 text-blue-800 dark:text-blue-300">
 										{item.fixups.map((line) => (
-											<li key={line}>{line}</li>
+											<li key={line} className="break-words">
+												{line}
+											</li>
 										))}
 									</ul>
 								)}
-								{item.decision === "approve" && <p className="font-mono text-[11px] text-muted-foreground">{item.files.join("  ")}</p>}
+								{item.decision === "approve" && (
+									<p className="break-all font-mono text-xs text-muted-foreground">{item.files.join("  ")}</p>
+								)}
 							</div>
-							<pre className="whitespace-pre-wrap break-words border-t bg-muted/30 px-3 py-2 font-sans text-xs leading-5">
+							<pre className="whitespace-pre-wrap break-words border-t bg-muted/30 px-3 py-2 font-sans text-sm leading-6">
 								{item.message}
 							</pre>
 						</section>
 					))}
+					<details className="rounded-lg border p-3 text-sm">
+						<summary className="cursor-pointer font-medium">Raw payload (JSON)</summary>
+						<pre className="mt-2 max-h-72 overflow-auto font-mono text-xs">{JSON.stringify(payload, null, 2)}</pre>
+					</details>
 				</div>
-				<details className="rounded-lg border p-3 text-xs">
-					<summary className="cursor-pointer font-medium">Raw JSON</summary>
-					<pre className="mt-2 max-h-72 overflow-auto font-mono text-[11px]">{JSON.stringify(payload, null, 2)}</pre>
-				</details>
-				<DialogFooter>
-					<Button variant="outline" onClick={() => onOpenChange(false)}>
+				<DialogFooter className="gap-2">
+					<Button variant="outline" className="pointer-coarse:h-11" onClick={() => onOpenChange(false)}>
 						Keep reviewing
 					</Button>
 					<Button
+						className="pointer-coarse:h-11"
 						disabled={!payload.items.length}
 						onClick={() => {
 							onConfirm()
 							onOpenChange(false)
 						}}
 					>
-						Submit (stub, resets prototype)
+						Submit {payload.items.length} decisions
 					</Button>
 				</DialogFooter>
 			</DialogContent>

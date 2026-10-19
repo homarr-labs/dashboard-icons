@@ -1,8 +1,8 @@
-// PROTOTYPE (throwaway): pass 2 staged changeset — per-Submission approve/reject (+final), comment, reviewer fix-ups (rename, retag, drop, aliases/categories) and the final payload.
+// PROTOTYPE (throwaway): pass 3 staged changeset: per-Submission approve or reject (always resubmittable, reason optional), comment, reviewer fix-ups (rename, retag, drop, aliases/categories) and the final payload.
 import { useCallback, useMemo, useState } from "react"
 import { type Change, fileName, initialSubmissions, kindLabel, type Row, rows, type Submission, type Variant } from "./mock"
 
-export type Decision = { outcome: "approve" } | { outcome: "reject"; reason: string; final: boolean }
+export type Decision = { outcome: "approve" } | { outcome: "reject"; reason?: string }
 export interface Fixups {
 	slug?: string
 	retag: Record<string, string>
@@ -28,8 +28,8 @@ export interface PayloadItem {
 	type: Submission["type"]
 	round: number
 	decision: "approve" | "reject"
-	final?: boolean
 	reason?: string
+	resubmitAs?: number
 	comment?: string
 	fixups: string[]
 	files: string[]
@@ -54,19 +54,7 @@ export function useReview() {
 		setFixups((all) => ({ ...all, [id]: patch(all[id] || emptyFixups) }))
 	}, [])
 	const approve = useCallback((id: string) => setDecisions((all) => ({ ...all, [id]: { outcome: "approve" } })), [])
-	const reject = useCallback(
-		(id: string, reason: string, final: boolean) => setDecisions((all) => ({ ...all, [id]: { outcome: "reject", reason, final } })),
-		[],
-	)
-	const setFinal = useCallback(
-		(id: string, final: boolean) =>
-			setDecisions((all) => {
-				const current = all[id]
-				if (current?.outcome !== "reject") return all
-				return { ...all, [id]: { ...current, final } }
-			}),
-		[],
-	)
+	const reject = useCallback((id: string, reason?: string) => setDecisions((all) => ({ ...all, [id]: { outcome: "reject", reason } })), [])
 	const unflag = useCallback((id: string) => {
 		setDecisions((all) => {
 			const next = { ...all }
@@ -177,12 +165,13 @@ export function useReview() {
 				message.push(`Hi @${sub.contributor}, ${what} was approved. It will be published with the next release.`)
 				if (lines.length) message.push("Before approving, a reviewer adjusted it:", ...lines.map((line) => `  • ${line}`))
 			} else {
-				message.push(`Hi @${sub.contributor}, your submission “${sub.slug}” was not accepted: ${decision.reason}`)
-				if (decision.final) message.push("This decision is final.")
-				else
-					message.push(
-						`Fix it and resubmit this same submission. It returns to review as round ${sub.round + 1}, with your changes shown to the reviewer.`,
-					)
+				let opening = `Hi @${sub.contributor}, your submission “${sub.slug}” needs changes before it can be accepted.`
+				if (decision.reason)
+					opening = `Hi @${sub.contributor}, your submission “${sub.slug}” needs changes before it can be accepted: ${decision.reason}`
+				message.push(
+					opening,
+					`Edit this same submission and resubmit it. It comes back for review as round ${sub.round + 1}, and the reviewer sees what you changed.`,
+				)
 			}
 			if (text) message.push(`Reviewer note: ${text}`)
 			items.push({
@@ -192,8 +181,8 @@ export function useReview() {
 				type: sub.type,
 				round: sub.round,
 				decision: decision.outcome,
-				final: decision.outcome === "reject" ? decision.final : undefined,
 				reason: decision.outcome === "reject" ? decision.reason : undefined,
+				resubmitAs: decision.outcome === "reject" ? sub.round + 1 : undefined,
 				comment: text || undefined,
 				fixups: decision.outcome === "approve" ? lines : [],
 				files,
@@ -213,7 +202,6 @@ export function useReview() {
 		fixups,
 		approve,
 		reject,
-		setFinal,
 		unflag,
 		comment,
 		rename,

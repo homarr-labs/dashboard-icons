@@ -1,20 +1,12 @@
-// PROTOTYPE (throwaway): pass 2 — three review variants on /dashboard?view=review&variant=A..C (one Submission = one icon) with a stub admin and in-memory data, sharing one staged changeset.
+// PROTOTYPE (throwaway): pass 3 reference design, the review bench on /dashboard?view=review&variant=A with a stub admin and in-memory data.
 "use client"
 import { Clock3, FlaskConical, GitPullRequest, LayoutDashboard, ListFilter, Rss } from "lucide-react"
 import { useState } from "react"
-import { PrototypeSwitcher } from "@/components/prototype/prototype-switcher"
 import { cn } from "@/lib/utils"
 import { PayloadDialog } from "./shared"
 import { useReview } from "./state"
 import { VariantA } from "./variant-a"
-import { VariantB } from "./variant-b"
-import { VariantC } from "./variant-c"
 
-const variants = [
-	{ key: "A", name: "Keyboard bench", Component: VariantA },
-	{ key: "B", name: "Contact sheet", Component: VariantB },
-	{ key: "C", name: "Timeline", Component: VariantC },
-]
 const nav = [
 	{ label: "Overview", Icon: LayoutDashboard },
 	{ label: "Review", Icon: Clock3 },
@@ -23,37 +15,35 @@ const nav = [
 	{ label: "Activity", Icon: Rss },
 ]
 
-export function ReviewPrototype({ variant }: { variant: string }) {
+export function ReviewPrototype(_: { variant: string }) {
 	const review = useReview()
 	const [confirm, setConfirm] = useState(false)
-	const active = variants.find((entry) => entry.key === variant.toUpperCase()) || variants[0]
-	const pending = review.subs.length
 	return (
-		<div data-review-bench className="mx-auto flex min-h-0 w-full max-w-[1600px] flex-1 flex-col px-3 py-2 pb-16 sm:px-6 lg:px-8">
-			<div className="mb-3 flex shrink-0 items-center gap-2 border-b pb-2">
+		<div data-review-bench className="mx-auto flex min-h-0 w-full max-w-[1600px] flex-1 flex-col px-3 py-2 sm:px-6 lg:px-8">
+			<div className="mb-4 flex shrink-0 flex-wrap items-center gap-2 border-b pb-2">
 				<nav aria-label="Dashboard views" className="hidden items-center gap-1 md:flex">
 					{nav.map(({ label, Icon }) => (
 						<span
 							key={label}
 							className={cn(
-								"flex items-center gap-2 border-b-2 border-transparent px-3 py-2 text-sm font-medium text-foreground/50",
+								"flex items-center gap-2 border-b-2 border-transparent px-3 py-2 text-sm font-medium text-foreground/60",
 								label === "Review" && "border-primary text-foreground",
 							)}
 						>
 							<Icon className="size-3.5" />
 							{label}
-							{label === "Review" && <span className="rounded bg-muted px-1.5 py-0.5 text-[10px] tabular-nums">{pending}</span>}
+							{label === "Review" && <span className="rounded bg-muted px-1.5 py-0.5 text-[11px] tabular-nums">{review.subs.length}</span>}
 						</span>
 					))}
 				</nav>
-				<span className="ml-auto flex items-center gap-1.5 rounded-md border border-dashed border-violet-500/40 bg-violet-500/5 px-2 py-1 text-[11px] text-violet-700 dark:text-violet-300">
-					<FlaskConical className="size-3" />
-					Prototype · stub admin · mock data
+				<h1 className="text-base font-semibold md:sr-only">Review</h1>
+				<span className="ml-auto flex items-center gap-1.5 rounded-md border border-dashed border-violet-500/40 bg-violet-500/5 px-2 py-1 text-xs text-violet-800 dark:text-violet-300">
+					<FlaskConical className="size-3.5" />
+					Prototype · mock data
 				</span>
 			</div>
-			<active.Component key={active.key} review={review} onSubmit={() => setConfirm(true)} />
-			<PayloadDialog open={confirm} onOpenChange={setConfirm} payload={review.payload} onConfirm={review.reset} />
-			<PrototypeSwitcher variants={variants.map(({ key, name }) => ({ key, name }))} current={active.key} />
+			<VariantA review={review} onSubmit={() => setConfirm(true)} />
+			<PayloadDialog open={confirm} onOpenChange={setConfirm} payload={review.payload} onRemove={review.unflag} onConfirm={review.reset} />
 		</div>
 	)
 }
