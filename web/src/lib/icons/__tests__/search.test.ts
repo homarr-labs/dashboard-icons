@@ -3,6 +3,7 @@ import {
 	calculateStringSimilarity,
 	containsCharsInOrder,
 	filterAndSortIcons,
+	findMatchedVariant,
 	fuzzySearch,
 	levenshteinDistance,
 	normalizeForSearch,
@@ -279,6 +280,38 @@ describe("scoreIcon", () => {
 
 	it("scores icons without aliases using name only", () => {
 		expect(scoreIcon(mockIcon("docker"), "docker")).toBeGreaterThan(0)
+	})
+})
+
+describe("variant search", () => {
+	const github = mockIcon("github", { colors: { dark: "github", light: "github-light" } })
+	const helix = mockIcon("helix", { wordmark: { light: "helix-light", dark: "helix-dark" } })
+	const sonarr = mockIcon("sonarr", { variants: { "4k": "sonarr-4k" } })
+	const icons = [mockIcon("github-desktop"), github, helix, mockIcon("helixcore"), sonarr]
+
+	it.each([
+		["github white", "github", "light", "github-light"],
+		["github for dark background", "github", "light", "github-light"],
+		["helix wordmark", "helix", "wordmark-light", "helix-light"],
+		["sonarr 4k", "sonarr", "4k", "sonarr-4k"],
+	])("ranks the parent icon first for %s and reports the matched Variant", (query, name, key, stem) => {
+		const [first] = filterAndSortIcons({ icons, query })
+		expect(first?.name).toBe(name)
+		expect(findMatchedVariant(first, query)).toMatchObject({ key, stem })
+	})
+
+	it.each([
+		["dark mode", mockIcon("rust", { aliases: ["modern-language"], colors: { light: "rust", dark: "rust-dark" } })],
+		["white logo", mockIcon("nrk-logo", { colors: { light: "nrk-logo-light" } })],
+		["dark reader", mockIcon("readwise-reader", { aliases: ["reader"], colors: { dark: "readwise-reader-dark" } })],
+		["github dark", mockIcon("gitea", { categories: ["github"], colors: { dark: "gitea-dark" } })],
+	])("reports no Variant for %s", (query, icon) => {
+		expect(findMatchedVariant(icon, query)).toBeNull()
+	})
+
+	it("reports no Variant for plain name queries", () => {
+		expect(findMatchedVariant(github, "github")).toBeNull()
+		expect(findMatchedVariant(helix, "helix dark")).toBeNull()
 	})
 })
 

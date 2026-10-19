@@ -11,6 +11,7 @@ export function formatIconName(name: string) {
 
 export {
 	filterAndSortIcons,
+	findMatchedVariant,
 	normalizeForSearch,
 	type SortOption,
 } from "@/lib/icons/search"

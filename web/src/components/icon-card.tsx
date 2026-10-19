@@ -4,7 +4,8 @@ import { UnoptimizedImage } from "@/components/unoptimized-image"
 import { EXTERNAL_SOURCES, type ExternalSourceId } from "@/constants"
 import { resolveExternalIconUrl } from "@/lib/external-icon-urls"
 import { getIconImageUrl, isIconAssetUrl } from "@/lib/icon-url"
-import { formatIconName } from "@/lib/utils"
+import { type IconVariantMatch, variantToneClass } from "@/lib/icons/variants"
+import { cn, formatIconName } from "@/lib/utils"
 import type { IconSearchEntry } from "@/types/icons"
 
 type IconKind =
@@ -33,11 +34,22 @@ function getLinkHref(kind: IconKind, name: string): string {
 	}
 }
 
-export function IconCard({ icon, matchedAlias }: { icon: IconSearchEntry; matchedAlias?: string }) {
+export function IconCard({
+	icon,
+	matchedAlias,
+	matchedVariant,
+}: {
+	icon: IconSearchEntry
+	matchedAlias?: string
+	matchedVariant?: IconVariantMatch
+}) {
 	const { name } = icon
 	const kind = getIconKind(icon)
 	const sourceConfig = kind.type === "external" ? EXTERNAL_SOURCES[kind.sourceId] : undefined
-	const imageUrl = getIconImageUrl(icon)
+	const imageUrl = getIconImageUrl(icon, matchedVariant?.stem)
+	const toneClass = variantToneClass(matchedVariant)
+	let imageAlt = `${name} icon and logo`
+	if (matchedVariant) imageAlt = `${name} ${matchedVariant.label} variant`
 	const themedExternalIcon = kind.type === "external" && kind.sourceId === "simpleicons" ? icon.external : undefined
 
 	return (
@@ -49,7 +61,12 @@ export function IconCard({ icon, matchedAlias }: { icon: IconSearchEntry; matche
 				</div>
 			)}
 			<Link prefetch={false} href={getLinkHref(kind, name)} className="group flex flex-col items-center p-3 sm:p-4 cursor-pointer">
-				<div className="mb-2 flex h-16 w-16 items-center justify-center rounded-lg ring-1 ring-white/5 dark:ring-white/10 bg-primary/15 dark:bg-secondary/10">
+				<div
+					className={cn(
+						"mb-2 flex h-16 w-16 items-center justify-center rounded-lg ring-1",
+						toneClass ?? "ring-white/5 dark:ring-white/10 bg-primary/15 dark:bg-secondary/10",
+					)}
+				>
 					{themedExternalIcon ? (
 						<UnoptimizedImage
 							src={resolveExternalIconUrl(themedExternalIcon, "svg_light")}
@@ -61,7 +78,7 @@ export function IconCard({ icon, matchedAlias }: { icon: IconSearchEntry; matche
 					) : (
 						<UnoptimizedImage
 							src={imageUrl}
-							alt={`${name} icon and logo`}
+							alt={imageAlt}
 							width={56}
 							height={56}
 							className="max-h-full max-w-full object-contain p-2 transition-transform duration-300 group-hover:scale-110"
@@ -71,7 +88,12 @@ export function IconCard({ icon, matchedAlias }: { icon: IconSearchEntry; matche
 				<span className="text-xs sm:text-sm text-center truncate w-full capitalize group-hover:text-primary dark:group-hover:text-primary transition-colors duration-200 font-medium">
 					{formatIconName(name)}
 				</span>
-				{matchedAlias && <span className="mt-1 max-w-full truncate text-[10px] text-muted-foreground">Alias: {matchedAlias}</span>}
+				{matchedVariant && (
+					<span className="mt-1 max-w-full truncate text-[10px] text-muted-foreground">{matchedVariant.label} variant</span>
+				)}
+				{!matchedVariant && matchedAlias && (
+					<span className="mt-1 max-w-full truncate text-[10px] text-muted-foreground">Alias: {matchedAlias}</span>
+				)}
 			</Link>
 		</MagicCard>
 	)

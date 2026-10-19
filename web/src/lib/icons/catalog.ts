@@ -5,7 +5,7 @@ import { unstable_rethrow } from "next/navigation"
 import { EXTERNAL_SOURCE_IDS, type ExternalSourceId, getExternalSource, WEB_URL } from "@/constants"
 import { canResolveExternalIconUrl, getExternalIconPreviewUrl, resolveExternalIconUrl } from "@/lib/external-icon-urls"
 import { getExternalIconBySourceAndSlug, getExternalIcons } from "@/lib/external-icons"
-import { filterAndSortIcons, levenshteinDistance, normalizeForSearch, scoreIcon } from "@/lib/icons/search"
+import { filterAndSortIcons, findMatchedVariant, levenshteinDistance, normalizeForSearch, scoreIcon } from "@/lib/icons/search"
 import { getAllIcons } from "@/lib/icons/service"
 import { fetchTrustedSvg } from "@/lib/icons/svg-fetch"
 import type {
@@ -30,6 +30,7 @@ import type {
 } from "@/lib/icons/types"
 import { buildIconUrl, type IconFormat, type IconTheme } from "@/lib/icons/urls"
 import { assertCatalogInputLength, MAX_NAME_LENGTH, MAX_QUERY_LENGTH } from "@/lib/icons/validate"
+import { resolveIconVariants } from "@/lib/icons/variants"
 import { formatIconName } from "@/lib/utils"
 import type { ExternalIcon, ExternalIconRecord, IconFile, IconRecord, NativeIconRecord } from "@/types/icons"
 
@@ -231,7 +232,10 @@ function toItem(entry: IconRecord): CatalogItem {
 }
 
 function toHit(entry: IconRecord, query: string): CatalogHit {
-	return { ...toItem(entry), score: Math.round(scoreIcon(entry, query) * 100) / 100 }
+	const hit: CatalogHit = { ...toItem(entry), score: Math.round(scoreIcon(entry, query) * 100) / 100 }
+	const matchedVariant = findMatchedVariant(entry, query)
+	if (matchedVariant) hit.matched_variant = matchedVariant
+	return hit
 }
 
 function rank(entries: IconRecord[], query: string, limit: number): CatalogHit[] {
@@ -265,20 +269,12 @@ function themedUrls(build: (theme: IconTheme) => string | null): Partial<Record<
 	return urls
 }
 
-function nativeFile(entry: NativeIconRecord, theme: IconTheme): string | null {
-	if (theme === "default") return entry.name
-	return entry.data.colors?.[theme] ?? null
-}
-
 function nativeUrls(entry: NativeIconRecord): CatalogUrls {
+	const variants = resolveIconVariants(entry.name, entry.data)
 	const urls: CatalogUrls = {}
 	for (const format of FORMATS) {
 		if (format === "svg" && entry.data.base !== "svg") continue
-		urls[format] = themedUrls((theme) => {
-			const file = nativeFile(entry, theme)
-			if (!file) return null
-			return buildIconUrl(file, format)
-		})
+		urls[format] = Object.fromEntries(variants.flatMap((variant) => variant.keys.map((key) => [key, buildIconUrl(variant.stem, format)])))
 	}
 	return urls
 }

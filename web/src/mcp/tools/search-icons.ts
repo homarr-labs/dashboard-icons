@@ -10,7 +10,9 @@ const inputSchema = z.object({
 		.trim()
 		.min(1)
 		.max(MAX_QUERY_LENGTH)
-		.describe("A service, brand or app name, alias or category, e.g. 'jellyfin', 'pihole' or 'password manager'"),
+		.describe(
+			"A service, brand or app name, alias or category, optionally with a Variant, e.g. 'jellyfin', 'password manager', 'github white' or 'helix wordmark'",
+		),
 	sources: sourcesInput,
 	category: z.string().trim().max(MAX_CATEGORY_LENGTH).optional().describe("Only icons in this category (names from list_categories)"),
 	limit: z.number().int().min(1).max(50).default(20),
@@ -28,7 +30,7 @@ export const searchIconsTool: PublicTool<typeof inputSchema, typeof outputSchema
 	config: {
 		title: "Search icons",
 		description:
-			"Fuzzy-search icons by name, alias or category across dashboardicons.com and the selfh.st, LobeHub and Simple Icons catalogs, best match first (native icons win ties). Use it for one vague or partial name, or to explore options. For a list of known services use match_icons instead: one call for all of them. Each result's preview_url is a ready CDN image; pass its name and source to get_icon for every format and light/dark variant, or to get_icon_svg for inline SVG markup.",
+			"Fuzzy-search icons by name, alias or category across dashboardicons.com and the selfh.st, LobeHub and Simple Icons catalogs, best match first (native icons win ties). Queries also match dashboardicons.com Variant names and synonyms: 'light'/'white'/'for dark background', 'dark'/'black', 'wordmark'/'text logo' and Custom variant names such as '4k'. The parent icon is returned and matched_variant says which Variant matched. Use it for one vague or partial name, or to explore options. For a list of known services use match_icons instead: one call for all of them. Each result's preview_url is a ready CDN image; pass its name and source to get_icon for every format and Variant (matched_variant.key is the key in its urls), or to get_icon_svg for inline SVG markup.",
 		inputSchema,
 		outputSchema,
 		annotations: READ_ONLY_ANNOTATIONS,

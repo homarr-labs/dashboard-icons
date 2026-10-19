@@ -18,9 +18,12 @@ export type IconColors = {
 }
 
 export type IconWordmarkColors = {
+	default?: string
 	dark?: string
 	light?: string
 }
+
+export type IconCustomVariants = Record<string, string>
 
 export type Icon = {
 	base: string | "svg" | "png" | "webp"
@@ -29,6 +32,7 @@ export type Icon = {
 	update: IconUpdate
 	colors?: IconColors
 	wordmark?: IconWordmarkColors
+	variants?: IconCustomVariants
 }
 
 export type IconFile = {
@@ -47,7 +51,7 @@ export type ExternalIconUrlData = Pick<ExternalIcon, "source" | "slug" | "format
 
 export type IconSearchEntry = {
 	name: string
-	data: Pick<Icon, "base" | "aliases" | "categories"> & Partial<Pick<Icon, "update">>
+	data: Pick<Icon, "base" | "aliases" | "categories"> & Partial<Pick<Icon, "update" | "colors" | "wordmark" | "variants">>
 	source?: "native" | ExternalSourceId
 	slug?: string
 	external?: ExternalIconUrlData

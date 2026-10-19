@@ -1,9 +1,11 @@
+import { type IconVariantMatch, matchIconVariant } from "@/lib/icons/variants"
 import type { IconSearchEntry } from "@/types/icons"
 
 const NAME_WEIGHT = 2.0
 const ALIAS_WEIGHT = 1.5
 const CATEGORY_WEIGHT = 1.0
 const CATEGORY_PENALTY = 0.7
+const VARIANT_REST_MIN_SCORE = 2.0
 
 export function normalizeForSearch(str: string): string {
 	return str.toLowerCase().replace(/[-\s]/g, "")
@@ -115,11 +117,75 @@ export function fuzzySearch(text: string, query: string): number {
 
 export type SortOption = "relevance" | "alphabetical-asc" | "alphabetical-desc" | "newest"
 
-export function scoreIcon(icon: IconSearchEntry, query: string): number {
+function scoreNameAndAliases(icon: IconSearchEntry, query: string): number {
 	const nameScore = fuzzySearch(icon.name, query) * NAME_WEIGHT
 	const aliasScore =
 		icon.data.aliases.length > 0 ? Math.max(...icon.data.aliases.map((alias) => fuzzySearch(alias, query))) * ALIAS_WEIGHT : 0
 	return Math.max(nameScore, aliasScore)
+}
+
+function variantMatchOf(icon: IconSearchEntry, query: string): (IconVariantMatch & { rest: string }) | null {
+	const match = matchIconVariant(icon, query)
+	if (!match || scoreNameAndAliases(icon, match.rest) < VARIANT_REST_MIN_SCORE) return null
+	return match
+}
+
+function scoreWithVariant(
+	icon: IconSearchEntry,
+	query: string,
+	score: (query: string) => number,
+): { score: number; variant: IconVariantMatch | null } {
+	const direct = score(query)
+	const match = variantMatchOf(icon, query)
+	if (!match) return { score: direct, variant: null }
+
+	const variantScore = score(match.rest)
+	if (variantScore <= direct) return { score: direct, variant: null }
+	return { score: variantScore, variant: { key: match.key, label: match.label, stem: match.stem } }
+}
+
+export function scoreIcon(icon: IconSearchEntry, query: string): number {
+	return scoreWithVariant(icon, query, (candidate) => scoreNameAndAliases(icon, candidate)).score
+}
+
+function scoreQuery(icon: IconSearchEntry, query: string): number {
+	const queryWords = query.toLowerCase().split(/\s+/)
+	const nameAliasScore = scoreNameAndAliases(icon, query)
+	const categoryScore =
+		icon.data.categories && icon.data.categories.length > 0
+			? Math.max(...icon.data.categories.map((category) => fuzzySearch(category, query))) * CATEGORY_WEIGHT
+			: 0
+
+	const maxScore = Math.max(nameAliasScore, categoryScore)
+	const onlyCategoryMatch = categoryScore > 0.7 && nameAliasScore < 0.5
+	const finalScore = onlyCategoryMatch ? maxScore * CATEGORY_PENALTY : maxScore
+
+	const normalizedName = normalizeForSearch(icon.name)
+	const normalizedAliases = icon.data.aliases.map(normalizeForSearch)
+	const normalizedCategories = icon.data.categories.map(normalizeForSearch)
+	const allWordsPresent = queryWords.every((word) => {
+		const normalizedWord = normalizeForSearch(word)
+		return (
+			icon.name.toLowerCase().includes(word) ||
+			normalizedName.includes(normalizedWord) ||
+			icon.data.aliases.some((alias) => alias.toLowerCase().includes(word)) ||
+			normalizedAliases.some((alias) => alias.includes(normalizedWord)) ||
+			icon.data.categories.some((cat) => cat.toLowerCase().includes(word)) ||
+			normalizedCategories.some((cat) => cat.includes(normalizedWord))
+		)
+	})
+
+	return allWordsPresent ? finalScore : finalScore * 0.4
+}
+
+function scoreIconMatch(icon: IconSearchEntry, query: string): { score: number; variant: IconVariantMatch | null } {
+	return scoreWithVariant(icon, query, (candidate) => scoreQuery(icon, candidate))
+}
+
+export function findMatchedVariant(icon: IconSearchEntry, query: string): IconVariantMatch | null {
+	const trimmed = query.trim()
+	if (!trimmed) return null
+	return scoreIconMatch(icon, trimmed).variant
 }
 
 export function filterAndSortIcons<T extends IconSearchEntry>({
@@ -144,36 +210,8 @@ export function filterAndSortIcons<T extends IconSearchEntry>({
 	}
 
 	if (query.trim()) {
-		const queryWords = query.toLowerCase().split(/\s+/)
 		const scored = filtered
-			.map((icon) => {
-				const nameAliasScore = scoreIcon(icon, query)
-				const categoryScore =
-					icon.data.categories && icon.data.categories.length > 0
-						? Math.max(...icon.data.categories.map((category) => fuzzySearch(category, query))) * CATEGORY_WEIGHT
-						: 0
-
-				const maxScore = Math.max(nameAliasScore, categoryScore)
-				const onlyCategoryMatch = categoryScore > 0.7 && nameAliasScore < 0.5
-				const finalScore = onlyCategoryMatch ? maxScore * CATEGORY_PENALTY : maxScore
-
-				const normalizedName = normalizeForSearch(icon.name)
-				const normalizedAliases = icon.data.aliases.map(normalizeForSearch)
-				const normalizedCategories = icon.data.categories.map(normalizeForSearch)
-				const allWordsPresent = queryWords.every((word) => {
-					const normalizedWord = normalizeForSearch(word)
-					return (
-						icon.name.toLowerCase().includes(word) ||
-						normalizedName.includes(normalizedWord) ||
-						icon.data.aliases.some((alias) => alias.toLowerCase().includes(word)) ||
-						normalizedAliases.some((alias) => alias.includes(normalizedWord)) ||
-						icon.data.categories.some((cat) => cat.toLowerCase().includes(word)) ||
-						normalizedCategories.some((cat) => cat.includes(normalizedWord))
-					)
-				})
-
-				return { icon, score: allWordsPresent ? finalScore : finalScore * 0.4 }
-			})
+			.map((icon) => ({ icon, score: scoreIconMatch(icon, query).score }))
 			.filter((item) => item.score > 0.7)
 			.sort((a, b) => {
 				if (b.score !== a.score) return b.score - a.score

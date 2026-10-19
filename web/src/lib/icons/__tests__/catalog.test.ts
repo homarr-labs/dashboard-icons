@@ -283,6 +283,29 @@ describe("getCatalogIcon", () => {
 		})
 	})
 
+	it("lists every Variant key, wordmarks, Custom variants and legacy keys on the base file included", async () => {
+		mocks.getAllIcons.mockResolvedValue({
+			sonarr: native("2024-08-01T00:00:00Z", {
+				colors: { light: "sonarr", dark: "sonarr-dark" },
+				wordmark: { default: "sonarr-wordmark", light: "sonarr-wordmark-light" },
+				variants: { "4k": "sonarr-4k" },
+			}),
+		})
+		const sonarr = await getCatalogIcon("sonarr")
+		if (!sonarr.found) throw new Error("expected sonarr")
+		expect(sonarr.icon.urls.svg).toEqual({
+			default: `${NATIVE_CDN}/svg/sonarr.svg`,
+			light: `${NATIVE_CDN}/svg/sonarr.svg`,
+			dark: `${NATIVE_CDN}/svg/sonarr-dark.svg`,
+			wordmark: `${NATIVE_CDN}/svg/sonarr-wordmark.svg`,
+			"wordmark-light": `${NATIVE_CDN}/svg/sonarr-wordmark-light.svg`,
+			"4k": `${NATIVE_CDN}/svg/sonarr-4k.svg`,
+		})
+
+		mocks.fetchTrustedSvg.mockResolvedValue("<svg>sonarr</svg>")
+		expect(await getCatalogIconSvg("sonarr", { theme: "light" })).toMatchObject({ url: `${NATIVE_CDN}/svg/sonarr.svg` })
+	})
+
 	it("omits SVG for raster-only native icons and falls back on authors", async () => {
 		const ntopng = await getCatalogIcon("ntopng")
 		if (!ntopng.found) throw new Error("expected ntopng")
