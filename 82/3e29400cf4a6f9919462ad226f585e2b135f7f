@@ -1,0 +1,39 @@
+.github/ISSUE_TEMPLATE/config.yml
+  s_2f890e5d2904d8::t_d48e581f4502af 1-5
+CONTRIBUTING.md
+  s_e70662f613463f::t_6141ed6c4cac11 60,71-74
+README.md
+  s_2dda7f30f9c36c::t_6f691bacc3e0c0 100,110-111,123-124
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "823e29400cf4a6f9919462ad226f585e2b135f7f",
+  "prompts": {},
+  "sessions": {
+    "s_2dda7f30f9c36c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "5e95b9c0-6a43-43c0-8f66-04339c7d3832",
+        "model": "unknown"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    },
+    "s_2f890e5d2904d8": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "ccf8bc40-f581-465f-8ce2-5ab58d11c5b4",
+        "model": "unknown"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    },
+    "s_e70662f613463f": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "ba6f206f-548d-4860-86f9-843959319bb5",
+        "model": "unknown"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
