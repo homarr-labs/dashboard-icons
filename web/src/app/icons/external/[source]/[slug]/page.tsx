@@ -1,9 +1,10 @@
 import type { Metadata } from "next"
-import { notFound } from "next/navigation"
+import { notFound, permanentRedirect } from "next/navigation"
 import { IconDetails } from "@/components/icon-details"
 import { EXTERNAL_SOURCES, isExternalSourceId, SIMPLE_ICONS_DISCLAIMER_URL, WEB_URL } from "@/constants"
 import { getExternalIconOgPath, getExternalIconPagePath, getExternalIconPreviewUrl, resolveExternalIconUrl } from "@/lib/external-icon-urls"
 import { getExternalIconBySourceAndSlug, getExternalIcons } from "@/lib/external-icons"
+import { getLobehubBaseSlug, isLobehubVariantAlias } from "@/lib/lobehub-variants"
 import type { AuthorData, ExternalIconRecord } from "@/types/icons"
 
 export const dynamicParams = true
@@ -28,9 +29,15 @@ async function getIcon(params: Params): Promise<ExternalIconRecord> {
 	if (!isExternalSourceId(source)) {
 		notFound()
 	}
-	const icon = await getExternalIconBySourceAndSlug(source, slug)
+	let canonicalSlug = slug
+	if (source === "lobehub") canonicalSlug = getLobehubBaseSlug(slug)
+	const icon = await getExternalIconBySourceAndSlug(source, canonicalSlug)
 	if (!icon) {
 		notFound()
+	}
+	if (canonicalSlug !== slug) {
+		if (!isLobehubVariantAlias(icon.external, slug)) notFound()
+		permanentRedirect(getExternalIconPagePath(icon))
 	}
 	return icon
 }

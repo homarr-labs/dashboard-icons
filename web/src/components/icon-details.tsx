@@ -28,11 +28,13 @@ import {
 	getToneDescription,
 	getToneEntries,
 	getToneLabel,
+	ICON_TONES,
 	type IconImageVariant,
 	type IconTone,
 	TONE_BACKGROUND,
 	TONE_TITLE,
 } from "@/lib/icon-variant-text"
+import { getLobehubVariants, getLobehubVariantUrlKey, type LobehubVariant } from "@/lib/lobehub-variants"
 import { isClipboardAvailable } from "@/lib/svg-color-utils"
 import { cn, formatIconName } from "@/lib/utils"
 import type { AuthorData, ExternalIcon, Icon } from "@/types/icons"
@@ -64,6 +66,7 @@ type IconVariantsSectionProps = {
 	iconName: string
 	variant: IconImageVariant
 	renderVariant: RenderVariantFn
+	children?: React.ReactNode
 }
 
 function IconVariantsSection({
@@ -74,18 +77,75 @@ function IconVariantsSection({
 	iconName,
 	variant,
 	renderVariant,
+	children,
 }: IconVariantsSectionProps) {
 	return (
-		<section>
+		<section id={variant.kind === "named" ? `variant-${variant.name}` : undefined} className="scroll-mt-24">
 			<h3 className="text-lg font-semibold flex items-center gap-2 mb-1">
 				{iconElement}
 				{title}
 			</h3>
 			<p className="text-sm text-muted-foreground mb-4">{description}</p>
+			{children}
 			<MagicCardPointerProvider className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
 				{availableFormats.map((format) => renderVariant(format, iconName, variant))}
 			</MagicCardPointerProvider>
 		</section>
+	)
+}
+
+type NamedVariantSectionProps = {
+	externalIcon: ExternalIcon
+	variant: LobehubVariant
+	renderVariant: RenderVariantFn
+}
+
+function NamedVariantSection({ externalIcon, variant, renderVariant }: NamedVariantSectionProps) {
+	const [selectedTone, setSelectedTone] = useState<IconTone>("dark")
+	const tones = ICON_TONES.filter((tone) =>
+		["png", "webp"].some((format) => getLobehubVariantUrlKey(externalIcon, format, variant.name, tone)),
+	)
+	let activeTone: IconTone | undefined = tones[0]
+	if (tones.includes(selectedTone)) activeTone = selectedTone
+	const formats = ["svg", "png", "webp"].filter((format) => getLobehubVariantUrlKey(externalIcon, format, variant.name, activeTone))
+	const renderNamedVariant: RenderVariantFn = (format, fileName) => {
+		let tone: IconTone | undefined
+		if (format !== "svg") tone = activeTone
+		let downloadName = fileName
+		if (tone) downloadName += `-${tone}`
+		return renderVariant(format, downloadName, { kind: "named", name: variant.name, label: variant.label, tone })
+	}
+
+	return (
+		<IconVariantsSection
+			title={variant.label}
+			description={variant.description}
+			iconElement={<Type className="w-4 h-4 text-muted-foreground" aria-hidden="true" />}
+			availableFormats={formats}
+			iconName={`${externalIcon.slug}-${variant.name}`}
+			variant={{ kind: "named", name: variant.name, label: variant.label }}
+			renderVariant={renderNamedVariant}
+		>
+			{tones.length > 0 && (
+				<fieldset aria-label={`${variant.label} raster background`} className="space-y-2 mb-4">
+					<legend className="text-sm font-medium">PNG and WebP background</legend>
+					<div className="flex flex-wrap gap-2">
+						{tones.map((tone) => (
+							<Button
+								key={tone}
+								variant={activeTone === tone ? "secondary" : "outline"}
+								className="min-h-11"
+								aria-pressed={activeTone === tone}
+								onClick={() => setSelectedTone(tone)}
+							>
+								Use {tone === "light" ? "dark" : "light"} background
+							</Button>
+						))}
+					</div>
+					{activeTone && <p className="text-sm text-muted-foreground">{getToneDescription(activeTone, false)} SVG artwork is unchanged.</p>}
+				</fieldset>
+			)}
+		</IconVariantsSection>
 	)
 }
 
@@ -208,6 +268,10 @@ export function IconDetails({
 	const externalPreviewUrl = externalIcon ? getExternalIconPreviewUrl(externalIcon) : null
 	const iconDisplayName = externalIcon?.name ?? formatIconName(icon, { capitalize: true, aliases: iconData.aliases })
 	const hasMonochromeTones = externalSourceConfig?.monochromeTones ?? false
+	const namedVariants = useMemo(() => {
+		if (!externalIcon) return []
+		return getLobehubVariants(externalIcon)
+	}, [externalIcon])
 
 	type CommunityIconData = Icon & {
 		mainIconUrl?: string
@@ -513,11 +577,14 @@ export function IconDetails({
 		let imageUrl: string
 		let githubUrl: string
 		let theme: IconTone | undefined
-		if (variant.kind !== "base" && variant.tone !== "default") theme = variant.tone
+		if (variant.kind === "tone") theme = variant.tone
+		if (variant.kind === "named") theme = variant.tone
+		if (variant.kind === "wordmark" && variant.tone !== "default") theme = variant.tone
 
 		if (isExternalIcon && externalIcon) {
 			let key: string | null = format
-			if (theme) key = getExternalToneUrlKey(externalIcon, format, theme)
+			if (variant.kind === "named") key = getLobehubVariantUrlKey(externalIcon, format, variant.name, theme)
+			else if (theme) key = getExternalToneUrlKey(externalIcon, format, theme)
 			else if (!externalIcon.formats?.includes(format)) key = null
 			if (!key || !canResolveExternalIconUrl(externalIcon, key)) return null
 			imageUrl = resolveExternalIconUrl(externalIcon, key)
@@ -550,8 +617,10 @@ export function IconDetails({
 
 		let variantKey = `${format}-${theme || "default"}`
 		if (variant.kind === "wordmark") variantKey = `${format}-wordmark-${variant.tone}`
+		if (variant.kind === "named") variantKey = `${format}-${variant.name}-${theme || "default"}`
 		const altText = buildIconAltText(iconDisplayName, variant, format)
 		let tileBackground = "bg-primary/15 dark:bg-secondary/10"
+		if (variant.kind === "named") tileBackground = "bg-white"
 		if (theme === "light") tileBackground = "bg-zinc-950"
 		if (theme === "dark") tileBackground = "bg-white"
 
@@ -565,6 +634,7 @@ export function IconDetails({
 									className={cn(
 										"relative flex h-28 w-28 items-center justify-center mb-3 ring-1 ring-white/5 dark:ring-white/10 cursor-pointer rounded-xl overflow-hidden group outline-none focus-visible:ring-2 focus-visible:ring-ring dark:focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
 										tileBackground,
+										variant.kind === "named" && "w-full",
 									)}
 									whileHover={{ scale: 1.05 }}
 									whileTap={{ scale: 0.95 }}
@@ -586,7 +656,7 @@ export function IconDetails({
 										alt={altText}
 										width={88}
 										height={88}
-										className="max-h-full max-w-full object-contain p-4"
+										className={cn("max-h-full max-w-full object-contain p-4", variant.kind === "named" && "h-full w-full")}
 									/>
 								</motion.div>
 							</TooltipTrigger>
@@ -633,6 +703,11 @@ export function IconDetails({
 				const key = getExternalToneUrlKey(externalIcon, "svg", tone)
 				if (key && canResolveExternalIconUrl(externalIcon, key)) {
 					variants.push({ value: tone, label: getToneLabel(tone), iconName: fileName })
+				}
+			}
+			for (const variant of namedVariants) {
+				if (externalIcon.url_templates[`svg_${variant.name}`]) {
+					variants.push({ value: variant.name, label: variant.label, iconName: `${externalIcon.slug}-${variant.name}` })
 				}
 			}
 			return variants
@@ -768,7 +843,7 @@ export function IconDetails({
 		}
 
 		return variants
-	}, [isExternalIcon, externalIcon, isSimpleIcons, isCommunityIcon, assetUrls, mainIconUrl, icon, iconData])
+	}, [isExternalIcon, externalIcon, isSimpleIcons, isCommunityIcon, assetUrls, mainIconUrl, icon, iconData, namedVariants])
 
 	const getSvgUrl = useCallback(
 		(variantValue?: string): string | null => {
@@ -786,6 +861,8 @@ export function IconDetails({
 					const key = getExternalToneUrlKey(externalIcon, "svg", variant)
 					if (key && canResolveExternalIconUrl(externalIcon, key)) return resolveExternalIconUrl(externalIcon, key)
 				}
+				const key = `svg_${variant}`
+				if (canResolveExternalIconUrl(externalIcon, key)) return resolveExternalIconUrl(externalIcon, key)
 				return null
 			}
 
@@ -1039,6 +1116,15 @@ export function IconDetails({
 								<h2>Icon variants</h2>
 							</CardTitle>
 							<CardDescription>Click on any icon to copy its URL to your clipboard.</CardDescription>
+							{namedVariants.length > 0 && (
+								<nav aria-label="More icon variants" className="flex flex-wrap gap-2 pt-2">
+									{namedVariants.map((variant) => (
+										<Button key={variant.name} variant="outline" size="sm" className="min-h-11" asChild>
+											<a href={`#variant-${variant.name}`}>View {variant.label}</a>
+										</Button>
+									))}
+								</nav>
+							)}
 						</CardHeader>
 						<CardContent>
 							<div className="space-y-10">
@@ -1070,6 +1156,10 @@ export function IconDetails({
 								{iconData.wordmark && (
 									<WordmarkSection iconData={iconData} availableFormats={availableFormats} renderVariant={renderVariant} />
 								)}
+								{externalIcon &&
+									namedVariants.map((variant) => (
+										<NamedVariantSection key={variant.name} externalIcon={externalIcon} variant={variant} renderVariant={renderVariant} />
+									))}
 							</div>
 						</CardContent>
 					</Card>
@@ -1202,6 +1292,7 @@ export function IconDetails({
 													availableVariants={availableVariants}
 													selectedVariant={selectedVariant}
 													onVariantChange={setSelectedVariant}
+													previewOnLightBackground={namedVariants.some((variant) => variant.name === selectedVariant)}
 												/>
 											) : (
 												<motion.div

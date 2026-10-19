@@ -1,5 +1,6 @@
 import { cache } from "react"
 import { EXTERNAL_SOURCE_IDS, type ExternalSourceId, getExternalSource } from "@/constants"
+import { isLobehubVariantAlias } from "@/lib/lobehub-variants"
 import { createServerPB } from "@/lib/pb"
 import type { ExternalIcon, ExternalIconRecord, IconRecord, NativeIconRecord } from "@/types/icons"
 import { getIconsArray } from "./api"
@@ -157,7 +158,9 @@ export async function getExternalIconBySourceAndSlug(source: ExternalSourceId, s
 
 export async function getSlugOwner(slug: string): Promise<ExternalIconRecord | null> {
 	const icons = await getExternalIcons()
-	return icons.find((icon) => icon.slug === slug) ?? null
+	const owner = icons.find((icon) => icon.slug === slug)
+	if (owner) return owner
+	return icons.find((icon) => isLobehubVariantAlias(icon.external, slug)) ?? null
 }
 
 export async function listExternalIcons({ q = "", category, page = 1, perPage = 60 }: ListExternalIconsOptions = {}) {
