@@ -1,0 +1,62 @@
+scripts/import-icon-update.ts
+  h_d6e478ca18e517 1-150
+scripts/import-icon.ts
+  h_d6e478ca18e517 6,14,40,316,333-335,456-459,461,463-464,469-470,562-573
+web/backend/pb_hooks/custom-variants.js
+  h_d6e478ca18e517 47-50,64-65
+web/backend/pb_hooks/dashboard.js
+  h_d6e478ca18e517 7,66,102,107,115,145,185,282
+web/backend/pb_hooks/icon-update-policy.d.ts
+  h_d6e478ca18e517 1-38
+web/backend/pb_hooks/icon-update-policy.js
+  h_d6e478ca18e517 1-117
+web/backend/pb_hooks/icon-updates.js
+  h_d6e478ca18e517 1-94
+web/backend/pb_hooks/icon-updates.pb.js
+  h_d6e478ca18e517 1
+web/backend/pb_migrations/1792400000_icon_update_delta.js
+  h_d6e478ca18e517 1-20
+web/src/app/api/submissions/route.ts
+  h_d6e478ca18e517 3-4,7-13,43-44,86-96
+web/src/app/api/submissions/target/route.ts
+  h_d6e478ca18e517 1-25
+web/src/app/community/submissions/[id]/page.tsx
+  h_d6e478ca18e517 3,8,124-137
+web/src/components/dashboard/icon-update-diff.tsx
+  h_d6e478ca18e517 1-144
+web/src/components/dashboard/review-bench.tsx
+  h_d6e478ca18e517 62-70,159-163,180,382-386,448,451-467,469-474,476-477,531
+web/src/components/dashboard/review-gallery.tsx
+  h_d6e478ca18e517 7,14-15
+web/src/components/submission/edit-icon-picker.tsx
+  h_d6e478ca18e517 6,38,88
+web/src/components/submission/icon-update-editor.tsx
+  h_d6e478ca18e517 1-446
+web/src/components/submission/submission-card.tsx
+  h_d6e478ca18e517 40,65
+web/src/lib/icon-update-previews.ts
+  h_d6e478ca18e517 1-24
+web/src/lib/icon-update-service.ts
+  h_d6e478ca18e517 1-49
+web/src/lib/icon-update.ts
+  h_d6e478ca18e517 1-14
+web/src/lib/icons/files.ts
+  h_d6e478ca18e517 17-20
+web/src/lib/pb.ts
+  h_d6e478ca18e517 3,26,60
+web/src/lib/submission-service.ts
+  h_d6e478ca18e517 37,39-43,86,91
+web/src/lib/submit-proposal.ts
+  h_d6e478ca18e517 1,5,7-10
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "8f875860a9495cd4975e4bf4283b24ef45557340",
+  "prompts": {},
+  "humans": {
+    "h_d6e478ca18e517": {
+      "author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
