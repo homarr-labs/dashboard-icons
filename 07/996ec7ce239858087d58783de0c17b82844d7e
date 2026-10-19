@@ -1,0 +1,50 @@
+scripts/convert_svg_assets.py
+  h_d6e478ca18e517 284-300,303-307,313-314,370
+scripts/import-icon.ts
+  h_d6e478ca18e517 8,67,204-211,379-380
+web/backend/pb_hooks/dashboard.js
+  h_d6e478ca18e517 71-73
+web/src/app/api/submissions/route.ts
+  h_d6e478ca18e517 5-6
+web/src/components/dashboard/inspector.tsx
+  h_d6e478ca18e517 11,14-22,72-74,133-144,182,184,188-191,193,195-198
+web/src/components/dashboard/review-gallery.tsx
+  h_d6e478ca18e517 5,8-12,19-20,27
+web/src/components/editable-icon-details.tsx
+  h_d6e478ca18e517 19-20,38
+web/src/components/icon-card.tsx
+  h_d6e478ca18e517 4,9,104-114,118
+web/src/components/icon-details.tsx
+  h_d6e478ca18e517 110-119,121-124,531,553,678-691,744-751,1115-1118
+web/src/components/icon-submission-form.tsx
+  h_d6e478ca18e517 3,17,137,139-158,160-164,166-196,198-199,201-206,340-342,345,347-348
+web/src/components/icon-submission-guidelines.tsx
+  h_d6e478ca18e517 24
+web/src/components/submission-details.tsx
+  h_d6e478ca18e517 26,28,124,161-197,199-207,360-365
+web/src/components/variant-preview.tsx
+  h_d6e478ca18e517 1-35
+web/src/hooks/use-icon-submission-form.ts
+  h_d6e478ca18e517 10-11,14-15,18
+web/src/lib/pb.ts
+  h_d6e478ca18e517 42,75
+web/src/lib/submission-service.ts
+  h_d6e478ca18e517 3,47,52,71
+web/src/lib/submission-variants.ts
+  h_d6e478ca18e517 1-73
+web/src/lib/submit-proposal.ts
+  h_d6e478ca18e517 2-3
+web/src/types/icons.ts
+  h_d6e478ca18e517 21
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "07996ec7ce239858087d58783de0c17b82844d7e",
+  "prompts": {},
+  "humans": {
+    "h_d6e478ca18e517": {
+      "author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
