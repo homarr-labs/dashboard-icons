@@ -1,0 +1,23 @@
+web/src/components/dashboard/contributor-home.tsx
+  s_17ef26bd27b71a::t_de4fa3a7f1d23b 94,329
+web/src/components/dashboard/review-history.tsx
+  s_17ef26bd27b71a::t_117baefb011d77 7,43
+web/src/components/icon-submission-form.tsx
+  s_17ef26bd27b71a::t_aab220d79b7a00 73-81,160
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "30dc48f6f4c52593a508413609f434d493d93136",
+  "prompts": {},
+  "sessions": {
+    "s_17ef26bd27b71a": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "9db86f57-96e0-4df5-bd49-18e907fb1fe1",
+        "model": "unknown"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
