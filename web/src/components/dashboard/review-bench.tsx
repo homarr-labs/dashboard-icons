@@ -16,11 +16,13 @@ import {
 	SearchX,
 	X,
 } from "lucide-react"
-import { AnimatePresence, motion } from "motion/react"
+import { AnimatePresence, motion, useReducedMotion } from "motion/react"
 import { type CSSProperties, useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { toast } from "sonner"
 import { revalidateAllSubmissions } from "@/app/actions/submissions"
+import { NumberTicker } from "@/components/magicui/number-ticker"
 import { RejectedRoundComparison } from "@/components/submission/rejected-round-comparison"
+import { BorderBeam } from "@/components/ui/border-beam"
 import { Button } from "@/components/ui/button"
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogTitle } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
@@ -42,7 +44,7 @@ import {
 import type { DashboardFilters, ReviewFixups } from "@/lib/dashboard/types"
 import type { Submission } from "@/lib/pb"
 import { cn } from "@/lib/utils"
-import { Avatar, Empty, fileCount, Kbd, Kind, Round, statusStyles, Thumbnail, Time } from "./primitives"
+import { Avatar, approveButton, Empty, fileCount, Kbd, Kind, Round, rejectButton, statusStyles, Thumbnail, Time } from "./primitives"
 import { ReviewFixupSummary, ReviewMetadataEditor, ReviewRenameEditor } from "./review-fixup-editors"
 import { ReviewGallery } from "./review-gallery"
 import { ReviewHistory } from "./review-history"
@@ -97,6 +99,7 @@ export function ReviewBench({
 	const [selectedFile, setSelectedFile] = useState("")
 	const [fixupError, setFixupError] = useState("")
 	const [gallery, setGallery] = useState(false)
+	const reducedMotion = useReducedMotion()
 	const [flash, setFlash] = useState<{ key: number; name: string; status: "approved" | "rejected" } | null>(null)
 	const feedbackRef = useRef<HTMLTextAreaElement>(null)
 	const actionsRef = useRef<HTMLDivElement>(null)
@@ -442,14 +445,22 @@ export function ReviewBench({
 	const draft = record && drafts[record.id]
 	const submitter = record?.expand?.created_by?.username || "Contributor"
 	const reasonOpen = !!record && reasonFor === record.id
-	let rejectVariant: "outline" | "destructive" = "outline"
-	if (reasonOpen) rejectVariant = "destructive"
+	let accent = statusStyles.pending.accent
+	let beam = ["var(--magic-border-from)", "var(--magic-border-to)"]
+	if (draft?.status === "approved") {
+		accent = statusStyles.added_to_collection.accent
+		beam = ["var(--success)", "var(--success)"]
+	}
+	if (draft?.status === "rejected") {
+		accent = statusStyles.rejected.accent
+		beam = ["var(--destructive)", "var(--destructive)"]
+	}
 	let variantLabel = "Variant of…"
 	if (sibling) variantLabel = `Variant of ${sibling.name}`
 	let emptyTitle = "Inbox zero"
 	if (decisions.length) emptyTitle = "Everything is staged"
 	const submitButton = (
-		<Button variant="outline" disabled={!decisions.length || busy || !hydrated} onClick={() => setConfirm(true)}>
+		<Button disabled={!decisions.length || busy || !hydrated} onClick={() => setConfirm(true)}>
 			<Flag />
 			Submit review · {decisions.length}
 		</Button>
@@ -505,6 +516,7 @@ export function ReviewBench({
 							<Empty
 								title={emptyTitle}
 								icon={PartyPopper}
+								tone={statusStyles.added_to_collection.badge}
 								className="rounded-lg border py-20"
 								action={
 									<>
@@ -530,7 +542,14 @@ export function ReviewBench({
 								transition={{ duration: 0.15, ease: "easeOut" }}
 								className="space-y-4"
 							>
-								<section aria-label="Current submission" className="rounded-lg border bg-background/50 p-4 shadow-sm">
+								<section
+									aria-label="Current submission"
+									className={cn(
+										"relative overflow-hidden rounded-lg border border-l-2 bg-background/50 p-4 shadow-sm transition-colors",
+										accent,
+									)}
+								>
+									{!reducedMotion && <BorderBeam size={120} duration={10} borderWidth={1.5} colorFrom={beam[0]} colorTo={beam[1]} />}
 									<div className="grid grid-cols-[auto_minmax(0,1fr)] gap-x-4 gap-y-3 sm:grid-cols-[auto_minmax(0,1fr)_auto]">
 										<Thumbnail submission={record} large className="size-16 rounded-lg p-2 sm:size-20 sm:p-3" />
 										<div className="min-w-0">
@@ -628,7 +647,14 @@ export function ReviewBench({
 								)}
 								{unavailable && <p className="rounded-lg border p-3 text-sm leading-6 text-muted-foreground">{unavailable}</p>}
 								{stale && (
-									<div role="alert" className="space-y-2 rounded-lg border border-yellow-500/30 p-3 text-sm">
+									<div
+										role="alert"
+										className={cn(
+											"space-y-2 rounded-lg border border-l-2 p-3 text-sm",
+											statusStyles.pending.accent,
+											statusStyles.pending.tint,
+										)}
+									>
 										<p>This Submission changed after your draft was saved. Discard the draft before editing the current version.</p>
 										<Button
 											variant="outline"
@@ -786,7 +812,7 @@ export function ReviewBench({
 											transition={{ duration: 0.15 }}
 											className="flex max-w-full items-center gap-1.5 rounded-md border bg-popover px-2.5 py-1 text-xs text-popover-foreground shadow-md"
 										>
-											{flash.status === "approved" && <Check className={cn("size-3.5", statusStyles.approved.text)} />}
+											{flash.status === "approved" && <Check className={cn("size-3.5", statusStyles.added_to_collection.text)} />}
 											{flash.status === "rejected" && <X className={cn("size-3.5", statusStyles.rejected.text)} />}
 											<span className="truncate font-mono">{flash.name}</span>
 											{flash.status === "approved" && "staged for approval"}
@@ -822,10 +848,10 @@ export function ReviewBench({
 														type="button"
 														key={text}
 														disabled={busy}
-														className="flex min-h-10 items-start gap-2 rounded-md border px-3 py-2 text-left text-xs leading-5 outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:ring-[3px] focus-visible:ring-ring/50 [overflow-wrap:anywhere]"
+														className="group flex min-h-10 items-start gap-2 rounded-md border px-3 py-2 text-left text-xs leading-5 outline-none transition-colors hover:border-destructive/40 hover:bg-destructive/5 focus-visible:ring-[3px] focus-visible:ring-ring/50 [overflow-wrap:anywhere]"
 														onClick={() => stage("rejected", index === 8 && sibling ? variantRejection(sibling.name) : text)}
 													>
-														<span className="mt-px flex size-5 shrink-0 items-center justify-center rounded-sm border bg-muted font-mono text-[10px] font-medium text-muted-foreground">
+														<span className="mt-px flex size-5 shrink-0 items-center justify-center rounded-sm border bg-muted font-mono text-[10px] font-medium text-muted-foreground transition-colors group-hover:border-destructive/30 group-hover:bg-destructive/10 group-hover:text-destructive">
 															{index + 1}
 														</span>
 														{text}
@@ -864,7 +890,8 @@ export function ReviewBench({
 							</AnimatePresence>
 							<div className="grid grid-cols-2 gap-2 lg:flex lg:flex-wrap lg:items-center">
 								<Button
-									className="min-w-0 max-lg:h-11"
+									variant="outline"
+									className={cn(approveButton, "min-w-0 max-lg:h-11")}
 									disabled={busy || !loaded || !hydrated || !canApproveTarget || (!record.assets.length && !record.icon_update)}
 									onClick={() => stage("approved")}
 								>
@@ -874,9 +901,9 @@ export function ReviewBench({
 									<Kbd className="ml-1">P</Kbd>
 								</Button>
 								<Button
-									variant={rejectVariant}
+									variant="outline"
 									aria-expanded={reasonOpen}
-									className={cn("min-w-0 max-lg:h-11", !reasonOpen && "[&>svg]:text-destructive")}
+									className={cn(rejectButton, "min-w-0 aria-expanded:bg-destructive/20 max-lg:h-11")}
 									disabled={busy || !loaded || !hydrated}
 									onClick={() => {
 										if (reasonOpen) setReasonFor(null)
@@ -930,14 +957,18 @@ export function ReviewBench({
 				<aside aria-label="Staged decisions" className="hidden min-w-0 xl:flex xl:min-h-0 xl:flex-col xl:gap-3">
 					<div className="space-y-3 rounded-lg border bg-background/50 p-3 shadow-sm">
 						<p className="text-sm font-semibold">Staged review</p>
-						<dl className="grid grid-cols-2 divide-x rounded-md border text-center">
-							<div className="p-2">
-								<dt className="text-xs text-muted-foreground">To approve</dt>
-								<dd className={cn("text-xl font-semibold tabular-nums", statusStyles.approved.text)}>{approvals}</dd>
+						<dl className="grid grid-cols-2 gap-2 text-center">
+							<div className={cn("rounded-md border p-2", statusStyles.added_to_collection.badge)}>
+								<dt className="text-xs">To approve</dt>
+								<dd>
+									<NumberTicker value={approvals} className="text-xl font-semibold tracking-normal" />
+								</dd>
 							</div>
-							<div className="p-2">
-								<dt className="text-xs text-muted-foreground">To reject</dt>
-								<dd className={cn("text-xl font-semibold tabular-nums", statusStyles.rejected.text)}>{decisions.length - approvals}</dd>
+							<div className={cn("rounded-md border p-2", statusStyles.rejected.badge)}>
+								<dt className="text-xs">To reject</dt>
+								<dd>
+									<NumberTicker value={decisions.length - approvals} className="text-xl font-semibold tracking-normal" />
+								</dd>
 							</div>
 						</dl>
 						<div className="[&>button]:w-full">{submitButton}</div>

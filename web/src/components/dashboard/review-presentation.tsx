@@ -59,12 +59,12 @@ export function DecisionBadge({ draft }: { draft?: ReviewDraft }) {
 	let Icon = Clock
 	if (draft?.fixupSummary?.length) {
 		label = "Fix-ups staged"
-		tone = ""
+		tone = "border-primary/20 bg-primary/10 text-primary"
 		Icon = Wand2
 	}
 	if (draft?.status === "approved") {
 		label = "Approval staged"
-		tone = statusStyles.approved.badge
+		tone = statusStyles.added_to_collection.badge
 		Icon = Check
 	}
 	if (draft?.status === "rejected") {
@@ -88,7 +88,10 @@ export function ReviewHints({ record, rows }: { record: Submission; rows: Review
 	)
 	if (!sibling && !collisions.length) return null
 	return (
-		<ul aria-label="Informational hints" className="space-y-1 rounded-lg border border-yellow-500/30 p-3 text-sm">
+		<ul
+			aria-label="Informational hints"
+			className={cn("space-y-1 rounded-lg border border-l-2 p-3 text-sm", statusStyles.pending.accent, statusStyles.pending.tint)}
+		>
 			{sibling && (
 				<li className="flex items-start gap-2.5">
 					<Layers className={cn("mt-0.5 size-4 shrink-0", statusStyles.pending.text)} />

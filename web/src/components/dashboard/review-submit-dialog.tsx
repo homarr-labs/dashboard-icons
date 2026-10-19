@@ -56,7 +56,7 @@ export function ReviewSubmitDialog({
 				</DialogDescription>
 				<div className="flex shrink-0 flex-wrap gap-2 text-sm">
 					<p className="flex items-center gap-1.5">
-						<Check className={cn("size-4", statusStyles.approved.text)} />
+						<Check className={cn("size-4", statusStyles.added_to_collection.text)} />
 						<strong className="tabular-nums">{approved}</strong> to approve
 					</p>
 					<p className="flex items-center gap-1.5">
@@ -66,7 +66,14 @@ export function ReviewSubmitDialog({
 				</div>
 				<div ref={body} className="relative min-h-0 space-y-3 overflow-y-auto overscroll-contain p-1">
 					{decisions.map((draft) => (
-						<div key={draft.id} className="space-y-3 rounded-lg border p-3 [overflow-wrap:anywhere]">
+						<div
+							key={draft.id}
+							className={cn(
+								"space-y-3 rounded-lg border border-l-2 p-3 [overflow-wrap:anywhere]",
+								draft.status === "approved" && statusStyles.added_to_collection.accent,
+								draft.status === "rejected" && statusStyles.rejected.accent,
+							)}
+						>
 							<div className="flex items-center justify-between gap-2">
 								<span className="flex min-w-0 items-center gap-2">
 									<DecisionBadge draft={draft} />

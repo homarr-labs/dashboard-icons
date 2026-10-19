@@ -264,7 +264,7 @@ export function SubmissionList({
 	})
 	if (!records.length && view === "publish")
 		return (
-			<Empty title="Nothing to publish" icon={Rocket}>
+			<Empty title="Nothing to publish" icon={Rocket} tone={statusStyles.approved.badge}>
 				Approved icons wait here until you publish them to the collection.
 			</Empty>
 		)
@@ -325,7 +325,10 @@ export function SubmissionList({
 							if (event.target instanceof Element && event.target.closest("button,input,a")) return
 							onOpen(row.id)
 						}}
-						className={cn("group/row h-16 cursor-pointer", row.id === activeId && "shadow-[inset_2px_0_0_var(--primary)]")}
+						className={cn(
+							"group/row h-16 cursor-pointer data-[state=selected]:bg-primary/5",
+							row.id === activeId && "bg-primary/10 shadow-[inset_2px_0_0_var(--primary)] data-[state=selected]:bg-primary/10",
+						)}
 					>
 						{row.getVisibleCells().map((cell) => (
 							<TableCell key={cell.id} className={cn("truncate text-sm", columnClass(cell.column.id))}>

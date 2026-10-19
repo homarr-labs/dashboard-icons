@@ -16,23 +16,23 @@ const labels: Record<string, string> = {
 }
 export function PublishRun({ batch, compact = false }: { batch: PublishBatch; compact?: boolean }) {
 	let Icon = Rocket
-	let tone = "text-muted-foreground"
+	let style = { badge: "border-primary/20 bg-primary/10 text-primary", accent: "border-l-primary" }
 	if (batch.active) {
 		Icon = Loader2
-		tone = "text-primary"
+		style = statusStyles.pending
 	}
 	if (batch.state === "succeeded") {
 		Icon = CheckCircle2
-		tone = statusStyles.added_to_collection.text
+		style = statusStyles.added_to_collection
 	}
 	if (["failed", "unknown", "cancelled"].includes(batch.state)) {
 		Icon = AlertCircle
-		tone = statusStyles.rejected.text
+		style = statusStyles.rejected
 	}
 	return (
-		<article className={cn("min-w-0 rounded-lg border bg-background/50 p-4 shadow-sm", batch.active && "border-primary/50")}>
+		<article className={cn("min-w-0 rounded-lg border border-l-2 bg-background/50 p-4 shadow-sm", style.accent)}>
 			<div className="flex items-start gap-3">
-				<span className={cn("flex size-8 shrink-0 items-center justify-center rounded-md border bg-background", tone)}>
+				<span className={cn("flex size-8 shrink-0 items-center justify-center rounded-md border", style.badge)}>
 					<Icon className={cn("size-4", batch.active && "animate-spin motion-reduce:animate-none")} />
 				</span>
 				<div className="min-w-0 flex-1">

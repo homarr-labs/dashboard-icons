@@ -79,7 +79,7 @@ export function ReviewGallery({
 		<section aria-label="Variants" className="space-y-3" data-review-gallery>
 			<div className="flex flex-wrap items-center justify-between gap-2">
 				<h3 className="flex items-center gap-2 text-sm font-semibold">
-					<Shapes className="size-4 text-muted-foreground" />
+					<Shapes className="size-4 text-primary" />
 					Variants
 					<span className="rounded-full border bg-muted px-1.5 text-xs font-medium tabular-nums">
 						{rows.filter((row) => !row.dropped).length}

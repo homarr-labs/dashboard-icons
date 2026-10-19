@@ -105,7 +105,7 @@ export function IconUpdateDiff({
 				</p>
 			)}
 			{loaded?.target.unresolved && (
-				<p role="alert" className="rounded-lg border border-yellow-500/30 p-4 text-sm">
+				<p role="alert" className="rounded-lg border border-l-2 border-l-warning bg-warning/5 p-4 text-sm">
 					The target has unassigned original artwork. Its contributor must assign every file before an update can be approved or published.
 				</p>
 			)}
@@ -155,8 +155,9 @@ export function IconUpdateDiff({
 										{change?.action === "remove" && (
 											<div
 												className={cn(
-													"flex h-28 items-center justify-center gap-2 rounded-lg border border-dashed text-sm font-medium",
+													"flex h-28 items-center justify-center gap-2 rounded-lg border border-dashed border-destructive/40 text-sm font-medium",
 													statusStyles.rejected.text,
+													statusStyles.rejected.tint,
 												)}
 											>
 												<Minus className="size-4" aria-hidden />
@@ -204,7 +205,13 @@ export function IconUpdateDiff({
 									/>
 								)}
 								{change?.action === "remove" && change.note && (
-									<div className="space-y-1 rounded-md border-l-2 border-l-red-500 bg-muted/50 p-3 text-sm">
+									<div
+										className={cn(
+											"space-y-1 rounded-md border border-l-2 p-3 text-sm",
+											statusStyles.rejected.accent,
+											statusStyles.rejected.tint,
+										)}
+									>
 										<p className="text-xs font-medium text-muted-foreground">Removal note</p>
 										<p className="whitespace-pre-wrap break-words">{change.note}</p>
 									</div>
@@ -215,7 +222,7 @@ export function IconUpdateDiff({
 				</ul>
 			)}
 			{edit?.assets.some((asset) => asset.dropped) && (
-				<section aria-label="Dropped by reviewer" className="space-y-2 rounded-lg border bg-background/50 p-4 shadow-sm">
+				<section aria-label="Dropped by reviewer" className="space-y-2 rounded-lg border border-l-2 border-l-primary bg-primary/5 p-4">
 					<h4 className="text-sm font-semibold">Dropped by reviewer</h4>
 					<ul className="space-y-1">
 						{edit.assets

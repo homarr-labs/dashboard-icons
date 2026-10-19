@@ -4,6 +4,7 @@ import { ArrowRight, ArrowUpRight, CheckCircle2, Clock, Library, PartyPopper, Rs
 import type { ListResult } from "pocketbase"
 import { MagicCard } from "@/components/magicui/magic-card"
 import { MagicCardPointerProvider } from "@/components/magicui/magic-card-pointer"
+import { NumberTicker } from "@/components/magicui/number-ticker"
 import { Button } from "@/components/ui/button"
 import type { DashboardSummary, DashboardView, SubmissionEvent } from "@/lib/dashboard/types"
 import type { Submission } from "@/lib/pb"
@@ -36,7 +37,7 @@ export function AdminOverview({
 			caption: summary.data?.oldest ? "Oldest waiting" : "Nothing waiting",
 			since: summary.data?.oldest?.created,
 			Icon: Clock,
-			tone: statusStyles.pending.text,
+			style: statusStyles.pending,
 			open: () => onNavigate("review"),
 		},
 		{
@@ -44,7 +45,7 @@ export function AdminOverview({
 			value: counts?.approved,
 			caption: "Approved, not yet published",
 			Icon: CheckCircle2,
-			tone: statusStyles.approved.text,
+			style: statusStyles.approved,
 			open: () => onNavigate("publish"),
 		},
 		{
@@ -52,7 +53,7 @@ export function AdminOverview({
 			value: counts?.added_to_collection,
 			caption: "Live in the collection",
 			Icon: Library,
-			tone: statusStyles.added_to_collection.text,
+			style: statusStyles.added_to_collection,
 			open: () => onNavigate("submissions", { status: "added_to_collection" }),
 		},
 		{
@@ -60,39 +61,47 @@ export function AdminOverview({
 			value: counts?.rejected,
 			caption: "Rejected, awaiting a fix",
 			Icon: XCircle,
-			tone: statusStyles.rejected.text,
+			style: statusStyles.rejected,
 			open: () => onNavigate("submissions", { status: "rejected" }),
 		},
 	]
 	return (
 		<div className="space-y-4 pb-4">
 			{summary.error && <ErrorState error={summary.error} retry={() => void summary.refetch()} />}
-			<div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
+			<MagicCardPointerProvider className="grid grid-cols-2 gap-3 lg:grid-cols-4">
 				{metrics.map((metric) => (
-					<button
-						key={metric.label}
-						type="button"
-						onClick={metric.open}
-						className="group flex flex-col gap-1 rounded-lg border bg-background/50 p-4 text-left shadow-sm outline-none transition-[background-color,box-shadow] hover:bg-accent/50 hover:shadow-md focus-visible:ring-[3px] focus-visible:ring-ring/50"
-					>
-						<span className="flex w-full items-center gap-2 text-sm font-medium">
-							<metric.Icon className={cn("size-4", metric.tone)} />
-							{metric.label}
-							<ArrowUpRight className="ml-auto size-4 text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100" />
-						</span>
-						<span className="text-2xl font-semibold tabular-nums">{metric.value ?? "—"}</span>
-						<span className="flex flex-wrap items-center gap-1 text-xs text-muted-foreground">
-							{metric.caption}
-							{metric.since && <Time value={metric.since} />}
-						</span>
-					</button>
+					<MagicCard key={metric.label} className="rounded-lg shadow-sm">
+						<button
+							type="button"
+							onClick={metric.open}
+							className="group flex w-full items-start gap-3 rounded-lg p-4 text-left outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50"
+						>
+							<span className={cn("flex size-9 shrink-0 items-center justify-center rounded-md border", metric.style.badge)}>
+								<metric.Icon className="size-4" />
+							</span>
+							<span className="min-w-0 flex-1">
+								<span className="flex items-center gap-2 text-sm font-medium">
+									{metric.label}
+									<ArrowUpRight className="ml-auto size-4 text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100" />
+								</span>
+								{metric.value === undefined && <span className="block text-2xl font-semibold text-muted-foreground">—</span>}
+								{metric.value !== undefined && (
+									<NumberTicker value={metric.value} className={cn("block text-2xl font-semibold tracking-normal", metric.style.text)} />
+								)}
+								<span className="flex flex-wrap items-center gap-1 text-xs text-muted-foreground">
+									{metric.caption}
+									{metric.since && <Time value={metric.since} />}
+								</span>
+							</span>
+						</button>
+					</MagicCard>
 				))}
-			</div>
+			</MagicCardPointerProvider>
 			<div className="grid items-start gap-4 lg:grid-cols-[minmax(0,1.35fr)_minmax(320px,1fr)]">
 				<div className="min-w-0 space-y-4">
 					<Panel
 						title="Waiting for review"
-						icon={<Clock />}
+						icon={<Clock className="text-warning" />}
 						action={
 							<Button size="sm" variant="ghost" onClick={() => onNavigate("review")}>
 								Open the bench
@@ -102,7 +111,7 @@ export function AdminOverview({
 					>
 						{summary.isLoading && <Loading />}
 						{summary.data && !pending.length && (
-							<Empty title="Inbox zero" icon={PartyPopper}>
+							<Empty title="Inbox zero" icon={PartyPopper} tone={statusStyles.added_to_collection.badge}>
 								Nothing is waiting for review. New submissions appear here as they arrive.
 							</Empty>
 						)}
@@ -115,7 +124,11 @@ export function AdminOverview({
 											onClick={() => onReview(record.id)}
 											className="group flex w-full flex-col items-center p-3 text-center outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 sm:p-4"
 										>
-											<Thumbnail submission={record} large className="mb-2 size-16 rounded-lg p-2" />
+											<Thumbnail
+												submission={record}
+												large
+												className="mb-2 size-16 rounded-lg p-2 transition-transform duration-300 group-hover:scale-105"
+											/>
 											<span className="w-full truncate font-mono text-xs font-medium transition-colors group-hover:text-primary sm:text-sm">
 												{record.name}
 											</span>
@@ -128,7 +141,7 @@ export function AdminOverview({
 					</Panel>
 					<Panel
 						title="Recent team activity"
-						icon={<Rss />}
+						icon={<Rss className="text-primary" />}
 						action={
 							<Button size="sm" variant="ghost" onClick={() => onNavigate("activity")}>
 								View all
@@ -144,7 +157,7 @@ export function AdminOverview({
 				<div className="min-w-0 space-y-4">
 					<Panel
 						title="Ready to publish"
-						icon={<CheckCircle2 />}
+						icon={<CheckCircle2 className="text-info" />}
 						action={
 							<Button size="sm" variant="ghost" onClick={() => onNavigate("publish")}>
 								Publish

@@ -15,7 +15,7 @@ export function ReviewHistory({ record, filters }: { record: Submission; filters
 	return (
 		<details onToggle={(event) => setOpen(event.currentTarget.open)} className="group rounded-lg border bg-background/50 shadow-sm">
 			<summary className="flex list-none items-center gap-2 rounded-lg p-3 text-sm font-semibold outline-none hover:bg-muted/50 focus-visible:ring-[3px] focus-visible:ring-ring/50 max-lg:min-h-11 [&::-webkit-details-marker]:hidden">
-				<History className="size-4 text-muted-foreground" />
+				<History className="size-4 text-primary" />
 				Record history
 				<ChevronDown className="ml-auto size-4 text-muted-foreground transition-transform group-open:rotate-180" />
 			</summary>

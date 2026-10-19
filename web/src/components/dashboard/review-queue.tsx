@@ -3,6 +3,7 @@ import { Check, Layers, LayoutGrid, List, Search, Wand2, X } from "lucide-react"
 import { AnimatePresence, motion } from "motion/react"
 import { MagicCard } from "@/components/magicui/magic-card"
 import { MagicCardPointerProvider } from "@/components/magicui/magic-card-pointer"
+import { NumberTicker } from "@/components/magicui/number-ticker"
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
 import type { Submission } from "@/lib/pb"
 import { cn } from "@/lib/utils"
@@ -24,7 +25,7 @@ export function StagedMark({ draft, className }: { draft?: ReviewDraft; classNam
 					transition={{ duration: 0.15 }}
 					className={cn(
 						"flex size-5 shrink-0 items-center justify-center rounded-sm border",
-						draft.status === "approved" && statusStyles.approved.badge,
+						draft.status === "approved" && statusStyles.added_to_collection.badge,
 						draft.status === "rejected" && statusStyles.rejected.badge,
 						className,
 					)}
@@ -77,7 +78,7 @@ export function ReviewQueue({
 			<div className="space-y-3 border-b p-3">
 				<div className="flex items-center justify-between gap-2">
 					<p className="flex items-baseline gap-1.5">
-						<span className="text-xl font-semibold tabular-nums">{total}</span>
+						<NumberTicker value={total} className="text-xl font-semibold tracking-normal text-warning" />
 						<span className="text-sm text-muted-foreground">waiting</span>
 					</p>
 					<ToggleGroup
@@ -100,7 +101,7 @@ export function ReviewQueue({
 				</div>
 				<div className="space-y-1.5">
 					<div className="flex h-1.5 overflow-hidden rounded-sm bg-muted">
-						<motion.span className={cn("h-full", statusStyles.approved.dot)} animate={{ width: `${approvedShare}%` }} />
+						<motion.span className={cn("h-full", statusStyles.added_to_collection.dot)} animate={{ width: `${approvedShare}%` }} />
 						<motion.span className={cn("h-full", statusStyles.rejected.dot)} animate={{ width: `${rejectedShare}%` }} />
 					</div>
 					<p className="flex justify-between text-xs text-muted-foreground">
@@ -143,7 +144,9 @@ export function ReviewQueue({
 												aria-current={current || undefined}
 												className={cn(
 													"group relative flex min-h-14 w-full min-w-0 items-center gap-2.5 rounded-md py-2 pr-2 pl-3 text-left outline-none transition-colors hover:bg-accent/60 focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:opacity-60",
-													current && "bg-accent ring-1 ring-primary/60 hover:bg-accent",
+													current && "bg-primary/10 ring-1 ring-primary/40 hover:bg-primary/10",
+													!current && draft?.status === "approved" && statusStyles.added_to_collection.tint,
+													!current && draft?.status === "rejected" && statusStyles.rejected.tint,
 												)}
 											>
 												{current && (
@@ -174,10 +177,12 @@ export function ReviewQueue({
 																<span className={cn("rounded-sm border px-1 text-[10px] font-medium leading-4", updateBadge)}>Update</span>
 															)}
 															{(row.round || 1) > 1 && (
-																<span className="rounded-sm border px-1 text-[10px] font-medium leading-4">Round {row.round}</span>
+																<span className="rounded-sm border border-info/20 bg-info/10 px-1 text-[10px] font-medium leading-4 text-info">
+																	Round {row.round}
+																</span>
 															)}
 															{!!draft?.fixupSummary?.length && (
-																<span className="inline-flex items-center gap-0.5 rounded-sm border px-1 text-[10px] font-medium leading-4 text-muted-foreground">
+																<span className="inline-flex items-center gap-0.5 rounded-sm border border-primary/20 bg-primary/10 px-1 text-[10px] font-medium leading-4 text-primary">
 																	<Wand2 className="size-2.5" />
 																	Fix-ups
 																</span>

@@ -16,7 +16,20 @@ import { pb, type Submission } from "@/lib/pb"
 import { labelledAssets, type SubmissionVariant, type VariantBackground, variantKind } from "@/lib/submission-variants"
 import { cn } from "@/lib/utils"
 import { ActivityFeed } from "./activity-feed"
-import { Avatar, backdrops, ErrorState, Kind, Loading, LoadMore, Round, Status, Thumbnail } from "./primitives"
+import {
+	Avatar,
+	approveButton,
+	backdrops,
+	ErrorState,
+	Kind,
+	Loading,
+	LoadMore,
+	Round,
+	rejectButton,
+	Status,
+	statusStyles,
+	Thumbnail,
+} from "./primitives"
 
 function variantLabel(variant: SubmissionVariant | null) {
 	if (!variant) return "Unlabelled asset"
@@ -81,7 +94,7 @@ export function Inspector({
 	const submitter = record.expand?.created_by?.username || "Contributor"
 	return (
 		<div className="flex h-full min-h-0 flex-col bg-background">
-			<div className="border-b p-4 pr-12 xl:pr-4">
+			<div className={cn("border-b border-l-2 p-4 pr-12 xl:pr-4", statusStyles[record.status].accent)}>
 				<div className="flex items-start gap-3">
 					<Thumbnail submission={record} large className="size-14 rounded-lg p-2" />
 					<div className="min-w-0 flex-1">
@@ -281,7 +294,7 @@ export function Inspector({
 							)
 						})}
 						{record.admin_comment && record.status !== "rejected" && (
-							<div className="rounded-md border-l-2 border-l-primary bg-muted/50 p-3">
+							<div className={cn("rounded-md border border-l-2 p-3", statusStyles[record.status].accent, statusStyles[record.status].tint)}>
 								<h3 className="mb-1 text-xs font-semibold">Feedback sent to submitter</h3>
 								<p className="whitespace-pre-wrap break-words text-sm leading-6">{record.admin_comment}</p>
 							</div>
@@ -334,7 +347,7 @@ export function Inspector({
 				<div className="grid grid-cols-3 gap-2 border-t bg-background p-3 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
 					<Button
 						variant="outline"
-						className="max-lg:min-h-11 [&>svg]:text-destructive"
+						className={cn(rejectButton, "max-lg:min-h-11")}
 						disabled={busy}
 						onClick={() => onAction({ kind: "rejected", records: [record] })}
 					>
@@ -343,7 +356,7 @@ export function Inspector({
 					</Button>
 					<Button
 						variant="outline"
-						className="max-lg:min-h-11"
+						className={cn(approveButton, "max-lg:min-h-11")}
 						disabled={busy}
 						onClick={() => onAction({ kind: "approved", records: [record] })}
 					>

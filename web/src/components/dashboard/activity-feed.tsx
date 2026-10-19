@@ -19,15 +19,16 @@ import { cn } from "@/lib/utils"
 import { Empty, statusStyles, Time } from "./primitives"
 
 function actionStyle(action: string): { Icon: LucideIcon; tone: string } {
-	if (action === "approved") return { Icon: Check, tone: statusStyles.approved.text }
-	if (action === "rejected") return { Icon: X, tone: statusStyles.rejected.text }
-	if (action === "submitted") return { Icon: Plus, tone: "text-primary" }
-	if (action === "resubmitted") return { Icon: RotateCcw, tone: "text-primary" }
-	if (action === "published" || action === "publish_succeeded") return { Icon: Library, tone: statusStyles.added_to_collection.text }
-	if (action.startsWith("publish")) return { Icon: GitPullRequest, tone: "text-muted-foreground" }
-	return { Icon: Pencil, tone: "text-muted-foreground" }
+	if (action === "approved") return { Icon: Check, tone: statusStyles.added_to_collection.badge }
+	if (action === "rejected") return { Icon: X, tone: statusStyles.rejected.badge }
+	if (action === "submitted") return { Icon: Plus, tone: "border-primary/20 bg-primary/10 text-primary" }
+	if (action === "resubmitted") return { Icon: RotateCcw, tone: statusStyles.approved.badge }
+	if (action === "published" || action === "publish_succeeded") return { Icon: Library, tone: statusStyles.added_to_collection.badge }
+	if (action.startsWith("publish")) return { Icon: GitPullRequest, tone: statusStyles.pending.badge }
+	return { Icon: Pencil, tone: "bg-muted text-muted-foreground" }
 }
-const actionIcon = "flex size-7 shrink-0 items-center justify-center rounded-md border bg-background [&>svg]:size-3.5"
+const actionIcon = "flex size-7 shrink-0 items-center justify-center rounded-md border [&>svg]:size-3.5"
+
 function ActivityItem({ event, onOpen }: { event: SubmissionEvent; onOpen: (id: string) => void }) {
 	const { Icon, tone } = actionStyle(event.action)
 	return (
@@ -101,7 +102,7 @@ export function ActivityFeed({
 }) {
 	if (!events.length)
 		return (
-			<Empty title="No activity recorded yet" icon={Rss}>
+			<Empty title="No activity recorded yet" icon={Rss} tone="border-primary/20 bg-primary/10 text-primary">
 				History begins when activity tracking is enabled. Older submissions show their current state, not a reconstructed history.
 			</Empty>
 		)

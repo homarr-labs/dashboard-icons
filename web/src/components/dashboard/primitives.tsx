@@ -30,31 +30,46 @@ export const backdrops: Record<VariantBackground, string> = {
 	dark: "bg-zinc-950",
 }
 export const selectedRing = "ring-2 ring-primary"
-export const updateBadge = "border-purple-500/20 bg-purple-500/10 text-purple-600 dark:text-purple-400"
-export const statusStyles: Record<Submission["status"], { Icon: LucideIcon; badge: string; dot: string; text: string }> = {
+export const updateBadge = "border-community/20 bg-community/10 text-community"
+export const approveButton =
+	"border-success/40 bg-success/10 text-success hover:bg-success/20 hover:text-success dark:border-success/40 dark:bg-success/10 dark:hover:bg-success/20"
+export const rejectButton =
+	"border-destructive/40 bg-destructive/10 text-destructive hover:bg-destructive/20 hover:text-destructive dark:border-destructive/40 dark:bg-destructive/10 dark:hover:bg-destructive/20"
+export const statusStyles: Record<
+	Submission["status"],
+	{ Icon: LucideIcon; badge: string; dot: string; text: string; accent: string; tint: string }
+> = {
 	pending: {
 		Icon: Clock,
-		badge: "border-yellow-500/20 bg-yellow-500/10 text-yellow-700 dark:text-yellow-500",
-		dot: "bg-yellow-500",
-		text: "text-yellow-700 dark:text-yellow-500",
+		badge: "border-warning/20 bg-warning/10 text-warning",
+		dot: "bg-warning",
+		text: "text-warning",
+		accent: "border-l-warning",
+		tint: "bg-warning/5",
 	},
 	approved: {
 		Icon: CheckCircle2,
-		badge: "border-blue-500/20 bg-blue-500/10 text-blue-600 dark:text-blue-400",
-		dot: "bg-blue-500",
-		text: "text-blue-600 dark:text-blue-400",
+		badge: "border-info/20 bg-info/10 text-info",
+		dot: "bg-info",
+		text: "text-info",
+		accent: "border-l-info",
+		tint: "bg-info/5",
 	},
 	rejected: {
 		Icon: XCircle,
-		badge: "border-red-500/20 bg-red-500/10 text-red-600 dark:text-red-500",
-		dot: "bg-red-500",
-		text: "text-red-600 dark:text-red-500",
+		badge: "border-destructive/20 bg-destructive/10 text-destructive",
+		dot: "bg-destructive",
+		text: "text-destructive",
+		accent: "border-l-destructive",
+		tint: "bg-destructive/5",
 	},
 	added_to_collection: {
 		Icon: Library,
-		badge: "border-emerald-500/20 bg-emerald-500/10 text-emerald-600 dark:text-emerald-500",
-		dot: "bg-emerald-500",
-		text: "text-emerald-600 dark:text-emerald-500",
+		badge: "border-success/20 bg-success/10 text-success",
+		dot: "bg-success",
+		text: "text-success",
+		accent: "border-l-success",
+		tint: "bg-success/5",
 	},
 }
 
@@ -98,7 +113,7 @@ export function Kind({ record, className }: { record: Submission; className?: st
 		)
 	return (
 		<Badge variant="outline" className={cn("text-muted-foreground", className)}>
-			<Sparkles aria-hidden />
+			<Sparkles aria-hidden className="text-primary" />
 			New icon
 		</Badge>
 	)
@@ -106,7 +121,7 @@ export function Kind({ record, className }: { record: Submission; className?: st
 export function Round({ round, className }: { round?: number; className?: string }) {
 	if ((round || 1) < 2) return null
 	return (
-		<Badge variant="outline" className={className}>
+		<Badge variant="outline" className={cn("border-info/20 bg-info/10 text-info", className)}>
 			<RotateCcw aria-hidden />
 			Round {round}
 		</Badge>
@@ -161,18 +176,20 @@ export function Empty({
 	title,
 	children,
 	icon: Icon = Inbox,
+	tone = "bg-muted text-muted-foreground",
 	action,
 	className,
 }: {
 	title: string
 	children?: ReactNode
 	icon?: LucideIcon
+	tone?: string
 	action?: ReactNode
 	className?: string
 }) {
 	return (
 		<div className={cn("flex flex-col items-center justify-center gap-3 px-6 py-12 text-center", className)}>
-			<span className="flex size-10 items-center justify-center rounded-md border bg-muted text-muted-foreground">
+			<span className={cn("flex size-10 items-center justify-center rounded-md border", tone)}>
 				<Icon className="size-5" />
 			</span>
 			<p className="font-semibold">{title}</p>
@@ -232,7 +249,7 @@ export function Panel({
 	return (
 		<Card className={cn("min-w-0 gap-0 overflow-hidden bg-background/50 py-0", className)}>
 			<div className="flex min-h-12 items-center justify-between gap-2 border-b px-4 py-2">
-				<h2 className="flex min-w-0 items-center gap-2 text-sm font-semibold [&>svg]:size-4 [&>svg]:text-muted-foreground">
+				<h2 className="flex min-w-0 items-center gap-2 text-sm font-semibold [&>svg]:size-4">
 					{icon}
 					{title}
 				</h2>

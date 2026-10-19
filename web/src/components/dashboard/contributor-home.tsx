@@ -4,6 +4,8 @@ import {
 	ExternalLink,
 	GitPullRequestArrow,
 	ImagePlus,
+	Layers,
+	type LucideIcon,
 	Pencil,
 	Plus,
 	RefreshCw,
@@ -14,10 +16,13 @@ import {
 } from "lucide-react"
 import { motion } from "motion/react"
 import Link from "next/link"
+import { AuroraText } from "@/components/magicui/aurora-text"
+import { MagicCard } from "@/components/magicui/magic-card"
+import { MagicCardPointerProvider } from "@/components/magicui/magic-card-pointer"
+import { NumberTicker } from "@/components/magicui/number-ticker"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { Skeleton } from "@/components/ui/skeleton"
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
 import { type DashboardFilters, statusLabels } from "@/lib/dashboard/types"
 import { pb, type Submission } from "@/lib/pb"
 import { cn } from "@/lib/utils"
@@ -25,9 +30,16 @@ import { Empty, ErrorState, fileCount, Round, Status, selectedRing, statusStyles
 import { FilterInput } from "./submission-list"
 
 const steps = [
-	{ label: "Submit", detail: "Upload the icon and its Variants" },
-	{ label: "Review", detail: "A maintainer checks every file" },
-	{ label: "Publish", detail: "It ships to the collection" },
+	{ label: "Submit", detail: "Upload the icon and its Variants", tone: "border-primary/20 bg-primary/10 text-primary" },
+	{ label: "Review", detail: "A maintainer checks every file", tone: statusStyles.pending.badge },
+	{ label: "Publish", detail: "It ships to the collection", tone: statusStyles.added_to_collection.badge },
+]
+const filterTiles: { value: string; label: string; Icon: LucideIcon; tone: string }[] = [
+	{ value: "", label: "All", Icon: Layers, tone: "border-primary/20 bg-primary/10 text-primary" },
+	...Object.entries(statusLabels).map(([value, label]) => {
+		const style = statusStyles[value as Submission["status"]]
+		return { value, label, Icon: style.Icon, tone: style.badge }
+	}),
 ]
 export function ContributorHome({
 	records,
@@ -63,7 +75,14 @@ export function ContributorHome({
 		<div className="space-y-6 pb-6">
 			<header className="flex flex-wrap items-end justify-between gap-4">
 				<div className="min-w-0">
-					{typeof username === "string" && <p className="text-sm text-muted-foreground">Welcome back, {username}</p>}
+					{typeof username === "string" && (
+						<p className="text-sm text-muted-foreground">
+							Welcome back,{" "}
+							<AuroraText colors={["var(--primary)", "var(--community)", "var(--info)"]} className="font-semibold">
+								{username}
+							</AuroraText>
+						</p>
+					)}
 					<h2 className="text-2xl font-semibold tracking-tight">Your submissions</h2>
 					<p className="mt-1 max-w-prose text-sm text-muted-foreground">
 						Track every icon you sent, fix anything a reviewer flagged and follow it all the way into the collection.
@@ -96,7 +115,7 @@ export function ContributorHome({
 			)}
 			{empty && (
 				<section className="rounded-lg border border-dashed px-6 py-12 text-center">
-					<span className="mx-auto flex size-12 items-center justify-center rounded-lg border bg-muted text-muted-foreground">
+					<span className="mx-auto flex size-12 items-center justify-center rounded-lg border border-primary/20 bg-primary/10 text-primary">
 						<ImagePlus className="size-6" />
 					</span>
 					<h3 className="mt-4 text-lg font-semibold">Your first icon starts here</h3>
@@ -107,7 +126,7 @@ export function ContributorHome({
 						{steps.map((step, index) => (
 							<li key={step.label} className="rounded-md border p-3">
 								<span className="flex items-center gap-2 text-sm font-semibold">
-									<span className="flex size-5 items-center justify-center rounded-full bg-primary text-[11px] text-primary-foreground tabular-nums">
+									<span className={cn("flex size-5 items-center justify-center rounded-full border text-[11px] tabular-nums", step.tone)}>
 										{index + 1}
 									</span>
 									{step.label}
@@ -133,9 +152,11 @@ export function ContributorHome({
 				</section>
 			)}
 			{!!rejected.length && !filters.status && !term && (
-				<Card className="gap-0 overflow-hidden bg-background/50 py-0">
-					<div className="flex items-start gap-3 border-b px-4 py-3">
-						<XCircle className={cn("mt-0.5 size-4 shrink-0", statusStyles.rejected.text)} />
+				<Card className="gap-0 overflow-hidden border-destructive/30 border-l-2 border-l-destructive bg-background/50 py-0">
+					<div className="flex items-start gap-3 border-b bg-destructive/5 px-4 py-3">
+						<span className={cn("flex size-8 shrink-0 items-center justify-center rounded-md border", statusStyles.rejected.badge)}>
+							<XCircle className="size-4" />
+						</span>
 						<div>
 							<h3 className="text-sm font-semibold">Needs your attention</h3>
 							<p className="text-xs text-muted-foreground">
@@ -186,31 +207,34 @@ export function ContributorHome({
 							<RefreshCw className={cn(refreshing && "animate-spin motion-reduce:animate-none")} />
 						</Button>
 					</div>
-					<div className="overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-						<ToggleGroup
-							type="single"
-							variant="outline"
-							size="sm"
-							aria-label="Filter by status"
-							value={filters.status || "all"}
-							onValueChange={(value) => {
-								if (value === "all") onFilter({ status: "" })
-								else if (value) onFilter({ status: value })
-							}}
-						>
-							{[["all", "All"], ...Object.entries(statusLabels)].map(([value, label]) => {
-								let count = records.length
-								if (value !== "all") count = records.filter((record) => record.status === value).length
-								return (
-									<ToggleGroupItem key={value} value={value} className="flex-none gap-2 px-3 max-lg:min-h-11">
-										{value !== "all" && <span className={cn("size-2 rounded-full", statusStyles[value as Submission["status"]].dot)} />}
-										{label}
-										<span className="tabular-nums text-muted-foreground">{count}</span>
-									</ToggleGroupItem>
-								)
-							})}
-						</ToggleGroup>
-					</div>
+					<MagicCardPointerProvider className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-5">
+						{filterTiles.map((tile) => {
+							const active = filters.status === tile.value
+							let count = records.length
+							if (tile.value) count = records.filter((record) => record.status === tile.value).length
+							return (
+								<MagicCard key={tile.value || "all"} className={cn("rounded-lg shadow-sm", active && selectedRing)}>
+									<button
+										type="button"
+										aria-pressed={active}
+										onClick={() => onFilter({ status: tile.value })}
+										className={cn(
+											"flex w-full items-center gap-3 rounded-lg p-3 text-left outline-none transition-colors focus-visible:ring-[3px] focus-visible:ring-ring/50 max-lg:min-h-14",
+											active && "bg-primary/5",
+										)}
+									>
+										<span className={cn("flex size-8 shrink-0 items-center justify-center rounded-md border", tile.tone)}>
+											<tile.Icon className="size-4" />
+										</span>
+										<span className="min-w-0">
+											<NumberTicker value={count} className="block text-lg leading-6 font-semibold tracking-normal" />
+											<span className="block truncate text-xs text-muted-foreground">{tile.label}</span>
+										</span>
+									</button>
+								</MagicCard>
+							)
+						})}
+					</MagicCardPointerProvider>
 				</div>
 			)}
 			{!!records.length && !visible.length && (
@@ -226,13 +250,13 @@ export function ContributorHome({
 					Try another status or search term.
 				</Empty>
 			)}
-			<div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+			<MagicCardPointerProvider className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
 				{visible.map((record) => (
 					<motion.div key={record.id} initial={{ opacity: 0, y: 4 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.2 }}>
 						<SubmissionCard record={record} active={record.id === activeId} onOpen={onOpen} />
 					</motion.div>
 				))}
-			</div>
+			</MagicCardPointerProvider>
 		</div>
 	)
 }
@@ -242,18 +266,29 @@ function SubmissionCard({ record, active, onOpen }: { record: Submission; active
 	let kind = "New icon"
 	if (record.icon_update) kind = `Update to ${record.icon_update.target.name}`
 	else if (record.target_submission) kind = "Update proposal"
+	const style = statusStyles[record.status]
 	return (
-		<Card className={cn("h-full gap-0 overflow-hidden bg-background/50 py-0", active && selectedRing)}>
+		<MagicCard className={cn("h-full overflow-hidden rounded-lg shadow-sm", active && selectedRing)}>
+			<span className={cn("absolute inset-y-0 left-0 w-0.5", style.dot)} />
 			<button
 				type="button"
 				data-submission={record.id}
 				onClick={() => onOpen(record.id)}
-				className="group flex flex-1 flex-col gap-3 p-4 text-left outline-none transition-colors hover:bg-accent/40 focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:ring-inset"
+				className={cn(
+					"group/card flex w-full flex-col gap-3 p-4 text-left outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:ring-inset",
+					active && "bg-primary/5",
+				)}
 			>
 				<span className="flex min-w-0 items-center gap-3">
-					<Thumbnail submission={record} large className="size-14 rounded-lg p-2" />
+					<Thumbnail
+						submission={record}
+						large
+						className="size-14 rounded-lg p-2 transition-transform duration-300 group-hover/card:scale-105"
+					/>
 					<span className="min-w-0 flex-1">
-						<span className="block truncate font-mono text-sm font-semibold transition-colors group-hover:text-primary">{record.name}</span>
+						<span className="block truncate font-mono text-sm font-semibold transition-colors group-hover/card:text-primary">
+							{record.name}
+						</span>
 						<span className="block truncate text-xs text-muted-foreground">
 							{kind} · {fileCount(record.assets.length)}
 						</span>
@@ -267,7 +302,9 @@ function SubmissionCard({ record, active, onOpen }: { record: Submission; active
 					<Round round={record.round} />
 				</span>
 				{record.admin_comment && (
-					<span className="line-clamp-2 border-l-2 pl-2.5 text-xs text-muted-foreground">{record.admin_comment}</span>
+					<span className={cn("line-clamp-2 rounded-md border border-l-2 px-2.5 py-1.5 text-xs", style.accent, style.tint)}>
+						{record.admin_comment}
+					</span>
 				)}
 			</button>
 			<div className="flex flex-wrap items-center gap-1 border-t px-2 py-1.5">
@@ -303,6 +340,6 @@ function SubmissionCard({ record, active, onOpen }: { record: Submission; active
 					</Link>
 				</Button>
 			</div>
-		</Card>
+		</MagicCard>
 	)
 }

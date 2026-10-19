@@ -280,7 +280,7 @@ export function ReviewVariantEditor({
 					variant="ghost"
 					size="sm"
 					disabled={disabled}
-					className="min-w-0 flex-1 text-destructive hover:text-destructive max-lg:min-h-11"
+					className="min-w-0 flex-1 text-destructive hover:bg-destructive/10 hover:text-destructive max-lg:min-h-11"
 					onClick={onDrop}
 				>
 					<Trash2 />
@@ -307,7 +307,7 @@ export function ReviewFixupSummary({
 }) {
 	if (!changes.length) return null
 	return (
-		<section aria-label="Staged fix-ups" className="space-y-2 rounded-lg border bg-background/50 p-3 shadow-sm">
+		<section aria-label="Staged fix-ups" className="space-y-2 rounded-lg border border-l-2 border-l-primary bg-primary/5 p-3">
 			<p className="flex items-center gap-2 text-sm font-semibold">
 				<Wand2 className="size-4 text-primary" />
 				Staged fix-ups · {changes.length}

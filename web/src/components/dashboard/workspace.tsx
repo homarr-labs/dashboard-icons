@@ -29,7 +29,7 @@ import { ActivityFeed } from "./activity-feed"
 import { ContributorHome } from "./contributor-home"
 import { Inspector, type ReviewIntent } from "./inspector"
 import { AdminOverview } from "./overview"
-import { Empty, ErrorState, Loading, LoadMore, Panel, statusStyles, Thumbnail } from "./primitives"
+import { approveButton, Empty, ErrorState, Loading, LoadMore, Panel, rejectButton, statusStyles, Thumbnail } from "./primitives"
 import { PublishRun } from "./publishing"
 import { ReviewBench } from "./review-bench"
 import { FilterInput, ListFilters, SubmissionList } from "./submission-list"
@@ -40,14 +40,18 @@ const intentStyles = {
 		title: "Approve submissions",
 		description: "Your feedback will be sent to the submitter. Approval does not publish the icon.",
 		Icon: Check,
-		variant: "default",
+		variant: "outline",
+		button: approveButton,
+		tone: statusStyles.added_to_collection.badge,
 		label: "Approve",
 	},
 	rejected: {
 		title: "Reject submissions",
 		description: "The submitter will see this feedback and can submit an improved version.",
 		Icon: X,
-		variant: "destructive",
+		variant: "outline",
+		button: rejectButton,
+		tone: statusStyles.rejected.badge,
 		label: "Reject",
 	},
 	publish: {
@@ -55,6 +59,8 @@ const intentStyles = {
 		description: "This starts one GitHub run for the selected icons. Publication is complete only after the repository push succeeds.",
 		Icon: Rocket,
 		variant: "default",
+		button: "",
+		tone: "border-primary/20 bg-primary/10 text-primary",
 		label: "Publish",
 	},
 } as const
@@ -413,7 +419,7 @@ export function DashboardWorkspace() {
 										<motion.div
 											initial={{ opacity: 0, y: -4 }}
 											animate={{ opacity: 1, y: 0 }}
-											className="flex flex-wrap items-center gap-2 border-b bg-muted/50 px-4 py-2"
+											className="flex flex-wrap items-center gap-2 border-b bg-primary/5 px-4 py-2"
 										>
 											<span className="mr-auto text-sm font-medium">{selected.length} selected</span>
 											<Button size="sm" variant="ghost" onClick={() => setSelected([])}>
@@ -424,7 +430,7 @@ export function DashboardWorkspace() {
 													<Button
 														size="sm"
 														variant="outline"
-														className="[&>svg]:text-destructive"
+														className={rejectButton}
 														disabled={busy || list.isPlaceholderData}
 														onClick={() => action({ kind: "rejected", records: pendingSelected })}
 													>
@@ -433,6 +439,8 @@ export function DashboardWorkspace() {
 													</Button>
 													<Button
 														size="sm"
+														variant="outline"
+														className={approveButton}
 														disabled={busy || list.isPlaceholderData}
 														onClick={() => action({ kind: "approved", records: pendingSelected })}
 													>
@@ -472,7 +480,7 @@ export function DashboardWorkspace() {
 									</div>
 								</Card>
 								{filters.view === "publish" && (
-									<Panel title="Publication history" icon={<GitPullRequest />}>
+									<Panel title="Publication history" icon={<GitPullRequest className="text-primary" />}>
 										<div className="space-y-2 p-3">
 											{batches.error && <ErrorState error={batches.error} retry={() => void batches.refetch()} />}
 											{batches.data?.items.map((batch) => (
@@ -569,7 +577,7 @@ export function DashboardWorkspace() {
 					<DialogContent className="max-h-[90dvh] overflow-y-auto">
 						<DialogHeader className="flex-row items-start gap-3 space-y-0 text-left">
 							{intentStyle && (
-								<span className="flex size-9 shrink-0 items-center justify-center rounded-md border bg-muted">
+								<span className={cn("flex size-9 shrink-0 items-center justify-center rounded-md border", intentStyle.tone)}>
 									<intentStyle.Icon className="size-4" />
 								</span>
 							)}
@@ -603,7 +611,7 @@ export function DashboardWorkspace() {
 							<Button variant="outline" disabled={busy} onClick={() => setIntent(null)}>
 								Cancel
 							</Button>
-							<Button variant={intentStyle?.variant} disabled={busy} onClick={() => void submit()}>
+							<Button variant={intentStyle?.variant} className={intentStyle?.button} disabled={busy} onClick={() => void submit()}>
 								{intentStyle && <intentStyle.Icon />}
 								{busy ? "Working…" : `${intentStyle?.label} ${intent?.records.length || ""}`}
 							</Button>
