@@ -510,9 +510,9 @@ export function SubmissionsDataTable({
 
 			{/* Bulk Actions Toolbar */}
 			{isAdmin && selectedSubmissionIds.length > 0 && (
-				<div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3 bg-blue-500/10 border border-blue-500/20 rounded-lg">
+				<div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3 bg-info/10 border border-info/20 rounded-lg">
 					<div className="flex items-center gap-2 flex-wrap">
-						<Badge variant="secondary" className="bg-blue-500/20 text-blue-400">
+						<Badge variant="secondary" className="bg-info/20 text-info">
 							{selectedSubmissionIds.length} selected
 						</Badge>
 						{selectedPendingIds.length > 0 && <span className="text-sm text-muted-foreground">{selectedPendingIds.length} pending</span>}
@@ -528,7 +528,7 @@ export function SubmissionsDataTable({
 								size="sm"
 								onClick={handleBulkReject}
 								disabled={isBulkRejecting}
-								className="flex-1 sm:flex-none border-red-500/30 text-red-600 hover:bg-red-500/10 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300"
+								className="flex-1 sm:flex-none border-destructive/30 text-destructive hover:bg-destructive/10 hover:text-destructive"
 							>
 								<XCircle className="w-4 h-4 mr-2" />
 								{isBulkRejecting ? "Rejecting..." : `Reject (${selectedPendingIds.length})`}
@@ -539,7 +539,7 @@ export function SubmissionsDataTable({
 								size="sm"
 								onClick={handleBulkApprove}
 								disabled={isBulkApproving}
-								className="flex-1 sm:flex-none bg-green-600 hover:bg-green-700 text-white"
+								className="flex-1 sm:flex-none border border-success/40 bg-success/10 text-success hover:bg-success/20"
 							>
 								<CheckCircle2 className="w-4 h-4 mr-2" />
 								{isBulkApproving ? "Approving..." : `Approve (${selectedPendingIds.length})`}
@@ -550,7 +550,7 @@ export function SubmissionsDataTable({
 								size="sm"
 								onClick={handleBulkTrigger}
 								disabled={isBulkTriggeringWorkflow}
-								className="flex-1 sm:flex-none bg-blue-600 hover:bg-blue-700"
+								className="flex-1 sm:flex-none bg-info/10 border border-info/40 text-info hover:bg-info/20"
 							>
 								<Github className="w-4 h-4 mr-2" />
 								{isBulkTriggeringWorkflow ? "Triggering..." : `Trigger All (${selectedApprovedIds.length})`}
@@ -564,9 +564,9 @@ export function SubmissionsDataTable({
 				!hideStatusHints &&
 				(approvedSubmissions.length > 0 || pendingSubmissions.length > 0) &&
 				selectedSubmissionIds.length === 0 && (
-					<Alert className="border-amber-500/30 bg-amber-500/5">
-						<Rocket className="h-4 w-4 text-amber-500" />
-						<AlertTitle className="text-amber-600 dark:text-amber-400">
+					<Alert className="border-warning/30 bg-warning/5">
+						<Rocket className="h-4 w-4 text-warning" />
+						<AlertTitle className="text-warning">
 							{approvedSubmissions.length > 0 && `${approvedSubmissions.length} approved`}
 							{approvedSubmissions.length > 0 && pendingSubmissions.length > 0 && " and "}
 							{pendingSubmissions.length > 0 && `${pendingSubmissions.length} pending`} submission
@@ -580,7 +580,7 @@ export function SubmissionsDataTable({
 										size="sm"
 										variant="outline"
 										onClick={handleSelectAllPending}
-										className="w-fit shrink-0 border-amber-500/30 hover:bg-amber-500/10 text-amber-700 dark:text-amber-300"
+										className="w-fit shrink-0 border-warning/30 hover:bg-warning/10 text-warning"
 									>
 										Select all pending
 									</Button>
@@ -590,7 +590,7 @@ export function SubmissionsDataTable({
 										size="sm"
 										variant="outline"
 										onClick={handleSelectAllApproved}
-										className="w-fit shrink-0 border-amber-500/30 hover:bg-amber-500/10 text-amber-700 dark:text-amber-300"
+										className="w-fit shrink-0 border-warning/30 hover:bg-warning/10 text-warning"
 									>
 										Select all approved
 									</Button>
@@ -634,8 +634,8 @@ export function SubmissionsDataTable({
 												className={cn(
 													"flex w-full items-center gap-3 p-3 rounded-lg border bg-background cursor-pointer active:bg-muted/50 transition-colors text-left",
 													isSelected && "ring-2 ring-primary/50 bg-primary/5",
-													isApproved && !isSelected && "bg-green-500/5",
-													isPending && !isSelected && "bg-yellow-500/5",
+													isApproved && !isSelected && "bg-success/5",
+													isPending && !isSelected && "bg-warning/5",
 												)}
 											>
 												{isAdmin && isSelectable && (
@@ -788,8 +788,8 @@ export function SubmissionsDataTable({
 													className={cn(
 														"cursor-pointer hover:bg-muted/50 transition-colors",
 														row.getIsExpanded() && "bg-muted/30",
-														row.original.status === "approved" && "bg-green-500/[0.03] hover:bg-green-500/[0.07]",
-														row.original.status === "pending" && row.getIsSelected() && "bg-yellow-500/[0.03]",
+														row.original.status === "approved" && "bg-success/[0.03] hover:bg-success/[0.07]",
+														row.original.status === "pending" && row.getIsSelected() && "bg-warning/[0.03]",
 													)}
 													onClick={(e) => {
 														const isSelectable = row.original.status === "approved" || row.original.status === "pending"
