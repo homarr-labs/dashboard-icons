@@ -1,0 +1,19 @@
+web/src/components/icon-details.tsx
+  s_7e83464d99f8b9::t_e164418376f5fd 37,57-59,792,859,1140
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "a6278aa0a6bd729e76986382ee8bb50bf9269ee9",
+  "prompts": {},
+  "sessions": {
+    "s_7e83464d99f8b9": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "9770c66b-8986-4256-8453-3f2f4f37ef6f",
+        "model": "unknown"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
