@@ -1,0 +1,27 @@
+web/backend/pb_hooks/icon-update-policy.d.ts
+  s_b0e52981eb78d5::t_9425be4efc8036 57-70
+web/backend/pb_hooks/icon-update-policy.js
+  s_b0e52981eb78d5::t_6697b53b58a957 161-226
+web/backend/pb_hooks/review-fixups.js
+  s_b0e52981eb78d5::t_12258b4e8abc61 1,37-56,58-82,92,137,142-145,159
+web/src/lib/dashboard/review-fixup-draft.ts
+  s_b0e52981eb78d5::t_c6b73612abba1b 3,57-58,64-73,78,97-104,128-138,140,144-145,153-157
+web/src/lib/icon-update.ts
+  s_b0e52981eb78d5::t_cd31b5d5f79744 12
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "198082c0dd13b57f02023f0e51f2f022da9a5d0c",
+  "prompts": {},
+  "sessions": {
+    "s_b0e52981eb78d5": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "3bb93752-dc08-4084-ad84-f18968488e60",
+        "model": "unknown"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
