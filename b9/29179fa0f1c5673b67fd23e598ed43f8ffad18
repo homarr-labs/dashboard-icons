@@ -1,0 +1,23 @@
+web/src/app/api/submissions/route.ts
+  s_2d01b292a28b6d::t_c2603a7eecd9ba 6,11,54-57,67,69,74-75
+web/src/hooks/use-icon-submission-form.ts
+  s_2d01b292a28b6d::t_4f618710c334fd 12-18,80-82
+web/src/lib/submission-service.ts
+  s_2d01b292a28b6d::t_aa01d9c287b191 1,11,21-28,40-43,47,54-58,60,64-69,71,74-83,85,89,94-105
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "b929179fa0f1c5673b67fd23e598ed43f8ffad18",
+  "prompts": {},
+  "sessions": {
+    "s_2d01b292a28b6d": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "5e76ae5c-974e-4221-bc68-fc83fdbe071f",
+        "model": "unknown"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
