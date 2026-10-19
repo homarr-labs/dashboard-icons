@@ -1,5 +1,5 @@
 "use client"
-import { ArrowLeft, ArrowRight, Check, ChevronDown, Flag, MessageSquare, RotateCcw, X } from "lucide-react"
+import { ArrowLeft, ArrowRight, Check, ChevronDown, Flag, MessageSquare, Pencil, RotateCcw, X } from "lucide-react"
 import { type CSSProperties, useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { toast } from "sonner"
 import { revalidateAllSubmissions } from "@/app/actions/submissions"
@@ -7,12 +7,23 @@ import { RejectedRoundComparison } from "@/components/submission/rejected-round-
 import { Button } from "@/components/ui/button"
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogTitle } from "@/components/ui/dialog"
 import { Textarea } from "@/components/ui/textarea"
-import { dashboardRequest } from "@/hooks/use-dashboard"
-import { useSubmissionHints } from "@/hooks/use-submission-catalog"
-import type { DashboardFilters } from "@/lib/dashboard/types"
+import { reviewSubmissions } from "@/hooks/use-dashboard"
+import { useReviewShortcuts } from "@/hooks/use-review-shortcuts"
+import { useSubmissionCatalog, useSubmissionHints } from "@/hooks/use-submission-catalog"
+import {
+	changeReviewVariant,
+	isReviewFixups,
+	normalizeReviewFixups,
+	reviewFixupError,
+	reviewFixupPreview,
+	reviewFixupsUnavailable,
+	undoReviewFixup,
+} from "@/lib/dashboard/review-fixup-draft"
+import type { DashboardFilters, ReviewFixups } from "@/lib/dashboard/types"
 import type { Submission } from "@/lib/pb"
 import { cn } from "@/lib/utils"
 import { Empty, Pagination, Thumbnail, Time } from "./primitives"
+import { ReviewFixupSummary, ReviewMetadataEditor, ReviewRenameEditor } from "./review-fixup-editors"
 import { ReviewGallery } from "./review-gallery"
 import { ReviewHistory } from "./review-history"
 import {
@@ -26,6 +37,7 @@ import {
 	variantRejection,
 	variantSibling,
 } from "./review-presentation"
+import { ReviewSubmitDialog } from "./review-submit-dialog"
 import { FilterInput } from "./submission-list"
 
 const primaryAction = "bg-foreground text-background hover:bg-foreground/90"
@@ -60,14 +72,17 @@ export function ReviewBench({
 	const [variantName, setVariantName] = useState("")
 	const [confirm, setConfirm] = useState(false)
 	const [busy, setBusy] = useState(false)
+	const [renaming, setRenaming] = useState(false)
+	const [selectedFile, setSelectedFile] = useState("")
+	const [fixupError, setFixupError] = useState("")
 	const feedbackRef = useRef<HTMLTextAreaElement>(null)
 	const actionsRef = useRef<HTMLDivElement>(null)
 	const [actionHeight, setActionHeight] = useState(180)
 	const [queueOpen, setQueueOpen] = useState(false)
-	const heldKeys = useRef(new Set<string>())
 	const groups = useMemo(() => sentTogether(rows), [rows])
 	const orderedRows = useMemo(() => groups.flatMap((group) => group.rows), [groups])
 	const hints = useSubmissionHints()
+	const catalog = useSubmissionCatalog()
 	const candidates = useMemo(() => {
 		const available = new Map<string, ReviewCandidate>()
 		for (const row of hints.data || []) if (row.status === "pending") available.set(row.id, row)
@@ -80,9 +95,17 @@ export function ReviewBench({
 	const index = orderedRows.findIndex((row) => row.id === record?.id)
 	const sibling = variantSibling(record, candidates)
 	const note = notes[record?.id] ?? drafts[record?.id]?.note ?? ""
-	const decisions = Object.values(drafts)
-	const approved = decisions.filter((draft) => draft.status === "approved").length
-	const rejected = decisions.length - approved
+	const fixups = drafts[record?.id]?.fixups || {}
+	const preview = record && reviewFixupPreview(record, fixups)
+	let unavailable = record && reviewFixupsUnavailable(record, catalog.data?.names)
+	if (record && !unavailable && !catalog.data) {
+		unavailable = "Checking published Icon names before enabling fix-ups."
+		if (catalog.isError) unavailable = "Published Icon names are unavailable. Reload the page to enable fix-ups for new Icons."
+	}
+	const stale = !!record && !!drafts[record.id] && drafts[record.id].updated !== record.updated
+	const fixupsDisabled = busy || !loaded || !hydrated || stale || !!unavailable
+	const selectedAsset = preview?.assets.find((asset) => asset.file === selectedFile) || preview?.assets[0]
+	const decisions = Object.values(drafts).filter((draft): draft is Draft & { status: "approved" | "rejected" } => !!draft.status)
 	useEffect(() => {
 		function load() {
 			try {
@@ -97,7 +120,10 @@ export function ReviewBench({
 						typeof value.comment === "string" &&
 						(value.note === undefined || typeof value.note === "string") &&
 						(value.reason === undefined || typeof value.reason === "string") &&
-						["approved", "rejected"].includes(value.status)
+						(value.fixups === undefined || isReviewFixups(value.fixups)) &&
+						(value.fixupSummary === undefined ||
+							(Array.isArray(value.fixupSummary) && value.fixupSummary.every((entry) => typeof entry === "string"))) &&
+						(value.status === undefined || ["approved", "rejected"].includes(value.status))
 					)
 						valid[value.id] = value
 				}
@@ -145,6 +171,9 @@ export function ReviewBench({
 		})
 		setVariantFor(null)
 		setVariantName("")
+		setRenaming(false)
+		setSelectedFile("")
+		setFixupError("")
 	}, [record?.id])
 	useEffect(() => {
 		if (!record?.id) return
@@ -170,13 +199,13 @@ export function ReviewBench({
 		[orderedRows, index, filters.page, totalPages, loaded, busy, onChange],
 	)
 	const stage = useCallback(
-		(status: Draft["status"], reason = "") => {
+		(status: NonNullable<Draft["status"]>, reason = "") => {
 			if (!record || !loaded || busy || !hydrated) return
 			if (status === "approved" && !record.assets.length) {
 				toast.error("An icon asset is required before approval.")
 				return
 			}
-			if (decisions.length >= 100 && !drafts[record.id]) {
+			if (decisions.length >= 100 && !drafts[record.id]?.status) {
 				toast.error("Submit your 100 staged decisions before continuing.")
 				return
 			}
@@ -187,7 +216,16 @@ export function ReviewBench({
 			}
 			setDrafts((current) => ({
 				...current,
-				[record.id]: { id: record.id, name: record.name, updated: record.updated, status, comment, reason, note: note.trim() },
+				[record.id]: {
+					...current[record.id],
+					id: record.id,
+					name: record.name,
+					updated: current[record.id]?.updated || record.updated,
+					status,
+					comment,
+					reason,
+					note: note.trim(),
+				},
 			}))
 			setErrors((current) => {
 				const next = { ...current }
@@ -211,7 +249,47 @@ export function ReviewBench({
 			delete next[id]
 			return next
 		})
+		setFixupError("")
 	}, [])
+	const changeFixups = useCallback(
+		(next: ReviewFixups) => {
+			if (!record || fixupsDisabled) return false
+			const normalized = normalizeReviewFixups(record, next)
+			const invalid = reviewFixupError(record, normalized)
+			if (invalid) {
+				setFixupError(invalid)
+				return false
+			}
+			const summary = reviewFixupPreview(record, normalized).changes.map((change) => change.text)
+			setDrafts((current) => ({
+				...current,
+				[record.id]: {
+					...current[record.id],
+					id: record.id,
+					name: record.name,
+					updated: current[record.id]?.updated || record.updated,
+					comment: current[record.id]?.comment || "",
+					note,
+					fixups: normalized,
+					fixupSummary: summary,
+				},
+			}))
+			setFixupError("")
+			setErrors((current) => {
+				const next = { ...current }
+				delete next[record.id]
+				return next
+			})
+			return true
+		},
+		[record, fixupsDisabled, note],
+	)
+	const dropVariant = useCallback(
+		(file: string) => {
+			changeFixups(changeReviewVariant(fixups, { action: "drop", file }))
+		},
+		[changeFixups, fixups],
+	)
 	const writeNote = useCallback(() => {
 		setReasonFor(null)
 		requestAnimationFrame(() => {
@@ -219,89 +297,23 @@ export function ReviewBench({
 			feedbackRef.current?.scrollIntoView({ block: "center" })
 		})
 	}, [])
-	useEffect(() => {
-		function keydown(event: KeyboardEvent) {
-			const target = event.target as HTMLElement
-			if (
-				(queueOpen && window.matchMedia("(max-width: 1023px)").matches) ||
-				busy ||
-				confirm ||
-				variantFor ||
-				!hydrated ||
-				!loaded ||
-				event.defaultPrevented ||
-				event.isComposing ||
-				event.repeat ||
-				heldKeys.current.has(event.code || event.key) ||
-				event.ctrlKey ||
-				event.metaKey ||
-				event.altKey ||
-				target.closest(
-					"form,input,textarea,select,[contenteditable]:not([contenteditable=false]),[role=dialog],[role=menu],[role=listbox],[role=combobox]",
-				) ||
-				document.querySelector(
-					"[role=menu][data-state=open],[role=dialog][data-state=open],[role=alertdialog][data-state=open],[role=listbox][data-state=open],dialog[open]",
-				)
-			)
-				return
-			heldKeys.current.add(event.code || event.key)
-			const key = event.key.toLowerCase()
-			if (reasonFor === record?.id && /^[1-9]$/.test(key)) {
-				event.preventDefault()
-				let reason = reasons[Number(key) - 1]
-				if (key === "9" && sibling) reason = variantRejection(sibling.name)
-				stage("rejected", reason)
-				return
-			}
-			if (key === "escape") {
-				setReasonFor(null)
-				return
-			}
-			if (key === "p") {
-				event.preventDefault()
-				stage("approved")
-				return
-			}
-			if (key === "x" && record) {
-				event.preventDefault()
-				if (reasonFor === record.id) stage("rejected")
-				else setReasonFor(record.id)
-				return
-			}
-			if (key === "v" && record) {
-				event.preventDefault()
-				if (sibling) stage("rejected", variantRejection(sibling.name))
-				else setVariantFor(record.id)
-				return
-			}
-			if (key === "c" && record) {
-				event.preventDefault()
-				writeNote()
-				return
-			}
-			if (key === "u" && record) {
-				event.preventDefault()
-				clear(record.id)
-				return
-			}
-			if (["j", "k"].includes(key)) {
-				event.preventDefault()
-				let direction = 1
-				if (key === "k") direction = -1
-				move(direction)
-			}
-		}
-		const keyup = (event: KeyboardEvent) => heldKeys.current.delete(event.code || event.key)
-		const blur = () => heldKeys.current.clear()
-		window.addEventListener("keydown", keydown)
-		window.addEventListener("keyup", keyup)
-		window.addEventListener("blur", blur)
-		return () => {
-			window.removeEventListener("keydown", keydown)
-			window.removeEventListener("keyup", keyup)
-			window.removeEventListener("blur", blur)
-		}
-	}, [record, reasonFor, stage, move, clear, busy, confirm, hydrated, loaded, sibling, variantFor, writeNote, queueOpen])
+	useReviewShortcuts({
+		disabled: busy || confirm || !!variantFor || !hydrated || !loaded,
+		queueOpen,
+		recordId: record?.id,
+		reasonOpen: reasonFor === record?.id,
+		siblingName: sibling?.name,
+		canFixup: !fixupsDisabled,
+		selectedFile: selectedAsset?.file,
+		stage,
+		onReason: setReasonFor,
+		onVariantPrompt: setVariantFor,
+		onRename: () => setRenaming(true),
+		onDrop: dropVariant,
+		move,
+		clear,
+		writeNote,
+	})
 	async function submit() {
 		if (decisions.some((draft) => draft.comment.length > 10000)) {
 			toast.error("Feedback must be 10,000 characters or fewer.")
@@ -311,17 +323,18 @@ export function ReviewBench({
 		const failures: Record<string, string> = {}
 		let successes = 0
 		try {
-			const groups = new Map<string, Draft[]>()
+			const groups = new Map<string, (Draft & { status: "approved" | "rejected" })[]>()
 			for (const draft of decisions) {
 				const key = JSON.stringify([draft.status, draft.comment])
 				groups.set(key, [...(groups.get(key) || []), draft])
 			}
 			for (const group of groups.values()) {
 				try {
-					const result = await dashboardRequest<{ results: { id: string; success: boolean; error?: string }[]; emailFailed?: boolean }>(
-						"review",
-						{ items: group.map(({ id, updated }) => ({ id, updated })), status: group[0].status, comment: group[0].comment },
-					)
+					const result = await reviewSubmissions({
+						items: group.map(({ id, updated, fixups }) => ({ id, updated, fixups })),
+						status: group[0].status,
+						comment: group[0].comment,
+					})
 					for (const draft of group) {
 						const resultRow = result.results.find((row) => row.id === draft.id)
 						if (resultRow?.success) {
@@ -344,7 +357,7 @@ export function ReviewBench({
 				}
 			}
 			setErrors(failures)
-			if (successes) toast.success(`${successes} decisions submitted`)
+			if (successes) toast.success(`Review submitted · ${successes} saved`)
 			if (!Object.keys(failures).length) setConfirm(false)
 			await refresh()
 			await hints.refetch()
@@ -399,10 +412,12 @@ export function ReviewBench({
 									>
 										<Thumbnail submission={row} />
 										<span className="min-w-0 flex-1">
-											<span className="block font-mono text-xs [overflow-wrap:anywhere]">{row.name}</span>
+											<span className="block font-mono text-xs [overflow-wrap:anywhere]">{drafts[row.id]?.fixups?.name || row.name}</span>
 											<span className="block text-xs text-muted-foreground">
-												{row.assets.length} Variants{row.target_submission && " · Update"}
+												{row.assets.length - (drafts[row.id]?.fixups?.variants?.filter((change) => change.action === "drop").length || 0)}{" "}
+												Variants{row.target_submission && " · Update"}
 												{(row.round || 1) > 1 && ` · Round ${row.round}`}
+												{!!drafts[row.id]?.fixupSummary?.length && " · Fix-ups"}
 											</span>
 											{group.rows.length === 1 && (
 												<span className="block text-xs text-muted-foreground [overflow-wrap:anywhere]">
@@ -453,7 +468,7 @@ export function ReviewBench({
 			data-review-bench
 			aria-label="Review bench"
 			style={{ "--review-action-height": `${actionHeight}px` } as CSSProperties}
-			className="space-y-4 pb-[calc(var(--review-action-height)+1rem)] lg:pb-0 [&_button]:min-h-11 [&_button]:min-w-11 [&_button]:hover:scale-100 [&_button]:motion-reduce:transition-none [&_input]:min-h-11"
+			className="space-y-4 pb-[calc(var(--review-action-height)+1rem)] [&_button]:min-h-11 [&_button]:min-w-11 [&_button]:scroll-mb-[calc(var(--review-action-height)+1.5rem)] [&_button]:hover:scale-100 [&_button]:motion-reduce:transition-none [&_input]:min-h-11 [&_input]:scroll-mb-[calc(var(--review-action-height)+1.5rem)] [&_textarea]:scroll-mb-[calc(var(--review-action-height)+1.5rem)] [&_summary]:scroll-mb-[calc(var(--review-action-height)+1.5rem)]"
 		>
 			<div className="grid min-w-0 items-start gap-5 lg:grid-cols-[220px_minmax(0,1fr)] xl:grid-cols-[232px_minmax(0,1fr)_240px]">
 				<aside aria-label="Review queue" className="relative min-w-0 self-start rounded-xl border bg-background lg:sticky lg:top-0">
@@ -476,7 +491,22 @@ export function ReviewBench({
 									<p className="text-xs text-muted-foreground">
 										Submission {(filters.page - 1) * filters.perPage + index + 1} of {totalItems}
 									</p>
-									<h2 className="mt-2 font-mono text-2xl font-semibold [overflow-wrap:anywhere] sm:text-3xl">{record.name}</h2>
+									<h2 className="mt-2 font-mono text-2xl font-semibold [overflow-wrap:anywhere] sm:text-3xl">{preview?.record.name}</h2>
+									{fixups.name && <p className="mt-1 text-xs text-muted-foreground [overflow-wrap:anywhere]">Submitted as {record.name}</p>}
+									{!renaming && (
+										<Button variant="ghost" className="mt-1 -ml-3" disabled={fixupsDisabled} onClick={() => setRenaming(true)}>
+											<Pencil className="size-3.5" />
+											Rename slug <kbd className="text-xs text-muted-foreground">E</kbd>
+										</Button>
+									)}
+									{renaming && (
+										<ReviewRenameEditor
+											key={record.id}
+											name={fixups.name || record.name}
+											onStage={(name) => changeFixups({ ...fixups, name })}
+											onCancel={() => setRenaming(false)}
+										/>
+									)}
 									<p className="mt-2 text-xs text-muted-foreground [overflow-wrap:anywhere]">
 										By {record.expand?.created_by?.username || "Contributor"} · <Time value={record.created} />
 									</p>
@@ -515,7 +545,49 @@ export function ReviewBench({
 									Hints are limited to this queue page while other Submissions are unavailable.
 								</output>
 							)}
-							<ReviewGallery record={record} />
+							{unavailable && <p className="rounded-lg bg-muted/50 p-3 text-sm leading-6 text-muted-foreground">{unavailable}</p>}
+							{stale && (
+								<div role="alert" className="space-y-2 rounded-lg bg-amber-500/10 p-3 text-sm text-amber-950 dark:text-amber-200">
+									<p>This Submission changed after your draft was saved. Discard the draft before editing the current version.</p>
+									<Button
+										variant="outline"
+										disabled={busy}
+										onClick={() => {
+											clear(record.id)
+											void refresh()
+										}}
+									>
+										Discard stale draft
+									</Button>
+								</div>
+							)}
+							<ReviewGallery
+								key={record.id}
+								record={record}
+								edit={
+									!unavailable
+										? {
+												fixups,
+												selectedFile: selectedAsset?.file || "",
+												disabled: fixupsDisabled,
+												onSelect: setSelectedFile,
+												onRetag: (file, variant) => changeFixups(changeReviewVariant(fixups, { action: "retag", file, variant })),
+												onDrop: dropVariant,
+												onUndo: (file) => changeFixups(undoReviewFixup(fixups, `variant:${file}`)),
+											}
+										: undefined
+								}
+							/>
+							{(fixupError || errors[record.id]) && (
+								<p role="alert" className="text-sm leading-6 text-destructive">
+									{fixupError || errors[record.id]}
+								</p>
+							)}
+							<ReviewFixupSummary
+								changes={preview?.changes || []}
+								onUndo={(key) => changeFixups(undoReviewFixup(fixups, key))}
+								disabled={fixupsDisabled}
+							/>
 							<div className="space-y-4 text-sm [overflow-wrap:anywhere]">
 								<p className="whitespace-pre-wrap leading-6">{record.description || "No description provided."}</p>
 								<dl className="mt-3 grid gap-3 sm:grid-cols-2">
@@ -536,13 +608,22 @@ export function ReviewBench({
 									)}
 									<div>
 										<dt className="text-xs text-muted-foreground">Categories</dt>
-										<dd className="break-words">{record.extras?.categories?.join(", ") || "None"}</dd>
+										<dd className="break-words">{preview?.record.extras?.categories?.join(", ") || "None"}</dd>
 									</div>
 									<div>
 										<dt className="text-xs text-muted-foreground">Aliases</dt>
-										<dd className="break-words">{record.extras?.aliases?.join(", ") || "None"}</dd>
+										<dd className="break-words">{preview?.record.extras?.aliases?.join(", ") || "None"}</dd>
 									</div>
 								</dl>
+								{!unavailable && (
+									<ReviewMetadataEditor
+										key={`${record.id}:${JSON.stringify([fixups.aliases, fixups.categories])}`}
+										aliases={preview?.record.extras.aliases || []}
+										categories={preview?.record.extras.categories || []}
+										disabled={fixupsDisabled}
+										onStage={(metadata) => changeFixups({ ...fixups, ...metadata })}
+									/>
+								)}
 								{record.admin_comment && (
 									<p className="mt-3 whitespace-pre-wrap break-words border-t pt-3">Previous feedback: {record.admin_comment}</p>
 								)}
@@ -649,7 +730,7 @@ export function ReviewBench({
 											variant="ghost"
 											size="icon"
 											className="size-11"
-											aria-label="Unflag this Submission"
+											aria-label="Undo this review"
 											disabled={busy || !drafts[record.id]}
 											onClick={() => clear(record.id)}
 										>
@@ -667,7 +748,7 @@ export function ReviewBench({
 									</div>
 								</div>
 								<p className="text-xs leading-5 text-muted-foreground">
-									Decisions stay staged until you submit review. Approving does not publish.
+									Decisions and fix-ups stay staged until you submit review. Approving does not publish.
 								</p>
 							</div>
 						</>
@@ -703,7 +784,7 @@ export function ReviewBench({
 						{decisions.map((draft) => (
 							<li key={draft.id} className="space-y-2 rounded-lg bg-muted/60 p-2 text-xs">
 								<div className="flex items-start gap-1">
-									<p className="min-w-0 flex-1 py-3 font-mono [overflow-wrap:anywhere]">{draft.name}</p>
+									<p className="min-w-0 flex-1 py-3 font-mono [overflow-wrap:anywhere]">{draft.fixups?.name || draft.name}</p>
 									<Button
 										variant="ghost"
 										size="icon"
@@ -716,6 +797,15 @@ export function ReviewBench({
 									</Button>
 								</div>
 								<DecisionBadge draft={draft} />
+								{!!draft.fixupSummary?.length && (
+									<ul className="space-y-1 text-muted-foreground">
+										{draft.fixupSummary.map((text) => (
+											<li key={text} className="[overflow-wrap:anywhere]">
+												{text}
+											</li>
+										))}
+									</ul>
+								)}
 								{draft.comment && <p className="whitespace-pre-wrap text-muted-foreground [overflow-wrap:anywhere]">{draft.comment}</p>}
 								{draft.status === "rejected" && <p className="text-muted-foreground">Contributor can fix and resubmit.</p>}
 							</li>
@@ -758,64 +848,19 @@ export function ReviewBench({
 					</DialogFooter>
 				</DialogContent>
 			</Dialog>
-			<Dialog
+			<ReviewSubmitDialog
 				open={confirm}
-				onOpenChange={(open) => {
-					if (!busy) setConfirm(open)
+				onOpenChange={setConfirm}
+				busy={busy}
+				decisions={decisions}
+				errors={errors}
+				onRemove={clear}
+				onComment={(draft, comment) => {
+					setDrafts((current) => ({ ...current, [draft.id]: { ...draft, comment, reason: "", note: comment } }))
+					setNotes((current) => ({ ...current, [draft.id]: comment }))
 				}}
-			>
-				<DialogContent className="max-h-[85dvh] overflow-y-auto sm:max-w-2xl [&_button]:min-h-11 [&_button]:min-w-11 [&_button]:hover:scale-100">
-					<DialogTitle>Submit review</DialogTitle>
-					<DialogDescription>
-						{approved} approvals · {rejected} rejections. Contributors can fix and resubmit any rejected Submission. Approving does not
-						publish.
-					</DialogDescription>
-					<div className="space-y-2">
-						{decisions.map((draft) => (
-							<div key={draft.id} className="rounded-lg border p-3 [overflow-wrap:anywhere]">
-								<div className="flex items-center justify-between gap-2">
-									<span className="min-w-0 break-words text-sm font-medium">
-										{draft.name} · {draft.status}
-									</span>
-									<Button size="sm" variant="ghost" disabled={busy} onClick={() => clear(draft.id)}>
-										Remove
-									</Button>
-								</div>
-								{draft.status === "rejected" && (
-									<p className="mt-1 text-xs leading-5 text-muted-foreground">The contributor can fix and resubmit this Submission.</p>
-								)}
-								<label htmlFor={`review-feedback-${draft.id}`} className="mt-2 block text-xs text-muted-foreground">
-									Feedback (optional)
-									<Textarea
-										maxLength={10000}
-										disabled={busy}
-										id={`review-feedback-${draft.id}`}
-										value={draft.comment}
-										onChange={(event) => {
-											const comment = event.target.value
-											setDrafts((current) => ({ ...current, [draft.id]: { ...draft, comment, reason: "", note: comment } }))
-											setNotes((current) => ({ ...current, [draft.id]: comment }))
-										}}
-									/>
-								</label>
-								{errors[draft.id] && (
-									<p role="alert" className="mt-2 text-xs text-destructive">
-										{errors[draft.id]} Remove this flag and review the current submission again if it changed.
-									</p>
-								)}
-							</div>
-						))}
-					</div>
-					<DialogFooter>
-						<Button variant="outline" disabled={busy} onClick={() => setConfirm(false)}>
-							Keep reviewing
-						</Button>
-						<Button className={primaryAction} disabled={busy || !decisions.length} onClick={() => void submit()}>
-							{busy ? "Submitting…" : `Submit ${decisions.length} decisions`}
-						</Button>
-					</DialogFooter>
-				</DialogContent>
-			</Dialog>
+				onSubmit={() => void submit()}
+			/>
 		</section>
 	)
 }

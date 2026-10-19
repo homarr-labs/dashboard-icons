@@ -1,5 +1,6 @@
 "use client"
 import { Bot, Check, GitPullRequest, MessageSquare, Pencil, Plus, X } from "lucide-react"
+import { savedReviewFixups } from "@/lib/dashboard/review-fixup-draft"
 import { actionLabels, type SubmissionEvent } from "@/lib/dashboard/types"
 import { Empty, Time } from "./primitives"
 
@@ -55,6 +56,15 @@ function ActivityItem({ event, onOpen }: { event: SubmissionEvent; onOpen: (id: 
 							))}
 						</dl>
 					</details>
+				)}
+				{!!savedReviewFixups(event.changes).length && (
+					<ul className="mt-2 list-disc space-y-1 pl-4 text-xs leading-5 text-muted-foreground">
+						{savedReviewFixups(event.changes).map((text) => (
+							<li key={text} className="[overflow-wrap:anywhere]">
+								{text}
+							</li>
+						))}
+					</ul>
 				)}
 			</div>
 		</div>

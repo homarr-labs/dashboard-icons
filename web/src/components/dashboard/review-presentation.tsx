@@ -1,4 +1,5 @@
 import { AlertTriangle, Layers } from "lucide-react"
+import type { ReviewFixups } from "@/lib/dashboard/types"
 import type { Submission } from "@/lib/pb"
 import { cn } from "@/lib/utils"
 
@@ -6,10 +7,12 @@ export type ReviewDraft = {
 	id: string
 	name: string
 	updated: string
-	status: "approved" | "rejected"
+	status?: "approved" | "rejected"
 	comment: string
 	reason?: string
 	note?: string
+	fixups?: ReviewFixups
+	fixupSummary?: string[]
 }
 
 export const reviewReasons = [
@@ -51,6 +54,7 @@ export function variantRejection(name: string) {
 export function DecisionBadge({ draft, round }: { draft?: ReviewDraft; round?: number }) {
 	let label = "Awaiting review"
 	let tone = "bg-muted text-foreground"
+	if (draft?.fixupSummary?.length) label = "Fix-ups staged"
 	if (draft?.status === "approved") {
 		label = "Approve staged"
 		tone = "bg-emerald-500/10 text-emerald-800 dark:text-emerald-300"
@@ -119,7 +123,9 @@ export function ShortcutLegend() {
 				["X → 1–9", "reject with a reason"],
 				["V", "reject as a Variant"],
 				["C", "note"],
-				["U", "unflag"],
+				["E", "rename slug"],
+				["D", "drop selected Variant"],
+				["U", "undo this review"],
 				["Esc", "dismiss picker"],
 			].map(([key, label]) => (
 				<li key={key} className="flex items-center gap-1.5">

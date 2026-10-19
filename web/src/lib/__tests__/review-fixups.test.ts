@@ -2,7 +2,15 @@ import { readFileSync } from "node:fs"
 import { resolve } from "node:path"
 import { runInNewContext } from "node:vm"
 import { describe, expect, it, vi } from "vitest"
+import {
+	isReviewFixups,
+	normalizeReviewFixups,
+	reviewFixupError,
+	reviewFixupPreview,
+	reviewFixupsUnavailable,
+} from "@/lib/dashboard/review-fixup-draft"
 import type { ReviewRequest, ReviewResponse } from "@/lib/dashboard/types"
+import type { Submission } from "@/lib/pb"
 import * as assets from "../../../backend/pb_hooks/submission-assets.js"
 import * as policy from "../../../backend/pb_hooks/variant-policy.js"
 
@@ -159,6 +167,89 @@ function reviewHarness(initial: Values[] = [pending()]) {
 const decision = (fixups: unknown = {}, status = "approved") => ({ status, items: [{ id: "submission", updated: "current", fixups }] })
 
 describe("review fix-ups", () => {
+	it("previews only staged fix-ups without mutating the source Submission or renaming its stored files", () => {
+		const original = pending() as unknown as Submission
+		const preview = reviewFixupPreview(original, {
+			name: "t8-renamed",
+			aliases: ["New alias"],
+			categories: ["New category"],
+			variants: [
+				{ action: "retag", file: "light.svg", variant: "dark" },
+				{ action: "drop", file: "animated.svg" },
+			],
+		})
+		expect(preview.record).toMatchObject({
+			name: "t8-renamed",
+			assets: ["base.svg", "light.svg"],
+			extras: { colors: { dark: "light.svg" }, aliases: ["New alias"], categories: ["New category"] },
+		})
+		expect(preview.assets.find((asset) => asset.file === "animated.svg")).toMatchObject({ dropped: true })
+		expect(preview.changes).toHaveLength(5)
+		expect(original).toEqual(pending())
+	})
+
+	it("keeps UI draft validation aligned with Base, slot and proposal restrictions", () => {
+		const original = pending() as unknown as Submission
+		expect(reviewFixupError(original, { variants: [{ action: "drop", file: "base.svg" }] })).toContain("Base is required")
+		expect(reviewFixupError(original, { variants: [{ action: "retag", file: "animated.svg", variant: "light" }] })).toContain(
+			"slot is occupied",
+		)
+		expect(reviewFixupError({ ...original, target_submission: "target" }, { aliases: ["Changed"] })).toContain("explicit changes")
+		expect(reviewFixupsUnavailable(original, [original.name])).toContain("explicit changes")
+		expect(
+			normalizeReviewFixups(original, {
+				name: original.name,
+				aliases: ["Old alias"],
+				variants: [{ action: "retag", file: "light.svg", variant: "light" }],
+			}),
+		).toEqual({})
+	})
+
+	it("restores only allowlisted typed fix-ups from local drafts", () => {
+		expect(isReviewFixups({ aliases: ["Changed"], variants: [{ action: "drop", file: "light.svg" }] })).toBe(true)
+		expect(isReviewFixups({ assets: ["replacement.svg"] })).toBe(false)
+		expect(isReviewFixups({ variants: [{ action: "retag", file: "light.svg", variant: "custom:wordmark" }] })).toBe(false)
+		expect(isReviewFixups({ variants: [{ action: "drop", file: "light.svg", variant: "dark" }] })).toBe(false)
+	})
+
+	it.each([
+		{
+			label: "dangling reference",
+			assets: ["demo_abcdefghij.svg", "demo_dark_abcdefghij.svg"],
+			colors: { dark: "demo-dark.svg", light: "missing.svg" },
+			blocked: true,
+		},
+		{
+			label: "resolved legacy reference",
+			assets: ["demo_abcdefghij.svg", "demo_dark_abcdefghij.svg"],
+			colors: { dark: "demo-dark.svg" },
+			blocked: false,
+		},
+		{
+			label: "ambiguous legacy reference",
+			assets: ["demo_abcdefghij.svg", "demo_dark_abcdefghij.svg", "demo_dark_0123456789.svg"],
+			colors: { dark: "demo-dark.svg" },
+			blocked: true,
+		},
+	])("keeps client and backend Variant staging aligned for $label", ({ assets, colors, blocked }) => {
+		const original = { ...pending(), name: "demo", assets, extras: { aliases: [], categories: [], colors } } as unknown as Submission
+		const before = structuredClone(original)
+		const fixups = { variants: [{ action: "drop" as const, file: "demo_dark_abcdefghij.svg" }] }
+		const model = record(structuredClone(original) as unknown as Values)
+		if (blocked) {
+			const message = "Variant labels are ambiguous. Resolve the Submission's file labels before reviewing with Variant fix-ups."
+			expect(reviewFixupError(original, fixups)).toBe(message)
+			expect(() => fixupHooks.apply(model, fixups)).toThrow(message)
+			expect(model.values).toEqual(before)
+		} else {
+			expect(reviewFixupError(original, fixups)).toBeNull()
+			fixupHooks.apply(model, fixups)
+			expect(model.get("assets")).toEqual(["demo_abcdefghij.svg"])
+			expect(reviewFixupPreview(original, fixups).record.assets).toEqual(["demo_abcdefghij.svg"])
+		}
+		expect(original).toEqual(before)
+	})
+
 	it("saves fix-ups, actor, feedback and decision as one audited operation without changing review snapshots", () => {
 		const harness = reviewHarness()
 		const body: ReviewRequest = {

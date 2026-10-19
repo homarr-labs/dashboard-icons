@@ -2,6 +2,7 @@
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { useDashboardActivity } from "@/hooks/use-dashboard"
+import { savedReviewFixups } from "@/lib/dashboard/review-fixup-draft"
 import type { DashboardFilters } from "@/lib/dashboard/types"
 import type { Submission } from "@/lib/pb"
 import { Time } from "./primitives"
@@ -42,6 +43,13 @@ export function ReviewHistory({ record, filters }: { record: Submission; filters
 								<span className="font-medium">{event.actor_name || "Automation"}</span> · {event.action} · <Time value={event.created} />
 							</p>
 							{event.feedback && <p className="whitespace-pre-wrap leading-5 text-muted-foreground">{event.feedback}</p>}
+							{!!savedReviewFixups(event.changes).length && (
+								<ul className="list-disc space-y-1 pl-4 leading-5 text-muted-foreground">
+									{savedReviewFixups(event.changes).map((text) => (
+										<li key={text}>{text}</li>
+									))}
+								</ul>
+							)}
 						</li>
 					))}
 				</ul>
