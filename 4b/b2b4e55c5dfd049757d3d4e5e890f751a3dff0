@@ -1,0 +1,36 @@
+web/src/app/api/submissions/catalog/route.ts
+  h_d6e478ca18e517 1-9
+web/src/components/icon-submission-form.tsx
+  h_d6e478ca18e517 3,6,8-10,12,17,21-24,31
+web/src/components/legacy-icon-submission-form.tsx
+  h_d6e478ca18e517 1-5,7-18,20-58,63-151,153-159,161-164,166-168,170-173,179-198,200-223,225-356,358-447
+web/src/components/submission/edit-icon-picker.tsx
+  h_d6e478ca18e517 1-11,23-25,29,144
+web/src/components/submission/submission-card.tsx
+  h_d6e478ca18e517 1-5,16-38,72-73,87-89,134-135,150-153,368
+web/src/components/submission/submission-preview.tsx
+  h_d6e478ca18e517 1-8,18-24,49-60,95-97
+web/src/hooks/use-icon-submission-form.ts
+  h_d6e478ca18e517 37,40,48
+web/src/hooks/use-submission-catalog.ts
+  h_d6e478ca18e517 1-44,49-54
+web/src/lib/submission-drafts.ts
+  h_d6e478ca18e517 1-24,33-38,43-48,58,65-72,80-95,101-104,110-111,118-119,134
+web/src/lib/submission-limits.ts
+  h_d6e478ca18e517 1-3
+web/src/lib/submission-service.ts
+  h_d6e478ca18e517 110-115
+web/src/lib/submit-many.ts
+  h_d6e478ca18e517 1-9,14-20,33-39,42-50,53,63-65
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "4bb2b4e55c5dfd049757d3d4e5e890f751a3dff0",
+  "prompts": {},
+  "humans": {
+    "h_d6e478ca18e517": {
+      "author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
