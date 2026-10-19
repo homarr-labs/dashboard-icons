@@ -26075,8 +26075,7 @@
             }
         },
         "colors": {
-            "light": "yuno-host-light",
-            "dark": "yuno-host"
+            "light": "yuno-host-light"
         }
     },
     "simplelogin": {

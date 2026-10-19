@@ -3,7 +3,7 @@ import { notFound } from "next/navigation"
 import { IconDetails } from "@/components/icon-details"
 import { EXTERNAL_SOURCES, type ExternalSourceId, WEB_URL } from "@/constants"
 import { getExternalIconPreviewUrl, resolveExternalIconUrl } from "@/lib/external-icon-urls"
-import { getExternalIconBySlug, getExternalIcons } from "@/lib/external-icons"
+import { getExternalIconBySlug, getExternalIcons, getSlugOwners } from "@/lib/external-icons"
 import type { AuthorData } from "@/types/icons"
 
 export const dynamicParams = true
@@ -13,14 +13,7 @@ export const revalidate = 900
 export async function generateStaticParams() {
 	if (process.env.PRERENDER_ICON_PAGES === "false") return []
 	const icons = await getExternalIcons()
-	const seen = new Set<string>()
-	return icons
-		.filter((icon) => {
-			if (seen.has(icon.slug)) return false
-			seen.add(icon.slug)
-			return true
-		})
-		.map((icon) => ({ slug: icon.slug }))
+	return getSlugOwners(icons).map((icon) => ({ slug: icon.slug }))
 }
 
 type Props = {

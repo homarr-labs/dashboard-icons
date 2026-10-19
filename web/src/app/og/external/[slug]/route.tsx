@@ -1,3 +1,4 @@
+import { notFound } from "next/navigation"
 import { ImageResponse } from "next/og"
 import { EXTERNAL_SOURCES, type ExternalSourceId } from "@/constants"
 import { getTotalIcons } from "@/lib/api"
@@ -14,46 +15,12 @@ export async function GET(_req: Request, { params }: { params: Promise<{ slug: s
 	const icon = await getExternalIconBySlug(slug)
 
 	if (!icon) {
-		return new ImageResponse(
-			<div
-				style={{
-					display: "flex",
-					width: "100%",
-					height: "100%",
-					alignItems: "center",
-					justifyContent: "center",
-					backgroundColor: "white",
-					fontSize: 48,
-					fontWeight: 600,
-					color: "#64748b",
-				}}
-			>
-				Icon not found
-			</div>,
-			{ ...size, headers: { "X-Robots-Tag": "noindex" } },
-		)
+		notFound()
 	}
 
 	const sourceConfig = EXTERNAL_SOURCES[icon.external.source as ExternalSourceId]
 	if (!sourceConfig) {
-		return new ImageResponse(
-			<div
-				style={{
-					display: "flex",
-					width: "100%",
-					height: "100%",
-					alignItems: "center",
-					justifyContent: "center",
-					backgroundColor: "white",
-					fontSize: 48,
-					fontWeight: 600,
-					color: "#64748b",
-				}}
-			>
-				Source not found
-			</div>,
-			{ ...size, headers: { "X-Robots-Tag": "noindex" } },
-		)
+		notFound()
 	}
 
 	const { totalIcons } = await getTotalIcons()

@@ -1,6 +1,14 @@
 import { beforeEach, describe, expect, it, vi } from "vitest"
 
 const mockImageResponse = vi.fn()
+const mockNotFound = vi.fn()
+
+vi.mock("next/navigation", () => ({
+	notFound: () => {
+		mockNotFound()
+		throw new Error("NEXT_NOT_FOUND")
+	},
+}))
 
 class MockImageResponse {
 	constructor(...args: unknown[]) {
@@ -131,19 +139,19 @@ describe("OG external icon route handler", () => {
 		expect(mockImageResponse).toHaveBeenCalled()
 	})
 
-	it("returns error image for unknown external icons", async () => {
+	it("calls notFound for unknown external icons", async () => {
 		mockGetExternalIconBySlug.mockResolvedValue(null)
 		mockImageResponse.mockClear()
 
 		const { GET } = await import("../external/[slug]/route")
 		const request = new Request("http://localhost/og/external/nonexistent")
-		const response = await GET(request, { params: Promise.resolve({ slug: "nonexistent" }) })
+		await expect(GET(request, { params: Promise.resolve({ slug: "nonexistent" }) })).rejects.toThrow("NEXT_NOT_FOUND")
 
-		expect(mockImageResponse).toHaveBeenCalled()
-		expect(response).toBeInstanceOf(MockImageResponse)
+		expect(mockNotFound).toHaveBeenCalled()
+		expect(mockImageResponse).not.toHaveBeenCalled()
 	})
 
-	it("returns error image for unknown source", async () => {
+	it("calls notFound for unknown source", async () => {
 		const icon = {
 			...makeExternalIcon("test", "unknown-source"),
 			external: { ...makeExternalIcon("test", "simpleicons").external, source: "unknown-source" },
@@ -152,11 +160,13 @@ describe("OG external icon route handler", () => {
 		mockImageResponse.mockClear()
 
 		const { GET } = await import("../external/[slug]/route")
-		await GET(new Request("http://localhost/og/external/test"), {
-			params: Promise.resolve({ slug: "test" }),
-		})
+		await expect(
+			GET(new Request("http://localhost/og/external/test"), {
+				params: Promise.resolve({ slug: "test" }),
+			}),
+		).rejects.toThrow("NEXT_NOT_FOUND")
 
-		expect(mockImageResponse).toHaveBeenCalled()
+		expect(mockImageResponse).not.toHaveBeenCalled()
 	})
 
 	it("handles 20+ external icons from all sources", async () => {

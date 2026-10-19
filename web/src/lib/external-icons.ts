@@ -26,7 +26,7 @@ function logExternalIconsFailure(error: unknown): void {
 
 function toExternalIconRecord(icon: ExternalIcon, { lite = false } = {}): ExternalIconRecord {
 	const sourceConfig = getExternalSource(icon.source)
-	const timestamp = icon.updated_at_source || icon.updated || icon.created || new Date(0).toISOString()
+	const updatedAt = icon.updated_at_source || icon.updated || icon.created || undefined
 	const formats = icon.formats ?? []
 	const aliases = icon.aliases ?? []
 	const categories = icon.categories ?? []
@@ -61,12 +61,13 @@ function toExternalIconRecord(icon: ExternalIcon, { lite = false } = {}): Extern
 		slug: icon.slug,
 		name: icon.name,
 		external: externalData,
+		updatedAt,
 		data: {
 			base: formats.includes("svg") ? "svg" : formats.includes("png") ? "png" : "webp",
 			aliases,
 			categories,
 			update: {
-				timestamp,
+				timestamp: updatedAt ?? new Date(0).toISOString(),
 				author: {
 					id: sourceConfig.id,
 					name: sourceConfig.authorName,
@@ -137,14 +138,22 @@ export async function getExternalIconBySourceAndSlug(source: ExternalSourceId, s
 	}
 }
 
+export function getSlugOwners(icons: ExternalIconRecord[]): ExternalIconRecord[] {
+	const seen = new Set<string>()
+	return icons.filter((icon) => {
+		if (seen.has(icon.slug)) return false
+		seen.add(icon.slug)
+		return true
+	})
+}
+
 export async function getExternalIconBySlug(slug: string): Promise<ExternalIconRecord | null> {
-	const icons = await getExternalIcons()
-	const fromList = icons.find((icon) => icon.slug === slug)
-	if (!fromList) {
+	const owner = getSlugOwners(await getExternalIcons()).find((icon) => icon.slug === slug)
+	if (!owner) {
 		return null
 	}
 
-	return getExternalIconBySourceAndSlug(fromList.source, slug)
+	return getExternalIconBySourceAndSlug(owner.source, slug)
 }
 
 export const getExternalIcon = getExternalIconBySlug

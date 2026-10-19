@@ -105,6 +105,7 @@ export type ExternalIconRecord = IconWithName & {
 	source: ExternalSourceId
 	slug: string
 	external: ExternalIcon
+	updatedAt?: string
 }
 
 export type IconRecord = NativeIconRecord | ExternalIconRecord
