@@ -5,7 +5,6 @@ import {
 	getMcpEndpointUrl,
 	getMcpRemoteConfigJson,
 	getVscodeMcpConfigJson,
-	getZedMcpConfigJson,
 	MCP_CLIENT_GUIDES,
 	MCP_TOOLS,
 	type McpClientGuide,
@@ -70,11 +69,6 @@ describe("mcp-setup-config", () => {
 		expect(parsed.servers["dashboard-icons"]).toEqual({ type: "http", url: ENDPOINT })
 	})
 
-	it("builds zed config json", () => {
-		const json = getZedMcpConfigJson(WEB)
-		const parsed = JSON.parse(json)
-		expect(parsed.context_servers["dashboard-icons"]).toEqual({ url: ENDPOINT })
-	})
 
 	it("builds claude code command", () => {
 		const command = getClaudeCodeAddCommand(WEB)
@@ -92,9 +86,9 @@ describe("mcp-setup-config", () => {
 		])
 	})
 
-	it("defines six client guides with valid snippets", () => {
-		expect(MCP_CLIENT_GUIDES).toHaveLength(6)
-		expect(MCP_CLIENT_GUIDES.map((guide) => guide.id)).toEqual(["vscode", "cursor", "claude", "windsurf", "zed", "custom"])
+	it("defines five client guides with valid snippets", () => {
+		expect(MCP_CLIENT_GUIDES).toHaveLength(5)
+		expect(MCP_CLIENT_GUIDES.map((guide) => guide.id)).toEqual(["chatgpt", "vscode", "cursor", "claude", "custom"])
 
 		const claudeGuide = MCP_CLIENT_GUIDES.find((guide) => guide.id === "claude")
 		expect(claudeGuide?.variants).toHaveLength(2)
@@ -113,11 +107,11 @@ describe("mcp-setup-config", () => {
 })
 
 describe("native MCP setup guides", () => {
-	it("uses the remote Cascade schema for Windsurf", () => {
-		const guide = MCP_CLIENT_GUIDES.find((item) => item.id === "windsurf")
-		expect(JSON.parse(guide?.getSnippet?.(WEB) ?? "")).toEqual({
-			mcpServers: { "dashboard-icons": { serverUrl: ENDPOINT } },
-		})
+	it("gives ChatGPT a copyable endpoint for a custom MCP plugin", () => {
+		const guide = MCP_CLIENT_GUIDES.find((item) => item.id === "chatgpt")
+		expect(guide?.snippetKind).toBe("text")
+		expect(guide?.getSnippet?.(WEB)).toBe(ENDPOINT)
+		expect(guide?.steps?.join(" ")).toContain("Add custom MCP server")
 	})
 
 	it("gives Claude Desktop a copyable endpoint instead of a local config", () => {
@@ -130,7 +124,7 @@ describe("native MCP setup guides", () => {
 
 	it("reserves the pinned stdio bridge for Custom MCP client", () => {
 		const snippets = getGuideSnippets(WEB)
-		expect(snippets).toHaveLength(7)
+		expect(snippets).toHaveLength(6)
 		for (const { guide, snippet } of snippets) {
 			if (guide.id === "custom") {
 				expect(snippet).toContain("mcp-remote@0.15.1")

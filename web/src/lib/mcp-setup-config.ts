@@ -2,7 +2,7 @@ import { BASE_URL } from "@/constants"
 
 export type McpSetupSource = "hero" | "icon_search"
 
-export type McpClientId = "vscode" | "cursor" | "claude" | "windsurf" | "zed" | "custom"
+export type McpClientId = "chatgpt" | "vscode" | "cursor" | "claude" | "custom"
 
 export type McpSnippetKind = "json" | "bash" | "text"
 
@@ -86,39 +86,28 @@ export function getVscodeMcpConfigJson(webUrl: string): string {
 	)
 }
 
-export function getWindsurfMcpConfigJson(webUrl: string): string {
-	return JSON.stringify(
-		{
-			mcpServers: {
-				"dashboard-icons": {
-					serverUrl: getMcpEndpointUrl(webUrl),
-				},
-			},
-		},
-		null,
-		2,
-	)
-}
-
-export function getZedMcpConfigJson(webUrl: string): string {
-	return JSON.stringify(
-		{
-			context_servers: {
-				"dashboard-icons": {
-					url: getMcpEndpointUrl(webUrl),
-				},
-			},
-		},
-		null,
-		2,
-	)
-}
-
 export function getClaudeCodeAddCommand(webUrl: string): string {
 	return `claude mcp add --transport http dashboard-icons ${getMcpEndpointUrl(webUrl)}`
 }
 
 export const MCP_CLIENT_GUIDES: McpClientGuide[] = [
+	{
+		id: "chatgpt",
+		label: "ChatGPT",
+		iconUrl: `${BASE_URL}/svg/chatgpt.svg`,
+		monochromeIcon: false,
+		prerequisites: ["Use ChatGPT on the web. Workspace plans may need an admin to allow custom MCP servers."],
+		configFileLabel: "MCP server URL",
+		snippetKind: "text",
+		steps: [
+			"Open Plugins in ChatGPT, select +, then Add custom MCP server.",
+			"Name it Dashboard Icons and paste the URL below as the server URL.",
+			"Choose No authentication for the public icon tools, or OAuth to also submit icons.",
+			"Accept the warning, select Create as a plugin, then install it.",
+			"Type @Dashboard Icons in a chat to use it.",
+		],
+		getSnippet: getMcpEndpointUrl,
+	},
 	{
 		id: "vscode",
 		label: "Visual Studio Code",
@@ -176,34 +165,6 @@ export const MCP_CLIENT_GUIDES: McpClientGuide[] = [
 				getSnippet: getMcpEndpointUrl,
 			},
 		],
-	},
-	{
-		id: "windsurf",
-		label: "Windsurf",
-		iconUrl: "https://cdn.simpleicons.org/windsurf",
-		monochromeIcon: true,
-		configFileLabel: "Cascade mcp_config.json",
-		prerequisites: ["These settings are for the legacy Cascade agent in Windsurf / Devin Desktop."],
-		snippetKind: "json",
-		steps: [
-			'Open the Cascade panel actions menu, then "Open MCP config file" in the MCPs section.',
-			"Paste the configuration below and refresh the MCP list if needed.",
-		],
-		getSnippet: getWindsurfMcpConfigJson,
-	},
-	{
-		id: "zed",
-		label: "Zed",
-		iconUrl: "https://cdn.simpleicons.org/zedindustries",
-		monochromeIcon: true,
-		configFileLabel: ".config/zed/settings.json",
-		snippetKind: "json",
-		steps: [
-			"Run zed: open settings file from the command palette.",
-			"In settings.json, add the context server block below and save.",
-			"Follow the client sign-in prompt if you want to use account tools.",
-		],
-		getSnippet: getZedMcpConfigJson,
 	},
 	{
 		id: "custom",

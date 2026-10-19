@@ -197,7 +197,7 @@ export function McpSetupDialogContent({ source }: { source: McpSetupSource }) {
 					</p>
 				</div>
 
-				<Accordion type="single" collapsible defaultValue="cursor" className="w-full space-y-2">
+				<Accordion type="single" collapsible defaultValue="chatgpt" className="w-full space-y-2">
 					{MCP_CLIENT_GUIDES.map((guide) => (
 						<AccordionItem key={guide.id} value={guide.id} className="rounded-md border px-3 last:border-b">
 							<AccordionTrigger className="py-3 hover:no-underline">
