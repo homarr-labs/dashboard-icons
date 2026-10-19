@@ -205,7 +205,7 @@ export function IconDetails({
 	const isSimpleIcons = externalIcon?.source === "simpleicons"
 	const externalSourceConfig = externalIcon ? EXTERNAL_SOURCES[externalIcon.source as ExternalSourceId] : undefined
 	const externalPreviewUrl = externalIcon ? getExternalIconPreviewUrl(externalIcon) : null
-	const iconDisplayName = externalIcon?.name ?? formatIconName(icon, { capitalize: true })
+	const iconDisplayName = externalIcon?.name ?? formatIconName(icon, { capitalize: true, aliases: iconData.aliases })
 	const hasMonochromeTones = externalSourceConfig?.monochromeTones ?? false
 
 	type CommunityIconData = Icon & {
@@ -874,7 +874,7 @@ export function IconDetails({
 										)}
 									</div>
 								</div>
-								<CardTitle className="mt-3 text-3xl font-bold capitalize text-center tracking-wide">
+								<CardTitle className="mt-3 text-3xl font-bold text-center tracking-wide break-words">
 									<h1>{iconDisplayName}</h1>
 								</CardTitle>
 							</div>

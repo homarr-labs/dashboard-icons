@@ -37,7 +37,7 @@ export async function generateMetadata({ params }: Props, _parent: ResolvingMeta
 	console.debug(`Generated metadata for ${icon} by ${authorName} (${authorData.html_url}) updated at ${updateDate.toLocaleString()}`)
 
 	const pageUrl = `${WEB_URL}/icons/${icon}`
-	const formattedIconName = formatIconName(icon, { capitalize: true })
+	const formattedIconName = formatIconName(icon, { capitalize: true, aliases: iconsData[icon].aliases })
 	return {
 		title: `${formattedIconName} Icon & Logo`,
 		description: `Download the ${formattedIconName} icon and logo in SVG, PNG, and WEBP formats for FREE. Part of a collection of ${totalIcons} curated icons and logos for services, applications and tools, designed specifically for dashboards and app directories.`,
@@ -128,7 +128,7 @@ export default async function IconPage({ params }: { params: Promise<{ icon: str
 	const categories = originalIconData.categories || []
 	const relatedIcons = computeRelatedIcons(icon, categories, iconsData)
 
-	const formattedName = formatIconName(icon, { capitalize: true })
+	const formattedName = formatIconName(icon, { capitalize: true, aliases: originalIconData.aliases })
 
 	return (
 		<>
@@ -139,6 +139,7 @@ export default async function IconPage({ params }: { params: Promise<{ icon: str
 					__html: JSON.stringify({
 						"@context": "https://schema.org",
 						"@type": "ImageObject",
+						name: `${formattedName} Icon`,
 						contentUrl: `${BASE_URL}/png/${icon}.png`,
 						license: APACHE_LICENSE_URL,
 						acquireLicensePage: `${WEB_URL}/license`,
