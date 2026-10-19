@@ -1,0 +1,25 @@
+.github/ISSUE_TEMPLATE/config.yml
+  s_111baee4e1b253::t_400d745234badb 5
+CONTRIBUTING.md
+  s_111baee4e1b253::t_a48e37eecf55a9 60,71-72,74,76
+README.md
+  s_111baee4e1b253::t_5b0591dfff75ef 100,111
+web/docs/research/variant-metadata-schema.md
+  s_111baee4e1b253::t_d6795c460b193f 103
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "a119e500f0d0f781eb9748725812eb8059ecb32e",
+  "prompts": {},
+  "sessions": {
+    "s_111baee4e1b253": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "9f55b694-2db1-43e7-b3c3-944d1c4e1e29",
+        "model": "unknown"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
