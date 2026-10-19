@@ -48,9 +48,9 @@ function beforeSend(event: CaptureResult | null): CaptureResult | null {
 
 export function PostHogProvider({ children }: { children: React.ReactNode }) {
 	useEffect(() => {
-		if (process.env.NEXT_PUBLIC_DISABLE_POSTHOG === "true") return
-		// biome-ignore lint/style/noNonNullAssertion: The NEXT_PUBLIC_POSTHOG_KEY environment variable is guaranteed to be set in production.
-		posthog.init(process.env.NEXT_PUBLIC_POSTHOG_KEY!, {
+		const key = process.env.NEXT_PUBLIC_POSTHOG_KEY
+		if (process.env.NEXT_PUBLIC_DISABLE_POSTHOG === "true" || !key) return
+		posthog.init(key, {
 			ui_host: "https://eu.posthog.com",
 			api_host: process.env.NEXT_PUBLIC_POSTHOG_HOST || "https://eu.i.posthog.com",
 			// Keep event volume low: disable automatic click/input/form capture and pageleave.
