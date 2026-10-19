@@ -8,15 +8,15 @@ export type { IconNameOption, IconSource, IconStatus } from "@/hooks/use-submiss
 export const getStatusColor = (status: string) => {
 	switch (status) {
 		case "approved":
-			return "bg-blue-500/10 text-blue-400 font-bold border-blue-500/20"
+			return "bg-info/10 text-info font-bold border-info/20"
 		case "rejected":
-			return "bg-red-500/10 text-red-500 border-red-500/20"
+			return "bg-destructive/10 text-destructive border-destructive/20"
 		case "pending":
-			return "bg-yellow-500/10 text-yellow-500 border-yellow-500/20"
+			return "bg-warning/10 text-warning border-warning/20"
 		case "added_to_collection":
-			return "bg-green-500/10 text-green-500 border-green-500/20"
+			return "bg-success/10 text-success border-success/20"
 		default:
-			return "bg-gray-500/10 text-gray-500 border-gray-500/20"
+			return "bg-muted text-muted-foreground border-border"
 	}
 }
 
@@ -50,7 +50,7 @@ export function StatusBadge({ icon, status: propStatus, showCollectionStatus = f
 	if (source === "collection") {
 		if (!showCollectionStatus) return null
 		return (
-			<Badge variant="outline" className={cn("text-xs bg-green-500/10 text-green-600 border-green-500/20", className)}>
+			<Badge variant="outline" className={cn("text-xs bg-success/10 text-success border-success/20", className)}>
 				{showIcon && <Library className="h-3 w-3 mr-1" />}
 				Collection
 			</Badge>
@@ -85,7 +85,7 @@ interface SourceBadgeProps {
 export function SourceBadge({ source, showIcon = true, className }: SourceBadgeProps) {
 	if (source === "collection") {
 		return (
-			<Badge variant="outline" className={cn("text-xs bg-green-500/10 text-green-600 border-green-500/20", className)}>
+			<Badge variant="outline" className={cn("text-xs bg-success/10 text-success border-success/20", className)}>
 				{showIcon && <Library className="h-3 w-3 mr-1" />}
 				Collection
 			</Badge>
@@ -93,7 +93,7 @@ export function SourceBadge({ source, showIcon = true, className }: SourceBadgeP
 	}
 
 	return (
-		<Badge variant="outline" className={cn("text-xs bg-purple-500/10 text-purple-500 border-purple-500/20", className)}>
+		<Badge variant="outline" className={cn("text-xs bg-community/10 text-community border-community/20", className)}>
 			{showIcon && <Users className="h-3 w-3 mr-1" />}
 			Community
 		</Badge>
