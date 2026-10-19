@@ -39,6 +39,7 @@ function pagesSitemap(): MetadataRoute.Sitemap {
 		{ url: `${WEB_URL}/community`, changeFrequency: "daily", priority: 0.7 },
 		{ url: `${WEB_URL}/privacy`, changeFrequency: "yearly", priority: 0.3 },
 		{ url: `${WEB_URL}/terms`, changeFrequency: "yearly", priority: 0.3 },
+		{ url: `${WEB_URL}/license`, changeFrequency: "yearly", priority: 0.3 },
 	]
 }
 

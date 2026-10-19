@@ -1,7 +1,7 @@
 import type { Metadata, ResolvingMetadata } from "next"
 import { notFound } from "next/navigation"
 import { IconDetails } from "@/components/icon-details"
-import { BASE_URL, WEB_URL } from "@/constants"
+import { APACHE_LICENSE_URL, BASE_URL, WEB_URL } from "@/constants"
 import { computeRelatedIcons, getAllIcons, getAuthorData } from "@/lib/api"
 import { getCommunityGalleryRecord, getCommunitySubmission, getCommunitySubmissions } from "@/lib/community"
 import { isIconAssetUrl } from "@/lib/icon-url"
@@ -243,10 +243,11 @@ export default async function CommunityIconPage({ params }: { params: Promise<{ 
 						"@context": "https://schema.org",
 						"@type": "ImageObject",
 						contentUrl: mainIconUrl,
-						license: "https://creativecommons.org/licenses/by/4.0/",
-						acquireLicensePage: `${WEB_URL}/license`,
-						creditText: `Icon by ${authorData.name || authorData.login}`,
-						copyrightNotice: "© Homarr Labs",
+						...(status === "added_to_collection" && {
+							license: APACHE_LICENSE_URL,
+							acquireLicensePage: `${WEB_URL}/license`,
+							creditText: "Dashboard Icons",
+						}),
 						creator: {
 							"@type": "Person",
 							name: authorData.name || authorData.login,

@@ -6,7 +6,6 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
-import { REPO_PATH } from "@/constants"
 
 const LOCAL_STORAGE_KEY = "licenseNoticeDismissed"
 
@@ -45,13 +44,8 @@ export function LicenseNotice() {
 							</p>
 							<p>
 								View our{" "}
-								<Link
-									href={`${REPO_PATH}/blob/main/LICENSE`}
-									className="underline hover:text-foreground"
-									target="_blank"
-									rel="noopener noreferrer"
-								>
-									LICENSE
+								<Link href="/license" className="underline hover:text-foreground">
+									license
 								</Link>{" "}
 								or{" "}
 								<a href="mailto:homarr-labs@proton.me" className="underline hover:text-foreground">
@@ -63,7 +57,7 @@ export function LicenseNotice() {
 						<Button
 							variant="ghost"
 							size="sm"
-							className="-mr-2 -mt-2 h-6 w-6 p-0"
+							className="-mr-3.5 -mt-3.5 size-11 p-0"
 							onClick={handleDismiss}
 							aria-label="Dismiss license notice"
 						>

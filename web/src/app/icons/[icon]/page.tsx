@@ -1,7 +1,7 @@
 import type { Metadata, ResolvingMetadata } from "next"
 import { notFound } from "next/navigation"
 import { IconDetails } from "@/components/icon-details"
-import { BASE_URL, WEB_URL } from "@/constants"
+import { APACHE_LICENSE_URL, BASE_URL, WEB_URL } from "@/constants"
 import { computeRelatedIcons, getAllIcons, getAuthorData } from "@/lib/api"
 import { formatIconName } from "@/lib/utils"
 
@@ -140,10 +140,9 @@ export default async function IconPage({ params }: { params: Promise<{ icon: str
 						"@context": "https://schema.org",
 						"@type": "ImageObject",
 						contentUrl: `${BASE_URL}/png/${icon}.png`,
-						license: "https://creativecommons.org/licenses/by/4.0/",
+						license: APACHE_LICENSE_URL,
 						acquireLicensePage: `${WEB_URL}/license`,
-						creditText: `Icon by ${authorData.name || authorData.login}`,
-						copyrightNotice: "© Homarr Labs",
+						creditText: "Dashboard Icons",
 						creator: {
 							"@type": "Person",
 							name: authorData.name || authorData.login,
