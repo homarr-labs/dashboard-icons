@@ -1,0 +1,23 @@
+web/src/lib/icons/__tests__/search.test.ts
+  s_2dda7f30f9c36c::t_22c6b7e4f3e014 303-311
+web/src/lib/icons/search.ts
+  s_2dda7f30f9c36c::t_2080ecd5623c21 8,127,129-148,182,187
+web/src/lib/icons/variants.ts
+  s_2dda7f30f9c36c::t_dc9fd9c37eac54 9-10,13,15-19,22-23,28-57,61-63,67,70-71,74-77,80-86,95,117-119,127,130-131,135
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "bcdc85ef38bf7f6e64f8d2a53f3231289c13ef4c",
+  "prompts": {},
+  "sessions": {
+    "s_2dda7f30f9c36c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "5e95b9c0-6a43-43c0-8f66-04339c7d3832",
+        "model": "unknown"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
