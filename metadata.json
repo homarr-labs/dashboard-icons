@@ -19142,11 +19142,14 @@
         "aliases": [],
         "categories": [],
         "update": {
-            "timestamp": "2024-10-20T17:24:03Z",
+            "timestamp": "2026-10-19T19:41:12.024Z",
             "author": {
-                "id": 71191962,
-                "name": "walkxcode"
+                "id": 55157772,
+                "login": "crumble21"
             }
+        },
+        "colors": {
+            "dark": "microsoft-outlook-dark"
         }
     },
     "open-regex": {
