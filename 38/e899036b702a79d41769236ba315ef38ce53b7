@@ -1,0 +1,19 @@
+web/src/mcp/__tests__/integration.test.ts
+  s_17ef26bd27b71a::t_dd0d4f50d00584 90-92
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "38e899036b702a79d41769236ba315ef38ce53b7",
+  "prompts": {},
+  "sessions": {
+    "s_17ef26bd27b71a": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "9db86f57-96e0-4df5-bd49-18e907fb1fe1",
+        "model": "unknown"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
