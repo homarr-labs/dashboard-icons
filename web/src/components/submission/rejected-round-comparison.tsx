@@ -3,8 +3,17 @@
 import { VariantPreview } from "@/components/variant-preview"
 import { pb, type Submission } from "@/lib/pb"
 import { labelledAssets, type SubmissionVariant, variantKind } from "@/lib/submission-variants"
+import { cn } from "@/lib/utils"
 
-export function RejectedRoundComparison({ record }: { record: Submission }) {
+export function RejectedRoundComparison({
+	record,
+	defaultOpen = false,
+	layout = "stack",
+}: {
+	record: Submission
+	defaultOpen?: boolean
+	layout?: "stack" | "grid"
+}) {
 	const previous = record.last_rejected
 	if (!previous) return null
 	let before = labelledAssets(previous.extras, previous.assets, previous.name)
@@ -30,7 +39,7 @@ export function RejectedRoundComparison({ record }: { record: Submission }) {
 	for (const asset of after.filter((asset) => !asset.variant))
 		comparisons.push({ key: `after:${asset.file}`, label: `Unassigned current: ${asset.file}`, variant: null, after: asset.file })
 	return (
-		<details className="space-y-3 rounded-lg bg-muted/40 p-4">
+		<details open={defaultOpen} className="space-y-3 rounded-lg bg-muted/40 p-4">
 			<summary className="min-h-11 cursor-pointer py-2 text-sm font-semibold focus-visible:outline-2 focus-visible:outline-ring">
 				Compare with rejected Round {previous.round}
 			</summary>
@@ -57,49 +66,57 @@ export function RejectedRoundComparison({ record }: { record: Submission }) {
 					</ul>
 				</div>
 			))}
-			{comparisons.map(({ key, label, variant, before: old, after: current }) => {
-				const unresolved = previous.unresolved_variants?.some((reference) => reference.variant === variant)
-				return (
-					<section key={key} className="space-y-2">
-						<h3 className="break-all text-sm font-medium">
-							{label}
-							{variant && !current && " · Removed"}
-							{variant && !old && !unresolved && " · Added"}
-							{variant && unresolved && " · Previous file unresolved"}
-						</h3>
-						<div className="grid grid-cols-2 gap-2">
-							{[
-								{ file: old, title: `Rejected · Round ${previous.round}`, unresolved },
-								{ file: current, title: `Current · Round ${record.round || 1}` },
-							].map(({ file, title, unresolved }) => (
-								<figure key={title} className="min-w-0 space-y-2">
-									<figcaption className="text-sm text-muted-foreground">{title}</figcaption>
-									{file ? (
-										<a
-											href={pb.files.getURL(record, file)}
-											target="_blank"
-											rel="noreferrer"
-											className="block rounded focus-visible:outline-2 focus-visible:outline-ring"
-										>
-											<VariantPreview
-												src={pb.files.getURL(record, file)}
-												alt={`${label}, ${title}`}
-												background={variant ? variantKind(variant).background : "any"}
-												className="h-24"
-											/>
-											<span className="flex min-h-11 items-center text-sm underline">Open original</span>
-										</a>
-									) : (
-										<p className="py-6 text-sm text-muted-foreground">
-											{unresolved ? "See retained original candidates." : "Not included"}
-										</p>
-									)}
-								</figure>
-							))}
-						</div>
-					</section>
-				)
-			})}
+			<div
+				className={cn(
+					"space-y-3",
+					layout === "grid" && "grid grid-cols-[repeat(auto-fit,minmax(min(100%,16rem),1fr))] items-start gap-4 space-y-0",
+				)}
+			>
+				{comparisons.map(({ key, label, variant, before: old, after: current }) => {
+					const unresolved = previous.unresolved_variants?.some((reference) => reference.variant === variant)
+					return (
+						<section key={key} className="space-y-2">
+							<h3 className="break-all text-sm font-medium">
+								{label}
+								{variant?.startsWith("custom:") && " · Custom"}
+								{variant && !current && " · Removed"}
+								{variant && !old && !unresolved && " · Added"}
+								{variant && unresolved && " · Previous file unresolved"}
+							</h3>
+							<div className="grid grid-cols-2 gap-2">
+								{[
+									{ file: old, title: `Rejected · Round ${previous.round}`, unresolved },
+									{ file: current, title: `Current · Round ${record.round || 1}` },
+								].map(({ file, title, unresolved }) => (
+									<figure key={title} className="min-w-0 space-y-2">
+										<figcaption className="text-sm text-muted-foreground">{title}</figcaption>
+										{file ? (
+											<a
+												href={pb.files.getURL(record, file)}
+												target="_blank"
+												rel="noreferrer"
+												className="block rounded focus-visible:outline-2 focus-visible:outline-ring"
+											>
+												<VariantPreview
+													src={pb.files.getURL(record, file)}
+													alt={`${label}, ${title}`}
+													background={variant ? variantKind(variant).background : "any"}
+													className="h-24"
+												/>
+												<span className="flex min-h-11 items-center text-sm underline">Open original</span>
+											</a>
+										) : (
+											<p className="py-6 text-sm text-muted-foreground">
+												{unresolved ? "See retained original candidates." : "Not included"}
+											</p>
+										)}
+									</figure>
+								))}
+							</div>
+						</section>
+					)
+				})}
+			</div>
 			<dl className="space-y-2 text-sm">
 				{[
 					{ label: "Slug", before: previous.name, after: record.name },

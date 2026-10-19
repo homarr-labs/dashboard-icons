@@ -1,7 +1,7 @@
 "use client"
 
 import { useQuery } from "@tanstack/react-query"
-import { pb, type Submission } from "@/lib/pb"
+import { type CommunityGallery, pb, type Submission } from "@/lib/pb"
 
 export interface SubmissionCatalog {
 	names: string[]
@@ -15,6 +15,7 @@ export interface ExistingSubmission {
 	status: Submission["status"]
 	mine: boolean
 	feedback: string
+	contributor?: string
 }
 
 export function useSubmissionCatalog() {
@@ -49,9 +50,16 @@ export function useSubmissionHints() {
 	return useQuery({
 		queryKey: ["submission-hints", userId],
 		queryFn: async (): Promise<ExistingSubmission[]> => {
+			const username: unknown = pb.authStore.record?.username
+			let contributor: string | undefined
+			if (typeof username === "string") contributor = username
 			const [community, own] = await Promise.all([
-				pb.collection("community_gallery").getFullList({ fields: "id,name,status", filter: 'status = "pending"', requestKey: null }),
-				pb.collection("submissions").getFullList({
+				pb.collection("community_gallery").getFullList<Pick<CommunityGallery, "id" | "name" | "status" | "created_by">>({
+					fields: "id,name,status,created_by",
+					filter: 'status = "pending"',
+					requestKey: null,
+				}),
+				pb.collection("submissions").getFullList<Pick<Submission, "id" | "name" | "status" | "admin_comment">>({
 					fields: "id,name,status,admin_comment",
 					filter: pb.filter('created_by = {:userId} && (status = "pending" || status = "rejected")', { userId }),
 					requestKey: null,
@@ -59,9 +67,23 @@ export function useSubmissionHints() {
 			])
 			const records = new Map<string, ExistingSubmission>()
 			for (const record of community)
-				records.set(record.id, { id: record.id, name: record.name, status: record.status, mine: false, feedback: "" })
+				records.set(record.id, {
+					id: record.id,
+					name: record.name,
+					status: record.status,
+					mine: false,
+					feedback: "",
+					contributor: record.created_by,
+				})
 			for (const record of own)
-				records.set(record.id, { id: record.id, name: record.name, status: record.status, mine: true, feedback: record.admin_comment })
+				records.set(record.id, {
+					id: record.id,
+					name: record.name,
+					status: record.status,
+					mine: true,
+					feedback: record.admin_comment,
+					contributor,
+				})
 			return [...records.values()]
 		},
 		enabled: Boolean(userId),
