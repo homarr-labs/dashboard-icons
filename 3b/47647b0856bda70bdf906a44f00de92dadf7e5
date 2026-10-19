@@ -1,0 +1,32 @@
+web/src/components/dashboard/activity-feed.tsx
+  h_d6e478ca18e517 3,60-68
+web/src/components/dashboard/review-bench.tsx
+  h_d6e478ca18e517 2,10-22,26,40,75-77,85,98-108,123-126,174-176,202,208,219-228,252,254-292,300-316,326,333-337,360,415,417-418,420,471,494-509,548-590,611,615,618-626,733,751,787,800-808,851,853-860,862-863
+web/src/components/dashboard/review-fixup-editors.tsx
+  h_d6e478ca18e517 1-311
+web/src/components/dashboard/review-gallery.tsx
+  h_d6e478ca18e517 5-6,10,19-21,29,35-43,46,53-59,64,86-90,99-106,124,136-153,175-188
+web/src/components/dashboard/review-history.tsx
+  h_d6e478ca18e517 5,46-52
+web/src/components/dashboard/review-presentation.tsx
+  h_d6e478ca18e517 2,10,14-15,57,126-128
+web/src/components/dashboard/review-submit-dialog.tsx
+  h_d6e478ca18e517 1-97
+web/src/hooks/use-review-shortcuts.ts
+  h_d6e478ca18e517 1-145
+web/src/lib/__tests__/review-fixups.test.ts
+  h_d6e478ca18e517 5-11,13,170-214
+web/src/lib/dashboard/review-fixup-draft.ts
+  h_d6e478ca18e517 1-156
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "3b47647b0856bda70bdf906a44f00de92dadf7e5",
+  "prompts": {},
+  "humans": {
+    "h_d6e478ca18e517": {
+      "author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
