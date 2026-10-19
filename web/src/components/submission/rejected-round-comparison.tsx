@@ -1,5 +1,6 @@
 "use client"
 
+import { ChevronDown, ExternalLink, GitCompareArrows } from "lucide-react"
 import { VariantPreview } from "@/components/variant-preview"
 import { applyList } from "@/lib/icon-update"
 import { pb, type Submission } from "@/lib/pb"
@@ -46,100 +47,115 @@ export function RejectedRoundComparison({
 	for (const asset of after.filter((asset) => !asset.variant))
 		comparisons.push({ key: `after:${asset.file}`, label: `Unassigned current: ${asset.file}`, variant: null, after: asset.file })
 	return (
-		<details open={defaultOpen} className="space-y-3 rounded-lg bg-muted/40 p-4">
-			<summary className="min-h-11 cursor-pointer py-2 text-sm font-semibold focus-visible:outline-2 focus-visible:outline-ring">
-				Compare with rejected Round {previous.round}
+		<details open={defaultOpen} className="group/compare rounded-xl border bg-card shadow-sm">
+			<summary className="flex min-h-11 cursor-pointer list-none items-center gap-3 rounded-xl p-3 text-sm font-semibold transition-colors hover:bg-muted/40 focus-visible:outline-2 focus-visible:outline-ring sm:px-4 [&::-webkit-details-marker]:hidden">
+				<span className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-amber-500/10 text-amber-600 ring-1 ring-inset ring-amber-500/25 dark:text-amber-400">
+					<GitCompareArrows className="size-4" aria-hidden />
+				</span>
+				<span className="min-w-0 flex-1">Compare with rejected Round {previous.round}</span>
+				<ChevronDown
+					className="size-4 shrink-0 text-muted-foreground transition-transform duration-300 group-open/compare:rotate-180 motion-reduce:transition-none"
+					aria-hidden
+				/>
 			</summary>
-			<p className="whitespace-pre-wrap break-words text-sm">Reviewer feedback: {previous.admin_comment || "No written feedback."}</p>
-			{previous.unresolved_variants?.map((reference) => (
-				<div key={`${reference.variant}-${reference.reference}`} className="space-y-1 text-sm">
-					<p className="break-words">
-						Original {variantKind(reference.variant).label} reference <span className="break-all font-mono">{reference.reference}</span>{" "}
-						could not be matched uniquely. The original files are retained below without guessing their labels.
-					</p>
-					<ul>
-						{reference.assets.map((file) => (
-							<li key={file}>
-								<a
-									href={pb.files.getURL(record, file)}
-									target="_blank"
-									rel="noreferrer"
-									className="flex min-h-11 items-center break-all underline focus-visible:outline-2 focus-visible:outline-ring"
-								>
-									{previous.asset_sources?.[file] || file}
-								</a>
-							</li>
-						))}
-					</ul>
+			<div className="flex flex-col gap-4 border-t p-3 sm:p-4">
+				<blockquote className="whitespace-pre-wrap break-words border-l-2 border-amber-500/60 pl-3 text-sm">
+					Reviewer feedback: {previous.admin_comment || "No written feedback."}
+				</blockquote>
+				{previous.unresolved_variants?.map((reference) => (
+					<div key={`${reference.variant}-${reference.reference}`} className="flex flex-col gap-1 text-sm">
+						<p className="break-words">
+							Original {variantKind(reference.variant).label} reference <span className="break-all font-mono">{reference.reference}</span>{" "}
+							could not be matched uniquely. The original files are retained below without guessing their labels.
+						</p>
+						<ul>
+							{reference.assets.map((file) => (
+								<li key={file}>
+									<a
+										href={pb.files.getURL(record, file)}
+										target="_blank"
+										rel="noreferrer"
+										className="flex min-h-11 items-center break-all underline focus-visible:outline-2 focus-visible:outline-ring"
+									>
+										{previous.asset_sources?.[file] || file}
+									</a>
+								</li>
+							))}
+						</ul>
+					</div>
+				))}
+				<div
+					className={cn(
+						"flex flex-col gap-3",
+						layout === "grid" && "grid grid-cols-[repeat(auto-fit,minmax(min(100%,16rem),1fr))] items-start gap-4",
+					)}
+				>
+					{comparisons.map(({ key, label, variant, before: old, after: current }) => {
+						const unresolved = previous.unresolved_variants?.some((reference) => reference.variant === variant)
+						return (
+							<section key={key} className="flex flex-col gap-2 rounded-lg bg-muted/40 p-3">
+								<h3 className="break-all text-sm font-medium">
+									{label}
+									{variant?.startsWith("custom:") && " · Custom"}
+									{variant && !current && " · Removed"}
+									{variant && !old && !unresolved && " · Added"}
+									{variant && unresolved && " · Previous file unresolved"}
+								</h3>
+								<div className="grid grid-cols-2 gap-2">
+									{[
+										{ file: old, title: `Rejected · Round ${previous.round}`, unresolved },
+										{ file: current, title: `Current · Round ${record.round || 1}` },
+									].map(({ file, title, unresolved }) => (
+										<figure key={title} className="flex min-w-0 flex-col gap-1.5">
+											<figcaption className="text-xs text-muted-foreground">{title}</figcaption>
+											{file && (
+												<a
+													href={pb.files.getURL(record, file)}
+													target="_blank"
+													rel="noreferrer"
+													className="group/original block rounded-md focus-visible:outline-2 focus-visible:outline-ring"
+												>
+													<VariantPreview
+														src={pb.files.getURL(record, file)}
+														alt={`${label}, ${title}`}
+														background={variant ? variantKind(variant).background : "any"}
+														className="h-24 transition-shadow group-hover/original:ring-primary/50"
+													/>
+													<span className="flex min-h-11 items-center gap-1 text-xs underline underline-offset-4 group-hover/original:text-primary">
+														Open original
+														<ExternalLink className="size-3" aria-hidden />
+													</span>
+												</a>
+											)}
+											{!file && (
+												<p className="flex h-24 items-center justify-center rounded-md border border-dashed text-center text-xs text-muted-foreground">
+													{unresolved ? "See retained original candidates." : "Not included"}
+												</p>
+											)}
+										</figure>
+									))}
+								</div>
+							</section>
+						)
+					})}
 				</div>
-			))}
-			<div
-				className={cn(
-					"space-y-3",
-					layout === "grid" && "grid grid-cols-[repeat(auto-fit,minmax(min(100%,16rem),1fr))] items-start gap-4 space-y-0",
-				)}
-			>
-				{comparisons.map(({ key, label, variant, before: old, after: current }) => {
-					const unresolved = previous.unresolved_variants?.some((reference) => reference.variant === variant)
-					return (
-						<section key={key} className="space-y-2">
-							<h3 className="break-all text-sm font-medium">
-								{label}
-								{variant?.startsWith("custom:") && " · Custom"}
-								{variant && !current && " · Removed"}
-								{variant && !old && !unresolved && " · Added"}
-								{variant && unresolved && " · Previous file unresolved"}
-							</h3>
-							<div className="grid grid-cols-2 gap-2">
-								{[
-									{ file: old, title: `Rejected · Round ${previous.round}`, unresolved },
-									{ file: current, title: `Current · Round ${record.round || 1}` },
-								].map(({ file, title, unresolved }) => (
-									<figure key={title} className="min-w-0 space-y-2">
-										<figcaption className="text-sm text-muted-foreground">{title}</figcaption>
-										{file ? (
-											<a
-												href={pb.files.getURL(record, file)}
-												target="_blank"
-												rel="noreferrer"
-												className="block rounded focus-visible:outline-2 focus-visible:outline-ring"
-											>
-												<VariantPreview
-													src={pb.files.getURL(record, file)}
-													alt={`${label}, ${title}`}
-													background={variant ? variantKind(variant).background : "any"}
-													className="h-24"
-												/>
-												<span className="flex min-h-11 items-center text-sm underline">Open original</span>
-											</a>
-										) : (
-											<p className="py-6 text-sm text-muted-foreground">
-												{unresolved ? "See retained original candidates." : "Not included"}
-											</p>
-										)}
-									</figure>
-								))}
+				<dl className="flex flex-col gap-2 text-sm">
+					{[
+						{ label: "Slug", before: previous.name, after: record.name },
+						{ label: "Aliases", before: beforeMetadata.aliases?.join(", "), after: afterMetadata.aliases?.join(", ") },
+						{ label: "Categories", before: beforeMetadata.categories?.join(", "), after: afterMetadata.categories?.join(", ") },
+						{ label: "Note", before: previous.description, after: record.description },
+					]
+						.filter((item) => item.before !== item.after)
+						.map((item) => (
+							<div key={item.label} className="break-words rounded-lg bg-muted/40 p-3">
+								<dt className="font-medium">{item.label}</dt>
+								<dd className="text-muted-foreground">Before: {item.before || "None"}</dd>
+								<dd>After: {item.after || "None"}</dd>
 							</div>
-						</section>
-					)
-				})}
+						))}
+				</dl>
 			</div>
-			<dl className="space-y-2 text-sm">
-				{[
-					{ label: "Slug", before: previous.name, after: record.name },
-					{ label: "Aliases", before: beforeMetadata.aliases?.join(", "), after: afterMetadata.aliases?.join(", ") },
-					{ label: "Categories", before: beforeMetadata.categories?.join(", "), after: afterMetadata.categories?.join(", ") },
-					{ label: "Note", before: previous.description, after: record.description },
-				]
-					.filter((item) => item.before !== item.after)
-					.map((item) => (
-						<div key={item.label} className="break-words">
-							<dt className="font-medium">{item.label}</dt>
-							<dd>Before: {item.before || "None"}</dd>
-							<dd>After: {item.after || "None"}</dd>
-						</div>
-					))}
-			</dl>
 		</details>
 	)
 }

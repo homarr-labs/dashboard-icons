@@ -3,6 +3,21 @@
 		color: var(--foreground);
 	}
 
+	[data-submission-form]
+		:is([data-slot="input"], [data-slot="textarea"], [data-slot="tag-input"]):not(:focus-visible, :focus-within, [aria-invalid="true"]) {
+		border-color: var(--border);
+	}
+
+	[data-submission-form]
+		:is([data-slot="input"], [data-slot="textarea"], [data-slot="tag-input"]):not(
+			:focus-visible,
+			:focus-within,
+			:disabled,
+			[aria-invalid="true"]
+		):hover {
+		border-color: color-mix(in oklab, var(--primary) 45%, var(--border));
+	}
+
 	@media (width < 64rem) {
 		body:has([data-submission-actions]) footer {
 			padding-bottom: calc(5rem + env(safe-area-inset-bottom));
@@ -17,7 +32,8 @@
 				[data-slot="alert-dialog-content"],
 				[data-slot="alert-dialog-overlay"]
 			),
-		[data-submission-form] [data-slot="button"] {
+		[data-submission-form] [data-slot="button"],
+		[data-submission-form] .animate-aurora {
 			animation: none;
 			transition: none;
 		}
