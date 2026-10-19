@@ -1,13 +1,25 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { Suspense, useEffect, useState } from "react"
 import { IconSubmissionForm } from "@/components/icon-submission-form"
 import { LoginModal } from "@/components/login-modal"
+import { SubmitPrototypeGate } from "@/components/prototype/submit/submit-prototype"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader } from "@/components/ui/card"
 import { pb } from "@/lib/pb"
 
-export default function SubmitPage() {
+export default function SubmitPageWithPrototype() {
+	if (process.env.NODE_ENV === "production") return <SubmitPage />
+	return (
+		<Suspense fallback={null}>
+			<SubmitPrototypeGate>
+				<SubmitPage />
+			</SubmitPrototypeGate>
+		</Suspense>
+	)
+}
+
+function SubmitPage() {
 	const [isAuthenticated, setIsAuthenticated] = useState(false)
 	const [isLoading, setIsLoading] = useState(true)
 	const [showLoginModal, setShowLoginModal] = useState(false)
