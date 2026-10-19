@@ -1,7 +1,9 @@
 "use client"
-import { AlertCircle, ArrowUpRight, CheckCircle2, Loader2, Rocket } from "lucide-react"
+import { AlertCircle, ArrowUpRight, CheckCircle2, ChevronRight, Loader2, Rocket } from "lucide-react"
+import { Button } from "@/components/ui/button"
 import type { PublishBatch } from "@/lib/dashboard/types"
-import { Time } from "./primitives"
+import { cn } from "@/lib/utils"
+import { statusStyles, Time } from "./primitives"
 
 const labels: Record<string, string> = {
 	requesting: "Requesting publication",
@@ -14,30 +16,51 @@ const labels: Record<string, string> = {
 }
 export function PublishRun({ batch, compact = false }: { batch: PublishBatch; compact?: boolean }) {
 	let Icon = Rocket
-	if (batch.active) Icon = Loader2
-	if (batch.state === "succeeded") Icon = CheckCircle2
-	if (["failed", "unknown"].includes(batch.state)) Icon = AlertCircle
+	let tone = "text-muted-foreground"
+	if (batch.active) {
+		Icon = Loader2
+		tone = "text-primary"
+	}
+	if (batch.state === "succeeded") {
+		Icon = CheckCircle2
+		tone = statusStyles.added_to_collection.text
+	}
+	if (["failed", "unknown", "cancelled"].includes(batch.state)) {
+		Icon = AlertCircle
+		tone = statusStyles.rejected.text
+	}
 	return (
-		<article className="min-w-0 rounded-lg border bg-background p-4">
+		<article className={cn("min-w-0 rounded-lg border bg-background/50 p-4 shadow-sm", batch.active && "border-primary/50")}>
 			<div className="flex items-start gap-3">
-				<span className="flex size-8 shrink-0 items-center justify-center rounded-full bg-muted">
-					<Icon className="size-4 text-muted-foreground" />
+				<span className={cn("flex size-8 shrink-0 items-center justify-center rounded-md border bg-background", tone)}>
+					<Icon className={cn("size-4", batch.active && "animate-spin motion-reduce:animate-none")} />
 				</span>
 				<div className="min-w-0 flex-1">
-					<h3 className="text-sm font-medium">{labels[batch.state]}</h3>
-					<p className="mt-1 text-xs text-muted-foreground">
+					<h3 className="text-sm font-semibold">{labels[batch.state]}</h3>
+					<p className="mt-0.5 flex flex-wrap items-center gap-x-1 text-xs text-muted-foreground">
 						{batch.items.length} icons · {batch.requester_name || "Automation"} · <Time value={batch.created} />
 					</p>
 				</div>
+				{batch.run_url && (
+					<Button asChild variant="outline" size="sm" className="shrink-0 max-lg:min-h-11">
+						<a href={batch.run_url} target="_blank" rel="noreferrer">
+							GitHub run
+							<ArrowUpRight />
+						</a>
+					</Button>
+				)}
 			</div>
 			{batch.message && <p className="mt-3 break-words text-xs leading-5 text-muted-foreground">{batch.message}</p>}
 			{!compact && (
-				<details className="mt-3 text-xs">
-					<summary className="cursor-pointer text-muted-foreground">Included icons</summary>
-					<ul className="mt-2 space-y-1">
+				<details className="group mt-3 text-xs">
+					<summary className="flex w-fit list-none items-center gap-1 rounded-sm py-1 text-muted-foreground hover:text-foreground [&::-webkit-details-marker]:hidden">
+						<ChevronRight className="size-3 transition-transform group-open:rotate-90" />
+						Included icons
+					</summary>
+					<ul className="mt-2 divide-y rounded-md border">
 						{batch.items.map((item) => (
-							<li key={item.id} className="flex justify-between gap-2">
-								<span className="truncate">{item.name}</span>
+							<li key={item.id} className="flex justify-between gap-2 px-2 py-1.5">
+								<span className="truncate font-mono">{item.name}</span>
 								<span className="text-muted-foreground">
 									{({ waiting: "Waiting", published: "Published", not_published: "Not published" } as Record<string, string>)[item.state] ||
 										item.state}
@@ -46,17 +69,6 @@ export function PublishRun({ batch, compact = false }: { batch: PublishBatch; co
 						))}
 					</ul>
 				</details>
-			)}
-			{batch.run_url && (
-				<a
-					href={batch.run_url}
-					target="_blank"
-					rel="noreferrer"
-					className="mt-3 inline-flex items-center gap-1 text-xs font-medium underline-offset-4 hover:underline"
-				>
-					View GitHub run
-					<ArrowUpRight className="size-3" />
-				</a>
 			)}
 			{batch.state === "succeeded" && !compact && (
 				<p className="mt-2 text-[11px] text-muted-foreground">Committed to the collection. Website and CDN updates may follow.</p>
