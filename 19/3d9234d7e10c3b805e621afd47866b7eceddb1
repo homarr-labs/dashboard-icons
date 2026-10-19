@@ -1,0 +1,19 @@
+web/src/lib/__tests__/submission-guard.test.ts
+  s_f6c35ce977e8f9::t_634c77f4b7ea2b 579
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "193d9234d7e10c3b805e621afd47866b7eceddb1",
+  "prompts": {},
+  "sessions": {
+    "s_f6c35ce977e8f9": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "8c6a71b3-3bf3-4ff5-b6ab-c6cb1ede83a8",
+        "model": "unknown"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
