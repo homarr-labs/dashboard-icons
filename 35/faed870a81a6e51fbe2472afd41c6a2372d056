@@ -1,0 +1,24 @@
+web/src/components/dashboard/review-bench.tsx
+  h_d6e478ca18e517 2-3,6,11,17-28,31,58-60,64-76,79-82,98-99,132,135-136,139-140,146-147,150-156,161,170,173,183-191,198,201,215-221,226,229,232-233,235,239-244,247,249,251-253,267-274,279,287,290,294-295,297-304,350,361,370,373-382,384-404,405,406-423,438,452-459,461-465,476,479-480,483,484,485-486,492,502,511,512,513-516,519-520,549-577,579-586,588,590,595-598,604-605,613-619,626,644-667,669-670,675-682,684-725,727-732,733,734-760,767,770-771,775,784-786,794-798,813
+web/src/components/dashboard/review-gallery.tsx
+  h_d6e478ca18e517 3,9-15,18-31,32,33-36,38-111,113,116,118-119,121-161
+web/src/components/dashboard/review-history.tsx
+  h_d6e478ca18e517 1-64
+web/src/components/dashboard/review-presentation.tsx
+  h_d6e478ca18e517 1-50,51,52-61,62,63-132
+web/src/hooks/use-submission-catalog.ts
+  h_d6e478ca18e517 4,18,53-55,57-62,70-77,79-86
+web/src/components/submission/rejected-round-comparison.tsx
+  h_d6e478ca18e517 6,8-16,42,69-119
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "35faed870a81a6e51fbe2472afd41c6a2372d056",
+  "prompts": {},
+  "humans": {
+    "h_d6e478ca18e517": {
+      "author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
