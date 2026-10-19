@@ -4,12 +4,7 @@ import { prepareSubmission, type SubmissionInput } from "@/lib/submission-servic
 
 export type OwnSubmissionInput = SubmissionInput & { updated?: string }
 
-export async function updateOwnSubmission(
-	pb: ReturnType<typeof createServerPB>,
-	userId: string,
-	submissionId: string,
-	input: OwnSubmissionInput,
-): Promise<Submission> {
+export async function loadOwnSubmission(pb: ReturnType<typeof createServerPB>, userId: string, submissionId: string): Promise<Submission> {
 	const current = await pb
 		.collection("submissions")
 		.getOne(submissionId, { requestKey: null })
@@ -25,6 +20,18 @@ export async function updateOwnSubmission(
 			status: 403,
 			response: { message: "Approved and published submissions are locked. Propose an update instead." },
 		})
+	return current
+}
+
+export async function updateOwnSubmission(
+	pb: ReturnType<typeof createServerPB>,
+	userId: string,
+	submissionId: string,
+	input: OwnSubmissionInput,
+): Promise<Submission> {
+	const current = await loadOwnSubmission(pb, userId, submissionId)
+	if (current.icon_update)
+		throw new ClientResponseError({ status: 400, response: { message: "Edit this Update proposal with the delta editor." } })
 	if (input.updated && input.updated !== current.updated)
 		throw new ClientResponseError({
 			status: 409,

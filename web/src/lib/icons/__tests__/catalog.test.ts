@@ -25,6 +25,25 @@ vi.mock("@/lib/external-icons", () => ({
 	getExternalIconBySourceAndSlug: mocks.getExternalIconBySourceAndSlug,
 }))
 vi.mock("@/lib/icons/svg-fetch", () => ({ fetchTrustedSvg: mocks.fetchTrustedSvg }))
+vi.mock("@/lib/icons/native-icon-files.json", () => ({
+	default: {
+		"svg,png,webp": [
+			"plex",
+			"openai",
+			"lmstudio",
+			"dagster",
+			"dagster-light",
+			"dagster-dark",
+			"watchstate",
+			"sonarr",
+			"sonarr-dark",
+			"sonarr-wordmark",
+			"sonarr-wordmark-light",
+			"ntopng-wordmark",
+		],
+		"png,webp": ["ntopng", "ntopng-light", "sonarr-4k"],
+	},
+}))
 
 const NATIVE_CDN = "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons"
 
@@ -317,8 +336,9 @@ describe("getCatalogIcon", () => {
 			dark: `${NATIVE_CDN}/svg/sonarr-dark.svg`,
 			wordmark: `${NATIVE_CDN}/svg/sonarr-wordmark.svg`,
 			"wordmark-light": `${NATIVE_CDN}/svg/sonarr-wordmark-light.svg`,
-			"4k": `${NATIVE_CDN}/svg/sonarr-4k.svg`,
 		})
+		expect(sonarr.icon.urls.png?.["4k"]).toBe(`${NATIVE_CDN}/png/sonarr-4k.png`)
+		expect(sonarr.icon.urls.webp?.["4k"]).toBe(`${NATIVE_CDN}/webp/sonarr-4k.webp`)
 
 		mocks.fetchTrustedSvg.mockResolvedValue("<svg>sonarr</svg>")
 		expect(await getCatalogIconSvg("sonarr", { theme: "light" })).toMatchObject({ url: `${NATIVE_CDN}/svg/sonarr.svg` })
@@ -332,6 +352,11 @@ describe("getCatalogIcon", () => {
 			png: { default: `${NATIVE_CDN}/png/ntopng.png`, light: `${NATIVE_CDN}/png/ntopng-light.png` },
 			webp: { default: `${NATIVE_CDN}/webp/ntopng.webp`, light: `${NATIVE_CDN}/webp/ntopng-light.webp` },
 		})
+		mocks.getAllIcons.mockResolvedValue({ ntopng: { ...NATIVE.ntopng, wordmark: { default: "ntopng-wordmark" } } })
+		const mixed = await getCatalogIcon("ntopng")
+		expect(mixed.found && mixed.icon.urls.svg).toEqual({ wordmark: `${NATIVE_CDN}/svg/ntopng-wordmark.svg` })
+		expect(mixed.found && mixed.icon.urls.png?.wordmark).toBe(`${NATIVE_CDN}/png/ntopng-wordmark.png`)
+		mocks.getAllIcons.mockResolvedValue(NATIVE)
 
 		const legacy = await getCatalogIcon("legacy")
 		if (!legacy.found) throw new Error("expected legacy")

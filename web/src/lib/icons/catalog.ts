@@ -11,6 +11,7 @@ import {
 	resolveExternalIconUrl,
 } from "@/lib/external-icon-urls"
 import { getExternalIconBySourceAndSlug, getExternalIcons } from "@/lib/external-icons"
+import { getNativeIconVariants } from "@/lib/icons/files"
 import { filterAndSortIcons, findMatchedVariant, levenshteinDistance, normalizeForSearch, scoreIcon } from "@/lib/icons/search"
 import { getAllIcons } from "@/lib/icons/service"
 import { fetchTrustedSvg } from "@/lib/icons/svg-fetch"
@@ -36,7 +37,6 @@ import type {
 } from "@/lib/icons/types"
 import { buildIconUrl, type IconFormat, type IconTheme } from "@/lib/icons/urls"
 import { assertCatalogInputLength, MAX_NAME_LENGTH, MAX_QUERY_LENGTH } from "@/lib/icons/validate"
-import { resolveIconVariants } from "@/lib/icons/variants"
 import { formatIconName } from "@/lib/utils"
 import type { ExternalIcon, ExternalIconRecord, IconFile, IconRecord, NativeIconRecord } from "@/types/icons"
 
@@ -276,11 +276,14 @@ function themedUrls(build: (theme: IconTheme) => string | null): Partial<Record<
 }
 
 function nativeUrls(entry: NativeIconRecord): CatalogUrls {
-	const variants = resolveIconVariants(entry.name, entry.data)
+	const variants = getNativeIconVariants(entry.name, entry.data)
 	const urls: CatalogUrls = {}
 	for (const format of FORMATS) {
-		if (format === "svg" && entry.data.base !== "svg") continue
-		urls[format] = Object.fromEntries(variants.flatMap((variant) => variant.keys.map((key) => [key, buildIconUrl(variant.stem, format)])))
+		const available = variants.filter((variant) => variant.formats.includes(format))
+		if (available.length)
+			urls[format] = Object.fromEntries(
+				available.flatMap((variant) => variant.keys.map((key) => [key, buildIconUrl(variant.stem, format)])),
+			)
 	}
 	return urls
 }

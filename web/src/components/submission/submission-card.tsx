@@ -38,7 +38,7 @@ interface SubmissionCardProps {
 	editing?: boolean
 }
 
-function FileChooser({
+export function FileChooser({
 	label,
 	multiple = false,
 	onFiles,

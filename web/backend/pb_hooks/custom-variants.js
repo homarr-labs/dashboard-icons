@@ -44,7 +44,10 @@ function validate(app, record, extras, published) {
 	for (const item of pending) {
 		const owner = item.getString("name")
 		const pendingExtras = JSON.parse(toString(item.get("extras")) || "null")
-		policy.addStemOwnership(index, owner, policy.submissionVariantStems(owner, pendingExtras))
+		const update = JSON.parse(toString(item.get("icon_update")) || "null")
+		let stems = policy.submissionVariantStems(owner, pendingExtras)
+		if (update) stems = update.variants.map((change) => [change.key, change.destination])
+		policy.addStemOwnership(index, owner, stems)
 	}
 	const error = policy.stemCollisionError(record.getString("name"), policy.submissionVariantStems(record.getString("name"), extras), index)
 	if (error) throw new BadRequestError(error)
@@ -58,6 +61,8 @@ function suggestions(e) {
 	for (const record of pending) {
 		const extras = JSON.parse(toString(record.get("extras")) || "{}")
 		for (const name of Object.keys(customMap(extras))) if (!nameError(name)) names.add(name)
+		const update = JSON.parse(toString(record.get("icon_update")) || "null")
+		if (update) for (const change of update.variants) if (change.key.startsWith("custom:") && !nameError(change.key.slice(7))) names.add(change.key.slice(7))
 	}
 	return e.json(200, { names: Array.from(names).sort() })
 }

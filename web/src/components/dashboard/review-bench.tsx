@@ -92,6 +92,15 @@ export function ReviewBench({
 	const [errors, setErrors] = useState<Record<string, string>>({})
 	const [edge, setEdge] = useState<{ page: number; last: boolean } | null>(null)
 	const record = orderedRows.find((row) => row.id === activeId) || orderedRows[0]
+	const [updateReady, setUpdateReady] = useState("")
+	const canApproveTarget = !record?.icon_update || updateReady === `${record.id}:${record.updated}`
+	const targetReady = useCallback(
+		(ready: boolean) => {
+			if (ready && record) setUpdateReady(`${record.id}:${record.updated}`)
+			else setUpdateReady("")
+		},
+		[record],
+	)
 	const index = orderedRows.findIndex((row) => row.id === record?.id)
 	const sibling = variantSibling(record, candidates)
 	const note = notes[record?.id] ?? drafts[record?.id]?.note ?? ""
@@ -201,7 +210,11 @@ export function ReviewBench({
 	const stage = useCallback(
 		(status: NonNullable<Draft["status"]>, reason = "") => {
 			if (!record || !loaded || busy || !hydrated) return
-			if (status === "approved" && !record.assets.length) {
+			if (status === "approved" && !canApproveTarget) {
+				toast.error("Load the current target Icon before approving this proposal.")
+				return
+			}
+			if (status === "approved" && !record.assets.length && !record.icon_update) {
 				toast.error("An icon asset is required before approval.")
 				return
 			}
@@ -236,7 +249,7 @@ export function ReviewBench({
 			setVariantFor(null)
 			move(1)
 		},
-		[record, loaded, busy, hydrated, decisions.length, drafts, move, note],
+		[record, loaded, busy, hydrated, decisions.length, drafts, move, note, canApproveTarget],
 	)
 	const clear = useCallback((id: string) => {
 		setDrafts((current) => {
@@ -564,6 +577,7 @@ export function ReviewBench({
 							<ReviewGallery
 								key={record.id}
 								record={record}
+								onTargetReady={targetReady}
 								edit={
 									!unavailable
 										? {
@@ -590,31 +604,33 @@ export function ReviewBench({
 							/>
 							<div className="space-y-4 text-sm [overflow-wrap:anywhere]">
 								<p className="whitespace-pre-wrap leading-6">{record.description || "No description provided."}</p>
-								<dl className="mt-3 grid gap-3 sm:grid-cols-2">
-									{record.target_submission && (
+								{!record.icon_update && (
+									<dl className="mt-3 grid gap-3 sm:grid-cols-2">
+										{record.target_submission && (
+											<div>
+												<dt className="text-xs text-muted-foreground">Proposed update to submission</dt>
+												<dd>
+													<a
+														href={`/community/submissions/${record.target_submission}`}
+														target="_blank"
+														rel="noreferrer"
+														className="break-all font-mono underline"
+													>
+														{record.target_submission}
+													</a>
+												</dd>
+											</div>
+										)}
 										<div>
-											<dt className="text-xs text-muted-foreground">Proposed update to submission</dt>
-											<dd>
-												<a
-													href={`/community/submissions/${record.target_submission}`}
-													target="_blank"
-													rel="noreferrer"
-													className="break-all font-mono underline"
-												>
-													{record.target_submission}
-												</a>
-											</dd>
+											<dt className="text-xs text-muted-foreground">Categories</dt>
+											<dd className="break-words">{preview?.record.extras?.categories?.join(", ") || "None"}</dd>
 										</div>
-									)}
-									<div>
-										<dt className="text-xs text-muted-foreground">Categories</dt>
-										<dd className="break-words">{preview?.record.extras?.categories?.join(", ") || "None"}</dd>
-									</div>
-									<div>
-										<dt className="text-xs text-muted-foreground">Aliases</dt>
-										<dd className="break-words">{preview?.record.extras?.aliases?.join(", ") || "None"}</dd>
-									</div>
-								</dl>
+										<div>
+											<dt className="text-xs text-muted-foreground">Aliases</dt>
+											<dd className="break-words">{preview?.record.extras?.aliases?.join(", ") || "None"}</dd>
+										</div>
+									</dl>
+								)}
 								{!unavailable && (
 									<ReviewMetadataEditor
 										key={`${record.id}:${JSON.stringify([fixups.aliases, fixups.categories])}`}
@@ -705,7 +721,7 @@ export function ReviewBench({
 								<div className="flex flex-wrap items-center gap-2">
 									<Button
 										className={cn("flex-1", primaryAction)}
-										disabled={busy || !loaded || !hydrated || !record.assets.length}
+										disabled={busy || !loaded || !hydrated || !canApproveTarget || (!record.assets.length && !record.icon_update)}
 										onClick={() => stage("approved")}
 									>
 										<Check className="size-4" />

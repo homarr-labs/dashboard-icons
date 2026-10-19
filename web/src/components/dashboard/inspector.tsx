@@ -72,7 +72,7 @@ export function Inspector({
 	const record = detail.data
 	if (detail.isLoading) return <Loading />
 	if (detail.error || !record) return <ErrorState error={detail.error} retry={() => void detail.refetch()} />
-	const assets = labelledAssets(record.extras, record.assets)
+	const assets = labelledAssets(record.extras, record.assets, record.name, record.icon_update)
 	const current = assets[asset]
 	const filename = current?.file
 	let assetUrl = ""

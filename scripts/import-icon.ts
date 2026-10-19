@@ -3,6 +3,7 @@
 import { appendFile, mkdir } from "node:fs/promises"
 
 import path from "node:path"
+import type { IconUpdate } from "../web/backend/pb_hooks/icon-update-policy.js"
 import {
 	addStemOwnership,
 	customVariantNameError,
@@ -10,6 +11,8 @@ import {
 	stemOwnership,
 	submissionVariantStems,
 } from "../web/backend/pb_hooks/variant-policy.js"
+import { importIconUpdate } from "./import-icon-update"
+import { persistIconAsset } from "./persist-icon-asset"
 
 type IconColors = { light?: string; dark?: string }
 type IconWordmark = { default?: string; light?: string; dark?: string }
@@ -34,6 +37,7 @@ interface Submission {
 	id: string
 	name: string
 	assets: string[]
+	icon_update?: IconUpdate | null
 	created_by: string
 	status: string
 	updated: string
@@ -289,26 +293,16 @@ function assignAssetsToTargets(assets: string[], targets: VariantTarget[]): Vari
 	}
 
 	// Return in original order
-	return targets.map((t) => ({
-		...t,
-		sourceAsset: assignments.get(t),
-	}))
-}
-
-async function downloadAsset(pbUrl: string, submissionId: string, filename: string, destPath: string, beforeWrite: () => Promise<void>) {
-	const url = `${pbUrl}/api/files/submissions/${submissionId}/${encodeURIComponent(filename)}`
-	const res = await fetch(url, {
-		headers: { Authorization: PB_ADMIN_TOKEN ?? "" },
+	return targets.map((target) => {
+		const sourceAsset = assignments.get(target)
+		let destFilename = target.destFilename
+		if (sourceAsset) {
+			const extension = path.extname(sourceAsset).toLowerCase()
+			if (![".svg", ".png"].includes(extension)) throw new Error(`Variant ${target.key} must be an SVG or PNG`)
+			destFilename = destFilename.replace(/\.[^.]+$/, extension)
+		}
+		return { ...target, destFilename, sourceAsset }
 	})
-
-	if (!res.ok) {
-		const body = await res.text()
-		throw new Error(`Failed to download asset ${filename}: ${res.status} ${body}`)
-	}
-
-	const buffer = await res.arrayBuffer()
-	await beforeWrite()
-	await Bun.write(destPath, buffer)
 }
 
 async function activeSubmissions(pbUrl: string): Promise<Submission[]> {
@@ -316,7 +310,10 @@ async function activeSubmissions(pbUrl: string): Promise<Submission[]> {
 	let page = 1
 	while (true) {
 		const query = new URLSearchParams({
-			page: String(page), perPage: "500", filter: 'status = "pending" || status = "approved"', fields: "id,name,extras",
+			page: String(page),
+			perPage: "500",
+			filter: 'status = "pending" || status = "approved"',
+			fields: "id,name,extras,icon_update",
 		})
 		const response = await fetch(`${pbUrl}/api/collections/submissions/records?${query}`, {
 			headers: { Authorization: PB_ADMIN_TOKEN ?? "" },
@@ -333,7 +330,9 @@ async function validateDestinations(submission: Submission, targets: VariantTarg
 	const index = stemOwnership(await readMetadata())
 	for (const pending of active) {
 		if (pending.id === submission.id) continue
-		addStemOwnership(index, pending.name, submissionVariantStems(pending.name, pending.extras))
+		let stems = submissionVariantStems(pending.name, pending.extras)
+		if (pending.icon_update) stems = pending.icon_update.variants.map((change) => [change.key, change.destination])
+		addStemOwnership(index, pending.name, stems)
 	}
 	const stems = targets.map((target): [string, string] => [target.key, target.destFilename.replace(/\.[^.]+$/, "")])
 	const error = stemCollisionError(submission.name, stems, index)
@@ -443,7 +442,9 @@ function buildMetadataVariants(assignments: VariantTarget[]) {
 
 async function upsertMetadata(submission: Submission, assignments: VariantTarget[], dryRun: boolean) {
 	const iconId = submission.name
-	const base = inferBase(submission.assets, submission.extras?.base)
+	const baseTarget = assignments.find((target) => target.key === "base" && target.sourceAsset)
+	if (!baseTarget) throw new Error("Submission has no Base file")
+	const base = path.extname(baseTarget.destFilename).slice(1)
 	const aliases = submission.extras?.aliases ?? []
 	const categories = submission.extras?.categories ?? []
 	const { colors, wordmark, variants } = buildMetadataVariants(assignments)
@@ -452,17 +453,21 @@ async function upsertMetadata(submission: Submission, assignments: VariantTarget
 	console.log(`[import-icon] Upserting metadata for "${iconId}" base=${base} aliases=${aliases.length} categories=${categories.length}`)
 
 	const data = await readMetadata()
-	const customVariants = { ...data[iconId]?.variants, ...variants }
+	const previous = Object.hasOwn(data, iconId) ? data[iconId] : undefined
+	const mergedColors = { ...previous?.colors, ...colors }
+	const mergedWordmark = { ...previous?.wordmark, ...wordmark }
+	const customVariants = { ...previous?.variants, ...variants }
 	const nextEntry: MetadataEntry = {
+		...previous,
 		base,
-		aliases,
-		categories,
+		aliases: [...(previous?.aliases ?? []), ...aliases.filter((alias) => !previous?.aliases.includes(alias))],
+		categories: [...(previous?.categories ?? []), ...categories.filter((category) => !previous?.categories.includes(category))],
 		update: {
 			timestamp: new Date().toISOString(),
 			author,
 		},
-		...(colors ? { colors } : {}),
-		...(wordmark ? { wordmark } : {}),
+		...(Object.keys(mergedColors).length ? { colors: mergedColors } : {}),
+		...(Object.keys(mergedWordmark).length ? { wordmark: mergedWordmark } : {}),
 		...(Object.keys(customVariants).length ? { variants: customVariants } : {}),
 	}
 
@@ -511,7 +516,9 @@ async function persistAssets(pbUrl: string, submission: Submission, dryRun: bool
 		}
 
 		await ensureDir(destDir)
-		await downloadAsset(pbUrl, submission.id, target.sourceAsset, destPath, () => validateDestinations(submission, targets, active))
+		await persistIconAsset(pbUrl, PB_ADMIN_TOKEN || "", submission.id, target.sourceAsset, path.parse(target.destFilename).name, () =>
+			validateDestinations(submission, targets, active),
+		)
 		console.log(`Downloaded ${target.sourceAsset} -> ${destPath}`)
 	}
 
@@ -552,8 +559,18 @@ async function main() {
 		console.log(`[import-icon] Adding approver as co-author: ${submission.expand?.approved_by?.username || "unknown"}`)
 	}
 
-	const assignments = await persistAssets(pbUrl, submission, args.dryRun)
-	await upsertMetadata(submission, assignments, args.dryRun)
+	if (submission.icon_update)
+		await importIconUpdate(
+			pbUrl,
+			PB_ADMIN_TOKEN || "",
+			{ ...submission, icon_update: submission.icon_update },
+			args.dryRun,
+			buildAuthor(submission),
+		)
+	else {
+		const assignments = await persistAssets(pbUrl, submission, args.dryRun)
+		await upsertMetadata(submission, assignments, args.dryRun)
+	}
 
 	if (args.commitMessagePath) {
 		const creator = submission.expand?.created_by?.username || submission.created_by || "unknown"

@@ -4,7 +4,7 @@ function json(value) {
 }
 function field(record, key) {
 	const value = record.get(key)
-	if (key === "items" || key === "extras" || key === "last_rejected") {
+	if (key === "items" || key === "extras" || key === "last_rejected" || key === "icon_update") {
 		try {
 			return JSON.parse(toString(value))
 		} catch (_) {
@@ -68,6 +68,7 @@ function event(app, record, action, changes, who, operation, batch) {
 const ICON_NAME = /^[a-z0-9]+(-[a-z0-9]+)*$/
 const MAX_NAME_LENGTH = 80
 function resolvedVariantFiles(record) {
+	if (field(record, "icon_update")) return null
 	const extras = field(record, "extras")
 	if (!extras) return null
 	const stored = {}
@@ -112,7 +113,7 @@ function unchangedRejection(record, old, creating) {
 	return (
 		!creating &&
 		record.getString("status") === "rejected" &&
-		["name", "description", "assets", "extras", "target_submission", "created_by"].every(
+		["name", "description", "assets", "extras", "icon_update", "target_submission", "created_by"].every(
 			(key) => JSON.stringify(field(record, key)) === JSON.stringify(field(old, key)),
 		)
 	)
@@ -141,6 +142,7 @@ function retainRejectedRound(app, record, old) {
 		field(old, "assets"),
 		names,
 		old.getString("name"),
+		field(old, "icon_update"),
 	)
 	record.set("reviewed_assets", files)
 	record.set("last_rejected", {
@@ -159,6 +161,13 @@ function audit(e, creating) {
 	const rejectUnchanged = unchangedRejection(e.record, old, creating)
 	if (
 		!rejectUnchanged &&
+		!field(e.record, "icon_update") &&
+		!(field(e.record, "assets") || []).length &&
+		(creating || (field(old, "assets") || []).length || e.record.getString("status") === "approved")
+	)
+		throw new BadRequestError("A new Icon Submission needs a Base file")
+	if (
+		!rejectUnchanged &&
 		(creating ||
 			JSON.stringify(field(old, "extras")) !== JSON.stringify(field(e.record, "extras")) ||
 			JSON.stringify(field(old, "assets")) !== JSON.stringify(field(e.record, "assets")))
@@ -169,7 +178,7 @@ function audit(e, creating) {
 	if (!rejectUnchanged) published = require(__hooks + "/custom-variants.js").metadata(e.app)
 	e.record.set("__previous_status", old.getString("status"))
 	const changes = {}
-	for (const key of ["name", "status", "description", "assets", "extras", "admin_comment"]) {
+	for (const key of ["name", "status", "description", "assets", "extras", "icon_update", "admin_comment"]) {
 		const before = field(old, key)
 		const after = field(e.record, key)
 		if (JSON.stringify(before) !== JSON.stringify(after)) changes[key] = { before, after }
@@ -207,6 +216,8 @@ function audit(e, creating) {
 		// produce a proposal whose target has a different destination filename.
 		if (!rejectUnchanged) {
 			validateProposalNames(tx, e.record, old, creating)
+			if (field(e.record, "icon_update") || field(old, "icon_update"))
+				require(__hooks + "/icon-updates.js").validate(tx, e.record, old, creating, published)
 			require(__hooks + "/custom-variants.js").validate(tx, e.record, extras, published)
 		}
 		e.app = tx
@@ -251,6 +262,9 @@ function guard(e, creating) {
 		throw new ApiError(409, "Submission changed. Reload before saving; your edits have not been applied.")
 	if (!creating && !admin && old.getString("updated") && !expected)
 		throw new ApiError(409, "Reload the Submission before saving with its updated token")
+	const refresh = headers["x-icon-update-revision"] || headers.x_icon_update_revision
+	if (!creating && refresh && owned && ["pending", "rejected"].includes(previous) && expected === old.getString("updated"))
+		e.record.set("__icon_update_refresh", refresh)
 	if (!creating && !e.hasSuperuserAuth() && e.record.getString("target_submission") !== old.getString("target_submission"))
 		throw new BadRequestError("A proposal's target cannot be changed")
 	const name = e.record.getString("name")
@@ -258,6 +272,8 @@ function guard(e, creating) {
 		throw new BadRequestError("Icon name must be lowercase letters and numbers separated by single hyphens")
 	const extras = field(e.record, "extras")
 	if (!unchangedRejection(e.record, old, creating)) {
+		if (field(e.record, "icon_update") || field(old, "icon_update"))
+			require(__hooks + "/icon-updates.js").validate(e.app, e.record, old, creating)
 		if (creating || JSON.stringify(extras) !== JSON.stringify(field(old, "extras"))) resolvedVariantFiles(e.record)
 		validateProposalNames(e.app, e.record, old, creating)
 		require(__hooks + "/custom-variants.js").validate(e.app, e.record, extras)
@@ -361,6 +377,7 @@ function reserve(e) {
 			if (record.getString("status") !== "approved" || record.getString("updated") !== item.updated)
 				throw new BadRequestError("Submission changed or is no longer approved. Refresh before publishing.")
 			const extras = field(record, "extras")
+			if (field(record, "icon_update")) require(__hooks + "/icon-updates.js").validate(tx, record, record.original(), false, published)
 			require(__hooks + "/custom-variants.js").validate(tx, record, extras, published)
 			return { id: record.id, name: record.getString("name"), updated: record.getString("updated"), state: "waiting" }
 		})

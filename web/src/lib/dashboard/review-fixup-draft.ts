@@ -53,7 +53,7 @@ export function isReviewFixups(value: unknown): value is ReviewFixups {
 }
 
 export function reviewFixupsUnavailable(record: Submission, publishedNames: string[] = []) {
-	if (record.target_submission || publishedNames.includes(record.name))
+	if (record.icon_update || record.target_submission || publishedNames.includes(record.name))
 		return "Update proposal fix-ups are not available yet. Its target identity and explicit changes must be preserved."
 	if (!record.extras || typeof record.extras !== "object" || Array.isArray(record.extras))
 		return "This Submission's metadata needs repair before reviewer fix-ups can be applied. You can still review without fix-ups."
@@ -65,7 +65,7 @@ export function normalizeReviewFixups(record: Submission, fixups: ReviewFixups):
 	if (next.name === record.name) delete next.name
 	for (const key of ["aliases", "categories"] as const)
 		if (next[key] && JSON.stringify(next[key]) === JSON.stringify(record.extras?.[key] || [])) delete next[key]
-	const original = labelledAssets(record.extras, record.assets, record.name)
+	const original = labelledAssets(record.extras, record.assets, record.name, record.icon_update)
 	if (next.variants) {
 		next.variants = next.variants.filter(
 			(change) => change.action === "drop" || original.find((asset) => asset.file === change.file)?.variant !== change.variant,
@@ -76,7 +76,7 @@ export function normalizeReviewFixups(record: Submission, fixups: ReviewFixups):
 }
 
 export function reviewFixupPreview(record: Submission, fixups: ReviewFixups = {}) {
-	const assets = labelledAssets(record.extras, record.assets, record.name).map((asset) => {
+	const assets = labelledAssets(record.extras, record.assets, record.name, record.icon_update).map((asset) => {
 		const operation = fixups.variants?.find((change) => change.file === asset.file)
 		let variant = asset.variant
 		if (operation?.action === "retag") variant = operation.variant

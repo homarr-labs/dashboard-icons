@@ -1,6 +1,7 @@
 import PocketBase, { type RecordService } from "pocketbase"
 import type { SubmissionVariant } from "@/lib/submission-variants"
 import type { ExternalIcon } from "@/types/icons"
+import type { IconUpdate } from "../../backend/pb_hooks/icon-update-policy"
 
 // Public URLs must remain browser-reachable when records are rendered on the server.
 const PUBLIC_PB_URL = process.env.NEXT_PUBLIC_POCKETBASE_URL || "http://127.0.0.1:8090"
@@ -23,6 +24,7 @@ export interface Submission {
 	id: string
 	name: string
 	target_submission?: string
+	icon_update?: IconUpdate | null
 	assets: string[]
 	created_by: string
 	status: "approved" | "rejected" | "pending" | "added_to_collection"
@@ -53,6 +55,7 @@ export interface Submission {
 	round?: number
 	reviewed_assets?: string[]
 	last_rejected?: {
+		icon_update?: IconUpdate
 		round: number
 		name: string
 		description: string
@@ -71,6 +74,7 @@ export interface CommunityGallery {
 	id: string
 	name: string
 	target_submission?: string
+	icon_update?: IconUpdate | null
 	created_by: string
 	approved_by?: string
 	description?: string

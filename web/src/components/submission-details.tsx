@@ -74,6 +74,7 @@ export function SubmissionDetails({
 	workflowUrl,
 }: SubmissionDetailsProps) {
 	const expandedData = submission.expand
+	const assets = labelledAssets(submission.extras, submission.assets, submission.name, submission.icon_update)
 	const displayName = getDisplayName(submission, expandedData)
 
 	// Sanitize extras to ensure we have safe defaults
@@ -158,7 +159,7 @@ export function SubmissionDetails({
 					</CardHeader>
 					<CardContent className="pt-0">
 						<div className="space-y-4">
-							{labelledAssets(submission.extras, submission.assets).map(({ file, variant }, index) => {
+							{assets.map(({ file, variant }, index) => {
 								const kind = variant ? variantKind(variant) : null
 								const label = kind?.label ?? "Unlabelled asset"
 								const url = `${pb.baseURL}/api/files/submissions/${submission.id}/${file}`

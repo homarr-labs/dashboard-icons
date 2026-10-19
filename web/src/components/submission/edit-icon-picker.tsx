@@ -1,14 +1,17 @@
 "use client"
 
+import { useQuery } from "@tanstack/react-query"
 import { ArrowRight, Search } from "lucide-react"
 import Link from "next/link"
 import { useState } from "react"
-import { LegacyIconSubmissionForm } from "@/components/legacy-icon-submission-form"
+import { IconUpdateEditor } from "@/components/submission/icon-update-editor"
 import { OwnSubmissionEditor } from "@/components/submission/own-submission-editor"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import type { ExistingSubmission } from "@/hooks/use-submission-catalog"
 import type { IconNameOption } from "@/hooks/use-submissions"
+import type { OwnedSubmissionResponse } from "@/lib/icon-update"
+import { pb } from "@/lib/pb"
 
 export function EditIconPicker({
 	names,
@@ -40,23 +43,9 @@ export function EditIconPicker({
 			return a.localeCompare(b)
 		})
 		.slice(0, 20)
-	if (ownId) return <OwnSubmissionEditor key={ownId} id={ownId} customNames={customNames} onBack={() => setOwnId("")} />
+	if (ownId) return <OwnedEditor key={ownId} id={ownId} customNames={customNames} onBack={() => setOwnId("")} />
 	if (selection)
-		return (
-			<section className="space-y-5">
-				<div className="space-y-3 rounded-xl bg-muted/40 p-4">
-					<h2 className="font-semibold">Propose an update to {selection.value}</h2>
-					<p className="max-w-prose text-sm text-muted-foreground">
-						The current update form sends a separate Submission with replacement files for review. Include the Base and every Variant you
-						want kept. Nothing changes in the collection until reviewed and published.
-					</p>
-					<Button variant="outline" onClick={() => setSelection(null)}>
-						Choose another Icon
-					</Button>
-				</div>
-				<LegacyIconSubmissionForm key={selection.submissionId ?? selection.value} initialIcon={selection} />
-			</section>
-		)
+		return <IconUpdateEditor key={selection.submissionId ?? selection.value} selection={selection} onCancel={() => setSelection(null)} />
 	return (
 		<section className="mx-auto max-w-3xl space-y-5 rounded-xl border bg-background p-4 sm:p-6">
 			<div className="space-y-1">
@@ -106,7 +95,7 @@ export function EditIconPicker({
 										final. Fix the feedback and resubmit this same Submission.
 									</p>
 								)}
-								{!submission.mine && (
+								{!submission.mine && submission.status === "pending" && (
 									<Button
 										variant="ghost"
 										onClick={() =>
@@ -158,5 +147,48 @@ export function EditIconPicker({
 			)}
 			{rejectedOnly && matches.length === 0 && <p className="text-sm text-muted-foreground">No rejected Submissions match this search.</p>}
 		</section>
+	)
+}
+
+function OwnedEditor({ id, customNames, onBack }: { id: string; customNames: string[]; onBack: () => void }) {
+	const query = useQuery({
+		queryKey: ["owned-editor", id, pb.authStore.record?.id],
+		retry: false,
+		staleTime: Infinity,
+		refetchOnWindowFocus: false,
+		queryFn: async (): Promise<OwnedSubmissionResponse> => {
+			const response = await fetch(`/api/submissions/${encodeURIComponent(id)}`, { headers: { Authorization: pb.authStore.token } })
+			const result = await response.json()
+			if (!response.ok) throw new Error(result.error || "Your Submission could not be loaded.")
+			return result
+		},
+	})
+	if (!query.data)
+		return (
+			<section className="mx-auto max-w-3xl space-y-4" aria-live="polite">
+				{query.isPending && <p>Loading your Submission…</p>}
+				{query.error && (
+					<p role="alert" className="text-destructive">
+						{query.error.message}
+					</p>
+				)}
+				{query.isError && (
+					<Button variant="outline" onClick={() => void query.refetch()}>
+						Retry loading
+					</Button>
+				)}
+				<Button variant="ghost" onClick={onBack}>
+					Choose another Icon
+				</Button>
+			</section>
+		)
+	const record = query.data.record
+	if (!record.icon_update) return <OwnSubmissionEditor id={id} customNames={customNames} onBack={onBack} />
+	return (
+		<IconUpdateEditor
+			owned={query.data}
+			selection={{ value: record.name, label: record.name, source: "community", submissionId: record.icon_update.target.id }}
+			onCancel={onBack}
+		/>
 	)
 }

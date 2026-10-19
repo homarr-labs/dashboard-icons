@@ -1,8 +1,16 @@
 import { NextResponse } from "next/server"
 import { ClientResponseError } from "pocketbase"
+import { createIconUpdate } from "@/lib/icon-update-service"
+import { getAllIcons } from "@/lib/icons/service"
 import { createServerPB } from "@/lib/pb"
 import { readBoundedBytes } from "@/lib/read-bounded-bytes"
-import { createSubmission, MAX_ASSET_BYTES, MAX_SUBMISSION_ASSETS, type SubmissionInput } from "@/lib/submission-service"
+import {
+	createSubmission,
+	MAX_ASSET_BYTES,
+	MAX_SUBMISSION_ASSETS,
+	type SubmissionInput,
+	type SubmissionOutcome,
+} from "@/lib/submission-service"
 import { SUBMISSION_VARIANTS } from "@/lib/submission-variants"
 import { refreshPocketBaseSession } from "@/mcp/auth/pocketbase"
 
@@ -32,7 +40,8 @@ function submissionInput(form: FormData): SubmissionInput {
 		const file = form.get(variant)
 		if (file instanceof File) assets[variant] = file
 	}
-	for (const [key, file] of form.entries()) {
+	for (const [key, value] of form.entries()) {
+		const file: unknown = value
 		if (key.startsWith("custom:") && file instanceof File) assets[key as `custom:${string}`] = file
 	}
 	return {
@@ -74,7 +83,17 @@ export async function POST(req: Request) {
 	const pb = createServerPB()
 	pb.authStore.save(session.token, null)
 	try {
-		const outcome = await createSubmission(pb, session.user.id, submissionInput(form))
+		const kind = text(form, "kind")
+		if (kind && kind !== "new" && kind !== "update") return failure(400, "Choose a new Icon or Update proposal")
+		let outcome: SubmissionOutcome
+		if (kind === "update")
+			outcome = await createIconUpdate(pb, session.user.id, { ...submissionInput(form), kind, revision: text(form, "revision") })
+		else {
+			const input = submissionInput(form)
+			if (input.targetSubmission || Object.hasOwn(await getAllIcons(), input.name))
+				return failure(400, "Choose this Icon in Edit to send an Update proposal against its current revision")
+			outcome = await createSubmission(pb, session.user.id, input)
+		}
 		if (!outcome.ok) return failure(400, outcome.error)
 		return NextResponse.json({ id: outcome.record.id }, { status: 201, headers: { "Cache-Control": "no-store" } })
 	} catch (error) {

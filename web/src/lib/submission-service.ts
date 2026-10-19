@@ -34,10 +34,13 @@ function assetType(file: File): AssetType | null {
 	return null
 }
 
-function prepareAssets(input: SubmissionInput): PreparedAssets {
+function prepareAssets(input: SubmissionInput, unchangedBase?: string): PreparedAssets {
 	const base = input.assets.base
-	if (!base) return { ok: false, error: "Base icon is required" }
-	const baseType = assetType(base)
+	if (!base && !unchangedBase) return { ok: false, error: "Base icon is required" }
+	let baseType: AssetType | null = null
+	if (base) baseType = assetType(base)
+	if (!base && unchangedBase === "svg") baseType = "image/svg+xml"
+	if (!base && unchangedBase === "png") baseType = "image/png"
 	if (!baseType) return { ok: false, error: "The Base file must be an SVG or PNG" }
 
 	const files: File[] = []
@@ -80,12 +83,12 @@ export type PreparedSubmission =
 			}
 	  }
 
-export function prepareSubmission(userId: string, input: SubmissionInput): PreparedSubmission {
+export function prepareSubmission(userId: string, input: SubmissionInput, unchangedBase?: string): PreparedSubmission {
 	if (input.name.length > MAX_NAME_LENGTH || !ICON_NAME_REGEX.test(input.name))
 		return { ok: false, error: "Icon name must be lowercase letters and numbers separated by single hyphens" }
 	if (input.description.length > MAX_DESCRIPTION_LENGTH)
 		return { ok: false, error: `Description must be at most ${MAX_DESCRIPTION_LENGTH} characters` }
-	const prepared = prepareAssets(input)
+	const prepared = prepareAssets(input, unchangedBase)
 	if (!prepared.ok) return prepared
 
 	const extras: Submission["extras"] = {

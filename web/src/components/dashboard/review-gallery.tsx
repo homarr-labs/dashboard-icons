@@ -7,6 +7,7 @@ import type { ReviewFixups } from "@/lib/dashboard/types"
 import { pb, type Submission } from "@/lib/pb"
 import { labelledAssets, type SubmissionVariant, variantKind } from "@/lib/submission-variants"
 import { cn } from "@/lib/utils"
+import { IconUpdateDiff } from "./icon-update-diff"
 import { ReviewVariantEditor } from "./review-fixup-editors"
 
 export type ReviewAsset = { url: string; file: string }
@@ -27,11 +28,13 @@ export function ReviewGallery({
 	beforeLabel = "Now",
 	afterLabel = "Proposed",
 	edit,
+	onTargetReady,
 }: {
 	record: Submission
 	comparison?: ReviewVariantRow[]
 	beforeLabel?: string
 	afterLabel?: string
+	onTargetReady?: (ready: boolean) => void
 	edit?: {
 		fixups: ReviewFixups
 		selectedFile: string
@@ -45,7 +48,7 @@ export function ReviewGallery({
 	const [checker, setChecker] = useState(false)
 	let rows: ReviewVariantRow[] =
 		comparison ||
-		labelledAssets(record.extras, record.assets, record.name).map(({ file, variant }) => ({
+		labelledAssets(record.extras, record.assets, record.name, record.icon_update).map(({ file, variant }) => ({
 			key: file,
 			variant,
 			after: { file, url: pb.files.getURL(record, file) },
@@ -57,6 +60,7 @@ export function ReviewGallery({
 			fixupChanged: asset.changed,
 			after: { file: asset.file, url: pb.files.getURL(record, asset.file) },
 		}))
+	if (record.icon_update) return <IconUpdateDiff record={record} update={record.icon_update} onTargetReady={onTargetReady} />
 	return (
 		<section aria-label="Variants" className="space-y-3" data-review-gallery>
 			<div className="flex flex-wrap items-center justify-between gap-2">

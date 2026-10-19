@@ -17,20 +17,34 @@ function matchingAssetNames(reference, assets) {
 	})
 }
 
-function resolveSubmissionAssets(extras, assets, name) {
+function resolveSubmissionAssets(extras, assets, name, iconUpdate) {
 	const references = []
-	for (const [group, keys] of [
-		["colors", ["light", "dark"]],
-		["wordmark", ["default", "light", "dark"]],
-		["variants", Object.keys(extras?.variants || {})],
-	]) {
-		for (const key of keys) {
-			const reference = extras?.[group]?.[key]
-			if (typeof reference !== "string" || !reference) continue
-			let variant = key
-			if (group === "wordmark") variant = key === "default" ? "wordmark" : `wordmark_${key}`
-			if (group === "variants") variant = `custom:${key}`
-			references.push({ group, key, variant, reference, candidates: matchingAssetNames(reference, assets) })
+	if (iconUpdate) {
+		for (const [index, change] of iconUpdate.variants.entries()) {
+			if (typeof change.file !== "string") continue
+			references.push({
+				group: "icon_update",
+				key: String(index),
+				variant: change.key,
+				reference: change.file,
+				candidates: matchingAssetNames(change.file, assets),
+			})
+		}
+	}
+	if (!iconUpdate) {
+		for (const [group, keys] of [
+			["colors", ["light", "dark"]],
+			["wordmark", ["default", "light", "dark"]],
+			["variants", Object.keys(extras?.variants || {})],
+		]) {
+			for (const key of keys) {
+				const reference = extras?.[group]?.[key]
+				if (typeof reference !== "string" || !reference) continue
+				let variant = key
+				if (group === "wordmark") variant = key === "default" ? "wordmark" : `wordmark_${key}`
+				if (group === "variants") variant = `custom:${key}`
+				references.push({ group, key, variant, reference, candidates: matchingAssetNames(reference, assets) })
+			}
 		}
 	}
 	const tagged = new Map()
@@ -44,23 +58,27 @@ function resolveSubmissionAssets(extras, assets, name) {
 	const remaining = assets.filter((file) => !tagged.has(file))
 	const eligibleBase = (file) => !references.some((reference) => !reference.file && reference.candidates.includes(file))
 	let base
-	if (name) {
+	if (!iconUpdate && name) {
 		const candidates = remaining.filter((file) => matchingAssetNames(`${name}.${file.split(".").pop()}`, remaining).includes(file))
 		if (candidates.length === 1 && eligibleBase(candidates[0])) base = candidates[0]
 	}
-	if (!base && remaining.length === 1 && references.every((reference) => reference.file)) base = remaining[0]
+	if (!iconUpdate && !base && remaining.length === 1 && references.every((reference) => reference.file)) base = remaining[0]
 	if (base) tagged.set(base, "base")
 	return { assets: assets.map((file) => ({ file, variant: tagged.get(file) || null })), references }
 }
 
-function snapshotVariantMetadata(extras, assets, copies, name) {
+function snapshotVariantMetadata(extras, assets, copies, name, iconUpdate) {
 	const normalized = JSON.parse(JSON.stringify(extras || {}))
-	const resolved = resolveSubmissionAssets(extras, assets, name)
+	const resolved = resolveSubmissionAssets(extras, assets, name, iconUpdate)
+	let update
+	if (iconUpdate) update = JSON.parse(JSON.stringify(iconUpdate))
 	const unresolved = []
 	for (const reference of resolved.references) {
-		if (reference.file) normalized[reference.group][reference.key] = copies[reference.file]
-		else {
-			delete normalized[reference.group][reference.key]
+		if (reference.file) {
+			if (update) update.variants[Number(reference.key)].file = copies[reference.file]
+			else normalized[reference.group][reference.key] = copies[reference.file]
+		} else {
+			if (!update) delete normalized[reference.group][reference.key]
 			unresolved.push({
 				variant: reference.variant,
 				reference: reference.reference,
@@ -69,6 +87,7 @@ function snapshotVariantMetadata(extras, assets, copies, name) {
 		}
 	}
 	return {
+		...(update ? { icon_update: update } : {}),
 		extras: normalized,
 		asset_sources: Object.fromEntries(assets.map((file) => [copies[file], file])),
 		asset_variants: Object.fromEntries(

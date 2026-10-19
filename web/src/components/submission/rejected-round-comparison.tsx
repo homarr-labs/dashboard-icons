@@ -1,6 +1,7 @@
 "use client"
 
 import { VariantPreview } from "@/components/variant-preview"
+import { applyList } from "@/lib/icon-update"
 import { pb, type Submission } from "@/lib/pb"
 import { labelledAssets, type SubmissionVariant, variantKind } from "@/lib/submission-variants"
 import { cn } from "@/lib/utils"
@@ -16,9 +17,15 @@ export function RejectedRoundComparison({
 }) {
 	const previous = record.last_rejected
 	if (!previous) return null
-	let before = labelledAssets(previous.extras, previous.assets, previous.name)
+	let before = labelledAssets(previous.extras, previous.assets, previous.name, previous.icon_update)
 	if (previous.asset_variants) before = previous.assets.map((file) => ({ file, variant: previous.asset_variants?.[file] || null }))
-	const after = labelledAssets(record.extras, record.assets, record.name)
+	const after = labelledAssets(record.extras, record.assets, record.name, record.icon_update)
+	const beforeMetadata = { ...previous.extras }
+	const afterMetadata = { ...record.extras }
+	for (const field of ["aliases", "categories"] as const) {
+		if (previous.icon_update) beforeMetadata[field] = applyList(previous.icon_update.target.metadata[field], previous.icon_update[field])
+		if (record.icon_update) afterMetadata[field] = applyList(record.icon_update.target.metadata[field], record.icon_update[field])
+	}
 	const variants = [...new Set([...before, ...after].flatMap((asset) => (asset.variant ? [asset.variant] : [])))]
 	const comparisons: { key: string; label: string; variant: SubmissionVariant | null; before?: string; after?: string }[] = variants.map(
 		(variant) => ({
@@ -120,8 +127,8 @@ export function RejectedRoundComparison({
 			<dl className="space-y-2 text-sm">
 				{[
 					{ label: "Slug", before: previous.name, after: record.name },
-					{ label: "Aliases", before: previous.extras.aliases?.join(", "), after: record.extras.aliases?.join(", ") },
-					{ label: "Categories", before: previous.extras.categories?.join(", "), after: record.extras.categories?.join(", ") },
+					{ label: "Aliases", before: beforeMetadata.aliases?.join(", "), after: afterMetadata.aliases?.join(", ") },
+					{ label: "Categories", before: beforeMetadata.categories?.join(", "), after: afterMetadata.categories?.join(", ") },
 					{ label: "Note", before: previous.description, after: record.description },
 				]
 					.filter((item) => item.before !== item.after)

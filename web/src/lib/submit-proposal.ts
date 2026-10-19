@@ -1,8 +1,16 @@
+import type { IconUpdateInput, OwnIconUpdateInput } from "@/lib/icon-update-service"
 import { pb } from "@/lib/pb"
 import type { SubmissionInput } from "@/lib/submission-service"
 
-export async function submitProposal(input: SubmissionInput): Promise<{ id: string }> {
+export async function submitProposal(
+	input: SubmissionInput | IconUpdateInput,
+	own?: Pick<OwnIconUpdateInput, "updated" | "refreshTarget" | "retainVariants"> & { id: string },
+): Promise<{ id: string }> {
 	const body = new FormData()
+	if ("kind" in input && input.kind === "update") {
+		body.set("kind", "update")
+		body.set("revision", input.revision)
+	}
 	body.set("name", input.name)
 	body.set("description", input.description)
 	body.set("target_submission", input.targetSubmission)
@@ -11,9 +19,20 @@ export async function submitProposal(input: SubmissionInput): Promise<{ id: stri
 	for (const [variant, file] of Object.entries(input.assets)) {
 		if (file) body.set(variant, file)
 	}
+	if (own) {
+		body.set("updated", own.updated)
+		if (own.refreshTarget) body.set("refresh_target", "true")
+		if (own.retainVariants) body.set("retain_variants", JSON.stringify(own.retainVariants))
+	}
 
-	const response = await fetch("/api/submissions", {
-		method: "POST",
+	let url = "/api/submissions"
+	let method = "POST"
+	if (own) {
+		url += `/${encodeURIComponent(own.id)}`
+		method = "PATCH"
+	}
+	const response = await fetch(url, {
+		method,
 		headers: { Authorization: pb.authStore.token },
 		body,
 	})

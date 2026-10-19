@@ -1,4 +1,5 @@
 import { customVariantTone } from "@/lib/icons/variants"
+import type { IconUpdate } from "../../backend/pb_hooks/icon-update-policy"
 import { resolveSubmissionAssets } from "../../backend/pb_hooks/submission-assets.js"
 
 export { resolveSubmissionAssets } from "../../backend/pb_hooks/submission-assets.js"
@@ -70,8 +71,13 @@ export function variantExtras(files: Partial<Record<SubmissionVariant, string>>)
 
 export type LabelledAsset = { file: string; variant: SubmissionVariant } | { file: string; variant: null }
 
-export function labelledAssets(extras: VariantExtras | undefined, assets: string[], name?: string): LabelledAsset[] {
-	return resolveSubmissionAssets(extras, assets, name).assets.sort((a, b) => variantOrder(a.variant) - variantOrder(b.variant))
+export function labelledAssets(
+	extras: VariantExtras | undefined,
+	assets: string[],
+	name?: string,
+	iconUpdate?: IconUpdate | null,
+): LabelledAsset[] {
+	return resolveSubmissionAssets(extras, assets, name, iconUpdate).assets.sort((a, b) => variantOrder(a.variant) - variantOrder(b.variant))
 }
 
 function variantOrder(variant: SubmissionVariant | null): number {
