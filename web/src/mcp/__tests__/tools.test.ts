@@ -48,12 +48,14 @@ describe("tool registry", () => {
 			["browse_icons", "public", "discovery"],
 			["list_categories", "public", "discovery"],
 			["submit_icon", "account", "account"],
+			["propose_icon_update", "account", "account"],
 			["list_my_submissions", "account", "account"],
 		])
 		for (const tool of DASHBOARD_ICONS_TOOLS) {
-			if (tool.name !== "submit_icon") expect(tool.config.annotations).toEqual(READ_ONLY_ANNOTATIONS)
+			if (tool.access === "public" || tool.name === "list_my_submissions") expect(tool.config.annotations).toEqual(READ_ONLY_ANNOTATIONS)
 			expect(tool.config.description.length).toBeGreaterThan(80)
 		}
+		expect(DASHBOARD_ICONS_TOOLS).toHaveLength(9)
 	})
 
 	it("advertises output schemas that tolerate extra top-level keys", () => {

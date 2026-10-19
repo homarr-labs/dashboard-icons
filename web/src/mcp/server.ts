@@ -15,7 +15,7 @@ export const DASHBOARD_ICONS_INSTRUCTIONS = [
 	"get_icon and get_icon_svg resolve loose names and answer unknown ones with did_you_mean instead of failing.",
 	"browse_icons and list_categories explore the catalog without a query.",
 	"Prefer linking the CDN URLs over copying files, and show the license for icons whose source is not native.",
-	"submit_icon and list_my_submissions act on the user's dashboardicons.com account and need them to sign in to this MCP server; only submit icons the user asked for.",
+	"submit_icon, propose_icon_update and list_my_submissions act on the user's dashboardicons.com account and need them to sign in to this MCP server; only submit or propose updates the user asked for. propose_icon_update targets existing Icons and is currently unavailable pending shared update validation integration.",
 ].join(" ")
 
 export function createDashboardIconsServer(authInfo?: AuthInfo): McpServer {

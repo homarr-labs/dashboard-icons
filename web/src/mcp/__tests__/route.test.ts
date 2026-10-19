@@ -61,9 +61,13 @@ describe("MCP route sign-in gate", () => {
 		vi.unstubAllEnvs()
 	})
 
-	it("challenges anonymous account tool calls so clients offer sign-in", async () => {
+	it.each([
+		"submit_icon",
+		"propose_icon_update",
+		"list_my_submissions",
+	])("challenges anonymous %s calls so clients offer sign-in", async (name) => {
 		const { POST } = await import("@/app/api/mcp/route")
-		const response = await POST(toolCall("submit_icon"))
+		const response = await POST(toolCall(name))
 		expect(response.status).toBe(401)
 		expect(response.headers.get("WWW-Authenticate")).toBe(
 			'Bearer resource_metadata="http://localhost/.well-known/oauth-protected-resource/api/mcp", scope="account"',
@@ -94,15 +98,39 @@ describe("MCP route sign-in gate", () => {
 		expect(handleMcpRequest).not.toHaveBeenCalled()
 	})
 
-	it("hands verified auth info to the MCP handler", async () => {
+	it.each(["submit_icon", "propose_icon_update"])("hands verified auth info to the %s handler", async (name) => {
 		const { POST } = await import("@/app/api/mcp/route")
-		const response = await POST(toolCall("submit_icon", `Bearer ${accessToken()}`))
+		const response = await POST(toolCall(name, `Bearer ${accessToken()}`))
 		expect(response.status).toBe(200)
 		expect(handleMcpRequest.mock.calls[0]?.[1]).toMatchObject({
 			clientId: "client",
 			scopes: ["account"],
 			extra: { userId: "user123", username: "tester", admin: false, pbToken: "pb-token" },
 		})
+	})
+
+	it("grants propose_icon_update the existing verified 512 KiB account cap", async () => {
+		const { POST } = await import("@/app/api/mcp/route")
+		const json = JSON.stringify({
+			method: "tools/call",
+			params: { name: "propose_icon_update", arguments: { name: "my-app", aliases: [] } },
+		})
+		for (const size of [MAX_ACCOUNT_REQUEST_BODY_BYTES, MAX_ACCOUNT_REQUEST_BODY_BYTES + 1]) {
+			handleMcpRequest.mockClear()
+			const response = await POST(
+				nextRequest("POST", {
+					headers: { authorization: `Bearer ${accessToken()}` },
+					body: json.padEnd(size),
+				}),
+			)
+			if (size === MAX_ACCOUNT_REQUEST_BODY_BYTES) {
+				expect(response.status).toBe(200)
+				expect(handleMcpRequest).toHaveBeenCalledOnce()
+			} else {
+				expect(response.status).toBe(413)
+				expect(handleMcpRequest).not.toHaveBeenCalled()
+			}
+		}
 	})
 
 	it.each([

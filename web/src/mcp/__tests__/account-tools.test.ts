@@ -6,6 +6,7 @@ import type { McpSession } from "@/mcp/caller"
 import { DASHBOARD_ICONS_TOOLS, registerDashboardIconsTools } from "@/mcp/tools"
 import { SIGN_IN_EXPIRED } from "@/mcp/tools/account"
 import { listMySubmissionsTool } from "@/mcp/tools/list-my-submissions"
+import { proposeIconUpdateTool } from "@/mcp/tools/propose-icon-update"
 import { submitIconTool } from "@/mcp/tools/submit-icon"
 
 const pb = vi.hoisted(() => ({
@@ -44,8 +45,22 @@ vi.mock("@/lib/pb", () => ({
 
 vi.mock("@/lib/icons/service", () => ({ getAllIcons: pb.getAllIcons }))
 
+const update = vi.hoisted(() => ({ loadUpdateTarget: vi.fn(), createIconUpdate: vi.fn(), updateOwnIconUpdate: vi.fn() }))
+vi.mock("@/lib/icon-update-service", () => update)
+
 const SESSION: McpSession = { caller: { userId: "user_1", username: "iconfan", admin: false }, pbToken: "pb-old" }
 const SVG = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1 1"><path d="M0 0h1v1z"/></svg>'
+
+const TARGET = {
+	kind: "published",
+	name: "my-app",
+	id: "",
+	revision: "rev-1",
+	updated: "",
+	status: "published",
+	metadata: { base: "svg", aliases: ["My App"], categories: ["media"] },
+	files: { base: "my-app.svg", light: "my-app-light.svg", "custom:4k": "my-app-4k.svg" },
+}
 
 type ToolCallback = (args: Record<string, unknown>) => Promise<CallToolResult>
 
@@ -68,6 +83,9 @@ beforeEach(() => {
 	pb.getAllIcons.mockResolvedValue({ plex: {} })
 	pb.getFullList.mockResolvedValue([])
 	pb.getList.mockResolvedValue({ items: [], totalItems: 0 })
+	update.loadUpdateTarget.mockResolvedValue(TARGET)
+	update.createIconUpdate.mockResolvedValue({ ok: true, record: { id: "upd1", name: "my-app", status: "pending" } })
+	update.updateOwnIconUpdate.mockResolvedValue({ id: "rej1", name: "my-app", status: "pending" })
 	pb.authRefresh.mockResolvedValue({ token: "pb-fresh", record: { id: "user_1", username: "iconfan", admin: false } })
 })
 
@@ -75,6 +93,7 @@ describe("account tool registry", () => {
 	it("flags account tools and describes submit_icon as a non-idempotent write", () => {
 		expect(DASHBOARD_ICONS_TOOLS.filter((tool) => tool.access === "account").map((tool) => tool.name)).toEqual([
 			"submit_icon",
+			"propose_icon_update",
 			"list_my_submissions",
 		])
 		expect(submitIconTool.config.annotations).toEqual({
@@ -88,8 +107,8 @@ describe("account tool registry", () => {
 		}
 	})
 
-	it("refuses anonymous callers without touching PocketBase", async () => {
-		const result = await register(null)("submit_icon", { name: "my-app", svg: SVG })
+	it.each(["submit_icon", "propose_icon_update"])("refuses anonymous %s callers without touching PocketBase", async (name) => {
+		const result = await register(null)(name, { name: "my-app", svg: SVG })
 		expect(result.isError).toBe(true)
 		expect(textOf(result)).toContain("needs a signed-in dashboardicons.com account")
 		expect(pb.authRefresh).not.toHaveBeenCalled()
@@ -590,6 +609,232 @@ describe("submit_icon", () => {
 			const result = await call("submit_icon", { name: "my-app", svg: SVG })
 			expect(result).toEqual({ content: [{ type: "text", text: message }], isError: true })
 		}
+	})
+})
+
+describe("propose_icon_update", () => {
+	it("describes an authenticated, non-idempotent review proposal with explicit preservation semantics", () => {
+		expect(proposeIconUpdateTool.config.annotations).toEqual(submitIconTool.config.annotations)
+		for (const text of ["sign in", "48 KiB", "512 KiB", "Omitted files are preserved", "FINAL desired lists", "resubmits it in place"])
+			expect(proposeIconUpdateTool.config.description).toContain(text)
+	})
+
+	it("accepts partial file updates, metadata-only updates and explicit removals without requiring Base", () => {
+		const { inputSchema } = proposeIconUpdateTool.config
+		for (const changes of [
+			{ svg: SVG },
+			{ variants: { light: SVG, dark: SVG, wordmark: SVG, wordmark_light: SVG, wordmark_dark: SVG, custom: { "4k": SVG } } },
+			{ aliases: [], categories: ["tools"] },
+			{ remove: ["light", "dark", "wordmark", "wordmark_light", "wordmark_dark", "custom:4k"].map((key) => ({ key })) },
+		])
+			expect(inputSchema.safeParse({ name: "my-app", ...changes }).success).toBe(true)
+		expect(inputSchema.parse({ name: " my-app ", submission_id: "abc123abc123abc", aliases: [] })).toEqual({
+			name: "my-app",
+			submission_id: "abc123abc123abc",
+			aliases: [],
+		})
+		const omitted = inputSchema.parse({ name: "my-app", variants: { light: SVG } })
+		expect(omitted.aliases).toBeUndefined()
+		expect(omitted.categories).toBeUndefined()
+		expect(
+			inputSchema.parse({ name: "my-app", remove: [{ key: "custom:4k", note: " Obsolete artwork " }, { key: "light" }] }).remove,
+		).toEqual([{ key: "custom:4k", note: "Obsolete artwork" }, { key: "light" }])
+	})
+
+	it("rejects malformed targets and removal keys at the public schema boundary", () => {
+		for (const input of [
+			{ name: "My App" },
+			{ name: "my-app", submission_id: "../bad" },
+			{ name: "my-app", variants: { white: SVG } },
+			{ name: "my-app", remove: ["light"] },
+			{ name: "my-app", remove: [{ note: "Missing key" }] },
+			{ name: "my-app", remove: [{ key: "light", note: 123 }] },
+			{ name: "my-app", remove: [{ key: "light", file: "other.svg" }] },
+			{ name: "my-app", remove: [{ key: "light", destination: "other.svg" }] },
+			{ name: "my-app", remove: [{ key: "light", action: "remove" }] },
+			...["base", "white", "custom:base", "custom:UPPER", "custom:a--b", "custom:", `custom:${"x".repeat(33)}`].map((key) => ({
+				name: "my-app",
+				remove: [{ key }],
+			})),
+		])
+			expect(proposeIconUpdateTool.config.inputSchema.safeParse(input).success).toBe(false)
+	})
+
+	it("checks every supplied SVG before authenticating or writing", async () => {
+		for (const changes of [
+			{ svg: '<svg xmlns="http://www.w3.org/2000/svg"><script/></svg>' },
+			{ variants: { light: '<svg xmlns="http://www.w3.org/2000/svg" onload="alert(1)"/>' } },
+			{ variants: { wordmark_dark: '<svg xmlns="http://www.w3.org/2000/svg"><foreignObject/></svg>' } },
+			{ variants: { custom: { "4k": '<svg xmlns="http://www.w3.org/2000/svg"><image href="data:image/png;base64,AAAA"/></svg>' } } },
+		]) {
+			const result = await register(SESSION)("propose_icon_update", { name: "my-app", ...changes })
+			expect(result.isError).toBe(true)
+			expect(textOf(result)).toContain("SVG was not accepted")
+		}
+		expect(pb.authRefresh).not.toHaveBeenCalled()
+		expect(pb.create).not.toHaveBeenCalled()
+	})
+
+	it("enforces the 48 KiB UTF-8 boundary on replacements and Custom additions", async () => {
+		const prefix = '<svg xmlns="http://www.w3.org/2000/svg"><text>'
+		const suffix = "</text></svg>"
+		const exact = prefix + "x".repeat(MAX_SUBMITTED_SVG_BYTES - prefix.length - suffix.length) + suffix
+		const accepted = await register(SESSION)("propose_icon_update", { name: "my-app", svg: exact, variants: { custom: { "4k": exact } } })
+		expect(accepted.isError).toBeUndefined()
+		for (const markup of [exact.replace("</text>", "x</text>"), prefix + "é".repeat(MAX_SUBMITTED_SVG_BYTES / 2) + suffix]) {
+			const result = await register(SESSION)("propose_icon_update", { name: "my-app", variants: { custom: { "4k": markup } } })
+			expect(textOf(result)).toContain("4k SVG was not accepted: the SVG is larger than 48 KB")
+		}
+		expect(pb.create).not.toHaveBeenCalled()
+	})
+
+	it("rejects invalid Custom names, contradictory changes and empty proposals before sign-in refresh", async () => {
+		for (const changes of [
+			{ variants: { custom: { dark: SVG } } },
+			{ variants: { light: SVG }, remove: [{ key: "light", note: "Conflicting replacement" }] },
+			{ variants: { custom: { "4k": SVG } }, remove: [{ key: "custom:4k" }] },
+			{ variants: {} },
+		])
+			expect((await register(SESSION)("propose_icon_update", { name: "my-app", ...changes })).isError).toBe(true)
+		expect(pb.authRefresh).not.toHaveBeenCalled()
+		expect(pb.create).not.toHaveBeenCalled()
+	})
+
+	it("rejects duplicate removal keys even when their reviewer notes differ", async () => {
+		for (const key of ["light", "custom:4k"]) {
+			const result = await register(SESSION)("propose_icon_update", {
+				name: "my-app",
+				remove: [
+					{ key, note: "First reason" },
+					{ key, note: "Different reason" },
+				],
+			})
+			expect(result.isError).toBe(true)
+			expect(textOf(result)).toContain(`Variant "${key}" is listed for removal more than once`)
+		}
+		expect(pb.authRefresh).not.toHaveBeenCalled()
+		expect(pb.create).not.toHaveBeenCalled()
+		expect(pb.update).not.toHaveBeenCalled()
+	})
+
+	it("files a revision-pinned update through the shared service as the signed-in user", async () => {
+		const result = await register(SESSION)("propose_icon_update", {
+			name: "my-app",
+			svg: SVG,
+			variants: { wordmark: SVG, custom: { "5k": SVG } },
+			remove: [{ key: "custom:4k", note: "Obsolete artwork" }],
+			categories: [],
+			description: "Refresh",
+		})
+		expect(result.isError).toBeUndefined()
+		expect(result.structuredContent).toMatchObject({ id: "upd1", status: "pending", url: expect.stringContaining("upd1") })
+		const [, userId, input] = update.createIconUpdate.mock.calls[0] ?? []
+		expect(userId).toBe("user_1")
+		expect(input).toMatchObject({
+			name: "my-app",
+			kind: "update",
+			revision: "rev-1",
+			targetSubmission: "",
+			description: "Refresh",
+			aliases: ["My App"],
+			categories: [],
+			removeVariants: [{ key: "custom:4k", note: "Obsolete artwork" }],
+		})
+		expect(Object.keys(input.assets)).toEqual(["base", "wordmark", "custom:5k"])
+		expect(input.assets["custom:5k"].name).toBe("my-app-5k.svg")
+		expect(pb.tokens).toEqual(["pb-old", "pb-fresh"])
+		expect(pb.create).not.toHaveBeenCalled()
+		expect(update.updateOwnIconUpdate).not.toHaveBeenCalled()
+	})
+
+	it("ignores Variants left undefined and reports target service outages", async () => {
+		await register(SESSION)("propose_icon_update", { name: "my-app", variants: { light: undefined, wordmark: SVG } })
+		expect(Object.keys(update.createIconUpdate.mock.calls[0]?.[2].assets)).toEqual(["wordmark"])
+		update.loadUpdateTarget.mockRejectedValueOnce(new ClientResponseError({ status: 502 }))
+		expect(textOf(await register(SESSION)("propose_icon_update", { name: "my-app", aliases: [] }))).toContain("could not be reached")
+	})
+
+	it("targets a community Submission and preserves omitted alias and category lists", async () => {
+		await register(SESSION)("propose_icon_update", { name: "my-app", submission_id: "abc123abc123abc", variants: { light: SVG } })
+		expect(update.loadUpdateTarget.mock.calls[0]?.slice(1)).toEqual(["my-app", "abc123abc123abc"])
+		expect(update.createIconUpdate.mock.calls[0]?.[2]).toMatchObject({
+			targetSubmission: "abc123abc123abc",
+			aliases: ["My App"],
+			categories: ["media"],
+		})
+	})
+
+	it("resubmits the caller's own rejected proposal in place instead of creating another", async () => {
+		pb.getList.mockResolvedValue({
+			items: [
+				{ id: "other", created_by: "user_1", status: "rejected", updated: "u0", icon_update: { target: { id: "different" } } },
+				{ id: "rej1", created_by: "user_1", status: "rejected", updated: "u1", icon_update: { target: { id: "" } } },
+			],
+			totalItems: 2,
+		})
+		const result = await register(SESSION)("propose_icon_update", { name: "my-app", variants: { light: SVG } })
+		expect(result.structuredContent).toMatchObject({ id: "rej1", url: expect.stringContaining("rej1") })
+		expect(update.createIconUpdate).not.toHaveBeenCalled()
+		expect(update.updateOwnIconUpdate.mock.calls[0]?.slice(1, 3)).toEqual(["user_1", "rej1"])
+		expect(update.updateOwnIconUpdate.mock.calls[0]?.[3]).toMatchObject({
+			updated: "u1",
+			revision: "rev-1",
+			refreshTarget: true,
+			retainVariants: [],
+		})
+		expect(pb.getList.mock.calls[0]?.[2]).toMatchObject({ filter: expect.stringContaining("status = 'rejected'") })
+	})
+
+	it("explains unknown icons, missing Variants and shared-service refusals without storing anything", async () => {
+		update.loadUpdateTarget.mockRejectedValueOnce(
+			new ClientResponseError({ status: 400, response: { message: "Published Icon not found" } }),
+		)
+		const unknown = textOf(await register(SESSION)("propose_icon_update", { name: "nope", aliases: [] }))
+		expect(unknown).toContain('Cannot propose an update for "nope": Published Icon not found')
+		expect(unknown).toContain("search_icons")
+		update.loadUpdateTarget.mockRejectedValueOnce(new ClientResponseError({ status: 404 }))
+		expect((await register(SESSION)("propose_icon_update", { name: "nope", aliases: [] })).isError).toBe(true)
+
+		expect(textOf(await register(SESSION)("propose_icon_update", { name: "my-app", remove: [{ key: "dark" }] }))).toContain(
+			'"my-app" has no dark Variant to remove',
+		)
+
+		update.createIconUpdate.mockResolvedValueOnce({ ok: false, error: "No change was proposed." })
+		expect(textOf(await register(SESSION)("propose_icon_update", { name: "my-app", aliases: ["My App"] }))).toBe(
+			"The update proposal was not accepted: No change was proposed. Nothing was stored.",
+		)
+		expect(update.updateOwnIconUpdate).not.toHaveBeenCalled()
+		expect(pb.create).not.toHaveBeenCalled()
+	})
+
+	it("reports stale revisions and rejected edits with actionable messages", async () => {
+		update.updateOwnIconUpdate.mockRejectedValueOnce(
+			new ClientResponseError({ status: 409, response: { message: "Target Icon changed." } }),
+		)
+		pb.getList.mockResolvedValue({
+			items: [{ id: "rej1", created_by: "user_1", status: "rejected", updated: "u1", icon_update: { target: { id: "" } } }],
+			totalItems: 1,
+		})
+		const stale = textOf(await register(SESSION)("propose_icon_update", { name: "my-app", aliases: [] }))
+		expect(stale).toBe("Target Icon changed. Call propose_icon_update again to review the latest version. Nothing was stored.")
+
+		update.createIconUpdate.mockRejectedValueOnce(new ClientResponseError({ status: 400, response: { message: "Bad delta" } }))
+		pb.getList.mockResolvedValue({ items: [], totalItems: 0 })
+		expect(textOf(await register(SESSION)("propose_icon_update", { name: "my-app", aliases: [] }))).toBe(
+			"The update proposal was not accepted: Bad delta",
+		)
+
+		update.createIconUpdate.mockRejectedValueOnce(new ClientResponseError({ status: 502 }))
+		expect(textOf(await register(SESSION)("propose_icon_update", { name: "my-app", aliases: [] }))).toContain("could not be reached")
+	})
+
+	it("returns account refresh failures before loading the target", async () => {
+		pb.authRefresh.mockRejectedValueOnce(new ClientResponseError({ status: 401 }))
+		expect(textOf(await register(SESSION)("propose_icon_update", { name: "my-app", aliases: [] }))).toBe(SIGN_IN_EXPIRED)
+		pb.authRefresh.mockRejectedValueOnce(new ClientResponseError({ status: 502 }))
+		expect(textOf(await register(SESSION)("propose_icon_update", { name: "my-app", categories: [] }))).toContain("could not be reached")
+		expect(update.loadUpdateTarget).not.toHaveBeenCalled()
+		expect(pb.create).not.toHaveBeenCalled()
 	})
 })
 

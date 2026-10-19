@@ -70,6 +70,17 @@ vi.mock("@/lib/pb", () => ({
 	createServerPB: () => ({
 		authStore: { save: () => {} },
 		filter: (expression: string) => expression,
+		send: async (_path: string, options: { query: { name: string } }) => ({
+			kind: "published",
+			name: options.query.name,
+			id: "",
+			revision: "rev-1",
+			updated: "",
+			status: "published",
+			metadata: { base: "svg", aliases: ["Plex Media"], categories: ["Media"] },
+			files: { base: `${options.query.name}.svg`, light: `${options.query.name}-light.svg` },
+			source: { commit: "a".repeat(40), blobs: {} },
+		}),
 		collection: () => ({
 			authRefresh: async () => ({ token: "pb-fresh-secret", record: { id: "user_123", username: "iconfan", admin: false } }),
 			create: async (body: Record<string, unknown>) => {
@@ -105,7 +116,7 @@ type RpcResponse = {
 		content?: { type: string; text: string }[]
 		structuredContent?: Record<string, unknown>
 		isError?: boolean
-		tools?: { name: string; outputSchema?: Record<string, unknown> }[]
+		tools?: { name: string; inputSchema?: Record<string, unknown>; outputSchema?: Record<string, unknown> }[]
 		serverInfo?: { name: string }
 		contents?: { uri: string; mimeType: string; text: string }[]
 		messages?: { content: { text: string } }[]
@@ -394,6 +405,78 @@ describe("MCP over HTTP (real wiring)", () => {
 			expect(result.result?.isError).toBe(true)
 		}
 		expect(submissionWrites).toHaveLength(0)
+	})
+
+	it("advertises the update proposal schema and files a revision-pinned update through real authenticated MCP wiring", async () => {
+		const { handleMcpRequest } = await importHttp()
+		const authInfo: AuthInfo = {
+			token: "mcp-access-secret",
+			clientId: "client",
+			scopes: ["account"],
+			extra: { userId: "user_123", username: "iconfan", admin: false, pbToken: "pb-old-secret" },
+		}
+		const list = await rpc(await handleMcpRequest(modernRequest(1, "tools/list", {})))
+		const tool = list.result?.tools?.find((item) => item.name === "propose_icon_update")
+		expect(list.result?.tools).toHaveLength(10)
+		expect(tool?.inputSchema?.required).toEqual(expect.arrayContaining(["name"]))
+		expect(tool?.inputSchema?.required).not.toContain("svg")
+		expect(tool?.inputSchema?.required).not.toContain("variants")
+		const args = {
+			name: "plex",
+			variants: { wordmark: '<svg xmlns="http://www.w3.org/2000/svg"><path d="M0 0h1v1z"/></svg>' },
+			remove: [{ key: "light", note: "Obsolete artwork" }],
+			categories: [],
+		}
+		const filed = await rpc(
+			await handleMcpRequest(
+				modernRequest(2, "tools/call", { name: "propose_icon_update", arguments: args }, "propose_icon_update"),
+				authInfo,
+			),
+		)
+		expect(filed.result?.isError).toBeUndefined()
+		expect(filed.result?.structuredContent).toMatchObject({ id: "rec1", url: expect.stringContaining("rec1") })
+		expect(submissionWrites).toHaveLength(1)
+		expect(submissionWrites[0]).toMatchObject({
+			name: "plex",
+			target_submission: "",
+			icon_update: {
+				target: { revision: "rev-1", kind: "published" },
+				variants: [{ key: "wordmark", action: "add", destination: "plex-wordmark" }],
+				aliases: { add: [], remove: [] },
+				categories: { add: [], remove: ["Media"] },
+			},
+		})
+		const anonymous = await rpc(
+			await handleMcpRequest(modernRequest(3, "tools/call", { name: "propose_icon_update", arguments: args }, "propose_icon_update")),
+		)
+		expect(anonymous.result?.isError).toBe(true)
+		expect(anonymous.result?.content?.[0]?.text).toContain("needs a signed-in")
+		for (const remove of [
+			[{ key: "base" }],
+			[{ key: "custom:dark" }],
+			[{ key: "custom:UPPER" }],
+			[{ key: "light", file: "other.svg" }],
+			[
+				{ key: "dark", note: "First reason" },
+				{ key: "dark", note: "Different reason" },
+			],
+			[{ key: "wordmark", note: "Conflicting replacement" }],
+		]) {
+			const invalid = await rpc(
+				await handleMcpRequest(
+					modernRequest(4, "tools/call", { name: "propose_icon_update", arguments: { ...args, remove } }, "propose_icon_update"),
+					authInfo,
+				),
+			)
+			expect(invalid.result?.isError).toBe(true)
+		}
+		expect(submissionWrites).toHaveLength(1)
+		await settle()
+		expect(toolCalls()[0]).toMatchObject({
+			distinctId: "user_123",
+			properties: { $mcp_tool_name: "propose_icon_update", $mcp_tool_category: "account" },
+		})
+		for (const secret of ["mcp-access-secret", "pb-old-secret", "pb-fresh-secret"]) expect(JSON.stringify(captured)).not.toContain(secret)
 	})
 
 	it("reports missing capabilities through get_more_tools", async () => {

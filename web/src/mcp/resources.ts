@@ -44,7 +44,7 @@ export function registerDashboardIconsResources(server: McpServer): void {
 		{
 			title: "Icon SVG",
 			description:
-				"SVG markup of an icon by slug, e.g. dashboard-icons://icons/home-assistant. Looks in dashboardicons.com first, then selfh.st, LobeHub and Simple Icons. Use the get_icon_svg tool to pick a source or a light/dark theme.",
+				"Read-only SVG markup of an icon by slug, e.g. dashboard-icons://icons/home-assistant. Looks in dashboardicons.com first, then selfh.st, LobeHub and Simple Icons. Use get_icon_svg to pick a source or a light/dark theme. Icon changes require the signed-in propose_icon_update tool when enabled; resources never modify Icons.",
 			mimeType: "image/svg+xml",
 		},
 		readIconSvg,

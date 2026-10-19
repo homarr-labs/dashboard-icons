@@ -6,6 +6,7 @@ import { getIconSvgTool } from "@/mcp/tools/get-icon-svg"
 import { listCategoriesTool } from "@/mcp/tools/list-categories"
 import { listMySubmissionsTool } from "@/mcp/tools/list-my-submissions"
 import { matchIconsTool } from "@/mcp/tools/match-icons"
+import { proposeIconUpdateTool } from "@/mcp/tools/propose-icon-update"
 import { searchIconsTool } from "@/mcp/tools/search-icons"
 import { submitIconTool } from "@/mcp/tools/submit-icon"
 import type { DashboardIconsTool } from "@/mcp/tools/types"
@@ -18,6 +19,7 @@ export const DASHBOARD_ICONS_TOOLS: readonly DashboardIconsTool[] = [
 	browseIconsTool,
 	listCategoriesTool,
 	submitIconTool,
+	proposeIconUpdateTool,
 	listMySubmissionsTool,
 ]
 
