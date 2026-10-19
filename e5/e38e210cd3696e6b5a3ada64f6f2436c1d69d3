@@ -1,0 +1,20 @@
+web/README.md
+  h_d6e478ca18e517 62-68
+web/package.json
+  h_d6e478ca18e517 10
+web/scripts/generate-icon-files.mjs
+  h_d6e478ca18e517 1,5-21,27-31,36,49-58
+web/src/lib/icons/native-icon-files.json
+  h_d6e478ca18e517 3768,4463
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "e5e38e210cd3696e6b5a3ada64f6f2436c1d69d3",
+  "prompts": {},
+  "humans": {
+    "h_d6e478ca18e517": {
+      "author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}

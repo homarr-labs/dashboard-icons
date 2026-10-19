@@ -1,0 +1,38 @@
+.github/workflows/docker.yml
+  h_d6e478ca18e517 91-93
+web/.gitignore
+  h_d6e478ca18e517 64
+web/README.md
+  h_d6e478ca18e517 58-74
+web/package.json
+  h_d6e478ca18e517 10
+web/scripts/generate-icon-files.mjs
+  h_d6e478ca18e517 1-26
+web/src/app/icons/[icon]/page.tsx
+  h_d6e478ca18e517 6-8,44-55,57-59,90,92-93,117-118,142-165,173-181,183-184,194,207
+web/src/components/icon-actions.tsx
+  h_d6e478ca18e517 7
+web/src/components/icon-customizer-inline.tsx
+  h_d6e478ca18e517 226,246,262
+web/src/components/icon-details.tsx
+  h_d6e478ca18e517 28-29,39-41,44,88,90,94,234,249,292-296,333,341,595-596,628,645-646,649-652,654,660-661,668-675,690,704-712,900,906,931-932,944,949-954,964,973,1020-1024,1061-1072,1140,1159-1170,1173-1189,1201-1215,1227,1266,1282,1332,1403
+web/src/lib/icon-variant-text.ts
+  h_d6e478ca18e517 1-2,10,52-66,68-76,78-79,92-93
+web/src/lib/icons/files.ts
+  h_d6e478ca18e517 1-23
+web/src/lib/icons/native-icon-files.json
+  h_d6e478ca18e517 1-4493
+web/src/lib/sitemap.ts
+  h_d6e478ca18e517 2,7-8,55
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "592c3c5038f848aed30e98f187a808029ba80222",
+  "prompts": {},
+  "humans": {
+    "h_d6e478ca18e517": {
+      "author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
