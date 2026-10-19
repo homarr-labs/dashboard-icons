@@ -218,7 +218,7 @@ export function McpSetupDialogContent({ source }: { source: McpSetupSource }) {
 				<McpToolsSection />
 
 				<div className="space-y-2 border-t pt-4 text-xs leading-relaxed text-muted-foreground">
-					<p>Covers native Dashboard Icons. External sources are coming soon.</p>
+					<p>Covers Dashboard Icons plus selfh.st, LobeHub and Simple Icons.</p>
 					<div className="flex flex-wrap gap-x-4 gap-y-2">
 						<Link
 							href={MCP_DOCS_URL}
