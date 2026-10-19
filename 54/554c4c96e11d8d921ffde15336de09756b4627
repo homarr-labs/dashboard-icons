@@ -1,0 +1,16 @@
+web/src/mcp/__tests__/account-tools.test.ts
+  h_d6e478ca18e517 15-16,33-39,70,120,152-250
+web/src/mcp/tools/submit-icon.ts
+  h_d6e478ca18e517 7-9,28-30,48,77,93,112-119,126-143,154,158-164
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "54554c4c96e11d8d921ffde15336de09756b4627",
+  "prompts": {},
+  "humans": {
+    "h_d6e478ca18e517": {
+      "author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
