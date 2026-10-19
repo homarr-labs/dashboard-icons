@@ -35,6 +35,7 @@ interface SubmissionCardProps {
 	onPreview: () => void
 	onApplyCategories: () => void
 	children?: React.ReactNode
+	editing?: boolean
 }
 
 function FileChooser({
@@ -62,7 +63,7 @@ function FileChooser({
 				aria-label={label}
 				accept=".svg,.png,image/svg+xml,image/png"
 				multiple={multiple}
-				className="absolute inset-0 w-full cursor-pointer opacity-0"
+				className="absolute inset-0 min-h-11 w-full cursor-pointer opacity-0"
 				onChange={(event) => {
 					onFiles(Array.from(event.target.files ?? []))
 					event.target.value = ""
@@ -78,12 +79,14 @@ function VariantSlot({
 	onAdd,
 	onRemove,
 	onKeep,
+	editing = false,
 }: {
 	variant: SubmissionVariant
 	assets: DraftAsset[]
 	onAdd: (file: File) => void
 	onRemove: (id: string) => void
 	onKeep: (id: string) => void
+	editing?: boolean
 }) {
 	const kind = variantKind(variant)
 	let background: "light" | "dark" | "checker" = "checker"
@@ -110,19 +113,29 @@ function VariantSlot({
 						{asset.file.name}
 					</p>
 					<div className="flex flex-wrap items-center justify-between gap-1">
+						{editing && (
+							<FileChooser
+								label={`Replace ${kind.label}`}
+								onFiles={(files) => {
+									if (files[0]) onAdd(files[0])
+								}}
+							/>
+						)}
 						{assets.length > 1 && (
 							<Button variant="outline" className="max-w-full whitespace-normal text-left" onClick={() => onKeep(asset.id)}>
 								Keep this file
 							</Button>
 						)}
-						<Button
-							variant="ghost"
-							aria-label={`Remove ${asset.file.name}`}
-							className="ml-auto size-11 shrink-0 p-0 text-muted-foreground hover:text-destructive"
-							onClick={() => onRemove(asset.id)}
-						>
-							<Trash2 aria-hidden />
-						</Button>
+						{(!editing || variant !== "base") && (
+							<Button
+								variant="ghost"
+								aria-label={`Remove ${asset.file.name}`}
+								className="ml-auto size-11 shrink-0 p-0 text-muted-foreground hover:text-destructive"
+								onClick={() => onRemove(asset.id)}
+							>
+								<Trash2 aria-hidden />
+							</Button>
+						)}
 					</div>
 				</div>
 			))}
@@ -147,6 +160,7 @@ export function SubmissionCard({
 	onPreview,
 	onApplyCategories,
 	children,
+	editing = false,
 }: SubmissionCardProps) {
 	const [confirmRemoval, setConfirmRemoval] = useState(false)
 	const base = draft.assets.find((asset) => asset.variant === "base")
@@ -174,7 +188,7 @@ export function SubmissionCard({
 					)}
 					<span className="min-w-0 flex-1">
 						<span className="flex min-w-0 items-baseline gap-2">
-							<span className="text-sm text-muted-foreground">#{index}</span>
+							{!editing && <span className="text-sm text-muted-foreground">#{index}</span>}
 							<span className="truncate font-mono font-semibold">{draft.name || "Untitled icon"}</span>
 						</span>
 						<span className="mt-1 block truncate text-sm text-muted-foreground">
@@ -214,14 +228,16 @@ export function SubmissionCard({
 							/>
 						</div>
 						<FileChooser label="Add files" multiple onFiles={onFiles} />
-						<Button
-							variant="ghost"
-							className="size-11 p-0 text-muted-foreground hover:text-destructive"
-							aria-label={`Remove ${draft.name || `Icon ${index}`}`}
-							onClick={() => setConfirmRemoval(true)}
-						>
-							<Trash2 aria-hidden />
-						</Button>
+						{!editing && (
+							<Button
+								variant="ghost"
+								className="size-11 p-0 text-muted-foreground hover:text-destructive"
+								aria-label={`Remove ${draft.name || `Icon ${index}`}`}
+								onClick={() => setConfirmRemoval(true)}
+							>
+								<Trash2 aria-hidden />
+							</Button>
+						)}
 					</div>
 					{error && (
 						<p id={`error-${draft.id}`} role="alert" className="rounded-lg bg-destructive/10 p-3 text-sm text-destructive">
@@ -245,7 +261,14 @@ export function SubmissionCard({
 									key={variant}
 									variant={variant}
 									assets={draft.assets.filter((asset) => asset.variant === variant)}
-									onAdd={(file) => addToSlot(variant, file)}
+									onAdd={(file) => {
+										if (editing)
+											onChange({
+												assets: [...draft.assets.filter((asset) => asset.variant !== variant), { id: crypto.randomUUID(), file, variant }],
+											})
+										else addToSlot(variant, file)
+									}}
+									editing={editing}
 									onRemove={(id) => onChange({ assets: draft.assets.filter((asset) => asset.id !== id) })}
 									onKeep={(id) => onChange({ assets: draft.assets.filter((asset) => asset.variant !== variant || asset.id === id) })}
 								/>
@@ -333,10 +356,12 @@ export function SubmissionCard({
 									</button>
 								))}
 							</div>
-							<Button variant="ghost" onClick={onApplyCategories} disabled={draft.categories.length === 0}>
-								<Plus aria-hidden />
-								Add these categories to other Icons
-							</Button>
+							{!editing && (
+								<Button variant="ghost" onClick={onApplyCategories} disabled={draft.categories.length === 0}>
+									<Plus aria-hidden />
+									Add these categories to other Icons
+								</Button>
+							)}
 						</fieldset>
 						<div className="space-y-2">
 							<label htmlFor={`note-${draft.id}`} className="text-sm font-medium">

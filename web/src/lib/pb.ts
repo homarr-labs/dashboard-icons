@@ -1,4 +1,5 @@
 import PocketBase, { type RecordService } from "pocketbase"
+import type { SubmissionVariant } from "@/lib/submission-variants"
 import type { ExternalIcon } from "@/types/icons"
 
 // Public URLs must remain browser-reachable when records are rendered on the server.
@@ -49,6 +50,21 @@ export interface Submission {
 	updated: string
 	admin_comment: string
 	description: string
+	round?: number
+	reviewed_assets?: string[]
+	last_rejected?: {
+		round: number
+		name: string
+		description: string
+		extras: Submission["extras"]
+		assets: string[]
+		admin_comment: string
+		approved_by: string
+		updated: string
+		asset_sources?: Record<string, string>
+		asset_variants?: Record<string, SubmissionVariant>
+		unresolved_variants?: { variant: SubmissionVariant; reference: string; assets: string[] }[]
+	}
 }
 
 export interface CommunityGallery {
@@ -62,6 +78,7 @@ export interface CommunityGallery {
 	status: "approved" | "rejected" | "pending" | "added_to_collection"
 	assets: string[]
 	admin_comment?: string
+	round?: number
 	created: string
 	updated: string
 	extras: {

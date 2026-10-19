@@ -46,7 +46,12 @@ function sendBulkRejectionEmails(app, batchId, logger) {
 
 	const users = Object.values(batch.users)
 	for (const user of users) {
-		const names = user.submissions.map((submission) => `<li><strong>${submission.name}</strong></li>`).join("")
+		const names = user.submissions
+			.map(
+				(submission) =>
+					`<li><strong>${submission.name}</strong>: <a href="https://dashboardicons.com/submit?submission=${encodeURIComponent(submission.id)}">Fix and resubmit</a></li>`,
+			)
+			.join("")
 		const count = user.submissions.length
 		const comment = user.comment
 			? `
@@ -74,7 +79,7 @@ function sendBulkRejectionEmails(app, batchId, logger) {
                 <ul style="font-size: 16px; line-height: 1.6; color: #374151;">${names}</ul>
                 ${comment}
                 <p style="font-size: 16px; line-height: 1.5; color: #374151;">
-                    You can review the feedback and submit new versions or try different icons.
+                    Rejections are never final. Fix the feedback and resubmit each Submission using its link above. Its id and history are kept; do not create a duplicate.
                 </p>
                 <div style="margin: 25px 0; text-align: center;">
                     <a href="https://dashboardicons.com/dashboard" style="background-color: #4b5563; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: bold; display: inline-block;">Manage Submissions</a>
@@ -260,10 +265,10 @@ function notify(e) {
 										: ""
 								}
                 <p style="font-size: 16px; line-height: 1.5; color: #374151;">
-                    Don't be discouraged! You can review the feedback and submit a new version or try a different icon.
+                    Rejections are never final. Fix the feedback and resubmit this same Submission. Its id and history are kept; do not create a duplicate.
                 </p>
                 <div style="margin: 25px 0; text-align: center;">
-                    <a href="${dashboardLink}" style="background-color: ${neutralColor}; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: bold; display: inline-block;">Manage Submissions</a>
+                    <a href="https://dashboardicons.com/submit?submission=${encodeURIComponent(recordId)}" style="background-color: ${neutralColor}; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: bold; display: inline-block;">Fix and resubmit</a>
                 </div>
             `
 		} else if (newStatus === "added_to_collection") {

@@ -4,7 +4,7 @@ import "@/components/submission/submission-form.css"
 
 import { Check, Eye, History, Loader2, Pencil, Plus, UploadCloud } from "lucide-react"
 import Link from "next/link"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useDropzone } from "react-dropzone"
 import { toast } from "sonner"
 import { EditIconPicker } from "@/components/submission/edit-icon-picker"
@@ -23,12 +23,20 @@ export function IconSubmissionForm() {
 	const [mode, setMode] = useState<"submit" | "edit">("submit")
 	const [editSearch, setEditSearch] = useState("")
 	const [rejectedOnly, setRejectedOnly] = useState(false)
+	const [initialSubmissionId, setInitialSubmissionId] = useState("")
+	useEffect(() => {
+		const id = new URLSearchParams(window.location.search).get("submission")
+		if (!id) return
+		setInitialSubmissionId(id)
+		setMode("edit")
+	}, [])
 	const [previewOpen, setPreviewOpen] = useState(false)
 	const [collapsed, setCollapsed] = useState(false)
 	const dropzone = useDropzone({ noClick: true, noKeyboard: true, disabled: form.sending, onDrop: (files) => form.addFiles(files) })
 	const ownRejected = form.hints.data?.filter((item) => item.mine && item.status === "rejected") ?? []
 	const edit = (name = "", onlyRejected = false) => {
 		setEditSearch(name)
+		setInitialSubmissionId("")
 		setRejectedOnly(onlyRejected)
 		setMode("edit")
 	}
@@ -152,11 +160,13 @@ export function IconSubmissionForm() {
 			{!form.sent && (
 				<div hidden={mode !== "edit"}>
 					<EditIconPicker
-						key={`${editSearch}-${rejectedOnly}`}
+						key={`${editSearch}-${rejectedOnly}-${initialSubmissionId}`}
 						names={form.catalog.data?.names ?? []}
 						submissions={form.hints.data ?? []}
 						initialSearch={editSearch}
 						rejectedOnly={rejectedOnly}
+						initialSubmissionId={initialSubmissionId}
+						customNames={form.catalog.data?.customVariantNames ?? []}
 					/>
 				</div>
 			)}

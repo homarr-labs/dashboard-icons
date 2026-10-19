@@ -4,14 +4,14 @@ function json(value) {
 }
 function field(record, key) {
 	const value = record.get(key)
-	if (key === "items" || key === "extras") {
+	if (key === "items" || key === "extras" || key === "last_rejected") {
 		try {
 			return JSON.parse(toString(value))
 		} catch (_) {
 			return null
 		}
 	}
-	if (key === "assets")
+	if (key === "assets" || key === "reviewed_assets")
 		return Array.from(value || []).map((asset) => {
 			if (typeof asset === "string") return asset
 			return asset.name
@@ -90,6 +90,9 @@ function resolvedVariantFiles(record) {
 		if (standard.some((file) => customFiles.has(file)) || assets.filter((file) => !customFiles.has(file) && !standard.includes(file)).length === 0)
 			throw new BadRequestError("Each Custom variant needs its own uploaded file, separate from Base and well-known Variants")
 	}
+	const labelled = []
+	for (const group of ["colors", "wordmark", "variants"]) for (const file of Object.values(extras[group] || {})) labelled.push(file)
+	if (assets.length && assets.every((file) => labelled.includes(file))) throw new BadRequestError("Base icon is required, separate from optional Variants")
 	return extras
 }
 function resolveVariantFiles(record) {
@@ -99,6 +102,38 @@ function resolveVariantFiles(record) {
 function unchangedRejection(record, old, creating) {
 	return !creating && record.getString("status") === "rejected" &&
 		["name", "description", "assets", "extras", "target_submission", "created_by"].every((key) => JSON.stringify(field(record, key)) === JSON.stringify(field(old, key)))
+}
+function retainRejectedRound(app, record, old) {
+	const files = []
+	const names = {}
+	const fs = app.newFilesystem()
+	try {
+		for (const name of field(old, "assets")) {
+			const reader = fs.getReader(`${old.baseFilesPath()}/${name}`)
+			try {
+				const file = $filesystem.fileFromBytes(toBytes(reader, 5242881), name)
+				files.push(file)
+				names[name] = file.name
+			} finally {
+				reader.close()
+			}
+		}
+	} finally {
+		fs.close()
+	}
+	const extras = field(old, "extras") || {}
+	const metadata = require(`${__hooks}/submission-assets.js`).snapshotVariantMetadata(extras, field(old, "assets"), names, old.getString("name"))
+	record.set("reviewed_assets", files)
+	record.set("last_rejected", {
+		round: Number(old.get("round")) || 1,
+		name: old.getString("name"),
+		description: old.getString("description"),
+		...metadata,
+		assets: files.map((file) => file.name),
+		admin_comment: old.getString("admin_comment"),
+		approved_by: old.getString("approved_by"),
+		updated: old.getString("updated"),
+	})
 }
 function audit(e, creating) {
 	const old = e.record.original()
@@ -131,10 +166,17 @@ function audit(e, creating) {
 		if (!creating) {
 			const current = tx.findRecordById("submissions", e.record.id)
 			if (current.getString("updated") !== old.getString("updated"))
-				throw new BadRequestError("Submission changed. Refresh before editing.")
+				throw new ApiError(409, "Submission changed. Refresh before editing.")
 			const batch = reservation(tx, e.record.id)
 			if (batch && e.record.getString("__dashboard_batch") !== batch.id)
 				throw new BadRequestError("Submission is reserved by an active publish batch")
+		}
+		if (creating) e.record.set("round", 1)
+		else if (old.getString("status") === "rejected" && e.record.getString("status") === "pending") {
+			retainRejectedRound(tx, e.record, old)
+			e.record.set("round", (Number(old.get("round")) || 1) + 1)
+			e.record.set("approved_by", "")
+			e.record.set("admin_comment", "")
 		}
 		// Recheck under the write transaction so concurrent creation/rename cannot
 		// produce a proposal whose target has a different destination filename.
@@ -171,7 +213,18 @@ function guard(e, creating) {
 	const owned = old.getString("created_by") === e.auth.id
 	// Proposals are new pending records, regardless of the target's author or status.
 	// In-place edits remain restricted to the author or an administrator.
-	const resubmission = !creating && previous !== "pending" && owned
+	const resubmission = !creating && previous === "rejected" && owned
+	if (!creating && !admin && !["pending", "rejected"].includes(previous))
+		throw new ForbiddenError("Approved and published submissions are locked. Propose an update instead.")
+	if (!creating && !admin && !owned) throw new ForbiddenError("Only your own submissions can be edited")
+	for (const key of ["round", "last_rejected", "reviewed_assets"])
+		if (!e.hasSuperuserAuth() && JSON.stringify(field(e.record, key)) !== JSON.stringify(field(old, key)))
+			throw new ForbiddenError("Review snapshots and round numbers are managed by the server")
+	const headers = e.requestInfo ? e.requestInfo().headers : {}
+	const expected = headers["x-submission-updated"] || headers.x_submission_updated
+	if (!creating && expected && expected !== old.getString("updated"))
+		throw new ApiError(409, "Submission changed. Reload before saving; your edits have not been applied.")
+	if (!creating && !admin && old.getString("updated") && !expected) throw new ApiError(409, "Reload the Submission before saving with its updated token")
 	if (!creating && !e.hasSuperuserAuth() && e.record.getString("target_submission") !== old.getString("target_submission"))
 		throw new BadRequestError("A proposal's target cannot be changed")
 	const name = e.record.getString("name")

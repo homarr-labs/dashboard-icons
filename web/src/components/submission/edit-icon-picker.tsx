@@ -4,6 +4,7 @@ import { ArrowRight, Search } from "lucide-react"
 import Link from "next/link"
 import { useState } from "react"
 import { LegacyIconSubmissionForm } from "@/components/legacy-icon-submission-form"
+import { OwnSubmissionEditor } from "@/components/submission/own-submission-editor"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import type { ExistingSubmission } from "@/hooks/use-submission-catalog"
@@ -14,14 +15,19 @@ export function EditIconPicker({
 	submissions,
 	initialSearch = "",
 	rejectedOnly = false,
+	initialSubmissionId = "",
+	customNames = [],
 }: {
 	names: string[]
 	submissions: ExistingSubmission[]
 	initialSearch?: string
 	rejectedOnly?: boolean
+	initialSubmissionId?: string
+	customNames?: string[]
 }) {
 	const [search, setSearch] = useState(initialSearch)
 	const [selection, setSelection] = useState<IconNameOption | null>(null)
+	const [ownId, setOwnId] = useState(initialSubmissionId)
 	const term = search.trim().toLowerCase()
 	const matches = submissions.filter(
 		(submission) => submission.name.includes(term) && (!rejectedOnly || (submission.mine && submission.status === "rejected")),
@@ -34,6 +40,7 @@ export function EditIconPicker({
 			return a.localeCompare(b)
 		})
 		.slice(0, 20)
+	if (ownId) return <OwnSubmissionEditor key={ownId} id={ownId} customNames={customNames} onBack={() => setOwnId("")} />
 	if (selection)
 		return (
 			<section className="space-y-5">
@@ -96,7 +103,7 @@ export function EditIconPicker({
 								{submission.status === "rejected" && (
 									<p className="text-sm">
 										{submission.feedback && <span className="block break-words">Reviewer: {submission.feedback}</span>}Rejections are never
-										final. You can fix and resubmit the same Submission when in-place editing is available.
+										final. Fix the feedback and resubmit this same Submission.
 									</p>
 								)}
 								{!submission.mine && (
@@ -116,9 +123,9 @@ export function EditIconPicker({
 									</Button>
 								)}
 								{submission.mine && (
-									<p className="text-sm text-muted-foreground">
-										In-place editing is coming. View the Submission and its feedback now; do not create a duplicate to fix it.
-									</p>
+									<Button variant="outline" className="min-h-11" onClick={() => setOwnId(submission.id)}>
+										{submission.status === "rejected" ? "Fix and resubmit" : "Edit your Submission"} <ArrowRight aria-hidden />
+									</Button>
 								)}
 							</li>
 						))}

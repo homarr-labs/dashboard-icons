@@ -1,5 +1,7 @@
 import { customVariantTone } from "@/lib/icons/variants"
+import { resolveSubmissionAssets } from "../../backend/pb_hooks/submission-assets.js"
 
+export { resolveSubmissionAssets } from "../../backend/pb_hooks/submission-assets.js"
 export { customVariantNameError } from "../../backend/pb_hooks/variant-policy.js"
 
 export const SUBMISSION_VARIANTS = ["base", "light", "dark", "wordmark", "wordmark_light", "wordmark_dark"] as const
@@ -68,28 +70,8 @@ export function variantExtras(files: Partial<Record<SubmissionVariant, string>>)
 
 export type LabelledAsset = { file: string; variant: SubmissionVariant } | { file: string; variant: null }
 
-export function labelledAssets(extras: VariantExtras | undefined, assets: string[]): LabelledAsset[] {
-	const tagged = new Map<string, SubmissionVariant>()
-	const tag = (file: string | undefined, variant: SubmissionVariant) => {
-		if (file && !tagged.has(file)) tagged.set(file, variant)
-	}
-	tag(extras?.colors?.light, "light")
-	tag(extras?.colors?.dark, "dark")
-	tag(extras?.wordmark?.default, "wordmark")
-	tag(extras?.wordmark?.light, "wordmark_light")
-	tag(extras?.wordmark?.dark, "wordmark_dark")
-	for (const [name, file] of Object.entries(extras?.variants ?? {})) tag(file, `custom:${name}`)
-	tag(
-		assets.find((file) => !tagged.has(file)),
-		"base",
-	)
-
-	const labelled = assets.map((file): LabelledAsset => {
-		const variant = tagged.get(file)
-		if (variant) return { file, variant }
-		return { file, variant: null }
-	})
-	return labelled.sort((a, b) => variantOrder(a.variant) - variantOrder(b.variant))
+export function labelledAssets(extras: VariantExtras | undefined, assets: string[], name?: string): LabelledAsset[] {
+	return resolveSubmissionAssets(extras, assets, name).assets.sort((a, b) => variantOrder(a.variant) - variantOrder(b.variant))
 }
 
 function variantOrder(variant: SubmissionVariant | null): number {

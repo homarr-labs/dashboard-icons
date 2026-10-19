@@ -10,10 +10,12 @@ export function AssetPreview({
 	asset,
 	background = "checker",
 	className,
+	alt,
 }: {
 	asset: DraftAsset
 	background?: "light" | "dark" | "checker"
 	className?: string
+	alt?: string
 }) {
 	const [url, setUrl] = useState("")
 	useEffect(() => {
@@ -42,7 +44,7 @@ export function AssetPreview({
 			{url && (
 				<UnoptimizedImage
 					src={url}
-					alt={`${variantKind(asset.variant).label} artwork on ${background} background`}
+					alt={alt || `${variantKind(asset.variant).label} artwork on ${background} background`}
 					className="h-full w-full object-contain"
 				/>
 			)}

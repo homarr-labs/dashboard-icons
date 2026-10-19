@@ -1,6 +1,7 @@
 import type { Metadata, ResolvingMetadata } from "next"
 import { notFound } from "next/navigation"
 import { IconDetails } from "@/components/icon-details"
+import { RejectionNotice } from "@/components/submission/rejection-notice"
 import { APACHE_LICENSE_URL, BASE_URL, WEB_URL } from "@/constants"
 import { computeRelatedIcons, getAllIcons, getAuthorData } from "@/lib/api"
 import { getCommunityGalleryRecord, getCommunitySubmission, getCommunitySubmissions } from "@/lib/community"
@@ -193,7 +194,6 @@ export default async function CommunityIconPage({ params }: { params: Promise<{ 
 	}
 
 	const status = record?.status || "pending"
-	const rejectionReason = status === "rejected" ? record?.admin_comment : null
 
 	const getStatusDisplayName = (status: string) => {
 		switch (status) {
@@ -225,7 +225,7 @@ export default async function CommunityIconPage({ params }: { params: Promise<{ 
 		}
 	}
 
-	const statusDisplayName = getStatusDisplayName(status)
+	const statusDisplayName = `${getStatusDisplayName(status)} · Round ${record?.round || 1}`
 	const statusColor = getStatusColor(status)
 
 	const formattedName = icon
@@ -270,6 +270,11 @@ export default async function CommunityIconPage({ params }: { params: Promise<{ 
 					}).replace(/</g, "\\u003c"),
 				}}
 			/>
+			{status === "rejected" && (
+				<div className="container mx-auto px-4 pt-6">
+					<RejectionNotice id={id} feedback={record?.admin_comment} />
+				</div>
+			)}
 			<IconDetails
 				breadcrumbItems={[{ label: "Home", href: "/" }, { label: "Community Icons", href: "/community" }, { label: formattedName }]}
 				icon={icon}
@@ -278,7 +283,6 @@ export default async function CommunityIconPage({ params }: { params: Promise<{ 
 				relatedIcons={relatedIcons}
 				relatedCategories={categories}
 				status={status}
-				rejectionReason={rejectionReason ?? undefined}
 				statusDisplayName={statusDisplayName}
 				statusColor={statusColor}
 			/>

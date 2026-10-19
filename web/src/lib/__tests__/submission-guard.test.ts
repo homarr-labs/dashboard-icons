@@ -4,6 +4,7 @@ import { runInNewContext } from "node:vm"
 import { describe, expect, it, vi } from "vitest"
 import { RESERVED_VARIANT_NAMES } from "@/lib/icons/variants"
 import { customVariantNameError, labelledAssets, variantKind } from "@/lib/submission-variants"
+import { matchingAssetNames, resolveSubmissionAssets, snapshotVariantMetadata } from "../../../backend/pb_hooks/submission-assets.js"
 import * as policy from "../../../backend/pb_hooks/variant-policy.js"
 
 const source = readFileSync(new URL("../../../backend/pb_hooks/dashboard.js", import.meta.url), "utf8")
@@ -304,6 +305,88 @@ describe("Custom variant rules at the direct PocketBase boundary", () => {
 		])
 		expect(variantKind("custom:animated-dark")).toMatchObject({ label: "animated-dark", background: "light", suffix: "-animated-dark" })
 		expect(variantKind("custom:animated-light").background).toBe("dark")
+	})
+
+	it("labels unambiguous legacy filenames before assigning the Base", () => {
+		expect(
+			labelledAssets({ colors: { light: "demo-light.svg" }, variants: { outlined: "demo-outlined.png" } }, [
+				"demo_abcdefghij.svg",
+				"demo_light_0123456789.svg",
+				"demo_outlined_abcdefghij.png",
+			]),
+		).toEqual([
+			{ file: "demo_abcdefghij.svg", variant: "base" },
+			{ file: "demo_light_0123456789.svg", variant: "light" },
+			{ file: "demo_outlined_abcdefghij.png", variant: "custom:outlined" },
+		])
+	})
+
+	it("does not guess a Base or legacy slot when multiple files remain unassigned", () => {
+		expect(
+			labelledAssets({ colors: { light: "demo-light.svg" } }, ["demo_light_abcdefghij.svg", "demo_light_0123456789.svg", "unknown.png"]),
+		).toEqual([
+			{ file: "demo_light_abcdefghij.svg", variant: null },
+			{ file: "demo_light_0123456789.svg", variant: null },
+			{ file: "unknown.png", variant: null },
+		])
+	})
+
+	it("matches exact files first without confusing a longer filename prefix for a legacy slot", () => {
+		expect(matchingAssetNames("demo-light.svg", ["demo-light.svg", "demo_light_abcdefghij.svg"])).toEqual(["demo-light.svg"])
+		expect(matchingAssetNames("demo-light.svg", ["demo_lightning_abcdefghij.svg"])).toEqual([])
+		expect(matchingAssetNames("demo-outlined.svg", ["demo_outlined_abcdefghij.png"])).toEqual([])
+	})
+
+	it("does not assign a single file to two conflicting legacy references", () => {
+		const resolved = resolveSubmissionAssets({ colors: { light: "demo-light.svg", dark: "demo_light.svg" } }, ["demo_light_abcdefghij.svg"])
+		expect(resolved.assets).toEqual([{ file: "demo_light_abcdefghij.svg", variant: null }])
+		expect(resolved.references.every((reference) => !reference.file)).toBe(true)
+	})
+
+	it("keeps an unambiguous Base separate from every ambiguous original file regardless of file order", () => {
+		const files = ["demo_light_abcdefghij.svg", "demo_abcdefghij.svg", "demo_light_0123456789.svg"]
+		for (const assets of [files, [...files].reverse()]) {
+			const resolved = resolveSubmissionAssets({ colors: { light: "demo-light.svg" } }, assets, "demo")
+			expect(resolved.assets.find((asset) => asset.variant === "base")?.file).toBe("demo_abcdefghij.svg")
+			expect(
+				resolved.assets
+					.filter((asset) => !asset.variant)
+					.map((asset) => asset.file)
+					.sort(),
+			).toEqual(["demo_light_0123456789.svg", "demo_light_abcdefghij.svg"])
+		}
+	})
+
+	it("normalizes legacy references before remapping rejected snapshot files and keeps all slot identities", () => {
+		const extras = {
+			colors: { light: "demo-light.svg" },
+			wordmark: { default: "demo-wordmark.svg" },
+			variants: { outlined: "demo-outlined.png" },
+		}
+		const files = ["demo_abcdefghij.svg", "demo_light_abcdefghij.svg", "demo_wordmark_abcdefghij.svg", "demo_outlined_abcdefghij.png"]
+		const copies = Object.fromEntries(files.map((file) => [file, `reviewed_${file}`]))
+		const snapshot = snapshotVariantMetadata(extras, files, copies, "demo")
+		expect(snapshot.extras.colors.light).toBe(copies[files[1]])
+		expect(snapshot.extras.wordmark.default).toBe(copies[files[2]])
+		expect(snapshot.extras.variants.outlined).toBe(copies[files[3]])
+		expect(Object.values(snapshot.asset_variants)).toEqual(["base", "light", "wordmark", "custom:outlined"])
+		expect(snapshot.unresolved_variants).toEqual([])
+		expect(extras.colors.light).toBe("demo-light.svg")
+	})
+
+	it("retains all ambiguous snapshot candidates and their original label reference without dangling links", () => {
+		const extras = { colors: { light: "demo-light.svg" } }
+		const files = ["demo_abcdefghij.svg", "demo_light_abcdefghij.svg", "demo_light_0123456789.svg"]
+		const copies = Object.fromEntries(files.map((file) => [file, `reviewed_${file}`]))
+		const snapshot = snapshotVariantMetadata(extras, files, copies, "demo")
+		expect(snapshot.extras.colors).toEqual({})
+		expect(snapshot.asset_variants).toEqual({ [copies[files[0]]]: "base" })
+		expect(snapshot.unresolved_variants).toEqual([
+			{ variant: "light", reference: "demo-light.svg", assets: [copies[files[1]], copies[files[2]]] },
+		])
+		expect(Object.keys(snapshot.asset_sources)).toEqual(Object.values(copies))
+		expect(Object.values(snapshot.asset_sources)).toEqual(files)
+		expect(JSON.stringify(snapshot)).not.toContain("undefined")
 	})
 
 	it("combines published and pending names on the server", () => {

@@ -1,6 +1,8 @@
 "use client"
 import { ArrowLeft, ArrowRight, Download, ExternalLink, Maximize2, X } from "lucide-react"
 import { useEffect, useRef, useState } from "react"
+import { RejectedRoundComparison } from "@/components/submission/rejected-round-comparison"
+import { RejectionNotice } from "@/components/submission/rejection-notice"
 import { Button } from "@/components/ui/button"
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
@@ -85,6 +87,7 @@ export function Inspector({
 					<h2 className="break-all text-base font-semibold">{record.name}</h2>
 					<div className="mt-2">
 						<Status status={record.status} />
+						<span className="ml-2 text-sm text-muted-foreground">Round {record.round || 1}</span>
 					</div>
 				</div>
 				<Button variant="ghost" size="icon" className="hidden size-11 xl:inline-flex" aria-label="Close inspector" onClick={onClose}>
@@ -135,6 +138,10 @@ export function Inspector({
 				</TabsList>
 				<div className="min-h-0 flex-1 overflow-y-auto overscroll-contain">
 					<TabsContent value="details" className="m-0 space-y-5 px-4 pb-5">
+						{record.status === "rejected" && (
+							<RejectionNotice id={record.id} feedback={record.admin_comment} canEdit={record.created_by === pb.authStore.record?.id} />
+						)}
+						<RejectedRoundComparison record={record} />
 						<div className="space-y-2">
 							<div className={`relative flex h-40 items-center justify-center overflow-hidden rounded-lg border ${previewClass}`}>
 								{current && (
@@ -264,7 +271,7 @@ export function Inspector({
 								</div>
 							)
 						})}
-						{record.admin_comment && (
+						{record.admin_comment && record.status !== "rejected" && (
 							<div className="rounded-lg border bg-muted/20 p-3">
 								<h3 className="mb-1 text-xs font-medium">Feedback sent to submitter</h3>
 								<p className="whitespace-pre-wrap break-words text-sm leading-6">{record.admin_comment}</p>

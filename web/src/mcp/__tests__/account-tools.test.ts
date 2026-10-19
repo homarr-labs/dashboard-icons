@@ -228,7 +228,14 @@ describe("list_my_submissions", () => {
 			requestKey: null,
 		})
 		expect(result.structuredContent).toEqual({
-			submissions: [{ ...item, url: "https://dashboardicons.com/community/submissions/rec1" }],
+			submissions: [
+				{
+					...item,
+					url: "https://dashboardicons.com/community/submissions/rec1",
+					resubmit_url: "https://dashboardicons.com/submit?submission=rec1",
+					next_step: "Rejections are never final. Fix the feedback and resubmit this same Submission; its id and history are kept.",
+				},
+			],
 			total: 3,
 			dashboard_url: "https://dashboardicons.com/dashboard",
 		})
