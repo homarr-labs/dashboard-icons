@@ -1,0 +1,50 @@
+scripts/convert_svg_assets.py
+  h_d6e478ca18e517 29,41,57-58,78-79,84,86,95,97,100,102,106,115,120,122,124,126,128,135-138,141-142,146,149,153,164,179,183,188,192-197,201,203,208,210,215,232,243,246,249,261,278,284-289,285-286,290-299,302-306,312-313,318,325,337,340,344,348-354,362,369,370-371,375,379,394,396,407,414,448,462,478,485,488-489,502,515,517,521-522,525,546-547,552,554,563,566-567,570,588,590,610-611,622,624,626-627,633-634,637,660,662,667,670,685
+scripts/import-icon.ts
+  h_d6e478ca18e517 8,67,204-211,379-380
+web/backend/pb_hooks/dashboard.js
+  h_d6e478ca18e517 71-73
+web/src/app/api/submissions/route.ts
+  h_d6e478ca18e517 5-6
+web/src/components/dashboard/inspector.tsx
+  h_d6e478ca18e517 8,12,15-23,73-75,90,100,113,126-134,140-151,155,170-171,180,187,190,191,192,196-199,201-202,204-210,227,274,283,320-326,329-335,340,350-354,363,365-367,373
+web/src/components/dashboard/review-gallery.tsx
+  h_d6e478ca18e517 5,8-12,19-20,24-25,27-37,39
+web/src/components/editable-icon-details.tsx
+  h_d6e478ca18e517 19-20,38
+web/src/components/icon-card.tsx
+  h_d6e478ca18e517 4,9,104-114,118
+web/src/components/icon-details.tsx
+  h_d6e478ca18e517 110-119,121-124,531,553,678-691,744-751,1115-1118
+web/src/components/icon-submission-form.tsx
+  h_d6e478ca18e517 3,17,62-68,143,145-164,166-170,172-202,204-205,207-212,286,303,347-349,352,354-355,412
+web/src/components/icon-submission-guidelines.tsx
+  h_d6e478ca18e517 24
+web/src/components/submission-details.tsx
+  h_d6e478ca18e517 26,28,124,161-175,176,177-187,188,189-197,199-207,360-365
+web/src/components/variant-preview.tsx
+  h_d6e478ca18e517 1-35
+web/src/hooks/use-icon-submission-form.ts
+  h_d6e478ca18e517 10-11,14-15,18,99,102
+web/src/lib/pb.ts
+  h_d6e478ca18e517 42,75
+web/src/lib/submission-service.ts
+  h_d6e478ca18e517 3,47,52,71
+web/src/lib/submission-variants.ts
+  h_d6e478ca18e517 1-73
+web/src/lib/submit-proposal.ts
+  h_d6e478ca18e517 2-3
+web/src/types/icons.ts
+  h_d6e478ca18e517 21
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "3509825c863630340f42b7fdf4cf909fcdd3d564",
+  "prompts": {},
+  "humans": {
+    "h_d6e478ca18e517": {
+      "author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
