@@ -1,0 +1,27 @@
+web/docs/MCP.md
+  s_17ef26bd27b71a::t_382f6f3338dbce 17-20
+web/src/components/mcp-setup-dialog-content.tsx
+  s_17ef26bd27b71a::t_4064bd5dc583e6 200
+web/src/lib/__tests__/mcp-setup-config.test.ts
+  s_17ef26bd27b71a::t_6aeb2912c571f4 89-91,110-114,127
+web/src/lib/mcp-setup-config.ts
+  s_17ef26bd27b71a::t_22c48971e6f352 5,94-110
+web/tests/mcp-setup.spec.ts
+  s_17ef26bd27b71a::t_dde94fbfa57131 39,46,61,68
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "e92d6992a6a30f3dd5e41d403244060d469ed64e",
+  "prompts": {},
+  "sessions": {
+    "s_17ef26bd27b71a": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "9db86f57-96e0-4df5-bd49-18e907fb1fe1",
+        "model": "unknown"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
