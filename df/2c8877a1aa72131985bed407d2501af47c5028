@@ -1,0 +1,33 @@
+web/docs/MCP.md
+  s_9d8846add4ef0e::t_6a1b9428c13928 127,142,155
+web/src/mcp/__tests__/account-tools.test.ts
+  s_9d8846add4ef0e::t_94804ab4fcb1f2 48-50,54-64,86-88,615,618,683,720-745,747-828,831,836
+web/src/mcp/__tests__/integration.test.ts
+  s_9d8846add4ef0e::t_2407d75d8d98b7 73-83,410,426-428,430,436-448,463,473
+web/src/mcp/tools/propose-icon-update.ts
+  s_17ef26bd27b71a::t_dcbebd7f117fb2 1,3-4,6-7,9,11-13,70,76,109-177
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "df2c8877a1aa72131985bed407d2501af47c5028",
+  "prompts": {},
+  "sessions": {
+    "s_17ef26bd27b71a": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "9db86f57-96e0-4df5-bd49-18e907fb1fe1",
+        "model": "unknown"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    },
+    "s_9d8846add4ef0e": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "789e307e-2308-4cf4-9745-51fdb0fecab1",
+        "model": "unknown"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
