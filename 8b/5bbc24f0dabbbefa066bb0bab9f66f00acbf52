@@ -1,0 +1,29 @@
+web/backend/pb_hooks/dashboard.js
+  s_5c1ab3ba284e1f::t_e401a602549bee 63-65,67,78-82,150-153
+web/src/lib/__tests__/submission-guard.test.ts
+  s_2d01b292a28b6d::t_db8edcacf82241 17,19
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "8b5bbc24f0dabbbefa066bb0bab9f66f00acbf52",
+  "prompts": {},
+  "sessions": {
+    "s_2d01b292a28b6d": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "5e76ae5c-974e-4221-bc68-fc83fdbe071f",
+        "model": "unknown"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    },
+    "s_5c1ab3ba284e1f": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "847e5951-f567-444f-8082-fdc602182abd",
+        "model": "unknown"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
