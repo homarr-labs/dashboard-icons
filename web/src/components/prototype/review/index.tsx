@@ -1,4 +1,4 @@
-// PROTOTYPE (throwaway): four review-workflow variants on /dashboard?view=review&variant=A..D with a stub admin and in-memory data, sharing one staged changeset.
+// PROTOTYPE (throwaway): pass 2 — three review variants on /dashboard?view=review&variant=A..C (one Submission = one icon) with a stub admin and in-memory data, sharing one staged changeset.
 "use client"
 import { Clock3, FlaskConical, GitPullRequest, LayoutDashboard, ListFilter, Rss } from "lucide-react"
 import { useState } from "react"
@@ -9,13 +9,11 @@ import { useReview } from "./state"
 import { VariantA } from "./variant-a"
 import { VariantB } from "./variant-b"
 import { VariantC } from "./variant-c"
-import { VariantD } from "./variant-d"
 
 const variants = [
-	{ key: "A", name: "Triage board", Component: VariantA },
-	{ key: "B", name: "Icon bench", Component: VariantB },
-	{ key: "C", name: "Contact sheet", Component: VariantC },
-	{ key: "D", name: "Pull-request review", Component: VariantD },
+	{ key: "A", name: "Keyboard bench", Component: VariantA },
+	{ key: "B", name: "Contact sheet", Component: VariantB },
+	{ key: "C", name: "Timeline", Component: VariantC },
 ]
 const nav = [
 	{ label: "Overview", Icon: LayoutDashboard },

@@ -1,436 +1,354 @@
-// PROTOTYPE (throwaway): Variant A "Triage board" — Submission cards move across Incoming → Sent back / Declined / Approved → Publish batch; whole-Submission decisions with per-Icon overrides; sibling clusters merge in place.
+// PROTOTYPE (throwaway): pass 2 Variant A "Keyboard bench" — queue of one-icon Submissions grouped by "sent together", variant tiles + metadata + fix-ups inline, staged decisions rail.
 "use client"
-import { AlertTriangle, ArrowRight, Check, GitMerge, Layers, RotateCcw, Scissors, Send, Trash2, Undo2, X } from "lucide-react"
-import { useMemo, useState } from "react"
+import { Check, History, MessageSquare, RotateCcw, Send, Undo2, X } from "lucide-react"
+import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
+import { Textarea } from "@/components/ui/textarea"
 import { cn } from "@/lib/utils"
-import { blocking, collisions, fileName, type MockSubmission, reasons, siblingClusters, smartMerge } from "./mock"
-import { DualSwatch, describeFixup, KindBadge, minutesAgo, OutcomeBadge, Swatch } from "./shared"
-import type { Outcome, Review } from "./state"
-
-type Column = "incoming" | "changes" | "declined" | "approved"
-const columns: { id: Column; title: string; hint: string }[] = [
-	{ id: "incoming", title: "Incoming", hint: "Undecided or partly triaged" },
-	{ id: "changes", title: "Sent back", hint: "Contributor edits the same submission" },
-	{ id: "declined", title: "Declined", hint: "Closed with feedback" },
-	{ id: "approved", title: "Approved → publish batch", hint: "Joins the next publish run" },
-]
+import { type Hint, hints, reasons, rows } from "./mock"
+import {
+	type Backdrop,
+	batches,
+	DecisionBadge,
+	FinalToggle,
+	Hints,
+	MetadataFields,
+	minutesAgo,
+	ReasonPicker,
+	reasonFor,
+	Swatch,
+	VariantTile,
+} from "./shared"
+import type { Review } from "./state"
 
 export function VariantA({ review, onSubmit }: { review: Review; onSubmit: () => void }) {
-	const [selectedId, setSelectedId] = useState(review.subs[0]?.id || "")
-	const [dismissed, setDismissed] = useState<string[]>([])
-	const clusters = siblingClusters(review.subs).filter((cluster) => !dismissed.includes(cluster.root))
-	const clustered = new Set(clusters.flatMap((cluster) => cluster.ids))
-	const clashes = collisions(review.subs)
-	function columnOf(sub: MockSubmission): Column {
-		const outcomes = sub.icons.map((entry) => review.decision(entry.id)?.outcome)
-		if (outcomes.includes("changes")) return "changes"
-		if (outcomes.includes(undefined)) return "incoming"
-		if (outcomes.every((outcome) => outcome === "reject")) return "declined"
-		return "approved"
-	}
-	const selected = review.subs.find((sub) => sub.id === selectedId)
-	const approvedFiles = review.payload.publishQueue
+	const groups = useMemo(() => batches(review.subs), [review.subs])
+	const order = useMemo(() => groups.flatMap((group) => group.subs), [groups])
+	const [currentId, setCurrentId] = useState(order[0]?.id || "")
+	const [picker, setPicker] = useState(false)
+	const [selectedTile, setSelectedTile] = useState(0)
+	const [backdrop, setBackdrop] = useState<Backdrop>("intended")
+	const commentRef = useRef<HTMLTextAreaElement>(null)
+	const index = Math.max(
+		0,
+		order.findIndex((sub) => sub.id === currentId),
+	)
+	const sub = order[index]
+	const view = review.effective(sub)
+	const group = groups.find((entry) => entry.subs.includes(sub))
+	const variantHint = hints(sub, review.subs).find((hint) => hint.type === "variant-of")
+	const visibleRows = view.rows
+
+	const go = useCallback(
+		(direction: number) => {
+			const next = order[Math.min(order.length - 1, Math.max(0, index + direction))]
+			setCurrentId(next.id)
+			setSelectedTile(0)
+			setPicker(false)
+		},
+		[order, index],
+	)
+	const rejectWith = useCallback(
+		(text: string, final: boolean) => {
+			review.reject(sub.id, text, final)
+			go(1)
+		},
+		[review, sub.id, go],
+	)
+	const rejectAsVariant = useCallback(
+		(hint: Hint) => {
+			const reason = reasons.find((entry) => entry.key === "variant-of")
+			if (reason) rejectWith(reasonFor(reason, hint), reason.final)
+		},
+		[rejectWith],
+	)
+
+	useEffect(() => {
+		function keydown(event: KeyboardEvent) {
+			const target = event.target as HTMLElement
+			if (event.key === "Escape" && target === commentRef.current) {
+				commentRef.current?.blur()
+				return
+			}
+			if (event.metaKey || event.ctrlKey || event.altKey) return
+			if (target.closest("input,textarea,select,[role=dialog]")) return
+			const key = event.key.toLowerCase()
+			if (picker && /^[1-9]$/.test(key)) {
+				event.preventDefault()
+				const reason = reasons[Number(key) - 1]
+				rejectWith(reasonFor(reason, variantHint), reason.final)
+				return
+			}
+			if (key === "escape") setPicker(false)
+			if (/^[1-9]$/.test(key)) setSelectedTile(Number(key) - 1)
+			if (key === "j") go(1)
+			if (key === "k") go(-1)
+			if (key === "p") {
+				review.approve(sub.id)
+				go(1)
+			}
+			if (key === "x") setPicker((open) => !open)
+			if (key === "v" && variantHint) rejectAsVariant(variantHint)
+			if (key === "f") {
+				const decision = review.decisions[sub.id]
+				if (decision?.outcome === "reject") review.setFinal(sub.id, !decision.final)
+			}
+			if (key === "u") review.unflag(sub.id)
+			if (key === "g") setBackdrop((mode) => (mode === "intended" ? "checker" : "intended"))
+			if (key === "d") {
+				const row = visibleRows[selectedTile]
+				if (row?.proposed && row.change !== "unchanged" && row.change !== "removed") review.toggleDrop(sub.id, row.proposed.id)
+			}
+			if (key === "c") {
+				event.preventDefault()
+				commentRef.current?.focus()
+			}
+			if (key === "e") {
+				event.preventDefault()
+				document.getElementById(`meta-slug-${sub.id}`)?.focus()
+			}
+		}
+		window.addEventListener("keydown", keydown)
+		return () => window.removeEventListener("keydown", keydown)
+	}, [picker, rejectWith, variantHint, go, review, sub.id, rejectAsVariant, visibleRows, selectedTile])
+
+	const decision = review.decisions[sub.id]
+	const staged = order.filter((entry) => review.decisions[entry.id])
 	return (
-		<div className="grid min-h-0 flex-1 gap-3 lg:grid-cols-[minmax(0,1fr)_420px]">
-			<div className="flex min-h-0 min-w-0 flex-col gap-2">
-				<div className="flex min-h-0 flex-1 gap-3 overflow-x-auto pb-2">
-					{columns.map((column) => {
-						const cards = review.subs.filter((sub) => columnOf(sub) === column.id && !(column.id === "incoming" && clustered.has(sub.id)))
-						return (
-							<section
-								key={column.id}
-								className={cn(
-									"flex min-h-[320px] w-64 shrink-0 flex-col rounded-xl border bg-muted/20 xl:w-auto xl:min-w-52 xl:flex-1",
-									column.id === "approved" && "border-emerald-500/30",
-								)}
-							>
-								<header className="border-b px-3 py-2">
-									<h2 className="flex items-center justify-between text-sm font-semibold">
-										{column.title}
-										<span className="rounded bg-muted px-1.5 text-[10px] tabular-nums">
-											{cards.length + (column.id === "incoming" ? clusters.reduce((sum, cluster) => sum + cluster.ids.length, 0) : 0)}
-										</span>
-									</h2>
-									<p className="text-[11px] text-muted-foreground">{column.hint}</p>
-								</header>
-								<div className="min-h-0 flex-1 space-y-2 overflow-y-auto p-2">
-									{column.id === "incoming" &&
-										clusters.map((cluster) => {
-											const members = review.subs.filter((sub) => cluster.ids.includes(sub.id))
-											const preview = smartMerge(members)
-											return (
-												<div
-													key={cluster.root}
-													className="relative rounded-lg border border-amber-500/40 bg-background p-3 mb-3 mr-2 shadow-[4px_4px_0_0_rgba(245,158,11,0.25),8px_8px_0_0_rgba(245,158,11,0.12)]"
-												>
-													<p className="flex items-center gap-1.5 text-xs font-medium text-amber-700 dark:text-amber-300">
-														<Layers className="size-3.5" />
-														{cluster.ids.length} uploads · @{cluster.contributor} · {cluster.spanMinutes} min
-													</p>
-													<p className="mt-1 text-[11px] text-muted-foreground">
-														Same prefix <span className="font-mono">{cluster.root}</span>. Looks like one submission:
-													</p>
-													<div className="mt-2 flex flex-wrap gap-1">
-														{members.map((sub) => (
-															<Swatch key={sub.id} variant={sub.icons[0].variants[0]} className="size-8 rounded border p-1" />
-														))}
-													</div>
-													<ul className="mt-2 space-y-1 text-[11px]">
-														{preview.merged.icons.map((entry) => (
-															<li key={entry.slug} className="flex flex-wrap items-center gap-1">
-																<span className="font-mono font-medium">{entry.slug}</span>
-																{entry.variants.map((variant) => (
-																	<KindBadge
-																		key={variant.id}
-																		variant={variant}
-																		className={cn(preview.drops[variant.id] && "line-through opacity-50")}
-																	/>
-																))}
-															</li>
-														))}
-													</ul>
-													<div className="mt-3 flex gap-1">
-														<Button
-															size="sm"
-															className="h-7 flex-1 text-xs"
-															onClick={() => {
-																const id = review.merge(cluster.ids)
-																if (id) setSelectedId(id)
-															}}
-														>
-															<GitMerge className="size-3.5" />
-															Merge into 1
-														</Button>
-														<Button
-															size="sm"
-															variant="ghost"
-															className="h-7 text-xs"
-															onClick={() => setDismissed([...dismissed, cluster.root])}
-														>
-															Keep separate
-														</Button>
-													</div>
-												</div>
-											)
-										})}
-									{cards.map((sub) => {
-										const flagged = sub.icons.filter((entry) => entry.variants.some(blocking)).length
-										const clash = clashes.some((entry) => entry.entries.some((item) => item.submissionId === sub.id))
-										return (
-											<button
-												type="button"
-												key={sub.id}
-												onClick={() => setSelectedId(sub.id)}
-												className={cn(
-													"w-full rounded-lg border bg-background p-2.5 text-left transition hover:border-foreground/30",
-													selectedId === sub.id && "border-primary ring-2 ring-primary/20",
-												)}
-											>
-												<span className="flex items-center justify-between gap-2 text-xs">
-													<span className="truncate font-medium">{sub.icons.map((entry) => entry.slug).join(", ")}</span>
-													<span className="shrink-0 text-[10px] text-muted-foreground">{minutesAgo(sub.created)}</span>
-												</span>
-												<span className="mt-0.5 block text-[11px] text-muted-foreground">
-													@{sub.contributor} · {sub.icons.length} icon{sub.icons.length > 1 && "s"} ·{" "}
-													{sub.icons.reduce((sum, entry) => sum + entry.variants.length, 0)} files
-												</span>
-												<span className="mt-2 flex flex-wrap gap-1">
-													{sub.icons.slice(0, 7).map((entry) => (
-														<Swatch key={entry.id} variant={entry.variants[0]} className="size-7 rounded border p-0.5" />
-													))}
-													{sub.icons.length > 7 && (
-														<span className="flex size-7 items-center justify-center rounded border text-[10px]">
-															+{sub.icons.length - 7}
-														</span>
-													)}
-												</span>
-												<span className="mt-2 flex flex-wrap gap-1 text-[10px]">
-													{sub.mergedFrom && <Chip tone="violet">merged · {sub.mergedFrom.length}</Chip>}
-													{sub.round > 1 && <Chip tone="blue">round {sub.round}</Chip>}
-													{sub.icons.some((entry) => entry.mode === "update") && <Chip tone="blue">update</Chip>}
-													{clash && <Chip tone="amber">slug collision</Chip>}
-													{!!flagged && <Chip tone="red">{flagged} flagged</Chip>}
-												</span>
-											</button>
-										)
-									})}
-									{column.id === "approved" && !!approvedFiles.length && (
-										<div className="rounded-lg border border-dashed border-emerald-500/40 p-2 text-[11px]">
-											<p className="font-medium text-emerald-700 dark:text-emerald-300">Next publish run · {approvedFiles.length} files</p>
-											<p className="mt-1 break-all font-mono text-muted-foreground">{approvedFiles.join(" ")}</p>
-										</div>
-									)}
-								</div>
-							</section>
-						)
-					})}
+		<div className="grid min-h-0 flex-1 gap-3 lg:grid-cols-[240px_minmax(0,1fr)_280px]">
+			<aside aria-label="Queue" className="flex max-h-56 min-h-0 flex-col overflow-hidden rounded-xl border bg-background lg:max-h-none">
+				<p className="border-b px-3 py-2 text-xs text-muted-foreground">
+					{order.length} submissions · {staged.length} staged
+				</p>
+				<div className="min-h-0 flex-1 overflow-y-auto p-1.5">
+					{groups.map((entry) => (
+						<div key={entry.key} className={cn("mb-1.5", entry.subs.length > 1 && "rounded-lg bg-muted/40 p-1")}>
+							{entry.subs.length > 1 && (
+								<p className="px-1.5 py-1 text-[10px] font-medium text-muted-foreground">
+									Sent together · {entry.subs.length} · @{entry.contributor} · {minutesAgo(entry.created)}
+								</p>
+							)}
+							{entry.subs.map((item) => {
+								const staged = review.decisions[item.id]
+								const thumb = rows(item).find((row) => row.proposed)?.proposed
+								return (
+									<button
+										type="button"
+										key={item.id}
+										onClick={() => {
+											setCurrentId(item.id)
+											setSelectedTile(0)
+										}}
+										className={cn(
+											"flex w-full items-center gap-2 rounded-md px-1.5 py-1 text-left text-xs hover:bg-muted",
+											item.id === sub.id && "bg-primary/10 ring-1 ring-primary/30",
+										)}
+									>
+										{thumb && <Swatch variant={thumb} className="size-6 shrink-0 rounded border p-0.5" />}
+										<span className="min-w-0 flex-1 truncate font-mono">{item.slug}</span>
+										{item.type === "update" && <span className="rounded bg-blue-500/10 px-1 text-[9px] text-blue-600">update</span>}
+										{item.round > 1 && <span className="rounded bg-violet-500/10 px-1 text-[9px] text-violet-600">r{item.round}</span>}
+										{entry.subs.length === 1 && <span className="text-[10px] text-muted-foreground">@{item.contributor}</span>}
+										{staged?.outcome === "approve" && <Check className="size-3.5 text-emerald-600" />}
+										{staged?.outcome === "reject" && (
+											<X className={cn("size-3.5", staged.final && "text-red-600", !staged.final && "text-amber-600")} />
+										)}
+									</button>
+								)
+							})}
+						</div>
+					))}
 				</div>
-				<div className="flex shrink-0 flex-wrap items-center gap-2 rounded-xl border bg-background px-3 py-2 text-xs">
-					<span className="font-medium">Changeset</span>
-					<span className="text-muted-foreground">
-						{review.decidedIcons}/{review.totalIcons} icons decided · {review.fixups.length} fix-ups · {review.payload.submissions.length}{" "}
-						submissions affected
+			</aside>
+
+			<main className="flex min-h-0 min-w-0 flex-col gap-3 overflow-y-auto">
+				<div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
+					<span>
+						{index + 1} of {order.length}
 					</span>
-					<details className="relative">
-						<summary className="cursor-pointer text-muted-foreground underline">fix-ups</summary>
-						<ul className="absolute bottom-6 left-0 z-30 w-96 max-w-[80vw] space-y-1 rounded-lg border bg-background p-2 shadow-lg">
-							{!review.fixups.length && <li className="text-muted-foreground">None yet</li>}
-							{review.fixups.map((fix, index) => (
-								<li key={index} className="flex items-start gap-1 font-mono text-[11px]">
-									<span className="flex-1">{describeFixup(fix)}</span>
-									<button type="button" aria-label="Undo fix-up" onClick={() => review.undoFixup(index)}>
+					<span className="rounded-full border bg-background px-2 py-0.5">@{sub.contributor}</span>
+					{group && group.subs.length > 1 && (
+						<span className="rounded-full border bg-background px-2 py-0.5">sent together with {group.subs.length - 1} others</span>
+					)}
+					<span>{minutesAgo(sub.created)}</span>
+					<DecisionBadge decision={decision} />
+				</div>
+				<div className="flex flex-wrap items-end gap-3">
+					<h2 className="break-all font-mono text-2xl font-semibold sm:text-3xl">{view.slug}</h2>
+					{view.slug !== sub.slug && <span className="pb-1 text-xs text-blue-600">renamed from {sub.slug}</span>}
+					<span className="pb-1 text-xs text-muted-foreground">
+						{sub.type === "update" && "Update proposal to a published icon"}
+						{sub.type === "new" && "New icon"}
+						{sub.round > 1 && ` · round ${sub.round}`}
+					</span>
+				</div>
+				{sub.note && <p className="text-sm text-muted-foreground">“{sub.note}”</p>}
+				{sub.delta && (
+					<div className="flex flex-wrap gap-1.5 text-[11px]">
+						{sub.delta.add.map((entry) => (
+							<span key={entry.id} className="rounded bg-emerald-500/10 px-1.5 text-emerald-700 dark:text-emerald-300">
+								+ {entry.kind}
+							</span>
+						))}
+						{sub.delta.replace.map((entry) => (
+							<span key={entry.id} className="rounded bg-amber-500/10 px-1.5 text-amber-700 dark:text-amber-300">
+								~ {entry.kind}
+							</span>
+						))}
+						{sub.delta.remove.map((kind) => (
+							<span key={kind} className="rounded bg-red-500/10 px-1.5 text-red-700 dark:text-red-300">
+								− {kind}
+							</span>
+						))}
+						{sub.delta.aliases.add.map((alias) => (
+							<span key={alias} className="rounded bg-emerald-500/10 px-1.5 font-mono">
+								+ alias {alias}
+							</span>
+						))}
+						{sub.delta.aliases.remove.map((alias) => (
+							<span key={alias} className="rounded bg-red-500/10 px-1.5 font-mono line-through">
+								alias {alias}
+							</span>
+						))}
+					</div>
+				)}
+				{sub.history && (
+					<div className="rounded-lg border border-violet-500/30 bg-violet-500/5 px-3 py-2 text-xs">
+						<p className="flex items-center gap-1.5 font-medium">
+							<History className="size-3.5" />
+							Round {sub.round}: resubmitted after rejection by @{sub.history.reviewer} ({minutesAgo(sub.history.at)})
+						</p>
+						<p className="mt-0.5 text-muted-foreground">“{sub.history.reason}”</p>
+						<div className="mt-2 flex flex-wrap items-center gap-2">
+							{sub.history.previous.map((entry) => (
+								<Swatch key={entry.id} variant={entry} mode={backdrop} className="size-12 rounded border p-1 opacity-70" />
+							))}
+							<span className="text-muted-foreground">→</span>
+							{sub.variants.map((entry) => (
+								<Swatch key={entry.id} variant={entry} mode={backdrop} className="size-12 rounded border p-1" />
+							))}
+							<span className="text-muted-foreground">{sub.history.changes.join(" · ")}</span>
+						</div>
+					</div>
+				)}
+				<Hints sub={sub} review={review} onOpen={(id) => setCurrentId(id)} onRejectAsVariant={rejectAsVariant} />
+				{!!view.issues.length && <p className="text-xs text-red-600">⚠ {view.issues.join(" · ")}</p>}
+
+				<div className="flex items-center gap-2 text-xs">
+					<span className="text-muted-foreground">Background (G)</span>
+					{(["intended", "checker"] as Backdrop[]).map((mode) => (
+						<button
+							type="button"
+							key={mode}
+							onClick={() => setBackdrop(mode)}
+							className={cn("rounded-md border px-2 py-0.5", backdrop === mode && "bg-foreground text-background")}
+						>
+							{mode === "intended" && "Background it's for"}
+							{mode === "checker" && "Checkerboard"}
+						</button>
+					))}
+				</div>
+				<div className="grid grid-cols-2 gap-3 sm:grid-cols-3 xl:grid-cols-4">
+					{visibleRows.map((row, position) => (
+						<VariantTile
+							key={`${row.originalKind}-${row.proposed?.id || row.published?.id}`}
+							row={row}
+							slug={view.slug}
+							mode={backdrop}
+							number={position + 1}
+							selected={selectedTile === position}
+							onSelect={() => setSelectedTile(position)}
+							review={review}
+							submissionId={sub.id}
+							update={sub.type === "update"}
+						/>
+					))}
+				</div>
+				<MetadataFields key={sub.id} sub={sub} review={review} />
+				<label htmlFor="bench-note" className="block text-[11px] text-muted-foreground">
+					Note to contributor (C)
+					<Textarea
+						id="bench-note"
+						ref={commentRef}
+						rows={2}
+						value={review.comments[sub.id] || ""}
+						onChange={(event) => review.comment(sub.id, event.target.value)}
+						placeholder="Optional, sent with the decision"
+						className="mt-0.5 text-xs text-foreground"
+					/>
+				</label>
+
+				<div className="sticky bottom-0 z-20 mt-auto space-y-2 rounded-xl border bg-background p-3 shadow-lg">
+					{picker && <ReasonPicker hint={variantHint} onPick={rejectWith} />}
+					<FinalToggle review={review} id={sub.id} />
+					<div className="flex flex-wrap gap-2">
+						<Button
+							className="flex-1"
+							onClick={() => {
+								review.approve(sub.id)
+								go(1)
+							}}
+						>
+							<Check className="size-4" />
+							Approve & next <kbd className="text-xs opacity-70">P</kbd>
+						</Button>
+						<Button variant="outline" className="flex-1" onClick={() => setPicker(!picker)}>
+							<X className="size-4" />
+							Reject <kbd className="text-xs opacity-60">X</kbd>
+						</Button>
+						<Button variant="ghost" onClick={() => commentRef.current?.focus()}>
+							<MessageSquare className="size-4" />
+							<kbd className="text-xs opacity-60">C</kbd>
+						</Button>
+						<Button variant="ghost" disabled={!decision} onClick={() => review.unflag(sub.id)}>
+							<RotateCcw className="size-4" />
+							<kbd className="text-xs opacity-60">U</kbd>
+						</Button>
+					</div>
+					<p className="text-center text-[11px] text-muted-foreground">
+						J/K next/prev · P approve · X reject → 1–9 reason · F final · V reject as variant · C note · U unflag · E rename · 1–9 tile · D
+						drop tile · G background · ←/→ prototype
+					</p>
+				</div>
+			</main>
+
+			<aside aria-label="Staged decisions" className="flex min-h-0 flex-col overflow-hidden rounded-xl border bg-background">
+				<div className="border-b p-3">
+					<Button className="w-full" disabled={!staged.length} onClick={onSubmit}>
+						<Send className="size-4" />
+						Submit review · {staged.length}
+					</Button>
+					<p className="mt-2 text-[11px] text-muted-foreground">
+						Approval doesn't publish. {review.payload.publishQueue.length} files will wait in the publish queue.
+					</p>
+				</div>
+				<ul className="min-h-0 flex-1 space-y-1 overflow-y-auto p-2 text-xs">
+					{!staged.length && <li className="p-2 text-muted-foreground">Decisions you stage appear here.</li>}
+					{staged.map((item) => {
+						const staged = review.decisions[item.id]
+						const lines = review.fixupLines(item)
+						return (
+							<li key={item.id} className="rounded-md border p-2">
+								<div className="flex items-center gap-1.5">
+									<button type="button" className="min-w-0 flex-1 truncate text-left font-mono" onClick={() => setCurrentId(item.id)}>
+										{review.effective(item).slug}
+									</button>
+									<DecisionBadge decision={staged} className="px-1 py-0 text-[10px]" />
+									<button type="button" aria-label="Unflag" onClick={() => review.unflag(item.id)}>
 										<Undo2 className="size-3" />
 									</button>
-								</li>
-							))}
-						</ul>
-					</details>
-					<Button size="sm" className="ml-auto h-8" disabled={!review.payload.submissions.length} onClick={onSubmit}>
-						<Send className="size-3.5" />
-						Submit review
-					</Button>
-				</div>
-			</div>
-			<aside className="min-h-0 overflow-y-auto rounded-xl border bg-background">
-				{!selected && <p className="p-6 text-sm text-muted-foreground">Pick a card.</p>}
-				{selected && <Detail key={selected.id} sub={selected} review={review} onSelect={setSelectedId} />}
-			</aside>
-		</div>
-	)
-}
-
-function Chip({ tone, children }: { tone: "violet" | "blue" | "amber" | "red"; children: React.ReactNode }) {
-	return (
-		<span
-			className={cn("rounded px-1.5 py-0.5 font-medium", {
-				"bg-violet-500/10 text-violet-700 dark:text-violet-300": tone === "violet",
-				"bg-blue-500/10 text-blue-700 dark:text-blue-300": tone === "blue",
-				"bg-amber-500/10 text-amber-700 dark:text-amber-300": tone === "amber",
-				"bg-red-500/10 text-red-700 dark:text-red-300": tone === "red",
-			})}
-		>
-			{children}
-		</span>
-	)
-}
-
-function Detail({ sub, review, onSelect }: { sub: MockSubmission; review: Review; onSelect: (id: string) => void }) {
-	const [picking, setPicking] = useState<Exclude<Outcome, "approve"> | null>(null)
-	const [renaming, setRenaming] = useState<Record<string, string>>({})
-	const subDecision = review.subDecisions[sub.id]
-	const flagged = sub.icons.filter((entry) => entry.variants.some((variant) => blocking(variant) && !review.dropped[variant.id]))
-	const clashes = useMemo(
-		() => collisions(review.subs).filter((entry) => entry.entries.some((item) => item.submissionId === sub.id)),
-		[review.subs, sub.id],
-	)
-	return (
-		<div>
-			<header className="sticky top-0 z-10 space-y-2 border-b bg-background p-4">
-				<div className="flex items-start justify-between gap-2">
-					<div className="min-w-0">
-						<p className="text-[10px] uppercase tracking-widest text-muted-foreground">
-							Submission · {sub.icons.length} icon{sub.icons.length > 1 && "s"}
-						</p>
-						<h2 className="truncate text-lg font-semibold">@{sub.contributor}</h2>
-						<p className="text-xs text-muted-foreground">{sub.note || "No note"}</p>
-					</div>
-					{subDecision && <OutcomeBadge outcome={subDecision.outcome} />}
-				</div>
-				<div className="flex flex-wrap gap-1.5">
-					<Button size="sm" className="h-8" onClick={() => review.decideSubmission(sub.id, "approve")}>
-						<Check className="size-3.5" />
-						Approve all
-					</Button>
-					<Button size="sm" variant="outline" className="h-8" onClick={() => setPicking(picking === "changes" ? null : "changes")}>
-						<RotateCcw className="size-3.5" />
-						Request changes
-					</Button>
-					<Button size="sm" variant="outline" className="h-8" onClick={() => setPicking(picking === "reject" ? null : "reject")}>
-						<X className="size-3.5" />
-						Reject
-					</Button>
-					{subDecision && (
-						<Button size="sm" variant="ghost" className="h-8" onClick={() => review.decideSubmission(sub.id, null)}>
-							<Undo2 className="size-3.5" />
-						</Button>
-					)}
-				</div>
-				{!!flagged.length && flagged.length < sub.icons.length && (
-					<Button
-						size="sm"
-						variant="secondary"
-						className="h-8 w-full justify-start"
-						onClick={() => {
-							review.decideSubmission(sub.id, "approve")
-							for (const entry of flagged) review.decideIcon(entry.id, "changes", reasons[2].text)
-						}}
-					>
-						<Check className="size-3.5" />
-						Approve {sub.icons.length - flagged.length}, send back {flagged.length} flagged
-					</Button>
-				)}
-				{picking && (
-					<div className="grid gap-1">
-						{reasons
-							.filter((reason) => reason.outcome === picking)
-							.map((reason) => (
-								<button
-									type="button"
-									key={reason.text}
-									className="rounded border px-2 py-1.5 text-left text-xs hover:bg-muted"
-									onClick={() => {
-										review.decideSubmission(sub.id, picking, reason.text)
-										setPicking(null)
-									}}
-								>
-									{reason.text}
-								</button>
-							))}
-					</div>
-				)}
-			</header>
-			<div className="space-y-3 p-4">
-				{clashes.map((clash) => (
-					<div key={clash.slug} className="flex items-start gap-2 rounded-lg border border-amber-500/30 bg-amber-500/5 p-2.5 text-xs">
-						<AlertTriangle className="mt-0.5 size-3.5 shrink-0 text-amber-600" />
-						<div className="flex-1">
-							<span className="font-mono">{clash.slug}</span> is also pending from{" "}
-							{clash.entries
-								.filter((item) => item.submissionId !== sub.id)
-								.map((item) => (
-									<button key={item.submissionId} type="button" className="underline" onClick={() => onSelect(item.submissionId)}>
-										@{item.contributor} ({minutesAgo(item.created)})
-									</button>
-								))}
-							. First come wins unless you rename one.
-						</div>
-					</div>
-				))}
-				{sub.history && (
-					<div className="rounded-lg border border-blue-500/30 bg-blue-500/5 p-2.5 text-xs">
-						<p className="font-medium">
-							Round {sub.round} · you requested changes {minutesAgo(sub.history.at)}
-						</p>
-						<p className="mt-1 text-muted-foreground">“{sub.history.feedback}”</p>
-						<div className="mt-2 flex items-center gap-2">
-							{sub.history.previous.map((variant) => (
-								<Swatch key={variant.id} variant={variant} className="size-12 rounded border p-1" />
-							))}
-							<ArrowRight className="size-4 text-muted-foreground" />
-							{sub.icons[0].variants.map((variant) => (
-								<Swatch key={variant.id} variant={variant} className="size-12 rounded border p-1" />
-							))}
-						</div>
-						<ul className="mt-2 list-inside list-disc">
-							{sub.history.changes.map((change) => (
-								<li key={change}>{change}</li>
-							))}
-						</ul>
-					</div>
-				)}
-				{sub.icons.map((entry, index) => {
-					const effective = review.decision(entry.id)
-					const override = review.iconDecisions[entry.id]
-					return (
-						<details key={entry.id} open={sub.icons.length < 4 || index === 0} className="rounded-lg border">
-							<summary className="flex cursor-pointer items-center gap-2 px-3 py-2">
-								<Swatch variant={entry.variants[0]} className="size-8 shrink-0 rounded border p-0.5" />
-								<span className="min-w-0 flex-1">
-									<span className="block truncate font-mono text-sm font-medium">{entry.slug}</span>
-									<span className="text-[11px] text-muted-foreground">
-										{entry.mode === "update" && "Update · "}
-										{entry.variants.length} variant{entry.variants.length > 1 && "s"}
-										{override && " · override"}
-									</span>
-								</span>
-								<OutcomeBadge outcome={effective?.outcome || "undecided"} />
-							</summary>
-							<div className="space-y-3 border-t p-3">
-								<div className="flex gap-1">
-									{(["approve", "changes", "reject"] as Outcome[]).map((outcome) => (
-										<Button
-											key={outcome}
-											size="sm"
-											variant={override?.outcome === outcome ? "default" : "outline"}
-											className="h-7 flex-1 px-1 text-[11px]"
-											onClick={() => review.decideIcon(entry.id, override?.outcome === outcome ? null : outcome)}
-										>
-											{{ approve: "Approve icon", changes: "Changes", reject: "Reject icon" }[outcome]}
-										</Button>
-									))}
 								</div>
-								{entry.target && (
-									<div className="grid grid-cols-2 gap-2 text-[11px]">
-										<div>
-											<p className="mb-1 text-muted-foreground">Published</p>
-											<div className="flex gap-1">
-												{entry.target.published.map((variant) => (
-													<DualSwatch key={variant.id} variant={variant} className="h-16 flex-1" />
-												))}
-											</div>
-										</div>
-										<div>
-											<p className="mb-1 text-muted-foreground">Proposed</p>
-											<div className="flex gap-1">
-												<DualSwatch variant={entry.variants[0]} className="h-16 flex-1" />
-											</div>
-										</div>
-									</div>
+								{staged?.outcome === "reject" && <p className="mt-0.5 line-clamp-2 text-[10px] text-muted-foreground">{staged.reason}</p>}
+								{staged?.outcome === "approve" && !!lines.length && (
+									<p className="mt-0.5 text-[10px] text-blue-600">
+										{lines.length} fix-up{lines.length > 1 && "s"}: {lines.join("; ")}
+									</p>
 								)}
-								<div className="grid grid-cols-2 gap-2">
-									{entry.variants.map((variant) => {
-										const drop = review.dropped[variant.id]
-										return (
-											<figure key={variant.id} className={cn("space-y-1", drop && "opacity-40")}>
-												<DualSwatch variant={variant} className="h-20" />
-												<figcaption className="flex items-center gap-1 text-[10px]">
-													<KindBadge variant={variant} />
-													<span className="min-w-0 flex-1 truncate font-mono text-muted-foreground" title={drop}>
-														{fileName(entry.slug, variant)}
-													</span>
-													<button type="button" aria-label="Drop variant" onClick={() => review.toggleDrop(variant.id)}>
-														{drop && <Undo2 className="size-3" />}
-														{!drop && <Trash2 className="size-3" />}
-													</button>
-												</figcaption>
-												{variant.asset.checks.map((check) => (
-													<p key={check.id} className="text-[10px] text-red-600">
-														⚠ {check.label}
-													</p>
-												))}
-											</figure>
-										)
-									})}
-								</div>
-								<div className="flex gap-1">
-									<Input
-										className="h-7 font-mono text-xs"
-										aria-label="Rename slug"
-										value={renaming[entry.id] ?? entry.slug}
-										onChange={(event) => setRenaming({ ...renaming, [entry.id]: event.target.value })}
-									/>
-									<Button
-										size="sm"
-										variant="outline"
-										className="h-7 text-xs"
-										onClick={() => review.rename(entry.id, renaming[entry.id] || "")}
-									>
-										Rename
-									</Button>
-									{sub.icons.length > 1 && (
-										<Button size="sm" variant="ghost" className="h-7 text-xs" onClick={() => review.split(entry.id)}>
-											<Scissors className="size-3" />
-											Split
-										</Button>
-									)}
-								</div>
-							</div>
-						</details>
-					)
-				})}
-			</div>
+							</li>
+						)
+					})}
+				</ul>
+			</aside>
 		</div>
 	)
 }
