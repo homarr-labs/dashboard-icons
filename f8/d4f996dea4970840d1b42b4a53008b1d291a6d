@@ -1,0 +1,60 @@
+web/backend/pb_hooks/dashboard.js
+  h_d6e478ca18e517 7,14,93-95,106-124,125,126-130,131,132-137,169,174-180,216-227
+web/backend/pb_hooks/submission-email.js
+  h_d6e478ca18e517 49-54,82,268,271
+web/backend/pb_migrations/1792300000_submission_resubmission.js
+  h_d6e478ca18e517 1-25
+web/docs/submission-resubmission.md
+  h_d6e478ca18e517 1-9,10-13
+web/src/app/api/submissions/[id]/route.ts
+  h_d6e478ca18e517 1-70
+web/src/app/community/submissions/[id]/page.tsx
+  h_d6e478ca18e517 4,228,273-277
+web/src/components/dashboard/inspector.tsx
+  h_d6e478ca18e517 4-5,90,141-144,274
+web/src/components/icon-submission-form.tsx
+  h_d6e478ca18e517 7,26-32,39,163,168-169
+web/src/components/submission/edit-icon-picker.tsx
+  h_d6e478ca18e517 7,18-19,25-26,30,43,106,126-128
+web/src/components/submission/own-submission-editor.tsx
+  h_d6e478ca18e517 1-7,8,9-13,14,15,16,17-21,22-24,25-30,31-40,41-49,50,51-63,64,65-71,72-75,76-132,133-134,135-202,203,204,205-226,227-249,250,251-300
+web/src/components/submission/rejected-round-comparison.tsx
+  h_d6e478ca18e517 1-4,5,6-9,10-31,32-37,38-61,62,63,64-65,66-68,69-71,72-74,75-92,93-95,96-121
+web/src/components/submission/rejection-notice.tsx
+  h_d6e478ca18e517 1-23
+web/src/components/submission/submission-card.tsx
+  h_d6e478ca18e517 38,66,82,89,116-123,129-138,163,191,231-240,264-271,359-364
+web/src/lib/pb.ts
+  h_d6e478ca18e517 2,53-63,64-66,67,81
+web/src/lib/submission-update-service.ts
+  h_d6e478ca18e517 1-45
+web/src/mcp/__tests__/account-tools.test.ts
+  h_d6e478ca18e517 231-238
+web/src/mcp/tools/list-my-submissions.ts
+  h_d6e478ca18e517 12,25-26,69-72
+web/backend/pb_hooks/submission-assets.d.ts
+  h_d6e478ca18e517 1-37
+web/backend/pb_hooks/submission-assets.js
+  h_d6e478ca18e517 1-81
+web/src/components/submission/legacy-asset-assignment.tsx
+  h_d6e478ca18e517 1-114
+web/src/components/submission/submission-preview.tsx
+  h_d6e478ca18e517 13,18,47
+web/src/lib/__tests__/submission-guard.test.ts
+  h_d6e478ca18e517 7,310-391
+web/src/lib/community.ts
+  h_d6e478ca18e517 4,20-22
+web/src/lib/submission-variants.ts
+  h_d6e478ca18e517 2,4,73-74
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "f8d4f996dea4970840d1b42b4a53008b1d291a6d",
+  "prompts": {},
+  "humans": {
+    "h_d6e478ca18e517": {
+      "author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
