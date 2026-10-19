@@ -1,0 +1,16 @@
+web/README.md
+  h_d6e478ca18e517 139-140,152-157
+web/scripts/deploy-pocketbase.mjs
+  h_d6e478ca18e517 30
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "570441d2d6eb44e9ab6d89276b4ff92219e2c023",
+  "prompts": {},
+  "humans": {
+    "h_d6e478ca18e517": {
+      "author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
