@@ -1,0 +1,53 @@
+web/src/app/submit/page.tsx
+  s_e047af3de47cca::t_aeaa8763eb10d4 3,52-54,59-60,65,73
+web/src/components/custom-variant-input.tsx
+  s_e047af3de47cca::t_19250457037248 53,62
+web/src/components/icon-submission-form.tsx
+  s_e047af3de47cca::t_adc541e04d20c9 31,52,87,105,109,121-124,131,135,137-148,150-151,153,156-162,164-169,171-174,177,181,190,199,209,211,214-217,219,225,227,230,232-233,235,238,240,245,276-278,292,298-299,314,316,360,384,393,402,418,426,431,434,440,457,460,478,511
+web/src/components/icon-submission-guidelines.tsx
+  s_e047af3de47cca::t_df8ed9e16ca71f 49,55,63,68,70-71,74,79-80,88-90,93
+web/src/components/submission/edit-icon-picker.tsx
+  s_e047af3de47cca::t_0a82ae06825f6b 22,33,77,82,89,95,104,108,144,151-152,169,171-190,192-193,195,197,208,232,236-237
+web/src/components/submission/icon-update-editor.tsx
+  s_e047af3de47cca::t_e1e51e61f5e815 34,125-129,234,236,239-243,250,256,264,267,269-270,353,362-363,369,372,376,378,394,405,425,428,443,451,460,478-506,508-542,544-545,547-590,596-602,604-615,618,620,629,658,688,703,729,732,738,762,770,791
+web/src/components/submission/legacy-asset-assignment.tsx
+  s_e047af3de47cca::t_9cb93c61cb1501 58,78,114
+web/src/components/submission/own-submission-editor.tsx
+  s_e047af3de47cca::t_92e47392a5a842 13,87,89,92-96,104,110,118,120,122-124,130,194,202-203,205,211,215,219,226,232-234,239,254,257,295,298,349
+web/src/components/submission/rejected-round-comparison.tsx
+  s_e047af3de47cca::t_30de1659aacc06 50-52,57,62,96,151
+web/src/components/submission/rejection-notice.tsx
+  s_e047af3de47cca::t_d92eb5c21a4967 36-38,43,52
+web/src/components/submission/submission-card.tsx
+  s_e047af3de47cca::t_e5a4ac65a748bc 88-97,99-142,144,147-157,195,204,208,239,245,252,262,264-265,304,312-315,335,353,355,364
+web/src/components/submission/submission-form.css
+  s_e047af3de47cca::t_76a51e800cd17f 35
+web/src/components/submission/submission-preview.tsx
+  s_e047af3de47cca::t_f182a17887b425 10,40,66,69,76,78-86,88,91-92,98,101
+web/src/components/submission/submission-ui.tsx
+  s_b6ba0fabea817a::t_70729260c97b90 3,9,14-19,24,67-68,71-72,136,139,147,169-171,178,182,239,241-246,248,252
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "d6e367027f1883483513ea79663adca20e893ca1",
+  "prompts": {},
+  "sessions": {
+    "s_b6ba0fabea817a": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "86a24cc3-4212-4ceb-976e-cccb97b70270",
+        "model": "unknown"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    },
+    "s_e047af3de47cca": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "dc68b5d9-8f96-4ff2-9461-290a37969612",
+        "model": "unknown"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
