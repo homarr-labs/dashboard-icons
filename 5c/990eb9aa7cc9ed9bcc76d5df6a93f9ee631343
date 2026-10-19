@@ -1,0 +1,14 @@
+web/src/components/dashboard/review-bench.tsx
+  h_d6e478ca18e517 733
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "5c990eb9aa7cc9ed9bcc76d5df6a93f9ee631343",
+  "prompts": {},
+  "humans": {
+    "h_d6e478ca18e517": {
+      "author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
