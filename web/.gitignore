@@ -61,6 +61,7 @@ scripts/*
 !scripts/mcp-oauth-smoke.ts
 !scripts/mcp-replay-integration.mjs
 !scripts/ping-indexnow.mjs
+!scripts/generate-icon-files.mjs
 data/sources/
 
 # Playwright

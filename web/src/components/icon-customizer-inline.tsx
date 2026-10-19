@@ -223,7 +223,7 @@ export function IconCustomizerInline({
 			initial={{ opacity: 0, height: 0 }}
 			animate={{ opacity: 1, height: "auto" }}
 			exit={{ opacity: 0, height: 0 }}
-			className="space-y-4 [&_button]:min-h-11 [&_button]:min-w-11"
+			className="space-y-4 [&_button]:min-h-11 [&_button]:min-w-11 [&_button:focus-visible]:outline-2 [&_button:focus-visible]:outline-offset-2 [&_button:focus-visible]:outline-foreground"
 		>
 			<div className="flex items-center justify-between px-1">
 				<div className="flex items-center gap-2">

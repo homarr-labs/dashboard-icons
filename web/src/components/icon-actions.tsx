@@ -4,7 +4,7 @@ import type React from "react"
 import { Button } from "@/components/ui/button"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 
-const ACTION_BUTTON_CLASS = "relative size-11 rounded-lg md:size-9 md:after:absolute md:after:-inset-1 md:after:content-['']"
+const ACTION_BUTTON_CLASS = "size-11 rounded-lg"
 
 export type IconActionsProps = {
 	imageUrl: string

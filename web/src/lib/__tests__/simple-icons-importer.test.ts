@@ -8,11 +8,11 @@ const mockGetFirstListItem = vi.hoisted(() => vi.fn())
 vi.mock("@/lib/pb", () => ({
 	createServerPB: () => ({
 		filter: vi.fn(),
-		collection: () => ({ getFirstListItem: mockGetFirstListItem }),
+		collection: () => ({ getFirstListItem: mockGetFirstListItem, getFullList: vi.fn().mockResolvedValue([]) }),
 	}),
 }))
 
-vi.mock("@/lib/api", () => ({ getIconsArray: vi.fn() }))
+vi.mock("@/lib/api", () => ({ getIconsArray: vi.fn(), getAllIcons: vi.fn().mockResolvedValue({}) }))
 vi.mock("@/components/icon-details", () => ({ IconDetails: () => null }))
 
 const upstreamIcons = [

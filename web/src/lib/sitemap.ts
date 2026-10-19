@@ -1,9 +1,11 @@
 import type { MetadataRoute } from "next"
-import { BASE_URL, EXTERNAL_SOURCE_IDS, type ExternalSourceId, WEB_URL } from "@/constants"
+import { EXTERNAL_SOURCE_IDS, type ExternalSourceId, WEB_URL } from "@/constants"
 import { getAllIcons } from "@/lib/api"
 import { getCommunitySubmissions } from "@/lib/community"
 import { getExternalIconPagePath, resolveExternalIconUrl } from "@/lib/external-icon-urls"
 import { getExternalIcons } from "@/lib/external-icons"
+import { getNativeIconVariants } from "@/lib/icons/files"
+import { buildIconUrl } from "@/lib/icons/urls"
 import type { ExternalIconRecord } from "@/types/icons"
 
 const EXTERNAL_PREFIX = "external-"
@@ -50,11 +52,7 @@ async function iconsSitemap(): Promise<MetadataRoute.Sitemap> {
 		lastModified: toLastModified(icon.update.timestamp),
 		changeFrequency: "yearly",
 		priority: 0.8,
-		images: [
-			`${BASE_URL}/png/${iconName}.png`,
-			...(icon.base === "svg" ? [`${BASE_URL}/svg/${iconName}.svg`] : []),
-			`${BASE_URL}/webp/${iconName}.webp`,
-		],
+		images: getNativeIconVariants(iconName, icon).flatMap((variant) => variant.formats.map((format) => buildIconUrl(variant.stem, format))),
 	}))
 }
 

@@ -1,3 +1,5 @@
+import type { IconVariantMatch } from "@/lib/icons/variants"
+
 export type IconTone = "light" | "dark"
 
 export type IconImageVariant =
@@ -5,6 +7,7 @@ export type IconImageVariant =
 	| { kind: "tone"; tone: IconTone; monochrome: boolean }
 	| { kind: "wordmark"; tone: IconTone | "default" }
 	| { kind: "named"; name: string; label: string; tone?: IconTone }
+	| { kind: "custom"; name: string }
 
 export const ICON_TONES: readonly IconTone[] = ["light", "dark"]
 
@@ -46,8 +49,34 @@ export function getToneLabel(tone: IconTone, subject?: string) {
 	return `${TONE_TITLE[tone]} (for ${TONE_BACKGROUND[tone]})`
 }
 
+export function getIconVariantLabel(variant: Pick<IconVariantMatch, "label">) {
+	return variant.label.replace(/\b\w+/g, (word) => {
+		if (/^\d+[a-z]+$/i.test(word)) return word.toUpperCase()
+		return word.charAt(0).toUpperCase() + word.slice(1)
+	})
+}
+
+export function getIconImageVariant(variant: IconVariantMatch): IconImageVariant {
+	switch (variant.key) {
+		case "default":
+			return { kind: "base" }
+		case "light":
+		case "dark":
+			return { kind: "tone", tone: variant.key, monochrome: false }
+		case "wordmark":
+			return { kind: "wordmark", tone: "default" }
+		case "wordmark-light":
+			return { kind: "wordmark", tone: "light" }
+		case "wordmark-dark":
+			return { kind: "wordmark", tone: "dark" }
+		default:
+			return { kind: "custom", name: getIconVariantLabel(variant) }
+	}
+}
+
 export function buildIconAltText(displayName: string, variant: IconImageVariant, format?: string) {
-	const formatLabel = format ? ` (${format.toUpperCase()})` : ""
+	const formatName = format === "webp" ? "WebP" : format?.toUpperCase()
+	const formatLabel = formatName ? ` (${formatName})` : ""
 
 	switch (variant.kind) {
 		case "base":
@@ -60,5 +89,7 @@ export function buildIconAltText(displayName: string, variant: IconImageVariant,
 		case "named":
 			if (variant.tone) return `${displayName} logo, ${variant.label}, ${describeToneVariant(variant.tone, false)}${formatLabel}`
 			return `${displayName} logo, ${variant.label} variant${formatLabel}`
+		case "custom":
+			return `${displayName} ${variant.name} logo${formatLabel}`
 	}
 }

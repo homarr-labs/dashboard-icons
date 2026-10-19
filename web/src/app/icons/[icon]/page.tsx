@@ -5,6 +5,9 @@ import { IconNameRelatedLinks, IconRelatedLinks } from "@/components/icon-relate
 import { APACHE_LICENSE_URL, BASE_URL, WEB_URL } from "@/constants"
 import { computeRelatedIcons, getAllIcons, getAuthorData } from "@/lib/api"
 import { getIconRelations, getVersionParent } from "@/lib/icon-relations"
+import { buildIconAltText, getIconImageVariant, getIconVariantLabel } from "@/lib/icon-variant-text"
+import { getNativeIconVariants } from "@/lib/icons/files"
+import { buildIconUrl } from "@/lib/icons/urls"
 import { formatIconName } from "@/lib/utils"
 
 export const dynamicParams = true
@@ -40,10 +43,22 @@ export async function generateMetadata({ params }: Props, _parent: ResolvingMeta
 
 	const pageUrl = `${WEB_URL}/icons/${icon}`
 	const formattedIconName = formatIconName(icon, { capitalize: true, aliases: iconsData[icon].aliases })
+	const variants = getNativeIconVariants(icon, iconsData[icon])
+	const assets = variants.flatMap((variant) => variant.formats.map((format) => buildIconUrl(variant.stem, format)))
+	const formats = [...new Set(variants.flatMap((variant) => variant.formats))]
+	const formatNames = formats.map((format) => (format === "webp" ? "WebP" : format.toUpperCase())).join(", ")
+	const variantNames = variants
+		.flatMap((variant) => variant.keys.filter((key) => key !== "default"))
+		.map((key) => getIconVariantLabel({ label: key.replaceAll("-", " ") }))
+	const variantSuffix = variantNames.length ? ` (${variantNames.join(", ")})` : ""
+	const title = `${formattedIconName} Icon & Logo - ${formatNames}${variantSuffix}`
+	let description = `Download the ${formattedIconName} icon and logo in ${formatNames}.`
+	if (variantNames.length) description += ` Includes ${variantNames.join(", ")} variants.`
+	description += ` Free downloads from a collection of ${totalIcons} curated icons for dashboards and app directories.`
 	return {
-		title: `${formattedIconName} Icon & Logo`,
-		description: `Download the ${formattedIconName} icon and logo in SVG, PNG, and WEBP formats for FREE. Part of a collection of ${totalIcons} curated icons and logos for services, applications and tools, designed specifically for dashboards and app directories.`,
-		assets: [`${BASE_URL}/svg/${icon}.svg`, `${BASE_URL}/png/${icon}.png`, `${BASE_URL}/webp/${icon}.webp`],
+		title,
+		description,
+		assets,
 		keywords: [
 			`${formattedIconName} icon`,
 			`${formattedIconName} logo`,
@@ -74,10 +89,10 @@ export async function generateMetadata({ params }: Props, _parent: ResolvingMeta
 				"max-image-preview": "large",
 			},
 		},
-		abstract: `Download the ${formattedIconName} icon and logo in SVG, PNG, and WEBP formats for FREE. Part of a collection of ${totalIcons} curated icons and logos for services, applications and tools, designed specifically for dashboards and app directories.`,
+		abstract: description,
 		openGraph: {
-			title: `${formattedIconName} Icon & Logo`,
-			description: `Download the ${formattedIconName} icon and logo in SVG, PNG, and WEBP formats for FREE. Part of a collection of ${totalIcons} curated icons and logos for services, applications and tools, designed specifically for dashboards and app directories.`,
+			title,
+			description,
 			type: "website",
 			url: pageUrl,
 			siteName: "Dashboard Icons",
@@ -101,17 +116,12 @@ export async function generateMetadata({ params }: Props, _parent: ResolvingMeta
 		},
 		twitter: {
 			card: "summary_large_image",
-			title: `${formattedIconName} Icon & Logo`,
-			description: `Download the ${formattedIconName} icon and logo in SVG, PNG, and WEBP formats for FREE. Part of a collection of ${totalIcons} curated icons and logos for services, applications and tools, designed specifically for dashboards and app directories.`,
+			title,
+			description,
 			images: [`${WEB_URL}/og/${icon}`],
 		},
 		alternates: {
 			canonical: `${WEB_URL}/icons/${icon}`,
-			media: {
-				png: `${BASE_URL}/png/${icon}.png`,
-				svg: `${BASE_URL}/svg/${icon}.svg`,
-				webp: `${BASE_URL}/webp/${icon}.webp`,
-			},
 		},
 	}
 }
@@ -146,6 +156,30 @@ export default async function IconPage({ params }: { params: Promise<{ icon: str
 		})
 	}
 	breadcrumbItems.push({ label: breadcrumbName })
+	const variants = getNativeIconVariants(icon, originalIconData)
+	const pageUrl = `${WEB_URL}/icons/${icon}`
+	const encodingFormats = { svg: "image/svg+xml", png: "image/png", webp: "image/webp" }
+	const images = variants.flatMap((variant) =>
+		variant.formats.map((format) => {
+			const url = buildIconUrl(variant.stem, format)
+			const name = buildIconAltText(formattedName, getIconImageVariant(variant), format)
+			return {
+				"@context": "https://schema.org",
+				"@type": "ImageObject",
+				"@id": url,
+				contentUrl: url,
+				name,
+				caption: `${name}: ${variant.stem}.${format}`,
+				encodingFormat: encodingFormats[format],
+				representativeOfPage: variant.key === "default",
+				license: APACHE_LICENSE_URL,
+				acquireLicensePage: `${WEB_URL}/license`,
+				creditText: "Dashboard Icons",
+				creator: { "@type": "Person", name: authorData.name || authorData.login },
+			}
+		}),
+	)
+	const primaryImage = images.find((image) => image.representativeOfPage && image.encodingFormat === "image/png") ?? images[0]
 
 	return (
 		<>
@@ -153,19 +187,18 @@ export default async function IconPage({ params }: { params: Promise<{ icon: str
 				type="application/ld+json"
 				// biome-ignore lint/security/noDangerouslySetInnerHtml: JSON-LD structured data
 				dangerouslySetInnerHTML={{
-					__html: JSON.stringify({
-						"@context": "https://schema.org",
-						"@type": "ImageObject",
-						name: `${formattedName} Icon`,
-						contentUrl: `${BASE_URL}/png/${icon}.png`,
-						license: APACHE_LICENSE_URL,
-						acquireLicensePage: `${WEB_URL}/license`,
-						creditText: "Dashboard Icons",
-						creator: {
-							"@type": "Person",
-							name: authorData.name || authorData.login,
+					__html: JSON.stringify([
+						{
+							"@context": "https://schema.org",
+							"@type": "WebPage",
+							"@id": pageUrl,
+							url: pageUrl,
+							name: `${formattedName} Icon & Logo`,
+							primaryImageOfPage: primaryImage && { "@id": primaryImage.contentUrl },
+							breadcrumb: { "@id": `${pageUrl}#breadcrumb` },
 						},
-					}).replace(/</g, "\\u003c"),
+						...images,
+					]).replace(/</g, "\\u003c"),
 				}}
 			/>
 			<script
@@ -175,6 +208,7 @@ export default async function IconPage({ params }: { params: Promise<{ icon: str
 					__html: JSON.stringify({
 						"@context": "https://schema.org",
 						"@type": "BreadcrumbList",
+						"@id": `${pageUrl}#breadcrumb`,
 						itemListElement: breadcrumbItems.map((item, index) => ({
 							"@type": "ListItem",
 							position: index + 1,
@@ -190,6 +224,7 @@ export default async function IconPage({ params }: { params: Promise<{ icon: str
 				nameRelatedLinks={<IconNameRelatedLinks icons={relations.relatedByName} />}
 				icon={icon}
 				iconData={originalIconData}
+				nativeVariants={variants}
 				authorData={authorData}
 				relatedIcons={relatedIcons}
 				relatedCategories={categories}

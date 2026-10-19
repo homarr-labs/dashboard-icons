@@ -55,6 +55,28 @@ src/
 The app exposes a native-icons MCP server over HTTP at `/api/mcp`. AI clients can search the collection, fetch icon metadata, and resolve CDN URLs without scraping the website.
 See [docs/MCP.md](./docs/MCP.md) for endpoints, client setup, tool schemas, environment variables, analytics, and rate limits.
 
+## Native Icon file availability
+
+Native Icon pages, image metadata and the image sitemap use the shared Variant resolver,
+filtered by `src/lib/icons/native-icon-files.json`. This compact manifest records only
+formats that exist in the repository, including Wordmarks and Custom variants. It checks
+SVG markup, PNG signatures and WebP RIFF headers against each extension, allowing XML
+prologs, comments, document type declarations and a BOM before SVG markup. Incompatible
+assets are excluded, while valid formats of the same stem remain available. The generator warns with each skipped
+path, its expected format and its detected type; it never converts or changes artwork.
+This keeps missing or mislabeled files out of the page and sitemap without probing the
+CDN at runtime.
+
+After changing files in the repository's `svg/`, `png/` or `webp/` directories, run this
+from `web/` and commit the updated manifest:
+
+```bash
+pnpm generate:icon-files
+```
+
+The deployment workflow refreshes it before building the Docker image. The checked-in
+manifest also supports local development and builds with only the `web/` directory.
+
 ## Development
 
 ### Prerequisites
