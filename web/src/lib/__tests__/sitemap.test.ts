@@ -55,7 +55,7 @@ describe("sitemap", () => {
 	it("lists only self-hosted external images with their source dates", async () => {
 		const { buildSitemap } = await import("../sitemap")
 		const entries = await buildSitemap("external-simpleicons")
-		const entry = entries.find(({ url }) => url === "https://dashboardicons.com/icons/external/claude")
+		const entry = entries.find(({ url }) => url === "https://dashboardicons.com/icons/external/simpleicons/claude")
 
 		expect(entry?.lastModified).toBe("2026-01-01T00:00:00.000Z")
 		expect(entry?.images).toEqual([
@@ -65,13 +65,11 @@ describe("sitemap", () => {
 		])
 	})
 
-	it("lists a shared slug only in the sitemap of the source its page shows", async () => {
+	it("lists a shared slug in the sitemap of every source that has it", async () => {
 		const { buildSitemap } = await import("../sitemap")
 		const [selfhst, simpleicons] = await Promise.all([buildSitemap("external-selfhst"), buildSitemap("external-simpleicons")])
-		const githubUrl = "https://dashboardicons.com/icons/external/github"
 
-		expect(selfhst.find(({ url }) => url === githubUrl)).toMatchObject({ images: [] })
-		expect(selfhst.find(({ url }) => url === githubUrl)?.lastModified).toBeUndefined()
-		expect(simpleicons.some(({ url }) => url === githubUrl)).toBe(false)
+		expect(selfhst.find(({ url }) => url === "https://dashboardicons.com/icons/external/selfhst/github")).toMatchObject({ images: [] })
+		expect(simpleicons.some(({ url }) => url === "https://dashboardicons.com/icons/external/simpleicons/github")).toBe(true)
 	})
 })

@@ -1,27 +1,26 @@
 import { notFound } from "next/navigation"
 import { ImageResponse } from "next/og"
-import { EXTERNAL_SOURCES, type ExternalSourceId } from "@/constants"
+import { EXTERNAL_SOURCES, isExternalSourceId } from "@/constants"
 import { getTotalIcons } from "@/lib/api"
 import { resolveExternalIconUrl } from "@/lib/external-icon-urls"
-import { getExternalIconBySlug } from "@/lib/external-icons"
+import { getExternalIconBySourceAndSlug } from "@/lib/external-icons"
 import { rasterizeRemoteSvg } from "@/lib/rasterize-svg"
 
 export const contentType = "image/png"
 export const size = { width: 1200, height: 630 }
 
-export async function GET(_req: Request, { params }: { params: Promise<{ slug: string }> }) {
-	const { slug: rawSlug } = await params
+export async function GET(_req: Request, { params }: { params: Promise<{ source: string; slug: string }> }) {
+	const { source, slug: rawSlug } = await params
+	if (!isExternalSourceId(source)) {
+		notFound()
+	}
 	const slug = rawSlug.replace(/\.png$/, "")
-	const icon = await getExternalIconBySlug(slug)
-
+	const icon = await getExternalIconBySourceAndSlug(source, slug)
 	if (!icon) {
 		notFound()
 	}
 
-	const sourceConfig = EXTERNAL_SOURCES[icon.external.source as ExternalSourceId]
-	if (!sourceConfig) {
-		notFound()
-	}
+	const sourceConfig = EXTERNAL_SOURCES[icon.source]
 
 	const { totalIcons } = await getTotalIcons()
 	const formattedName = icon.external.name

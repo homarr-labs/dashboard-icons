@@ -140,25 +140,10 @@ export async function getExternalIconBySourceAndSlug(source: ExternalSourceId, s
 	}
 }
 
-export function getSlugOwners(icons: ExternalIconRecord[]): ExternalIconRecord[] {
-	const seen = new Set<string>()
-	return icons.filter((icon) => {
-		if (seen.has(icon.slug)) return false
-		seen.add(icon.slug)
-		return true
-	})
+export async function getSlugOwner(slug: string): Promise<ExternalIconRecord | null> {
+	const icons = await getExternalIcons()
+	return icons.find((icon) => icon.slug === slug) ?? null
 }
-
-export async function getExternalIconBySlug(slug: string): Promise<ExternalIconRecord | null> {
-	const owner = getSlugOwners(await getExternalIcons()).find((icon) => icon.slug === slug)
-	if (!owner) {
-		return null
-	}
-
-	return getExternalIconBySourceAndSlug(owner.source, slug)
-}
-
-export const getExternalIcon = getExternalIconBySlug
 
 export async function listExternalIcons({ q = "", category, page = 1, perPage = 60 }: ListExternalIconsOptions = {}) {
 	const icons = await getExternalIcons()

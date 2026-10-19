@@ -77,6 +77,10 @@ export const EXTERNAL_SOURCES: Record<ExternalSourceId, ExternalSourceConfig> = 
 
 export const EXTERNAL_SOURCE_IDS = Object.keys(EXTERNAL_SOURCES) as ExternalSourceId[]
 
+export function isExternalSourceId(value: string): value is ExternalSourceId {
+	return Object.hasOwn(EXTERNAL_SOURCES, value)
+}
+
 export function getExternalSource(id: ExternalSourceId): ExternalSourceConfig {
 	return EXTERNAL_SOURCES[id]
 }

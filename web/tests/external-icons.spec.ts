@@ -33,12 +33,12 @@ test.describe("External selfh.st icons", () => {
 		await page.goto("/icons?source=selfhst")
 		await expect(page.getByRole("button", { name: /selfh\.st/i })).toBeVisible()
 
-		const firstExternalCard = page.locator('a[href^="/icons/external/"]').first()
+		const firstExternalCard = page.locator('a[href^="/icons/external/selfhst/"]').first()
 		await expect(firstExternalCard).toBeVisible()
 	})
 
 	test("detail page renders attribution and jsDelivr assets", async ({ page }) => {
-		await page.goto("/icons/external/2fauth")
+		await page.goto("/icons/external/selfhst/2fauth")
 
 		await expect(page.getByRole("heading", { name: /2fauth/i })).toBeVisible()
 		await expect(page.getByText("Icons by selfh.st/icons (CC BY 4.0)")).toBeVisible()
@@ -48,8 +48,15 @@ test.describe("External selfh.st icons", () => {
 		await expect(jsDelivrImages.first()).toBeVisible()
 	})
 
+	test("old one-segment URL permanently redirects to the source-qualified page", async ({ request }) => {
+		const response = await request.get("/icons/external/2fauth", { maxRedirects: 0 })
+
+		expect(response.status()).toBe(308)
+		expect(response.headers().location).toMatch(/\/icons\/external\/selfhst\/2fauth$/)
+	})
+
 	test("detail page shows themed PNG variants when available", async ({ page }) => {
-		await page.goto("/icons/external/altcha")
+		await page.goto("/icons/external/selfhst/altcha")
 
 		const lightImages = page.locator('img[src*="altcha-light"]')
 		const darkImages = page.locator('img[src*="altcha-dark"]')
@@ -64,12 +71,12 @@ test.describe("External LobeHub icons", () => {
 		await page.goto("/icons?source=lobehub")
 		await expect(page.getByRole("button", { name: /lobehub/i })).toBeVisible()
 
-		const firstExternalCard = page.locator('a[href^="/icons/external/"]').first()
+		const firstExternalCard = page.locator('a[href^="/icons/external/lobehub/"]').first()
 		await expect(firstExternalCard).toBeVisible()
 	})
 
 	test("detail page renders attribution and jsDelivr assets", async ({ page }) => {
-		await page.goto("/icons/external/openai-color")
+		await page.goto("/icons/external/lobehub/openai-color")
 
 		await expect(page.getByRole("heading", { name: /openai/i })).toBeVisible()
 		await expect(page.getByText(/MIT/)).toBeVisible()
@@ -80,7 +87,7 @@ test.describe("External LobeHub icons", () => {
 	})
 
 	test("'View on LobeHub' links to the correct brand page", async ({ page }) => {
-		await page.goto("/icons/external/openai-color")
+		await page.goto("/icons/external/lobehub/openai-color")
 
 		const viewLink = page.getByRole("link", { name: /view on lobehub/i })
 		await expect(viewLink).toHaveAttribute("href", /lobehub\.com\/icons\/openai/)
@@ -89,20 +96,20 @@ test.describe("External LobeHub icons", () => {
 	test("color variant is the primary entry, not duplicated with monochrome", async ({ page }) => {
 		await page.goto("/icons?source=lobehub")
 
-		await page.waitForSelector('a[href^="/icons/external/"]')
-		const allCards = page.locator('a[href^="/icons/external/"]')
+		await page.waitForSelector('a[href^="/icons/external/lobehub/"]')
+		const allCards = page.locator('a[href^="/icons/external/lobehub/"]')
 		const hrefs = await allCards.evaluateAll((els) => els.map((el) => el.getAttribute("href")))
 
 		const openaiCards = hrefs.filter((h) => h?.includes("openai"))
 		const hasColor = openaiCards.some((h) => h?.includes("openai-color"))
 		expect(hasColor).toBe(true)
 
-		const hasBareOpenai = openaiCards.some((h) => h === "/icons/external/openai")
+		const hasBareOpenai = openaiCards.some((h) => h === "/icons/external/lobehub/openai")
 		expect(hasBareOpenai).toBe(false)
 	})
 
 	test("detail page does not show SVG light/dark variants (only PNG/WebP have them)", async ({ page }) => {
-		await page.goto("/icons/external/openai-color")
+		await page.goto("/icons/external/lobehub/openai-color")
 
 		const svgLightImages = page.locator('img[src*="openai-color-light.svg"]')
 		const svgDarkImages = page.locator('img[src*="openai-color-dark.svg"]')
@@ -116,7 +123,7 @@ test.describe("External Simple Icons", () => {
 		await page.goto("/icons?source=simpleicons&q=stackoverflow")
 		await expect(page.getByRole("button", { name: /simple icons/i })).toBeVisible()
 
-		const stackOverflowCard = page.locator('a[href="/icons/external/stackoverflow"]')
+		const stackOverflowCard = page.locator('a[href="/icons/external/simpleicons/stackoverflow"]')
 		await expect(stackOverflowCard).toBeVisible()
 	})
 
@@ -124,7 +131,7 @@ test.describe("External Simple Icons", () => {
 		test.skip(testInfo.project.name === "mobile-chrome", "Touch devices do not expose hover-only source badges")
 		await page.goto("/icons?source=simpleicons&q=stackoverflow")
 
-		const card = page.locator('a[href="/icons/external/stackoverflow"]').locator("../..")
+		const card = page.locator('a[href="/icons/external/simpleicons/stackoverflow"]').locator("../..")
 		const badgeLabel = card.getByText("from Simple Icons")
 		await card.hover()
 		await expect(badgeLabel).toBeVisible()
@@ -141,7 +148,7 @@ test.describe("External Simple Icons", () => {
 	})
 
 	test("detail page credits Simple Icons and uses its brand-color CDN asset", async ({ page }) => {
-		await page.goto("/icons/external/stackoverflow")
+		await page.goto("/icons/external/simpleicons/stackoverflow")
 
 		await expect(page.getByRole("heading", { name: /stack overflow/i })).toBeVisible()
 		await expect(page.getByText(/stack overflow icon by simple icons \(cc0-1\.0\)/i)).toBeVisible()
@@ -154,7 +161,7 @@ test.describe("External Simple Icons", () => {
 	})
 
 	test("offers brand, light, and dark variants in SVG and PNG", async ({ page }) => {
-		await page.goto("/icons/external/stackoverflow")
+		await page.goto("/icons/external/simpleicons/stackoverflow")
 
 		await expect(page.getByRole("heading", { name: "Brand color" })).toBeVisible()
 		await expect(page.getByRole("heading", { name: "Light", exact: true })).toBeVisible()
@@ -179,7 +186,7 @@ test.describe("External Simple Icons", () => {
 
 	test("main preview follows the site theme", async ({ page }) => {
 		await page.addInitScript(() => window.localStorage.setItem("theme", "light"))
-		await page.goto("/icons/external/stackoverflow")
+		await page.goto("/icons/external/simpleicons/stackoverflow")
 
 		const preview = page.locator('img[src="https://cdn.simpleicons.org/stackoverflow/000000"]').first()
 		await expect(preview).toBeVisible()
@@ -192,7 +199,7 @@ test.describe("External Simple Icons", () => {
 	})
 
 	test("brand-colored SVG remains available to the existing customizer", async ({ page }) => {
-		await page.goto("/icons/external/stackoverflow")
+		await page.goto("/icons/external/simpleicons/stackoverflow")
 
 		await page.getByRole("button", { name: /customize/i }).click()
 		await expect(page.getByText(/customize colors/i)).toBeVisible()

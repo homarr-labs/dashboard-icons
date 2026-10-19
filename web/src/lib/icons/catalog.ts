@@ -5,6 +5,7 @@ import { unstable_rethrow } from "next/navigation"
 import { EXTERNAL_SOURCE_IDS, type ExternalSourceId, getExternalSource, WEB_URL } from "@/constants"
 import {
 	canResolveExternalIconUrl,
+	getExternalIconPagePath,
 	getExternalIconPreviewUrl,
 	getExternalToneUrlKey,
 	resolveExternalIconUrl,
@@ -229,7 +230,7 @@ function previewUrlOf(entry: IconRecord): string {
 
 function pageUrlOf(entry: IconRecord): string {
 	if (entry.source === "native") return `${WEB_URL}/icons/${entry.slug}`
-	return `${WEB_URL}/icons/external/${entry.slug}`
+	return `${WEB_URL}${getExternalIconPagePath(entry)}`
 }
 
 function toItem(entry: IconRecord): CatalogItem {

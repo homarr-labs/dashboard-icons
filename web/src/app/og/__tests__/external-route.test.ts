@@ -20,7 +20,7 @@ vi.mock("next/og", () => ({
 	ImageResponse: MockImageResponse,
 }))
 
-const mockGetExternalIconBySlug = vi.fn()
+const mockGetExternalIconBySourceAndSlug = vi.fn()
 const mockGetTotalIcons = vi.fn()
 const mockRasterizeRemoteSvg = vi.fn()
 
@@ -52,7 +52,7 @@ vi.mock("@/lib/api", () => ({
 }))
 
 vi.mock("@/lib/external-icons", () => ({
-	getExternalIconBySlug: (...args: unknown[]) => mockGetExternalIconBySlug(...args),
+	getExternalIconBySourceAndSlug: (...args: unknown[]) => mockGetExternalIconBySourceAndSlug(...args),
 }))
 
 vi.mock("@/lib/rasterize-svg", () => ({
@@ -62,10 +62,13 @@ vi.mock("@/lib/rasterize-svg", () => ({
 vi.mock("@/constants", () => ({
 	EXTERNAL_SOURCES: EXTERNAL_SOURCES_MOCK,
 	ExternalSourceId: null,
+	isExternalSourceId: (value: string) => value in EXTERNAL_SOURCES_MOCK,
 }))
 
 function makeExternalIcon(slug: string, sourceId: string, formats: string[] = ["svg", "png"]) {
 	return {
+		source: sourceId,
+		slug,
 		external: {
 			id: slug,
 			source: sourceId,
@@ -102,19 +105,19 @@ describe("OG external icon route handler", () => {
 	})
 
 	it("exports correct content type and size", async () => {
-		const mod = await import("../external/[slug]/route")
+		const mod = await import("../external/[source]/[slug]/route")
 		expect(mod.contentType).toBe("image/png")
 		expect(mod.size).toEqual({ width: 1200, height: 630 })
 	})
 
 	it("returns ImageResponse for valid external icons", async () => {
 		const icon = makeExternalIcon("docker", "simpleicons")
-		mockGetExternalIconBySlug.mockResolvedValue(icon)
+		mockGetExternalIconBySourceAndSlug.mockResolvedValue(icon)
 		mockImageResponse.mockClear()
 
-		const { GET } = await import("../external/[slug]/route")
-		const request = new Request("http://localhost/og/external/docker")
-		await GET(request, { params: Promise.resolve({ slug: "docker" }) })
+		const { GET } = await import("../external/[source]/[slug]/route")
+		const request = new Request("http://localhost/og/external/simpleicons/docker")
+		await GET(request, { params: Promise.resolve({ source: "simpleicons", slug: "docker" }) })
 
 		expect(mockImageResponse).toHaveBeenCalledWith(
 			expect.anything(),
@@ -128,49 +131,33 @@ describe("OG external icon route handler", () => {
 
 	it("strips .png extension from slug param", async () => {
 		const icon = makeExternalIcon("docker", "simpleicons")
-		mockGetExternalIconBySlug.mockResolvedValue(icon)
+		mockGetExternalIconBySourceAndSlug.mockResolvedValue(icon)
 		mockImageResponse.mockClear()
 
-		const { GET } = await import("../external/[slug]/route")
-		const request = new Request("http://localhost/og/external/docker.png")
-		await GET(request, { params: Promise.resolve({ slug: "docker.png" }) })
+		const { GET } = await import("../external/[source]/[slug]/route")
+		const request = new Request("http://localhost/og/external/simpleicons/docker.png")
+		await GET(request, { params: Promise.resolve({ source: "simpleicons", slug: "docker.png" }) })
 
-		expect(mockGetExternalIconBySlug).toHaveBeenCalledWith("docker")
+		expect(mockGetExternalIconBySourceAndSlug).toHaveBeenCalledWith("simpleicons", "docker")
 		expect(mockImageResponse).toHaveBeenCalled()
 	})
 
 	it("calls notFound for unknown external icons", async () => {
-		mockGetExternalIconBySlug.mockResolvedValue(null)
+		mockGetExternalIconBySourceAndSlug.mockResolvedValue(null)
 		mockImageResponse.mockClear()
 
-		const { GET } = await import("../external/[slug]/route")
-		const request = new Request("http://localhost/og/external/nonexistent")
-		await expect(GET(request, { params: Promise.resolve({ slug: "nonexistent" }) })).rejects.toThrow("NEXT_NOT_FOUND")
+		const { GET } = await import("../external/[source]/[slug]/route")
+		const request = new Request("http://localhost/og/external/simpleicons/nonexistent")
+		await expect(GET(request, { params: Promise.resolve({ source: "simpleicons", slug: "nonexistent" }) })).rejects.toThrow(
+			"NEXT_NOT_FOUND",
+		)
 
 		expect(mockNotFound).toHaveBeenCalled()
 		expect(mockImageResponse).not.toHaveBeenCalled()
 	})
 
-	it("calls notFound for unknown source", async () => {
-		const icon = {
-			...makeExternalIcon("test", "unknown-source"),
-			external: { ...makeExternalIcon("test", "simpleicons").external, source: "unknown-source" },
-		}
-		mockGetExternalIconBySlug.mockResolvedValue(icon)
-		mockImageResponse.mockClear()
-
-		const { GET } = await import("../external/[slug]/route")
-		await expect(
-			GET(new Request("http://localhost/og/external/test"), {
-				params: Promise.resolve({ slug: "test" }),
-			}),
-		).rejects.toThrow("NEXT_NOT_FOUND")
-
-		expect(mockImageResponse).not.toHaveBeenCalled()
-	})
-
 	it("handles 20+ external icons from all sources", async () => {
-		const { GET } = await import("../external/[slug]/route")
+		const { GET } = await import("../external/[source]/[slug]/route")
 
 		const testIcons = [
 			{ slug: "docker", source: "simpleicons", formats: ["svg", "png"] },
@@ -199,11 +186,11 @@ describe("OG external icon route handler", () => {
 
 		for (const { slug, source, formats } of testIcons) {
 			const icon = makeExternalIcon(slug, source, formats)
-			mockGetExternalIconBySlug.mockResolvedValue(icon)
+			mockGetExternalIconBySourceAndSlug.mockResolvedValue(icon)
 			mockImageResponse.mockClear()
 
-			const request = new Request(`http://localhost/og/external/${slug}`)
-			await GET(request, { params: Promise.resolve({ slug }) })
+			const request = new Request(`http://localhost/og/external/${source}/${slug}`)
+			await GET(request, { params: Promise.resolve({ source, slug }) })
 
 			expect(mockImageResponse).toHaveBeenCalledTimes(1)
 		}
@@ -211,12 +198,12 @@ describe("OG external icon route handler", () => {
 
 	it("sets correct cache headers for external OG images", async () => {
 		const icon = makeExternalIcon("docker", "simpleicons")
-		mockGetExternalIconBySlug.mockResolvedValue(icon)
+		mockGetExternalIconBySourceAndSlug.mockResolvedValue(icon)
 		mockImageResponse.mockClear()
 
-		const { GET } = await import("../external/[slug]/route")
-		const request = new Request("http://localhost/og/external/docker")
-		await GET(request, { params: Promise.resolve({ slug: "docker" }) })
+		const { GET } = await import("../external/[source]/[slug]/route")
+		const request = new Request("http://localhost/og/external/simpleicons/docker")
+		await GET(request, { params: Promise.resolve({ source: "simpleicons", slug: "docker" }) })
 
 		const callArgs = mockImageResponse.mock.calls[0]
 		const options = callArgs[1]
@@ -228,11 +215,11 @@ describe("OG external icon route handler", () => {
 		const icon = makeExternalIcon("docker", "simpleicons")
 		icon.external.brand_color = "2496ED"
 		icon.external.url_templates.svg = "https://cdn.simpleicons.org/{slug}/{hex}"
-		mockGetExternalIconBySlug.mockResolvedValue(icon)
+		mockGetExternalIconBySourceAndSlug.mockResolvedValue(icon)
 
-		const { GET } = await import("../external/[slug]/route")
-		await GET(new Request("http://localhost/og/external/docker"), {
-			params: Promise.resolve({ slug: "docker" }),
+		const { GET } = await import("../external/[source]/[slug]/route")
+		await GET(new Request("http://localhost/og/external/simpleicons/docker"), {
+			params: Promise.resolve({ source: "simpleicons", slug: "docker" }),
 		})
 
 		expect(mockRasterizeRemoteSvg).toHaveBeenCalledWith("https://cdn.simpleicons.org/docker/2496ED", 260)
@@ -241,24 +228,24 @@ describe("OG external icon route handler", () => {
 
 	it("handles icons with only non-standard formats", async () => {
 		const icon = makeExternalIcon("weird-icon", "simpleicons", ["ico", "gif"])
-		mockGetExternalIconBySlug.mockResolvedValue(icon)
+		mockGetExternalIconBySourceAndSlug.mockResolvedValue(icon)
 		mockImageResponse.mockClear()
 
-		const { GET } = await import("../external/[slug]/route")
-		const request = new Request("http://localhost/og/external/weird-icon")
-		await GET(request, { params: Promise.resolve({ slug: "weird-icon" }) })
+		const { GET } = await import("../external/[source]/[slug]/route")
+		const request = new Request("http://localhost/og/external/simpleicons/weird-icon")
+		await GET(request, { params: Promise.resolve({ source: "simpleicons", slug: "weird-icon" }) })
 
 		expect(mockImageResponse).toHaveBeenCalled()
 	})
 
 	it("handles icons with no formats gracefully", async () => {
 		const icon = makeExternalIcon("no-format-icon", "simpleicons", [])
-		mockGetExternalIconBySlug.mockResolvedValue(icon)
+		mockGetExternalIconBySourceAndSlug.mockResolvedValue(icon)
 		mockImageResponse.mockClear()
 
-		const { GET } = await import("../external/[slug]/route")
-		const request = new Request("http://localhost/og/external/no-format-icon")
-		await GET(request, { params: Promise.resolve({ slug: "no-format-icon" }) })
+		const { GET } = await import("../external/[source]/[slug]/route")
+		const request = new Request("http://localhost/og/external/simpleicons/no-format-icon")
+		await GET(request, { params: Promise.resolve({ source: "simpleicons", slug: "no-format-icon" }) })
 
 		expect(mockImageResponse).toHaveBeenCalled()
 	})

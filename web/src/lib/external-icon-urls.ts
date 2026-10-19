@@ -48,6 +48,14 @@ export function resolveExternalIconUrl(icon: Pick<ExternalIcon, "source" | "slug
 	return `${sourceConfig?.cdnBase ?? ""}/${format}/${icon.slug}.${format}`
 }
 
+export function getExternalIconPagePath(icon: Pick<ExternalIcon, "source" | "slug">): string {
+	return `/icons/external/${icon.source}/${icon.slug}`
+}
+
+export function getExternalIconOgPath(icon: Pick<ExternalIcon, "source" | "slug">): string {
+	return `/og/external/${icon.source}/${icon.slug}`
+}
+
 export function getExternalIconPreviewUrl(icon: ExternalIconUrlData): string {
 	if (icon.url_templates?.svg_auto || icon.source === "simpleicons") return resolveExternalIconUrl(icon, "svg_auto")
 

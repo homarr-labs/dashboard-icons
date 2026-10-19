@@ -1,10 +1,10 @@
 import type { Metadata, ResolvingMetadata } from "next"
 import { notFound } from "next/navigation"
 import { IconDetails } from "@/components/icon-details"
-import { EXTERNAL_SOURCES, type ExternalSourceId, WEB_URL } from "@/constants"
-import { getExternalIconPreviewUrl, resolveExternalIconUrl } from "@/lib/external-icon-urls"
-import { getExternalIconBySlug, getExternalIcons, getSlugOwners } from "@/lib/external-icons"
-import type { AuthorData } from "@/types/icons"
+import { EXTERNAL_SOURCES, isExternalSourceId, WEB_URL } from "@/constants"
+import { getExternalIconOgPath, getExternalIconPagePath, getExternalIconPreviewUrl, resolveExternalIconUrl } from "@/lib/external-icon-urls"
+import { getExternalIconBySourceAndSlug, getExternalIcons } from "@/lib/external-icons"
+import type { AuthorData, ExternalIconRecord } from "@/types/icons"
 
 export const dynamicParams = true
 export const dynamic = "force-static"
@@ -13,30 +13,36 @@ export const revalidate = 900
 export async function generateStaticParams() {
 	if (process.env.PRERENDER_ICON_PAGES === "false") return []
 	const icons = await getExternalIcons()
-	return getSlugOwners(icons).map((icon) => ({ slug: icon.slug }))
+	return icons.map((icon) => ({ source: icon.source, slug: icon.slug }))
 }
 
+type Params = Promise<{ source: string; slug: string }>
+
 type Props = {
-	params: Promise<{ slug: string }>
+	params: Params
 	searchParams: Promise<{ [key: string]: string | string[] | undefined }>
 }
 
-export async function generateMetadata({ params }: Props, _parent: ResolvingMetadata): Promise<Metadata> {
-	const { slug } = await params
-	const icon = await getExternalIconBySlug(slug)
-
+async function getIcon(params: Params): Promise<ExternalIconRecord> {
+	const { source, slug } = await params
+	if (!isExternalSourceId(source)) {
+		notFound()
+	}
+	const icon = await getExternalIconBySourceAndSlug(source, slug)
 	if (!icon) {
 		notFound()
 	}
+	return icon
+}
 
-	const sourceConfig = EXTERNAL_SOURCES[icon.external.source as ExternalSourceId]
-	if (!sourceConfig) {
-		notFound()
-	}
+export async function generateMetadata({ params }: Props, _parent: ResolvingMetadata): Promise<Metadata> {
+	const icon = await getIcon(params)
+	const sourceConfig = EXTERNAL_SOURCES[icon.source]
 	const formattedName = icon.external.name
 	const license = icon.external.license
 	const licenseDescription = license ? ` Licensed under ${license}.` : ""
-	const pageUrl = `${WEB_URL}/icons/external/${slug}`
+	const pageUrl = `${WEB_URL}${getExternalIconPagePath(icon)}`
+	const ogImageUrl = `${WEB_URL}${getExternalIconOgPath(icon)}`
 	const previewUrl = getExternalIconPreviewUrl(icon.external)
 	const previewFormat = icon.external.formats.includes("svg")
 		? "svg"
@@ -52,8 +58,8 @@ export async function generateMetadata({ params }: Props, _parent: ResolvingMeta
 		keywords: [
 			`${formattedName} icon`,
 			`${formattedName} logo`,
-			`${slug} icon`,
-			`${slug} logo`,
+			`${icon.slug} icon`,
+			`${icon.slug} logo`,
 			`${sourceConfig.label} icons`,
 			"dashboard icon",
 			"logo download",
@@ -83,7 +89,7 @@ export async function generateMetadata({ params }: Props, _parent: ResolvingMeta
 			locale: "en_US",
 			images: [
 				{
-					url: `${WEB_URL}/og/external/${slug}`,
+					url: ogImageUrl,
 					width: 1200,
 					height: 630,
 					alt: `${formattedName} icon & logo from ${sourceConfig.label}`,
@@ -102,7 +108,7 @@ export async function generateMetadata({ params }: Props, _parent: ResolvingMeta
 			card: "summary_large_image",
 			title: `${formattedName} Icon & Logo (${sourceConfig.label})`,
 			description: `Download the ${formattedName} icon and logo from ${sourceConfig.label} via Dashboard Icons.`,
-			images: [`${WEB_URL}/og/external/${slug}`],
+			images: [ogImageUrl],
 		},
 		alternates: {
 			canonical: pageUrl,
@@ -110,18 +116,9 @@ export async function generateMetadata({ params }: Props, _parent: ResolvingMeta
 	}
 }
 
-export default async function ExternalIconPage({ params }: { params: Promise<{ slug: string }> }) {
-	const { slug } = await params
-	const icon = await getExternalIconBySlug(slug)
-
-	if (!icon) {
-		notFound()
-	}
-
-	const sourceConfig = EXTERNAL_SOURCES[icon.external.source as ExternalSourceId]
-	if (!sourceConfig) {
-		notFound()
-	}
+export default async function ExternalIconPage({ params }: { params: Params }) {
+	const icon = await getIcon(params)
+	const sourceConfig = EXTERNAL_SOURCES[icon.source]
 	const previewUrl = getExternalIconPreviewUrl(icon.external)
 
 	const authorData: AuthorData = {
@@ -167,7 +164,7 @@ export default async function ExternalIconPage({ params }: { params: Promise<{ s
 								"@type": "ListItem",
 								position: 3,
 								name: `${icon.external.name} Icon`,
-								item: `${WEB_URL}/icons/external/${slug}`,
+								item: `${WEB_URL}${getExternalIconPagePath(icon)}`,
 							},
 						],
 					}).replace(/</g, "\\u003c"),

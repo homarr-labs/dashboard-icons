@@ -220,11 +220,11 @@ async function main() {
 	await pb.collection("_superusers").authWithPassword(adminEmail, adminPassword)
 	await ensureSimpleIconsSchema(pb)
 
-	const current = await pb.collection("external_icons").getFullList({
+	const currentSimpleIcons = await pb.collection("external_icons").getFullList({
+		filter: pb.filter("source = {:source}", { source: SOURCE }),
 		fields: "id,source,slug,upstream_version,upstream_data,updated_at_source",
 		requestKey: null,
 	})
-	const currentSimpleIcons = current.filter((record) => record.source === SOURCE)
 
 	if (flags.purge) {
 		for (const record of currentSimpleIcons) {
@@ -235,9 +235,6 @@ async function main() {
 	}
 
 	const excludedSlugs = new Set([...readNativeSlugs(), ...BLACKLISTED_ICONS])
-	for (const record of current) {
-		if (record.source !== SOURCE) excludedSlugs.add(String(record.slug).toLocaleLowerCase())
-	}
 
 	const upstream = readManifest(flags.manifest)
 	const records = buildSimpleIconRecords(upstream, excludedSlugs, { version: flags.version, publishedAt: flags.publishedAt })

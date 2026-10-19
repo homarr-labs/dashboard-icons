@@ -34,7 +34,7 @@ import {
 	TONE_TITLE,
 } from "@/lib/icon-variant-text"
 import { isClipboardAvailable } from "@/lib/svg-color-utils"
-import { formatIconName } from "@/lib/utils"
+import { cn, formatIconName } from "@/lib/utils"
 import type { AuthorData, ExternalIcon, Icon } from "@/types/icons"
 import { Carbon } from "./carbon"
 import { IconActions } from "./icon-actions"
@@ -53,6 +53,9 @@ const TONE_ICON: Record<IconTone, React.ReactNode> = {
 	light: <Sun className="w-4 h-4 text-amber-500" aria-hidden="true" />,
 	dark: <Moon className="w-4 h-4 text-indigo-500" aria-hidden="true" />,
 }
+
+const LINK_TOUCH_TARGET =
+	"relative rounded-sm after:absolute after:-inset-y-3 after:left-1/2 after:w-[max(100%,2.75rem)] after:-translate-x-1/2"
 
 type IconVariantsSectionProps = {
 	title: string
@@ -786,7 +789,9 @@ export function IconDetails({
 									<BreadcrumbItem key={index}>
 										{item.href ? (
 											<BreadcrumbLink asChild>
-												<Link href={item.href}>{item.label}</Link>
+												<Link href={item.href} className={LINK_TOUCH_TARGET}>
+													{item.label}
+												</Link>
 											</BreadcrumbLink>
 										) : (
 											<BreadcrumbPage>{item.label}</BreadcrumbPage>
@@ -851,7 +856,7 @@ export function IconDetails({
 														href={authorData.html_url}
 														target="_blank"
 														rel="noopener noreferrer"
-														className="text-primary hover:underline text-sm"
+														className={cn(LINK_TOUCH_TARGET, "text-primary hover:underline text-sm")}
 													>
 														{authorName}
 													</Link>
@@ -1078,7 +1083,7 @@ export function IconDetails({
 								{isExternalIcon && externalIcon && externalSourceConfig && (
 									<div className="space-y-2">
 										<h3 className="text-sm font-semibold text-muted-foreground mb-2">Source</h3>
-										<Button variant="outline" className="w-full gap-2" asChild>
+										<Button variant="outline" className="h-11 w-full gap-2" asChild>
 											<Link href={externalIcon.source_url} target="_blank" rel="noopener noreferrer">
 												<UnoptimizedImage src={externalSourceConfig.icon} alt="" width={16} height={16} className="shrink-0" />
 												{externalIcon.source === "simpleicons" ? "View original source" : `View on ${externalSourceConfig.label}`}
@@ -1086,7 +1091,7 @@ export function IconDetails({
 											</Link>
 										</Button>
 										{externalIcon.guidelines_url && (
-											<Button variant="outline" className="w-full gap-2" asChild>
+											<Button variant="outline" className="h-11 w-full gap-2" asChild>
 												<Link href={externalIcon.guidelines_url} target="_blank" rel="noopener noreferrer">
 													<FileType className="w-4 h-4" />
 													Read brand guidelines
@@ -1132,7 +1137,7 @@ export function IconDetails({
 													exit={{ opacity: 0 }}
 													className="relative"
 												>
-													<Button onClick={() => setIsCustomizerOpen(true)} variant="outline" className="w-full" size="sm">
+													<Button onClick={() => setIsCustomizerOpen(true)} variant="outline" className="h-11 w-full">
 														<Palette className="w-4 h-4 mr-2" />
 														Customize Icon
 													</Button>

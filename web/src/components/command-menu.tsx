@@ -10,6 +10,7 @@ import { CommandDialog, CommandEmpty, CommandGroup, CommandInput, CommandItem, C
 import { UnoptimizedImage } from "@/components/unoptimized-image"
 import { EXTERNAL_SOURCES, type ExternalSourceId } from "@/constants"
 import { useMediaQuery } from "@/hooks/use-media-query"
+import { getExternalIconPagePath } from "@/lib/external-icon-urls"
 import { getIconImageUrl } from "@/lib/icon-url"
 import { type IconVariantMatch, variantToneClass } from "@/lib/icons/variants"
 import { cn, filterAndSortIcons, findMatchedVariant, formatIconName } from "@/lib/utils"
@@ -135,7 +136,7 @@ export function CommandMenu({ icons, isLoaded, hasLoadError, open: externalOpen,
 	const handleSelect = (icon: IconSearchEntry) => {
 		setIsOpen(false)
 		if (icon.source && icon.source !== "native") {
-			router.push(`/icons/external/${icon.slug || icon.name}`)
+			router.push(getExternalIconPagePath({ source: icon.source, slug: icon.slug || icon.name }))
 		} else {
 			router.push(`/icons/${icon.name}`)
 		}

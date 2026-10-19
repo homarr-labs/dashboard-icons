@@ -104,7 +104,7 @@ describe("Simple Icons persistence and scheduled sync", () => {
 	})
 
 	it("allows newly synchronized external slugs to render without a redeploy", () => {
-		const route = fs.readFileSync(path.join(repoRoot, "web/src/app/icons/external/[slug]/page.tsx"), "utf8")
+		const route = fs.readFileSync(path.join(repoRoot, "web/src/app/icons/external/[source]/[slug]/page.tsx"), "utf8")
 		const externalIcons = fs.readFileSync(path.join(repoRoot, "web/src/lib/external-icons.ts"), "utf8")
 
 		expect(route).toContain("export const dynamicParams = true")

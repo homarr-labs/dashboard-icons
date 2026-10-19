@@ -2,8 +2,8 @@ import type { MetadataRoute } from "next"
 import { BASE_URL, EXTERNAL_SOURCE_IDS, type ExternalSourceId, WEB_URL } from "@/constants"
 import { getAllIcons } from "@/lib/api"
 import { getCommunitySubmissions } from "@/lib/community"
-import { resolveExternalIconUrl } from "@/lib/external-icon-urls"
-import { getExternalIcons, getSlugOwners } from "@/lib/external-icons"
+import { getExternalIconPagePath, resolveExternalIconUrl } from "@/lib/external-icon-urls"
+import { getExternalIcons } from "@/lib/external-icons"
 import type { ExternalIconRecord } from "@/types/icons"
 
 const EXTERNAL_PREFIX = "external-"
@@ -72,10 +72,10 @@ function externalIconImages(icon: ExternalIconRecord): string[] {
 
 async function externalSitemap(source: ExternalSourceId): Promise<MetadataRoute.Sitemap> {
 	const externalIcons = await getExternalIcons()
-	return getSlugOwners(externalIcons)
+	return externalIcons
 		.filter((icon) => icon.source === source)
 		.map((icon) => ({
-			url: `${WEB_URL}/icons/external/${icon.slug}`,
+			url: `${WEB_URL}${getExternalIconPagePath(icon)}`,
 			lastModified: toLastModified(icon.updatedAt),
 			changeFrequency: "yearly",
 			priority: 0.6,

@@ -361,7 +361,7 @@ describe("getCatalogIcon", () => {
 					provider: "selfh.st",
 					provider_url: "https://selfh.st/icons/",
 				},
-				page_url: "https://dashboardicons.com/icons/external/iventoy",
+				page_url: "https://dashboardicons.com/icons/external/selfhst/iventoy",
 				urls: {
 					svg: { default: `${SELFHST_CDN}/svg/iventoy.svg` },
 					png: { default: `${SELFHST_CDN}/png/iventoy.png` },

@@ -2,7 +2,7 @@ import Link from "next/link"
 import { MagicCard } from "@/components/magicui/magic-card"
 import { UnoptimizedImage } from "@/components/unoptimized-image"
 import { EXTERNAL_SOURCES, type ExternalSourceId } from "@/constants"
-import { resolveExternalIconUrl } from "@/lib/external-icon-urls"
+import { getExternalIconPagePath, resolveExternalIconUrl } from "@/lib/external-icon-urls"
 import { getIconImageUrl, isIconAssetUrl } from "@/lib/icon-url"
 import { type IconVariantMatch, variantToneClass } from "@/lib/icons/variants"
 import { cn, formatIconName } from "@/lib/utils"
@@ -26,7 +26,7 @@ function getIconKind(icon: IconSearchEntry): IconKind {
 function getLinkHref(kind: IconKind, name: string): string {
 	switch (kind.type) {
 		case "external":
-			return `/icons/external/${kind.slug}`
+			return getExternalIconPagePath({ source: kind.sourceId, slug: kind.slug })
 		case "community":
 			return kind.submissionId ? `/community/submissions/${kind.submissionId}` : `/community/${name}`
 		case "native":
