@@ -1,0 +1,22 @@
+# Related icon pages
+
+Related links are rendered on the server. Each native page and each source-qualified external brand page keeps its own URL and self-canonical. S9's folded LobeHub artwork URLs still redirect to their source-qualified brand page; relationship links use that canonical brand slug, not a historical artwork alias.
+
+## Matching rules
+
+- Same brand across sources: compare only primary slugs and display names after Unicode NFKC normalization, lowercasing and removing whitespace, dots, underscores and hyphens. Preserve meaningful symbols such as `+` and `#`. This accepts casing/punctuation forms such as `digital-ocean` / `DigitalOcean` and `GitHub` / `github` without trusting search aliases. Normalization-equivalent aliases add no identity beyond these primary keys. No non-equivalent alias is currently verified for identity matching; do not index `data.aliases` or `external.aliases`. These fields also contain competitors and search topics: Homarr's `homepage`, `dashy`, `homer`, `glance`, RogueDashboard's `homepage`, and Mediathekarr's `sonarr` / `radarr` must never imply the same brand. There is no fuzzy, substring, arbitrary prefix or transitive identity matching.
+- Product versions: a native slug ending in `-4k`, `-dv`, `-2d` or `-3d` belongs to an existing native parent with that exact suffix removed. Parent, siblings and child link to each other; the child also adds its parent to the visible and structured breadcrumbs. Existing pages, including Sonarr 4K and DV, remain distinct.
+- Related by name: when categories are empty, use the explicitly reviewed product/brand roots in `BRAND_PREFIXES` in `src/lib/icon-relations.ts`. Match the exact slug or a hyphen boundary, never e.g. `google` against `googlefake`. These are related products, clients, integrations or artwork, not claimed to be the same product or versions. Return at most 12 links, excluding links already shown. Search aliases do not establish these relationships either. Add a root only after checking its catalogue naming convention; never infer a family from an arbitrary shared first word.
+- If no supported relationship exists, show no invented match. Category-based native recommendations remain unchanged.
+
+Source-qualified paths are the link identity, so identical slugs from different sources remain separate. The relation index is built in one catalogue pass and replaced when either existing 15-minute catalogue cache refreshes. Requests perform indexed lookups and bounded family-list filtering, not pairwise catalogue comparisons. No dependencies or production writes are required.
+
+## Uncategorized-family audit
+
+Reviewed the checked-in `metadata.json` on 2026-10-19: enumerate every hyphen boundary in each slug, retain exact existing parent slugs, then retain pairs where the parent or child has no categories. This yields 383 candidate pairs under 124 parent slugs. A shared prefix is a candidate, not proof of a relationship.
+
+- Added missing verified roots, including `jellyfin` (Vue client), `immich` (Frame, Kiosk, Power Tools, Public Proxy), `qnap` (Qsync, QVR and other NAS tools), `truenas` (Core, Enterprise, Scale), `docker`, `firefox`, `chrome`, `opera`, `paperless`, `calibre`, `plex`, `mullvad`, `notion`, `libreoffice`, `home-assistant`, `portainer` and the other explicitly listed brands. Both category-free Jellyfin pages link to each other. Product-family recommendations remain separate from cross-source identity.
+- Existing nested roots such as `calibre-web`, `google-cloud`, `google-play`, `microsoft-365` and `synology-drive` are covered by their reviewed brand root, not independently inferred. Sonarr/Radarr's 4K, DV, 2D and 3D pages are already covered by the product-version rule.
+- Rejected or left unverified: `ami`, `borg`, `cockpit`, `code`, `eficify`, `files`, `floppy`, `flux`, `hermes`, `micro`, `music`, `plane`, `powershell`, `shell`, `solus`, `sphinx`. Some are generic terms; others name different products in this catalogue. In particular, `cockpit-cms`, `plane-finder`, `flux-cd` and `sphinx-relay` must not be automatically attached to an identically prefixed but unverified product. `code-server`, `shell-file` and `shell-tips` do not get a family relationship merely from their names. Unverified candidates remain unlinked rather than guessing.
+
+The audit expands the positive allowlist instead of introducing a generic exact-parent heuristic with a growing denylist. Newly added or ambiguous catalogue names must be reviewed before gaining a family relationship.

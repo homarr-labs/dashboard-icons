@@ -1,9 +1,11 @@
 import type { Metadata } from "next"
 import { notFound, permanentRedirect } from "next/navigation"
 import { IconDetails } from "@/components/icon-details"
+import { IconNameRelatedLinks, IconRelatedLinks } from "@/components/icon-related-links"
 import { EXTERNAL_SOURCES, isExternalSourceId, SIMPLE_ICONS_DISCLAIMER_URL, WEB_URL } from "@/constants"
 import { getExternalIconOgPath, getExternalIconPagePath, getExternalIconPreviewUrl, resolveExternalIconUrl } from "@/lib/external-icon-urls"
 import { getExternalIconBySourceAndSlug, getExternalIcons } from "@/lib/external-icons"
+import { getIconRelations } from "@/lib/icon-relations"
 import { getLobehubBaseSlug, isLobehubVariantAlias } from "@/lib/lobehub-variants"
 import type { AuthorData, ExternalIconRecord } from "@/types/icons"
 
@@ -125,6 +127,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function ExternalIconPage({ params }: { params: Params }) {
 	const icon = await getIcon(params)
+	const relations = await getIconRelations(icon)
 	const sourceConfig = EXTERNAL_SOURCES[icon.source]
 	const previewUrl = getExternalIconPreviewUrl(icon.external)
 	const licenseFallbackUrl =
@@ -181,6 +184,8 @@ export default async function ExternalIconPage({ params }: { params: Params }) {
 				}}
 			/>
 			<IconDetails
+				relatedLinks={<IconRelatedLinks relations={relations} />}
+				nameRelatedLinks={<IconNameRelatedLinks icons={relations.relatedByName} />}
 				icon={icon.external.slug}
 				iconData={icon.data}
 				authorData={authorData}

@@ -236,6 +236,8 @@ export type IconDetailsProps = {
 	rejectionReason?: string
 	externalIcon?: ExternalIcon
 	breadcrumbItems?: IconDetailsBreadcrumbItem[]
+	relatedLinks?: React.ReactNode
+	nameRelatedLinks?: React.ReactNode
 }
 
 export function IconDetails({
@@ -250,6 +252,8 @@ export function IconDetails({
 	rejectionReason,
 	externalIcon,
 	breadcrumbItems,
+	relatedLinks,
+	nameRelatedLinks,
 }: IconDetailsProps) {
 	const authorName = authorData.name || authorData.login || ""
 	const _iconColorVariants = iconData.colors
@@ -911,7 +915,10 @@ export function IconDetails({
 									<BreadcrumbItem key={index}>
 										{item.href ? (
 											<BreadcrumbLink asChild>
-												<Link href={item.href} className={LINK_TOUCH_TARGET}>
+												<Link
+													href={item.href}
+													className="inline-flex min-h-11 min-w-11 items-center rounded-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+												>
 													{item.label}
 												</Link>
 											</BreadcrumbLink>
@@ -925,6 +932,7 @@ export function IconDetails({
 						</Breadcrumb>
 					</div>
 				)}
+				{relatedLinks}
 				<div className="lg:col-span-1">
 					<Card className="h-full gap-2 bg-background/50 border shadow-lg">
 						<CardHeader className="pb-2">
@@ -1324,6 +1332,7 @@ export function IconDetails({
 					</Card>
 				</div>
 			</div>
+			{nameRelatedLinks}
 			{relatedIcons.length > 0 && (
 				<section className="container mx-auto mt-12" aria-labelledby="related-icons-title">
 					<Card className="bg-background/50 border shadow-lg">

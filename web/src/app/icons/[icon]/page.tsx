@@ -1,8 +1,10 @@
 import type { Metadata, ResolvingMetadata } from "next"
 import { notFound } from "next/navigation"
-import { IconDetails } from "@/components/icon-details"
+import { IconDetails, type IconDetailsBreadcrumbItem } from "@/components/icon-details"
+import { IconNameRelatedLinks, IconRelatedLinks } from "@/components/icon-related-links"
 import { APACHE_LICENSE_URL, BASE_URL, WEB_URL } from "@/constants"
 import { computeRelatedIcons, getAllIcons, getAuthorData } from "@/lib/api"
+import { getIconRelations, getVersionParent } from "@/lib/icon-relations"
 import { formatIconName } from "@/lib/utils"
 
 export const dynamicParams = true
@@ -129,6 +131,21 @@ export default async function IconPage({ params }: { params: Promise<{ icon: str
 	const relatedIcons = computeRelatedIcons(icon, categories, iconsData)
 
 	const formattedName = formatIconName(icon, { capitalize: true, aliases: originalIconData.aliases })
+	const relations = await getIconRelations({ source: "native", slug: icon, name: icon, data: originalIconData })
+	const parent = getVersionParent(icon, iconsData)
+	const breadcrumbItems: IconDetailsBreadcrumbItem[] = [
+		{ label: "Home", href: "/" },
+		{ label: "Browse Icons", href: "/icons" },
+	]
+	let breadcrumbName = formattedName
+	if (parent) {
+		breadcrumbName = icon.slice(parent.length + 1).toUpperCase()
+		breadcrumbItems.push({
+			label: formatIconName(parent, { capitalize: true, aliases: iconsData[parent].aliases }),
+			href: `/icons/${parent}`,
+		})
+	}
+	breadcrumbItems.push({ label: breadcrumbName })
 
 	return (
 		<>
@@ -158,16 +175,19 @@ export default async function IconPage({ params }: { params: Promise<{ icon: str
 					__html: JSON.stringify({
 						"@context": "https://schema.org",
 						"@type": "BreadcrumbList",
-						itemListElement: [
-							{ "@type": "ListItem", position: 1, name: "Home", item: WEB_URL },
-							{ "@type": "ListItem", position: 2, name: "Browse Icons", item: `${WEB_URL}/icons` },
-							{ "@type": "ListItem", position: 3, name: `${formattedName} Icon`, item: `${WEB_URL}/icons/${icon}` },
-						],
+						itemListElement: breadcrumbItems.map((item, index) => ({
+							"@type": "ListItem",
+							position: index + 1,
+							name: item.label,
+							item: `${WEB_URL}${item.href ?? `/icons/${icon}`}`,
+						})),
 					}).replace(/</g, "\\u003c"),
 				}}
 			/>
 			<IconDetails
-				breadcrumbItems={[{ label: "Home", href: "/" }, { label: "Browse Icons", href: "/icons" }, { label: formattedName }]}
+				breadcrumbItems={breadcrumbItems}
+				relatedLinks={<IconRelatedLinks relations={relations} />}
+				nameRelatedLinks={<IconNameRelatedLinks icons={relations.relatedByName} />}
 				icon={icon}
 				iconData={originalIconData}
 				authorData={authorData}
