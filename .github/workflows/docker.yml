@@ -59,6 +59,7 @@ jobs:
     permissions:
       packages: write
       contents: read
+      actions: read
 
     steps:
       - name: Checkout
@@ -164,6 +165,14 @@ jobs:
         env:
           DOKPLOY_DEPLOY_HOOK_URL: ${{ secrets.DOKPLOY_DEPLOY_HOOK_URL }}
         run: curl --fail-with-body --silent --show-error --request POST "$DOKPLOY_DEPLOY_HOOK_URL"
+
+      # Notify IndexNow engines (Bing and others) of icon pages changed since the last deployment.
+      - name: Ping IndexNow with changed icon pages
+        continue-on-error: true
+        timeout-minutes: 5
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: node scripts/ping-indexnow.mjs
 
       - name: Report incomplete deployment
         if: ${{ failure() }}

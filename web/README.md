@@ -149,6 +149,13 @@ and pushes the updated image, verifies the backend, and calls the Dokploy fronte
 webhook so it pulls and deploys the new `latest` image. This completion trigger is
 required because commits pushed by `GITHUB_TOKEN` do not trigger other push workflows.
 
+After the frontend webhook, `scripts/ping-indexnow.mjs` compares `metadata.json` at the
+last successfully deployed commit with the current one, waits until the site serves the
+new deployment, and posts the changed `/icons/<slug>` URLs to IndexNow (Bing and other
+participating engines; Google keeps using the sitemap). The public IndexNow key is the file
+name and content of `public/<key>.txt`, served from the site root, and must match `KEY` in
+the script. A failed ping marks its step as failed without failing the deployment.
+
 If post-backend schema verification fails, the frontend rollout stops and the old
 frontend remains active against the updated backend. Treat that deployment as
 incomplete; the workflow emits an error annotation and recovery summary for operators.
