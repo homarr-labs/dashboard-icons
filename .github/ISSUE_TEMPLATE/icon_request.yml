@@ -1,0 +1,52 @@
+name: "Request an icon you can't upload yourself"
+description: "Ask for an icon when you don't have the artwork. If you have the SVG or PNG, submit it on dashboardicons.com/submit instead."
+title: "icon request: [NAME]"
+labels: ["icon request"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        > [!IMPORTANT]
+        > **Icon submissions have moved to [dashboardicons.com/submit](https://dashboardicons.com/submit).**
+        > GitHub issues are no longer processed automatically, so an icon pasted here has to be re-uploaded by hand and takes much longer to land.
+
+        **Have the artwork? Use the website. It takes about a minute:**
+
+        1. Go to [dashboardicons.com/submit](https://dashboardicons.com/submit) and sign in with GitHub.
+        2. Drop your SVG or PNG files. Names like `app-light.svg` and `app-dark.svg` are sorted into light and dark Variants automatically.
+        3. Add aliases and categories, then send. You can follow the review and fix any feedback on [your dashboard](https://dashboardicons.com/dashboard).
+
+        To change an icon that's already in the collection, choose **Update an existing icon** on the same page.
+
+        ---
+
+        Use this form only if you **can't** provide the artwork yourself, for example you'd like an icon for an app you don't maintain and couldn't find an official logo.
+  - type: checkboxes
+    id: website
+    attributes:
+      label: Before you continue
+      options:
+        - label: I don't have the icon files, so I can't submit them on dashboardicons.com/submit.
+          required: true
+        - label: I searched [dashboardicons.com](https://dashboardicons.com/icons) and the icon isn't in the collection yet.
+          required: true
+  - type: input
+    id: name
+    attributes:
+      label: App or service name
+      placeholder: e.g. Jellyfin
+    validations:
+      required: true
+  - type: input
+    id: homepage
+    attributes:
+      label: Homepage or repository
+      description: Where we can find the official branding.
+      placeholder: https://github.com/owner/app
+    validations:
+      required: true
+  - type: textarea
+    id: details
+    attributes:
+      label: Anything else?
+      description: Links to official logos, brand guidelines or the variants you'd like (light, dark, wordmark).

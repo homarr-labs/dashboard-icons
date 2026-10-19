@@ -1,0 +1,20 @@
+name: "Suggest a feature"
+description: "An idea for the website, the CDN, the MCP server or the collection."
+body:
+  - type: markdown
+    attributes:
+      value: |
+        > [!NOTE]
+        > This form isn't for adding icons. Submit icons on [dashboardicons.com/submit](https://dashboardicons.com/submit).
+  - type: textarea
+    id: idea
+    attributes:
+      label: What would you like?
+      description: The problem it solves and how you'd use it.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Anything else?
+      description: Workarounds you tried, examples from other sites, mockups.

@@ -1,0 +1,28 @@
+name: "Report a bug"
+description: "Something on dashboardicons.com, the CDN or the MCP server is broken, or an icon looks wrong."
+labels: ["website"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        > [!TIP]
+        > Want to fix an icon's artwork yourself? Choose **Update an existing icon** on [dashboardicons.com/submit](https://dashboardicons.com/submit). It goes straight to review.
+  - type: input
+    id: url
+    attributes:
+      label: Where does it happen?
+      placeholder: https://dashboardicons.com/icons/...
+    validations:
+      required: true
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened, and what did you expect?
+      description: Screenshots help a lot.
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Browser and device
+      placeholder: e.g. Firefox 140 on macOS, light theme

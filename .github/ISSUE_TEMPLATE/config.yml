@@ -1,5 +1,11 @@
-blank_issues_enabled: true
+blank_issues_enabled: false
 contact_links:
-  - name: Submit or update an icon
+  - name: "🎨 Submit or update an icon (start here)"
     url: https://dashboardicons.com/submit
-    about: Icon submissions and update proposals go through the website. GitHub issues are no longer used for icons.
+    about: "Icons are no longer submitted through GitHub issues. Sign in with GitHub on dashboardicons.com, upload your SVG or PNG, and a maintainer reviews it there. Approved icons are published automatically."
+  - name: "📋 Track your submissions"
+    url: https://dashboardicons.com/dashboard
+    about: "See the status of icons you sent, read reviewer feedback and fix a rejected submission."
+  - name: "💬 Questions and help reviewing"
+    url: https://discord.com/invite/aCsmEV5RgA
+    about: "Ask a question or help us review icon submissions on Discord."
