@@ -60,7 +60,29 @@ function event(app, record, action, changes, who, operation, batch) {
 	})
 	app.save(entry)
 }
+const ICON_NAME = /^[a-z0-9]+(-[a-z0-9]+)*$/
+const MAX_NAME_LENGTH = 80
+function resolvedVariantFiles(record) {
+	const extras = field(record, "extras")
+	if (!extras) return null
+	const stored = {}
+	for (const file of record.getUnsavedFiles("assets")) stored[file.originalName] = file.name
+	const assets = field(record, "assets")
+	for (const kind of ["colors", "wordmark"])
+		for (const mode of ["light", "dark"]) {
+			const name = (extras[kind] || {})[mode]
+			if (!name) continue
+			if (stored[name]) extras[kind][mode] = stored[name]
+			else if (assets.indexOf(name) < 0) throw new BadRequestError("Variant file " + name + " is not one of the uploaded assets")
+		}
+	return extras
+}
+function resolveVariantFiles(record) {
+	const extras = resolvedVariantFiles(record)
+	if (extras) record.set("extras", extras)
+}
 function audit(e, creating) {
+	if (creating) resolveVariantFiles(e.record)
 	const old = e.record.original()
 	e.record.set("__previous_status", old.getString("status"))
 	const changes = {}
@@ -68,26 +90,6 @@ function audit(e, creating) {
 		const before = field(old, key)
 		const after = field(e.record, key)
 		if (JSON.stringify(before) !== JSON.stringify(after)) changes[key] = { before, after }
-	}
-	// The upload flow resolves variant filenames in a second write. Do not log it as an edit.
-	if (!creating && Object.keys(changes).length === 1 && changes.extras) {
-		const a = changes.extras.before || {}
-		const b = changes.extras.after || {}
-		if (
-			JSON.stringify(a.aliases) === JSON.stringify(b.aliases) &&
-			JSON.stringify(a.categories) === JSON.stringify(b.categories) &&
-			a.base === b.base
-		) {
-			const assets = e.record.getStringSlice("assets")
-			let normalized = true
-			for (const kind of ["colors", "wordmark"])
-				for (const mode of ["light", "dark"]) {
-					const from = (a[kind] || {})[mode]
-					const to = (b[kind] || {})[mode]
-					if (from !== to && (!from || !to || assets.indexOf(to) < 0)) normalized = false
-				}
-			if (normalized) delete changes.extras
-		}
 	}
 	const hasChanges = creating || Object.keys(changes).length > 0
 	let action = "edited"
@@ -145,6 +147,10 @@ function guard(e, creating) {
 	const resubmission = !creating && previous !== "pending" && owned
 	if (!creating && !e.hasSuperuserAuth() && e.record.getString("target_submission") !== old.getString("target_submission"))
 		throw new BadRequestError("A proposal's target cannot be changed")
+	const name = e.record.getString("name")
+	if ((creating || name !== old.getString("name")) && (name.length > MAX_NAME_LENGTH || !ICON_NAME.test(name)))
+		throw new BadRequestError("Icon name must be lowercase letters and numbers separated by single hyphens")
+	if (creating) resolvedVariantFiles(e.record)
 	validateProposalNames(e.app, e.record, old, creating)
 	if (!e.hasSuperuserAuth() && (creating || resubmission)) {
 		if (e.record.getString("status") !== "pending" || e.record.getString("created_by") !== e.auth.id)

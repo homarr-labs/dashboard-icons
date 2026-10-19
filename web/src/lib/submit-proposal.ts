@@ -1,17 +1,24 @@
 import { pb } from "@/lib/pb"
+import { SUBMISSION_VARIANTS, type SubmissionInput } from "@/lib/submission-service"
 
-interface SubmissionPayload {
-	name: string
-	assets: File[]
-	created_by: string
-	status: "pending"
-	description?: string
-	target_submission?: string
-	extras: Record<string, any>
-}
+export async function submitProposal(input: SubmissionInput): Promise<{ id: string }> {
+	const body = new FormData()
+	body.set("name", input.name)
+	body.set("description", input.description)
+	body.set("target_submission", input.targetSubmission)
+	for (const alias of input.aliases) body.append("aliases", alias)
+	for (const category of input.categories) body.append("categories", category)
+	for (const variant of SUBMISSION_VARIANTS) {
+		const file = input.assets[variant]
+		if (file) body.set(variant, file)
+	}
 
-// Every proposal has its own record ID. The name is the destination icon filename,
-// while target_submission identifies the exact community submission being updated.
-export async function submitProposal(data: SubmissionPayload) {
-	return pb.collection("submissions").create({ ...data, target_submission: data.target_submission || "" }, { requestKey: null })
+	const response = await fetch("/api/submissions", {
+		method: "POST",
+		headers: { Authorization: pb.authStore.token },
+		body,
+	})
+	const result = (await response.json().catch(() => null)) as { id?: string; error?: string } | null
+	if (!response.ok || !result?.id) throw new Error(result?.error || `Submission failed (HTTP ${response.status})`)
+	return { id: result.id }
 }

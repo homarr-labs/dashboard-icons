@@ -14,7 +14,9 @@ const hooks = runInNewContext(`${source}\nmodule.exports`, {
 function record(values: Record<string, unknown>, previous: Record<string, unknown> = {}) {
 	return {
 		id: String(values.id || "proposal"),
+		get: (key: string) => values[key],
 		getString: (key: string) => String(values[key] || ""),
+		getUnsavedFiles: () => [],
 		set: vi.fn((key: string, value: unknown) => {
 			values[key] = value
 		}),

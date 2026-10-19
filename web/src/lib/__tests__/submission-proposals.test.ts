@@ -8,12 +8,13 @@ const mocks = vi.hoisted(() => ({
 	create: vi.fn(),
 	update: vi.fn(),
 	getFirstListItem: vi.fn(),
+	fetch: vi.fn(),
 	push: vi.fn(),
 }))
 
 vi.mock("@/lib/pb", () => ({
 	pb: {
-		authStore: { isValid: true, record: { id: "proposer" } },
+		authStore: { isValid: true, token: "user-token", record: { id: "proposer" } },
 		collection: () => mocks,
 	},
 }))
@@ -64,7 +65,8 @@ beforeEach(() => {
 	container = document.createElement("div")
 	document.body.appendChild(container)
 	root = createRoot(container)
-	mocks.create.mockResolvedValue({ id: "new-proposal", name: "pdf", assets: [] })
+	vi.stubGlobal("fetch", mocks.fetch)
+	mocks.fetch.mockResolvedValue(Response.json({ id: "new-proposal" }, { status: 201 }))
 })
 
 afterEach(async () => {
@@ -74,7 +76,7 @@ afterEach(async () => {
 	vi.unstubAllGlobals()
 })
 
-it("selects the exact same-name submission and creates a new proposal without updating or looking up by name", async () => {
+it("selects the exact same-name submission and sends a new proposal to the submission service in one request", async () => {
 	await act(async () => root.render(createElement(FormHarness)))
 	await act(async () => container.querySelector("input")?.focus())
 	const options = container.querySelectorAll<HTMLElement>('[role="option"]')
@@ -86,10 +88,16 @@ it("selects the exact same-name submission and creates a new proposal without up
 	const file = new File(['<svg xmlns="http://www.w3.org/2000/svg"/>'], "pdf.svg", { type: "image/svg+xml" })
 	await act(async () => submissionForm.form.setFieldValue("files", { base: [file] }))
 	await act(async () => submissionForm.form.handleSubmit())
-	expect(mocks.create).toHaveBeenCalledExactlyOnceWith(
-		expect.objectContaining({ name: "pdf", target_submission: "second", created_by: "proposer", status: "pending", assets: [file] }),
-		{ requestKey: null },
-	)
+	expect(mocks.fetch).toHaveBeenCalledExactlyOnceWith("/api/submissions", {
+		method: "POST",
+		headers: { Authorization: "user-token" },
+		body: expect.any(FormData),
+	})
+	const body = mocks.fetch.mock.calls[0]?.[1].body as FormData
+	expect(body.get("name")).toBe("pdf")
+	expect(body.get("target_submission")).toBe("second")
+	expect((body.get("base") as File).name).toBe("pdf.svg")
+	expect(mocks.create).not.toHaveBeenCalled()
 	expect(mocks.update).not.toHaveBeenCalled()
 	expect(mocks.getFirstListItem).not.toHaveBeenCalled()
 	expect(mocks.push).toHaveBeenCalledWith("/community/submissions/new-proposal")

@@ -4,6 +4,7 @@ import { getAllIcons } from "@/lib/icons/service"
 import { checkSubmittedSvg, MAX_SUBMITTED_SVG_BYTES } from "@/lib/icons/svg-safety"
 import { ICON_NAME_REGEX, MAX_NAME_LENGTH } from "@/lib/icons/validate"
 import { SUBMISSION_CATEGORIES } from "@/lib/submission-categories"
+import { createSubmission } from "@/lib/submission-service"
 import { DASHBOARD_URL, pocketBaseAsUser, pocketBaseFailure, submissionUrl, toolError } from "@/mcp/tools/account"
 import { type AccountTool, structuredResult } from "@/mcp/tools/types"
 
@@ -75,18 +76,16 @@ export const submitIconTool: AccountTool<typeof inputSchema, typeof outputSchema
 		const session = await pocketBaseAsUser(pbToken)
 		if (!session.ok) return session.result
 		try {
-			const record = await session.pb.collection("submissions").create(
-				{
-					name,
-					assets: [new File([checked.svg], `${name}.svg`, { type: "image/svg+xml" })],
-					created_by: session.user.id,
-					status: "pending",
-					description,
-					target_submission: "",
-					extras: { aliases: [...new Set(aliases)], categories: [...new Set(categories)], base: "svg" },
-				},
-				{ requestKey: null },
-			)
+			const outcome = await createSubmission(session.pb, session.user.id, {
+				name,
+				description,
+				aliases,
+				categories,
+				targetSubmission: "",
+				assets: { base: new File([checked.svg], `${name}.svg`, { type: "image/svg+xml" }) },
+			})
+			if (!outcome.ok) return toolError(`The submission was not accepted: ${outcome.error}.`)
+			const { record } = outcome
 			const result: z.output<typeof outputSchema> = {
 				id: record.id,
 				name: record.name,

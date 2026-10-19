@@ -9,13 +9,20 @@ import { revalidateAllSubmissions } from "@/app/actions/submissions"
 import type { MultiSelectOption } from "@/components/ui/multi-select"
 import type { IconNameOption } from "@/hooks/use-submissions"
 import { pb } from "@/lib/pb"
+import {
+	ASSET_EXTENSIONS,
+	MAX_ASSET_BYTES,
+	SUBMISSION_VARIANTS,
+	type SubmissionInput,
+	type SubmissionVariant,
+} from "@/lib/submission-service"
 import { submitProposal } from "@/lib/submit-proposal"
 
 export interface VariantConfig {
 	id: string
 	label: string
 	description: string
-	field: "base" | "dark" | "light" | "wordmark" | "wordmark_dark"
+	field: SubmissionVariant
 }
 
 export const VARIANTS: VariantConfig[] = [
@@ -70,12 +77,11 @@ export interface FormData {
 	description: string
 }
 
-export const ACCEPTED_FILE_TYPES = {
-	"image/svg+xml": [".svg"],
-	"image/png": [".png"],
-}
+export const ACCEPTED_FILE_TYPES: Record<string, string[]> = Object.fromEntries(
+	Object.entries(ASSET_EXTENSIONS).map(([type, extension]) => [type, [`.${extension}`]]),
+)
 
-export const MAX_FILE_SIZE = 1024 * 1024 * 5
+export const MAX_FILE_SIZE = MAX_ASSET_BYTES
 
 export function useIconSubmissionForm() {
 	const [filePreviews, setFilePreviews] = useState<Record<string, string>>({})
@@ -114,83 +120,20 @@ export function useIconSubmissionForm() {
 			setIsSubmitting(true)
 
 			try {
-				const assetFiles: File[] = [baseFile]
+				const assets: SubmissionInput["assets"] = {}
+				for (const variant of SUBMISSION_VARIANTS) {
+					const file = value.files[variant]?.[0]
+					if (file) assets[variant] = file
+				}
 
-				const extras: any = {
+				const record = await submitProposal({
+					name: value.iconName,
+					description: value.description,
 					aliases: value.aliases,
 					categories: value.categories,
-					base: baseFile.name.split(".").pop() || "svg",
-				}
-
-				if (value.files.dark?.[0] || value.files.light?.[0]) {
-					extras.colors = {}
-					if (value.files.dark?.[0]) {
-						extras.colors.dark = value.files.dark[0].name
-						assetFiles.push(value.files.dark[0])
-					}
-					if (value.files.light?.[0]) {
-						extras.colors.light = value.files.light[0].name
-						assetFiles.push(value.files.light[0])
-					}
-				}
-
-				if (value.files.wordmark?.[0] || value.files.wordmark_dark?.[0]) {
-					extras.wordmark = {}
-					if (value.files.wordmark?.[0]) {
-						extras.wordmark.light = value.files.wordmark[0].name
-						assetFiles.push(value.files.wordmark[0])
-					}
-					if (value.files.wordmark_dark?.[0]) {
-						extras.wordmark.dark = value.files.wordmark_dark[0].name
-						assetFiles.push(value.files.wordmark_dark[0])
-					}
-				}
-
-				const submissionData = {
-					name: value.iconName,
-					assets: assetFiles,
-					created_by: (pb.authStore.record as any)?.id ?? pb.authStore.record?.id ?? "",
-					status: "pending" as const,
-					description: value.description,
-					target_submission: selectedIcon?.submissionId,
-					extras: extras,
-				}
-
-				const record = await submitProposal(submissionData)
-
-				if (record.assets && record.assets.length > 0) {
-					const updatedExtras = JSON.parse(JSON.stringify(extras))
-					let assetIndex = 0
-
-					// Skip base file at index 0, as it's already handled above
-					// The order of asset files matches the order they were pushed to assetFiles array:
-					// base (index 0), dark (if exists), light (if exists), wordmark (if exists), wordmark_dark (if exists)
-					assetIndex++
-
-					if (value.files.dark?.[0] && updatedExtras.colors) {
-						updatedExtras.colors.dark = record.assets[assetIndex]
-						assetIndex++
-					}
-
-					if (value.files.light?.[0] && updatedExtras.colors) {
-						updatedExtras.colors.light = record.assets[assetIndex]
-						assetIndex++
-					}
-
-					if (value.files.wordmark?.[0] && updatedExtras.wordmark) {
-						updatedExtras.wordmark.light = record.assets[assetIndex]
-						assetIndex++
-					}
-
-					if (value.files.wordmark_dark?.[0] && updatedExtras.wordmark) {
-						updatedExtras.wordmark.dark = record.assets[assetIndex]
-						assetIndex++
-					}
-
-					await pb.collection("submissions").update(record.id, {
-						extras: updatedExtras,
-					})
-				}
+					targetSubmission: selectedIcon?.submissionId ?? "",
+					assets,
+				})
 
 				await revalidateAllSubmissions()
 
