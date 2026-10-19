@@ -1,0 +1,46 @@
+web/backend/pb_hooks/dashboard.js
+  h_d6e478ca18e517 7,14,93-95,106-138,170,175-181,217-228
+web/backend/pb_hooks/submission-email.js
+  h_d6e478ca18e517 49-54,82,268,271
+web/backend/pb_migrations/1792300000_submission_resubmission.js
+  h_d6e478ca18e517 1-25
+web/docs/submission-resubmission.md
+  h_d6e478ca18e517 1-9
+web/src/app/api/submissions/[id]/route.ts
+  h_d6e478ca18e517 1-70
+web/src/app/community/submissions/[id]/page.tsx
+  h_d6e478ca18e517 4,228,273-277
+web/src/components/dashboard/inspector.tsx
+  h_d6e478ca18e517 4-5,90,141-144,274
+web/src/components/icon-submission-form.tsx
+  h_d6e478ca18e517 7,26-32,39,163,168-169
+web/src/components/submission/edit-icon-picker.tsx
+  h_d6e478ca18e517 7,18-19,25-26,30,43,106,126-128
+web/src/components/submission/own-submission-editor.tsx
+  h_d6e478ca18e517 1-261
+web/src/components/submission/rejected-round-comparison.tsx
+  h_d6e478ca18e517 1-79
+web/src/components/submission/rejection-notice.tsx
+  h_d6e478ca18e517 1-23
+web/src/components/submission/submission-card.tsx
+  h_d6e478ca18e517 38,66,82,89,116-123,129-138,163,191,231-240,264-271,359-364
+web/src/lib/pb.ts
+  h_d6e478ca18e517 52-63,77
+web/src/lib/submission-update-service.ts
+  h_d6e478ca18e517 1-45
+web/src/mcp/__tests__/account-tools.test.ts
+  h_d6e478ca18e517 231-238
+web/src/mcp/tools/list-my-submissions.ts
+  h_d6e478ca18e517 12,25-26,69-72
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "1298d62e606ecc9c4c695cf84f5584ef856aa280",
+  "prompts": {},
+  "humans": {
+    "h_d6e478ca18e517": {
+      "author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
