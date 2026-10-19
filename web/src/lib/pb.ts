@@ -34,6 +34,7 @@ export interface Submission {
 		aliases: string[]
 		categories: string[]
 		base?: string
+		variants?: Record<string, string>
 		colors?: {
 			dark?: string
 			light?: string
@@ -67,6 +68,7 @@ export interface CommunityGallery {
 		aliases: string[]
 		categories: string[]
 		base?: string
+		variants?: Record<string, string>
 		colors?: {
 			dark?: string
 			light?: string

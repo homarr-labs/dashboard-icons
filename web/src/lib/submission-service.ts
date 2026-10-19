@@ -1,11 +1,12 @@
 import { ICON_NAME_REGEX, MAX_NAME_LENGTH } from "@/lib/icons/validate"
 import type { createServerPB, Submission } from "@/lib/pb"
-import { SUBMISSION_VARIANTS, type SubmissionVariant, VARIANT_KINDS, variantExtras } from "@/lib/submission-variants"
+import { customVariantNameError, SUBMISSION_VARIANTS, type SubmissionVariant, variantExtras, variantKind } from "@/lib/submission-variants"
 
 export const ASSET_EXTENSIONS = { "image/svg+xml": "svg", "image/png": "png" } as const
 type AssetType = keyof typeof ASSET_EXTENSIONS
 
 export const MAX_ASSET_BYTES = 1024 * 1024 * 5
+export const MAX_SUBMISSION_ASSETS = 99
 const MAX_DESCRIPTION_LENGTH = 10000
 
 export interface SubmissionInput {
@@ -41,15 +42,23 @@ function prepareAssets(input: SubmissionInput): PreparedAssets {
 
 	const files: File[] = []
 	const filenames: Partial<Record<SubmissionVariant, string>> = {}
-	for (const variant of SUBMISSION_VARIANTS) {
+	const customVariants = Object.keys(input.assets).filter((key): key is `custom:${string}` => key.startsWith("custom:"))
+	if (Object.keys(input.assets).length > MAX_SUBMISSION_ASSETS)
+		return { ok: false, error: `Upload at most ${MAX_SUBMISSION_ASSETS} files per Icon` }
+	for (const variant of [...SUBMISSION_VARIANTS, ...customVariants]) {
+		if (variant.startsWith("custom:")) {
+			const error = customVariantNameError(variant.slice(7))
+			if (error) return { ok: false, error }
+		}
 		const file = input.assets[variant]
 		if (!file) continue
-		const label = `${VARIANT_KINDS[variant].label} variant`
+		const kind = variantKind(variant)
+		const label = `${kind.label} variant`
 		const type = assetType(file)
 		if (!type) return { ok: false, error: `The ${label} file must be an SVG or PNG` }
 		if (file.size === 0) return { ok: false, error: `The ${label} file is empty` }
 		if (file.size > MAX_ASSET_BYTES) return { ok: false, error: `The ${label} file is larger than ${MAX_ASSET_BYTES / 1024 / 1024} MB` }
-		const filename = `${input.name}${VARIANT_KINDS[variant].suffix}.${ASSET_EXTENSIONS[type]}`
+		const filename = `${input.name}${kind.suffix}.${ASSET_EXTENSIONS[type]}`
 		files.push(new File([file], filename, { type }))
 		filenames[variant] = filename
 	}

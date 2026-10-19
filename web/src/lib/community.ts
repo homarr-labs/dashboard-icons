@@ -74,6 +74,9 @@ function transformGalleryToIcon(item: CommunityGallery): any {
 			}
 		})
 	}
+	const variants = Object.fromEntries(
+		Object.entries(item.extras?.variants ?? {}).map(([name, file]) => [name, findBestMatchingAsset(file, item.assets)]),
+	)
 
 	const transformed = {
 		name: item.name,
@@ -97,6 +100,7 @@ function transformGalleryToIcon(item: CommunityGallery): any {
 			},
 			colors: colors,
 			wordmark: wordmark,
+			variants,
 		},
 	}
 

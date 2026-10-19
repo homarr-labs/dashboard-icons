@@ -1,6 +1,5 @@
 import { pb } from "@/lib/pb"
 import type { SubmissionInput } from "@/lib/submission-service"
-import { SUBMISSION_VARIANTS } from "@/lib/submission-variants"
 
 export async function submitProposal(input: SubmissionInput): Promise<{ id: string }> {
 	const body = new FormData()
@@ -9,8 +8,7 @@ export async function submitProposal(input: SubmissionInput): Promise<{ id: stri
 	body.set("target_submission", input.targetSubmission)
 	for (const alias of input.aliases) body.append("aliases", alias)
 	for (const category of input.categories) body.append("categories", category)
-	for (const variant of SUBMISSION_VARIANTS) {
-		const file = input.assets[variant]
+	for (const [variant, file] of Object.entries(input.assets)) {
 		if (file) body.set(variant, file)
 	}
 

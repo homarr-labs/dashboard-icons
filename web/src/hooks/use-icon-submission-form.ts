@@ -8,7 +8,7 @@ import { revalidateAllSubmissions } from "@/app/actions/submissions"
 import type { IconNameOption } from "@/hooks/use-submissions"
 import { pb } from "@/lib/pb"
 import { ASSET_EXTENSIONS, MAX_ASSET_BYTES, type SubmissionInput } from "@/lib/submission-service"
-import { SUBMISSION_VARIANTS, type SubmissionVariant, VARIANT_KINDS, type VariantKind } from "@/lib/submission-variants"
+import { SUBMISSION_VARIANTS, type SubmissionVariant, VARIANT_KINDS, type VariantKind, variantKind } from "@/lib/submission-variants"
 import { submitProposal } from "@/lib/submit-proposal"
 
 export interface VariantConfig extends VariantKind {
@@ -38,6 +38,8 @@ export function useIconSubmissionForm() {
 	const [filePreviews, setFilePreviews] = useState<Record<string, string>>({})
 	const [isSubmitting, setIsSubmitting] = useState(false)
 	const [selectedIcon, setSelectedIcon] = useState<IconNameOption | null>(null)
+	const [customNames, setCustomNames] = useState<string[]>([])
+	const variants = [...VARIANTS, ...customNames.map((name): VariantConfig => ({ id: `custom:${name}`, ...variantKind(`custom:${name}`) }))]
 	const isSubmittingRef = useRef(false)
 	const router = useRouter()
 
@@ -71,8 +73,12 @@ export function useIconSubmissionForm() {
 
 			try {
 				const assets: SubmissionInput["assets"] = {}
-				for (const variant of SUBMISSION_VARIANTS) {
+				for (const { id: variant } of variants) {
 					const file = value.files[variant]?.[0]
+					if (variant.startsWith("custom:") && !file) {
+						toast.error(`Upload a file for ${variant.slice(7)} or remove the Custom variant`)
+						return
+					}
 					if (file) assets[variant] = file
 				}
 
@@ -96,6 +102,7 @@ export function useIconSubmissionForm() {
 				form.reset()
 				setFilePreviews({})
 				setSelectedIcon(null)
+				setCustomNames([])
 			} catch (error: unknown) {
 				console.error("Submission error:", error)
 				toast.error("Failed to submit icon", {
@@ -184,6 +191,7 @@ export function useIconSubmissionForm() {
 		form.reset()
 		setFilePreviews({})
 		setSelectedIcon(null)
+		setCustomNames([])
 	}
 
 	const iconNameValidator = ({ value }: { value: string }) => {
@@ -195,6 +203,13 @@ export function useIconSubmissionForm() {
 	}
 
 	return {
+		variants,
+		customNames,
+		addCustomVariant: (name: string) => setCustomNames((names) => [...names, name]),
+		removeCustomVariant: (name: string) => {
+			handleFileDrop(`custom:${name}`, [])
+			setCustomNames((names) => names.filter((value) => value !== name))
+		},
 		form,
 		filePreviews,
 		isSubmitting,

@@ -9,17 +9,17 @@ import { VariantPreview } from "@/components/variant-preview"
 import { useDashboardActivity, useSubmissionDetail } from "@/hooks/use-dashboard"
 import type { DashboardFilters } from "@/lib/dashboard/types"
 import { pb, type Submission } from "@/lib/pb"
-import { labelledAssets, type SubmissionVariant, VARIANT_KINDS } from "@/lib/submission-variants"
+import { labelledAssets, type SubmissionVariant, variantKind } from "@/lib/submission-variants"
 import { ActivityFeed } from "./activity-feed"
 import { ErrorState, Loading, Pagination, Status } from "./primitives"
 
 function variantLabel(variant: SubmissionVariant | null) {
 	if (!variant) return "Unlabelled asset"
-	return VARIANT_KINDS[variant].label
+	return variantKind(variant).label
 }
 function variantBackdrop(variant: SubmissionVariant | null) {
-	if (!variant || VARIANT_KINDS[variant].background === "any") return "checker"
-	return VARIANT_KINDS[variant].background
+	if (!variant || variantKind(variant).background === "any") return "checker"
+	return variantKind(variant).background
 }
 export type ReviewIntent = { kind: "approved" | "rejected" | "publish"; records: Submission[]; nextId?: string }
 export function Inspector({
@@ -204,10 +204,10 @@ export function Inspector({
 											<VariantPreview
 												src={pb.files.getURL(record, file)}
 												alt={variantLabel(variant)}
-												background={variant ? VARIANT_KINDS[variant].background : "any"}
+												background={variant ? variantKind(variant).background : "any"}
 												className="h-10 w-full"
 											/>
-											<span className="w-full text-center text-xs leading-tight">{variantLabel(variant)}</span>
+											<span className="w-full break-all text-center text-xs leading-tight">{variantLabel(variant)}</span>
 										</button>
 									))}
 								</div>

@@ -25,7 +25,7 @@ import { Separator } from "@/components/ui/separator"
 import { UserDisplay } from "@/components/user-display"
 import { VariantPreview } from "@/components/variant-preview"
 import { pb, type Submission, type User } from "@/lib/pb"
-import { labelledAssets, VARIANT_KINDS } from "@/lib/submission-variants"
+import { labelledAssets, variantKind } from "@/lib/submission-variants"
 import { formatIconName } from "@/lib/utils"
 import type { Icon } from "@/types/icons"
 
@@ -159,14 +159,14 @@ export function SubmissionDetails({
 					<CardContent className="pt-0">
 						<div className="space-y-4">
 							{labelledAssets(submission.extras, submission.assets).map(({ file, variant }, index) => {
-								const kind = variant ? VARIANT_KINDS[variant] : null
+								const kind = variant ? variantKind(variant) : null
 								const label = kind?.label ?? "Unlabelled asset"
 								const url = `${pb.baseURL}/api/files/submissions/${submission.id}/${file}`
 								return (
 									<MagicCard key={file} className="p-0 rounded-md">
 										<div className="flex items-start justify-between gap-2 p-3 pb-2">
 											<div className="min-w-0">
-												<p className="font-medium text-sm">{label}</p>
+												<p className="break-all font-medium text-sm">{label}</p>
 												<p className="text-muted-foreground text-xs">{kind?.description ?? "Not tagged as a Variant"}</p>
 											</div>
 											<div className="flex shrink-0 gap-1">

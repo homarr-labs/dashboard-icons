@@ -2,12 +2,12 @@
 import { ExternalLink } from "lucide-react"
 import { UnoptimizedImage } from "@/components/unoptimized-image"
 import { pb, type Submission } from "@/lib/pb"
-import { labelledAssets, type SubmissionVariant, VARIANT_KINDS } from "@/lib/submission-variants"
+import { labelledAssets, type SubmissionVariant, variantKind } from "@/lib/submission-variants"
 import { cn } from "@/lib/utils"
 
 function caption(variant: SubmissionVariant | null) {
 	if (!variant) return { label: "Unlabelled asset", description: "Not tagged as a Variant" }
-	return VARIANT_KINDS[variant]
+	return variantKind(variant)
 }
 
 export function ReviewGallery({ record }: { record: Submission }) {
@@ -23,7 +23,7 @@ export function ReviewGallery({ record }: { record: Submission }) {
 					<figure key={file} className="min-w-0 overflow-hidden rounded-xl border bg-background only:col-span-full">
 						<figcaption className="border-b px-2 py-1.5">
 							<div className="flex items-center justify-between gap-1">
-								<p className="text-xs font-medium">{label}</p>
+								<p className="break-all text-xs font-medium">{label}</p>
 								<a
 									href={url}
 									target="_blank"

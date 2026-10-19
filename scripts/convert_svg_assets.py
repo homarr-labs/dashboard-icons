@@ -295,6 +295,9 @@ def icon_variant_stems(icon_name, icon_data):
         for tone in tones:
             if variants.get(tone):
                 stems.append(variants[tone])
+    custom = icon_data.get('variants')
+    if isinstance(custom, dict):
+        stems.extend(stem for stem in custom.values() if isinstance(stem, str) and stem)
     return stems
 
 def get_all_icon_variants(metadata):

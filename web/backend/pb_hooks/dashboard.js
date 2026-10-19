@@ -69,22 +69,45 @@ function resolvedVariantFiles(record) {
 	for (const file of record.getUnsavedFiles("assets")) stored[file.originalName] = file.name
 	const assets = field(record, "assets")
 	const variants = { colors: ["light", "dark"], wordmark: ["default", "light", "dark"] }
+	const custom = require(__hooks + "/custom-variants.js").customMap(extras)
+	variants.variants = Object.keys(custom)
+	const customFiles = new Set()
 	for (const kind in variants)
 		for (const mode of variants[kind]) {
 			const name = (extras[kind] || {})[mode]
 			if (!name) continue
 			if (stored[name]) extras[kind][mode] = stored[name]
 			else if (assets.indexOf(name) < 0) throw new BadRequestError("Variant file " + name + " is not one of the uploaded assets")
+			if (kind === "variants") {
+				const file = extras[kind][mode]
+				if (customFiles.has(file)) throw new BadRequestError("Each Custom variant needs its own uploaded file")
+				customFiles.add(file)
+			}
 		}
+	if (customFiles.size) {
+		const standard = []
+		for (const group of ["colors", "wordmark"]) for (const file of Object.values(extras[group] || {})) standard.push(file)
+		if (standard.some((file) => customFiles.has(file)) || assets.filter((file) => !customFiles.has(file) && !standard.includes(file)).length === 0)
+			throw new BadRequestError("Each Custom variant needs its own uploaded file, separate from Base and well-known Variants")
+	}
 	return extras
 }
 function resolveVariantFiles(record) {
 	const extras = resolvedVariantFiles(record)
 	if (extras) record.set("extras", extras)
 }
+function unchangedRejection(record, old, creating) {
+	return !creating && record.getString("status") === "rejected" &&
+		["name", "description", "assets", "extras", "target_submission", "created_by"].every((key) => JSON.stringify(field(record, key)) === JSON.stringify(field(old, key)))
+}
 function audit(e, creating) {
-	if (creating) resolveVariantFiles(e.record)
 	const old = e.record.original()
+	const rejectUnchanged = unchangedRejection(e.record, old, creating)
+	if (!rejectUnchanged && (creating || JSON.stringify(field(old, "extras")) !== JSON.stringify(field(e.record, "extras")) || JSON.stringify(field(old, "assets")) !== JSON.stringify(field(e.record, "assets"))))
+		resolveVariantFiles(e.record)
+	const extras = field(e.record, "extras")
+	let published
+	if (!rejectUnchanged) published = require(__hooks + "/custom-variants.js").metadata(e.app)
 	e.record.set("__previous_status", old.getString("status"))
 	const changes = {}
 	for (const key of ["name", "status", "description", "assets", "extras", "admin_comment"]) {
@@ -115,7 +138,10 @@ function audit(e, creating) {
 		}
 		// Recheck under the write transaction so concurrent creation/rename cannot
 		// produce a proposal whose target has a different destination filename.
-		validateProposalNames(tx, e.record, old, creating)
+		if (!rejectUnchanged) {
+			validateProposalNames(tx, e.record, old, creating)
+			require(__hooks + "/custom-variants.js").validate(tx, e.record, extras, published)
+		}
 		e.app = tx
 		e.next()
 		if (hasChanges)
@@ -151,8 +177,12 @@ function guard(e, creating) {
 	const name = e.record.getString("name")
 	if ((creating || name !== old.getString("name")) && (name.length > MAX_NAME_LENGTH || !ICON_NAME.test(name)))
 		throw new BadRequestError("Icon name must be lowercase letters and numbers separated by single hyphens")
-	if (creating) resolvedVariantFiles(e.record)
-	validateProposalNames(e.app, e.record, old, creating)
+	const extras = field(e.record, "extras")
+	if (!unchangedRejection(e.record, old, creating)) {
+		if (creating || JSON.stringify(extras) !== JSON.stringify(field(old, "extras"))) resolvedVariantFiles(e.record)
+		validateProposalNames(e.app, e.record, old, creating)
+		require(__hooks + "/custom-variants.js").validate(e.app, e.record, extras)
+	}
 	if (!e.hasSuperuserAuth() && (creating || resubmission)) {
 		if (e.record.getString("status") !== "pending" || e.record.getString("created_by") !== e.auth.id)
 			throw new ForbiddenError("Resubmit as yourself with pending status")
@@ -235,6 +265,7 @@ function reserve(e) {
 	const input = e.requestInfo().body.items
 	if (!Array.isArray(input) || !input.length || input.length > 100 || new Set(input.map((x) => x.id)).size !== input.length)
 		throw new BadRequestError("Choose 1–100 distinct approved submissions")
+	const published = require(__hooks + "/custom-variants.js").metadata(e.app)
 	let batch
 	e.app.runInTransaction((tx) => {
 		if (tx.countRecords("publish_batches", $dbx.hashExp({ active: true })) > 0)
@@ -243,6 +274,8 @@ function reserve(e) {
 			const record = tx.findRecordById("submissions", String(item.id))
 			if (record.getString("status") !== "approved" || record.getString("updated") !== item.updated)
 				throw new BadRequestError("Submission changed or is no longer approved. Refresh before publishing.")
+			const extras = field(record, "extras")
+			require(__hooks + "/custom-variants.js").validate(tx, record, extras, published)
 			return { id: record.id, name: record.getString("name"), updated: record.getString("updated"), state: "waiting" }
 		})
 		if (new Set(snapshots.map((item) => item.name)).size !== snapshots.length)

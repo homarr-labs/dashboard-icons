@@ -38,8 +38,9 @@ import {
 } from "@/lib/icon-variant-text"
 import type { NativeIconVariant } from "@/lib/icons/files"
 import { buildIconUrl } from "@/lib/icons/urls"
-import { variantToneClass } from "@/lib/icons/variants"
+import { customVariantTone, variantToneClass } from "@/lib/icons/variants"
 import { getLobehubVariants, getLobehubVariantUrlKey, type LobehubVariant } from "@/lib/lobehub-variants"
+import { variantKind } from "@/lib/submission-variants"
 import { isClipboardAvailable } from "@/lib/svg-color-utils"
 import { cn, formatIconName } from "@/lib/utils"
 import type { AuthorData, ExternalIcon, Icon } from "@/types/icons"
@@ -596,6 +597,7 @@ export function IconDetails({
 		if (variant.kind === "tone") theme = variant.tone
 		if (variant.kind === "named") theme = variant.tone
 		if (variant.kind === "wordmark" && variant.tone !== "default") theme = variant.tone
+		if (variant.kind === "custom") theme = customVariantTone(variant.name)
 		const nativeVariant = nativeVariants?.find((item) => item.stem === iconName)
 		const previewTone = nativeVariant?.keys.map((key) => variantToneClass({ ...nativeVariant, key })).find(Boolean)
 
@@ -608,25 +610,11 @@ export function IconDetails({
 			imageUrl = resolveExternalIconUrl(externalIcon, key)
 			githubUrl = ""
 		} else if (isCommunityIcon && mainIconUrl) {
-			const formatExt = format === "svg" ? "svg" : format === "png" ? "png" : "webp"
-
-			// Try to find a specific asset URL that matches the requested variant filename
-			// This is important because assetUrls contains all variants (base, dark, light)
 			let matchingUrl: string | undefined
-
-			if (iconName && iconName !== icon) {
-				// If a theme is specified, iconName holds the specific filename for that variant
-				matchingUrl = assetUrls.find(
-					(url: string) => typeof url === "string" && url.includes(iconName) && url.toLowerCase().endsWith(`.${formatExt}`),
-				)
-			}
-
-			if (!matchingUrl) {
-				// Fallback: find any asset with the matching extension
-				matchingUrl = assetUrls.find((url: string) => typeof url === "string" && url.toLowerCase().endsWith(`.${formatExt}`))
-			}
-
-			imageUrl = matchingUrl || mainIconUrl
+			if (variant.kind === "base") matchingUrl = mainIconUrl
+			else matchingUrl = assetUrls.find((url) => new URL(url).pathname.endsWith(`/${encodeURIComponent(iconName)}`))
+			if (!matchingUrl || !new URL(matchingUrl).pathname.toLowerCase().endsWith(`.${format}`)) return null
+			imageUrl = matchingUrl
 			githubUrl = ""
 		} else {
 			if (nativeVariants && !nativeVariant?.formats.some((available) => available === format)) return null
@@ -637,6 +625,7 @@ export function IconDetails({
 		let variantKey = `${format}-${theme || "default"}`
 		if (variant.kind === "wordmark") variantKey = `${format}-wordmark-${variant.tone}`
 		if (variant.kind === "named") variantKey = `${format}-${variant.name}-${theme || "default"}`
+		if (variant.kind === "custom") variantKey = `${format}-custom-${variant.name}`
 		if (nativeVariant) variantKey = `${format}-${iconName}`
 		const altText = buildIconAltText(iconDisplayName, variant, format)
 		let tileBackground = "bg-primary/15 dark:bg-secondary/10"
@@ -1180,7 +1169,7 @@ export function IconDetails({
 										if (imageVariant.tone !== "default") description = getToneDescription(imageVariant.tone, false)
 										iconElement = <Type className="w-4 h-4 shrink-0" aria-hidden="true" />
 									}
-									if (imageVariant.kind === "custom") description = "Custom variant."
+									if (imageVariant.kind === "custom") description = variantKind(`custom:${variant.key}`).description
 									return (
 										<IconVariantsSection
 											key={variant.stem}
@@ -1226,6 +1215,19 @@ export function IconDetails({
 								{externalIcon &&
 									namedVariants.map((variant) => (
 										<NamedVariantSection key={variant.name} externalIcon={externalIcon} variant={variant} renderVariant={renderVariant} />
+									))}
+								{!nativeVariants &&
+									Object.entries(iconData.variants ?? {}).map(([name, file]) => (
+										<IconVariantsSection
+											key={`custom:${name}`}
+											title={name}
+											description={variantKind(`custom:${name}`).description}
+											iconElement={<FileType className="size-4 shrink-0" aria-hidden="true" />}
+											availableFormats={availableFormats}
+											iconName={file}
+											variant={{ kind: "custom", name }}
+											renderVariant={renderVariant}
+										/>
 									))}
 							</div>
 						</CardContent>

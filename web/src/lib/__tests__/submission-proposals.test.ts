@@ -87,6 +87,8 @@ it("selects the exact same-name submission and sends a new proposal to the submi
 	expect(container.textContent).toContain("Target submission: second")
 	const file = new File(['<svg xmlns="http://www.w3.org/2000/svg"/>'], "pdf.svg", { type: "image/svg+xml" })
 	await act(async () => submissionForm.form.setFieldValue("files", { base: [file] }))
+	await act(async () => submissionForm.addCustomVariant("animated-dark"))
+	await act(async () => submissionForm.form.setFieldValue("files", { base: [file], "custom:animated-dark": [file] }))
 	await act(async () => submissionForm.form.handleSubmit())
 	expect(mocks.fetch).toHaveBeenCalledExactlyOnceWith("/api/submissions", {
 		method: "POST",
@@ -97,6 +99,7 @@ it("selects the exact same-name submission and sends a new proposal to the submi
 	expect(body.get("name")).toBe("pdf")
 	expect(body.get("target_submission")).toBe("second")
 	expect((body.get("base") as File).name).toBe("pdf.svg")
+	expect((body.get("custom:animated-dark") as File).name).toBe("pdf.svg")
 	expect(mocks.create).not.toHaveBeenCalled()
 	expect(mocks.update).not.toHaveBeenCalled()
 	expect(mocks.getFirstListItem).not.toHaveBeenCalled()

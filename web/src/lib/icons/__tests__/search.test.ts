@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest"
+import { getNativeIconVariants } from "@/lib/icons/files"
 import {
 	calculateStringSimilarity,
 	containsCharsInOrder,
@@ -284,6 +285,17 @@ describe("scoreIcon", () => {
 })
 
 describe("variant search", () => {
+	it("uses actual per-stem formats for mixed SVG and PNG Custom variants", () => {
+		const svgBase = mockIcon("sonarr", { base: "svg", variants: { raster: "radarr-3d" } })
+		const pngBase = mockIcon("radarr-3d", { base: "png", variants: { vector: "sonarr" } })
+		expect(getNativeIconVariants(svgBase.name, svgBase.data).find((variant) => variant.key === "raster")?.formats).toEqual(["png", "webp"])
+		expect(getNativeIconVariants(pngBase.name, pngBase.data).find((variant) => variant.key === "vector")?.formats).toEqual([
+			"svg",
+			"png",
+			"webp",
+		])
+	})
+
 	const github = mockIcon("github", { colors: { dark: "github", light: "github-light" } })
 	const helix = mockIcon("helix", { wordmark: { light: "helix-light", dark: "helix-dark" } })
 	const sonarr = mockIcon("sonarr", { variants: { "4k": "sonarr-4k" } })

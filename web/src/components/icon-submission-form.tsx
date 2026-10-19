@@ -3,6 +3,7 @@
 import { FileType, FolderOpen, Plus, Send, Sparkles, Tag, Upload, X } from "lucide-react"
 import Link from "next/link"
 import { toast } from "sonner"
+import { CustomVariantInput } from "@/components/custom-variant-input"
 import { IconPreviewCard } from "@/components/icon-card"
 import { IconNameCombobox } from "@/components/icon-name-combobox"
 import { IconSubmissionGuidelines } from "@/components/icon-submission-guidelines"
@@ -15,7 +16,7 @@ import { Label } from "@/components/ui/label"
 import { Dropzone, DropzoneContent, DropzoneEmptyState } from "@/components/ui/shadcn-io/dropzone"
 import { Textarea } from "@/components/ui/textarea"
 import { VariantPreview } from "@/components/variant-preview"
-import { ACCEPTED_FILE_TYPES, AVAILABLE_CATEGORIES, MAX_FILE_SIZE, useIconSubmissionForm, VARIANTS } from "@/hooks/use-icon-submission-form"
+import { ACCEPTED_FILE_TYPES, AVAILABLE_CATEGORIES, MAX_FILE_SIZE, useIconSubmissionForm } from "@/hooks/use-icon-submission-form"
 import { useIsMobile } from "@/hooks/use-mobile"
 import { cn } from "@/lib/utils"
 
@@ -54,6 +55,10 @@ export function IconSubmissionForm() {
 		resetForm,
 		iconNameValidator,
 		setSelectedIcon,
+		variants,
+		customNames,
+		addCustomVariant,
+		removeCustomVariant,
 	} = useIconSubmissionForm()
 
 	const hasAnyPreview = Object.keys(filePreviews).length > 0
@@ -143,7 +148,7 @@ export function IconSubmissionForm() {
 								<form.Field name="files">
 									{(field) => (
 										<div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
-											{VARIANTS.map((variant) => {
+											{variants.map((variant) => {
 												const files = field.state.value[variant.id]
 												const preview = filePreviews[variant.id]
 												const isBase = variant.id === "base"
@@ -151,22 +156,25 @@ export function IconSubmissionForm() {
 													<div
 														key={variant.id}
 														className={cn(
-															"relative flex flex-col p-4 transition-colors",
+															"relative flex min-w-0 flex-col p-4 transition-colors",
 															files ? "bg-primary/5 ring-1 ring-primary/30" : "bg-muted/30 ring-1 ring-border",
 														)}
 													>
 														<div className="mb-1 flex min-h-6 items-center gap-2 pr-10">
-															<span className="font-medium text-sm">{variant.label}</span>
+															<span className="break-all font-medium text-sm">{variant.label}</span>
 															{isBase && <span className="bg-primary/20 px-1.5 py-0.5 font-medium text-[10px] text-primary">Required</span>}
 														</div>
 														<p className="mb-3 text-muted-foreground text-xs">{variant.description}</p>
-														{files && (
+														{(files || variant.id.startsWith("custom:")) && (
 															<Button
 																type="button"
 																variant="ghost"
 																size="icon"
-																onClick={() => handleFileDrop(variant.id, [])}
-																aria-label={`Remove ${variant.label} file`}
+																onClick={() => {
+																	if (variant.id.startsWith("custom:")) removeCustomVariant(variant.id.slice(7))
+																	else handleFileDrop(variant.id, [])
+																}}
+																aria-label={`Remove ${variant.label} variant`}
 																className="absolute top-1 right-1 size-11 hover:bg-destructive/10 hover:text-destructive"
 															>
 																<X className="size-4" />
@@ -187,7 +195,7 @@ export function IconSubmissionForm() {
 															<DropzoneEmptyState>
 																<div className="flex flex-col items-center gap-1">
 																	<Upload className="size-4 text-muted-foreground" />
-																	<span className="font-medium text-sm">Upload {variant.label} file</span>
+																	<span className="break-all font-medium text-sm">Upload {variant.label} file</span>
 																	<span className="text-muted-foreground text-xs">SVG or PNG, drag and drop or click</span>
 																</div>
 															</DropzoneEmptyState>
@@ -212,6 +220,7 @@ export function IconSubmissionForm() {
 										</div>
 									)}
 								</form.Field>
+								<CustomVariantInput names={customNames} onAdd={addCustomVariant} />
 							</CardContent>
 						</Card>
 
@@ -344,7 +353,7 @@ export function IconSubmissionForm() {
 													isMobile ? "grid-cols-2" : "grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 2xl:grid-cols-1",
 												)}
 											>
-												{VARIANTS.map((variant) => {
+												{variants.map((variant) => {
 													const preview = filePreviews[variant.id]
 													if (!preview) return null
 													return (

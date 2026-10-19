@@ -117,7 +117,7 @@ export function IconPreviewCard({
 			<div className="flex flex-col items-center p-3 sm:p-4">
 				<VariantPreview src={preview} alt={`${name} - ${label}`} background={background} className="mb-2 h-16 w-full" />
 				<span className="text-xs sm:text-sm text-center truncate w-full capitalize font-medium">{name || "icon-name"}</span>
-				<span className="text-[10px] text-muted-foreground">{label}</span>
+				<span className="w-full break-all text-center text-xs text-muted-foreground">{label}</span>
 			</div>
 		</MagicCard>
 	)

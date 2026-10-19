@@ -1,4 +1,7 @@
 import type { Icon, IconSearchEntry } from "@/types/icons"
+import { declaredVariantStems, RESERVED_VARIANT_NAMES } from "../../../backend/pb_hooks/variant-policy.js"
+
+export { RESERVED_VARIANT_NAMES } from "../../../backend/pb_hooks/variant-policy.js"
 
 export type IconVariantMatch = {
 	key: string
@@ -16,7 +19,6 @@ type WellKnownVariant = {
 	label: string
 	terms: string[]
 	tone?: VariantTone
-	stem: (name: string, data: VariantSource) => string | undefined
 }
 
 type VariantTerm = IconVariantMatch & { words: string[] }
@@ -30,25 +32,21 @@ function combine(first: string[], second: string[]): string[] {
 }
 
 const WELL_KNOWN_VARIANTS: Record<string, WellKnownVariant> = {
-	default: { label: "Base", terms: [], stem: (name) => name },
-	light: { label: "Light", terms: LIGHT_TERMS, tone: "light", stem: (_, data) => data.colors?.light },
-	dark: { label: "Dark", terms: DARK_TERMS, tone: "dark", stem: (_, data) => data.colors?.dark },
-	wordmark: { label: "Wordmark", terms: WORDMARK_TERMS, stem: (_, data) => data.wordmark?.default },
+	default: { label: "Base", terms: [] },
+	light: { label: "Light", terms: LIGHT_TERMS, tone: "light" },
+	dark: { label: "Dark", terms: DARK_TERMS, tone: "dark" },
+	wordmark: { label: "Wordmark", terms: WORDMARK_TERMS },
 	"wordmark-light": {
 		label: "Wordmark light",
 		terms: [...combine(WORDMARK_TERMS, LIGHT_TERMS), ...WORDMARK_TERMS],
 		tone: "light",
-		stem: (_, data) => data.wordmark?.light,
 	},
 	"wordmark-dark": {
 		label: "Wordmark dark",
 		terms: [...combine(WORDMARK_TERMS, DARK_TERMS), ...WORDMARK_TERMS],
 		tone: "dark",
-		stem: (_, data) => data.wordmark?.dark,
 	},
 }
-
-export const RESERVED_VARIANT_NAMES: readonly string[] = ["base", ...Object.keys(WELL_KNOWN_VARIANTS)]
 
 const TONE_CLASSES: Record<VariantTone, string> = {
 	light: "bg-zinc-900 ring-zinc-700",
@@ -64,7 +62,7 @@ function wellKnown(key: string): WellKnownVariant | undefined {
 }
 
 function labelOf(key: string): string {
-	return wellKnown(key)?.label ?? key.replace(/-/g, " ")
+	return wellKnown(key)?.label ?? key
 }
 
 function termsOf(key: string): string[] {
@@ -72,18 +70,24 @@ function termsOf(key: string): string[] {
 }
 
 export function variantToneClass(variant: IconVariantMatch | undefined): string | undefined {
-	const tone = variant && wellKnown(variant.key)?.tone
+	const tone = variant && (wellKnown(variant.key)?.tone ?? customVariantTone(variant.key))
 	if (!tone) return undefined
 	return TONE_CLASSES[tone]
 }
 
+export function customVariantTone(name: string): VariantTone | undefined {
+	if (name.endsWith("-dark")) return "dark"
+	if (name.endsWith("-light")) return "light"
+	return undefined
+}
+
 function declaredStems(name: string, data: VariantSource): [string, string | undefined][] {
-	const wellKnownStems = Object.entries(WELL_KNOWN_VARIANTS).map(([key, variant]): [string, string | undefined] => [
-		key,
-		variant.stem(name, data),
-	])
-	const custom = Object.entries(data.variants ?? {}).filter(([key]) => !RESERVED_VARIANT_NAMES.includes(key))
-	return [...wellKnownStems, ...custom]
+	return declaredVariantStems(name, data).flatMap(([key, stem]): [string, string][] => {
+		if (!key.startsWith("custom:")) return [[key, stem]]
+		const name = key.slice(7)
+		if (RESERVED_VARIANT_NAMES.includes(name)) return []
+		return [[name, stem]]
+	})
 }
 
 export function resolveIconVariants(name: string, data: VariantSource): IconVariant[] {

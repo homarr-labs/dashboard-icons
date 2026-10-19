@@ -2,7 +2,7 @@ import { NextResponse } from "next/server"
 import { ClientResponseError } from "pocketbase"
 import { createServerPB } from "@/lib/pb"
 import { readBoundedBytes } from "@/lib/read-bounded-bytes"
-import { createSubmission, MAX_ASSET_BYTES, type SubmissionInput } from "@/lib/submission-service"
+import { createSubmission, MAX_ASSET_BYTES, MAX_SUBMISSION_ASSETS, type SubmissionInput } from "@/lib/submission-service"
 import { SUBMISSION_VARIANTS } from "@/lib/submission-variants"
 import { refreshPocketBaseSession } from "@/mcp/auth/pocketbase"
 
@@ -10,7 +10,7 @@ export const runtime = "nodejs"
 export const maxDuration = 60
 
 const UNAVAILABLE = "dashboardicons.com could not save the submission. Try again in a minute."
-const MAX_BODY_BYTES = SUBMISSION_VARIANTS.length * MAX_ASSET_BYTES + 1024 * 1024
+const MAX_BODY_BYTES = 32 * 1024 * 1024
 
 function failure(status: number, error: string) {
 	return NextResponse.json({ error }, { status, headers: { "Cache-Control": "no-store" } })
@@ -31,6 +31,9 @@ function submissionInput(form: FormData): SubmissionInput {
 	for (const variant of SUBMISSION_VARIANTS) {
 		const file = form.get(variant)
 		if (file instanceof File) assets[variant] = file
+	}
+	for (const [key, file] of form.entries()) {
+		if (key.startsWith("custom:") && file instanceof File) assets[key as `custom:${string}`] = file
 	}
 	return {
 		name: text(form, "name"),
@@ -62,7 +65,11 @@ export async function POST(req: Request) {
 	} catch {
 		return failure(400, "The submission could not be read")
 	}
-	if (!form) return failure(413, `Each file must be at most ${MAX_ASSET_BYTES / 1024 / 1024} MB`)
+	if (!form)
+		return failure(
+			413,
+			`Keep the submission below 32 MB, with at most ${MAX_SUBMISSION_ASSETS} files of ${MAX_ASSET_BYTES / 1024 / 1024} MB each`,
+		)
 
 	const pb = createServerPB()
 	pb.authStore.save(session.token, null)
