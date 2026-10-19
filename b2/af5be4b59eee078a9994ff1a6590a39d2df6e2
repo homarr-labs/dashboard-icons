@@ -1,0 +1,38 @@
+web/docs/MCP.md
+  h_d6e478ca18e517 46,125-145,157
+web/src/mcp/__tests__/account-tools.test.ts
+  h_d6e478ca18e517 9,79,93-94,492-592
+web/src/mcp/__tests__/integration.test.ts
+  h_d6e478ca18e517 105,396-448
+web/src/mcp/__tests__/resources.test.ts
+  h_d6e478ca18e517 16,36-37
+web/src/mcp/__tests__/route.test.ts
+  h_d6e478ca18e517 64-68,70,101,103,112-135
+web/src/mcp/__tests__/server.test.ts
+  h_d6e478ca18e517 43
+web/src/mcp/__tests__/tools.test.ts
+  h_d6e478ca18e517 51,55,58
+web/src/mcp/resources.ts
+  h_d6e478ca18e517 47
+web/src/mcp/server.ts
+  h_d6e478ca18e517 18
+web/src/mcp/tools/index.ts
+  h_d6e478ca18e517 9,22
+web/src/mcp/tools/propose-icon-update.ts
+  h_d6e478ca18e517 1-99
+web/src/mcp/tools/submission-schemas.ts
+  h_d6e478ca18e517 1-57
+web/src/mcp/tools/submit-icon.ts
+  h_d6e478ca18e517 4,10,13
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "b2af5be4b59eee078a9994ff1a6590a39d2df6e2",
+  "prompts": {},
+  "humans": {
+    "h_d6e478ca18e517": {
+      "author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
