@@ -6,6 +6,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { toast } from "sonner"
 import { revalidateAllSubmissions } from "@/app/actions/submissions"
 import { LoginModalContent } from "@/components/login-modal"
+import { ReviewPrototype } from "@/components/prototype/review"
 import { Button } from "@/components/ui/button"
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Sheet, SheetContent, SheetDescription, SheetTitle } from "@/components/ui/sheet"
@@ -231,7 +232,11 @@ export function DashboardWorkspace() {
 			setBusy(false)
 		}
 	}
-	if (!mounted || auth.isLoading) return <Loading />
+	if (!mounted) return <Loading />
+	const prototypeVariant = params.get("variant")
+	if (process.env.NODE_ENV !== "production" && prototypeVariant && filters.view === "review")
+		return <ReviewPrototype variant={prototypeVariant} />
+	if (auth.isLoading) return <Loading />
 	if (!authenticated)
 		return (
 			<div className="mx-auto my-10 w-full max-w-md rounded-xl border bg-background p-6">
