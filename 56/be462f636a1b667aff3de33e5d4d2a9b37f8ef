@@ -1,0 +1,39 @@
+web/docs/research/external-icons-seo.md
+  s_2f890e5d2904d8::t_dbc85dcb5f12a8 1-142
+web/docs/research/icon-variant-seo.md
+  s_bf8f2ceabb9b1b::t_887744da7262a3 1-265
+web/docs/research/variant-metadata-schema.md
+  s_034ca5e7a4f6ad::t_eeb3b204ecbe71 1-219
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "56be462f636a1b667aff3de33e5d4d2a9b37f8ef",
+  "prompts": {},
+  "sessions": {
+    "s_034ca5e7a4f6ad": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "833e2f44-e538-4478-ab3c-04a16f0e04bf",
+        "model": "unknown"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    },
+    "s_2f890e5d2904d8": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "ccf8bc40-f581-465f-8ce2-5ab58d11c5b4",
+        "model": "unknown"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    },
+    "s_bf8f2ceabb9b1b": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "d8dd7fe4-2844-44c6-8844-d858f2f03a75",
+        "model": "unknown"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
