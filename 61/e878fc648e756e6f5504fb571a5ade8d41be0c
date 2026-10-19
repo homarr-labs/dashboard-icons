@@ -1,0 +1,48 @@
+web/backend/pb_hooks/dashboard.js
+  h_d6e478ca18e517 145,162-168,219-220,265-267,275-276
+web/backend/pb_hooks/icon-updates.js
+  h_d6e478ca18e517 64-72,83-84,99
+web/backend/pb_hooks/submission-assets.d.ts
+  h_d6e478ca18e517 2,5,24,34,37
+web/backend/pb_hooks/submission-assets.js
+  h_d6e478ca18e517 20,22-47,61,65,70,72-74,77-81,90
+web/src/app/api/submissions/[id]/route.ts
+  h_d6e478ca18e517 3-6,10,21-41,77,85-115
+web/src/components/dashboard/inspector.tsx
+  h_d6e478ca18e517 75
+web/src/components/dashboard/review-gallery.tsx
+  h_d6e478ca18e517 51
+web/src/components/submission-details.tsx
+  h_d6e478ca18e517 77,162
+web/src/components/submission/edit-icon-picker.tsx
+  h_d6e478ca18e517 3,13-14,46,152-194
+web/src/components/submission/icon-update-editor.tsx
+  h_d6e478ca18e517 3,7-9,17-24,99-112,130-139,147-148,161,174,209-212,223-227,229-232,237-260,285-319,351-359,361,383,392,398,408,411-412,418,537,568,572
+web/src/components/submission/rejected-round-comparison.tsx
+  h_d6e478ca18e517 4,20,22-28,130-131
+web/src/lib/dashboard/review-fixup-draft.ts
+  h_d6e478ca18e517 56,68,79
+web/src/lib/icon-update-service.ts
+  h_d6e478ca18e517 1,4,6-13,16,22,24-27,34-50,57,59-72,76,81-132
+web/src/lib/icon-update.ts
+  h_d6e478ca18e517 1,4,16-19
+web/src/lib/pb.ts
+  h_d6e478ca18e517 58
+web/src/lib/submission-update-service.ts
+  h_d6e478ca18e517 7,23-34
+web/src/lib/submission-variants.ts
+  h_d6e478ca18e517 2,74-80
+web/src/lib/submit-proposal.ts
+  h_d6e478ca18e517 1,5-8,22-26,28-35
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "61e878fc648e756e6f5504fb571a5ade8d41be0c",
+  "prompts": {},
+  "humans": {
+    "h_d6e478ca18e517": {
+      "author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
