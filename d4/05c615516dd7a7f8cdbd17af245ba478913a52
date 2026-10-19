@@ -1,0 +1,20 @@
+metadata.json
+  h_d6e478ca18e517 1851,8767,35397,37371,39221,39919,42309,43101,44434,45198,45944,50611
+web/docs/native-display-names.md
+  h_d6e478ca18e517 3,9-51
+web/src/app/og/__tests__/route.test.ts
+  h_d6e478ca18e517 2,28-40,109-121
+web/src/lib/utils.ts
+  h_d6e478ca18e517 14-15
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "d405c615516dd7a7f8cdbd17af245ba478913a52",
+  "prompts": {},
+  "humans": {
+    "h_d6e478ca18e517": {
+      "author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
