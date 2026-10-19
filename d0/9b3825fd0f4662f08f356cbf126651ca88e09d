@@ -1,0 +1,25 @@
+web/src/components/command-menu.tsx
+  s_2dda7f30f9c36c::t_f6ae8b11bb555b 14,76-77,251
+web/src/components/icon-card.tsx
+  s_2dda7f30f9c36c::t_2dcb9cdfa40591 7,51-52,81
+web/src/components/icon-grid.tsx
+  s_2dda7f30f9c36c::t_e178e810fd7eea 11,24,32,43,103
+web/src/components/icon-search.tsx
+  s_2dda7f30f9c36c::t_eb8c1d1f6f90fb 122,125
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "d09b3825fd0f4662f08f356cbf126651ca88e09d",
+  "prompts": {},
+  "sessions": {
+    "s_2dda7f30f9c36c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "5e95b9c0-6a43-43c0-8f66-04339c7d3832",
+        "model": "unknown"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
