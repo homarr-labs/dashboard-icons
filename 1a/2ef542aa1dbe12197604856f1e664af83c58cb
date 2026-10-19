@@ -1,0 +1,68 @@
+scripts/convert_svg_assets.py
+  h_d6e478ca18e517 298-300
+scripts/import-icon.ts
+  h_d6e478ca18e517 6-12,30,73,76,237,238,239-241,242,243,298,310,314-342,413,432-433,440,449,455,466,486-487,489-491,514
+web/backend/pb_hooks/custom-variants.js
+  h_d6e478ca18e517 1-2,3-35,36-41,42-47,48,49-50,51-65
+web/backend/pb_hooks/dashboard.js
+  h_d6e478ca18e517 72-74,81-85,87-92,99-102,105-106,107-109,110,141-144,180,181-185,268,277,278
+web/backend/pb_hooks/dashboard.pb.js
+  h_d6e478ca18e517 6
+web/src/app/api/submissions/route.ts
+  h_d6e478ca18e517 5,13,35-37,68-72
+web/src/app/api/submissions/variant-names/route.ts
+  h_d6e478ca18e517 1-12
+web/src/components/custom-variant-input.tsx
+  h_d6e478ca18e517 1-51,52,53-81,82,83-90,91,92-107
+web/src/components/dashboard/inspector.tsx
+  h_d6e478ca18e517 12,18,21-22,207,210
+web/src/components/dashboard/review-gallery.tsx
+  h_d6e478ca18e517 5,10,26
+web/src/components/icon-card.tsx
+  h_d6e478ca18e517 120
+web/src/components/icon-details.tsx
+  h_d6e478ca18e517 43,597,599-600,614-617,628,1172,1219-1231
+web/src/components/icon-submission-form.tsx
+  h_d6e478ca18e517 6,19,58-61,151,159,164,168,173-177,198,223,356
+web/src/components/submission-details.tsx
+  h_d6e478ca18e517 28,162,169
+web/src/hooks/use-icon-submission-form.ts
+  h_d6e478ca18e517 11,41-42,76,78-81,105,194,206-212
+web/src/lib/__tests__/submission-guard.test.ts
+  h_d6e478ca18e517 5-6,7,10,11-17,18-23,24,25-29,35-42,47,68-69,137,138-238,239-288,289-290,291-313,314,315-340,347,349,358
+web/src/lib/__tests__/submission-proposals.test.ts
+  h_d6e478ca18e517 90-91,102
+web/src/lib/community.ts
+  h_d6e478ca18e517 77-79,103
+web/src/lib/icon-variant-text.ts
+  h_d6e478ca18e517 10,92-93
+web/src/lib/icons/variants.ts
+  h_d6e478ca18e517 2-4,35-38,65,73,78-83,85-90
+web/src/lib/pb.ts
+  h_d6e478ca18e517 37,71
+web/src/lib/submission-service.ts
+  h_d6e478ca18e517 3,9,45-52,55-56,61
+web/src/lib/submission-variants.ts
+  h_d6e478ca18e517 1-3,4,6-8,18,37-52,56,64-65,81,97-98
+web/src/lib/submit-proposal.ts
+  h_d6e478ca18e517 11
+web/tools/dashboard/README.md
+  h_d6e478ca18e517 61-64,65-69,70-72,73-76,77,78-80,81-83
+web/backend/pb_hooks/variant-policy.d.ts
+  h_d6e478ca18e517 1-16
+web/backend/pb_hooks/variant-policy.js
+  h_d6e478ca18e517 1-63
+web/src/lib/icons/__tests__/search.test.ts
+  h_d6e478ca18e517 2,288-298
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "1a2ef542aa1dbe12197604856f1e664af83c58cb",
+  "prompts": {},
+  "humans": {
+    "h_d6e478ca18e517": {
+      "author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
