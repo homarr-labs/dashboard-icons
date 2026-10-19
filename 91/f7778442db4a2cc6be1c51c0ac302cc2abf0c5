@@ -1,0 +1,50 @@
+web/src/components/dashboard/review-fixup-editors.tsx
+  h_d6e478ca18e517 193-194,216
+  s_b0e52981eb78d5::t_a869bf0a525edb 165,176
+web/src/lib/icon-update.ts
+  s_b0e52981eb78d5::t_cd31b5d5f79744 12
+web/src/lib/dashboard/review-fixup-draft.ts
+  s_b0e52981eb78d5::t_c6b73612abba1b 2,57-58,64-73,78,97-104,128-138,140,144-145,153-157
+web/backend/pb_hooks/icon-update-policy.js
+  s_b0e52981eb78d5::t_6697b53b58a957 161-226
+web/src/components/dashboard/review-gallery.tsx
+  h_d6e478ca18e517 56-58,64-71
+  s_d4ebfbb37627a6::t_2bb91e734fa826 72
+web/src/lib/__tests__/review-fixups.test.ts
+  h_d6e478ca18e517 25-28,616-618
+  s_b0e52981eb78d5::t_16f41859a48ad8 11-12,16,460-615
+web/backend/pb_hooks/icon-update-policy.d.ts
+  s_b0e52981eb78d5::t_9425be4efc8036 57-70
+web/src/components/dashboard/review-bench.tsx
+  h_d6e478ca18e517 326-328,513,534-536,644-645
+  s_b0e52981eb78d5::t_a8b61f823cc2fa 20,110,519
+web/backend/pb_hooks/review-fixups.js
+  s_b0e52981eb78d5::t_12258b4e8abc61 1,37-56,58-82,92,137,142-145,159
+web/src/components/dashboard/icon-update-diff.tsx
+  h_d6e478ca18e517 105-106,110-112,134-135,141-142,145-146,197
+  s_d4ebfbb37627a6::t_3987a4453924bc 6,8,14,20,26-34,98-104,107-109,113-116,136-139,147-148,155-169,181-196
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "91f7778442db4a2cc6be1c51c0ac302cc2abf0c5",
+  "prompts": {},
+  "sessions": {
+    "s_b0e52981eb78d5": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "3bb93752-dc08-4084-ad84-f18968488e60",
+        "model": "unknown"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    },
+    "s_d4ebfbb37627a6": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a1159e-eace-7242-a5e2-3e06e4f43591",
+        "model": "gpt-6.1-sol"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
