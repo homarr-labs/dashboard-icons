@@ -1,0 +1,19 @@
+web/docs/ADDING_EXTERNAL_SOURCES.md
+  s_7e83464d99f8b9::t_21a848a6f2964c 41-42,382,417,419-421,425,435,437,488-489,509
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "74d05148be09dfa5d7c67f0b954d2579b78bfd8d",
+  "prompts": {},
+  "sessions": {
+    "s_7e83464d99f8b9": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "9770c66b-8986-4256-8453-3f2f4f37ef6f",
+        "model": "unknown"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
