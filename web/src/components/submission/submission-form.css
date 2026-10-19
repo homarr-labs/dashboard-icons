@@ -32,8 +32,7 @@
 				[data-slot="alert-dialog-content"],
 				[data-slot="alert-dialog-overlay"]
 			),
-		[data-submission-form] [data-slot="button"],
-		[data-submission-form] .animate-aurora {
+		[data-submission-form] [data-slot="button"] {
 			animation: none;
 			transition: none;
 		}

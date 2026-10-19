@@ -47,19 +47,19 @@ export function RejectedRoundComparison({
 	for (const asset of after.filter((asset) => !asset.variant))
 		comparisons.push({ key: `after:${asset.file}`, label: `Unassigned current: ${asset.file}`, variant: null, after: asset.file })
 	return (
-		<details open={defaultOpen} className="group/compare rounded-xl border bg-card shadow-sm">
-			<summary className="flex min-h-11 cursor-pointer list-none items-center gap-3 rounded-xl p-3 text-sm font-semibold transition-colors hover:bg-muted/40 focus-visible:outline-2 focus-visible:outline-ring sm:px-4 [&::-webkit-details-marker]:hidden">
-				<span className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-amber-500/10 text-amber-600 ring-1 ring-inset ring-amber-500/25 dark:text-amber-400">
+		<details open={defaultOpen} className="group/compare rounded-lg border bg-background shadow-sm">
+			<summary className="flex min-h-11 cursor-pointer list-none items-center gap-3 rounded-lg p-3 text-sm font-semibold transition-colors hover:bg-muted/40 focus-visible:outline-2 focus-visible:outline-ring sm:px-4 [&::-webkit-details-marker]:hidden">
+				<span className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-red-500/10 text-red-500">
 					<GitCompareArrows className="size-4" aria-hidden />
 				</span>
 				<span className="min-w-0 flex-1">Compare with rejected Round {previous.round}</span>
 				<ChevronDown
-					className="size-4 shrink-0 text-muted-foreground transition-transform duration-300 group-open/compare:rotate-180 motion-reduce:transition-none"
+					className="size-4 shrink-0 text-muted-foreground transition-transform duration-200 group-open/compare:rotate-180 motion-reduce:transition-none"
 					aria-hidden
 				/>
 			</summary>
 			<div className="flex flex-col gap-4 border-t p-3 sm:p-4">
-				<blockquote className="whitespace-pre-wrap break-words border-l-2 border-amber-500/60 pl-3 text-sm">
+				<blockquote className="whitespace-pre-wrap break-words border-l-2 border-red-500/40 pl-3 text-sm">
 					Reviewer feedback: {previous.admin_comment || "No written feedback."}
 				</blockquote>
 				{previous.unresolved_variants?.map((reference) => (
@@ -93,7 +93,7 @@ export function RejectedRoundComparison({
 					{comparisons.map(({ key, label, variant, before: old, after: current }) => {
 						const unresolved = previous.unresolved_variants?.some((reference) => reference.variant === variant)
 						return (
-							<section key={key} className="flex flex-col gap-2 rounded-lg bg-muted/40 p-3">
+							<section key={key} className="flex flex-col gap-2 rounded-md border p-3">
 								<h3 className="break-all text-sm font-medium">
 									{label}
 									{variant?.startsWith("custom:") && " · Custom"}
@@ -148,7 +148,7 @@ export function RejectedRoundComparison({
 					]
 						.filter((item) => item.before !== item.after)
 						.map((item) => (
-							<div key={item.label} className="break-words rounded-lg bg-muted/40 p-3">
+							<div key={item.label} className="break-words rounded-md border p-3">
 								<dt className="font-medium">{item.label}</dt>
 								<dd className="text-muted-foreground">Before: {item.before || "None"}</dd>
 								<dd>After: {item.after || "None"}</dd>

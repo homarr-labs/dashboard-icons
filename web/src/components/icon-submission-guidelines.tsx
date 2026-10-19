@@ -46,17 +46,13 @@ const SECTIONS = [
 		type: "do",
 		label: "DO",
 		Icon: Check,
-		tone: "text-emerald-700 dark:text-emerald-300",
-		badge: "bg-emerald-500/15 text-emerald-600 dark:text-emerald-400",
-		card: "border-emerald-500/25 bg-emerald-500/5",
+		tone: "text-emerald-500",
 	},
 	{
 		type: "dont",
 		label: "DON'T",
 		Icon: X,
-		tone: "text-red-700 dark:text-red-300",
-		badge: "bg-red-500/15 text-red-600 dark:text-red-400",
-		card: "border-red-500/25 bg-red-500/5",
+		tone: "text-red-500",
 	},
 ] as const
 
@@ -64,24 +60,24 @@ export function IconSubmissionGuidelines() {
 	const [isOpen, setIsOpen] = useState(false)
 
 	return (
-		<div className="@container rounded-xl border border-blue-500/30 bg-blue-500/5">
+		<div className="@container rounded-lg border bg-background shadow-sm">
 			<Collapsible open={isOpen} onOpenChange={setIsOpen}>
 				<CollapsibleTrigger asChild>
 					<button
 						type="button"
-						className="group/guide flex min-h-11 w-full items-center gap-3 rounded-xl p-4 text-left transition-colors hover:bg-blue-500/5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+						className="group/guide flex min-h-11 w-full items-center gap-3 rounded-lg p-4 text-left transition-colors hover:bg-accent/50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
 					>
-						<span className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-blue-500/10 text-blue-600 ring-1 ring-inset ring-blue-500/25 dark:text-blue-400">
-							<BookOpenCheck className="size-[18px]" aria-hidden />
+						<span className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-blue-500/10 text-blue-500">
+							<BookOpenCheck className="size-4" aria-hidden />
 						</span>
 						<span className="min-w-0 flex-1">
-							<span className="block text-sm font-semibold text-blue-700 dark:text-blue-300">Icon Submission Guidelines</span>
+							<span className="block text-sm font-semibold">Icon Submission Guidelines</span>
 							<span className="block text-xs text-muted-foreground">Review these important guidelines before submitting</span>
 						</span>
 						<ChevronDown
 							className={cn(
-								"size-4 shrink-0 text-blue-700 transition-transform duration-300 group-hover/guide:translate-y-0.5 motion-reduce:transition-none dark:text-blue-300",
-								isOpen && "rotate-180 group-hover/guide:translate-y-0",
+								"size-4 shrink-0 text-muted-foreground transition-transform duration-200 motion-reduce:transition-none",
+								isOpen && "rotate-180",
 							)}
 							aria-hidden
 						/>
@@ -89,17 +85,12 @@ export function IconSubmissionGuidelines() {
 				</CollapsibleTrigger>
 				<CollapsibleContent>
 					<div className="grid grid-cols-1 gap-5 px-4 pb-4 @lg:grid-cols-2">
-						{SECTIONS.map(({ type, label, Icon, tone, badge, card }) => (
-							<div key={type} className="flex flex-col gap-3">
-								<div className="flex items-center gap-2">
-									<span className={cn("flex size-7 items-center justify-center rounded-full", badge)}>
-										<Icon className="size-4" aria-hidden />
-									</span>
-									<h4 className={cn("text-sm font-semibold", tone)}>{label}</h4>
-								</div>
+						{SECTIONS.map(({ type, label, Icon, tone }) => (
+							<div key={type} className="flex flex-col gap-2">
+								<h4 className={cn("text-xs font-semibold", tone)}>{label}</h4>
 								<ul className="flex flex-col gap-2">
 									{GUIDELINES.filter((item) => item.type === type).map((item) => (
-										<li key={item.title} className={cn("flex gap-3 rounded-lg border p-3", card)}>
+										<li key={item.title} className="flex gap-3 rounded-md border p-3">
 											<Icon className={cn("mt-0.5 size-4 shrink-0", tone)} aria-hidden />
 											<div className="min-w-0 flex-1">
 												<p className="text-sm font-medium text-foreground">{item.title}</p>

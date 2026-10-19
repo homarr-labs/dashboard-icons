@@ -55,7 +55,7 @@ export function LegacyAssetAssignment({
 		onAssign(variant)
 	}
 	return (
-		<section className="flex min-w-0 flex-col gap-3 rounded-xl border bg-card p-3 shadow-sm">
+		<section className="flex min-w-0 flex-col gap-3 rounded-md border bg-background p-3">
 			<AssetPreview asset={{ ...asset, variant: "base" }} alt={`Unassigned original file ${asset.file.name}`} className="h-24 w-full" />
 			<p className="break-all font-mono text-sm font-medium">{asset.file.name}</p>
 			{asset.references.map(({ variant, reference }) => (
@@ -75,7 +75,7 @@ export function LegacyAssetAssignment({
 							setSlot(event.target.value)
 							setError("")
 						}}
-						className="h-10 w-full min-w-0 appearance-none rounded-lg border border-input bg-background pr-9 pl-3 text-sm shadow-sm transition-colors hover:border-primary/50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+						className="h-10 w-full min-w-0 appearance-none rounded-md border bg-background pr-9 pl-3 text-sm shadow-xs transition-colors hover:border-primary/50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
 					>
 						<option value="">Choose a Variant</option>
 						{variants.map((variant) => (
@@ -111,7 +111,7 @@ export function LegacyAssetAssignment({
 					{error}
 				</p>
 			)}
-			<Button variant="outline" className="min-h-11 border-amber-500/40 bg-amber-500/5 hover:bg-amber-500/10" onClick={assign}>
+			<Button variant="outline" onClick={assign}>
 				<Check aria-hidden />
 				Assign Variant
 			</Button>

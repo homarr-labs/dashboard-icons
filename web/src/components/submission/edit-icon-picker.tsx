@@ -16,12 +16,10 @@ import {
 } from "lucide-react"
 import Link from "next/link"
 import { useState } from "react"
-import { MagicCard } from "@/components/magicui/magic-card"
-import { MagicCardPointerProvider } from "@/components/magicui/magic-card-pointer"
 import { StatusBadge } from "@/components/status-badge"
 import { IconUpdateEditor } from "@/components/submission/icon-update-editor"
 import { OwnSubmissionEditor } from "@/components/submission/own-submission-editor"
-import { SectionHeading, type Tone } from "@/components/submission/submission-ui"
+import { PANEL_CLASS, SectionHeading, type Tone } from "@/components/submission/submission-ui"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -32,6 +30,7 @@ import type { ExistingSubmission } from "@/hooks/use-submission-catalog"
 import type { IconNameOption } from "@/hooks/use-submissions"
 import type { OwnedSubmissionResponse } from "@/lib/icon-update"
 import { pb } from "@/lib/pb"
+import { cn } from "@/lib/utils"
 
 export function EditIconPicker({
 	names,
@@ -75,25 +74,25 @@ export function EditIconPicker({
 	if (rejectedOnly)
 		heading = {
 			icon: History,
-			tone: "amber",
+			tone: "red",
 			title: "Which rejected Submission do you want to fix?",
 			description: "Each one keeps its id and history when you resubmit it.",
 		}
 	return (
-		<section className="mx-auto flex max-w-4xl flex-col gap-6 rounded-2xl border bg-card p-4 shadow-sm sm:p-6">
+		<section className={cn(PANEL_CLASS, "mx-auto flex max-w-4xl flex-col gap-6 p-4 sm:p-6")}>
 			<SectionHeading level={2} {...heading} />
 			<div className="flex flex-col gap-2">
 				<label htmlFor="edit-icon-search" className="text-sm font-medium">
 					Find an Icon or Submission
 				</label>
 				<div className="relative">
-					<Search className="pointer-events-none absolute top-1/2 left-4 size-5 -translate-y-1/2 text-muted-foreground" aria-hidden />
+					<Search className="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground" aria-hidden />
 					<Input
 						id="edit-icon-search"
 						value={search}
 						onChange={(event) => setSearch(event.target.value)}
 						placeholder="Search by slug, for example sonarr"
-						className="h-12 rounded-xl bg-background pl-12 text-base"
+						className="h-10 pl-9"
 					/>
 				</div>
 			</div>
@@ -102,13 +101,11 @@ export function EditIconPicker({
 					<h3 className="flex items-center gap-2 text-sm font-semibold">
 						<Users className="size-4 text-muted-foreground" aria-hidden />
 						Community Submissions
-						<Badge variant="secondary" className="rounded-full">
-							{matches.length}
-						</Badge>
+						<Badge variant="outline">{matches.length}</Badge>
 					</h3>
 					<ul className="flex flex-col gap-2">
 						{matches.slice(0, 30).map((submission) => (
-							<li key={submission.id} className="flex flex-col gap-3 rounded-xl border bg-background p-3 sm:p-4">
+							<li key={submission.id} className="flex flex-col gap-3 rounded-md border p-3">
 								<div className="flex flex-wrap items-center justify-between gap-3">
 									<div className="min-w-0 flex-1 basis-48">
 										<p className="flex flex-wrap items-center gap-2">
@@ -128,9 +125,7 @@ export function EditIconPicker({
 										</Button>
 										{!submission.mine && submission.status === "pending" && (
 											<Button
-												variant="outline"
 												size="sm"
-												className="border-violet-500/40 bg-violet-500/5 hover:bg-violet-500/10"
 												onClick={() =>
 													setSelection({
 														label: submission.name,
@@ -146,20 +141,15 @@ export function EditIconPicker({
 											</Button>
 										)}
 										{submission.mine && (
-											<Button
-												variant="outline"
-												size="sm"
-												className="border-primary/40 bg-primary/5 hover:bg-primary/10"
-												onClick={() => setOwnId(submission.id)}
-											>
+											<Button size="sm" onClick={() => setOwnId(submission.id)}>
 												{submission.status === "rejected" ? "Fix and resubmit" : "Edit your Submission"} <ArrowRight aria-hidden />
 											</Button>
 										)}
 									</div>
 								</div>
 								{submission.status === "rejected" && (
-									<div className="flex gap-2.5 rounded-lg border border-amber-500/25 bg-amber-500/5 p-3 text-sm">
-										<MessageSquareWarning className="mt-0.5 size-4 shrink-0 text-amber-600 dark:text-amber-400" aria-hidden />
+									<div className="flex gap-2.5 border-t pt-3 text-sm">
+										<MessageSquareWarning className="mt-0.5 size-4 shrink-0 text-red-500" aria-hidden />
 										<p>
 											{submission.feedback && <span className="block break-words font-medium">Reviewer: {submission.feedback}</span>}
 											<span className="text-muted-foreground">
@@ -176,40 +166,35 @@ export function EditIconPicker({
 			{!rejectedOnly && (
 				<div className="flex flex-col gap-3">
 					<h3 className="text-sm font-semibold">Published Icons</h3>
-					<MagicCardPointerProvider className="grid gap-2 sm:grid-cols-2">
+					<ul className="grid gap-2 sm:grid-cols-2">
 						{published.map((name) => (
-							<MagicCard key={name} className="min-w-0 rounded-xl">
-								<div className="flex min-w-0 items-center gap-3 p-2.5">
-									<span className="flex size-12 shrink-0 items-center justify-center rounded-lg bg-primary/15 ring-1 ring-white/5 dark:bg-secondary/10 dark:ring-white/10">
-										<UnoptimizedImage
-											src={`${BASE_URL}/webp/${name}.webp`}
-											alt=""
-											width={32}
-											height={32}
-											className="size-8 object-contain"
-										/>
+							<li key={name} className="flex min-w-0 items-center gap-3 rounded-md border p-2">
+								<span className="flex size-11 shrink-0 items-center justify-center rounded-lg bg-primary/15 dark:bg-secondary/10">
+									<UnoptimizedImage src={`${BASE_URL}/webp/${name}.webp`} alt="" width={32} height={32} className="size-8 object-contain" />
+								</span>
+								<Link
+									href={`/icons/${name}`}
+									className="flex min-h-11 min-w-0 flex-1 items-center truncate font-mono text-sm font-medium underline-offset-4 hover:text-primary hover:underline"
+								>
+									<span className="truncate">{name}</span>
+								</Link>
+								<Button
+									variant="outline"
+									size="sm"
+									className="shrink-0"
+									onClick={() => setSelection({ label: name, value: name, source: "collection" })}
+								>
+									<PencilLine aria-hidden />
+									<span className="max-sm:sr-only">Propose an update</span>
+									<span className="sm:hidden" aria-hidden>
+										Update
 									</span>
-									<Link
-										href={`/icons/${name}`}
-										className="flex min-h-11 min-w-0 flex-1 items-center truncate font-mono text-sm font-medium underline-offset-4 hover:text-primary hover:underline"
-									>
-										<span className="truncate">{name}</span>
-									</Link>
-									<Button
-										variant="outline"
-										size="sm"
-										className="shrink-0 border-violet-500/40 bg-violet-500/5 hover:bg-violet-500/10"
-										onClick={() => setSelection({ label: name, value: name, source: "collection" })}
-									>
-										<span className="max-sm:sr-only">Propose an update</span>
-										<ArrowRight aria-hidden />
-									</Button>
-								</div>
-							</MagicCard>
+								</Button>
+							</li>
 						))}
-					</MagicCardPointerProvider>
+					</ul>
 					{published.length === 0 && (
-						<p className="flex flex-col items-center gap-2 rounded-xl border border-dashed py-8 text-sm text-muted-foreground">
+						<p className="flex flex-col items-center gap-2 rounded-md border border-dashed py-8 text-sm text-muted-foreground">
 							<SearchX className="size-6" aria-hidden />
 							No published Icon matches this search.
 						</p>
@@ -220,7 +205,7 @@ export function EditIconPicker({
 				</div>
 			)}
 			{rejectedOnly && matches.length === 0 && (
-				<p className="flex flex-col items-center gap-2 rounded-xl border border-dashed py-8 text-sm text-muted-foreground">
+				<p className="flex flex-col items-center gap-2 rounded-md border border-dashed py-8 text-sm text-muted-foreground">
 					<SearchX className="size-6" aria-hidden />
 					No rejected Submissions match this search.
 				</p>
@@ -244,12 +229,12 @@ function OwnedEditor({ id, customNames, onBack }: { id: string; customNames: str
 	})
 	if (!query.data)
 		return (
-			<section className="mx-auto flex max-w-3xl flex-col gap-4 rounded-2xl border bg-card p-5 shadow-sm" aria-live="polite">
+			<section className={cn(PANEL_CLASS, "mx-auto flex max-w-3xl flex-col gap-4 p-5")} aria-live="polite">
 				{query.isPending && (
 					<div className="flex flex-col gap-3">
 						<p className="text-sm text-muted-foreground">Loading your Submission…</p>
-						<Skeleton className="h-16 w-full rounded-xl" />
-						<Skeleton className="h-40 w-full rounded-xl" />
+						<Skeleton className="h-16 w-full" />
+						<Skeleton className="h-40 w-full" />
 					</div>
 				)}
 				{query.error && (

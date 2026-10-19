@@ -23,18 +23,15 @@ import { motion } from "motion/react"
 import Link from "next/link"
 import { useEffect, useRef, useState } from "react"
 import { revalidateAllSubmissions } from "@/app/actions/submissions"
-import { MagicCard } from "@/components/magicui/magic-card"
-import { MagicCardPointerProvider } from "@/components/magicui/magic-card-pointer"
 import { RejectedRoundComparison } from "@/components/submission/rejected-round-comparison"
 import { RejectionNotice } from "@/components/submission/rejection-notice"
 import { AssetPreview } from "@/components/submission/submission-preview"
 import {
 	CategoryPicker,
-	CTA_CLASS,
-	celebrate,
 	DropPrompt,
 	FileChooser,
 	FileDrop,
+	PANEL_CLASS,
 	SectionHeading,
 	splitAliases,
 	VariantGlyph,
@@ -42,7 +39,6 @@ import {
 } from "@/components/submission/submission-ui"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { Badge } from "@/components/ui/badge"
-import { BorderBeam } from "@/components/ui/border-beam"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Skeleton } from "@/components/ui/skeleton"
@@ -126,11 +122,11 @@ export function ChangeBadge({ action }: { action?: "add" | "replace" | "remove" 
 	return (
 		<span
 			className={cn(
-				"shrink-0 rounded-full border px-2 py-0.5 text-xs font-medium",
-				!action && "border-border bg-muted text-muted-foreground",
-				action === "add" && "border-emerald-500/30 bg-emerald-500/10 text-emerald-800 dark:text-emerald-200",
-				action === "replace" && "border-amber-500/30 bg-amber-500/10 text-amber-800 dark:text-amber-200",
-				action === "remove" && "border-red-500/30 bg-red-500/10 text-red-800 dark:text-red-200",
+				"shrink-0 rounded-md border px-2 py-0.5 text-xs font-medium",
+				!action && "text-muted-foreground",
+				action === "add" && "border-emerald-500/20 bg-emerald-500/10 text-emerald-500",
+				action === "replace" && "border-yellow-500/20 bg-yellow-500/10 text-yellow-500",
+				action === "remove" && "border-red-500/20 bg-red-500/10 text-red-500",
 			)}
 		>
 			{label}
@@ -208,9 +204,6 @@ export function IconUpdateEditor({
 		return () => controller.abort()
 	}, [selection.value, selection.submissionId, attempt, owned])
 	useEffect(() => {
-		if (sent) celebrate()
-	}, [sent])
-	useEffect(() => {
 		if (customOpen) customInput.current?.focus()
 	}, [customOpen])
 	const changeFile = (key: SubmissionVariant, file: File) => {
@@ -238,55 +231,43 @@ export function IconUpdateEditor({
 	if (sent)
 		return (
 			<motion.section
-				initial={{ opacity: 0, y: 16 }}
+				initial={{ opacity: 0, y: 8 }}
 				animate={{ opacity: 1, y: 0 }}
-				className="relative mx-auto flex max-w-2xl flex-col gap-4 overflow-hidden rounded-2xl border bg-card p-5 shadow-lg sm:p-7"
+				className={cn(PANEL_CLASS, "mx-auto flex max-w-2xl flex-col gap-4 p-4 sm:p-6")}
 				aria-live="polite"
 			>
-				<div className="flex items-center gap-4">
-					<motion.span
-						initial={{ scale: 0, rotate: -45 }}
-						animate={{ scale: 1, rotate: 0 }}
-						transition={{ type: "spring", stiffness: 260, damping: 15, delay: 0.1 }}
-						className="flex size-14 shrink-0 items-center justify-center rounded-full bg-emerald-500/15 text-emerald-600 ring-8 ring-emerald-500/5 dark:text-emerald-400"
-					>
-						<Check className="size-7" aria-hidden />
-					</motion.span>
-					<h2 className="text-2xl font-bold tracking-tight">{owned ? "Update proposal saved" : "Update proposal sent"}</h2>
+				<div className="flex items-center gap-3">
+					<span className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-emerald-500/10 text-emerald-500">
+						<Check className="size-5" aria-hidden />
+					</span>
+					<h2 className="text-xl font-semibold">{owned ? "Update proposal saved" : "Update proposal sent"}</h2>
 				</div>
 				<p className="text-sm text-muted-foreground">
 					Your changes to <strong className="font-mono text-foreground">{selection.value}</strong> are awaiting review. Unchanged Variants
 					and metadata are preserved. Approval does not publish automatically.
 				</p>
 				<div className="flex flex-wrap gap-2">
-					<Button asChild className={cn(CTA_CLASS, "sm:w-auto")}>
+					<Button asChild>
 						<Link href={`/community/submissions/${sent}`}>
 							View Update proposal
 							<ArrowRight aria-hidden />
 						</Link>
 					</Button>
-					<Button variant="outline" className="min-h-11" onClick={onCancel}>
+					<Button variant="outline" onClick={onCancel}>
 						Choose another Icon
 					</Button>
 				</div>
-				<BorderBeam
-					size={120}
-					duration={9}
-					colorFrom="var(--magic-border-from)"
-					colorTo="var(--magic-border-to)"
-					className="motion-reduce:hidden"
-				/>
 			</motion.section>
 		)
 	if (!loaded)
 		return (
-			<section className="mx-auto flex max-w-3xl flex-col gap-4 rounded-2xl border bg-card p-5 shadow-sm" aria-live="polite">
+			<section className={cn(PANEL_CLASS, "mx-auto flex max-w-3xl flex-col gap-4 p-5")} aria-live="polite">
 				{!error && (
 					<output className="flex flex-col gap-3" aria-label="Loading current Icon">
-						<Skeleton className="h-20 w-full rounded-xl" />
+						<Skeleton className="h-20 w-full" />
 						<div className="grid gap-3 sm:grid-cols-2">
-							<Skeleton className="h-40 rounded-xl" />
-							<Skeleton className="h-40 rounded-xl" />
+							<Skeleton className="h-40" />
+							<Skeleton className="h-40" />
 						</div>
 					</output>
 				)}
@@ -369,7 +350,7 @@ export function IconUpdateEditor({
 		}
 	}
 	const cta = (
-		<Button disabled={disabled} onClick={() => void send()} className={cn(CTA_CLASS, "max-lg:w-auto max-lg:shrink-0")}>
+		<Button disabled={disabled} onClick={() => void send()} className="w-full max-lg:w-auto max-lg:shrink-0">
 			{busy && <Loader2 className="animate-spin motion-reduce:animate-none" aria-hidden />}
 			{!busy && <Send aria-hidden />}
 			{saveLabel}
@@ -378,27 +359,23 @@ export function IconUpdateEditor({
 	return (
 		<div className="grid min-w-0 gap-6 lg:grid-cols-[minmax(0,1fr)_340px]" data-icon-update-editor>
 			<div className="flex min-w-0 flex-col gap-6">
-				<header className="relative isolate flex flex-wrap items-center gap-4 overflow-hidden rounded-2xl border bg-card p-4 shadow-sm sm:p-5">
-					<span
-						className="pointer-events-none absolute -top-16 -right-10 -z-10 size-48 rounded-full bg-violet-500/15 blur-3xl"
-						aria-hidden
-					/>
-					<span className="flex size-16 shrink-0 items-center justify-center rounded-xl bg-primary/15 ring-1 ring-white/5 dark:bg-secondary/10 dark:ring-white/10">
+				<header className={cn(PANEL_CLASS, "flex flex-wrap items-center gap-4 p-4 sm:p-5")}>
+					<span className="flex size-16 shrink-0 items-center justify-center rounded-lg bg-primary/15 dark:bg-secondary/10">
 						{previews.base && <UnoptimizedImage src={previews.base.url} alt="" width={48} height={48} className="size-12 object-contain" />}
 						{!previews.base && <Layers className="size-6 text-muted-foreground" aria-hidden />}
 					</span>
 					<div className="min-w-0 flex-1 basis-56">
 						<div className="flex flex-wrap items-center gap-2">
-							<Badge variant="outline" className="rounded-full border-violet-500/30 bg-violet-500/10 text-violet-700 dark:text-violet-300">
+							<Badge variant="outline" className="border-primary/20">
 								Update proposal
 							</Badge>
-							<Badge variant="outline" className="rounded-full text-muted-foreground">
+							<Badge variant="outline" className="text-muted-foreground">
 								{target.kind === "published" ? "Published Icon" : "Community Submission"}
 							</Badge>
 						</div>
-						<h2 className="mt-1.5 break-all font-mono text-2xl font-bold tracking-tight">{target.name}</h2>
+						<h2 className="mt-1.5 break-all font-mono text-2xl font-semibold">{target.name}</h2>
 					</div>
-					<Button variant="ghost" className="min-h-11" disabled={busy} onClick={onCancel}>
+					<Button variant="ghost" disabled={busy} onClick={onCancel}>
 						<ArrowLeft aria-hidden />
 						Choose another Icon
 					</Button>
@@ -414,7 +391,7 @@ export function IconUpdateEditor({
 				)}
 				{owned && <RejectedRoundComparison record={owned.record} />}
 				{stale && live && (
-					<Alert className="border-amber-500/40 bg-amber-500/5 text-amber-900 dark:text-amber-100">
+					<Alert className="bg-transparent [&>svg]:text-yellow-500">
 						<AlertTriangle aria-hidden />
 						<AlertTitle className="line-clamp-none">The target Icon changed</AlertTitle>
 						<AlertDescription>
@@ -425,7 +402,7 @@ export function IconUpdateEditor({
 							<Button
 								variant="outline"
 								size="sm"
-								className="mt-1 bg-background"
+								className="mt-1"
 								disabled={busy}
 								onClick={() => {
 									setLoaded(live)
@@ -445,13 +422,10 @@ export function IconUpdateEditor({
 					</Alert>
 				)}
 				{target.unresolved && (
-					<section
-						className="flex flex-col gap-3 rounded-2xl border border-amber-500/40 bg-amber-500/5 p-4"
-						aria-label="Unassigned target artwork"
-					>
+					<section className={cn(PANEL_CLASS, "flex flex-col gap-3 border-yellow-500/20 p-4")} aria-label="Unassigned target artwork">
 						<SectionHeading
 							icon={FileStack}
-							tone="amber"
+							tone="yellow"
 							title="The contributor needs to assign the existing files"
 							description="Every original file is kept. An update cannot be sent until each file has an unambiguous Variant, including Base."
 						/>
@@ -466,7 +440,7 @@ export function IconUpdateEditor({
 									<UnoptimizedImage
 										src={pb.files.getURL({ collectionName: "submissions", id: target.id }, file)}
 										alt={`Unassigned original ${file}`}
-										className="h-20 w-full rounded-lg bg-muted object-contain p-2"
+										className="h-20 w-full rounded-md bg-muted object-contain p-2"
 									/>
 									<p className="break-all font-mono text-xs">{file}</p>
 								</li>
@@ -474,7 +448,7 @@ export function IconUpdateEditor({
 						</ul>
 					</section>
 				)}
-				<section className="flex min-w-0 flex-col gap-4 rounded-2xl border bg-card p-3 shadow-sm sm:p-5">
+				<section className={cn(PANEL_CLASS, "flex min-w-0 flex-col gap-4 p-3 sm:p-5")}>
 					<SectionHeading
 						icon={Layers}
 						tone="blue"
@@ -483,7 +457,7 @@ export function IconUpdateEditor({
 					/>
 					<fieldset disabled={busy} className="flex min-w-0 flex-col gap-4">
 						<legend className="sr-only">Variants</legend>
-						<MagicCardPointerProvider className="grid min-w-0 gap-3 sm:grid-cols-2">
+						<div className="grid min-w-0 gap-3 sm:grid-cols-2">
 							{rows.map((key) => {
 								const kind = variantKind(key)
 								const file = files[key]
@@ -501,159 +475,149 @@ export function IconUpdateEditor({
 								if (file || saved) action = target.files[key] ? "replace" : "add"
 								if (removed) action = "remove"
 								return (
-									<MagicCard key={key} className={cn("min-w-0 rounded-xl", removed && "ring-1 ring-red-500/40")}>
-										<div className="flex h-full min-w-0 flex-col gap-3 p-3">
-											<div className="flex min-w-0 items-center justify-between gap-2">
-												<h4 className="flex min-w-0 items-center gap-1.5 text-sm font-semibold">
-													<VariantGlyph variant={key} />
-													<span className="truncate">{kind.label}</span>
-												</h4>
-												<ChangeBadge action={action} />
-											</div>
-											<div className="grid min-w-0 grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-start gap-2">
-												<figure className="flex min-w-0 flex-col gap-1">
-													<UpdateArtwork
-														present={Boolean(target.files[key])}
-														preview={previews[key]}
-														variant={key}
-														name={target.name}
-														className="ring-1 ring-inset ring-border"
-													/>
-													<figcaption className="text-xs text-muted-foreground">Now</figcaption>
-												</figure>
-												<ArrowRight className="mt-10 size-4 text-muted-foreground" aria-hidden />
-												<figure className="flex min-w-0 flex-col gap-1">
-													{removed && (
-														<div
-															className="flex h-24 items-center justify-center rounded-md bg-red-500/10 text-red-800 dark:text-red-200"
-															aria-label="Variant removed"
-															role="img"
-														>
-															<Minus aria-hidden />
-														</div>
-													)}
-													{!removed && (
-														<FileDrop
-															label={`Replace ${kind.label}`}
-															backdrop={variantBackdrop(key)}
-															className="h-24 rounded-md"
-															onFiles={(chosen) => {
-																if (chosen[0]) changeFile(key, chosen[0])
-															}}
-														>
-															<UpdateArtwork
-																present={Boolean(target.files[key])}
-																preview={proposedPreview}
-																file={file}
-																variant={key}
-																name={target.name}
-																className="ring-1 ring-inset ring-border"
-															/>
-															<span className="pointer-events-none absolute right-1 bottom-1 inline-flex items-center gap-1 rounded-md bg-background/90 px-1.5 py-0.5 text-xs font-medium text-foreground shadow-sm ring-1 ring-border transition-transform group-hover/drop:scale-105">
-																<RefreshCw className="size-3" aria-hidden />
-																Replace
-															</span>
-														</FileDrop>
-													)}
-													<figcaption className="text-xs text-muted-foreground">Proposed</figcaption>
-												</figure>
-											</div>
-											<div className="flex min-w-0 flex-col gap-0.5">
-												<p
-													className="truncate font-mono text-xs text-muted-foreground"
-													title={file?.name || proposedPreview?.filename || target.files[key]}
-												>
-													{file?.name || proposedPreview?.filename || target.files[key]}
-												</p>
-												{!file && previews[key] && (
-													<p className="text-xs text-muted-foreground">{previews[key].formats.join(" / ").toUpperCase()}</p>
-												)}
-												<p className="text-xs text-muted-foreground">{kind.description}</p>
-												{saved && !("file" in saved) && <p className="text-sm">Saved {savedAction} operation retained.</p>}
-											</div>
-											{((key !== "base" && target.files[key] && !removed) || file || saved || removed) && (
-												<div className="mt-auto flex flex-wrap gap-1">
-													{key !== "base" && target.files[key] && !removed && (
-														<Button
-															variant="ghost"
-															size="sm"
-															className="h-auto min-h-9 max-w-full whitespace-normal text-left text-red-700 hover:bg-red-500/10 dark:text-red-300"
-															onClick={() => {
-																undoVariant(key)
-																setRemovals((current) => ({ ...current, [key]: "" }))
-															}}
-														>
-															<Minus aria-hidden />
-															Remove {kind.label}
-														</Button>
-													)}
-													{(file || saved || removed) && (
-														<Button
-															variant="ghost"
-															size="sm"
-															className="h-auto min-h-9 max-w-full whitespace-normal text-left"
-															onClick={() => undoVariant(key)}
-														>
-															<Undo2 aria-hidden />
-															Undo {kind.label}
-														</Button>
-													)}
-												</div>
-											)}
-											{removed && (
-												<div className="flex flex-col gap-2">
-													<label htmlFor={`remove-${key}`} className="text-sm font-medium">
-														Why remove {kind.label}? (optional)
-													</label>
-													<Textarea
-														id={`remove-${key}`}
-														value={removals[key]}
-														maxLength={10000}
-														onChange={(event) => setRemovals((current) => ({ ...current, [key]: event.target.value }))}
-														placeholder="Help the reviewer understand this removal"
-														className="bg-background"
-													/>
-												</div>
-											)}
+									<div key={key} className={cn("flex min-w-0 flex-col gap-3 rounded-md border p-3", removed && "border-red-500/40")}>
+										<div className="flex min-w-0 items-center justify-between gap-2">
+											<h4 className="flex min-w-0 items-center gap-1.5 text-sm font-semibold">
+												<VariantGlyph variant={key} />
+												<span className="truncate">{kind.label}</span>
+											</h4>
+											<ChangeBadge action={action} />
 										</div>
-									</MagicCard>
+										<div className="grid min-w-0 grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-start gap-2">
+											<figure className="flex min-w-0 flex-col gap-1">
+												<UpdateArtwork
+													present={Boolean(target.files[key])}
+													preview={previews[key]}
+													variant={key}
+													name={target.name}
+													className="ring-1 ring-inset ring-border"
+												/>
+												<figcaption className="text-xs text-muted-foreground">Now</figcaption>
+											</figure>
+											<ArrowRight className="mt-10 size-4 text-muted-foreground" aria-hidden />
+											<figure className="flex min-w-0 flex-col gap-1">
+												{removed && (
+													<div
+														className="flex h-24 items-center justify-center rounded-md border border-dashed border-red-500/40 text-red-500"
+														aria-label="Variant removed"
+														role="img"
+													>
+														<Minus aria-hidden />
+													</div>
+												)}
+												{!removed && (
+													<FileDrop
+														label={`Replace ${kind.label}`}
+														backdrop={variantBackdrop(key)}
+														className="h-24 rounded-md"
+														onFiles={(chosen) => {
+															if (chosen[0]) changeFile(key, chosen[0])
+														}}
+													>
+														<UpdateArtwork
+															present={Boolean(target.files[key])}
+															preview={proposedPreview}
+															file={file}
+															variant={key}
+															name={target.name}
+															className="ring-1 ring-inset ring-border"
+														/>
+														<span className="pointer-events-none absolute right-1 bottom-1 inline-flex items-center gap-1 rounded-sm border bg-background px-1.5 py-0.5 text-xs font-medium text-foreground">
+															<RefreshCw className="size-3" aria-hidden />
+															Replace
+														</span>
+													</FileDrop>
+												)}
+												<figcaption className="text-xs text-muted-foreground">Proposed</figcaption>
+											</figure>
+										</div>
+										<div className="flex min-w-0 flex-col gap-0.5">
+											<p
+												className="truncate font-mono text-xs text-muted-foreground"
+												title={file?.name || proposedPreview?.filename || target.files[key]}
+											>
+												{file?.name || proposedPreview?.filename || target.files[key]}
+											</p>
+											{!file && previews[key] && (
+												<p className="text-xs text-muted-foreground">{previews[key].formats.join(" / ").toUpperCase()}</p>
+											)}
+											<p className="text-xs text-muted-foreground">{kind.description}</p>
+											{saved && !("file" in saved) && <p className="text-sm">Saved {savedAction} operation retained.</p>}
+										</div>
+										{((key !== "base" && target.files[key] && !removed) || file || saved || removed) && (
+											<div className="mt-auto flex flex-wrap gap-1">
+												{key !== "base" && target.files[key] && !removed && (
+													<Button
+														variant="ghost"
+														size="sm"
+														className="h-auto min-h-9 max-w-full whitespace-normal text-left"
+														onClick={() => {
+															undoVariant(key)
+															setRemovals((current) => ({ ...current, [key]: "" }))
+														}}
+													>
+														<Minus aria-hidden />
+														Remove {kind.label}
+													</Button>
+												)}
+												{(file || saved || removed) && (
+													<Button
+														variant="ghost"
+														size="sm"
+														className="h-auto min-h-9 max-w-full whitespace-normal text-left"
+														onClick={() => undoVariant(key)}
+													>
+														<Undo2 aria-hidden />
+														Undo {kind.label}
+													</Button>
+												)}
+											</div>
+										)}
+										{removed && (
+											<div className="flex flex-col gap-2">
+												<label htmlFor={`remove-${key}`} className="text-sm font-medium">
+													Why remove {kind.label}? (optional)
+												</label>
+												<Textarea
+													id={`remove-${key}`}
+													value={removals[key]}
+													maxLength={10000}
+													onChange={(event) => setRemovals((current) => ({ ...current, [key]: event.target.value }))}
+													placeholder="Help the reviewer understand this removal"
+												/>
+											</div>
+										)}
+									</div>
 								)
 							})}
 							{SUBMISSION_VARIANTS.filter((key) => !rows.includes(key)).map((key) => {
 								const kind = variantKind(key)
 								return (
-									<MagicCard key={key} className="min-w-0 rounded-xl">
-										<div className="flex h-full min-w-0 flex-col gap-3 p-3">
-											<div className="flex min-w-0 items-center justify-between gap-2">
-												<h4 className="flex min-w-0 items-center gap-1.5 text-sm font-semibold">
-													<VariantGlyph variant={key} />
-													<span className="truncate">{kind.label}</span>
-												</h4>
-												<span className="text-xs text-muted-foreground">Not present</span>
-											</div>
-											<FileDrop
-												label={`Add ${kind.label}`}
-												backdrop={variantBackdrop(key)}
-												className="h-24 rounded-md"
-												onFiles={(chosen) => {
-													if (chosen[0]) changeFile(key, chosen[0])
-												}}
-											>
-												<DropPrompt backdrop={variantBackdrop(key)} title={`Add ${kind.label}`} />
-											</FileDrop>
-											<p className="mt-auto text-xs text-muted-foreground">{kind.description}</p>
+									<div key={key} className="flex min-w-0 flex-col gap-3 rounded-md border p-3">
+										<div className="flex min-w-0 items-center justify-between gap-2">
+											<h4 className="flex min-w-0 items-center gap-1.5 text-sm font-semibold">
+												<VariantGlyph variant={key} />
+												<span className="truncate">{kind.label}</span>
+											</h4>
+											<span className="text-xs text-muted-foreground">Not present</span>
 										</div>
-									</MagicCard>
+										<FileDrop
+											label={`Add ${kind.label}`}
+											backdrop={variantBackdrop(key)}
+											className="h-24 rounded-md"
+											onFiles={(chosen) => {
+												if (chosen[0]) changeFile(key, chosen[0])
+											}}
+										>
+											<DropPrompt backdrop={variantBackdrop(key)} title={`Add ${kind.label}`} />
+										</FileDrop>
+										<p className="mt-auto text-xs text-muted-foreground">{kind.description}</p>
+									</div>
 								)
 							})}
-						</MagicCardPointerProvider>
+						</div>
 						{!customOpen && !custom && (
-							<Button
-								variant="ghost"
-								size="sm"
-								className="self-start border border-dashed text-muted-foreground"
-								onClick={() => setCustomOpen(true)}
-							>
+							<Button variant="ghost" size="sm" className="self-start" onClick={() => setCustomOpen(true)}>
 								<Plus aria-hidden />
 								Custom variant
 							</Button>
@@ -662,7 +626,7 @@ export function IconUpdateEditor({
 							<motion.div
 								initial={{ opacity: 0, y: -4 }}
 								animate={{ opacity: 1, y: 0 }}
-								className="flex flex-col gap-2 rounded-xl border border-violet-500/25 bg-violet-500/5 p-3"
+								className="flex flex-col gap-2 rounded-md border p-3"
 							>
 								<div className="flex items-center justify-between gap-2">
 									<label htmlFor="update-custom" className="flex items-center gap-1.5 text-sm font-medium">
@@ -691,7 +655,7 @@ export function IconUpdateEditor({
 										onChange={(event) => setCustom(event.target.value)}
 										placeholder="For example 4k or animated"
 										list="update-custom-names"
-										className="min-w-0 flex-1 basis-48 bg-background font-mono"
+										className="min-w-0 flex-1 basis-48 font-mono"
 										aria-invalid={Boolean(customError)}
 									/>
 									<datalist id="update-custom-names">
@@ -721,7 +685,7 @@ export function IconUpdateEditor({
 						)}
 					</fieldset>
 				</section>
-				<fieldset disabled={busy} className="flex min-w-0 flex-col gap-5 rounded-2xl border bg-card p-3 shadow-sm sm:p-5">
+				<fieldset disabled={busy} className={cn(PANEL_CLASS, "flex min-w-0 flex-col gap-5 p-3 sm:p-5")}>
 					<legend className="sr-only">Icon metadata</legend>
 					<SectionHeading icon={Tags} tone="emerald" title="Details" description="Aliases and categories help people find this Icon." />
 					<div className="flex flex-col gap-2">
@@ -736,7 +700,7 @@ export function IconUpdateEditor({
 								setAliasesEdited(true)
 							}}
 							placeholder="Alternative names or abbreviations"
-							className="min-h-11 bg-background"
+							className="min-h-11"
 						/>
 						<p className="text-xs text-muted-foreground">Space, comma or Enter adds an alias. Backspace removes the last one.</p>
 					</div>
@@ -758,24 +722,20 @@ export function IconUpdateEditor({
 							maxLength={10000}
 							onChange={(event) => setNote(event.target.value)}
 							placeholder="What changed and why"
-							className="bg-background"
 						/>
 					</div>
 				</fieldset>
 			</div>
-			<aside
-				className="relative flex min-w-0 flex-col gap-4 self-start overflow-hidden rounded-2xl border bg-card p-4 shadow-sm lg:sticky lg:top-24"
-				aria-label="Proposal changes"
-			>
+			<aside className={cn(PANEL_CLASS, "flex min-w-0 flex-col gap-4 self-start p-4 lg:sticky lg:top-24")} aria-label="Proposal changes">
 				<SectionHeading
 					icon={GitCompareArrows}
-					tone="primary"
+					tone="violet"
 					level={2}
 					title="Changes in this proposal"
 					description={`${changes} ${changes === 1 ? "change" : "changes"}`}
 				/>
 				{!changes && (
-					<p className="rounded-lg border border-dashed p-4 text-center text-sm text-muted-foreground">
+					<p className="rounded-md border border-dashed p-4 text-center text-sm text-muted-foreground">
 						Add, replace or remove a Variant, or edit aliases and categories to start.
 					</p>
 				)}
@@ -799,7 +759,7 @@ export function IconUpdateEditor({
 						return [
 							...delta.add.map((value) => (
 								<li key={`${field}+${value}`} className="flex flex-wrap items-center gap-2">
-									<span className="rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2 py-0.5 text-xs font-medium text-emerald-800 dark:text-emerald-200">
+									<span className="rounded-md border border-emerald-500/20 bg-emerald-500/10 px-2 py-0.5 text-xs font-medium text-emerald-500">
 										+ {field}
 									</span>
 									<span className="font-mono text-xs">{value}</span>
@@ -807,7 +767,7 @@ export function IconUpdateEditor({
 							)),
 							...delta.remove.map((value) => (
 								<li key={`${field}-${value}`} className="flex flex-wrap items-center gap-2">
-									<span className="rounded-full border border-red-500/30 bg-red-500/10 px-2 py-0.5 text-xs font-medium text-red-800 dark:text-red-200">
+									<span className="rounded-md border border-red-500/20 bg-red-500/10 px-2 py-0.5 text-xs font-medium text-red-500">
 										− {field}
 									</span>
 									<span className="font-mono text-xs">{value}</span>
@@ -825,19 +785,10 @@ export function IconUpdateEditor({
 					</p>
 				)}
 				<div className="max-lg:hidden">{cta}</div>
-				{!disabled && (
-					<BorderBeam
-						size={90}
-						duration={7}
-						colorFrom="var(--magic-border-from)"
-						colorTo="var(--magic-border-to)"
-						className="motion-reduce:hidden"
-					/>
-				)}
 			</aside>
 			<div
 				data-submission-actions
-				className="fixed inset-x-0 bottom-0 z-40 flex items-center gap-2 border-t bg-background/90 px-3 py-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] backdrop-blur-md lg:hidden"
+				className="fixed inset-x-0 bottom-0 z-40 flex items-center gap-2 border-t border-border/50 bg-background/50 px-3 py-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] backdrop-blur-2xl lg:hidden"
 			>
 				<p className="min-w-0 flex-1 text-sm text-muted-foreground">
 					{changes} {changes === 1 ? "change" : "changes"}

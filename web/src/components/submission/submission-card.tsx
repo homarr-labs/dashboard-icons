@@ -18,8 +18,6 @@ import {
 } from "lucide-react"
 import { motion } from "motion/react"
 import { useEffect, useRef, useState } from "react"
-import { MagicCard } from "@/components/magicui/magic-card"
-import { MagicCardPointerProvider } from "@/components/magicui/magic-card-pointer"
 import { AssetPreview } from "@/components/submission/submission-preview"
 import {
 	CategoryPicker,
@@ -87,87 +85,76 @@ function VariantSlot({
 	const backdrop = variantBackdrop(variant)
 	const conflict = assets.length > 1
 	return (
-		<MagicCard className={cn("min-w-0 rounded-xl", conflict && "ring-2 ring-destructive")}>
-			<div className="flex h-full min-w-0 flex-col gap-2.5 p-2.5 sm:p-3">
-				<div className="flex min-h-6 min-w-0 items-center justify-between gap-1.5">
-					<h4 className="flex min-w-0 items-center gap-1.5 text-sm font-semibold">
-						<VariantGlyph variant={variant} />
-						<span className="truncate">{kind.label}</span>
-					</h4>
-					{variant === "base" && assets.length === 0 && (
-						<Badge variant="outline" className="border-primary/30 bg-primary/10 text-primary">
-							Required
-						</Badge>
-					)}
-					{assets.length === 1 && (
-						<span className="flex size-5 shrink-0 items-center justify-center rounded-full bg-emerald-500/15 text-emerald-600 dark:text-emerald-400">
-							<Check className="size-3" aria-label="Added" />
-						</span>
-					)}
-				</div>
-				{assets.length === 0 && (
-					<FileDrop
-						label={`Choose ${kind.label}`}
-						backdrop={backdrop}
-						className="h-28"
-						onFiles={(files) => {
-							if (files[0]) onAdd(files[0])
-						}}
-					>
-						<DropPrompt backdrop={backdrop} title="Drop or choose" />
-					</FileDrop>
+		<div className={cn("flex min-w-0 flex-col gap-2.5 rounded-md border bg-background p-2.5 sm:p-3", conflict && "border-destructive")}>
+			<div className="flex min-h-6 min-w-0 items-center justify-between gap-1.5">
+				<h4 className="flex min-w-0 items-center gap-1.5 text-sm font-semibold">
+					<VariantGlyph variant={variant} />
+					<span className="truncate">{kind.label}</span>
+				</h4>
+				{variant === "base" && assets.length === 0 && (
+					<Badge variant="outline" className="text-muted-foreground">
+						Required
+					</Badge>
 				)}
-				{assets.map((asset) => (
-					<motion.div
-						key={asset.id}
-						initial={{ opacity: 0, scale: 0.94 }}
-						animate={{ opacity: 1, scale: 1 }}
-						className="flex min-w-0 flex-col gap-2"
-					>
-						{editing && (
-							<FileDrop
-								label={`Replace ${kind.label}`}
-								backdrop={backdrop}
-								className="h-28"
-								onFiles={(files) => {
-									if (files[0]) onAdd(files[0])
-								}}
+				{assets.length === 1 && <Check className="size-4 shrink-0 text-emerald-500" aria-label="Added" />}
+			</div>
+			{assets.length === 0 && (
+				<FileDrop
+					label={`Choose ${kind.label}`}
+					backdrop={backdrop}
+					className="h-28"
+					onFiles={(files) => {
+						if (files[0]) onAdd(files[0])
+					}}
+				>
+					<DropPrompt backdrop={backdrop} title="Drop or choose" />
+				</FileDrop>
+			)}
+			{assets.map((asset) => (
+				<motion.div key={asset.id} initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex min-w-0 flex-col gap-2">
+					{editing && (
+						<FileDrop
+							label={`Replace ${kind.label}`}
+							backdrop={backdrop}
+							className="h-28"
+							onFiles={(files) => {
+								if (files[0]) onAdd(files[0])
+							}}
+						>
+							<AssetPreview asset={asset} background={backdrop} className="size-full" />
+							<span className="pointer-events-none absolute right-1.5 bottom-1.5 inline-flex items-center gap-1 rounded-sm border bg-background px-1.5 py-0.5 text-xs font-medium text-foreground">
+								<RefreshCw className="size-3" aria-hidden />
+								Replace
+							</span>
+						</FileDrop>
+					)}
+					{!editing && <AssetPreview asset={asset} background={backdrop} className="h-28 w-full" />}
+					<div className="flex min-w-0 items-center gap-1">
+						<p title={asset.file.name} className="min-w-0 flex-1 truncate font-mono text-xs text-muted-foreground">
+							{asset.file.name}
+						</p>
+						{(!editing || variant !== "base") && (
+							<Button
+								variant="ghost"
+								size="icon"
+								aria-label={`Remove ${asset.file.name}`}
+								className="size-8 shrink-0 text-muted-foreground hover:bg-destructive/10 hover:text-destructive"
+								onClick={() => onRemove(asset.id)}
 							>
-								<AssetPreview asset={asset} background={backdrop} className="size-full" />
-								<span className="pointer-events-none absolute right-1.5 bottom-1.5 inline-flex items-center gap-1 rounded-md bg-background/90 px-1.5 py-1 text-xs font-medium text-foreground shadow-sm ring-1 ring-border transition-transform group-hover/drop:scale-105">
-									<RefreshCw className="size-3" aria-hidden />
-									Replace
-								</span>
-							</FileDrop>
-						)}
-						{!editing && <AssetPreview asset={asset} background={backdrop} className="h-28 w-full" />}
-						<div className="flex min-w-0 items-center gap-1">
-							<p title={asset.file.name} className="min-w-0 flex-1 truncate font-mono text-xs text-muted-foreground">
-								{asset.file.name}
-							</p>
-							{(!editing || variant !== "base") && (
-								<Button
-									variant="ghost"
-									size="icon"
-									aria-label={`Remove ${asset.file.name}`}
-									className="size-8 shrink-0 text-muted-foreground hover:bg-destructive/10 hover:text-destructive"
-									onClick={() => onRemove(asset.id)}
-								>
-									<Trash2 aria-hidden />
-								</Button>
-							)}
-						</div>
-						{conflict && (
-							<Button variant="outline" size="sm" className="w-full whitespace-normal" onClick={() => onKeep(asset.id)}>
-								Keep this file
+								<Trash2 aria-hidden />
 							</Button>
 						)}
-					</motion.div>
-				))}
-				{conflict && <p className="text-xs text-destructive">Choose one file for {kind.label}. Both are kept until you resolve this.</p>}
-				<p className="mt-auto text-xs leading-snug text-muted-foreground">{kind.description}</p>
-			</div>
-		</MagicCard>
+					</div>
+					{conflict && (
+						<Button variant="outline" size="sm" className="w-full whitespace-normal" onClick={() => onKeep(asset.id)}>
+							Keep this file
+						</Button>
+					)}
+				</motion.div>
+			))}
+			{conflict && <p className="text-xs text-destructive">Choose one file for {kind.label}. Both are kept until you resolve this.</p>}
+			<p className="mt-auto text-xs leading-snug text-muted-foreground">{kind.description}</p>
+		</div>
 	)
 }
 
@@ -205,11 +192,7 @@ export function SubmissionCard({
 	}
 	return (
 		<article
-			className={cn(
-				"min-w-0 scroll-mt-24 rounded-2xl border bg-card shadow-sm transition-[border-color,box-shadow] duration-300",
-				open && "border-primary/40 shadow-lg shadow-primary/5 ring-1 ring-primary/15",
-				error && "border-destructive/50",
-			)}
+			className={cn("min-w-0 scroll-mt-24 rounded-lg border bg-background shadow-sm transition-colors", error && "border-destructive/50")}
 			data-submission-card={draft.id}
 		>
 			<h2 className="text-base font-normal">
@@ -218,11 +201,11 @@ export function SubmissionCard({
 					aria-expanded={open}
 					aria-controls={`body-${draft.id}`}
 					onClick={onSelect}
-					className="group/header flex min-h-18 w-full items-center gap-3 rounded-2xl p-3 text-left transition-colors hover:bg-muted/40 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring sm:p-4"
+					className="group/header flex min-h-18 w-full items-center gap-3 rounded-lg p-3 text-left transition-colors hover:bg-muted/40 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring sm:p-4"
 				>
 					{base && <AssetPreview asset={base} className="size-12 shrink-0 p-1.5" />}
 					{!base && (
-						<span className="flex size-12 shrink-0 items-center justify-center rounded-lg border-2 border-dashed border-primary/30 bg-primary/5 text-primary">
+						<span className="flex size-12 shrink-0 items-center justify-center rounded-md border border-dashed text-muted-foreground">
 							<ImagePlus className="size-5" aria-hidden />
 						</span>
 					)}
@@ -253,23 +236,20 @@ export function SubmissionCard({
 						</span>
 					</span>
 					{error && (
-						<Badge variant="outline" className="shrink-0 gap-1 border-destructive/40 bg-destructive/10 py-1 text-destructive">
+						<Badge variant="outline" className="shrink-0 border-red-500/20 bg-red-500/10 text-red-500">
 							<AlertCircle aria-hidden />
 							Fix needed
 						</Badge>
 					)}
 					{!error && draft.assets.length > 0 && (
-						<Badge
-							variant="outline"
-							className="shrink-0 gap-1 border-emerald-500/40 bg-emerald-500/10 py-1 text-emerald-700 dark:text-emerald-300"
-						>
+						<Badge variant="outline" className="shrink-0 border-emerald-500/20 bg-emerald-500/10 text-emerald-500">
 							<Check aria-hidden />
 							<span className="max-sm:sr-only">Ready</span>
 						</Badge>
 					)}
 					<ChevronDown
 						className={cn(
-							"size-4 shrink-0 text-muted-foreground transition-transform duration-300 group-hover/header:text-foreground motion-reduce:transition-none",
+							"size-4 shrink-0 text-muted-foreground transition-transform duration-200 group-hover/header:text-foreground motion-reduce:transition-none",
 							open && "rotate-180",
 						)}
 						aria-hidden
@@ -279,10 +259,10 @@ export function SubmissionCard({
 			{open && (
 				<motion.div
 					id={`body-${draft.id}`}
-					initial={{ opacity: 0, y: -6 }}
+					initial={{ opacity: 0, y: -4 }}
 					animate={{ opacity: 1, y: 0 }}
-					transition={{ duration: 0.25 }}
-					className="flex min-w-0 flex-col gap-7 border-t p-3 sm:p-5"
+					transition={{ duration: 0.2 }}
+					className="flex min-w-0 flex-col gap-6 border-t p-3 sm:p-5"
 				>
 					<div className="flex flex-col gap-2">
 						<label htmlFor={`name-${draft.id}`} className="text-sm font-medium">
@@ -321,7 +301,7 @@ export function SubmissionCard({
 						<p
 							id={`error-${draft.id}`}
 							role="alert"
-							className="-mt-3 flex items-start gap-2 rounded-lg border border-destructive/30 bg-destructive/10 p-3 text-sm text-destructive"
+							className="-mt-3 flex items-start gap-2 rounded-md border border-red-500/20 bg-red-500/10 p-3 text-sm text-red-500"
 						>
 							<AlertCircle className="mt-0.5 size-4 shrink-0" aria-hidden />
 							{error}
@@ -329,17 +309,10 @@ export function SubmissionCard({
 					)}
 					{children}
 					{draft.assets.length === 0 && (
-						<FileDrop
-							label="Choose all files for this Icon"
-							multiple
-							onFiles={onFiles}
-							className="min-h-36 bg-gradient-to-br from-primary/[0.06] via-transparent to-violet-500/[0.07]"
-						>
-							<span className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center gap-2 rounded-[inherit] border-2 border-dashed border-primary/30 p-4 text-center transition-colors group-hover/drop:border-primary/60">
-								<span className="flex size-12 items-center justify-center rounded-full bg-primary/10 text-primary ring-8 ring-primary/5 transition-transform duration-300 group-hover/drop:-translate-y-1 motion-reduce:transition-none">
-									<UploadCloud className="size-5" aria-hidden />
-								</span>
-								<span className="text-sm font-semibold">Drop all of this Icon’s files</span>
+						<FileDrop label="Choose all files for this Icon" multiple onFiles={onFiles} className="min-h-32 bg-muted/40">
+							<span className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center gap-1.5 rounded-[inherit] border border-dashed p-4 text-center transition-colors group-hover/drop:border-primary">
+								<UploadCloud className="size-5 text-muted-foreground group-hover/drop:text-primary" aria-hidden />
+								<span className="text-sm font-medium">Drop all of this Icon’s files</span>
 								<span className="max-w-sm text-xs text-muted-foreground">
 									or click to choose. Suffixes like <code className="font-mono">-light</code>, <code className="font-mono">-dark</code> or{" "}
 									<code className="font-mono">-wordmark</code> sort them into Variants.
@@ -359,7 +332,7 @@ export function SubmissionCard({
 								Preview files
 							</Button>
 						</SectionHeading>
-						<MagicCardPointerProvider className="grid min-w-0 grid-cols-2 gap-2 sm:grid-cols-3 sm:gap-3">
+						<div className="grid min-w-0 grid-cols-2 gap-2 sm:grid-cols-3 sm:gap-3">
 							{[...SUBMISSION_VARIANTS, ...customVariants].map((variant) => (
 								<VariantSlot
 									key={variant}
@@ -377,14 +350,9 @@ export function SubmissionCard({
 									onKeep={(id) => onChange({ assets: draft.assets.filter((asset) => asset.variant !== variant || asset.id === id) })}
 								/>
 							))}
-						</MagicCardPointerProvider>
+						</div>
 						{!customOpen && !draft.customVariantName && (
-							<Button
-								variant="ghost"
-								size="sm"
-								className="self-start border border-dashed text-muted-foreground"
-								onClick={() => setCustomOpen(true)}
-							>
+							<Button variant="ghost" size="sm" className="self-start" onClick={() => setCustomOpen(true)}>
 								<Plus aria-hidden />
 								Custom variant
 							</Button>
@@ -393,7 +361,7 @@ export function SubmissionCard({
 							<motion.div
 								initial={{ opacity: 0, y: -4 }}
 								animate={{ opacity: 1, y: 0 }}
-								className="flex flex-col gap-2 rounded-xl border border-violet-500/25 bg-violet-500/5 p-3"
+								className="flex flex-col gap-2 rounded-md border p-3"
 							>
 								<div className="flex items-center justify-between gap-2">
 									<label htmlFor={`custom-${draft.id}`} className="flex items-center gap-1.5 text-sm font-medium">

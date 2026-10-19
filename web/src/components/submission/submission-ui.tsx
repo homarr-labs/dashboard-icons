@@ -1,27 +1,27 @@
 "use client"
 
-import confetti from "canvas-confetti"
-import { Check, type LucideIcon, Moon, Palette, Plus, Sun, Type, UploadCloud, WandSparkles } from "lucide-react"
+import { Check, type LucideIcon, Moon, Palette, Sun, Type, UploadCloud, WandSparkles } from "lucide-react"
 import type { CSSProperties, ReactNode } from "react"
 import { useRef } from "react"
 import { type DropzoneOptions, useDropzone } from "react-dropzone"
 import { toast } from "sonner"
 import { buttonVariants } from "@/components/ui/button"
+import { Toggle } from "@/components/ui/toggle"
 import { type SubmissionVariant, variantKind } from "@/lib/submission-variants"
 import { cn } from "@/lib/utils"
 
 export const TONES = {
-	primary: "bg-primary/10 text-primary ring-primary/25",
-	blue: "bg-blue-500/10 text-blue-600 ring-blue-500/25 dark:text-blue-400",
-	emerald: "bg-emerald-500/10 text-emerald-600 ring-emerald-500/25 dark:text-emerald-400",
-	violet: "bg-violet-500/10 text-violet-600 ring-violet-500/25 dark:text-violet-400",
-	amber: "bg-amber-500/10 text-amber-600 ring-amber-500/25 dark:text-amber-400",
+	primary: "bg-primary/10 text-primary",
+	blue: "bg-blue-500/10 text-blue-500",
+	emerald: "bg-emerald-500/10 text-emerald-500",
+	violet: "bg-violet-500/10 text-violet-500",
+	yellow: "bg-yellow-500/10 text-yellow-500",
+	red: "bg-red-500/10 text-red-500",
 } as const
 
 export type Tone = keyof typeof TONES
 
-export const CTA_CLASS =
-	"min-h-11 w-full whitespace-normal bg-primary bg-gradient-to-r from-primary to-primary/75 font-semibold text-secondary-foreground shadow-lg shadow-primary/25 hover:shadow-primary/40"
+export const PANEL_CLASS = "rounded-lg border bg-background shadow-sm"
 
 export type Backdrop = "light" | "dark" | "checker"
 
@@ -64,12 +64,12 @@ export function SectionHeading({
 	return (
 		<div className={cn("flex flex-wrap items-center justify-between gap-x-3 gap-y-2", className)}>
 			<div className="flex min-w-0 items-center gap-3">
-				<span className={cn("flex size-9 shrink-0 items-center justify-center rounded-lg ring-1 ring-inset", TONES[tone])}>
-					<Icon className="size-[18px]" aria-hidden />
+				<span className={cn("flex size-8 shrink-0 items-center justify-center rounded-lg", TONES[tone])}>
+					<Icon className="size-4" aria-hidden />
 				</span>
 				<div className="min-w-0">
-					<Heading className="font-semibold leading-tight tracking-tight">{title}</Heading>
-					{description && <p className="mt-0.5 text-sm text-muted-foreground">{description}</p>}
+					<Heading className="font-semibold leading-tight">{title}</Heading>
+					{description && <p className="mt-0.5 text-xs text-muted-foreground">{description}</p>}
 				</div>
 			</div>
 			{children}
@@ -133,10 +133,10 @@ export function FileDrop({
 		<div
 			{...dropzone.getRootProps({
 				className: cn(
-					"group/drop relative isolate flex flex-col items-center justify-center overflow-hidden rounded-lg transition-[box-shadow,transform] duration-200 motion-reduce:transition-none",
+					"group/drop relative isolate flex flex-col items-center justify-center overflow-hidden rounded-md",
 					"has-[input:focus-visible]:outline-2 has-[input:focus-visible]:outline-offset-2 has-[input:focus-visible]:outline-ring",
 					backdrop && BACKDROP_CLASS[backdrop],
-					dropzone.isDragActive && "scale-[1.02] ring-2 ring-primary ring-offset-2 ring-offset-background",
+					dropzone.isDragActive && "ring-2 ring-primary",
 					className,
 				),
 				style: backdrop === "checker" ? CHECKER_STYLE : undefined,
@@ -144,7 +144,7 @@ export function FileDrop({
 		>
 			{children}
 			{dropzone.isDragActive && (
-				<span className="pointer-events-none absolute inset-0 flex items-center justify-center bg-primary/85 p-2 text-center text-sm font-semibold text-primary-foreground">
+				<span className="pointer-events-none absolute inset-0 flex items-center justify-center bg-background/90 p-2 text-center text-sm font-medium text-primary">
 					Drop to add
 				</span>
 			)}
@@ -166,25 +166,20 @@ export function FileDrop({
 }
 
 const PROMPT_CLASS: Record<Backdrop, string> = {
-	light: "border-zinc-300 text-zinc-600 [&_[data-bubble]]:bg-zinc-100",
-	dark: "border-zinc-700 text-zinc-300 [&_[data-bubble]]:bg-white/10",
-	checker: "border-border text-muted-foreground [&_[data-bubble]]:bg-background [&_[data-bubble]]:shadow-sm",
+	light: "border-zinc-300 text-zinc-600",
+	dark: "border-zinc-700 text-zinc-300",
+	checker: "border-border text-muted-foreground",
 }
 
 export function DropPrompt({ backdrop = "checker", title, hint }: { backdrop?: Backdrop; title: ReactNode; hint?: ReactNode }) {
 	return (
 		<span
 			className={cn(
-				"pointer-events-none absolute inset-0 flex flex-col items-center justify-center gap-1.5 rounded-[inherit] border-2 border-dashed p-3 text-center text-xs font-medium transition-colors group-hover/drop:border-primary/60",
+				"pointer-events-none absolute inset-0 flex flex-col items-center justify-center gap-1 rounded-[inherit] border border-dashed p-3 text-center text-xs font-medium transition-colors group-hover/drop:border-primary",
 				PROMPT_CLASS[backdrop],
 			)}
 		>
-			<span
-				data-bubble
-				className="flex size-9 items-center justify-center rounded-full transition-transform duration-200 group-hover/drop:-translate-y-0.5 group-hover/drop:text-primary motion-reduce:transition-none"
-			>
-				<UploadCloud className="size-4" aria-hidden />
-			</span>
+			<UploadCloud className="size-4 group-hover/drop:text-primary" aria-hidden />
 			{title}
 			{hint && <span className="font-normal opacity-80">{hint}</span>}
 		</span>
@@ -241,26 +236,20 @@ export function CategoryPicker({
 			{options.map((category) => {
 				const selected = value.includes(category)
 				return (
-					<button
+					<Toggle
 						key={category}
-						type="button"
-						aria-pressed={selected}
-						onClick={() => {
-							if (selected) onChange(value.filter((item) => item !== category))
-							else onChange([...value, category])
+						variant="outline"
+						size="sm"
+						pressed={selected}
+						onPressedChange={(pressed) => {
+							if (pressed) onChange([...value, category])
+							else onChange(value.filter((item) => item !== category))
 						}}
-						className={cn(
-							"inline-flex h-9 items-center gap-1.5 rounded-full border px-3.5 text-sm capitalize transition-all duration-200 active:scale-95 motion-reduce:transition-none",
-							"focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
-							selected && "border-emerald-500/50 bg-emerald-500/15 font-medium text-emerald-700 shadow-sm dark:text-emerald-300",
-							!selected &&
-								"border-border bg-background text-muted-foreground hover:border-emerald-500/50 hover:bg-emerald-500/5 hover:text-foreground",
-						)}
+						className="border-border px-2.5 font-normal capitalize data-[state=on]:border-primary/50"
 					>
 						{selected && <Check className="size-3.5" aria-hidden />}
-						{!selected && <Plus className="size-3.5 opacity-60" aria-hidden />}
 						{category.replaceAll("-", " ")}
-					</button>
+					</Toggle>
 				)
 			})}
 		</div>
@@ -272,17 +261,4 @@ export function splitAliases(aliases: string) {
 		.split(",")
 		.map((alias) => alias.trim())
 		.filter(Boolean)
-}
-
-export function celebrate() {
-	confetti({
-		particleCount: 90,
-		spread: 110,
-		startVelocity: 32,
-		ticks: 140,
-		origin: { y: 0.35 },
-		zIndex: 60,
-		disableForReducedMotion: true,
-		colors: ["#1e9df1", "#8ed0f9", "#fa5352", "#ffb347", "#22c55e"],
-	})
 }

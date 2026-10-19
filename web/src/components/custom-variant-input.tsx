@@ -50,7 +50,7 @@ export function CustomVariantInput({ names, onAdd }: { names: string[]; onAdd: (
 				type="button"
 				variant="ghost"
 				size="sm"
-				className="min-h-11 min-w-11 border border-dashed text-muted-foreground sm:min-h-9"
+				className="min-h-11 min-w-11 sm:min-h-9"
 				aria-expanded={open}
 				aria-controls={`${id}-editor`}
 				onClick={() => setOpen(!open)}
@@ -59,7 +59,7 @@ export function CustomVariantInput({ names, onAdd }: { names: string[]; onAdd: (
 				Custom variant
 			</Button>
 			{open && (
-				<div id={`${id}-editor`} className="flex w-full flex-col gap-2 rounded-xl border border-violet-500/25 bg-violet-500/5 p-3">
+				<div id={`${id}-editor`} className="flex w-full flex-col gap-2 rounded-md border p-3">
 					<Label htmlFor={id} className="flex items-center gap-1.5">
 						<WandSparkles className="size-4 text-violet-500" aria-hidden />
 						Custom variant name

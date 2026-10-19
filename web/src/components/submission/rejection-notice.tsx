@@ -33,14 +33,14 @@ export function RejectionNotice({ id, feedback, canEdit }: { id: string; feedbac
 	})
 	const editable = canEdit === true || (canEdit === undefined && ownership.data === true)
 	return (
-		<section className="flex gap-3 rounded-xl border border-amber-500/40 bg-amber-500/5 p-4" aria-label="Rejection feedback">
-			<span className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-amber-500/15 text-amber-600 ring-1 ring-inset ring-amber-500/25 dark:text-amber-400">
-				<MessageSquareWarning className="size-[18px]" aria-hidden />
+		<section className="flex gap-3 rounded-lg border bg-background p-4" aria-label="Rejection feedback">
+			<span className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-red-500/10 text-red-500">
+				<MessageSquareWarning className="size-4" aria-hidden />
 			</span>
 			<div className="flex min-w-0 flex-col gap-2">
 				<h2 className="font-semibold">Rejections are never final</h2>
 				{feedback && (
-					<blockquote className="whitespace-pre-wrap break-words border-l-2 border-amber-500/60 pl-3 text-sm">
+					<blockquote className="whitespace-pre-wrap break-words border-l-2 border-red-500/40 pl-3 text-sm">
 						<strong>Reviewer feedback:</strong> {feedback}
 					</blockquote>
 				)}
@@ -49,7 +49,7 @@ export function RejectionNotice({ id, feedback, canEdit }: { id: string; feedbac
 				</p>
 				{ownership.isError && <p className="text-sm text-muted-foreground">Editing access could not be verified. Reload to try again.</p>}
 				{editable && (
-					<Button asChild variant="outline" className="min-h-11 max-w-full self-start whitespace-normal border-amber-500/40 bg-background">
+					<Button asChild className="max-w-full self-start whitespace-normal">
 						<Link href={`/submit?submission=${encodeURIComponent(id)}`}>
 							Fix and resubmit
 							<ArrowRight aria-hidden />
