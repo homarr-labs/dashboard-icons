@@ -1,0 +1,43 @@
+web/src/components/dashboard/workspace.tsx
+  s_034ca5e7a4f6ad::t_1b43a436f2b94c 9,235-239
+web/src/components/prototype/prototype-switcher.tsx
+  s_2f890e5d2904d8::t_e0e45607bcffa7 1-64
+web/src/components/prototype/review/index.tsx
+  s_2f890e5d2904d8::t_c464f8e4cf92f9 1-61
+web/src/components/prototype/review/mock.ts
+  s_2f890e5d2904d8::t_6a24bf629dc306 1-452
+web/src/components/prototype/review/shared.tsx
+  s_2f890e5d2904d8::t_1db2edf86ca083 1-216
+web/src/components/prototype/review/state.ts
+  s_2f890e5d2904d8::t_c5faf1de6acf50 1-360
+web/src/components/prototype/review/variant-a.tsx
+  s_2f890e5d2904d8::t_0272643cc3ffca 1-436
+web/src/components/prototype/review/variant-b.tsx
+  s_2f890e5d2904d8::t_881e3992505dff 1-462
+web/src/components/prototype/review/variant-d.tsx
+  s_2f890e5d2904d8::t_45cfa4d3562def 1-497
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "2b97f00d273d393166ef8ac2d58b928cb4cfd598",
+  "prompts": {},
+  "sessions": {
+    "s_034ca5e7a4f6ad": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "833e2f44-e538-4478-ab3c-04a16f0e04bf",
+        "model": "unknown"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    },
+    "s_2f890e5d2904d8": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "ccf8bc40-f581-465f-8ce2-5ab58d11c5b4",
+        "model": "unknown"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
