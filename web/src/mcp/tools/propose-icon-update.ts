@@ -15,8 +15,7 @@ class UpdateRefused extends Error {}
 const removableVariant = z.union([
 	z.enum(SUBMISSION_VARIANTS.filter((key) => key !== "base")),
 	z
-		.string()
-		.startsWith("custom:")
+		.templateLiteral(["custom:", z.string()])
 		.refine((key) => !customVariantNameError(key.slice(7)), "Use custom:<lowercase-kebab-case-name>, e.g. custom:4k"),
 ])
 
@@ -124,7 +123,7 @@ export const proposeIconUpdateTool: AccountTool<typeof inputSchema, typeof submi
 				const variant = key as SubmissionVariant
 				assets[variant] = new File([markup], `${name}${variantKind(variant).suffix}.svg`, { type: "image/svg+xml" })
 			}
-			const input: IconUpdateInput & { removeVariants?: { key: string; note?: string }[] } = {
+			const input: IconUpdateInput = {
 				name,
 				description: description ?? "",
 				aliases: aliases ?? target.metadata.aliases,

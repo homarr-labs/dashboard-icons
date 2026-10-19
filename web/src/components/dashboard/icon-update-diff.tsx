@@ -1,5 +1,6 @@
 "use client"
 
+import { Minus } from "lucide-react"
 import { useEffect, useState } from "react"
 import { ChangeBadge, UpdateArtwork } from "@/components/submission/icon-update-editor"
 import { UnoptimizedImage } from "@/components/unoptimized-image"
@@ -84,7 +85,7 @@ export function IconUpdateDiff({
 						return (
 							<li key={key} className="min-w-0 space-y-3 p-4">
 								<div className="flex flex-wrap items-center justify-between gap-2">
-									<h4 className="text-sm font-medium">{kind.label}</h4>
+									<h4 className="break-all text-sm font-medium">{kind.label}</h4>
 									<ChangeBadge action={change?.action} />
 								</div>
 								<div className="grid grid-cols-2 gap-3">
@@ -93,7 +94,12 @@ export function IconUpdateDiff({
 										<figcaption className="text-sm text-muted-foreground">{snapshot ? "Baseline reference" : "Now"}</figcaption>
 									</figure>
 									<figure className="min-w-0 space-y-1">
-										{change ? (
+										{change?.action === "remove" ? (
+											<div className="flex h-24 items-center justify-center gap-2 rounded-md bg-red-500/10 text-sm font-medium text-red-800 dark:text-red-200">
+												<Minus className="size-4" aria-hidden />
+												Removed
+											</div>
+										) : change ? (
 											<div
 												className={cn(
 													"flex h-24 items-center justify-center rounded-md p-3",
@@ -114,6 +120,12 @@ export function IconUpdateDiff({
 										<figcaption className="text-sm text-muted-foreground">Proposed</figcaption>
 									</figure>
 								</div>
+								{change?.action === "remove" && change.note && (
+									<div className="space-y-1 rounded-lg bg-red-500/5 p-4 text-sm">
+										<p className="font-medium">Removal note</p>
+										<p className="whitespace-pre-wrap break-words">{change.note}</p>
+									</div>
+								)}
 							</li>
 						)
 					})}

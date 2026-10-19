@@ -91,7 +91,7 @@ function validate(app, record, old, creating, published) {
 	for (const file of record.getUnsavedFiles("assets")) stored[file.originalName] = file.name
 	for (const change of update.variants) {
 		if (!change || typeof change !== "object" || Array.isArray(change)) throw new BadRequestError("Invalid Variant change")
-		if (Object.hasOwn(stored, change.file)) change.file = stored[change.file]
+		if (change.action !== "remove" && Object.hasOwn(stored, change.file)) change.file = stored[change.file]
 	}
 	const assets = Array.from(record.get("assets") || []).map((file) => (typeof file === "string" ? file : file.name))
 	const error = policy.validateDelta(update, current, assets)
@@ -105,12 +105,12 @@ function validate(app, record, old, creating, published) {
 	for (const item of pending) {
 		const delta = read(item, "icon_update")
 		let stems = stemPolicy.submissionVariantStems(item.getString("name"), read(item, "extras"))
-		if (delta) stems = delta.variants.map((change) => [change.key, change.destination])
+		if (delta) stems = delta.variants.filter((change) => change.action !== "remove").map((change) => [change.key, change.destination])
 		stemPolicy.addStemOwnership(index, item.getString("name"), stems)
 	}
 	const collision = stemPolicy.stemCollisionError(
 		current.name,
-		update.variants.map((change) => [change.key, change.destination]),
+		update.variants.filter((change) => change.action !== "remove").map((change) => [change.key, change.destination]),
 		index,
 	)
 	if (collision) throw new BadRequestError(collision)

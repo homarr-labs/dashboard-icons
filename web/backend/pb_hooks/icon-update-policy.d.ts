@@ -12,6 +12,14 @@ export interface PublishedIconSource {
 	commit: string
 	blobs: Record<string, string>
 }
+export type RemovableVariantKey = Exclude<UpdateVariantKey, "base">
+export interface RemoveVariantInput {
+	key: RemovableVariantKey
+	note?: string
+}
+export type VariantChange =
+	| { key: UpdateVariantKey; action: "add" | "replace"; file: string; destination: string }
+	| { key: RemovableVariantKey; action: "remove"; destination: string; note?: string }
 export interface UpdateTarget {
 	kind: "published" | "submission"
 	name: string
@@ -34,7 +42,7 @@ export interface ListDelta {
 export interface IconUpdate {
 	version: 1
 	target: UpdateTarget
-	variants: { key: UpdateVariantKey; action: "add" | "replace"; file: string; destination: string }[]
+	variants: VariantChange[]
 	aliases: ListDelta
 	categories: ListDelta
 }

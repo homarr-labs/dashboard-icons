@@ -1,11 +1,18 @@
 // @vitest-environment node
 import { readFileSync } from "node:fs"
 import { runInNewContext } from "node:vm"
-import { describe, expect, it, vi } from "vitest"
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest"
+import { POST } from "@/app/api/submissions/route"
+import type { UpdateTarget } from "@/lib/icon-update"
+import { createIconUpdate, type IconUpdateInput } from "@/lib/icon-update-service"
 import { RESERVED_VARIANT_NAMES } from "@/lib/icons/variants"
+import * as pocketbase from "@/lib/pb"
 import { customVariantNameError, labelledAssets, variantKind } from "@/lib/submission-variants"
+import * as authentication from "@/mcp/auth/pocketbase"
 import { matchingAssetNames, resolveSubmissionAssets, snapshotVariantMetadata } from "../../../backend/pb_hooks/submission-assets.js"
 import * as policy from "../../../backend/pb_hooks/variant-policy.js"
+
+vi.mock("@/lib/icons/service", () => ({ getAllIcons: vi.fn() }))
 
 const source = readFileSync(new URL("../../../backend/pb_hooks/dashboard.js", import.meta.url), "utf8")
 const customSource = readFileSync(new URL("../../../backend/pb_hooks/custom-variants.js", import.meta.url), "utf8")
@@ -475,4 +482,107 @@ it("migrates a production-named unique index without dropping custom gallery met
 	expect(gallery.viewQuery).toContain("s.admin_comment")
 	expect(gallery.viewQuery).toContain("s.description")
 	expect(gallery.viewQuery).toContain("u.github_id AS created_by_github_id")
+})
+
+describe("Update removal payload validation", () => {
+	const target: UpdateTarget = {
+		kind: "published",
+		name: "demo",
+		id: "",
+		revision: "current",
+		updated: "",
+		status: "published",
+		metadata: { base: "svg", aliases: [], categories: [] },
+		files: { base: "demo", dark: "demo-dark" },
+		source: { commit: "a".repeat(40), blobs: {} },
+	}
+	const invalid: unknown[] = [
+		false,
+		0,
+		null,
+		"",
+		true,
+		1,
+		{},
+		"dark",
+		[null],
+		[false],
+		[0],
+		[""],
+		[[]],
+		[{ key: 0 }],
+		[{ key: "dark", note: false }],
+	]
+	let pb: ReturnType<typeof pocketbase.createServerPB>
+	let create: ReturnType<typeof vi.spyOn>
+
+	beforeEach(() => {
+		pb = pocketbase.createServerPB()
+		vi.spyOn(pb, "send").mockResolvedValue(target)
+		create = vi
+			.spyOn(pb.collection("submissions"), "create")
+			.mockResolvedValue({ id: "saved", collectionId: "submissions", collectionName: "submissions" })
+		vi.spyOn(pocketbase, "createServerPB").mockReturnValue(pb)
+		vi.spyOn(authentication, "refreshPocketBaseSession").mockResolvedValue({
+			ok: true,
+			token: "test-token",
+			user: { id: "contributor", username: "contributor", admin: false },
+		})
+	})
+
+	afterEach(() => vi.restoreAllMocks())
+
+	function input(): IconUpdateInput {
+		return {
+			kind: "update",
+			name: "demo",
+			revision: "current",
+			targetSubmission: "",
+			description: "",
+			assets: {},
+			aliases: ["alias"],
+			categories: [],
+		}
+	}
+
+	function multipart(value?: string) {
+		const body = new FormData()
+		body.set("kind", "update")
+		body.set("name", "demo")
+		body.set("revision", "current")
+		body.append("aliases", "alias")
+		if (value !== undefined) body.set("remove_variants", value)
+		return new Request("http://localhost/api/submissions", { method: "POST", headers: { Authorization: "test-token" }, body })
+	}
+
+	it.each(invalid)("returns a validation outcome for direct service payload %j", async (value) => {
+		const proposal = input()
+		Reflect.set(proposal, "removeVariants", value)
+		expect(await createIconUpdate(pb, "contributor", proposal)).toEqual({ ok: false, error: expect.any(String) })
+		expect(create).not.toHaveBeenCalled()
+	})
+
+	it.each(invalid)("returns 400, not 502, for multipart payload %j", async (value) => {
+		const response = await POST(multipart(JSON.stringify(value)))
+		expect(response.status).toBe(400)
+		expect(await response.json()).toEqual({ error: expect.any(String) })
+		expect(create).not.toHaveBeenCalled()
+	})
+
+	it("rejects an explicitly empty multipart field rather than treating it as omitted", async () => {
+		const response = await POST(multipart(""))
+		expect(response.status).toBe(400)
+		expect(create).not.toHaveBeenCalled()
+	})
+
+	it.each([undefined, []])("allows direct metadata-only updates with removal payload %j", async (value) => {
+		expect(await createIconUpdate(pb, "contributor", { ...input(), removeVariants: value })).toMatchObject({ ok: true })
+		expect(create).toHaveBeenCalledOnce()
+	})
+
+	it.each([undefined, "[]"])("allows multipart metadata-only updates with removal field %j", async (value) => {
+		const response = await POST(multipart(value))
+		expect(response.status).toBe(201)
+		expect(create).toHaveBeenCalledOnce()
+	})
 })

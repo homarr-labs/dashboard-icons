@@ -8,6 +8,7 @@ export async function persistIconAsset(
 	file: string,
 	stem: string,
 	beforeWrite: () => Promise<unknown>,
+	root = process.cwd(),
 ) {
 	const extension = path.extname(file).slice(1).toLowerCase()
 	if (!["svg", "png"].includes(extension) || !/^[a-z0-9]+(-[a-z0-9]+)*$/.test(stem)) throw new Error("Unsafe Variant destination")
@@ -15,7 +16,6 @@ export async function persistIconAsset(
 	if (!response.ok) throw new Error(`Could not download ${file} (${response.status})`)
 	const bytes = await response.arrayBuffer()
 	await beforeWrite()
-	const root = process.cwd()
 	const output = path.join(root, extension, `${stem}.${extension}`)
 	await mkdir(path.dirname(output), { recursive: true })
 	await Bun.write(output, bytes)

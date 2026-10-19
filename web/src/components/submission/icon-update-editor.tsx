@@ -1,7 +1,7 @@
 "use client"
 
 import { useQueryClient } from "@tanstack/react-query"
-import { Check, Undo2 } from "lucide-react"
+import { Check, Minus, Undo2 } from "lucide-react"
 import Link from "next/link"
 import { useEffect, useState } from "react"
 import { revalidateAllSubmissions } from "@/app/actions/submissions"
@@ -19,6 +19,7 @@ import {
 	type IconUpdate,
 	listDelta,
 	type OwnedSubmissionResponse,
+	type RemovableVariantKey,
 	type UpdatePreview,
 	type UpdateTargetResponse,
 } from "@/lib/icon-update"
@@ -78,10 +79,11 @@ export function UpdateArtwork({
 	)
 }
 
-export function ChangeBadge({ action }: { action?: "add" | "replace" }) {
+export function ChangeBadge({ action }: { action?: "add" | "replace" | "remove" }) {
 	let label = "Unchanged"
 	if (action === "add") label = "+ added"
 	if (action === "replace") label = "~ replaced"
+	if (action === "remove") label = "− removed"
 	return (
 		<span
 			className={cn(
@@ -89,6 +91,7 @@ export function ChangeBadge({ action }: { action?: "add" | "replace" }) {
 				!action && "bg-muted text-muted-foreground",
 				action === "add" && "bg-emerald-500/10 text-emerald-800 dark:text-emerald-200",
 				action === "replace" && "bg-amber-500/10 text-amber-800 dark:text-amber-200",
+				action === "remove" && "bg-red-500/10 text-red-800 dark:text-red-200",
 			)}
 		>
 			{label}
@@ -112,6 +115,7 @@ export function IconUpdateEditor({
 	const [refreshChosen, setRefreshChosen] = useState(false)
 	const [error, setError] = useState("")
 	const [files, setFiles] = useState<Partial<Record<SubmissionVariant, File>>>({})
+	const [removals, setRemovals] = useState<Partial<Record<RemovableVariantKey, string>>>({})
 	const [aliases, setAliases] = useState("")
 	const [aliasesEdited, setAliasesEdited] = useState(false)
 	const [categories, setCategories] = useState<string[]>([])
@@ -131,7 +135,10 @@ export function IconUpdateEditor({
 		if (owned?.record.icon_update) {
 			const update = owned.record.icon_update
 			setLoaded(owned.baseline ?? null)
-			setRetained(update.variants)
+			setRetained(update.variants.filter((change) => change.action !== "remove"))
+			setRemovals(
+				Object.fromEntries(update.variants.flatMap((change) => (change.action === "remove" ? [[change.key, change.note ?? ""]] : []))),
+			)
 			setAliases(applyList(update.target.metadata.aliases, update.aliases).join(", "))
 			setAliasesEdited(true)
 			setCategories(applyList(update.target.metadata.categories, update.categories))
@@ -167,6 +174,20 @@ export function IconUpdateEditor({
 		setError("")
 		setFiles((current) => ({ ...current, [key]: file }))
 	}
+	const undoVariant = (key: SubmissionVariant) => {
+		setRetained((current) => current.filter((change) => change.key !== key))
+		setFiles((current) => {
+			const next = { ...current }
+			delete next[key]
+			return next
+		})
+		if (key === "base") return
+		setRemovals((current) => {
+			const next = { ...current }
+			delete next[key]
+			return next
+		})
+	}
 	if (sent)
 		return (
 			<section className="mx-auto max-w-2xl space-y-4 rounded-xl bg-muted/40 p-6" aria-live="polite">
@@ -196,11 +217,11 @@ export function IconUpdateEditor({
 					</p>
 				)}
 				{error && (
-					<Button variant="outline" onClick={() => setAttempt((value) => value + 1)}>
+					<Button variant="outline" className="min-h-11" onClick={() => setAttempt((value) => value + 1)}>
 						Retry loading Icon
 					</Button>
 				)}
-				<Button variant="ghost" onClick={onCancel}>
+				<Button variant="ghost" className="min-h-11" onClick={onCancel}>
 					Choose another Icon
 				</Button>
 			</section>
@@ -208,7 +229,7 @@ export function IconUpdateEditor({
 	const { target, previews } = loaded
 	const stale = Boolean(owned && live && live.target.revision !== target.revision)
 	const keys = [
-		...new Set([...Object.keys(target.files), ...retained.map((change) => change.key), ...Object.keys(files)]),
+		...new Set([...Object.keys(target.files), ...retained.map((change) => change.key), ...Object.keys(files), ...Object.keys(removals)]),
 	] as SubmissionVariant[]
 	const rows = [...SUBMISSION_VARIANTS.filter((key) => keys.includes(key)), ...keys.filter((key) => key.startsWith("custom:"))]
 	let proposedAliases = target.metadata.aliases
@@ -221,6 +242,7 @@ export function IconUpdateEditor({
 	const categoryDelta = listDelta(target.metadata.categories, categories)
 	const changes =
 		new Set([...Object.keys(files), ...retained.map((change) => change.key)]).size +
+		Object.keys(removals).length +
 		aliasDelta.add.length +
 		aliasDelta.remove.length +
 		categoryDelta.add.length +
@@ -244,6 +266,7 @@ export function IconUpdateEditor({
 					aliases: proposedAliases,
 					categories,
 					assets: files,
+					removeVariants: Object.entries(removals).map(([key, note]) => ({ key: key as RemovableVariantKey, note })),
 				},
 				owned
 					? {
@@ -275,12 +298,12 @@ export function IconUpdateEditor({
 							{target.kind === "published" ? "Published Icon" : "Community Submission"} · Update proposal
 						</p>
 					</div>
-					<Button variant="outline" disabled={busy} onClick={onCancel}>
+					<Button variant="outline" className="min-h-11" disabled={busy} onClick={onCancel}>
 						Choose another Icon
 					</Button>
 				</header>
 				<p className="max-w-prose text-sm text-muted-foreground">
-					Only changed files are uploaded. Leave a Variant untouched to keep its current artwork. Base does not need to be uploaded again.
+					Replace artwork or remove an optional Variant. Untouched Variants stay as they are. Base is required and cannot be removed.
 				</p>
 				{owned?.record.status === "rejected" && (
 					<RejectionNotice id={owned.record.id} feedback={owned.record.admin_comment} canEdit={false} />
@@ -357,12 +380,14 @@ export function IconUpdateEditor({
 									formats: [saved.file.split(".").pop() || ""],
 									filename: saved.file,
 								}
-							let action: "add" | "replace" | undefined
+							const removed = key !== "base" && Object.hasOwn(removals, key)
+							let action: "add" | "replace" | "remove" | undefined
 							if (file || saved) action = target.files[key] ? "replace" : "add"
+							if (removed) action = "remove"
 							return (
 								<li key={key} className="min-w-0 space-y-3 p-4">
 									<div className="flex flex-wrap items-center justify-between gap-2">
-										<h3 className="text-sm font-semibold">{kind.label}</h3>
+										<h3 className="break-all text-sm font-semibold">{kind.label}</h3>
 										<ChangeBadge action={action} />
 									</div>
 									<div className="flex items-center gap-3">
@@ -377,14 +402,24 @@ export function IconUpdateEditor({
 											<figcaption className="text-xs text-muted-foreground">Now</figcaption>
 										</figure>
 										<figure className="shrink-0 space-y-1">
-											<UpdateArtwork
-												compact
-												present={Boolean(target.files[key])}
-												preview={proposedPreview}
-												file={file}
-												variant={key}
-												name={target.name}
-											/>
+											{removed ? (
+												<div
+													className="flex size-14 items-center justify-center rounded-md bg-red-500/10 text-red-800 dark:text-red-200"
+													aria-label="Variant removed"
+													role="img"
+												>
+													<Minus aria-hidden />
+												</div>
+											) : (
+												<UpdateArtwork
+													compact
+													present={Boolean(target.files[key])}
+													preview={proposedPreview}
+													file={file}
+													variant={key}
+													name={target.name}
+												/>
+											)}
 											<figcaption className="text-xs text-muted-foreground">Proposed</figcaption>
 										</figure>
 										<div className="min-w-0 space-y-1">
@@ -399,29 +434,52 @@ export function IconUpdateEditor({
 										</div>
 									</div>
 									<div className="flex flex-wrap justify-end gap-2">
-										<FileChooser
-											label={`Replace ${kind.label}`}
-											onFiles={(chosen) => {
-												if (chosen[0]) changeFile(key, chosen[0])
-											}}
-										/>
-										{(file || saved) && (
+										{!removed && (
+											<FileChooser
+												label={`Replace ${kind.label}`}
+												onFiles={(chosen) => {
+													if (chosen[0]) changeFile(key, chosen[0])
+												}}
+											/>
+										)}
+										{key !== "base" && target.files[key] && !removed && (
 											<Button
 												variant="ghost"
+												className="h-auto min-h-11 max-w-full whitespace-normal text-left text-red-800 hover:bg-red-500/10 dark:text-red-200"
 												onClick={() => {
-													setRetained((current) => current.filter((change) => change.key !== key))
-													setFiles((current) => {
-														const next = { ...current }
-														delete next[key]
-														return next
-													})
+													undoVariant(key)
+													setRemovals((current) => ({ ...current, [key]: "" }))
 												}}
+											>
+												<Minus aria-hidden />
+												Remove {kind.label}
+											</Button>
+										)}
+										{(file || saved || removed) && (
+											<Button
+												variant="ghost"
+												className="h-auto min-h-11 max-w-full whitespace-normal text-left"
+												onClick={() => undoVariant(key)}
 											>
 												<Undo2 aria-hidden />
 												Undo {kind.label}
 											</Button>
 										)}
 									</div>
+									{removed && (
+										<div className="space-y-2">
+											<label htmlFor={`remove-${key}`} className="text-sm font-medium">
+												Why remove {kind.label}? (optional)
+											</label>
+											<Textarea
+												id={`remove-${key}`}
+												value={removals[key]}
+												maxLength={10000}
+												onChange={(event) => setRemovals((current) => ({ ...current, [key]: event.target.value }))}
+												placeholder="Help the reviewer understand this removal"
+											/>
+										</div>
+									)}
 								</li>
 							)
 						})}
@@ -532,8 +590,16 @@ export function IconUpdateEditor({
 			</div>
 			<aside className="min-w-0 space-y-4 self-start rounded-xl bg-muted/40 p-4 lg:sticky lg:top-24" aria-label="Proposal changes">
 				<h2 className="font-semibold">Changes in this proposal</h2>
-				{!changes && <p className="text-sm text-muted-foreground">Add or replace a Variant, or edit aliases and categories to start.</p>}
+				{!changes && (
+					<p className="text-sm text-muted-foreground">Add, replace or remove a Variant, or edit aliases and categories to start.</p>
+				)}
 				<ul className="space-y-2 break-words text-sm" aria-live="polite">
+					{Object.keys(removals).map((key) => (
+						<li key={key} className="flex flex-wrap items-center gap-2">
+							<ChangeBadge action="remove" />
+							<span>{variantKind(key as RemovableVariantKey).label}</span>
+						</li>
+					))}
 					{[...new Set([...Object.keys(files), ...retained.map((change) => change.key)])].map((key) => (
 						<li key={key} className="flex flex-wrap items-center gap-2">
 							<ChangeBadge action={target.files[key as SubmissionVariant] ? "replace" : "add"} />

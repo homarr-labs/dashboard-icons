@@ -7,12 +7,13 @@ import {
 	destination,
 	type IconUpdate,
 	listDelta,
+	type RemoveVariantInput,
 	type UpdateTarget,
 	type UpdateVariantKey,
 	validateDelta,
 } from "../../backend/pb_hooks/icon-update-policy.js"
 
-export type IconUpdateInput = SubmissionInput & { kind: "update"; revision: string }
+export type IconUpdateInput = SubmissionInput & { kind: "update"; revision: string; removeVariants?: RemoveVariantInput[] }
 export type OwnIconUpdateInput = IconUpdateInput & { updated: string; refreshTarget?: boolean; retainVariants?: UpdateVariantKey[] }
 
 export async function loadUpdateTarget(pb: ReturnType<typeof createServerPB>, name: string, id = ""): Promise<UpdateTarget> {
@@ -28,12 +29,18 @@ function prepareIconUpdate(userId: string, input: IconUpdateInput, target: Updat
 	const prepared = prepareSubmission(userId, input, target.metadata.base)
 	if (!prepared.ok) return prepared
 	const keys = Object.keys(input.assets) as (keyof typeof input.assets)[]
+	if (input.removeVariants !== undefined && (!Array.isArray(input.removeVariants) || input.removeVariants.length > 99))
+		return { ok: false as const, error: "Removals must be a list of at most 99 Variants" }
+	const removals = input.removeVariants ?? []
+	if (removals.some((removal) => !removal || typeof removal !== "object" || Array.isArray(removal) || typeof removal.key !== "string"))
+		return { ok: false as const, error: "Invalid Variant removal" }
+	const touched: string[] = [...keys, ...removals.map((removal) => removal.key)]
 	const update: IconUpdate = {
 		version: 1,
 		target,
 		variants: [
 			...retained
-				.filter((change) => !keys.includes(change.key))
+				.filter((change) => !touched.includes(change.key))
 				.map((change) => {
 					if (!("file" in change)) return change
 					let action: "add" | "replace" = "add"
@@ -47,6 +54,12 @@ function prepareIconUpdate(userId: string, input: IconUpdateInput, target: Updat
 				if (target.files[key]) action = "replace"
 				return { key, action, file: file.name, destination: destination(input.name, key, target) }
 			}),
+			...removals.map((removal) => ({
+				key: removal.key,
+				action: "remove" as const,
+				destination: target.files[removal.key] ?? "",
+				note: removal.note,
+			})),
 		],
 		aliases: listDelta(target.metadata.aliases, input.aliases),
 		categories: listDelta(target.metadata.categories, input.categories),

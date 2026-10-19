@@ -10,6 +10,7 @@ export async function submitProposal(
 	if ("kind" in input && input.kind === "update") {
 		body.set("kind", "update")
 		body.set("revision", input.revision)
+		if (input.removeVariants) body.set("remove_variants", JSON.stringify(input.removeVariants))
 	}
 	body.set("name", input.name)
 	body.set("description", input.description)

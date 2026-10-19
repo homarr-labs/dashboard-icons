@@ -2,7 +2,7 @@ import { NextResponse } from "next/server"
 import { ClientResponseError } from "pocketbase"
 import type { UpdateTargetResponse, UpdateVariantKey } from "@/lib/icon-update"
 import { iconUpdatePreviews } from "@/lib/icon-update-previews"
-import { updateOwnIconUpdate } from "@/lib/icon-update-service"
+import { type IconUpdateInput, updateOwnIconUpdate } from "@/lib/icon-update-service"
 import { createServerPB, type Submission } from "@/lib/pb"
 import { readBoundedBytes } from "@/lib/read-bounded-bytes"
 import { MAX_SEND_BODY_BYTES } from "@/lib/submission-limits"
@@ -105,12 +105,19 @@ export async function PATCH(req: Request, context: { params: Promise<{ id: strin
 					return failure(400, "Retained Variant changes must use recognised Variant keys.")
 				retainVariants = parsed
 			}
+			let removeVariants: IconUpdateInput["removeVariants"]
+			try {
+				if (form.has("remove_variants")) removeVariants = JSON.parse(text("remove_variants"))
+			} catch {
+				return failure(400, "Variant removals could not be read.")
+			}
 			record = await updateOwnIconUpdate(pb, session.user.id, id, {
 				...input,
 				kind: "update",
 				revision: text("revision"),
 				refreshTarget: text("refresh_target") === "true",
 				retainVariants,
+				removeVariants,
 			})
 		} else record = await updateOwnSubmission(pb, session.user.id, id, input)
 		return NextResponse.json(record, { headers: { "Cache-Control": "no-store" } })

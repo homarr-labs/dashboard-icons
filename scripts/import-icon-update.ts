@@ -1,4 +1,5 @@
 import { createHash } from "node:crypto"
+import { mkdir, mkdtemp, rm } from "node:fs/promises"
 import path from "node:path"
 import {
 	canonical,
@@ -15,6 +16,7 @@ import {
 import { snapshotVariantMetadata } from "../web/backend/pb_hooks/submission-assets.js"
 import { addStemOwnership, stemCollisionError, stemOwnership, submissionVariantStems } from "../web/backend/pb_hooks/variant-policy.js"
 import { persistIconAsset } from "./persist-icon-asset"
+import { publishIconUpdate, readPublicationFile } from "./publish-icon-update"
 
 interface UpdateSubmission {
 	id: string
@@ -141,13 +143,16 @@ export async function importIconUpdate(
 			for (const item of pending.items) {
 				if (item.id === submission.id) continue
 				let stems = submissionVariantStems(item.name, item.extras)
-				if (item.icon_update) stems = item.icon_update.variants.map((change) => [change.key, change.destination])
+				if (item.icon_update)
+					stems = item.icon_update.variants.filter((change) => change.action !== "remove").map((change) => [change.key, change.destination])
 				addStemOwnership(index, item.name, stems)
 			}
 			if (page >= pending.totalPages) break
 			page++
 		}
-		const stems: [string, string][] = update.variants.map((change) => [change.key, change.destination])
+		const stems: [string, string][] = update.variants
+			.filter((change) => change.action !== "remove")
+			.map((change) => [change.key, change.destination])
 		if (baseline.kind === "submission")
 			for (const key of Object.keys(baseline.files))
 				if (!update.variants.some((change) => change.key === key))
@@ -156,8 +161,10 @@ export async function importIconUpdate(
 		if (collision) throw new Error(collision)
 		return metadata
 	}
-	await verify()
-	const writes = update.variants.map((change) => ({ key: change.key, stem: change.destination, file: change.file, id: submission.id }))
+	const original = await verify()
+	const writes = update.variants
+		.filter((change) => change.action !== "remove")
+		.map((change) => ({ key: change.key, stem: change.destination, file: change.file, id: submission.id }))
 	let baseline = update.target.metadata
 	if (update.target.kind === "submission") {
 		baseline = { ...baseline, colors: {}, wordmark: {}, variants: {} }
@@ -170,22 +177,42 @@ export async function importIconUpdate(
 		}
 		baseline = mergeMetadata(baseline, preserved)
 	}
+	const nextMetadata = {
+		...original,
+		[submission.name]: { ...mergeMetadata(baseline, update), update: { timestamp: new Date().toISOString(), author } },
+	}
+	const referenced = stemOwnership(nextMetadata)
+	const removed = new Set<string>()
+	if (update.target.kind === "published")
+		for (const change of update.variants)
+			if (change.action === "remove" && !referenced.has(change.destination)) removed.add(change.destination)
+	const affected = new Set([...writes.map((item) => item.stem), ...removed])
+	const before = new Map<string, Buffer | undefined>()
+	for (const stem of affected) {
+		if (!/^[a-z0-9]+(-[a-z0-9]+)*$/.test(stem)) throw new Error("Unsafe Variant destination")
+		for (const extension of ["svg", "png", "webp"]) {
+			const relative = path.join(extension, `${stem}.${extension}`)
+			before.set(relative, await readPublicationFile(path.join(root, relative)))
+		}
+	}
+	const metadataBefore = await readPublicationFile(metadataPath)
+	if (!metadataBefore || canonical(JSON.parse(metadataBefore.toString())) !== canonical(original))
+		throw new Error("Metadata changed before publication")
+	before.set("metadata.json", metadataBefore)
 	for (const item of writes) {
 		const extension = item.file.split(".").pop()
 		if (!extension || !["svg", "png"].includes(extension) || !/^[a-z0-9]+(-[a-z0-9]+)*$/.test(item.stem))
 			throw new Error("Unsafe Variant destination")
 		console.log(`[icon-update] ${item.file} -> ${item.stem}.${extension}`)
-		if (dryRun) continue
-		await persistIconAsset(pbUrl, token, item.id, item.file, item.stem, verify)
-		if (update.target.kind === "published") {
-			checkedStems.add(item.stem)
-			for (const format of ["svg", "png", "webp"]) delete expectedBlobs[`${format}/${item.stem}.${format}`]
-			Object.assign(expectedBlobs, await readBlobs(new Set([item.stem])))
-		}
 	}
-	const metadata = await verify()
-	if (!dryRun) {
-		metadata[submission.name] = { ...mergeMetadata(baseline, update), update: { timestamp: new Date().toISOString(), author } }
-		await Bun.write(metadataPath, `${JSON.stringify(metadata, null, 4)}\n`)
+	for (const stem of removed) console.log(`[icon-update] remove unreferenced ${stem}.{svg,png,webp}`)
+	if (dryRun) return
+	const staging = await mkdtemp(path.join(root, ".icon-update-"))
+	try {
+		for (const extension of ["svg", "png", "webp"]) await mkdir(path.join(staging, extension))
+		for (const item of writes) await persistIconAsset(pbUrl, token, item.id, item.file, item.stem, verify, staging)
+		await publishIconUpdate(root, staging, before, `${JSON.stringify(nextMetadata, null, 4)}\n`, verify)
+	} finally {
+		await rm(staging, { recursive: true, force: true })
 	}
 }

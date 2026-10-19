@@ -36,17 +36,20 @@ function validate(app, record, extras, published) {
 	for (const name of names) {
 		const error = nameError(name)
 		if (error) throw new BadRequestError(error)
-		if (typeof variants[name] !== "string" || !variants[name]) throw new BadRequestError("Custom variant " + name + " needs one uploaded file")
+		if (typeof variants[name] !== "string" || !variants[name])
+			throw new BadRequestError("Custom variant " + name + " needs one uploaded file")
 	}
 	const data = published || metadata(app)
 	const index = policy.stemOwnership(data)
-	const pending = app.findRecordsByFilter("submissions", "id != {:id} && (status = 'pending' || status = 'approved')", "", 0, 0, { id: record.id })
+	const pending = app.findRecordsByFilter("submissions", "id != {:id} && (status = 'pending' || status = 'approved')", "", 0, 0, {
+		id: record.id,
+	})
 	for (const item of pending) {
 		const owner = item.getString("name")
 		const pendingExtras = JSON.parse(toString(item.get("extras")) || "null")
 		const update = JSON.parse(toString(item.get("icon_update")) || "null")
 		let stems = policy.submissionVariantStems(owner, pendingExtras)
-		if (update) stems = update.variants.map((change) => [change.key, change.destination])
+		if (update) stems = update.variants.filter((change) => change.action !== "remove").map((change) => [change.key, change.destination])
 		policy.addStemOwnership(index, owner, stems)
 	}
 	const error = policy.stemCollisionError(record.getString("name"), policy.submissionVariantStems(record.getString("name"), extras), index)
@@ -62,7 +65,9 @@ function suggestions(e) {
 		const extras = JSON.parse(toString(record.get("extras")) || "{}")
 		for (const name of Object.keys(customMap(extras))) if (!nameError(name)) names.add(name)
 		const update = JSON.parse(toString(record.get("icon_update")) || "null")
-		if (update) for (const change of update.variants) if (change.key.startsWith("custom:") && !nameError(change.key.slice(7))) names.add(change.key.slice(7))
+		if (update)
+			for (const change of update.variants)
+				if (change.key.startsWith("custom:") && !nameError(change.key.slice(7))) names.add(change.key.slice(7))
 	}
 	return e.json(200, { names: Array.from(names).sort() })
 }

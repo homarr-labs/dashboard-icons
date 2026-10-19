@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server"
 import { ClientResponseError } from "pocketbase"
-import { createIconUpdate } from "@/lib/icon-update-service"
+import { createIconUpdate, type IconUpdateInput } from "@/lib/icon-update-service"
 import { getAllIcons } from "@/lib/icons/service"
 import { createServerPB } from "@/lib/pb"
 import { readBoundedBytes } from "@/lib/read-bounded-bytes"
@@ -86,9 +86,20 @@ export async function POST(req: Request) {
 		const kind = text(form, "kind")
 		if (kind && kind !== "new" && kind !== "update") return failure(400, "Choose a new Icon or Update proposal")
 		let outcome: SubmissionOutcome
-		if (kind === "update")
-			outcome = await createIconUpdate(pb, session.user.id, { ...submissionInput(form), kind, revision: text(form, "revision") })
-		else {
+		if (kind === "update") {
+			let removeVariants: IconUpdateInput["removeVariants"]
+			try {
+				if (form.has("remove_variants")) removeVariants = JSON.parse(text(form, "remove_variants"))
+			} catch {
+				return failure(400, "Variant removals could not be read")
+			}
+			outcome = await createIconUpdate(pb, session.user.id, {
+				...submissionInput(form),
+				kind,
+				revision: text(form, "revision"),
+				removeVariants,
+			})
+		} else {
 			const input = submissionInput(form)
 			if (input.targetSubmission || Object.hasOwn(await getAllIcons(), input.name))
 				return failure(400, "Choose this Icon in Edit to send an Update proposal against its current revision")

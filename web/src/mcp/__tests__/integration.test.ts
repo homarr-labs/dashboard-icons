@@ -441,7 +441,10 @@ describe("MCP over HTTP (real wiring)", () => {
 			target_submission: "",
 			icon_update: {
 				target: { revision: "rev-1", kind: "published" },
-				variants: [{ key: "wordmark", action: "add", destination: "plex-wordmark" }],
+				variants: [
+					{ key: "wordmark", action: "add", destination: "plex-wordmark" },
+					{ key: "light", action: "remove", destination: "plex-light.svg", note: "Obsolete artwork" },
+				],
 				aliases: { add: [], remove: [] },
 				categories: { add: [], remove: ["Media"] },
 			},

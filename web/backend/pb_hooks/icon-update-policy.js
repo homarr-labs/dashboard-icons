@@ -71,6 +71,22 @@ function mergeMetadata(metadata, update) {
 	for (const field of ["aliases", "categories"]) result[field] = applyList(result[field] || [], update[field])
 	for (const change of update.variants) {
 		const key = change.key
+		if (change.action === "remove") {
+			let group = "variants"
+			let field = key.slice(7)
+			if (key === "light" || key === "dark") {
+				group = "colors"
+				field = key
+			} else if (key === "wordmark" || key.startsWith("wordmark_")) {
+				group = "wordmark"
+				field = key === "wordmark" ? "default" : key.slice(9)
+			}
+			if (result[group]) {
+				delete result[group][field]
+				if (!Object.keys(result[group]).length) delete result[group]
+			}
+			continue
+		}
 		if (key === "base") result.base = change.file.split(".").pop()
 		else if (key === "light" || key === "dark") result.colors = { ...result.colors, [key]: change.destination }
 		else if (key === "wordmark") result.wordmark = { ...result.wordmark, default: change.destination }
@@ -92,7 +108,7 @@ function validateDelta(update, target, assets) {
 	for (const change of update.variants) {
 		if (!change || typeof change.key !== "string") return "Invalid Variant change"
 		const key = change.key
-		if (key === "base" && Object.values(target.files).filter((file) => file === target.files.base).length > 1)
+		if (key === "base" && change.action !== "remove" && Object.values(target.files).filter((file) => file === target.files.base).length > 1)
 			return "Base shares its file with another Variant. Replace that Variant separately first."
 		if (!["base", "light", "dark", "wordmark", "wordmark_light", "wordmark_dark"].includes(key)) {
 			if (!key.startsWith("custom:")) return "Unknown Variant"
@@ -101,6 +117,15 @@ function validateDelta(update, target, assets) {
 		}
 		if (seen.has(key)) return "Each Variant can only change once"
 		seen.add(key)
+		if (change.action === "remove") {
+			if (key === "base") return "Base cannot be removed"
+			if (!Object.hasOwn(target.files, key) || !target.files[key]) return "Only an existing Variant can be removed"
+			if (change.destination !== target.files[key]) return "Removal destination does not match the target"
+			if (Object.hasOwn(change, "file")) return "A removal must not include an uploaded file"
+			if (change.note !== undefined && (typeof change.note !== "string" || change.note.length > 10000))
+				return "Removal notes must be at most 10000 characters"
+			continue
+		}
 		let action = "add"
 		if (target.files[key]) action = "replace"
 		if (change.action !== action || change.destination !== destination(target.name, key, target))
