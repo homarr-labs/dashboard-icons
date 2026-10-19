@@ -1,0 +1,36 @@
+PRODUCT.md
+  h_d6e478ca18e517 1-33
+web/docs/icon-page-relations.md
+  h_d6e478ca18e517 11
+web/src/app/icons/external/[source]/[slug]/page.tsx
+  h_d6e478ca18e517 3,9,132-133,190-191
+web/src/components/external-icon-content.tsx
+  h_d6e478ca18e517 1-41
+web/src/components/icon-customizer-inline.tsx
+  h_d6e478ca18e517 8,224-226,333-339
+web/src/components/icon-details.tsx
+  h_d6e478ca18e517 241-242,259-260,940,974-978,1016-1020,1063-1066,1068-1072,1137,1193,1200-1213,1365
+web/src/components/icon-related-links.tsx
+  h_d6e478ca18e517 3,5,16-27,48,71-93
+web/src/components/icon-usage-snippets.tsx
+  h_d6e478ca18e517 1-42
+web/src/lib/__tests__/simple-icons-importer.test.ts
+  h_d6e478ca18e517 15
+web/src/lib/icon-relations.ts
+  h_d6e478ca18e517 118,121-122,163,169-173,235-258
+web/src/lib/icon-usage.ts
+  h_d6e478ca18e517 1-18
+web/tests/external-icons.spec.ts
+  h_d6e478ca18e517 54,91,179,191
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "607ac0f9b82dc975d7002c5d9e247c2726ecd228",
+  "prompts": {},
+  "humans": {
+    "h_d6e478ca18e517": {
+      "author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
