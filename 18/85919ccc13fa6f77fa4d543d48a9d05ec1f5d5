@@ -1,0 +1,24 @@
+web/docs/icon-page-relations.md
+  h_d6e478ca18e517 1-12
+web/src/app/icons/[icon]/page.tsx
+  h_d6e478ca18e517 3-4,7,134-148,178-183,188-190
+web/src/app/icons/external/[source]/[slug]/page.tsx
+  h_d6e478ca18e517 4,8,123,180-181
+web/src/components/icon-details.tsx
+  h_d6e478ca18e517 179-180,195-196,841-844,858,1244
+web/src/components/icon-related-links.tsx
+  h_d6e478ca18e517 1-58
+web/src/lib/icon-relations.ts
+  h_d6e478ca18e517 1-130
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "1885919ccc13fa6f77fa4d543d48a9d05ec1f5d5",
+  "prompts": {},
+  "humans": {
+    "h_d6e478ca18e517": {
+      "author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
