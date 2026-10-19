@@ -1,0 +1,18 @@
+.github/workflows/docker.yml
+  h_d6e478ca18e517 55,60,72-75,132-134,143,147-160,174-175,186,188-193,211,228-233
+web/README.md
+  h_d6e478ca18e517 130-131,136,138-141,143-144,147-149,153-154,157,173-190
+web/scripts/deploy-pocketbase.mjs
+  h_d6e478ca18e517 5-7,9,11,21,29-30,33,37-40,43-61,63-71,73-76,78-81,84,95,102,104-116,121
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "6ccfc2139ab3ac9b3591bf485b78cbe5add278b6",
+  "prompts": {},
+  "humans": {
+    "h_d6e478ca18e517": {
+      "author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
