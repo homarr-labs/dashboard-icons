@@ -5,7 +5,6 @@ import { motion } from "framer-motion"
 import { Copy, Download, Info, X } from "lucide-react"
 import { useCallback, useEffect, useMemo, useState } from "react"
 import { toast } from "sonner"
-import { IconUsageSnippets } from "@/components/icon-usage-snippets"
 import { Button } from "@/components/ui/button"
 import { ColorPicker } from "@/components/ui/color-picker"
 import { Label } from "@/components/ui/label"
@@ -22,7 +21,6 @@ import {
 	hslToHex,
 	isClipboardAvailable,
 } from "@/lib/svg-color-utils"
-import { cn } from "@/lib/utils"
 
 type VariantOption = {
 	value: string
@@ -37,7 +35,6 @@ type IconCustomizerInlineProps = {
 	availableVariants?: VariantOption[]
 	selectedVariant?: string
 	onVariantChange?: (variant: string) => void
-	previewOnLightBackground?: boolean
 }
 
 export function IconCustomizerInline({
@@ -47,7 +44,6 @@ export function IconCustomizerInline({
 	availableVariants = [],
 	selectedVariant,
 	onVariantChange,
-	previewOnLightBackground = false,
 }: IconCustomizerInlineProps) {
 	const [svgContent, setSvgContent] = useState<string>("")
 	const [originalColors, setOriginalColors] = useState<string[]>([])
@@ -221,10 +217,10 @@ export function IconCustomizerInline({
 
 	return (
 		<motion.div
-			initial={{ opacity: 0 }}
-			animate={{ opacity: 1 }}
-			exit={{ opacity: 0 }}
-			className="space-y-4 [&_button]:min-h-11 [&_button]:min-w-11 [&_button:focus-visible]:outline-2 [&_button:focus-visible]:outline-offset-2 [&_button:focus-visible]:outline-foreground"
+			initial={{ opacity: 0, height: 0 }}
+			animate={{ opacity: 1, height: "auto" }}
+			exit={{ opacity: 0, height: 0 }}
+			className="space-y-4"
 		>
 			<div className="flex items-center justify-between px-1">
 				<div className="flex items-center gap-2">
@@ -244,7 +240,7 @@ export function IconCustomizerInline({
 						</PopoverContent>
 					</Popover>
 				</div>
-				<Button id="close-customizer" variant="ghost" size="sm" onClick={onClose} className="h-6 w-6 p-0" aria-label="Close customizer">
+				<Button id="close-customizer" variant="ghost" size="sm" onClick={onClose} className="h-6 w-6 p-0">
 					<X className="h-4 w-4" />
 				</Button>
 			</div>
@@ -260,7 +256,7 @@ export function IconCustomizerInline({
 						</SelectTrigger>
 						<SelectContent>
 							{availableVariants.map((variant) => (
-								<SelectItem key={variant.value} value={variant.value} className="min-h-11">
+								<SelectItem key={variant.value} value={variant.value}>
 									{variant.label}
 								</SelectItem>
 							))}
@@ -304,10 +300,7 @@ export function IconCustomizerInline({
 
 			<div
 				id="customized-svg-preview"
-				className={cn(
-					"flex flex-col items-center justify-center p-4 bg-muted/30 rounded-lg border min-h-[120px]",
-					previewOnLightBackground && "bg-white",
-				)}
+				className="flex flex-col items-center justify-center p-4 bg-muted/30 rounded-lg border min-h-[120px]"
 			>
 				{customizedSvg ? (
 					<div
@@ -320,23 +313,16 @@ export function IconCustomizerInline({
 				)}
 			</div>
 
-			<div className="flex flex-wrap gap-2">
-				<Button onClick={handleCopySvg} variant="outline" className="basis-36 grow" size="sm">
-					<Copy className="w-4 h-4" />
-					Copy SVG
+			<div className="grid grid-cols-2 gap-2">
+				<Button onClick={handleCopySvg} variant="outline" className="w-full" size="sm">
+					<Copy className="w-4 h-4 mr-2" />
+					Copy
 				</Button>
-				<Button onClick={handleDownloadSvg} className="basis-36 grow" size="sm">
-					<Download className="w-4 h-4" />
-					Download SVG
+				<Button onClick={handleDownloadSvg} className="w-full" size="sm">
+					<Download className="w-4 h-4 mr-2" />
+					Download
 				</Button>
 			</div>
-			<details className="min-w-0">
-				<summary className="flex min-h-11 cursor-pointer items-center rounded-sm text-sm font-medium focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring">
-					Use original hosted SVG
-				</summary>
-				<p className="mb-4 text-sm">These URLs use the selected Variant’s original colours, not your custom colours.</p>
-				<IconUsageSnippets name={iconName} url={svgUrl} />
-			</details>
 		</motion.div>
 	)
 }
