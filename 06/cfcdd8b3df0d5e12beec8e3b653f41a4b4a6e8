@@ -1,0 +1,53 @@
+web/src/app/dashboard/layout.tsx
+  s_b6ba0fabea817a::t_d2bdbe244d553c 5
+web/src/components/dashboard/activity-feed.tsx
+  s_b6ba0fabea817a::t_7fa2deba132d0e 2-15,18-19,21-30,32,34-36,49,58,65,104,125,128-130,140-143,146
+web/src/components/dashboard/contributor-home.tsx
+  s_b6ba0fabea817a::t_51a0f9d23278d0 1-308
+web/src/components/dashboard/icon-update-diff.tsx
+  s_b6ba0fabea817a::t_d5d913a1c998c1 3,8,13,16-32,80-81,84-89,91-92,94-99,102,108,113,121,129,133,138,140-146,148,150-151,153,155-161,165-166,173-174,178-183,186-188,207-208,218-219,226,234-270,272-274
+web/src/components/dashboard/inspector.tsx
+  s_b6ba0fabea817a::t_e0e44f7548d2ca 2-3,10,16-17,19,25-26,56,58,60,63,70,80-81,84-118,123-128,131-135,138-143,145,153,159,168-190,192,198-199,203,214,239,242,246-252,254-256,259-260,263-264,266,274,284-285,290,299-300,318,322-326,334,337,341,346,350,354-356,365,369,377-386,389,393
+web/src/components/dashboard/overview.tsx
+  s_b6ba0fabea817a::t_31365d808fd8cd 1-193
+web/src/components/dashboard/primitives.tsx
+  s_b6ba0fabea817a::t_977433d3c8d713 2-15,17-18,20,24,26-65,73-77,82-115,118-122,124,128,130-133,135-156,160-172,174-180,187,196-204,207-208,210-215,219-231,233-238,242
+web/src/components/dashboard/publishing.tsx
+  s_b6ba0fabea817a::t_09b88a5f327f22 2-3,5-6,19-31,33,35-36,39-40,44-51,55-60,62-63
+web/src/components/dashboard/review-bench.tsx
+  s_b6ba0fabea817a::t_17ec6fa746120d 2-19,26,28,45,60,63-64,74-75,84-85,99-100,103-104,143,187-189,200,210-229,237,279,282,343-347,349,421-424,426-455,462,464-469,471-475,477,482-497,500-516,518-559,561-596,598-627,629-644,646-666,668-737,761-796,798-839,841,843,845-860,862,864-921,924-927,929-944,946-952,954-957,959-1014,1023-1027,1031,1035,1041,1045-1046
+web/src/components/dashboard/review-fixup-editors.tsx
+  s_b6ba0fabea817a::t_296f76f90b4c6b 2,6,10,30,60,68-69,72,91-93,95-98,100-106,108-124,127-140,143-163,165-169,201-202,209,211,219,266,268,279-287,290,310-315,318,320-321,326
+web/src/components/dashboard/review-gallery.tsx
+  s_b6ba0fabea817a::t_2231d327a406d4 2,4-7,15,81-86,88-106,109-110,113,120,122-139,141-193,199,201-226,229-230,233,235,256-258,261-266,269
+web/src/components/dashboard/review-history.tsx
+  s_b6ba0fabea817a::t_118876afb22186 2,9,13-14,16-18,20,27,33,37,39-44,56-63
+web/src/components/dashboard/review-presentation.tsx
+  s_b6ba0fabea817a::t_5352a06d8a43a2 1-2,6,56,58-64,66-68,71-73,75-80,91,93-95,101,105,110-112,118,131-158
+web/src/components/dashboard/review-queue.tsx
+  s_b6ba0fabea817a::t_8a01cbfc49ea53 1-255
+web/src/components/dashboard/review-submit-dialog.tsx
+  s_b6ba0fabea817a::t_756643aa05bff5 2,7-8,10,33-35,49-53,55,57-67,69,71-73,80,83,97,109-112
+web/src/components/dashboard/submission-list.tsx
+  s_b6ba0fabea817a::t_bbd5f79db97cc2 3-4,6,8,10,15,23,31,45-56,63,67,69-71,73,75,82,85-97,99,102-104,107-108,111,116-142,170-171,182-183,187-190,192,199,201,204,210-246,265-271,273-275,279,281,301-304,308,321-329,331
+web/src/components/dashboard/workspace.tsx
+  s_b6ba0fabea817a::t_6e1f06f2d80841 3-4,11,29,31-32,35,37-60,94-95,100-102,104-111,113,121,149,151,164,229,243,266-268,270-272,274-278,281,283-291,296,299-300,303,305-314,319-331,333-335,337-420,422-444,447-448,450-451,453-470,473-495,497-521,523-532,535-542,545-548,551-614
+web/src/hooks/use-dashboard.ts
+  s_b6ba0fabea817a::t_f909e5ca0b6cc0 60,79,90,98,100,102-103
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "06cfcdd8b3df0d5e12beec8e3b653f41a4b4a6e8",
+  "prompts": {},
+  "sessions": {
+    "s_b6ba0fabea817a": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "86a24cc3-4212-4ceb-976e-cccb97b70270",
+        "model": "unknown"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
