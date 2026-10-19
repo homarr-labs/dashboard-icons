@@ -1,0 +1,72 @@
+.github/workflows/add-icon.yml
+  h_d6e478ca18e517 61-65
+scripts/convert-icon-asset.py
+  h_d6e478ca18e517 1-14
+scripts/import-icon.ts
+  h_d6e478ca18e517 6,14,15,40,296-304,313-315,316,333-335,445-447,457-459,461,463-464,469-470,519-521,562-573
+scripts/persist-icon-asset.ts
+  h_d6e478ca18e517 1-10,11,12-18,19-30
+web/src/lib/icons/__tests__/catalog.test.ts
+  h_d6e478ca18e517 28-46,340-341,355-359
+web/src/lib/icons/catalog.ts
+  h_d6e478ca18e517 14,279,282-286
+scripts/import-icon-update.ts
+  h_d6e478ca18e517 1,2,3-5,7-8,10-11,13-15,17-18,19,20-44,63-82,84,87-100,110-114,116-118,128,129-145,146-147,148-152,153-155,156-158,160-163,164-167,168-173,175-179,180-201,202-206,207,208-216,217-218
+web/backend/pb_hooks/custom-variants.js
+  h_d6e478ca18e517 39-40,44-46,50-51,52,53,67,68-70
+web/backend/pb_hooks/dashboard.js
+  h_d6e478ca18e517 71,181,380
+web/backend/pb_hooks/icon-update-policy.d.ts
+  h_d6e478ca18e517 1-10,15-22,23-31,37-44,45,46-49,51-56
+web/backend/pb_hooks/icon-update-policy.js
+  h_d6e478ca18e517 1-13,21-27,28-30,46-73,74-89,90-100,105-110,111,112-119,120-128,129-160
+web/backend/pb_hooks/icon-updates.js
+  h_d6e478ca18e517 1-13,16-19,33-39,43-45,47,49,53-63,73-82,85-93,95-98,100-107,108,109-112,113,114-121
+web/backend/pb_hooks/icon-updates.pb.js
+  h_d6e478ca18e517 1
+web/backend/pb_migrations/1792400000_icon_update_delta.js
+  h_d6e478ca18e517 1-20
+web/src/app/api/submissions/route.ts
+  h_d6e478ca18e517 3,4,7-13,43-44,86-88,89-102,103-107
+web/src/app/api/submissions/target/route.ts
+  h_d6e478ca18e517 1-25
+web/src/app/community/submissions/[id]/page.tsx
+  h_d6e478ca18e517 3,9,125-128,130-133,140-144
+web/src/components/dashboard/icon-update-diff.tsx
+  h_d6e478ca18e517 1-2,3,4-47,49-66,72-87,88,89-96,97-102,103-122,123-128,129-161
+web/src/components/dashboard/review-bench.tsx
+  h_d6e478ca18e517 95-103,213-217,480-482,485,607-623,625,627-629,632-633,724
+web/src/components/dashboard/review-gallery.tsx
+  h_d6e478ca18e517 10,63
+web/src/components/submission/edit-icon-picker.tsx
+  h_d6e478ca18e517 7,48,98
+web/src/components/submission/icon-update-editor.tsx
+  h_d6e478ca18e517 1-2,4,5-6,10-16,26-81,82,83-85,86,87-93,94,95-101,116-117,118,119-133,149-155,158-169,171-178,179,181-192,193-196,198-221,222,223-225,226,227-231,241-250,252-256,257,262-265,291-307,308,309-312,313,314,375-380,390-391,393,394-396,397,398-411,412-423,425-429,430-433,435-439,441-443,444-452,453-454,455-464,466-469,470-475,476-489,490-599,600-602,603,604-609,611-640,642-644,646-650
+web/src/components/submission/submission-card.tsx
+  h_d6e478ca18e517 41,66
+web/src/lib/icon-update-previews.ts
+  h_d6e478ca18e517 1-2,4,5-11,15,21-29
+web/src/lib/icon-update-service.ts
+  h_d6e478ca18e517 2-3,5,6-11,13-14,15,16,18-22,29-31,38-40,64-69,71,86-88,90-93
+web/src/lib/icon-update.ts
+  h_d6e478ca18e517 2-3,4-9,11,12-22
+web/src/lib/pb.ts
+  h_d6e478ca18e517 4,27,77
+web/src/lib/submission-service.ts
+  h_d6e478ca18e517 37,39-43,86,91
+web/src/lib/submit-proposal.ts
+  h_d6e478ca18e517 10-12,13,14
+scripts/publish-icon-update.ts
+  h_d6e478ca18e517 1-65
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "9f19660abf8b13cc06a235de4ccb07d3647fbe40",
+  "prompts": {},
+  "humans": {
+    "h_d6e478ca18e517": {
+      "author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}

@@ -1,0 +1,18 @@
+web/src/app/api/submissions/route.ts
+  h_d6e478ca18e517 92
+web/src/lib/__tests__/submission-guard.test.ts
+  h_d6e478ca18e517 4-7,9,12,15-16,486-587
+web/src/lib/icon-update-service.ts
+  h_d6e478ca18e517 32
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "f1ef4a16a59c50ae8aa1811dc19f01527a689174",
+  "prompts": {},
+  "humans": {
+    "h_d6e478ca18e517": {
+      "author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
