@@ -1,0 +1,29 @@
+web/src/components/icon-card.tsx
+  s_2dda7f30f9c36c::t_250363485e5e78 8,37-42,55-56,68-73,85
+web/src/components/ui/command.tsx
+  s_230d4e581de3cc::t_f02408264b015b 40,49,61
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "a26eb5d101961618937016f90895eaf4642dcdeb",
+  "prompts": {},
+  "sessions": {
+    "s_230d4e581de3cc": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "ad96c63e-c404-4ffd-a93d-92a0156b36e2",
+        "model": "unknown"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    },
+    "s_2dda7f30f9c36c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "5e95b9c0-6a43-43c0-8f66-04339c7d3832",
+        "model": "unknown"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
