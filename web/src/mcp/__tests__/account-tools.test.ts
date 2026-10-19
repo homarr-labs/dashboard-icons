@@ -149,6 +149,38 @@ describe("submit_icon", () => {
 		expect(pb.create.mock.calls[0]?.[0]).toMatchObject({ description: "", extras: { aliases: [], categories: [], base: "svg" } })
 	})
 
+	it("omits explicitly undefined optional SVG fields", async () => {
+		pb.create.mockResolvedValue({ id: "bare", name: "bare", status: "pending" })
+		const input = submitIconTool.config.inputSchema.parse({ name: "bare", svg: SVG, variants: { light: undefined } })
+		const result = await register(SESSION)("submit_icon", input)
+		expect(result.isError).toBeUndefined()
+		expect(pb.create.mock.calls[0]?.[0].assets.map((file: File) => file.name)).toEqual(["bare.svg"])
+		expect(pb.create.mock.calls[0]?.[0].extras).not.toHaveProperty("colors")
+	})
+
+	it("rejects more than 99 files before querying pending submissions or writing", async () => {
+		const custom = Object.fromEntries(Array.from({ length: 99 }, (_, index) => [`variant-${index}`, SVG]))
+		const input = submitIconTool.config.inputSchema.parse({ name: "my-app", svg: SVG, variants: { custom } })
+		const result = await register(SESSION)("submit_icon", input)
+		expect(result.isError).toBe(true)
+		expect(textOf(result)).toBe("The submission was not accepted: Upload at most 99 files per Icon.")
+		expect(pb.getFullList).not.toHaveBeenCalled()
+		expect(pb.create).not.toHaveBeenCalled()
+		expect(pb.update).not.toHaveBeenCalled()
+	})
+
+	it("accepts the 99-file limit as one Submission", async () => {
+		const custom = Object.fromEntries(Array.from({ length: 98 }, (_, index) => [`variant-${index}`, SVG]))
+		pb.create.mockResolvedValue({ id: "maximum", name: "my-app", status: "pending" })
+		const result = await register(SESSION)("submit_icon", { name: "my-app", svg: SVG, variants: { custom } })
+		expect(result.structuredContent).toMatchObject({ id: "maximum", status: "pending" })
+		expect(pb.create).toHaveBeenCalledTimes(1)
+		expect(pb.create.mock.calls[0]?.[0].assets).toHaveLength(99)
+		expect(pb.create.mock.calls[0]?.[0].extras.variants).toEqual(
+			Object.fromEntries(Object.keys(custom).map((key) => [key, `my-app-${key}.svg`])),
+		)
+	})
+
 	const rejected = {
 		id: "own-rejected",
 		name: "my-app",
@@ -228,6 +260,58 @@ describe("submit_icon", () => {
 		const result = await register(SESSION)("submit_icon", { name: "my-app", svg: SVG, variants: {} })
 		expect(textOf(result)).toContain("Submission changed")
 		expect(pb.update).not.toHaveBeenCalled()
+		expect(pb.create).not.toHaveBeenCalled()
+	})
+
+	it("resubmits a Base-only legacy record without requiring optional Variants", async () => {
+		const current = {
+			...rejected,
+			target_submission: undefined,
+			description: undefined,
+			extras: undefined,
+			assets: ["my_app_0123456789.svg"],
+		}
+		pb.getList.mockResolvedValue({ items: [current] })
+		pb.getOne.mockResolvedValue(current)
+		pb.getFullList.mockResolvedValue([{ id: current.id, name: current.name }])
+		pb.update.mockResolvedValue({ ...current, status: "pending" })
+		const result = await register(SESSION)("submit_icon", { name: "my-app", svg: SVG })
+		expect(result.structuredContent).toMatchObject({ id: current.id, status: "pending" })
+		expect(pb.update.mock.calls[0]?.[1]).toMatchObject({
+			description: "",
+			target_submission: "",
+			extras: { aliases: [], categories: [], base: "svg" },
+		})
+		expect(pb.create).not.toHaveBeenCalled()
+	})
+
+	it("replaces rejected metadata with explicitly supplied values", async () => {
+		pb.getList.mockResolvedValue({ items: [rejected] })
+		pb.getOne.mockResolvedValue(rejected)
+		pb.update.mockResolvedValue({ ...rejected, status: "pending" })
+		const result = await register(SESSION)("submit_icon", {
+			name: "my-app",
+			svg: SVG,
+			variants: {},
+			aliases: [],
+			categories: ["media"],
+			description: "Replacement description",
+		})
+		expect(result.isError).toBeUndefined()
+		expect(pb.update.mock.calls[0]?.[1]).toMatchObject({
+			description: "Replacement description",
+			extras: { aliases: [], categories: ["media"] },
+		})
+	})
+
+	it("fails atomically when the resubmission update is rejected", async () => {
+		pb.getList.mockResolvedValue({ items: [rejected] })
+		pb.getOne.mockResolvedValue(rejected)
+		pb.update.mockRejectedValue(new ClientResponseError({ status: 409, response: { message: "Submission changed" } }))
+		const result = await register(SESSION)("submit_icon", { name: "my-app", svg: SVG, variants: {} })
+		expect(result.isError).toBe(true)
+		expect(textOf(result)).toContain("Submission changed")
+		expect(pb.update).toHaveBeenCalledTimes(1)
 		expect(pb.create).not.toHaveBeenCalled()
 	})
 
@@ -385,6 +469,28 @@ describe("submit_icon", () => {
 			requestKey: null,
 		})
 		expect(pb.create).not.toHaveBeenCalled()
+	})
+
+	it("points duplicate community slugs to update proposals without treating them as split Variants", async () => {
+		pb.getFullList.mockResolvedValue([
+			{ id: "existing", name: "plex-dark" },
+			{ id: "other", name: "unrelated" },
+		])
+		const result = await register(SESSION)("submit_icon", { name: "plex-dark", svg: SVG })
+		expect(result.isError).toBe(true)
+		expect(textOf(result)).toContain("https://dashboardicons.com/community/submissions/existing")
+		expect(textOf(result)).toContain("update proposal")
+		expect(textOf(result)).not.toContain("looks like")
+		expect(pb.create).not.toHaveBeenCalled()
+	})
+
+	it("allows a compound brand when a pending parent has no Custom metadata", async () => {
+		pb.getAllIcons.mockResolvedValue({})
+		pb.getFullList.mockResolvedValue([{ id: "parent", name: "proton" }])
+		pb.create.mockResolvedValue({ id: "new", name: "proton-mail", status: "pending" })
+		const result = await register(SESSION)("submit_icon", { name: "proton-mail", svg: SVG })
+		expect(result.structuredContent).toMatchObject({ name: "proton-mail", status: "pending" })
+		expect(pb.create).toHaveBeenCalledTimes(1)
 	})
 
 	it("rejects published and pending file-stem collisions before any write", async () => {

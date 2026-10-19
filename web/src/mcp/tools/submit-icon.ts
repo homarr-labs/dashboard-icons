@@ -3,8 +3,9 @@ import { WEB_URL } from "@/constants"
 import { getAllIcons } from "@/lib/icons/service"
 import { checkSubmittedSvg, MAX_SUBMITTED_SVG_BYTES } from "@/lib/icons/svg-safety"
 import { ICON_NAME_REGEX, MAX_NAME_LENGTH } from "@/lib/icons/validate"
+import type { Submission } from "@/lib/pb"
 import { SUBMISSION_CATEGORIES } from "@/lib/submission-categories"
-import { createSubmission, prepareSubmission, type SubmissionInput, type SubmissionOutcome } from "@/lib/submission-service"
+import { prepareSubmission, type SubmissionInput } from "@/lib/submission-service"
 import { updateOwnSubmission } from "@/lib/submission-update-service"
 import { customVariantNameError, resolveSubmissionAssets, type SubmissionVariant, variantKind } from "@/lib/submission-variants"
 import { DASHBOARD_URL, pocketBaseAsUser, pocketBaseFailure, submissionUrl, toolError } from "@/mcp/tools/account"
@@ -155,15 +156,9 @@ export const submitIconTool: AccountTool<typeof inputSchema, typeof outputSchema
 				return toolError(
 					`"${name}" already has a community Submission (${submissionUrl(existing.id)}). Send changes as an update proposal at ${WEB_URL}/submit, not a duplicate Submission.`,
 				)
-			let outcome: SubmissionOutcome
-			if (rejected)
-				outcome = {
-					ok: true,
-					record: await updateOwnSubmission(session.pb, session.user.id, rejected.id, { ...input, updated: rejected.updated }),
-				}
-			else outcome = await createSubmission(session.pb, session.user.id, input)
-			if (!outcome.ok) return toolError(`The submission was not accepted: ${outcome.error}.`)
-			const { record } = outcome
+			let record: Submission
+			if (rejected) record = await updateOwnSubmission(session.pb, session.user.id, rejected.id, { ...input, updated: rejected.updated })
+			else record = await session.pb.collection("submissions").create<Submission>(prepared.data, { requestKey: null })
 			const result: z.output<typeof outputSchema> = {
 				id: record.id,
 				name: record.name,

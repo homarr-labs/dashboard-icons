@@ -11,6 +11,7 @@ import {
 	type SortOption,
 	scoreIcon,
 } from "@/lib/icons/search"
+import { type IconVariantMatch, matchIconVariant, resolveIconVariants, variantToneClass } from "@/lib/icons/variants"
 import type { IconWithName } from "@/types/icons"
 
 const mockIcon = (
@@ -285,6 +286,60 @@ describe("scoreIcon", () => {
 })
 
 describe("variant search", () => {
+	it("omits declared files that do not exist in the native format inventory", () => {
+		const icon = mockIcon("sonarr", { variants: { missing: "sonarr-missing-variant" } })
+		expect(getNativeIconVariants(icon.name, icon.data).map(({ stem }) => stem)).toEqual(["sonarr"])
+	})
+
+	it("keeps an exact compound brand match instead of reinterpreting its suffix as a Variant", () => {
+		const icon = mockIcon("github-light", { colors: { light: "github-light-white" } })
+		expect(findMatchedVariant(icon, "github light")).toBeNull()
+		expect(scoreIcon(icon, "github light")).toBeCloseTo(3.3833)
+		expect(filterAndSortIcons({ icons: [icon], query: "github light" })).toEqual([icon])
+	})
+
+	it("does not select a Variant for blank queries", () => {
+		expect(findMatchedVariant(mockIcon("sonarr"), " \t ")).toBeNull()
+	})
+
+	it.each([
+		[undefined, undefined],
+		["default", undefined],
+		["wordmark", undefined],
+		["light", "bg-zinc-900 ring-zinc-700"],
+		["dark", "bg-white ring-zinc-200"],
+		["wordmark-light", "bg-zinc-900 ring-zinc-700"],
+		["wordmark-dark", "bg-white ring-zinc-200"],
+		["animated-light", "bg-zinc-900 ring-zinc-700"],
+		["animated-dark", "bg-white ring-zinc-200"],
+		["animated", undefined],
+	])("chooses a readable preview background for %s", (key, expected) => {
+		let variant: IconVariantMatch | undefined
+		if (key) variant = { key, label: key, stem: `sonarr-${key}` }
+		expect(variantToneClass(variant)).toBe(expected)
+	})
+
+	it("ignores reserved Custom keys without losing legitimate variants", () => {
+		const icon = mockIcon("sonarr", { variants: { light: "sonarr-invalid-light", outline: "sonarr-outline" } })
+		expect(resolveIconVariants(icon.name, icon.data)).toEqual([
+			{ key: "default", label: "Base", stem: "sonarr", keys: ["default"] },
+			{ key: "outline", label: "outline", stem: "sonarr-outline", keys: ["outline"] },
+		])
+		expect(matchIconVariant(icon, "sonarr light")).toBeNull()
+	})
+
+	it("does not expose an empty Base stem while resolving available declared variants", () => {
+		expect(resolveIconVariants("", { variants: { outline: "sonarr-outline" } })).toEqual([
+			{ key: "outline", label: "outline", stem: "sonarr-outline", keys: ["outline"] },
+		])
+	})
+
+	it("does not match a Custom term without a parent name", () => {
+		const icon = mockIcon("sonarr", { variants: { "animated-outline": "sonarr-animated-outline" } })
+		expect(matchIconVariant(icon, "animated outline")).toBeNull()
+		expect(matchIconVariant(icon, "sonarr animated outline")).toMatchObject({ key: "animated-outline", rest: "sonarr" })
+	})
+
 	it("uses actual per-stem formats for mixed SVG and PNG Custom variants", () => {
 		const svgBase = mockIcon("sonarr", { base: "svg", variants: { raster: "radarr-3d" } })
 		const pngBase = mockIcon("radarr-3d", { base: "png", variants: { vector: "sonarr" } })

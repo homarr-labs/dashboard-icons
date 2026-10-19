@@ -142,6 +142,24 @@ describe("CATALOG_SOURCES", () => {
 })
 
 describe("searchCatalog", () => {
+	it("returns the parent with the matched Custom Variant on search hits", async () => {
+		mocks.getAllIcons.mockResolvedValue({ sonarr: native("2024-08-01T00:00:00Z", { variants: { "4k": "sonarr-4k" } }) })
+		const result = await searchCatalog("sonarr 4k", { sources: ["native"] })
+		expect(result).toEqual({
+			total: 1,
+			results: [
+				{
+					name: "sonarr",
+					title: "sonarr",
+					source: "native",
+					preview_url: `${NATIVE_CDN}/svg/sonarr.svg`,
+					score: 3.6,
+					matched_variant: { key: "4k", label: "4k", stem: "sonarr-4k" },
+				},
+			],
+		})
+	})
+
 	it("returns nothing for a blank query", async () => {
 		expect(await searchCatalog("   ")).toEqual({ results: [], total: 0 })
 	})
