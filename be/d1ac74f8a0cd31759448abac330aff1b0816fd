@@ -1,0 +1,64 @@
+web/src/app/icons/[icon]/page.tsx
+  s_803668e520dc04::t_a65a6a4a289b6d 145
+  s_e960ddb009cd31::t_4eb8f518dcfef5 4,143
+web/src/app/(legal)/layout.tsx
+  s_803668e520dc04::t_bcfd4cdf0a1b83 5
+web/src/app/(legal)/license/page.tsx
+  s_d7c1c9e3dcfc92::t_4fa1ec1c9a0a4f 1-2,4-6,8-16,20-21,22-23,26,27-37
+  s_131a461ca35b2d::t_e85414b544a5e4 3,7,17-19,24-25
+web/src/app/(legal)/terms/page.tsx
+  s_803668e520dc04::t_7a6a556fb91d81 70
+web/src/components/license-notice.tsx
+  s_803668e520dc04::t_950d3a9462eaaf 47-48
+  s_803668e520dc04::t_edadc9b385f5d9 60
+web/src/components/theme-switcher.tsx
+  s_803668e520dc04::t_4360cf8662aa6d 20-24
+web/src/lib/sitemap.ts
+  s_803668e520dc04::t_bdc7cbdf20c93e 42
+web/src/app/community/submissions/[id]/page.tsx
+  s_e960ddb009cd31::t_fee0bb73595d87 4,246-250
+web/src/constants.ts
+  s_803668e520dc04::t_3dd10c9d6740e5 7
+web/src/components/footer.tsx
+  s_803668e520dc04::t_89a618ea0eb89f 6
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "bed1ac74f8a0cd31759448abac330aff1b0816fd",
+  "prompts": {},
+  "sessions": {
+    "s_131a461ca35b2d": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "a5cd169d-f66a-478f-9316-008fc6a49785",
+        "model": "unknown"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    },
+    "s_803668e520dc04": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "cc3399fc-43f8-4b39-9b90-4b801b173c70",
+        "model": "unknown"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    },
+    "s_d7c1c9e3dcfc92": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "ac8ddf66-4d5d-4510-b242-1e83ff37945d",
+        "model": "unknown"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    },
+    "s_e960ddb009cd31": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "a02a6750-ed91-4f2a-8925-191481492cb8",
+        "model": "unknown"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
