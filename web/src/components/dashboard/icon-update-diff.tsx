@@ -3,22 +3,35 @@
 import { Minus } from "lucide-react"
 import { useEffect, useState } from "react"
 import { ChangeBadge, UpdateArtwork } from "@/components/submission/icon-update-editor"
+import { Button } from "@/components/ui/button"
 import { UnoptimizedImage } from "@/components/unoptimized-image"
+import type { reviewFixupPreview } from "@/lib/dashboard/review-fixup-draft"
 import { applyList, type IconUpdate, type UpdateTargetResponse } from "@/lib/icon-update"
 import { type CommunityGallery, pb, type Submission } from "@/lib/pb"
 import type { SubmissionVariant } from "@/lib/submission-variants"
 import { SUBMISSION_VARIANTS, variantKind } from "@/lib/submission-variants"
 import { cn } from "@/lib/utils"
+import { ReviewVariantEditor } from "./review-fixup-editors"
 
 export function IconUpdateDiff({
 	record,
 	update,
 	snapshot,
+	edit,
 	onTargetReady,
 }: {
 	record: Submission | CommunityGallery
 	update: IconUpdate
 	snapshot?: UpdateTargetResponse
+	edit?: {
+		assets: ReturnType<typeof reviewFixupPreview>["assets"]
+		selectedFile: string
+		disabled: boolean
+		onSelect: (file: string) => void
+		onRetag: (file: string, variant: SubmissionVariant) => boolean
+		onDrop: (file: string) => void
+		onUndo: (file: string) => void
+	}
 	onTargetReady?: (ready: boolean) => void
 }) {
 	const [loaded, setLoaded] = useState<UpdateTargetResponse | null>(snapshot ?? null)
@@ -82,6 +95,25 @@ export function IconUpdateDiff({
 					{keys.map((key) => {
 						const change = update.variants.find((change) => change.key === key)
 						const kind = variantKind(key)
+						let staged: NonNullable<typeof edit>["assets"][number] | undefined
+						if (change && change.action !== "remove") staged = edit?.assets.find((asset) => asset.file === change.file && !asset.dropped)
+						const proposed =
+							change && change.action !== "remove" ? (
+								<div
+									className={cn(
+										"flex h-24 items-center justify-center rounded-md p-3",
+										kind.background === "any" && "bg-muted",
+										kind.background === "light" && "bg-white",
+										kind.background === "dark" && "bg-zinc-950",
+									)}
+								>
+									<UnoptimizedImage
+										src={pb.files.getURL(record, change.file)}
+										alt={`${record.name} ${kind.label}, proposed artwork`}
+										className="h-full w-full object-contain"
+									/>
+								</div>
+							) : null
 						return (
 							<li key={key} className="min-w-0 space-y-3 p-4">
 								<div className="flex flex-wrap items-center justify-between gap-2">
@@ -99,27 +131,42 @@ export function IconUpdateDiff({
 												<Minus className="size-4" aria-hidden />
 												Removed
 											</div>
-										) : change ? (
-											<div
+										) : staged && edit ? (
+											<button
+												type="button"
+												aria-label={`Select ${kind.label} Variant`}
+												aria-pressed={edit.selectedFile === staged.file}
+												onClick={() => edit.onSelect(staged.file)}
 												className={cn(
-													"flex h-24 items-center justify-center rounded-md p-3",
-													kind.background === "any" && "bg-muted",
-													kind.background === "light" && "bg-white",
-													kind.background === "dark" && "bg-zinc-950",
+													"block min-h-11 w-full rounded-md outline-none focus-visible:ring-2 focus-visible:ring-ring",
+													edit.selectedFile === staged.file && "ring-2 ring-ring",
 												)}
 											>
-												<UnoptimizedImage
-													src={pb.files.getURL(record, change.file)}
-													alt={`${record.name} ${kind.label}, proposed artwork`}
-													className="h-full w-full object-contain"
-												/>
-											</div>
+												{proposed}
+											</button>
+										) : change ? (
+											proposed
 										) : (
 											<UpdateArtwork preview={loaded.previews[key]} variant={key} name={record.name} />
 										)}
 										<figcaption className="text-sm text-muted-foreground">Proposed</figcaption>
 									</figure>
 								</div>
+								{staged && edit?.selectedFile === staged.file && (
+									<ReviewVariantEditor
+										key={`${staged.variant}:${staged.dropped}`}
+										proposal
+										file={staged.file}
+										variant={staged.variant}
+										originalVariant={staged.originalVariant}
+										dropped={false}
+										changed={staged.changed}
+										disabled={edit.disabled}
+										onRetag={(variant) => edit.onRetag(staged.file, variant)}
+										onDrop={() => edit.onDrop(staged.file)}
+										onUndo={() => edit.onUndo(staged.file)}
+									/>
+								)}
 								{change?.action === "remove" && change.note && (
 									<div className="space-y-1 rounded-lg bg-red-500/5 p-4 text-sm">
 										<p className="font-medium">Removal note</p>
@@ -130,6 +177,23 @@ export function IconUpdateDiff({
 						)
 					})}
 				</ul>
+			)}
+			{edit?.assets.some((asset) => asset.dropped) && (
+				<section aria-label="Dropped by reviewer" className="space-y-2 rounded-xl bg-muted/50 p-4">
+					<h4 className="text-sm font-medium">Dropped by reviewer</h4>
+					<ul className="space-y-1">
+						{edit.assets
+							.filter((asset) => asset.dropped)
+							.map((asset) => (
+								<li key={asset.file} className="flex min-w-0 items-center gap-2 text-sm">
+									<span className="min-w-0 flex-1 font-mono [overflow-wrap:anywhere]">{asset.file}</span>
+									<Button variant="outline" disabled={edit.disabled} onClick={() => edit.onUndo(asset.file)}>
+										Restore
+									</Button>
+								</li>
+							))}
+					</ul>
+				</section>
 			)}
 			<dl className="space-y-4 rounded-xl bg-muted/40 p-4 text-sm">
 				{(["aliases", "categories"] as const).map((field) => (

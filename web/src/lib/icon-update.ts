@@ -9,7 +9,7 @@ export type {
 	UpdateTarget,
 	UpdateVariantKey,
 } from "../../backend/pb_hooks/icon-update-policy"
-export { applyList, listDelta } from "../../backend/pb_hooks/icon-update-policy.js"
+export { applyList, FIXUP_RENAME_ERROR, fixUpdate, listDelta } from "../../backend/pb_hooks/icon-update-policy.js"
 
 export interface UpdatePreview {
 	url: string

@@ -162,6 +162,7 @@ export function ReviewVariantEditor({
 	dropped,
 	changed,
 	disabled,
+	proposal = false,
 	onRetag,
 	onDrop,
 	onUndo,
@@ -172,6 +173,7 @@ export function ReviewVariantEditor({
 	dropped: boolean
 	changed: boolean
 	disabled: boolean
+	proposal?: boolean
 	onRetag: (variant: SubmissionVariant) => boolean
 	onDrop: () => void
 	onUndo: () => void
@@ -188,7 +190,8 @@ export function ReviewVariantEditor({
 		)
 	if (!variant || !originalVariant)
 		return <p className="text-xs text-muted-foreground">Resolve this Asset's label before applying Variant fix-ups.</p>
-	if (originalVariant === "base") return <p className="text-xs leading-5 text-muted-foreground">Base is required and cannot be dropped.</p>
+	if (originalVariant === "base" && !proposal)
+		return <p className="text-xs leading-5 text-muted-foreground">Base is required and cannot be dropped.</p>
 	return (
 		<div className="space-y-2 border-t pt-2">
 			<label htmlFor={`review-kind-${file}`} className="block text-xs font-medium">
@@ -210,7 +213,7 @@ export function ReviewVariantEditor({
 						setError("That slot is unavailable. Choose another kind or drop its optional Variant first.")
 				}}
 			>
-				{SUBMISSION_VARIANTS.filter((kind) => kind !== "base").map((kind) => (
+				{SUBMISSION_VARIANTS.filter((kind) => proposal || kind !== "base").map((kind) => (
 					<option key={kind} value={kind}>
 						{variantKind(kind).label}
 					</option>

@@ -8,9 +8,12 @@ import {
 	reviewFixupError,
 	reviewFixupPreview,
 	reviewFixupsUnavailable,
+	reviewList,
+	reviewRenameUnavailable,
 } from "@/lib/dashboard/review-fixup-draft"
 import type { ReviewRequest, ReviewResponse } from "@/lib/dashboard/types"
 import type { Submission } from "@/lib/pb"
+import * as updatePolicy from "../../../backend/pb_hooks/icon-update-policy.js"
 import * as assets from "../../../backend/pb_hooks/submission-assets.js"
 import * as policy from "../../../backend/pb_hooks/variant-policy.js"
 
@@ -19,7 +22,10 @@ const fixupHooks = runInNewContext(`${source("review-fixups.js")}\nmodule.export
 	module: { exports: {} },
 	BadRequestError: Error,
 	toString: JSON.stringify,
-	require: (file: string) => (file.includes("submission-assets") ? assets : policy),
+	require: (file: string) => {
+		if (file.includes("icon-update-policy")) return updatePolicy
+		return file.includes("submission-assets") ? assets : policy
+	},
 }) as { validateItem: (item: unknown) => void; apply: (record: unknown, fixups: unknown) => string[] }
 
 type Values = Record<string, unknown>
@@ -448,6 +454,165 @@ describe("review fix-ups", () => {
 			}),
 		).toEqual([])
 		expect(value.values).toEqual(pending())
+	})
+})
+
+const proposalTarget = {
+	kind: "published",
+	name: "t8-demo",
+	id: "",
+	revision: "revision",
+	updated: "",
+	status: "published",
+	metadata: {
+		base: "svg",
+		aliases: ["Old alias"],
+		categories: ["Tools"],
+		colors: { light: "t8-demo-light" },
+		wordmark: { default: "t8-demo-wordmark" },
+	},
+	files: { base: "t8-demo", light: "t8-demo-light", wordmark: "t8-demo-wordmark" },
+	source: { commit: "a".repeat(40), blobs: {} },
+}
+const proposal = (): Values => ({
+	...pending("proposal"),
+	assets: ["animated.png", "light-new.svg"],
+	extras: { aliases: [], categories: [], base: "svg" },
+	icon_update: {
+		version: 1,
+		target: proposalTarget,
+		variants: [
+			{ key: "custom:animated", action: "add", file: "animated.png", destination: "t8-demo-animated" },
+			{ key: "light", action: "replace", file: "light-new.svg", destination: "t8-demo-light" },
+			{ key: "wordmark", action: "remove", destination: "t8-demo-wordmark" },
+		],
+		aliases: { add: [], remove: [] },
+		categories: { add: [], remove: [] },
+	},
+})
+const asSubmission = (values: Values) => values as unknown as Submission
+
+describe("Update proposal fix-ups", () => {
+	it("retags an uploaded PNG without touching its file, extension or removal entries", () => {
+		const value = record(proposal())
+		expect(fixupHooks.apply(value, { variants: [{ action: "retag", file: "animated.png", variant: "dark" }] })).toEqual([
+			"Retagged Custom animated as Dark (animated.png).",
+		])
+		expect(value.get("icon_update")).toMatchObject({
+			variants: [
+				{ key: "dark", action: "add", file: "animated.png", destination: "t8-demo-dark" },
+				{ key: "light", action: "replace", file: "light-new.svg" },
+				{ key: "wordmark", action: "remove", destination: "t8-demo-wordmark" },
+			],
+		})
+		expect(value.get("assets")).toEqual(["animated.png", "light-new.svg"])
+		expect(value.get("extras")).toEqual({ aliases: [], categories: [], base: "svg" })
+	})
+
+	it("drops uploaded files only and edits the explicit metadata delta", () => {
+		const value = record(proposal())
+		const messages = fixupHooks.apply(value, {
+			aliases: ["New alias"],
+			categories: ["Tools"],
+			variants: [{ action: "drop", file: "animated.png" }],
+		})
+		expect(messages).toEqual(["Dropped Custom animated (animated.png).", 'Changed aliases from ["Old alias"] to ["New alias"].'])
+		expect(value.get("assets")).toEqual(["light-new.svg"])
+		expect(value.get("icon_update")).toMatchObject({
+			variants: [{ key: "light" }, { key: "wordmark", action: "remove" }],
+			aliases: { add: ["New alias"], remove: ["Old alias"] },
+			categories: { add: [], remove: [] },
+		})
+	})
+
+	it("leaves an unchanged proposal alone", () => {
+		const value = record(proposal())
+		expect(fixupHooks.apply(value, { aliases: ["Old alias"] })).toEqual([])
+		expect(value.values).toEqual(proposal())
+		expect(fixupHooks.apply(value, {})).toEqual([])
+	})
+
+	it.each([
+		[{ name: "t8-renamed" }, "target identity is fixed"],
+		[{ variants: [{ action: "retag", file: "animated.png", variant: "light" }] }, "slot is occupied"],
+		[{ variants: [{ action: "retag", file: "animated.png", variant: "wordmark" }] }, "slot is occupied"],
+		[{ variants: [{ action: "retag", file: "wordmark", variant: "dark" }] }, "existing Asset"],
+		[
+			{
+				variants: [
+					{ action: "drop", file: "animated.png" },
+					{ action: "retag", file: "animated.png", variant: "dark" },
+				],
+			},
+			"Only one fix-up",
+		],
+		[{ variants: "all" }, "at most 99"],
+		[{ aliases: [" "] }, "aliases must contain"],
+	])("rejects invalid proposal fix-ups %j without saving", (fixups, message) => {
+		const value = record(proposal())
+		expect(() => fixupHooks.apply(value, fixups)).toThrow(message)
+		expect(value.values).toEqual(proposal())
+	})
+
+	it("refuses to empty a proposal and flags ambiguous uploads", () => {
+		const onlyUploads = proposal()
+		const update = onlyUploads.icon_update as { variants: unknown[] }
+		update.variants = update.variants.slice(0, 2)
+		expect(() =>
+			fixupHooks.apply(record(onlyUploads), {
+				variants: [
+					{ action: "drop", file: "animated.png" },
+					{ action: "drop", file: "light-new.svg" },
+				],
+			}),
+		).toThrow("at least one change")
+		const ambiguous = { ...proposal(), assets: ["animated.png", "light-new.svg", "stray.svg"] }
+		expect(() => fixupHooks.apply(record(ambiguous), { variants: [{ action: "drop", file: "animated.png" }] })).toThrow("ambiguous")
+	})
+
+	it("blocks legacy target proposals that have no explicit delta", () => {
+		const legacy = { ...pending(), target_submission: "target" }
+		expect(() => fixupHooks.apply(record(legacy), { aliases: ["Changed"] })).toThrow("explicit changes")
+		expect(fixupHooks.apply(record(legacy), {})).toEqual([])
+	})
+
+	it("mirrors the same rules in the draft UI", () => {
+		const original = asSubmission(proposal())
+		expect(reviewFixupsUnavailable(original, [original.name])).toBeNull()
+		expect(reviewRenameUnavailable(original)).toContain("target identity is fixed")
+		expect(reviewRenameUnavailable(asSubmission(pending()))).toBeNull()
+		expect(reviewFixupError(original, { name: "t8-renamed" })).toContain("target identity is fixed")
+		expect(reviewFixupError(original, { name: original.name, aliases: ["New alias"] })).toBeNull()
+		expect(reviewFixupError(original, { variants: [{ action: "retag", file: "animated.png", variant: "light" }] })).toContain(
+			"slot is occupied",
+		)
+		expect(reviewFixupError(original, { variants: [{ action: "retag", file: "animated.png", variant: "dark" }] })).toBeNull()
+		expect(reviewList(original, "aliases")).toEqual(["Old alias"])
+		expect(reviewList(asSubmission(pending()), "aliases")).toEqual(["Old alias"])
+		expect(normalizeReviewFixups(original, { aliases: ["Old alias"], categories: ["Other"] })).toEqual({ categories: ["Other"] })
+	})
+
+	it("previews the staged delta, drops and effective metadata without mutating the proposal", () => {
+		const original = asSubmission(proposal())
+		const preview = reviewFixupPreview(original, {
+			aliases: ["New alias"],
+			variants: [
+				{ action: "retag", file: "animated.png", variant: "dark" },
+				{ action: "drop", file: "light-new.svg" },
+			],
+		})
+		expect(preview.record.icon_update?.variants.map((change) => change.key)).toEqual(["dark", "wordmark"])
+		expect(preview.record.assets).toEqual(["animated.png"])
+		expect(preview.metadata).toEqual({ aliases: ["New alias"], categories: ["Tools"] })
+		expect(preview.assets.find((asset) => asset.file === "light-new.svg")).toMatchObject({ dropped: true })
+		expect(preview.changes.map((change) => change.text)).toEqual([
+			"Drop Light (light-new.svg)",
+			"animated → Dark (animated.png)",
+			"Aliases: Old alias → New alias",
+		])
+		expect(original).toEqual(proposal())
+		const rejected = reviewFixupPreview(original, { variants: [{ action: "retag", file: "animated.png", variant: "light" }] })
+		expect(rejected.record.icon_update).toEqual(original.icon_update)
 	})
 })
 

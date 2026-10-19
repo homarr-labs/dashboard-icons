@@ -158,4 +158,69 @@ function validateDelta(update, target, assets) {
 	return undefined
 }
 
-module.exports = { canonical, revisionContent, variantFiles, destination, listDelta, applyList, mergeMetadata, validateDelta }
+const FIXUP_RENAME_ERROR = "Rename is not available for Update proposals. Their target identity is fixed."
+
+function fixUpdate(update, assets, fixups) {
+	const target = update.target
+	const next = { ...update, variants: update.variants.map((change) => ({ ...change })) }
+	const result = { update: next, assets: [...assets], variants: [], lists: [] }
+	const operations = fixups.variants || []
+	if (operations.length) {
+		const resolved = require("./submission-assets.js").resolveSubmissionAssets(null, assets, target.name, update)
+		if (resolved.assets.some((asset) => !asset.variant) || resolved.references.some((reference) => !reference.file))
+			return { error: "Variant labels are ambiguous. Resolve the Submission's file labels before reviewing with Variant fix-ups." }
+		const labels = new Map(resolved.assets.map((asset) => [asset.file, asset.variant]))
+		const byFile = new Map()
+		for (const operation of operations) {
+			if (!labels.has(operation.file)) return { error: "Variant fix-ups must reference an existing Asset" }
+			if (byFile.has(operation.file)) return { error: "Only one fix-up is allowed per Asset" }
+			byFile.set(operation.file, operation)
+			let to = null
+			if (operation.action === "retag") to = operation.variant
+			if (to !== labels.get(operation.file)) result.variants.push({ file: operation.file, from: labels.get(operation.file), to })
+		}
+		next.variants = []
+		for (const change of update.variants) {
+			const operation = byFile.get(change.file)
+			if (!operation) next.variants.push({ ...change })
+			else if (operation.action === "retag")
+				next.variants.push({
+					...change,
+					key: operation.variant,
+					action: target.files[operation.variant] ? "replace" : "add",
+					destination: destination(target.name, operation.variant, target),
+				})
+		}
+		if (new Set(next.variants.map((change) => change.key)).size !== next.variants.length)
+			return { error: "That Variant slot is occupied. Choose another kind or drop its optional Asset first." }
+		result.assets = assets.filter((file) => !byFile.has(file) || byFile.get(file).action !== "drop")
+	}
+	for (const field of ["aliases", "categories"]) {
+		if (!Array.isArray(fixups[field])) continue
+		const before = applyList(target.metadata[field] || [], update[field])
+		const after = [...new Set(fixups[field].map((entry) => entry.trim()))]
+		if (JSON.stringify(before) === JSON.stringify(after)) continue
+		next[field] = listDelta(target.metadata[field] || [], after)
+		result.lists.push({ field, before, after })
+	}
+	if (!result.variants.length && !result.lists.length) return result
+	let changes = next.variants.length
+	for (const field of ["aliases", "categories"]) changes += next[field].add.length + next[field].remove.length
+	if (!changes) return { error: "An Update proposal needs at least one change. Reject it instead of removing every change." }
+	const error = validateDelta(next, target, result.assets)
+	if (error) return { error }
+	return result
+}
+
+module.exports = {
+	canonical,
+	revisionContent,
+	variantFiles,
+	destination,
+	listDelta,
+	applyList,
+	mergeMetadata,
+	validateDelta,
+	fixUpdate,
+	FIXUP_RENAME_ERROR,
+}

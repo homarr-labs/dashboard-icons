@@ -54,3 +54,17 @@ export function listDelta(before: string[], after: string[]): ListDelta
 export function applyList(before: string[], delta?: ListDelta): string[]
 export function mergeMetadata(metadata: UpdateMetadata, update: IconUpdate): UpdateMetadata
 export function validateDelta(update: unknown, target: UpdateTarget, assets: string[]): string | undefined
+export type UpdateFixupVariant = { action: "drop"; file: string } | { action: "retag"; file: string; variant: UpdateVariantKey }
+export interface UpdateFixups {
+	aliases?: string[]
+	categories?: string[]
+	variants?: UpdateFixupVariant[]
+}
+export interface UpdateFixupResult {
+	update: IconUpdate
+	assets: string[]
+	variants: { file: string; from: UpdateVariantKey; to: UpdateVariantKey | null }[]
+	lists: { field: "aliases" | "categories"; before: string[]; after: string[] }[]
+}
+export function fixUpdate(update: IconUpdate, assets: string[], fixups: UpdateFixups): UpdateFixupResult | { error: string }
+export const FIXUP_RENAME_ERROR: string

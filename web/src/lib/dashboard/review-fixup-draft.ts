@@ -1,4 +1,5 @@
 import type { ReviewFixups, ReviewVariantFixup, SubmissionEvent } from "@/lib/dashboard/types"
+import { applyList, FIXUP_RENAME_ERROR, fixUpdate } from "@/lib/icon-update"
 import { ICON_NAME_REGEX, MAX_NAME_LENGTH } from "@/lib/icons/validate"
 import type { Submission } from "@/lib/pb"
 import {
@@ -53,18 +54,28 @@ export function isReviewFixups(value: unknown): value is ReviewFixups {
 }
 
 export function reviewFixupsUnavailable(record: Submission, publishedNames: string[] = []) {
-	if (record.icon_update || record.target_submission || publishedNames.includes(record.name))
-		return "Update proposal fix-ups are not available yet. Its target identity and explicit changes must be preserved."
+	if (!record.icon_update && (record.target_submission || publishedNames.includes(record.name)))
+		return "This Update proposal predates explicit changes, so fix-ups are not available. Review it without fix-ups."
 	if (!record.extras || typeof record.extras !== "object" || Array.isArray(record.extras))
 		return "This Submission's metadata needs repair before reviewer fix-ups can be applied. You can still review without fix-ups."
 	return null
+}
+
+export function reviewRenameUnavailable(record: Submission) {
+	if (record.icon_update) return FIXUP_RENAME_ERROR
+	return null
+}
+
+export function reviewList(record: Submission, key: "aliases" | "categories") {
+	if (record.icon_update) return applyList(record.icon_update.target.metadata[key] || [], record.icon_update[key])
+	return record.extras?.[key] || []
 }
 
 export function normalizeReviewFixups(record: Submission, fixups: ReviewFixups): ReviewFixups {
 	const next = { ...fixups }
 	if (next.name === record.name) delete next.name
 	for (const key of ["aliases", "categories"] as const)
-		if (next[key] && JSON.stringify(next[key]) === JSON.stringify(record.extras?.[key] || [])) delete next[key]
+		if (next[key] && JSON.stringify(next[key]) === JSON.stringify(reviewList(record, key))) delete next[key]
 	const original = labelledAssets(record.extras, record.assets, record.name, record.icon_update)
 	if (next.variants) {
 		next.variants = next.variants.filter(
@@ -83,9 +94,14 @@ export function reviewFixupPreview(record: Submission, fixups: ReviewFixups = {}
 		return { ...asset, variant, originalVariant: asset.variant, dropped: operation?.action === "drop", changed: !!operation }
 	})
 	const extras = { ...record.extras }
-	if (fixups.aliases) extras.aliases = fixups.aliases
-	if (fixups.categories) extras.categories = fixups.categories
-	if (fixups.variants?.length) {
+	let fixed: Extract<ReturnType<typeof fixUpdate>, { update: unknown }> | null = null
+	if (record.icon_update) {
+		const result = fixUpdate(record.icon_update, record.assets, fixups)
+		if (!("error" in result)) fixed = result
+	}
+	if (!record.icon_update && fixups.aliases) extras.aliases = fixups.aliases
+	if (!record.icon_update && fixups.categories) extras.categories = fixups.categories
+	if (!record.icon_update && fixups.variants?.length) {
 		delete extras.colors
 		delete extras.wordmark
 		delete extras.variants
@@ -109,17 +125,24 @@ export function reviewFixupPreview(record: Submission, fixups: ReviewFixups = {}
 	for (const key of ["aliases", "categories"] as const) {
 		if (!fixups[key]) continue
 		const label = key.charAt(0).toUpperCase() + key.slice(1)
-		changes.push({ key, text: `${label}: ${(record.extras?.[key] || []).join(", ") || "None"} → ${fixups[key].join(", ") || "None"}` })
+		changes.push({ key, text: `${label}: ${reviewList(record, key).join(", ") || "None"} → ${fixups[key].join(", ") || "None"}` })
 	}
+	const preview: Submission = {
+		...record,
+		name: fixups.name || record.name,
+		extras,
+		assets: assets.filter((asset) => !asset.dropped).map((asset) => asset.file),
+	}
+	if (fixed) {
+		preview.icon_update = fixed.update
+		preview.name = record.name
+	}
+	const staged = fixed ? { ...record, icon_update: fixed.update } : preview
 	return {
 		assets,
 		changes,
-		record: {
-			...record,
-			name: fixups.name || record.name,
-			extras,
-			assets: assets.filter((asset) => !asset.dropped).map((asset) => asset.file),
-		},
+		record: preview,
+		metadata: { aliases: reviewList(staged, "aliases"), categories: reviewList(staged, "categories") },
 	}
 }
 
@@ -127,6 +150,11 @@ export function reviewFixupError(record: Submission, fixups: ReviewFixups) {
 	const unavailable = reviewFixupsUnavailable(record)
 	if (unavailable) return unavailable
 	if (!isReviewFixups(fixups)) return "Use a lowercase kebab-case slug and up to 100 aliases or categories of at most 200 characters each."
+	if (record.icon_update) {
+		if (fixups.name && fixups.name !== record.name) return reviewRenameUnavailable(record)
+		const result = fixUpdate(record.icon_update, record.assets, fixups)
+		return "error" in result ? result.error : null
+	}
 	if (!fixups.variants?.length) return null
 	const resolved = resolveSubmissionAssets(record.extras, record.assets, record.name)
 	if (resolved.assets.some((asset) => !asset.variant) || resolved.references.some((reference) => !reference.file))

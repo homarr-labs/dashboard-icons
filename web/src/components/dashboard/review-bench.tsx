@@ -17,6 +17,7 @@ import {
 	reviewFixupError,
 	reviewFixupPreview,
 	reviewFixupsUnavailable,
+	reviewRenameUnavailable,
 	undoReviewFixup,
 } from "@/lib/dashboard/review-fixup-draft"
 import type { DashboardFilters, ReviewFixups } from "@/lib/dashboard/types"
@@ -106,6 +107,7 @@ export function ReviewBench({
 	const note = notes[record?.id] ?? drafts[record?.id]?.note ?? ""
 	const fixups = drafts[record?.id]?.fixups || {}
 	const preview = record && reviewFixupPreview(record, fixups)
+	const renameUnavailable = record && reviewRenameUnavailable(record)
 	let unavailable = record && reviewFixupsUnavailable(record, catalog.data?.names)
 	if (record && !unavailable && !catalog.data) {
 		unavailable = "Checking published Icon names before enabling fix-ups."
@@ -321,7 +323,9 @@ export function ReviewBench({
 		stage,
 		onReason: setReasonFor,
 		onVariantPrompt: setVariantFor,
-		onRename: () => setRenaming(true),
+		onRename: () => {
+			if (!renameUnavailable) setRenaming(true)
+		},
 		onDrop: dropVariant,
 		move,
 		clear,
@@ -506,12 +510,13 @@ export function ReviewBench({
 									</p>
 									<h2 className="mt-2 font-mono text-2xl font-semibold [overflow-wrap:anywhere] sm:text-3xl">{preview?.record.name}</h2>
 									{fixups.name && <p className="mt-1 text-xs text-muted-foreground [overflow-wrap:anywhere]">Submitted as {record.name}</p>}
-									{!renaming && (
+									{!renaming && !renameUnavailable && (
 										<Button variant="ghost" className="mt-1 -ml-3" disabled={fixupsDisabled} onClick={() => setRenaming(true)}>
 											<Pencil className="size-3.5" />
 											Rename slug <kbd className="text-xs text-muted-foreground">E</kbd>
 										</Button>
 									)}
+									{renameUnavailable && <p className="mt-1 text-xs leading-5 text-muted-foreground">{renameUnavailable}</p>}
 									{renaming && (
 										<ReviewRenameEditor
 											key={record.id}
@@ -526,7 +531,9 @@ export function ReviewBench({
 									<div className="mt-3">
 										<DecisionBadge draft={drafts[record.id]} round={record.round || 1} />
 									</div>
-									<p className="mt-2 text-sm text-muted-foreground">{record.target_submission ? "Update proposal" : "New Icon"}</p>
+									<p className="mt-2 text-sm text-muted-foreground">
+										{record.target_submission || record.icon_update ? "Update proposal" : "New Icon"}
+									</p>
 								</div>
 								<div className="flex shrink-0 gap-1">
 									<Button
@@ -634,8 +641,8 @@ export function ReviewBench({
 								{!unavailable && (
 									<ReviewMetadataEditor
 										key={`${record.id}:${JSON.stringify([fixups.aliases, fixups.categories])}`}
-										aliases={preview?.record.extras.aliases || []}
-										categories={preview?.record.extras.categories || []}
+										aliases={preview?.metadata.aliases || []}
+										categories={preview?.metadata.categories || []}
 										disabled={fixupsDisabled}
 										onStage={(metadata) => changeFixups({ ...fixups, ...metadata })}
 									/>

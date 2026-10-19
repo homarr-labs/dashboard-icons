@@ -53,14 +53,23 @@ export function ReviewGallery({
 			variant,
 			after: { file, url: pb.files.getURL(record, file) },
 		}))
-	if (edit)
-		rows = reviewFixupPreview(record, edit.fixups).assets.map((asset) => ({
+	const preview = edit && reviewFixupPreview(record, edit.fixups)
+	if (preview)
+		rows = preview.assets.map((asset) => ({
 			...asset,
 			key: asset.file,
 			fixupChanged: asset.changed,
 			after: { file: asset.file, url: pb.files.getURL(record, asset.file) },
 		}))
-	if (record.icon_update) return <IconUpdateDiff record={record} update={record.icon_update} onTargetReady={onTargetReady} />
+	if (record.icon_update)
+		return (
+			<IconUpdateDiff
+				record={record}
+				update={preview?.record.icon_update || record.icon_update}
+				edit={edit && preview && { ...edit, assets: preview.assets }}
+				onTargetReady={onTargetReady}
+			/>
+		)
 	return (
 		<section aria-label="Variants" className="space-y-3" data-review-gallery>
 			<div className="flex flex-wrap items-center justify-between gap-2">
