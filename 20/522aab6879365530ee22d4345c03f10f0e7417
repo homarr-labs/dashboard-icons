@@ -1,0 +1,24 @@
+web/backend/pb_hooks/dashboard.js
+  h_d6e478ca18e517 35-41,43-46,82,95-98,103-104,112-118,139-144,160-165,177-178,194,252-253,271,302-303,305-307,309,313-314,322,326,328,339,522
+web/backend/pb_hooks/review-fixups.js
+  h_d6e478ca18e517 1-130
+web/backend/pb_hooks/submission-email.js
+  h_d6e478ca18e517 3-4,6-15,19-28,30,56,64,190,250,276
+web/src/hooks/use-dashboard.ts
+  h_d6e478ca18e517 4-11,20-22
+web/src/lib/__tests__/review-fixups.test.ts
+  h_d6e478ca18e517 1-377
+web/src/lib/dashboard/types.ts
+  h_d6e478ca18e517 2-25
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "20522aab6879365530ee22d4345c03f10f0e7417",
+  "prompts": {},
+  "humans": {
+    "h_d6e478ca18e517": {
+      "author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
