@@ -1,0 +1,16 @@
+web/playwright.config.ts
+  h_d6e478ca18e517 7-8,17,37-38
+web/tests/external-icons.spec.ts
+  h_d6e478ca18e517 1-10,14-17,26,29,37,46,48,59,69,72-74,83,85,89,92-96,100,104,107,111-118,122-124,126-127,130-133,142,144,147,150-152,154-158,165-170,180-190,196,209-212,227-231,238-242,259-270,274-275,277-279,281-283
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "c054d2364e40beaffc862a67580aa88b8b9159d5",
+  "prompts": {},
+  "humans": {
+    "h_d6e478ca18e517": {
+      "author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
