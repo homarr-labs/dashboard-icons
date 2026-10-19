@@ -10,8 +10,10 @@ import { CommandDialog, CommandEmpty, CommandGroup, CommandInput, CommandItem, C
 import { UnoptimizedImage } from "@/components/unoptimized-image"
 import { EXTERNAL_SOURCES, type ExternalSourceId } from "@/constants"
 import { useMediaQuery } from "@/hooks/use-media-query"
+import { getExternalIconPagePath } from "@/lib/external-icon-urls"
 import { getIconImageUrl } from "@/lib/icon-url"
-import { filterAndSortIcons, formatIconName } from "@/lib/utils"
+import { type IconVariantMatch, variantToneClass } from "@/lib/icons/variants"
+import { cn, filterAndSortIcons, findMatchedVariant, formatIconName } from "@/lib/utils"
 import type { IconSearchEntry } from "@/types/icons"
 
 function normalizeCmdkValue(s: string): string {
@@ -63,6 +65,17 @@ export function CommandMenu({ icons, isLoaded, hasLoadError, open: externalOpen,
 	)
 
 	const filteredIcons = useMemo(() => filterAndSortIcons({ icons, query, limit: 20 }), [icons, query])
+	const matchedVariants = useMemo(() => {
+		const matches = new Map<IconSearchEntry, IconVariantMatch>()
+		for (const icon of filteredIcons) {
+			const variant = findMatchedVariant(icon, query)
+			if (variant) matches.set(icon, variant)
+		}
+		return matches
+	}, [filteredIcons, query])
+	const selectedVariant = selectedIcon ? matchedVariants.get(selectedIcon) : undefined
+	let previewAlt = selectedIcon?.name ?? ""
+	if (selectedIcon && selectedVariant) previewAlt = `${selectedIcon.name} ${selectedVariant.label} variant`
 	const totalIcons = icons.length
 	const isReady = isLoaded && !hasLoadError
 
@@ -123,7 +136,7 @@ export function CommandMenu({ icons, isLoaded, hasLoadError, open: externalOpen,
 	const handleSelect = (icon: IconSearchEntry) => {
 		setIsOpen(false)
 		if (icon.source && icon.source !== "native") {
-			router.push(`/icons/external/${icon.slug || icon.name}`)
+			router.push(getExternalIconPagePath({ source: icon.source, slug: icon.slug || icon.name }))
 		} else {
 			router.push(`/icons/${icon.name}`)
 		}
@@ -157,6 +170,7 @@ export function CommandMenu({ icons, isLoaded, hasLoadError, open: externalOpen,
 						const formattedIconName = formatIconName(name)
 						const isExternal = source && source !== "native"
 						const sourceConfig = isExternal ? EXTERNAL_SOURCES[source as ExternalSourceId] : undefined
+						const matchedVariant = matchedVariants.get(icon)
 
 						return (
 							<CommandItem
@@ -167,6 +181,11 @@ export function CommandMenu({ icons, isLoaded, hasLoadError, open: externalOpen,
 								onMouseEnter={() => setSelectedIcon(icon)}
 							>
 								<span className="flex-grow capitalize font-medium truncate">{formattedIconName}</span>
+								{matchedVariant && (
+									<Badge variant="outline" className="text-xs px-2 h-6 shrink-0 text-muted-foreground">
+										{matchedVariant.label} variant
+									</Badge>
+								)}
 								{isExternal && sourceConfig && (
 									<Badge variant="outline" className="text-xs px-2 h-6 gap-1.5 shrink-0">
 										<UnoptimizedImage src={sourceConfig.icon} alt="" width={12} height={12} className="shrink-0" />
@@ -194,6 +213,7 @@ export function CommandMenu({ icons, isLoaded, hasLoadError, open: externalOpen,
 			onOpenChange={setIsOpen}
 			commandValue={cmdkValue}
 			onCommandValueChange={handleValueChange}
+			shouldFilter={false}
 			className="max-w-3xl backdrop-blur-md bg-popover/95"
 			showCloseButton={false}
 		>
@@ -214,23 +234,29 @@ export function CommandMenu({ icons, isLoaded, hasLoadError, open: externalOpen,
 					<div className="w-56 border-l border-border flex flex-col items-center justify-center p-6">
 						<AnimatePresence mode="wait">
 							<motion.div
-								key={`${selectedIcon.source || "native"}-${selectedIcon.name}`}
+								key={`${selectedIcon.source || "native"}-${selectedIcon.name}-${selectedVariant?.key ?? ""}`}
 								className="flex flex-col items-center gap-3"
 								initial={{ opacity: 0, scale: 0.92 }}
 								animate={{ opacity: 1, scale: 1 }}
 								exit={{ opacity: 0, scale: 0.92 }}
 								transition={{ duration: 0.1 }}
 							>
-								<div className="h-24 w-24 rounded-xl bg-muted ring-1 ring-border flex items-center justify-center overflow-hidden">
+								<div
+									className={cn(
+										"h-24 w-24 rounded-xl ring-1 flex items-center justify-center overflow-hidden",
+										variantToneClass(selectedVariant) ?? "bg-muted ring-border",
+									)}
+								>
 									<UnoptimizedImage
-										src={getIconImageUrl(selectedIcon)}
-										alt={selectedIcon.name}
+										src={getIconImageUrl(selectedIcon, selectedVariant?.stem)}
+										alt={previewAlt}
 										width={64}
 										height={64}
 										className="object-contain"
 									/>
 								</div>
 								<span className="text-sm font-medium text-center capitalize truncate max-w-full">{formatIconName(selectedIcon.name)}</span>
+								{selectedVariant && <span className="text-xs text-muted-foreground">{selectedVariant.label} variant</span>}
 								{selectedIcon.source && selectedIcon.source !== "native" && (
 									<span className="text-xs text-muted-foreground">{EXTERNAL_SOURCES[selectedIcon.source as ExternalSourceId]?.label}</span>
 								)}

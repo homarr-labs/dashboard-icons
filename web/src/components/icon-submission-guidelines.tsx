@@ -21,7 +21,7 @@ const GUIDELINES: GuidelineItem[] = [
 		type: "do",
 		title: "Provide color variants when available",
 		description:
-			"Submit normal (colored), dark, and light variants when possible. The 'normal' variant is the standard colored version. For monochrome icons, provide light and dark variants optimized for different backgrounds.",
+			"Submit the Base (in brand colours) plus Light and Dark variants when possible. A Light variant is light-coloured for dark backgrounds; a Dark variant is dark-coloured for light backgrounds. Wordmarks follow the same rule.",
 	},
 	{
 		type: "do",

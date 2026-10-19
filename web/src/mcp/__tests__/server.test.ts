@@ -40,6 +40,7 @@ describe("createDashboardIconsServer", () => {
 			"browse_icons",
 			"list_categories",
 			"submit_icon",
+			"propose_icon_update",
 			"list_my_submissions",
 		]) {
 			expect(DASHBOARD_ICONS_INSTRUCTIONS).toContain(tool)

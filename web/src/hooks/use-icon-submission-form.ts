@@ -1,68 +1,26 @@
 "use client"
 
 import { useForm } from "@tanstack/react-form"
-import { FileImage, FileType } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { useRef, useState } from "react"
 import { toast } from "sonner"
 import { revalidateAllSubmissions } from "@/app/actions/submissions"
-import type { MultiSelectOption } from "@/components/ui/multi-select"
 import type { IconNameOption } from "@/hooks/use-submissions"
 import { pb } from "@/lib/pb"
+import { ASSET_EXTENSIONS, MAX_ASSET_BYTES, type SubmissionInput } from "@/lib/submission-service"
+import { SUBMISSION_VARIANTS, type SubmissionVariant, VARIANT_KINDS, type VariantKind, variantKind } from "@/lib/submission-variants"
 import { submitProposal } from "@/lib/submit-proposal"
 
-export interface VariantConfig {
-	id: string
-	label: string
-	description: string
-	field: "base" | "dark" | "light" | "wordmark" | "wordmark_dark"
+export interface VariantConfig extends VariantKind {
+	id: SubmissionVariant
 }
 
-export const VARIANTS: VariantConfig[] = [
-	{
-		id: "base",
-		label: "Base Icon",
-		description: "Main icon file (required)",
-		field: "base",
-	},
-	{
-		id: "dark",
-		label: "Dark Variant",
-		description: "Icon optimized for dark backgrounds",
-		field: "dark",
-	},
-	{
-		id: "light",
-		label: "Light Variant",
-		description: "Icon optimized for light backgrounds",
-		field: "light",
-	},
-	{
-		id: "wordmark",
-		label: "Wordmark Light",
-		description: "Wordmark optimized for light backgrounds",
-		field: "wordmark",
-	},
-	{
-		id: "wordmark_dark",
-		label: "Wordmark Dark",
-		description: "Wordmark optimized for dark backgrounds",
-		field: "wordmark_dark",
-	},
-]
-
-export const VARIANT_OPTIONS: MultiSelectOption[] = VARIANTS.map((variant) => ({
-	label: variant.label,
-	value: variant.id,
-	icon: variant.id === "base" ? FileImage : FileType,
-	disabled: variant.id === "base",
-}))
+export const VARIANTS: VariantConfig[] = SUBMISSION_VARIANTS.map((id) => ({ id, ...VARIANT_KINDS[id] }))
 
 export { SUBMISSION_CATEGORIES as AVAILABLE_CATEGORIES } from "@/lib/submission-categories"
 
 export interface FormData {
 	iconName: string
-	selectedVariants: string[]
 	files: Record<string, File[]>
 	aliases: string[]
 	aliasInput: string
@@ -70,24 +28,24 @@ export interface FormData {
 	description: string
 }
 
-export const ACCEPTED_FILE_TYPES = {
-	"image/svg+xml": [".svg"],
-	"image/png": [".png"],
-}
+export const ACCEPTED_FILE_TYPES: Record<string, string[]> = Object.fromEntries(
+	Object.entries(ASSET_EXTENSIONS).map(([type, extension]) => [type, [`.${extension}`]]),
+)
 
-export const MAX_FILE_SIZE = 1024 * 1024 * 5
+export const MAX_FILE_SIZE = MAX_ASSET_BYTES
 
-export function useIconSubmissionForm() {
+export function useIconSubmissionForm(initialIcon?: IconNameOption) {
 	const [filePreviews, setFilePreviews] = useState<Record<string, string>>({})
 	const [isSubmitting, setIsSubmitting] = useState(false)
-	const [selectedIcon, setSelectedIcon] = useState<IconNameOption | null>(null)
+	const [selectedIcon, setSelectedIcon] = useState<IconNameOption | null>(initialIcon ?? null)
+	const [customNames, setCustomNames] = useState<string[]>([])
+	const variants = [...VARIANTS, ...customNames.map((name): VariantConfig => ({ id: `custom:${name}`, ...variantKind(`custom:${name}`) }))]
 	const isSubmittingRef = useRef(false)
 	const router = useRouter()
 
 	const form = useForm({
 		defaultValues: {
-			iconName: "",
-			selectedVariants: ["base"],
+			iconName: initialIcon?.value ?? "",
 			files: {} as Record<string, File[]>,
 			aliases: [] as string[],
 			aliasInput: "",
@@ -114,83 +72,24 @@ export function useIconSubmissionForm() {
 			setIsSubmitting(true)
 
 			try {
-				const assetFiles: File[] = [baseFile]
+				const assets: SubmissionInput["assets"] = {}
+				for (const { id: variant } of variants) {
+					const file = value.files[variant]?.[0]
+					if (variant.startsWith("custom:") && !file) {
+						toast.error(`Upload a file for ${variant.slice(7)} or remove the Custom variant`)
+						return
+					}
+					if (file) assets[variant] = file
+				}
 
-				const extras: any = {
+				const record = await submitProposal({
+					name: value.iconName,
+					description: value.description,
 					aliases: value.aliases,
 					categories: value.categories,
-					base: baseFile.name.split(".").pop() || "svg",
-				}
-
-				if (value.files.dark?.[0] || value.files.light?.[0]) {
-					extras.colors = {}
-					if (value.files.dark?.[0]) {
-						extras.colors.dark = value.files.dark[0].name
-						assetFiles.push(value.files.dark[0])
-					}
-					if (value.files.light?.[0]) {
-						extras.colors.light = value.files.light[0].name
-						assetFiles.push(value.files.light[0])
-					}
-				}
-
-				if (value.files.wordmark?.[0] || value.files.wordmark_dark?.[0]) {
-					extras.wordmark = {}
-					if (value.files.wordmark?.[0]) {
-						extras.wordmark.light = value.files.wordmark[0].name
-						assetFiles.push(value.files.wordmark[0])
-					}
-					if (value.files.wordmark_dark?.[0]) {
-						extras.wordmark.dark = value.files.wordmark_dark[0].name
-						assetFiles.push(value.files.wordmark_dark[0])
-					}
-				}
-
-				const submissionData = {
-					name: value.iconName,
-					assets: assetFiles,
-					created_by: (pb.authStore.record as any)?.id ?? pb.authStore.record?.id ?? "",
-					status: "pending" as const,
-					description: value.description,
-					target_submission: selectedIcon?.submissionId,
-					extras: extras,
-				}
-
-				const record = await submitProposal(submissionData)
-
-				if (record.assets && record.assets.length > 0) {
-					const updatedExtras = JSON.parse(JSON.stringify(extras))
-					let assetIndex = 0
-
-					// Skip base file at index 0, as it's already handled above
-					// The order of asset files matches the order they were pushed to assetFiles array:
-					// base (index 0), dark (if exists), light (if exists), wordmark (if exists), wordmark_dark (if exists)
-					assetIndex++
-
-					if (value.files.dark?.[0] && updatedExtras.colors) {
-						updatedExtras.colors.dark = record.assets[assetIndex]
-						assetIndex++
-					}
-
-					if (value.files.light?.[0] && updatedExtras.colors) {
-						updatedExtras.colors.light = record.assets[assetIndex]
-						assetIndex++
-					}
-
-					if (value.files.wordmark?.[0] && updatedExtras.wordmark) {
-						updatedExtras.wordmark.light = record.assets[assetIndex]
-						assetIndex++
-					}
-
-					if (value.files.wordmark_dark?.[0] && updatedExtras.wordmark) {
-						updatedExtras.wordmark.dark = record.assets[assetIndex]
-						assetIndex++
-					}
-
-					await pb.collection("submissions").update(record.id, {
-						extras: updatedExtras,
-					})
-				}
+					targetSubmission: selectedIcon?.submissionId ?? "",
+					assets,
+				})
 
 				await revalidateAllSubmissions()
 
@@ -203,10 +102,11 @@ export function useIconSubmissionForm() {
 				form.reset()
 				setFilePreviews({})
 				setSelectedIcon(null)
-			} catch (error: any) {
+				setCustomNames([])
+			} catch (error: unknown) {
 				console.error("Submission error:", error)
 				toast.error("Failed to submit icon", {
-					description: error?.message || "Please try again later",
+					description: error instanceof Error ? error.message : "Please try again later",
 				})
 			} finally {
 				isSubmittingRef.current = false
@@ -214,25 +114,6 @@ export function useIconSubmissionForm() {
 			}
 		},
 	})
-
-	const handleRemoveVariant = (variantId: string) => {
-		if (variantId !== "base") {
-			const currentVariants = form.getFieldValue("selectedVariants")
-			form.setFieldValue(
-				"selectedVariants",
-				currentVariants.filter((v) => v !== variantId),
-			)
-
-			const currentFiles = form.getFieldValue("files")
-			const newFiles = { ...currentFiles }
-			delete newFiles[variantId]
-			form.setFieldValue("files", newFiles)
-
-			const newPreviews = { ...filePreviews }
-			delete newPreviews[variantId]
-			setFilePreviews(newPreviews)
-		}
-	}
 
 	const handleFileDrop = (variantId: string, droppedFiles: File[]) => {
 		const currentFiles = form.getFieldValue("files")
@@ -309,7 +190,8 @@ export function useIconSubmissionForm() {
 		if (isSubmittingRef.current) return
 		form.reset()
 		setFilePreviews({})
-		setSelectedIcon(null)
+		setSelectedIcon(initialIcon ?? null)
+		setCustomNames([])
 	}
 
 	const iconNameValidator = ({ value }: { value: string }) => {
@@ -321,10 +203,16 @@ export function useIconSubmissionForm() {
 	}
 
 	return {
+		variants,
+		customNames,
+		addCustomVariant: (name: string) => setCustomNames((names) => [...names, name]),
+		removeCustomVariant: (name: string) => {
+			handleFileDrop(`custom:${name}`, [])
+			setCustomNames((names) => names.filter((value) => value !== name))
+		},
 		form,
 		filePreviews,
 		isSubmitting,
-		handleRemoveVariant,
 		handleFileDrop,
 		handleAddAlias,
 		handleRemoveAlias,

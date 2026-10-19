@@ -1,0 +1,1 @@
+export const MAX_ACCOUNT_REQUEST_BODY_BYTES = 512 * 1024

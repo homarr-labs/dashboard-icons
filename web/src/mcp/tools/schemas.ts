@@ -29,7 +29,17 @@ export const iconItemSchema = z.object({
 	preview_url: z.string().describe("Default CDN image URL, ready to use"),
 })
 
-export const iconHitSchema = iconItemSchema.extend({ score: z.number().describe("Relevance, higher is better") })
+export const iconHitSchema = iconItemSchema.extend({
+	score: z.number().describe("Relevance, higher is better"),
+	matched_variant: z
+		.object({
+			key: z.string().describe("Key of this Variant in get_icon urls, e.g. 'light', 'wordmark' or '4k'"),
+			label: z.string(),
+			stem: z.string().describe("File name without extension on the CDN"),
+		})
+		.optional()
+		.describe("The Variant the query named, e.g. the Light variant for 'github white'; absent when the query matched the icon itself"),
+})
 
 export const resolvedFromSchema = z.string().optional().describe("The name you asked for, when it was resolved loosely to `name`")
 

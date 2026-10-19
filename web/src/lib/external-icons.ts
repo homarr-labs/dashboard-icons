@@ -1,5 +1,6 @@
 import { cache } from "react"
 import { EXTERNAL_SOURCE_IDS, type ExternalSourceId, getExternalSource } from "@/constants"
+import { isLobehubVariantAlias } from "@/lib/lobehub-variants"
 import { createServerPB } from "@/lib/pb"
 import type { ExternalIcon, ExternalIconRecord, IconRecord, NativeIconRecord } from "@/types/icons"
 import { getIconsArray } from "./api"
@@ -26,15 +27,24 @@ function logExternalIconsFailure(error: unknown): void {
 
 function toExternalIconRecord(icon: ExternalIcon, { lite = false } = {}): ExternalIconRecord {
 	const sourceConfig = getExternalSource(icon.source)
-	const timestamp = icon.updated_at_source || icon.updated || icon.created || new Date(0).toISOString()
+	const updatedAt = icon.updated_at_source || icon.updated || icon.created || undefined
 	const formats = icon.formats ?? []
 	const aliases = icon.aliases ?? []
 	const categories = icon.categories ?? []
+	let license = icon.license || ""
+	if (!license && icon.source !== "simpleicons") license = sourceConfig.license
+	let licenseUrl = icon.license_url || undefined
+	if (license && !licenseUrl) {
+		if (license === sourceConfig.license) licenseUrl = sourceConfig.licenseUrl
+		else if (license !== "custom") licenseUrl = `https://spdx.org/licenses/${encodeURIComponent(license)}.html`
+	}
+	const lightKey = sourceConfig.toneKeys.light
+	const darkKey = sourceConfig.toneKeys.dark
 	const colors =
 		icon.variants?.light || icon.variants?.dark
 			? {
-					light: icon.variants?.light ? `${icon.slug}-light` : undefined,
-					dark: icon.variants?.dark ? `${icon.slug}-dark` : undefined,
+					light: icon.variants?.[lightKey] ? `${icon.slug}-${lightKey}` : undefined,
+					dark: icon.variants?.[darkKey] ? `${icon.slug}-${darkKey}` : undefined,
 				}
 			: undefined
 
@@ -54,19 +64,28 @@ function toExternalIconRecord(icon: ExternalIcon, { lite = false } = {}): Extern
 				source_url: "",
 				brand_color: icon.brand_color,
 			}
-		: { ...icon, formats, aliases, categories }
+		: {
+				...icon,
+				formats,
+				aliases,
+				categories,
+				license,
+				license_url: licenseUrl,
+				attribution: icon.attribution || `Icon by ${sourceConfig.label}`,
+			}
 
 	return {
 		source: icon.source,
 		slug: icon.slug,
 		name: icon.name,
 		external: externalData,
+		updatedAt,
 		data: {
 			base: formats.includes("svg") ? "svg" : formats.includes("png") ? "png" : "webp",
 			aliases,
 			categories,
 			update: {
-				timestamp,
+				timestamp: updatedAt ?? new Date(0).toISOString(),
 				author: {
 					id: sourceConfig.id,
 					name: sourceConfig.authorName,
@@ -137,17 +156,12 @@ export async function getExternalIconBySourceAndSlug(source: ExternalSourceId, s
 	}
 }
 
-export async function getExternalIconBySlug(slug: string): Promise<ExternalIconRecord | null> {
+export async function getSlugOwner(slug: string): Promise<ExternalIconRecord | null> {
 	const icons = await getExternalIcons()
-	const fromList = icons.find((icon) => icon.slug === slug)
-	if (!fromList) {
-		return null
-	}
-
-	return getExternalIconBySourceAndSlug(fromList.source, slug)
+	const owner = icons.find((icon) => icon.slug === slug)
+	if (owner) return owner
+	return icons.find((icon) => isLobehubVariantAlias(icon.external, slug)) ?? null
 }
-
-export const getExternalIcon = getExternalIconBySlug
 
 export async function listExternalIcons({ q = "", category, page = 1, perPage = 60 }: ListExternalIconsOptions = {}) {
 	const icons = await getExternalIcons()

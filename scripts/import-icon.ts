@@ -3,9 +3,19 @@
 import { appendFile, mkdir } from "node:fs/promises"
 
 import path from "node:path"
+import type { IconUpdate } from "../web/backend/pb_hooks/icon-update-policy.js"
+import {
+	addStemOwnership,
+	customVariantNameError,
+	stemCollisionError,
+	stemOwnership,
+	submissionVariantStems,
+} from "../web/backend/pb_hooks/variant-policy.js"
+import { importIconUpdate } from "./import-icon-update"
+import { persistIconAsset } from "./persist-icon-asset"
 
 type IconColors = { light?: string; dark?: string }
-type IconWordmark = { light?: string; dark?: string }
+type IconWordmark = { default?: string; light?: string; dark?: string }
 
 interface PBUser {
 	id: string
@@ -20,12 +30,14 @@ interface SubmissionExtras {
 	base?: string
 	colors?: IconColors
 	wordmark?: IconWordmark
+	variants?: Record<string, string>
 }
 
 interface Submission {
 	id: string
 	name: string
 	assets: string[]
+	icon_update?: IconUpdate | null
 	created_by: string
 	status: string
 	updated: string
@@ -62,9 +74,10 @@ interface MetadataEntry {
 	}
 	colors?: IconColors
 	wordmark?: IconWordmark
+	variants?: Record<string, string>
 }
 
-type VariantKey = "base" | "light" | "dark" | "wordmark-light" | "wordmark-dark"
+type VariantKey = string
 
 interface VariantTarget {
 	key: VariantKey
@@ -201,6 +214,14 @@ function buildTargets(submission: Submission): VariantTarget[] {
 		})
 	}
 
+	if (submission.extras?.wordmark?.default) {
+		targets.push({
+			key: "wordmark",
+			destFilename: `${iconId}-wordmark.${ext}`,
+			exactFilename: submission.extras.wordmark.default,
+		})
+	}
+
 	if (submission.extras?.wordmark?.light) {
 		targets.push({
 			key: "wordmark-light",
@@ -217,6 +238,13 @@ function buildTargets(submission: Submission): VariantTarget[] {
 		})
 	}
 
+	for (const [name, file] of Object.entries(submission.extras?.variants ?? {})) {
+		const error = customVariantNameError(name)
+		if (error) throw new Error(error)
+		const extension = path.extname(file).slice(1).toLowerCase()
+		if (!["svg", "png"].includes(extension)) throw new Error(`Custom variant ${name} must be an SVG or PNG`)
+		targets.push({ key: `custom:${name}`, destFilename: `${iconId}-${name}.${extension}`, exactFilename: file })
+	}
 	return targets
 }
 
@@ -265,25 +293,50 @@ function assignAssetsToTargets(assets: string[], targets: VariantTarget[]): Vari
 	}
 
 	// Return in original order
-	return targets.map((t) => ({
-		...t,
-		sourceAsset: assignments.get(t),
-	}))
+	return targets.map((target) => {
+		const sourceAsset = assignments.get(target)
+		let destFilename = target.destFilename
+		if (sourceAsset) {
+			const extension = path.extname(sourceAsset).toLowerCase()
+			if (![".svg", ".png"].includes(extension)) throw new Error(`Variant ${target.key} must be an SVG or PNG`)
+			destFilename = destFilename.replace(/\.[^.]+$/, extension)
+		}
+		return { ...target, destFilename, sourceAsset }
+	})
 }
 
-async function downloadAsset(pbUrl: string, submissionId: string, filename: string, destPath: string) {
-	const url = `${pbUrl}/api/files/submissions/${submissionId}/${encodeURIComponent(filename)}`
-	const res = await fetch(url, {
-		headers: { Authorization: PB_ADMIN_TOKEN ?? "" },
-	})
-
-	if (!res.ok) {
-		const body = await res.text()
-		throw new Error(`Failed to download asset ${filename}: ${res.status} ${body}`)
+async function activeSubmissions(pbUrl: string): Promise<Submission[]> {
+	const records: Submission[] = []
+	let page = 1
+	while (true) {
+		const query = new URLSearchParams({
+			page: String(page),
+			perPage: "500",
+			filter: 'status = "pending" || status = "approved"',
+			fields: "id,name,extras,icon_update",
+		})
+		const response = await fetch(`${pbUrl}/api/collections/submissions/records?${query}`, {
+			headers: { Authorization: PB_ADMIN_TOKEN ?? "" },
+		})
+		if (!response.ok) throw new Error(`Could not check pending asset ownership (${response.status})`)
+		const result = (await response.json()) as { items: Submission[]; totalPages: number }
+		records.push(...result.items)
+		if (page >= result.totalPages) return records
+		page++
 	}
+}
 
-	const buffer = await res.arrayBuffer()
-	await Bun.write(destPath, buffer)
+async function validateDestinations(submission: Submission, targets: VariantTarget[], active: Submission[]) {
+	const index = stemOwnership(await readMetadata())
+	for (const pending of active) {
+		if (pending.id === submission.id) continue
+		let stems = submissionVariantStems(pending.name, pending.extras)
+		if (pending.icon_update) stems = pending.icon_update.variants.map((change) => [change.key, change.destination])
+		addStemOwnership(index, pending.name, stems)
+	}
+	const stems = targets.map((target): [string, string] => [target.key, target.destFilename.replace(/\.[^.]+$/, "")])
+	const error = stemCollisionError(submission.name, stems, index)
+	if (error) throw new Error(error)
 }
 
 async function readMetadata(): Promise<Record<string, MetadataEntry>> {
@@ -356,6 +409,7 @@ function buildAuthor(submission: Submission): MetadataAuthor {
 function buildMetadataVariants(assignments: VariantTarget[]) {
 	const colors: IconColors = {}
 	const wordmark: IconWordmark = {}
+	const variants: Record<string, string> = {}
 
 	for (const v of assignments) {
 		// Only include variants that actually have a source asset assigned
@@ -368,40 +422,53 @@ function buildMetadataVariants(assignments: VariantTarget[]) {
 			colors.light = baseName
 		} else if (v.key === "dark") {
 			colors.dark = baseName
+		} else if (v.key === "wordmark") {
+			wordmark.default = baseName
 		} else if (v.key === "wordmark-light") {
 			wordmark.light = baseName
 		} else if (v.key === "wordmark-dark") {
 			wordmark.dark = baseName
+		} else if (v.key.startsWith("custom:")) {
+			variants[v.key.slice(7)] = baseName
 		}
 	}
 
 	return {
 		colors: Object.keys(colors).length ? colors : undefined,
 		wordmark: Object.keys(wordmark).length ? wordmark : undefined,
+		variants: Object.keys(variants).length ? variants : undefined,
 	}
 }
 
 async function upsertMetadata(submission: Submission, assignments: VariantTarget[], dryRun: boolean) {
 	const iconId = submission.name
-	const base = inferBase(submission.assets, submission.extras?.base)
+	const baseTarget = assignments.find((target) => target.key === "base" && target.sourceAsset)
+	if (!baseTarget) throw new Error("Submission has no Base file")
+	const base = path.extname(baseTarget.destFilename).slice(1)
 	const aliases = submission.extras?.aliases ?? []
 	const categories = submission.extras?.categories ?? []
-	const { colors, wordmark } = buildMetadataVariants(assignments)
+	const { colors, wordmark, variants } = buildMetadataVariants(assignments)
 	const author = buildAuthor(submission)
 
 	console.log(`[import-icon] Upserting metadata for "${iconId}" base=${base} aliases=${aliases.length} categories=${categories.length}`)
 
 	const data = await readMetadata()
+	const previous = Object.hasOwn(data, iconId) ? data[iconId] : undefined
+	const mergedColors = { ...previous?.colors, ...colors }
+	const mergedWordmark = { ...previous?.wordmark, ...wordmark }
+	const customVariants = { ...previous?.variants, ...variants }
 	const nextEntry: MetadataEntry = {
+		...previous,
 		base,
-		aliases,
-		categories,
+		aliases: [...(previous?.aliases ?? []), ...aliases.filter((alias) => !previous?.aliases.includes(alias))],
+		categories: [...(previous?.categories ?? []), ...categories.filter((category) => !previous?.categories.includes(category))],
 		update: {
 			timestamp: new Date().toISOString(),
 			author,
 		},
-		...(colors ? { colors } : {}),
-		...(wordmark ? { wordmark } : {}),
+		...(Object.keys(mergedColors).length ? { colors: mergedColors } : {}),
+		...(Object.keys(mergedWordmark).length ? { wordmark: mergedWordmark } : {}),
+		...(Object.keys(customVariants).length ? { variants: customVariants } : {}),
 	}
 
 	data[iconId] = nextEntry
@@ -421,7 +488,12 @@ async function persistAssets(pbUrl: string, submission: Submission, dryRun: bool
 	}
 
 	const targets = buildTargets(submission)
+	const active = await activeSubmissions(pbUrl)
+	await validateDestinations(submission, targets, active)
 	const assignments = assignAssetsToTargets(submission.assets, targets)
+	for (const target of assignments) {
+		if (target.exactFilename && !target.sourceAsset) throw new Error(`Variant ${target.key} does not reference an uploaded asset`)
+	}
 
 	for (const target of assignments) {
 		if (!target.sourceAsset) {
@@ -444,7 +516,9 @@ async function persistAssets(pbUrl: string, submission: Submission, dryRun: bool
 		}
 
 		await ensureDir(destDir)
-		await downloadAsset(pbUrl, submission.id, target.sourceAsset, destPath)
+		await persistIconAsset(pbUrl, PB_ADMIN_TOKEN || "", submission.id, target.sourceAsset, path.parse(target.destFilename).name, () =>
+			validateDestinations(submission, targets, active),
+		)
 		console.log(`Downloaded ${target.sourceAsset} -> ${destPath}`)
 	}
 
@@ -485,8 +559,18 @@ async function main() {
 		console.log(`[import-icon] Adding approver as co-author: ${submission.expand?.approved_by?.username || "unknown"}`)
 	}
 
-	const assignments = await persistAssets(pbUrl, submission, args.dryRun)
-	await upsertMetadata(submission, assignments, args.dryRun)
+	if (submission.icon_update)
+		await importIconUpdate(
+			pbUrl,
+			PB_ADMIN_TOKEN || "",
+			{ ...submission, icon_update: submission.icon_update },
+			args.dryRun,
+			buildAuthor(submission),
+		)
+	else {
+		const assignments = await persistAssets(pbUrl, submission, args.dryRun)
+		await upsertMetadata(submission, assignments, args.dryRun)
+	}
 
 	if (args.commitMessagePath) {
 		const creator = submission.expand?.created_by?.username || submission.created_by || "unknown"

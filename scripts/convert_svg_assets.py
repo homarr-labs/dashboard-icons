@@ -281,58 +281,39 @@ def load_metadata():
         print(f"Warning: Could not load metadata.json: {e}")
     return {}
 
+VARIANT_TONES = {
+    'colors': ('light', 'dark'),
+    'wordmark': ('default', 'light', 'dark'),
+}
+
+def icon_variant_stems(icon_name, icon_data):
+    stems = [icon_name]
+    for group, tones in VARIANT_TONES.items():
+        variants = icon_data.get(group)
+        if not isinstance(variants, dict):
+            continue
+        for tone in tones:
+            if variants.get(tone):
+                stems.append(variants[tone])
+    custom = icon_data.get('variants')
+    if isinstance(custom, dict):
+        stems.extend(stem for stem in custom.values() if isinstance(stem, str) and stem)
+    return stems
+
 def get_all_icon_variants(metadata):
     """Extract all variant names for each icon from metadata."""
-    variants_by_icon = {}
-    
-    for icon_name, icon_data in metadata.items():
-        if icon_name in EXCLUDED_FILES:
-            continue
-            
-        variants = [icon_name]  # Always include base icon name
-        
-        # Add color variants
-        if 'colors' in icon_data:
-            if 'light' in icon_data['colors']:
-                variants.append(icon_data['colors']['light'])
-            if 'dark' in icon_data['colors']:
-                variants.append(icon_data['colors']['dark'])
-        
-        # Add wordmark variants
-        if 'wordmark' in icon_data:
-            if 'light' in icon_data['wordmark']:
-                variants.append(icon_data['wordmark']['light'])
-            if 'dark' in icon_data['wordmark']:
-                variants.append(icon_data['wordmark']['dark'])
-        
-        variants_by_icon[icon_name] = variants
-    
-    return variants_by_icon
+    return {
+        icon_name: icon_variant_stems(icon_name, icon_data)
+        for icon_name, icon_data in metadata.items()
+        if icon_name not in EXCLUDED_FILES
+    }
 
 def get_all_variant_names(metadata):
     """Get a set of all variant names (base + all variants) from metadata."""
     all_names = set()
-    
     for icon_name, icon_data in metadata.items():
-        if icon_name in EXCLUDED_FILES:
-            continue
-            
-        all_names.add(icon_name)  # Base icon
-        
-        # Add color variants
-        if 'colors' in icon_data and isinstance(icon_data['colors'], dict):
-            if 'light' in icon_data['colors']:
-                all_names.add(icon_data['colors']['light'])
-            if 'dark' in icon_data['colors']:
-                all_names.add(icon_data['colors']['dark'])
-        
-        # Add wordmark variants
-        if 'wordmark' in icon_data and isinstance(icon_data['wordmark'], dict):
-            if 'light' in icon_data['wordmark']:
-                all_names.add(icon_data['wordmark']['light'])
-            if 'dark' in icon_data['wordmark']:
-                all_names.add(icon_data['wordmark']['dark'])
-    
+        if icon_name not in EXCLUDED_FILES:
+            all_names.update(icon_variant_stems(icon_name, icon_data))
     return all_names
 
 def outputs_exist_and_valid(png_path, webp_path):
@@ -388,21 +369,7 @@ if __name__ == "__main__":
         metadata = load_metadata()
         if metadata and force_retry_icon in metadata:
             icon_data = metadata[force_retry_icon]
-            force_retry_variants.add(force_retry_icon)  # Base icon
-            
-            # Add color variants
-            if 'colors' in icon_data and isinstance(icon_data['colors'], dict):
-                if 'light' in icon_data['colors']:
-                    force_retry_variants.add(icon_data['colors']['light'])
-                if 'dark' in icon_data['colors']:
-                    force_retry_variants.add(icon_data['colors']['dark'])
-            
-            # Add wordmark variants
-            if 'wordmark' in icon_data and isinstance(icon_data['wordmark'], dict):
-                if 'light' in icon_data['wordmark']:
-                    force_retry_variants.add(icon_data['wordmark']['light'])
-                if 'dark' in icon_data['wordmark']:
-                    force_retry_variants.add(icon_data['wordmark']['dark'])
+            force_retry_variants.update(icon_variant_stems(force_retry_icon, icon_data))
             
             print(f"Force retry enabled for icon '{force_retry_icon}' and its {len(force_retry_variants) - 1} variants: {', '.join(sorted(force_retry_variants))}")
         else:

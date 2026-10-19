@@ -1,29 +1,33 @@
 /// <reference path="../pb_data/types.d.ts" />
 
-const bulkRejectionBatches = globalThis.bulkRejectionBatches || (globalThis.bulkRejectionBatches = {})
+globalThis.bulkRejectionBatches ||= {}
+const bulkRejectionBatches = globalThis.bulkRejectionBatches
 
-function getHeader(requestInfo, name) {
-	const headers = requestInfo && requestInfo.headers ? requestInfo.headers : {}
-	const value = headers[name] || headers[name.toLowerCase()] || headers[name.toUpperCase()]
-	if (Array.isArray(value)) return value[0] || ""
-	if (value) return `${value}`
-	if (headers.get) return headers.get(name) || headers.get(name.toLowerCase()) || ""
-	return ""
+function escapeHtml(value) {
+	return String(value).replace(
+		/[&<>"']/g,
+		(character) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[character],
+	)
+}
+
+function fixupSection(fixups) {
+	if (!fixups || !fixups.length) return ""
+	return `<div style="margin: 20px 0; color: #374151;"><h3 style="font-size: 16px;">Reviewer fix-ups saved with this decision</h3><ul>${Array.from(fixups, (change) => `<li>${escapeHtml(change)}</li>`).join("")}</ul></div>`
 }
 
 function queueBulkRejection(batchId, item) {
-	const batch = bulkRejectionBatches[batchId] || (bulkRejectionBatches[batchId] = { users: {} })
-	const user =
-		batch.users[item.email] ||
-		(batch.users[item.email] = {
-			email: item.email,
-			name: item.userName,
-			reviewerName: item.reviewerName,
-			comment: item.adminComment,
-			submissions: [],
-		})
+	bulkRejectionBatches[batchId] ||= { users: {} }
+	const batch = bulkRejectionBatches[batchId]
+	batch.users[item.email] ||= {
+		email: item.email,
+		name: item.userName,
+		reviewerName: item.reviewerName,
+		comment: item.adminComment,
+		submissions: [],
+	}
+	const user = batch.users[item.email]
 
-	user.submissions.push({ id: item.recordId, name: item.submissionName })
+	user.submissions.push({ id: item.recordId, name: item.submissionName, fixups: item.fixups })
 }
 
 function sendMessage(app, to, subject, html) {
@@ -46,13 +50,18 @@ function sendBulkRejectionEmails(app, batchId, logger) {
 
 	const users = Object.values(batch.users)
 	for (const user of users) {
-		const names = user.submissions.map((submission) => `<li><strong>${submission.name}</strong></li>`).join("")
+		const names = user.submissions
+			.map(
+				(submission) =>
+					`<li><strong>${escapeHtml(submission.name)}</strong>: <a href="https://dashboardicons.com/submit?submission=${encodeURIComponent(submission.id)}">Fix and resubmit</a>${fixupSection(submission.fixups)}</li>`,
+			)
+			.join("")
 		const count = user.submissions.length
 		const comment = user.comment
 			? `
             <div style="margin: 20px 0; padding: 15px; background-color: #fef2f2; border-left: 4px solid #dc2626; border-radius: 4px;">
                 <h3 style="margin-top: 0; color: #dc2626; font-size: 14px; text-transform: uppercase;">Reason for Rejection</h3>
-                <p style="margin-bottom: 0; white-space: pre-wrap; color: #7f1d1d;">${user.comment}</p>
+                <p style="margin-bottom: 0; white-space: pre-wrap; color: #7f1d1d;">${escapeHtml(user.comment)}</p>
             </div>
         `
 			: ""
@@ -74,7 +83,7 @@ function sendBulkRejectionEmails(app, batchId, logger) {
                 <ul style="font-size: 16px; line-height: 1.6; color: #374151;">${names}</ul>
                 ${comment}
                 <p style="font-size: 16px; line-height: 1.5; color: #374151;">
-                    You can review the feedback and submit new versions or try different icons.
+                    Rejections are never final. Fix the feedback and resubmit each Submission using its link above. Its id and history are kept; do not create a duplicate.
                 </p>
                 <div style="margin: 25px 0; text-align: center;">
                     <a href="https://dashboardicons.com/dashboard" style="background-color: #4b5563; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: bold; display: inline-block;">Manage Submissions</a>
@@ -178,6 +187,7 @@ function notify(e) {
 				userName: userName,
 				reviewerName: reviewerName,
 				adminComment: adminComment,
+				fixups: record.get("__review_fixups"),
 			})
 			logger.info("Queued bulk rejection email", "to", userEmail, "submission_id", recordId, "batch_id", bulkRejectId)
 			return
@@ -237,6 +247,7 @@ function notify(e) {
                     Thank you for your contribution to the icon collection. Your work helps make Dashboard Icons better for everyone.
                 </p>
                 ${buildAdminCommentSection(successColor, "#ecfdf3")}
+                ${fixupSection(record.get("__review_fixups"))}
                 <div style="margin: 25px 0; text-align: center;">
                     <a href="${dashboardLink}" style="background-color: ${successColor}; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: bold; display: inline-block;">View in Dashboard</a>
                 </div>
@@ -260,10 +271,11 @@ function notify(e) {
 										: ""
 								}
                 <p style="font-size: 16px; line-height: 1.5; color: #374151;">
-                    Don't be discouraged! You can review the feedback and submit a new version or try a different icon.
+                    Rejections are never final. Fix the feedback and resubmit this same Submission. Its id and history are kept; do not create a duplicate.
                 </p>
+                ${fixupSection(record.get("__review_fixups"))}
                 <div style="margin: 25px 0; text-align: center;">
-                    <a href="${dashboardLink}" style="background-color: ${neutralColor}; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: bold; display: inline-block;">Manage Submissions</a>
+                    <a href="https://dashboardicons.com/submit?submission=${encodeURIComponent(recordId)}" style="background-color: ${neutralColor}; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: bold; display: inline-block;">Fix and resubmit</a>
                 </div>
             `
 		} else if (newStatus === "added_to_collection") {

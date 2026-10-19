@@ -58,6 +58,11 @@ jobs:
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2
 
+      - name: Install Variant conversion tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y inkscape python3-pil
+
       - name: Configure git user
         run: |
           git config user.name "github-actions[bot]"

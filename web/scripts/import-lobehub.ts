@@ -1,6 +1,7 @@
 import fs from "node:fs"
 import path from "node:path"
 import PocketBase from "pocketbase"
+import { getLobehubBaseSlug } from "../src/lib/lobehub-variants"
 
 type GitHubTreeEntry = {
 	path: string
@@ -16,14 +17,6 @@ type GitHubTreeResponse = {
 	url: string
 	tree: GitHubTreeEntry[]
 	truncated: boolean
-}
-
-type GitHubContentsEntry = {
-	name: string
-	path: string
-	sha: string
-	size: number
-	type: string
 }
 
 const SOURCE = "lobehub"
@@ -52,7 +45,7 @@ const SYNONYMS: Record<string, string[]> = {
 	anthropic: ["claude"],
 	google: ["gemini", "bard"],
 	meta: ["llama"],
-	"deepseek": ["deepseek-coder", "deepseek-v2", "deepseek-v3"],
+	deepseek: ["deepseek-coder", "deepseek-v2", "deepseek-v3"],
 	mistral: ["mixtral"],
 	stability: ["stable-diffusion", "sdxl"],
 	midjourney: ["mj"],
@@ -66,10 +59,6 @@ function slugToName(slug: string): string {
 		.split("-")
 		.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
 		.join(" ")
-}
-
-function getBaseSlug(slug: string): string {
-	return slug.replace(/-(color|text|avatar|combine)$/, "")
 }
 
 function extractSlugsFromPrefix(tree: GitHubTreeEntry[], prefix: string, ext: string): Set<string> {
@@ -117,7 +106,7 @@ function parseFrontmatter(content: string): Record<string, string> {
 
 async function fetchBrandMetadata(tree: GitHubTreeEntry[], headers: Record<string, string>): Promise<Map<string, BrandMeta>> {
 	const mdPaths = tree
-		.filter((e) => e.type === "blob" && e.path.startsWith(PREFIXES.srcMd) && e.path.endsWith("/index.md"))
+		.filter((e) => e.type === "blob" && e.path.startsWith(PREFIXES.srcMd) && /\/index\.mdx?$/.test(e.path))
 		.map((e) => e.path)
 
 	const meta = new Map<string, BrandMeta>()
@@ -133,10 +122,12 @@ async function fetchBrandMetadata(tree: GitHubTreeEntry[], headers: Record<strin
 					const text = await res.text()
 					const fm = parseFrontmatter(text)
 					const folder = p.split("/")[1]
-					if (folder && fm.group) {
-						return { folder, group: fm.group, title: fm.title || folder }
+					if (folder && fm.title) {
+						return { folder, group: fm.group || fm.category || "", title: fm.title }
 					}
-				} catch { /* skip */ }
+				} catch (error) {
+					console.warn(`Could not fetch brand metadata for ${p}:`, error)
+				}
 				return null
 			}),
 		)
@@ -150,43 +141,40 @@ async function fetchBrandMetadata(tree: GitHubTreeEntry[], headers: Record<strin
 
 function buildSlugToBrand(svgSlugs: Set<string>, brandMeta: Map<string, BrandMeta>): Map<string, BrandMeta> {
 	const result = new Map<string, BrandMeta>()
-	const brandKeys = Array.from(brandMeta.keys())
 
 	for (const slug of svgSlugs) {
-		const base = getBaseSlug(slug)
-		const match = brandKeys.find((k) => k === base || k === slug)
-		if (match) {
-			result.set(slug, brandMeta.get(match)!)
-		}
+		const base = getLobehubBaseSlug(slug)
+		const brand = brandMeta.get(base) ?? brandMeta.get(slug)
+		if (brand) result.set(slug, brand)
 	}
 	return result
 }
 
 function buildUrlTemplates(slug: string, index: AssetIndex) {
 	const templates: Record<string, string> = {
-		svg: `${CDN.svg}/icons/{slug}.svg`,
+		svg: `${CDN.svg}/icons/${slug}.svg`,
 	}
 
 	const hasPngLight = index.pngLightSlugs.has(slug)
 	const hasPngDark = index.pngDarkSlugs.has(slug)
 	if (hasPngLight) {
-		templates.png = `${CDN.png}/light/{slug}.png`
-		templates.png_light = `${CDN.png}/light/{slug}.png`
+		templates.png = `${CDN.png}/light/${slug}.png`
+		templates.png_light = `${CDN.png}/light/${slug}.png`
 	}
 	if (hasPngDark) {
-		templates.png_dark = `${CDN.png}/dark/{slug}.png`
-		if (!hasPngLight) templates.png = `${CDN.png}/dark/{slug}.png`
+		templates.png_dark = `${CDN.png}/dark/${slug}.png`
+		if (!hasPngLight) templates.png = `${CDN.png}/dark/${slug}.png`
 	}
 
 	const hasWebpLight = index.webpLightSlugs.has(slug)
 	const hasWebpDark = index.webpDarkSlugs.has(slug)
 	if (hasWebpLight) {
-		templates.webp = `${CDN.webp}/light/{slug}.webp`
-		templates.webp_light = `${CDN.webp}/light/{slug}.webp`
+		templates.webp = `${CDN.webp}/light/${slug}.webp`
+		templates.webp_light = `${CDN.webp}/light/${slug}.webp`
 	}
 	if (hasWebpDark) {
-		templates.webp_dark = `${CDN.webp}/dark/{slug}.webp`
-		if (!hasWebpLight) templates.webp = `${CDN.webp}/dark/{slug}.webp`
+		templates.webp_dark = `${CDN.webp}/dark/${slug}.webp`
+		if (!hasWebpLight) templates.webp = `${CDN.webp}/dark/${slug}.webp`
 	}
 
 	return templates
@@ -207,40 +195,50 @@ function getVariants(slug: string, index: AssetIndex) {
 }
 
 type BrandGroup = {
+	slug: string
 	primary: string
+	members: string[]
 	aliases: string[]
 }
 
 function groupSlugs(svgSlugs: Set<string>): BrandGroup[] {
 	const groups = new Map<string, string[]>()
 	for (const slug of svgSlugs) {
-		const base = getBaseSlug(slug)
-		if (!groups.has(base)) groups.set(base, [])
-		groups.get(base)!.push(slug)
+		const base = getLobehubBaseSlug(slug)
+		const members = groups.get(base) ?? []
+		members.push(slug)
+		groups.set(base, members)
 	}
 
 	const result: BrandGroup[] = []
 	for (const [base, members] of groups) {
-		const colorSlug = members.find((m) => m.endsWith("-color"))
+		const colorSlug = members.find((m) => m === `${base}-color`)
 		const primary = colorSlug ?? members.find((m) => m === base) ?? members[0]
-		const aliases = members.filter((m) => m !== primary)
+		const aliases = members.filter((m) => m !== base)
 		const synonyms = SYNONYMS[base] ?? []
-		result.push({ primary, aliases: [...aliases, ...synonyms] })
+		result.push({ slug: base, primary, members, aliases: [...new Set([...aliases, ...synonyms])] })
 	}
 	return result
 }
 
-function toRecord(
-	group: BrandGroup,
-	index: AssetIndex,
-	slugBrandMap: Map<string, BrandMeta>,
-) {
-	const { primary: slug, aliases } = group
-	const brand = slugBrandMap.get(slug)
+function toRecord(group: BrandGroup, index: AssetIndex, slugBrandMap: Map<string, BrandMeta>) {
+	const { slug, primary, members, aliases } = group
+	const brand = slugBrandMap.get(primary)
 	const categories = ["ai"]
 	if (brand?.group) categories.push(brand.group.toLowerCase())
 
-	const name = brand?.title ?? slugToName(getBaseSlug(slug))
+	const name = brand?.title ?? slugToName(slug)
+	const urlTemplates = buildUrlTemplates(primary, index)
+	for (const member of members) {
+		if (member === primary) continue
+		const variant = member === slug ? "monochrome" : member.slice(slug.length + 1)
+		for (const [key, url] of Object.entries(buildUrlTemplates(member, index))) {
+			const [format, tone] = key.split("_")
+			let variantKey = `${format}_${variant}`
+			if (tone) variantKey += `_${tone}`
+			urlTemplates[variantKey] = url
+		}
+	}
 
 	return {
 		source: SOURCE,
@@ -248,12 +246,12 @@ function toRecord(
 		name,
 		aliases,
 		categories,
-		formats: getFormats(slug, index),
-		variants: getVariants(slug, index),
-		url_templates: buildUrlTemplates(slug, index),
+		formats: getFormats(primary, index),
+		variants: getVariants(primary, index),
+		url_templates: urlTemplates,
 		license: LICENSE,
 		attribution: ATTRIBUTION,
-		source_url: `${SOURCE_URL}/${getBaseSlug(slug)}`,
+		source_url: `${SOURCE_URL}/${slug}`,
 		updated_at_source: null,
 	}
 }
@@ -274,7 +272,7 @@ async function fetchTree(): Promise<GitHubTreeResponse> {
 
 	const data = (await res.json()) as GitHubTreeResponse
 	if (data.truncated) {
-		console.warn("Warning: GitHub tree response was truncated, some icons may be missing")
+		throw new Error("GitHub tree response was truncated; refusing to synchronize an incomplete catalogue")
 	}
 	return data
 }
@@ -291,7 +289,9 @@ function readLocalTree(): GitHubTreeEntry[] | null {
 	}
 
 	if (typeof data === "object" && !Array.isArray(data) && "tree" in data) {
-		return (data as GitHubTreeResponse).tree
+		const manifest = data as GitHubTreeResponse
+		if (manifest.truncated) throw new Error("Local manifest was truncated; refusing to synchronize an incomplete catalogue")
+		return manifest.tree
 	}
 
 	return null
@@ -347,14 +347,17 @@ async function main() {
 	}
 
 	const index = indexTree(tree)
-	console.log(`Found: ${index.svgSlugs.size} SVGs, ${index.pngLightSlugs.size} PNG light, ${index.pngDarkSlugs.size} PNG dark, ${index.webpLightSlugs.size} WebP light, ${index.webpDarkSlugs.size} WebP dark`)
+	if (index.svgSlugs.size === 0) throw new Error("No SVG assets found; refusing to synchronize an empty catalogue")
+	console.log(
+		`Found: ${index.svgSlugs.size} SVGs, ${index.pngLightSlugs.size} PNG light, ${index.pngDarkSlugs.size} PNG dark, ${index.webpLightSlugs.size} WebP light, ${index.webpDarkSlugs.size} WebP dark`,
+	)
 
 	const headers: Record<string, string> = {}
 	if (process.env.GH_TOKEN || process.env.GITHUB_TOKEN) {
 		headers.Authorization = `Bearer ${process.env.GH_TOKEN || process.env.GITHUB_TOKEN}`
 	}
 
-	console.log("Fetching brand metadata from src/*/index.md...")
+	console.log("Fetching brand metadata from src/*/index.md(x)...")
 	const brandMeta = await fetchBrandMetadata(tree, headers)
 	console.log(`Parsed metadata for ${brandMeta.size} brands`)
 
@@ -362,12 +365,21 @@ async function main() {
 	const groups = groupSlugs(index.svgSlugs)
 	console.log(`Grouped into ${groups.length} brands (from ${index.svgSlugs.size} slugs)`)
 
-	const existingRecords = await pb.collection("external_icons").getFullList({
+	const existingRecords = await pb.collection("external_icons").getFullList<{ id: string; slug: string; aliases?: string[] }>({
 		filter: pb.filter("source = {:source}", { source: SOURCE }),
-		fields: "id,slug",
+		fields: "id,slug,aliases",
 		requestKey: null,
 	})
-	const existingBySlug = new Map(existingRecords.map((r) => [r.slug as string, r.id as string]))
+	const existingBySlug = new Map(existingRecords.map((record) => [record.slug, record.id]))
+	const historicalAliases = new Map<string, Set<string>>()
+	for (const record of existingRecords) {
+		const baseSlug = getLobehubBaseSlug(record.slug)
+		const aliases = historicalAliases.get(baseSlug) ?? new Set<string>()
+		for (const alias of [record.slug, ...(record.aliases ?? [])]) {
+			if (alias !== baseSlug && getLobehubBaseSlug(alias) === baseSlug) aliases.add(alias)
+		}
+		historicalAliases.set(baseSlug, aliases)
+	}
 
 	let created = 0
 	let updated = 0
@@ -376,11 +388,12 @@ async function main() {
 
 	for (const group of groups) {
 		const record = toRecord(group, index, slugBrandMap)
-		importedSlugs.add(group.primary)
-		const existingId = existingBySlug.get(group.primary)
+		record.aliases = [...new Set([...record.aliases, ...(historicalAliases.get(group.slug) ?? [])])].sort()
+		importedSlugs.add(group.slug)
+		const existingId = existingBySlug.get(group.slug)
 
 		if (flags.dryRun) {
-			console.log(`[dry-run] ${existingId ? "update" : "create"}: ${group.primary} (aliases: ${group.aliases.join(", ") || "none"})`)
+			console.log(`[dry-run] ${existingId ? "update" : "create"}: ${group.slug} (aliases: ${record.aliases.join(", ") || "none"})`)
 			existingId ? updated++ : created++
 			continue
 		}
@@ -401,7 +414,9 @@ async function main() {
 		}
 	}
 
-	console.log(`LobeHub import complete: ${created} created, ${updated} updated, ${deleted} removed (non-primary variants)${flags.dryRun ? " (dry run)" : ""}`)
+	console.log(
+		`LobeHub import complete: ${created} created, ${updated} updated, ${deleted} removed (non-primary variants)${flags.dryRun ? " (dry run)" : ""}`,
+	)
 }
 
 main().catch((error) => {

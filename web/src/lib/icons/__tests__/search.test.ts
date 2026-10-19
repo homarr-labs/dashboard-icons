@@ -1,14 +1,17 @@
 import { describe, expect, it } from "vitest"
+import { getNativeIconVariants } from "@/lib/icons/files"
 import {
 	calculateStringSimilarity,
 	containsCharsInOrder,
 	filterAndSortIcons,
+	findMatchedVariant,
 	fuzzySearch,
 	levenshteinDistance,
 	normalizeForSearch,
 	type SortOption,
 	scoreIcon,
 } from "@/lib/icons/search"
+import { type IconVariantMatch, matchIconVariant, resolveIconVariants, variantToneClass } from "@/lib/icons/variants"
 import type { IconWithName } from "@/types/icons"
 
 const mockIcon = (
@@ -279,6 +282,103 @@ describe("scoreIcon", () => {
 
 	it("scores icons without aliases using name only", () => {
 		expect(scoreIcon(mockIcon("docker"), "docker")).toBeGreaterThan(0)
+	})
+})
+
+describe("variant search", () => {
+	it("omits declared files that do not exist in the native format inventory", () => {
+		const icon = mockIcon("sonarr", { variants: { missing: "sonarr-missing-variant" } })
+		expect(getNativeIconVariants(icon.name, icon.data).map(({ stem }) => stem)).toEqual(["sonarr"])
+	})
+
+	it("keeps an exact compound brand match instead of reinterpreting its suffix as a Variant", () => {
+		const icon = mockIcon("github-light", { colors: { light: "github-light-white" } })
+		expect(findMatchedVariant(icon, "github light")).toBeNull()
+		expect(scoreIcon(icon, "github light")).toBeCloseTo(3.3833)
+		expect(filterAndSortIcons({ icons: [icon], query: "github light" })).toEqual([icon])
+	})
+
+	it("does not select a Variant for blank queries", () => {
+		expect(findMatchedVariant(mockIcon("sonarr"), " \t ")).toBeNull()
+	})
+
+	it.each([
+		[undefined, undefined],
+		["default", undefined],
+		["wordmark", undefined],
+		["light", "bg-zinc-900 ring-zinc-700"],
+		["dark", "bg-white ring-zinc-200"],
+		["wordmark-light", "bg-zinc-900 ring-zinc-700"],
+		["wordmark-dark", "bg-white ring-zinc-200"],
+		["animated-light", "bg-zinc-900 ring-zinc-700"],
+		["animated-dark", "bg-white ring-zinc-200"],
+		["animated", undefined],
+	])("chooses a readable preview background for %s", (key, expected) => {
+		let variant: IconVariantMatch | undefined
+		if (key) variant = { key, label: key, stem: `sonarr-${key}` }
+		expect(variantToneClass(variant)).toBe(expected)
+	})
+
+	it("ignores reserved Custom keys without losing legitimate variants", () => {
+		const icon = mockIcon("sonarr", { variants: { light: "sonarr-invalid-light", outline: "sonarr-outline" } })
+		expect(resolveIconVariants(icon.name, icon.data)).toEqual([
+			{ key: "default", label: "Base", stem: "sonarr", keys: ["default"] },
+			{ key: "outline", label: "outline", stem: "sonarr-outline", keys: ["outline"] },
+		])
+		expect(matchIconVariant(icon, "sonarr light")).toBeNull()
+	})
+
+	it("does not expose an empty Base stem while resolving available declared variants", () => {
+		expect(resolveIconVariants("", { variants: { outline: "sonarr-outline" } })).toEqual([
+			{ key: "outline", label: "outline", stem: "sonarr-outline", keys: ["outline"] },
+		])
+	})
+
+	it("does not match a Custom term without a parent name", () => {
+		const icon = mockIcon("sonarr", { variants: { "animated-outline": "sonarr-animated-outline" } })
+		expect(matchIconVariant(icon, "animated outline")).toBeNull()
+		expect(matchIconVariant(icon, "sonarr animated outline")).toMatchObject({ key: "animated-outline", rest: "sonarr" })
+	})
+
+	it("uses actual per-stem formats for mixed SVG and PNG Custom variants", () => {
+		const svgBase = mockIcon("sonarr", { base: "svg", variants: { raster: "radarr-3d" } })
+		const pngBase = mockIcon("radarr-3d", { base: "png", variants: { vector: "sonarr" } })
+		expect(getNativeIconVariants(svgBase.name, svgBase.data).find((variant) => variant.key === "raster")?.formats).toEqual(["png", "webp"])
+		expect(getNativeIconVariants(pngBase.name, pngBase.data).find((variant) => variant.key === "vector")?.formats).toEqual([
+			"svg",
+			"png",
+			"webp",
+		])
+	})
+
+	const github = mockIcon("github", { colors: { dark: "github", light: "github-light" } })
+	const helix = mockIcon("helix", { wordmark: { light: "helix-light", dark: "helix-dark" } })
+	const sonarr = mockIcon("sonarr", { variants: { "4k": "sonarr-4k" } })
+	const icons = [mockIcon("github-desktop"), github, helix, mockIcon("helixcore"), sonarr]
+
+	it.each([
+		["github white", "github", "light", "github-light"],
+		["github for dark background", "github", "light", "github-light"],
+		["helix wordmark", "helix", "wordmark-light", "helix-light"],
+		["sonarr 4k", "sonarr", "4k", "sonarr-4k"],
+	])("ranks the parent icon first for %s and reports the matched Variant", (query, name, key, stem) => {
+		const [first] = filterAndSortIcons({ icons, query })
+		expect(first?.name).toBe(name)
+		expect(findMatchedVariant(first, query)).toMatchObject({ key, stem })
+	})
+
+	it.each([
+		["dark mode", mockIcon("rust", { aliases: ["modern-language"], colors: { light: "rust", dark: "rust-dark" } })],
+		["white logo", mockIcon("nrk-logo", { colors: { light: "nrk-logo-light" } })],
+		["dark reader", mockIcon("readwise-reader", { aliases: ["reader"], colors: { dark: "readwise-reader-dark" } })],
+		["github dark", mockIcon("gitea", { categories: ["github"], colors: { dark: "gitea-dark" } })],
+	])("reports no Variant for %s", (query, icon) => {
+		expect(findMatchedVariant(icon, query)).toBeNull()
+	})
+
+	it("reports no Variant for plain name queries", () => {
+		expect(findMatchedVariant(github, "github")).toBeNull()
+		expect(findMatchedVariant(helix, "helix dark")).toBeNull()
 	})
 })
 

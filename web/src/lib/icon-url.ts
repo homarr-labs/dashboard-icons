@@ -11,7 +11,7 @@ function resolveFormat(base: IconSearchEntry["data"]["base"]): IconFormat {
 	return "svg"
 }
 
-export function getIconImageUrl(icon: IconSearchEntry): string {
+export function getIconImageUrl(icon: IconSearchEntry, stem = icon.name): string {
 	if (icon.source && icon.source !== "native" && icon.external) {
 		return getExternalIconPreviewUrl(icon.external)
 	}
@@ -21,5 +21,5 @@ export function getIconImageUrl(icon: IconSearchEntry): string {
 		return base
 	}
 
-	return buildIconUrl(icon.name, resolveFormat(base))
+	return buildIconUrl(stem, resolveFormat(base))
 }

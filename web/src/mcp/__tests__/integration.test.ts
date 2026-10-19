@@ -6,7 +6,10 @@ import type { ExternalIconRecord, Icon, IconFile } from "@/types/icons"
 
 type CapturedEvent = { distinctId: string; event: string; properties: Record<string, unknown> }
 
-const { captured } = vi.hoisted(() => ({ captured: [] as CapturedEvent[] }))
+const { captured, submissionWrites } = vi.hoisted(() => ({
+	captured: [] as CapturedEvent[],
+	submissionWrites: [] as Record<string, unknown>[],
+}))
 
 function nativeIcon(overrides: Partial<Icon> = {}): Icon {
 	return {
@@ -67,9 +70,24 @@ vi.mock("@/lib/pb", () => ({
 	createServerPB: () => ({
 		authStore: { save: () => {} },
 		filter: (expression: string) => expression,
+		send: async (_path: string, options: { query: { name: string } }) => ({
+			kind: "published",
+			name: options.query.name,
+			id: "",
+			revision: "rev-1",
+			updated: "",
+			status: "published",
+			metadata: { base: "svg", aliases: ["Plex Media"], categories: ["Media"] },
+			files: { base: `${options.query.name}.svg`, light: `${options.query.name}-light.svg` },
+			source: { commit: "a".repeat(40), blobs: {} },
+		}),
 		collection: () => ({
 			authRefresh: async () => ({ token: "pb-fresh-secret", record: { id: "user_123", username: "iconfan", admin: false } }),
-			create: async (body: { name: string }) => ({ id: "rec1", name: body.name, status: "pending" }),
+			create: async (body: Record<string, unknown>) => {
+				submissionWrites.push(body)
+				return { id: "rec1", name: body.name, status: "pending" }
+			},
+			getFullList: async () => [],
 			getList: async () => ({
 				items: [{ id: "rec1", name: "my-app", status: "pending", admin_comment: "", created: "2026-10-15", updated: "2026-10-15" }],
 				totalItems: 1,
@@ -80,6 +98,9 @@ vi.mock("@/lib/pb", () => ({
 vi.mock("@/lib/icons/service", () => ({ getAllIcons: async () => NATIVE_ICONS }))
 vi.mock("@/lib/external-icons", () => ({ getExternalIcons: async () => EXTERNAL_ICONS, getExternalIconBySourceAndSlug: async () => null }))
 vi.mock("@/lib/icons/svg-fetch", () => ({ fetchTrustedSvg: async (url: string) => `<svg data-url="${url}"/>` }))
+vi.mock("@/lib/icons/native-icon-files.json", () => ({
+	default: { "svg,png,webp": ["plex", "plex-dark", "lmstudio"], "png,webp": ["ntopng"] },
+}))
 vi.mock("@/constants", async (importOriginal) => ({
 	...(await importOriginal<typeof import("@/constants")>()),
 	WEB_URL: "https://dashboardicons.com",
@@ -95,7 +116,7 @@ type RpcResponse = {
 		content?: { type: string; text: string }[]
 		structuredContent?: Record<string, unknown>
 		isError?: boolean
-		tools?: { name: string; outputSchema?: Record<string, unknown> }[]
+		tools?: { name: string; inputSchema?: Record<string, unknown>; outputSchema?: Record<string, unknown> }[]
 		serverInfo?: { name: string }
 		contents?: { uri: string; mimeType: string; text: string }[]
 		messages?: { content: { text: string } }[]
@@ -167,6 +188,7 @@ describe("MCP over HTTP (real wiring)", () => {
 	beforeEach(() => {
 		vi.resetModules()
 		captured.length = 0
+		submissionWrites.length = 0
 		vi.stubEnv("NEXT_PUBLIC_POSTHOG_KEY", "phc_test")
 		vi.stubEnv("NEXT_PUBLIC_DISABLE_POSTHOG", "false")
 		vi.stubEnv("MCP_SERVER_BUILD", "abc123")
@@ -320,7 +342,11 @@ describe("MCP over HTTP (real wiring)", () => {
 		const svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1 1"><path d="M0 0h1v1z"/></svg>'
 
 		const calls: [string, Record<string, unknown>, Record<string, unknown>][] = [
-			["submit_icon", { name: "my-app", svg, categories: ["tools"] }, { id: "rec1", status: "pending" }],
+			[
+				"submit_icon",
+				{ name: "my-app", svg, categories: ["tools"], variants: { light: svg, wordmark: svg, wordmark_dark: svg, custom: { "4k": svg } } },
+				{ id: "rec1", status: "pending" },
+			],
 			["list_my_submissions", {}, { total: 1, submissions: [expect.objectContaining({ id: "rec1" })] }],
 		]
 		let id = 2
@@ -334,6 +360,12 @@ describe("MCP over HTTP (real wiring)", () => {
 				valid: true,
 			})
 		}
+		expect(submissionWrites).toHaveLength(1)
+		expect(submissionWrites[0]?.extras).toMatchObject({
+			colors: { light: "my-app-light.svg" },
+			wordmark: { default: "my-app-wordmark.svg", dark: "my-app-wordmark-dark.svg" },
+			variants: { "4k": "my-app-4k.svg" },
+		})
 
 		const anonymous = await rpc(
 			await handleMcpRequest(modernRequest(9, "tools/call", { name: "list_my_submissions", arguments: {} }, "list_my_submissions")),
@@ -348,6 +380,106 @@ describe("MCP over HTTP (real wiring)", () => {
 		])
 		const logged = JSON.stringify(captured)
 		for (const secret of ["pb-old-secret", "pb-fresh-secret", "mcp-access-secret"]) expect(logged).not.toContain(secret)
+	})
+
+	it("rejects malformed or malicious inline Variants through real MCP validation without writes", async () => {
+		const { handleMcpRequest } = await importHttp()
+		const authInfo: AuthInfo = {
+			token: "opaque",
+			clientId: "client",
+			scopes: ["account"],
+			extra: { userId: "user_123", username: "iconfan", admin: false, pbToken: "pb-token" },
+		}
+		const svg = '<svg xmlns="http://www.w3.org/2000/svg"><path d="M0 0h1v1z"/></svg>'
+		for (const variants of [
+			{ white: svg },
+			{ custom: { dark: svg } },
+			{ custom: { animated: '<svg xmlns="http://www.w3.org/2000/svg"><script>alert(1)</script></svg>' } },
+		]) {
+			const result = await rpc(
+				await handleMcpRequest(
+					modernRequest(1, "tools/call", { name: "submit_icon", arguments: { name: "my-app", svg, variants } }, "submit_icon"),
+					authInfo,
+				),
+			)
+			expect(result.result?.isError).toBe(true)
+		}
+		expect(submissionWrites).toHaveLength(0)
+	})
+
+	it("advertises the update proposal schema and files a revision-pinned update through real authenticated MCP wiring", async () => {
+		const { handleMcpRequest } = await importHttp()
+		const authInfo: AuthInfo = {
+			token: "mcp-access-secret",
+			clientId: "client",
+			scopes: ["account"],
+			extra: { userId: "user_123", username: "iconfan", admin: false, pbToken: "pb-old-secret" },
+		}
+		const list = await rpc(await handleMcpRequest(modernRequest(1, "tools/list", {})))
+		const tool = list.result?.tools?.find((item) => item.name === "propose_icon_update")
+		expect(list.result?.tools).toHaveLength(10)
+		expect(tool?.inputSchema?.required).toEqual(expect.arrayContaining(["name"]))
+		expect(tool?.inputSchema?.required).not.toContain("svg")
+		expect(tool?.inputSchema?.required).not.toContain("variants")
+		const args = {
+			name: "plex",
+			variants: { wordmark: '<svg xmlns="http://www.w3.org/2000/svg"><path d="M0 0h1v1z"/></svg>' },
+			remove: [{ key: "light", note: "Obsolete artwork" }],
+			categories: [],
+		}
+		const filed = await rpc(
+			await handleMcpRequest(
+				modernRequest(2, "tools/call", { name: "propose_icon_update", arguments: args }, "propose_icon_update"),
+				authInfo,
+			),
+		)
+		expect(filed.result?.isError).toBeUndefined()
+		expect(filed.result?.structuredContent).toMatchObject({ id: "rec1", url: expect.stringContaining("rec1") })
+		expect(submissionWrites).toHaveLength(1)
+		expect(submissionWrites[0]).toMatchObject({
+			name: "plex",
+			target_submission: "",
+			icon_update: {
+				target: { revision: "rev-1", kind: "published" },
+				variants: [
+					{ key: "wordmark", action: "add", destination: "plex-wordmark" },
+					{ key: "light", action: "remove", destination: "plex-light.svg", note: "Obsolete artwork" },
+				],
+				aliases: { add: [], remove: [] },
+				categories: { add: [], remove: ["Media"] },
+			},
+		})
+		const anonymous = await rpc(
+			await handleMcpRequest(modernRequest(3, "tools/call", { name: "propose_icon_update", arguments: args }, "propose_icon_update")),
+		)
+		expect(anonymous.result?.isError).toBe(true)
+		expect(anonymous.result?.content?.[0]?.text).toContain("needs a signed-in")
+		for (const remove of [
+			[{ key: "base" }],
+			[{ key: "custom:dark" }],
+			[{ key: "custom:UPPER" }],
+			[{ key: "light", file: "other.svg" }],
+			[
+				{ key: "dark", note: "First reason" },
+				{ key: "dark", note: "Different reason" },
+			],
+			[{ key: "wordmark", note: "Conflicting replacement" }],
+		]) {
+			const invalid = await rpc(
+				await handleMcpRequest(
+					modernRequest(4, "tools/call", { name: "propose_icon_update", arguments: { ...args, remove } }, "propose_icon_update"),
+					authInfo,
+				),
+			)
+			expect(invalid.result?.isError).toBe(true)
+		}
+		expect(submissionWrites).toHaveLength(1)
+		await settle()
+		expect(toolCalls()[0]).toMatchObject({
+			distinctId: "user_123",
+			properties: { $mcp_tool_name: "propose_icon_update", $mcp_tool_category: "account" },
+		})
+		for (const secret of ["mcp-access-secret", "pb-old-secret", "pb-fresh-secret"]) expect(JSON.stringify(captured)).not.toContain(secret)
 	})
 
 	it("reports missing capabilities through get_more_tools", async () => {

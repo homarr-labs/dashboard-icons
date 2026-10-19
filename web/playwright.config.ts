@@ -4,6 +4,8 @@ import path from "path";
 
 dotenv.config({ path: path.resolve(__dirname, ".env.test") });
 
+const baseURL = process.env.PLAYWRIGHT_BASE_URL || "http://localhost:3005";
+
 export default defineConfig({
 	testDir: "./tests",
 	fullyParallel: true,
@@ -12,7 +14,7 @@ export default defineConfig({
 	workers: process.env.CI ? 1 : undefined,
 	reporter: "html",
 	use: {
-		baseURL: "http://localhost:3005",
+		baseURL,
 		trace: "on-first-retry",
 		screenshot: "only-on-failure",
 		launchOptions: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH
@@ -32,8 +34,8 @@ export default defineConfig({
 	],
 
 	webServer: {
-		command: "pnpm run dev:web",
-		url: "http://localhost:3005",
+		command: process.env.PLAYWRIGHT_WEB_SERVER_COMMAND || "pnpm run dev:web",
+		url: baseURL,
 		reuseExistingServer: !process.env.CI,
 		timeout: 120000,
 	},

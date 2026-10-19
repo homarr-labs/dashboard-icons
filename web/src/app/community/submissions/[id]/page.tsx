@@ -1,9 +1,12 @@
 import type { Metadata, ResolvingMetadata } from "next"
 import { notFound } from "next/navigation"
+import { IconUpdateDiff } from "@/components/dashboard/icon-update-diff"
 import { IconDetails } from "@/components/icon-details"
-import { BASE_URL, WEB_URL } from "@/constants"
+import { RejectionNotice } from "@/components/submission/rejection-notice"
+import { APACHE_LICENSE_URL, BASE_URL, WEB_URL } from "@/constants"
 import { computeRelatedIcons, getAllIcons, getAuthorData } from "@/lib/api"
 import { getCommunityGalleryRecord, getCommunitySubmission, getCommunitySubmissions } from "@/lib/community"
+import { iconUpdatePreviews } from "@/lib/icon-update-previews"
 import { isIconAssetUrl } from "@/lib/icon-url"
 
 export const dynamicParams = true
@@ -119,6 +122,26 @@ export default async function CommunityIconPage({ params }: { params: Promise<{ 
 
 	const icon = iconData.name
 	const record = await getCommunityGalleryRecord(id)
+	if (record?.icon_update)
+		return (
+			<section className="container mx-auto max-w-3xl space-y-6 px-4 py-8">
+				<header className="space-y-2">
+					<h1 className="break-words text-2xl font-semibold">{record.name}: Update proposal</h1>
+					<p className="text-sm text-muted-foreground">
+						{record.status.replaceAll("_", " ")} · Submitted by {record.created_by}
+					</p>
+				</header>
+				{record.status === "rejected" && <RejectionNotice id={id} feedback={record.admin_comment} />}
+				{record.status !== "rejected" && record.admin_comment && (
+					<p className="whitespace-pre-wrap break-words text-sm">
+						<strong>Reviewer feedback:</strong> {record.admin_comment}
+					</p>
+				)}
+				<h2 className="sr-only">Proposal comparison</h2>
+				<IconUpdateDiff record={record} update={record.icon_update} snapshot={iconUpdatePreviews(record.icon_update.target)} />
+				{record.description && <p className="whitespace-pre-wrap break-words text-sm">{record.description}</p>}
+			</section>
+		)
 	const allIconsData = await getAllIcons()
 	const categories = iconData.data.categories || []
 	const relatedIcons = computeRelatedIcons(icon, categories, allIconsData)
@@ -193,7 +216,6 @@ export default async function CommunityIconPage({ params }: { params: Promise<{ 
 	}
 
 	const status = record?.status || "pending"
-	const rejectionReason = status === "rejected" ? record?.admin_comment : null
 
 	const getStatusDisplayName = (status: string) => {
 		switch (status) {
@@ -225,7 +247,7 @@ export default async function CommunityIconPage({ params }: { params: Promise<{ 
 		}
 	}
 
-	const statusDisplayName = getStatusDisplayName(status)
+	const statusDisplayName = `${getStatusDisplayName(status)} · Round ${record?.round || 1}`
 	const statusColor = getStatusColor(status)
 
 	const formattedName = icon
@@ -243,10 +265,11 @@ export default async function CommunityIconPage({ params }: { params: Promise<{ 
 						"@context": "https://schema.org",
 						"@type": "ImageObject",
 						contentUrl: mainIconUrl,
-						license: "https://creativecommons.org/licenses/by/4.0/",
-						acquireLicensePage: `${WEB_URL}/license`,
-						creditText: `Icon by ${authorData.name || authorData.login}`,
-						copyrightNotice: "© Homarr Labs",
+						...(status === "added_to_collection" && {
+							license: APACHE_LICENSE_URL,
+							acquireLicensePage: `${WEB_URL}/license`,
+							creditText: "Dashboard Icons",
+						}),
 						creator: {
 							"@type": "Person",
 							name: authorData.name || authorData.login,
@@ -269,6 +292,11 @@ export default async function CommunityIconPage({ params }: { params: Promise<{ 
 					}).replace(/</g, "\\u003c"),
 				}}
 			/>
+			{status === "rejected" && (
+				<div className="container mx-auto px-4 pt-6">
+					<RejectionNotice id={id} feedback={record?.admin_comment} />
+				</div>
+			)}
 			<IconDetails
 				breadcrumbItems={[{ label: "Home", href: "/" }, { label: "Community Icons", href: "/community" }, { label: formattedName }]}
 				icon={icon}
@@ -277,7 +305,6 @@ export default async function CommunityIconPage({ params }: { params: Promise<{ 
 				relatedIcons={relatedIcons}
 				relatedCategories={categories}
 				status={status}
-				rejectionReason={rejectionReason ?? undefined}
 				statusDisplayName={statusDisplayName}
 				statusColor={statusColor}
 			/>

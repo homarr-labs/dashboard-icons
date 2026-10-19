@@ -740,6 +740,7 @@
     "truenas": {
         "base": "svg",
         "aliases": [
+            "TrueNAS",
             "NAS OS"
         ],
         "categories": [
@@ -1497,7 +1498,9 @@
     },
     "wireguard": {
         "base": "svg",
-        "aliases": [],
+        "aliases": [
+            "WireGuard"
+        ],
         "categories": [],
         "update": {
             "timestamp": "2025-04-28T18:01:22.158852",
@@ -1619,7 +1622,9 @@
     },
     "javascript": {
         "base": "svg",
-        "aliases": [],
+        "aliases": [
+            "JavaScript"
+        ],
         "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
@@ -1652,7 +1657,9 @@
     },
     "mysql": {
         "base": "svg",
-        "aliases": [],
+        "aliases": [
+            "MySQL"
+        ],
         "categories": [],
         "update": {
             "timestamp": "2026-05-01T15:28:36.268Z",
@@ -1841,6 +1848,7 @@
     "notediscovery": {
         "base": "svg",
         "aliases": [
+            "NoteDiscovery",
             "note-discovery",
             "Note Discovery"
         ],
@@ -4273,6 +4281,7 @@
     "nextdns": {
         "base": "svg",
         "aliases": [
+            "NextDNS",
             "privacy-dns",
             "secure-dns"
         ],
@@ -7453,6 +7462,7 @@
     "youtube": {
         "base": "svg",
         "aliases": [
+            "YouTube",
             "video-sharing-site",
             "google-video"
         ],
@@ -8754,6 +8764,7 @@
     "elgato-wave-link": {
         "base": "svg",
         "aliases": [
+            "Elgato Wave Link",
             "wavelink",
             "elgato wavelink",
             "wave link",
@@ -9762,6 +9773,7 @@
     "opnsense": {
         "base": "svg",
         "aliases": [
+            "OPNsense",
             "Firewall",
             "Router OS"
         ],
@@ -11652,7 +11664,9 @@
     },
     "adguard-home": {
         "base": "svg",
-        "aliases": [],
+        "aliases": [
+            "AdGuard Home"
+        ],
         "categories": [],
         "update": {
             "timestamp": "2022-09-09T09:57:51Z",
@@ -14458,7 +14472,9 @@
     },
     "phpmyadmin": {
         "base": "svg",
-        "aliases": [],
+        "aliases": [
+            "phpMyAdmin"
+        ],
         "categories": [],
         "update": {
             "timestamp": "2023-02-01T13:14:17Z",
@@ -14958,7 +14974,9 @@
     },
     "qbittorrent": {
         "base": "svg",
-        "aliases": [],
+        "aliases": [
+            "qBittorrent"
+        ],
         "categories": [],
         "update": {
             "timestamp": "2022-08-16T17:22:56Z",
@@ -15738,7 +15756,9 @@
     },
     "linkedin": {
         "base": "svg",
-        "aliases": [],
+        "aliases": [
+            "LinkedIn"
+        ],
         "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
@@ -17357,7 +17377,9 @@
     },
     "iobroker": {
         "base": "svg",
-        "aliases": [],
+        "aliases": [
+            "ioBroker"
+        ],
         "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
@@ -18130,6 +18152,7 @@
     "nginx": {
         "base": "svg",
         "aliases": [
+            "NGINX",
             "Web Server"
         ],
         "categories": [
@@ -18493,7 +18516,9 @@
     },
     "1password": {
         "base": "svg",
-        "aliases": [],
+        "aliases": [
+            "1Password"
+        ],
         "categories": [],
         "update": {
             "timestamp": "2024-10-20T18:01:33Z",
@@ -18840,6 +18865,7 @@
     "openai": {
         "base": "svg",
         "aliases": [
+            "OpenAI",
             "gpt-api",
             "artificial-intelligence-api"
         ],
@@ -20696,7 +20722,9 @@
     },
     "mongodb": {
         "base": "svg",
-        "aliases": [],
+        "aliases": [
+            "MongoDB"
+        ],
         "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
@@ -20755,7 +20783,9 @@
     },
     "postgresql": {
         "base": "svg",
-        "aliases": [],
+        "aliases": [
+            "PostgreSQL"
+        ],
         "categories": [],
         "update": {
             "timestamp": "2024-10-20T17:24:03Z",
@@ -21845,6 +21875,7 @@
     "pfsense": {
         "base": "svg",
         "aliases": [
+            "pfSense",
             "Firewall",
             "Router OS"
         ],
@@ -21880,7 +21911,9 @@
     },
     "paypal": {
         "base": "svg",
-        "aliases": [],
+        "aliases": [
+            "PayPal"
+        ],
         "categories": [],
         "update": {
             "timestamp": "2023-01-23T10:55:09Z",
@@ -22683,6 +22716,7 @@
     "github": {
         "base": "svg",
         "aliases": [
+            "GitHub",
             "git-hosting",
             "code-repository"
         ],
@@ -22896,7 +22930,9 @@
     },
     "typescript": {
         "base": "svg",
-        "aliases": [],
+        "aliases": [
+            "TypeScript"
+        ],
         "categories": [],
         "update": {
             "timestamp": "2023-04-13T13:56:18Z",
@@ -23109,6 +23145,7 @@
     "mariadb": {
         "base": "svg",
         "aliases": [
+            "MariaDB",
             "Database"
         ],
         "categories": [
@@ -23678,7 +23715,9 @@
     },
     "php": {
         "base": "svg",
-        "aliases": [],
+        "aliases": [
+            "PHP"
+        ],
         "categories": [
             "Programming-Languages",
             "Developer-Tools"
@@ -26075,8 +26114,7 @@
             }
         },
         "colors": {
-            "light": "yuno-host-light",
-            "dark": "yuno-host"
+            "light": "yuno-host-light"
         }
     },
     "simplelogin": {
@@ -26736,6 +26774,7 @@
     "gitlab": {
         "base": "svg",
         "aliases": [
+            "GitLab",
             "Code Hosting"
         ],
         "categories": [
@@ -31922,6 +31961,7 @@
     "unifi": {
         "base": "svg",
         "aliases": [
+            "UniFi",
             "Network Devices"
         ],
         "categories": [
@@ -32049,7 +32089,9 @@
     },
     "chatgpt": {
         "base": "svg",
-        "aliases": [],
+        "aliases": [
+            "ChatGPT"
+        ],
         "categories": [],
         "update": {
             "timestamp": "2025-10-04T14:15:34.795535",
@@ -34404,6 +34446,7 @@
     "openwrt": {
         "base": "svg",
         "aliases": [
+            "OpenWrt",
             "custom-router-firmware",
             "linux-based-router"
         ],
@@ -35351,6 +35394,7 @@
     "check-point": {
         "base": "svg",
         "aliases": [
+            "Check Point",
             "Checkpoint",
             "Check Point Software"
         ],
@@ -37324,6 +37368,7 @@
     "paperless-ai": {
         "base": "png",
         "aliases": [
+            "Paperless-AI",
             "PaperlessAI"
         ],
         "categories": [
@@ -39173,6 +39218,7 @@
     "rocket-money": {
         "base": "svg",
         "aliases": [
+            "Rocket Money",
             "rocketmoney",
             "truebill",
             "Truebill",
@@ -39870,6 +39916,7 @@
     "mlb-tv": {
         "base": "svg",
         "aliases": [
+            "MLB.TV",
             "MLB TV"
         ],
         "categories": [
@@ -42259,6 +42306,7 @@
     "rapid7": {
         "base": "svg",
         "aliases": [
+            "Rapid7",
             "Rapid 7",
             "rapid7",
             "insight vm"
@@ -43050,6 +43098,7 @@
     "magicinfo": {
         "base": "svg",
         "aliases": [
+            "MagicINFO",
             "MagicInfo",
             "Magic Info",
             "Samsung MagicInfo",
@@ -44382,6 +44431,7 @@
     "statuspage": {
         "base": "svg",
         "aliases": [
+            "Statuspage",
             "Hosted Status Page",
             "StatusPage",
             "HSP"
@@ -45145,6 +45195,7 @@
     "waves": {
         "base": "svg",
         "aliases": [
+            "Waves",
             "waves-bin",
             "WAVES",
             "wave",
@@ -45890,6 +45941,7 @@
     "chipsound": {
         "base": "svg",
         "aliases": [
+            "Chipsound",
             "Chip Sound"
         ],
         "categories": [
@@ -50556,6 +50608,7 @@
     "nostalgiatv": {
         "base": "png",
         "aliases": [
+            "Nostalgiatv",
             "Nostalgia TV",
             "Nostalgia-TV"
         ],

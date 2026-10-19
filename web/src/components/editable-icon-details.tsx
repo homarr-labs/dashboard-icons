@@ -16,6 +16,8 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 import { UnoptimizedImage } from "@/components/unoptimized-image"
 import type { IconNameOption } from "@/hooks/use-submissions"
 import { pb } from "@/lib/pb"
+import type { SubmissionInput } from "@/lib/submission-service"
+import type { SubmissionVariant } from "@/lib/submission-variants"
 import { submitProposal } from "@/lib/submit-proposal"
 import { formatIconName } from "@/lib/utils"
 import { MagicCard } from "./magicui/magic-card"
@@ -27,6 +29,14 @@ interface VariantFile {
 	preview: string
 	type: "base" | "light" | "dark" | "wordmark-light" | "wordmark-dark"
 	label: string
+}
+
+const VARIANT_FIELDS: Record<VariantFile["type"], SubmissionVariant> = {
+	base: "base",
+	light: "light",
+	dark: "dark",
+	"wordmark-light": "wordmark_light",
+	"wordmark-dark": "wordmark_dark",
 }
 
 interface EditableIconData {
@@ -296,60 +306,17 @@ export function EditableIconDetails({ onSubmit, initialData }: EditableIconDetai
 		}
 
 		try {
-			// Prepare submission data
-			const assetFiles: File[] = []
-			const extras: any = {
+			const assets: SubmissionInput["assets"] = {}
+			for (const variant of variants) assets[VARIANT_FIELDS[variant.type]] = variant.file
+
+			await submitProposal({
+				name: iconName,
+				description: "",
 				aliases,
 				categories,
-				base: baseVariant.file.name.split(".").pop() || "svg",
-			}
-
-			// Add base variant
-			assetFiles.push(baseVariant.file)
-
-			// Check for color variants (light/dark)
-			const lightVariant = variants.find((v) => v.type === "light")
-			const darkVariant = variants.find((v) => v.type === "dark")
-
-			if (lightVariant || darkVariant) {
-				extras.colors = {}
-				if (lightVariant) {
-					extras.colors.light = lightVariant.file.name
-					assetFiles.push(lightVariant.file)
-				}
-				if (darkVariant) {
-					extras.colors.dark = darkVariant.file.name
-					assetFiles.push(darkVariant.file)
-				}
-			}
-
-			// Check for wordmark variants
-			const wordmarkLight = variants.find((v) => v.type === "wordmark-light")
-			const wordmarkDark = variants.find((v) => v.type === "wordmark-dark")
-
-			if (wordmarkLight || wordmarkDark) {
-				extras.wordmark = {}
-				if (wordmarkLight) {
-					extras.wordmark.light = wordmarkLight.file.name
-					assetFiles.push(wordmarkLight.file)
-				}
-				if (wordmarkDark) {
-					extras.wordmark.dark = wordmarkDark.file.name
-					assetFiles.push(wordmarkDark.file)
-				}
-			}
-
-			// Create submission
-			const submissionData = {
-				name: iconName,
-				assets: assetFiles,
-				created_by: pb.authStore.record?.id ?? "",
-				status: "pending" as const,
-				target_submission: selectedIcon?.submissionId,
-				extras: extras,
-			}
-
-			await submitProposal(submissionData)
+				targetSubmission: selectedIcon?.submissionId ?? "",
+				assets,
+			})
 
 			// Revalidate Next.js cache for community pages
 			await revalidateAllSubmissions()

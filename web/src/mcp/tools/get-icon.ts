@@ -10,7 +10,7 @@ import {
 } from "@/mcp/tools/schemas"
 import { type PublicTool, READ_ONLY_ANNOTATIONS, structuredResult } from "@/mcp/tools/types"
 
-const themedUrlsSchema = z.object({ default: z.string().optional(), light: z.string().optional(), dark: z.string().optional() })
+const variantUrlsSchema = z.record(z.string(), z.string())
 
 const iconSchema = iconItemSchema.extend({
 	aliases: z.array(z.string()),
@@ -32,8 +32,10 @@ const iconSchema = iconItemSchema.extend({
 		.describe("License and attribution to show for external icons; null for dashboardicons.com icons"),
 	page_url: z.string().describe("Icon page on dashboardicons.com"),
 	urls: z
-		.object({ svg: themedUrlsSchema.optional(), png: themedUrlsSchema.optional(), webp: themedUrlsSchema.optional() })
-		.describe("CDN URLs by format, then theme; only existing variants are listed"),
+		.object({ svg: variantUrlsSchema.optional(), png: variantUrlsSchema.optional(), webp: variantUrlsSchema.optional() })
+		.describe(
+			"CDN URLs by format, then Variant: default (Base), light (light-coloured, for dark backgrounds), dark (for light backgrounds), wordmark, wordmark-light, wordmark-dark, and Custom variants by name such as '4k'. A key is absent only when the icon has no file for it; legacy icons can map light or dark to the same URL as default",
+		),
 })
 
 const inputSchema = z.object({ name: iconNameInput, source: sourceInput })
@@ -52,7 +54,7 @@ export const getIconTool: PublicTool<typeof inputSchema, typeof outputSchema> = 
 	config: {
 		title: "Get icon details",
 		description:
-			"Get everything about one icon: CDN URLs for every available format (svg, png, webp) and theme (default, light, dark), aliases, categories, and license/attribution for external sources. Use it after search_icons or match_icons, or directly with a slug. Names are resolved loosely ('lm-studio' finds 'lmstudio'; resolved_from tells you). An unknown name is not an error: it returns found: false with did_you_mean suggestions to retry with. Use get_icon_svg instead when you need the SVG markup itself.",
+			"Get everything about one icon: CDN URLs for every available format (svg, png, webp) and every Variant (default, light, dark, wordmarks and Custom variants such as '4k'), aliases, categories, and license/attribution for external sources. Use it after search_icons or match_icons, or directly with a slug. Names are resolved loosely ('lm-studio' finds 'lmstudio'; resolved_from tells you). An unknown name is not an error: it returns found: false with did_you_mean suggestions to retry with. Use get_icon_svg instead when you need the SVG markup itself.",
 		inputSchema,
 		outputSchema,
 		annotations: READ_ONLY_ANNOTATIONS,

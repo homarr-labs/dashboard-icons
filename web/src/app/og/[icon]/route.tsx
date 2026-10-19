@@ -2,9 +2,9 @@ import { notFound } from "next/navigation"
 import { ImageResponse } from "next/og"
 import { BASE_URL, DASHBOARD_ICONS_ICON } from "@/constants"
 import { getAllIcons, getTotalIcons } from "@/lib/api"
+import { formatIconName } from "@/lib/utils"
 
-export const contentType = "image/png"
-export const size = { width: 1200, height: 630 }
+const size = { width: 1200, height: 630 }
 
 export async function GET(_req: Request, { params }: { params: Promise<{ icon: string }> }) {
 	const { icon: rawIcon } = await params
@@ -17,10 +17,7 @@ export async function GET(_req: Request, { params }: { params: Promise<{ icon: s
 
 	const { totalIcons } = await getTotalIcons()
 
-	const formattedName = icon
-		.split("-")
-		.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-		.join(" ")
+	const formattedName = formatIconName(icon, { capitalize: true, aliases: iconsData[icon].aliases })
 
 	const iconUrl = `${BASE_URL}/png/${icon}.png`
 

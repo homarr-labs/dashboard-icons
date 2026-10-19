@@ -22,7 +22,8 @@ import { Input } from "@/components/ui/input"
 import { Separator } from "@/components/ui/separator"
 import { UnoptimizedImage } from "@/components/unoptimized-image"
 import { DASHBOARD_ICONS_ICON, EXTERNAL_SOURCE_IDS, EXTERNAL_SOURCES, type ExternalSourceId } from "@/constants"
-import { cn, filterAndSortIcons, normalizeForSearch, type SortOption } from "@/lib/utils"
+import type { IconVariantMatch } from "@/lib/icons/variants"
+import { cn, filterAndSortIcons, findMatchedVariant, normalizeForSearch, type SortOption } from "@/lib/utils"
 import type { IconSearchEntry, IconSearchProps } from "@/types/icons"
 
 type SourceFilter = "all" | "native" | ExternalSourceId
@@ -116,6 +117,15 @@ export function IconSearch({ icons }: IconSearchProps) {
 			sort: sortOption,
 		})
 	}, [icons, debouncedQuery, sortOption, sourceFilter])
+
+	const matchedVariants = useMemo(() => {
+		const matches = new Map<IconSearchEntry, IconVariantMatch>()
+		for (const icon of filteredIcons) {
+			const variant = findMatchedVariant(icon, debouncedQuery)
+			if (variant) matches.set(icon, variant)
+		}
+		return matches
+	}, [filteredIcons, debouncedQuery])
 
 	const updateResults = useCallback(
 		(query: string, sort: SortOption, source: SourceFilter) => {
@@ -262,7 +272,7 @@ export function IconSearch({ icons }: IconSearchProps) {
 					</div>
 					<Input
 						type="search"
-						placeholder="Search icons by name or alias..."
+						placeholder="Search icons by name, alias or variant..."
 						aria-label="Search icons"
 						className={cn(
 							"w-full h-10 pl-9 cursor-text transition-all duration-300 text-sm md:text-base border-border shadow-sm",
@@ -399,7 +409,7 @@ export function IconSearch({ icons }: IconSearchProps) {
 					)}
 				</div>
 			) : (
-				<VirtualizedIconsGrid filteredIcons={filteredIcons} matchedAliases={matchedAliases} />
+				<VirtualizedIconsGrid filteredIcons={filteredIcons} matchedAliases={matchedAliases} matchedVariants={matchedVariants} />
 			)}
 		</>
 	)
