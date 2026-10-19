@@ -1,0 +1,14 @@
+web/src/hooks/use-submission-drafts.ts
+  h_d6e478ca18e517 4,14,23-27
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "9fb9f14f1dfca8d44d9495a9d6fc1150bebfe261",
+  "prompts": {},
+  "humans": {
+    "h_d6e478ca18e517": {
+      "author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
