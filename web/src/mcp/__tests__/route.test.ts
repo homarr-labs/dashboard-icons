@@ -4,6 +4,7 @@ import { resetRateLimitsForTests } from "@/lib/icons/rate-limit"
 import { MAX_REQUEST_BODY_BYTES } from "@/lib/icons/validate"
 import { SECRET, SECRET_TEXT, tamper } from "@/mcp/auth/__tests__/fixtures"
 import { seal } from "@/mcp/auth/seal"
+import { MAX_ACCOUNT_REQUEST_BODY_BYTES } from "@/mcp/limits"
 
 const { afterTasks, flushDashboardIconsMcpAnalytics, handleMcpRequest } = vi.hoisted(() => ({
 	afterTasks: [] as (() => unknown)[],
@@ -102,6 +103,113 @@ describe("MCP route sign-in gate", () => {
 			scopes: ["account"],
 			extra: { userId: "user123", username: "tester", admin: false, pbToken: "pb-token" },
 		})
+	})
+
+	it.each([
+		MAX_REQUEST_BODY_BYTES,
+		MAX_REQUEST_BODY_BYTES + 1,
+		MAX_ACCOUNT_REQUEST_BODY_BYTES,
+	])("accepts verified account calls of exactly %i encoded bytes", async (size) => {
+		const { POST } = await import("@/app/api/mcp/route")
+		const json = JSON.stringify({ method: "tools/call", params: { name: "submit_icon", arguments: { description: 'é\\"' } } })
+		const body = json + " ".repeat(size - Buffer.byteLength(json))
+		const response = await POST(nextRequest("POST", { headers: { authorization: `Bearer ${accessToken()}` }, body }))
+		expect(response.status).toBe(200)
+		const forwarded = handleMcpRequest.mock.calls[0]?.[0]
+		expect(Buffer.byteLength((await forwarded?.text()) ?? "")).toBe(size)
+	})
+
+	it.each([
+		undefined,
+		"2",
+		String(MAX_ACCOUNT_REQUEST_BODY_BYTES + 1),
+	])("rejects verified account calls over 512 KiB with content-length %s", async (length) => {
+		const { POST } = await import("@/app/api/mcp/route")
+		const headers: Record<string, string> = { authorization: `Bearer ${accessToken()}` }
+		if (length) headers["content-length"] = length
+		const response = await POST(nextRequest("POST", { headers, body: "x".repeat(MAX_ACCOUNT_REQUEST_BODY_BYTES + 1) }))
+		expect(response.status).toBe(413)
+		expect(await response.text()).toContain("complete encoded JSON request must be at most 512 KiB")
+		expect(handleMcpRequest).not.toHaveBeenCalled()
+	})
+
+	it("keeps verified public calls at 64 KiB", async () => {
+		const { POST } = await import("@/app/api/mcp/route")
+		const json = JSON.stringify({ method: "tools/call", params: { name: "search_icons" } })
+		const response = await POST(
+			nextRequest("POST", {
+				headers: { authorization: `Bearer ${accessToken()}`, "content-length": "2" },
+				body: json.padEnd(MAX_REQUEST_BODY_BYTES + 1),
+			}),
+		)
+		expect(response.status).toBe(413)
+		expect(handleMcpRequest).not.toHaveBeenCalled()
+	})
+
+	it.each([
+		"Bearer spoofed",
+		`Bearer ${tamper(accessToken())}`,
+		`Bearer ${accessToken("https://other.example/api/mcp")}`,
+		"Basic anything",
+	])("verifies Authorization before reading a larger body (%s)", async (authorization) => {
+		const { POST } = await import("@/app/api/mcp/route")
+		const request = new Request("http://localhost/api/mcp", {
+			method: "POST",
+			headers: { authorization },
+			body: "x".repeat(MAX_REQUEST_BODY_BYTES + 1),
+		})
+		expect((await POST(request as never)).status).toBe(401)
+		expect(request.bodyUsed).toBe(false)
+		expect(handleMcpRequest).not.toHaveBeenCalled()
+	})
+
+	it("does not grant the account cap to an expired OAuth token", async () => {
+		const token = seal(
+			SECRET,
+			"access",
+			{
+				sub: "user123",
+				username: "tester",
+				admin: false,
+				scope: "account",
+				aud: "http://localhost/api/mcp",
+				cid: "client",
+				pb_token: "pb-token",
+			},
+			-1,
+		)
+		const { POST } = await import("@/app/api/mcp/route")
+		expect(
+			(await POST(nextRequest("POST", { headers: { authorization: `Bearer ${token}` }, body: "x".repeat(MAX_REQUEST_BODY_BYTES + 1) })))
+				.status,
+		).toBe(401)
+		expect(handleMcpRequest).not.toHaveBeenCalled()
+	})
+
+	it("keeps anonymous callers at the exact 64 KiB boundary", async () => {
+		const { POST } = await import("@/app/api/mcp/route")
+		const json = JSON.stringify({ method: "tools/call", params: { name: "search_icons" } })
+		expect((await POST(nextRequest("POST", { body: json.padEnd(MAX_REQUEST_BODY_BYTES) }))).status).toBe(200)
+		expect((await POST(nextRequest("POST", { body: json.padEnd(MAX_REQUEST_BODY_BYTES + 1) }))).status).toBe(413)
+	})
+
+	it("does not grant extra bytes to arbitrary Authorization when OAuth is disabled", async () => {
+		vi.stubEnv("MCP_OAUTH_SECRET", "")
+		const { POST } = await import("@/app/api/mcp/route")
+		expect(
+			(await POST(nextRequest("POST", { headers: { authorization: "Bearer anything" }, body: "x".repeat(MAX_REQUEST_BODY_BYTES + 1) })))
+				.status,
+		).toBe(413)
+		expect(handleMcpRequest).not.toHaveBeenCalled()
+	})
+
+	it("preserves the tool rate limit for signed-in account calls", async () => {
+		const { POST } = await import("@/app/api/mcp/route")
+		const authorization = `Bearer ${accessToken()}`
+		for (let i = 0; i < 30; i++) expect((await POST(toolCall("submit_icon", authorization))).status).toBe(200)
+		const response = await POST(toolCall("submit_icon", authorization))
+		expect(response.status).toBe(429)
+		expect(response.headers.get("Retry-After")).toBeTruthy()
 	})
 
 	it("leaves account tools to the registry refusal when sign-in is disabled", async () => {

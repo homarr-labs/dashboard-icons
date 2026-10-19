@@ -6,7 +6,10 @@ import type { ExternalIconRecord, Icon, IconFile } from "@/types/icons"
 
 type CapturedEvent = { distinctId: string; event: string; properties: Record<string, unknown> }
 
-const { captured } = vi.hoisted(() => ({ captured: [] as CapturedEvent[] }))
+const { captured, submissionWrites } = vi.hoisted(() => ({
+	captured: [] as CapturedEvent[],
+	submissionWrites: [] as Record<string, unknown>[],
+}))
 
 function nativeIcon(overrides: Partial<Icon> = {}): Icon {
 	return {
@@ -69,7 +72,11 @@ vi.mock("@/lib/pb", () => ({
 		filter: (expression: string) => expression,
 		collection: () => ({
 			authRefresh: async () => ({ token: "pb-fresh-secret", record: { id: "user_123", username: "iconfan", admin: false } }),
-			create: async (body: { name: string }) => ({ id: "rec1", name: body.name, status: "pending" }),
+			create: async (body: Record<string, unknown>) => {
+				submissionWrites.push(body)
+				return { id: "rec1", name: body.name, status: "pending" }
+			},
+			getFullList: async () => [],
 			getList: async () => ({
 				items: [{ id: "rec1", name: "my-app", status: "pending", admin_comment: "", created: "2026-10-15", updated: "2026-10-15" }],
 				totalItems: 1,
@@ -167,6 +174,7 @@ describe("MCP over HTTP (real wiring)", () => {
 	beforeEach(() => {
 		vi.resetModules()
 		captured.length = 0
+		submissionWrites.length = 0
 		vi.stubEnv("NEXT_PUBLIC_POSTHOG_KEY", "phc_test")
 		vi.stubEnv("NEXT_PUBLIC_DISABLE_POSTHOG", "false")
 		vi.stubEnv("MCP_SERVER_BUILD", "abc123")
@@ -320,7 +328,11 @@ describe("MCP over HTTP (real wiring)", () => {
 		const svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1 1"><path d="M0 0h1v1z"/></svg>'
 
 		const calls: [string, Record<string, unknown>, Record<string, unknown>][] = [
-			["submit_icon", { name: "my-app", svg, categories: ["tools"] }, { id: "rec1", status: "pending" }],
+			[
+				"submit_icon",
+				{ name: "my-app", svg, categories: ["tools"], variants: { light: svg, wordmark: svg, wordmark_dark: svg, custom: { "4k": svg } } },
+				{ id: "rec1", status: "pending" },
+			],
 			["list_my_submissions", {}, { total: 1, submissions: [expect.objectContaining({ id: "rec1" })] }],
 		]
 		let id = 2
@@ -334,6 +346,12 @@ describe("MCP over HTTP (real wiring)", () => {
 				valid: true,
 			})
 		}
+		expect(submissionWrites).toHaveLength(1)
+		expect(submissionWrites[0]?.extras).toMatchObject({
+			colors: { light: "my-app-light.svg" },
+			wordmark: { default: "my-app-wordmark.svg", dark: "my-app-wordmark-dark.svg" },
+			variants: { "4k": "my-app-4k.svg" },
+		})
 
 		const anonymous = await rpc(
 			await handleMcpRequest(modernRequest(9, "tools/call", { name: "list_my_submissions", arguments: {} }, "list_my_submissions")),
@@ -348,6 +366,31 @@ describe("MCP over HTTP (real wiring)", () => {
 		])
 		const logged = JSON.stringify(captured)
 		for (const secret of ["pb-old-secret", "pb-fresh-secret", "mcp-access-secret"]) expect(logged).not.toContain(secret)
+	})
+
+	it("rejects malformed or malicious inline Variants through real MCP validation without writes", async () => {
+		const { handleMcpRequest } = await importHttp()
+		const authInfo: AuthInfo = {
+			token: "opaque",
+			clientId: "client",
+			scopes: ["account"],
+			extra: { userId: "user_123", username: "iconfan", admin: false, pbToken: "pb-token" },
+		}
+		const svg = '<svg xmlns="http://www.w3.org/2000/svg"><path d="M0 0h1v1z"/></svg>'
+		for (const variants of [
+			{ white: svg },
+			{ custom: { dark: svg } },
+			{ custom: { animated: '<svg xmlns="http://www.w3.org/2000/svg"><script>alert(1)</script></svg>' } },
+		]) {
+			const result = await rpc(
+				await handleMcpRequest(
+					modernRequest(1, "tools/call", { name: "submit_icon", arguments: { name: "my-app", svg, variants } }, "submit_icon"),
+					authInfo,
+				),
+			)
+			expect(result.result?.isError).toBe(true)
+		}
+		expect(submissionWrites).toHaveLength(0)
 	})
 
 	it("reports missing capabilities through get_more_tools", async () => {
