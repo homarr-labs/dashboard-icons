@@ -1,6 +1,6 @@
 "use client"
 
-import { Check, FileType, FolderOpen, Plus, Send, Sparkles, Tag, Upload, X } from "lucide-react"
+import { FileType, FolderOpen, Plus, Send, Sparkles, Tag, Upload, X } from "lucide-react"
 import Link from "next/link"
 import { toast } from "sonner"
 import { IconPreviewCard } from "@/components/icon-card"
@@ -14,6 +14,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Dropzone, DropzoneContent, DropzoneEmptyState } from "@/components/ui/shadcn-io/dropzone"
 import { Textarea } from "@/components/ui/textarea"
+import { VariantPreview } from "@/components/variant-preview"
 import { ACCEPTED_FILE_TYPES, AVAILABLE_CATEGORIES, MAX_FILE_SIZE, useIconSubmissionForm, VARIANTS } from "@/hooks/use-icon-submission-form"
 import { useIsMobile } from "@/hooks/use-mobile"
 import { cn } from "@/lib/utils"
@@ -46,7 +47,6 @@ export function IconSubmissionForm() {
 		form,
 		filePreviews,
 		isSubmitting,
-		handleRemoveVariant,
 		handleFileDrop,
 		handleAddAlias,
 		handleRemoveAlias,
@@ -56,17 +56,16 @@ export function IconSubmissionForm() {
 		setSelectedIcon,
 	} = useIconSubmissionForm()
 
-	const addVariant = (variantId: string) => {
-		const current = form.getFieldValue("selectedVariants")
-		if (!current.includes(variantId)) {
-			form.setFieldValue("selectedVariants", [...current, variantId])
-		}
-	}
-
 	const hasAnyPreview = Object.keys(filePreviews).length > 0
 
 	return (
-		<div className={cn("w-full max-w-7xl mx-auto", isMobile && "pb-24")}>
+		<div
+			className={cn(
+				"w-full max-w-7xl mx-auto [&_button]:min-h-11 [&_button]:min-w-11 [&_input:not([type=file])]:min-h-11 [&_[role=option]]:min-h-11 [&_button:focus-visible]:outline-2 [&_button:focus-visible]:outline-ring [&_button:focus-visible]:outline-offset-2",
+				isMobile && "pb-24",
+			)}
+			data-submission-form
+		>
 			<div className="grid lg:grid-cols-4 gap-6">
 				<div className="lg:col-span-3 space-y-6">
 					<form
@@ -141,101 +140,76 @@ export function IconSubmissionForm() {
 							<CardContent className="space-y-4 px-4 sm:px-6">
 								<IconSubmissionGuidelines />
 
-								<form.Field name="selectedVariants">
+								<form.Field name="files">
 									{(field) => (
-										<>
-											<div className="space-y-2">
-												<Label className="text-sm font-medium">Select Variants to Upload</Label>
-												<div className="flex flex-wrap gap-2 p-3 bg-muted/50">
-													{VARIANTS.map((variant) => {
-														const isSelected = field.state.value.includes(variant.id)
-														const isBase = variant.id === "base"
-														const hasFile = form.getFieldValue("files")[variant.id]?.length > 0
-														return (
-															<button
-																key={variant.id}
+										<div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+											{VARIANTS.map((variant) => {
+												const files = field.state.value[variant.id]
+												const preview = filePreviews[variant.id]
+												const isBase = variant.id === "base"
+												return (
+													<div
+														key={variant.id}
+														className={cn(
+															"relative flex flex-col p-4 transition-colors",
+															files ? "bg-primary/5 ring-1 ring-primary/30" : "bg-muted/30 ring-1 ring-border",
+														)}
+													>
+														<div className="mb-1 flex min-h-6 items-center gap-2 pr-10">
+															<span className="font-medium text-sm">{variant.label}</span>
+															{isBase && <span className="bg-primary/20 px-1.5 py-0.5 font-medium text-[10px] text-primary">Required</span>}
+														</div>
+														<p className="mb-3 text-muted-foreground text-xs">{variant.description}</p>
+														{files && (
+															<Button
 																type="button"
-																disabled={isBase}
-																onClick={() => !isBase && (isSelected ? handleRemoveVariant(variant.id) : addVariant(variant.id))}
-																aria-label={isBase ? `${variant.label} - Required` : `Select ${variant.label}`}
-																aria-pressed={isSelected}
-																className={cn(
-																	"inline-flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium transition-all cursor-pointer",
-																	isSelected
-																		? "bg-primary text-primary-foreground shadow-sm"
-																		: "bg-background border hover:border-primary/50",
-																	isBase && "opacity-100",
-																)}
+																variant="ghost"
+																size="icon"
+																onClick={() => handleFileDrop(variant.id, [])}
+																aria-label={`Remove ${variant.label} file`}
+																className="absolute top-1 right-1 size-11 hover:bg-destructive/10 hover:text-destructive"
 															>
-																{hasFile && <Check className="h-3 w-3" />}
-																{variant.label}
-															</button>
-														)
-													})}
-												</div>
-												<p className="text-xs text-muted-foreground">
-													Base icon is required. Click to add/remove optional variants (Dark, Light, Wordmarks).
-												</p>
-											</div>
-
-											<div className="space-y-2">
-												<Label className="text-sm font-medium">Upload Files</Label>
-												<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-													{field.state.value.map((variantId) => {
-														const variant = VARIANTS.find((v) => v.id === variantId)
-														if (!variant) return null
-
-														const hasFile = form.getFieldValue("files")[variant.id]?.length > 0
-														const isBase = variant.id === "base"
-
-														return (
-															<div
-																key={variantId}
-																className={cn(
-																	"relative p-4 transition-all",
-																	hasFile
-																		? "bg-gradient-to-br from-primary/10 to-primary/5 ring-1 ring-primary/20"
-																		: "bg-muted/30 ring-1 ring-border",
-																)}
-															>
-																{!isBase && (
-																	<Button
-																		type="button"
-																		variant="ghost"
-																		size="icon"
-																		onClick={() => handleRemoveVariant(variant.id)}
-																		className="absolute top-1 right-1 h-8 w-8 sm:h-6 sm:w-6 hover:bg-destructive/10 hover:text-destructive"
-																	>
-																		<X className="h-4 w-4 sm:h-3 sm:w-3" />
-																	</Button>
-																)}
-
-																<div className="flex items-center gap-2 mb-1">
-																	<span className="font-medium text-sm">{variant.label}</span>
-																	{isBase && (
-																		<span className="text-[10px] px-1.5 py-0.5 bg-primary/20 text-primary font-medium">Required</span>
-																	)}
+																<X className="size-4" />
+															</Button>
+														)}
+														<Dropzone
+															accept={ACCEPTED_FILE_TYPES}
+															maxSize={MAX_FILE_SIZE}
+															maxFiles={1}
+															onDrop={(dropped) => handleFileDrop(variant.id, dropped)}
+															onError={(error) => toast.error(error.message)}
+															src={files}
+															className={cn(
+																"mt-auto h-auto min-h-24 whitespace-normal p-3 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+																files && "border-primary/30",
+															)}
+														>
+															<DropzoneEmptyState>
+																<div className="flex flex-col items-center gap-1">
+																	<Upload className="size-4 text-muted-foreground" />
+																	<span className="font-medium text-sm">Upload {variant.label} file</span>
+																	<span className="text-muted-foreground text-xs">SVG or PNG, drag and drop or click</span>
 																</div>
-																<p className="text-xs text-muted-foreground mb-3">{variant.description}</p>
-
-																<Dropzone
-																	accept={ACCEPTED_FILE_TYPES}
-																	maxSize={MAX_FILE_SIZE}
-																	maxFiles={1}
-																	onDrop={(files) => handleFileDrop(variant.id, files)}
-																	onError={(error) => toast.error(error.message)}
-																	src={form.getFieldValue("files")[variant.id]}
-																	className={cn("h-24", hasFile && "border-primary/30")}
-																>
-																	<DropzoneEmptyState />
-																	<DropzoneContent />
-																</Dropzone>
-															</div>
-														)
-													})}
-												</div>
-											</div>
-										</>
+															</DropzoneEmptyState>
+															<DropzoneContent>
+																<div className="flex w-full min-w-0 flex-col gap-2">
+																	{preview && (
+																		<VariantPreview
+																			src={preview}
+																			alt={`${variant.label} preview`}
+																			background={variant.background}
+																			className="h-20 w-full"
+																		/>
+																	)}
+																	<span className="truncate font-medium text-xs">{files?.[0]?.name}</span>
+																	<span className="text-muted-foreground text-xs">Drop or click to replace</span>
+																</div>
+															</DropzoneContent>
+														</Dropzone>
+													</div>
+												)
+											})}
+										</div>
 									)}
 								</form.Field>
 							</CardContent>
@@ -309,7 +283,7 @@ export function IconSubmissionForm() {
 														}
 													}}
 												/>
-												<Button type="button" variant="secondary" onClick={handleAddAlias}>
+												<Button type="button" variant="secondary" onClick={handleAddAlias} aria-label="Add alias">
 													<Plus className="h-4 w-4" />
 												</Button>
 											</div>
@@ -326,6 +300,7 @@ export function IconSubmissionForm() {
 															<button
 																type="button"
 																onClick={() => handleRemoveAlias(alias)}
+																aria-label={`Remove ${alias} alias`}
 																className="ml-1.5 hover:text-destructive transition-colors"
 															>
 																<X className="h-3 w-3" />
@@ -369,13 +344,15 @@ export function IconSubmissionForm() {
 													isMobile ? "grid-cols-2" : "grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 2xl:grid-cols-1",
 												)}
 											>
-												{Object.entries(filePreviews).map(([variantId, preview]) => {
-													const variant = VARIANTS.find((v) => v.id === variantId)
+												{VARIANTS.map((variant) => {
+													const preview = filePreviews[variant.id]
+													if (!preview) return null
 													return (
 														<IconPreviewCard
-															key={variantId}
+															key={variant.id}
 															preview={preview}
-															label={variant?.label || variantId}
+															label={variant.label}
+															background={variant.background}
 															name={iconName || "preview"}
 														/>
 													)
@@ -432,7 +409,7 @@ export function IconSubmissionForm() {
 				<div className="fixed bottom-0 left-0 right-0 z-50 border-t bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80 p-3">
 					<div className="flex gap-2 max-w-7xl mx-auto">
 						<Button type="button" variant="outline" onClick={resetForm} disabled={isSubmitting} className="shrink-0">
-							Clear
+							Clear form
 						</Button>
 						<form.Subscribe
 							selector={(state) => ({

@@ -107,6 +107,21 @@ function WordmarkSection({ iconData, availableFormats, renderVariant }: Wordmark
 			</h3>
 			<p className="text-sm text-muted-foreground mb-4">The logo with the brand name as text.</p>
 			<div className="space-y-6">
+				{iconData.wordmark.default && (
+					<div>
+						<h4 className="text-md font-medium flex items-center gap-2 mb-1">
+							<Palette className="w-4 h-4 text-pink-500" />
+							Wordmark
+						</h4>
+						<p className="text-sm text-muted-foreground mb-3">Colour brand name for any background</p>
+						<MagicCardPointerProvider className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+							{availableFormats.map((format) => {
+								if (!iconData.wordmark?.default) return null
+								return renderVariant(format, iconData.wordmark.default, { kind: "wordmark", tone: "default" })
+							})}
+						</MagicCardPointerProvider>
+					</div>
+				)}
 				{getToneEntries(iconData.wordmark).map(({ tone, fileName }) => (
 					<div key={tone}>
 						<h4 className="text-md font-medium flex flex-wrap items-center gap-x-2 gap-y-1 mb-3">
@@ -134,7 +149,7 @@ function VariantFileRow({ icon, tone, fileName }: VariantFileRowProps) {
 		<div className="flex flex-wrap items-center gap-x-2 gap-y-1">
 			{icon}
 			<span className="font-medium text-sm">{TONE_TITLE[tone]}:</span>
-			<code className="border border-border px-2 py-0.5 rounded-lg text-xs">{fileName}</code>
+			<code className="min-w-0 break-all border border-border px-2 py-0.5 rounded-lg text-xs">{fileName}</code>
 			<span className="basis-full pl-6 text-xs text-muted-foreground">For {TONE_BACKGROUND[tone]}</span>
 		</div>
 	)
@@ -496,7 +511,8 @@ export function IconDetails({
 	const renderVariant = (format: string, iconName: string, variant: IconImageVariant) => {
 		let imageUrl: string
 		let githubUrl: string
-		const theme = variant.kind === "base" ? undefined : variant.tone
+		let theme: IconTone | undefined
+		if (variant.kind !== "base" && variant.tone !== "default") theme = variant.tone
 
 		if (isExternalIcon && externalIcon) {
 			let key: string | null = format
@@ -512,7 +528,7 @@ export function IconDetails({
 			// This is important because assetUrls contains all variants (base, dark, light)
 			let matchingUrl: string | undefined
 
-			if (theme && iconName && iconName !== icon) {
+			if (iconName && iconName !== icon) {
 				// If a theme is specified, iconName holds the specific filename for that variant
 				matchingUrl = assetUrls.find(
 					(url: string) => typeof url === "string" && url.includes(iconName) && url.toLowerCase().endsWith(`.${formatExt}`),
@@ -534,6 +550,9 @@ export function IconDetails({
 		let variantKey = `${format}-${theme || "default"}`
 		if (variant.kind === "wordmark") variantKey = `${format}-wordmark-${variant.tone}`
 		const altText = buildIconAltText(iconDisplayName, variant, format)
+		let tileBackground = "bg-primary/15 dark:bg-secondary/10"
+		if (theme === "light") tileBackground = "bg-zinc-950"
+		if (theme === "dark") tileBackground = "bg-white"
 
 		return (
 			<TooltipProvider key={variantKey} delayDuration={500}>
@@ -542,7 +561,10 @@ export function IconDetails({
 						<Tooltip>
 							<TooltipTrigger asChild>
 								<motion.div
-									className="relative flex h-28 w-28 items-center justify-center mb-3 ring-1 ring-white/5 dark:ring-white/10 bg-primary/15 dark:bg-secondary/10 cursor-pointer rounded-xl overflow-hidden group outline-none focus-visible:ring-2 focus-visible:ring-ring dark:focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+									className={cn(
+										"relative flex h-28 w-28 items-center justify-center mb-3 ring-1 ring-white/5 dark:ring-white/10 cursor-pointer rounded-xl overflow-hidden group outline-none focus-visible:ring-2 focus-visible:ring-ring dark:focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+										tileBackground,
+									)}
 									whileHover={{ scale: 1.05 }}
 									whileTap={{ scale: 0.95 }}
 									onClick={(e) => handleCopyUrl(imageUrl, variantKey, e)}
@@ -653,6 +675,20 @@ export function IconDetails({
 				}
 			}
 
+			const wordmarkDefault = iconData.wordmark?.default
+			if (wordmarkDefault) {
+				const wordmarkDefaultSvg = assetUrls.find(
+					(url: string) => typeof url === "string" && url.toLowerCase().endsWith(".svg") && url.includes(wordmarkDefault),
+				)
+				if (wordmarkDefaultSvg) {
+					variants.push({
+						value: "wordmark",
+						label: "Wordmark",
+						iconName: wordmarkDefault,
+					})
+				}
+			}
+
 			const wordmarkLight = iconData.wordmark?.light
 			if (wordmarkLight) {
 				const wordmarkLightSvg = assetUrls.find(
@@ -702,6 +738,14 @@ export function IconDetails({
 					value: "dark",
 					label: getToneLabel("dark"),
 					iconName: iconData.colors.dark,
+				})
+			}
+
+			if (iconData.wordmark?.default && iconData.base === "svg") {
+				variants.push({
+					value: "wordmark",
+					label: "Wordmark",
+					iconName: iconData.wordmark.default,
 				})
 			}
 
@@ -1055,7 +1099,7 @@ export function IconDetails({
 											{toneEntries.map(({ tone, fileName }) => (
 												<VariantFileRow
 													key={tone}
-													icon={<PaletteIcon className="w-4 h-4 text-purple-500" aria-hidden="true" />}
+													icon={<PaletteIcon className="w-4 h-4 shrink-0 text-purple-500" aria-hidden="true" />}
 													tone={tone}
 													fileName={fileName}
 												/>
@@ -1068,10 +1112,19 @@ export function IconDetails({
 									<div className="">
 										<h3 className="text-sm font-semibold text-muted-foreground">Wordmark variants</h3>
 										<div className="space-y-2">
+											{iconData.wordmark.default && (
+												<div className="flex items-center gap-2">
+													<Type className="w-4 h-4 shrink-0 text-green-500" />
+													<span className="capitalize font-medium text-sm">Colour:</span>
+													<code className="min-w-0 break-all border border-border px-2 py-0.5 rounded-lg text-xs">
+														{iconData.wordmark.default}
+													</code>
+												</div>
+											)}
 											{getToneEntries(iconData.wordmark).map(({ tone, fileName }) => (
 												<VariantFileRow
 													key={tone}
-													icon={<Type className="w-4 h-4 text-green-500" aria-hidden="true" />}
+													icon={<Type className="w-4 h-4 shrink-0 text-green-500" aria-hidden="true" />}
 													tone={tone}
 													fileName={fileName}
 												/>

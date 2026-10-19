@@ -16,7 +16,8 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 import { UnoptimizedImage } from "@/components/unoptimized-image"
 import type { IconNameOption } from "@/hooks/use-submissions"
 import { pb } from "@/lib/pb"
-import type { SubmissionInput, SubmissionVariant } from "@/lib/submission-service"
+import type { SubmissionInput } from "@/lib/submission-service"
+import type { SubmissionVariant } from "@/lib/submission-variants"
 import { submitProposal } from "@/lib/submit-proposal"
 import { formatIconName } from "@/lib/utils"
 import { MagicCard } from "./magicui/magic-card"
@@ -34,7 +35,7 @@ const VARIANT_FIELDS: Record<VariantFile["type"], SubmissionVariant> = {
 	base: "base",
 	light: "light",
 	dark: "dark",
-	"wordmark-light": "wordmark",
+	"wordmark-light": "wordmark_light",
 	"wordmark-dark": "wordmark_dark",
 }
 

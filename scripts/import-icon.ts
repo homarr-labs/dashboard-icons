@@ -5,7 +5,7 @@ import { appendFile, mkdir } from "node:fs/promises"
 import path from "node:path"
 
 type IconColors = { light?: string; dark?: string }
-type IconWordmark = { light?: string; dark?: string }
+type IconWordmark = { default?: string; light?: string; dark?: string }
 
 interface PBUser {
 	id: string
@@ -64,7 +64,7 @@ interface MetadataEntry {
 	wordmark?: IconWordmark
 }
 
-type VariantKey = "base" | "light" | "dark" | "wordmark-light" | "wordmark-dark"
+type VariantKey = "base" | "light" | "dark" | "wordmark" | "wordmark-light" | "wordmark-dark"
 
 interface VariantTarget {
 	key: VariantKey
@@ -198,6 +198,14 @@ function buildTargets(submission: Submission): VariantTarget[] {
 			key: "dark",
 			destFilename: `${iconId}-dark.${ext}`,
 			exactFilename: submission.extras.colors.dark,
+		})
+	}
+
+	if (submission.extras?.wordmark?.default) {
+		targets.push({
+			key: "wordmark",
+			destFilename: `${iconId}-wordmark.${ext}`,
+			exactFilename: submission.extras.wordmark.default,
 		})
 	}
 
@@ -368,6 +376,8 @@ function buildMetadataVariants(assignments: VariantTarget[]) {
 			colors.light = baseName
 		} else if (v.key === "dark") {
 			colors.dark = baseName
+		} else if (v.key === "wordmark") {
+			wordmark.default = baseName
 		} else if (v.key === "wordmark-light") {
 			wordmark.light = baseName
 		} else if (v.key === "wordmark-dark") {

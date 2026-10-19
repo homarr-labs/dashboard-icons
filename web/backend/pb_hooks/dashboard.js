@@ -68,8 +68,9 @@ function resolvedVariantFiles(record) {
 	const stored = {}
 	for (const file of record.getUnsavedFiles("assets")) stored[file.originalName] = file.name
 	const assets = field(record, "assets")
-	for (const kind of ["colors", "wordmark"])
-		for (const mode of ["light", "dark"]) {
+	const variants = { colors: ["light", "dark"], wordmark: ["default", "light", "dark"] }
+	for (const kind in variants)
+		for (const mode of variants[kind]) {
 			const name = (extras[kind] || {})[mode]
 			if (!name) continue
 			if (stored[name]) extras[kind][mode] = stored[name]

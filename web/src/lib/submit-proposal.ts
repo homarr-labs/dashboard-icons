@@ -1,5 +1,6 @@
 import { pb } from "@/lib/pb"
-import { SUBMISSION_VARIANTS, type SubmissionInput } from "@/lib/submission-service"
+import type { SubmissionInput } from "@/lib/submission-service"
+import { SUBMISSION_VARIANTS } from "@/lib/submission-variants"
 
 export async function submitProposal(input: SubmissionInput): Promise<{ id: string }> {
 	const body = new FormData()

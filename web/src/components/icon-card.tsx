@@ -1,10 +1,12 @@
 import Link from "next/link"
 import { MagicCard } from "@/components/magicui/magic-card"
 import { UnoptimizedImage } from "@/components/unoptimized-image"
+import { VariantPreview } from "@/components/variant-preview"
 import { EXTERNAL_SOURCES, type ExternalSourceId } from "@/constants"
 import { getExternalIconPagePath, resolveExternalIconUrl } from "@/lib/external-icon-urls"
 import { getIconImageUrl, isIconAssetUrl } from "@/lib/icon-url"
 import { type IconVariantMatch, variantToneClass } from "@/lib/icons/variants"
+import type { VariantBackground } from "@/lib/submission-variants"
 import { cn, formatIconName } from "@/lib/utils"
 import type { IconSearchEntry } from "@/types/icons"
 
@@ -99,19 +101,21 @@ export function IconCard({
 	)
 }
 
-export function IconPreviewCard({ preview, label, name }: { preview: string; label: string; name: string }) {
+export function IconPreviewCard({
+	preview,
+	label,
+	name,
+	background,
+}: {
+	preview: string
+	label: string
+	name: string
+	background: VariantBackground
+}) {
 	return (
 		<MagicCard className="rounded-md shadow-md">
 			<div className="flex flex-col items-center p-3 sm:p-4">
-				<div className="mb-2 flex h-16 w-16 items-center justify-center overflow-hidden rounded-lg ring-1 ring-white/5 dark:ring-white/10 bg-primary/15 dark:bg-secondary/10">
-					<UnoptimizedImage
-						src={preview}
-						alt={`${name} - ${label}`}
-						width={56}
-						height={56}
-						className="max-h-full max-w-full object-contain p-2"
-					/>
-				</div>
+				<VariantPreview src={preview} alt={`${name} - ${label}`} background={background} className="mb-2 h-16 w-full" />
 				<span className="text-xs sm:text-sm text-center truncate w-full capitalize font-medium">{name || "icon-name"}</span>
 				<span className="text-[10px] text-muted-foreground">{label}</span>
 			</div>

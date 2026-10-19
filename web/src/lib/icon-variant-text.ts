@@ -3,7 +3,7 @@ export type IconTone = "light" | "dark"
 export type IconImageVariant =
 	| { kind: "base" }
 	| { kind: "tone"; tone: IconTone; monochrome: boolean }
-	| { kind: "wordmark"; tone: IconTone }
+	| { kind: "wordmark"; tone: IconTone | "default" }
 
 export const ICON_TONES: readonly IconTone[] = ["light", "dark"]
 
@@ -54,6 +54,7 @@ export function buildIconAltText(displayName: string, variant: IconImageVariant,
 		case "tone":
 			return `${displayName} logo, ${describeToneVariant(variant.tone, variant.monochrome)}${formatLabel}`
 		case "wordmark":
+			if (variant.tone === "default") return `${displayName} wordmark logo, in colour${formatLabel}`
 			return `${displayName} wordmark logo, ${describeToneVariant(variant.tone, false)}${formatLabel}`
 	}
 }

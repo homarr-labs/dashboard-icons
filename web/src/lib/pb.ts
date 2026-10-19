@@ -39,6 +39,7 @@ export interface Submission {
 			light?: string
 		}
 		wordmark?: {
+			default?: string
 			dark?: string
 			light?: string
 		}
@@ -71,6 +72,7 @@ export interface CommunityGallery {
 			light?: string
 		}
 		wordmark?: {
+			default?: string
 			dark?: string
 			light?: string
 		}

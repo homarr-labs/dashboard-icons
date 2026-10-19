@@ -2,45 +2,41 @@
 import { ExternalLink } from "lucide-react"
 import { UnoptimizedImage } from "@/components/unoptimized-image"
 import { pb, type Submission } from "@/lib/pb"
+import { labelledAssets, type SubmissionVariant, VARIANT_KINDS } from "@/lib/submission-variants"
 import { cn } from "@/lib/utils"
 
+function caption(variant: SubmissionVariant | null) {
+	if (!variant) return { label: "Unlabelled asset", description: "Not tagged as a Variant" }
+	return VARIANT_KINDS[variant]
+}
+
 export function ReviewGallery({ record }: { record: Submission }) {
-	const roles = new Map<string, string[]>()
-	for (const [filename, label] of [
-		[record.extras?.colors?.light, "Icon · light variant"],
-		[record.extras?.colors?.dark, "Icon · dark variant"],
-		[record.extras?.wordmark?.light, "Wordmark · light variant"],
-		[record.extras?.wordmark?.dark, "Wordmark · dark variant"],
-	]) {
-		if (filename && label) roles.set(filename, [...(roles.get(filename) || []), label])
-	}
 	return (
 		<div
 			className={cn("grid gap-2", record.assets.length > 1 && "grid-cols-2", record.assets.length > 4 && "sm:grid-cols-3")}
 			data-review-gallery
 		>
-			{record.assets.map((file, index) => {
-				let label = roles.get(file)?.join(" / ")
-				if (!label && index === 0) label = "Primary icon"
-				if (!label) label = "Additional asset · variant not specified"
+			{labelledAssets(record.extras, record.assets).map(({ file, variant }) => {
+				const { label, description } = caption(variant)
 				const url = pb.files.getURL(record, file)
 				return (
 					<figure key={file} className="min-w-0 overflow-hidden rounded-xl border bg-background only:col-span-full">
-						<figcaption className="flex items-center justify-between gap-1 border-b px-2 py-1.5">
-							<div className="min-w-0">
+						<figcaption className="border-b px-2 py-1.5">
+							<div className="flex items-center justify-between gap-1">
 								<p className="text-xs font-medium">{label}</p>
+								<a
+									href={url}
+									target="_blank"
+									rel="noreferrer"
+									aria-label={`Open ${label} original`}
+									title={file}
+									className="flex min-h-11 min-w-11 shrink-0 items-center justify-center gap-1 rounded text-xs font-medium outline-none hover:bg-muted focus-visible:ring-2 focus-visible:ring-ring"
+								>
+									{file.split(".").pop()?.toUpperCase()}
+									<ExternalLink className="size-3.5" />
+								</a>
 							</div>
-							<a
-								href={url}
-								target="_blank"
-								rel="noreferrer"
-								aria-label={`Open ${label} original`}
-								title={file}
-								className="flex shrink-0 items-center gap-1 rounded py-1 text-xs font-medium hover:bg-muted"
-							>
-								{file.split(".").pop()?.toUpperCase()}
-								<ExternalLink className="size-3.5" />
-							</a>
+							<p className="text-xs text-muted-foreground">{description}</p>
 						</figcaption>
 						<div className="grid grid-cols-2">
 							{["light", "dark"].map((background) => (

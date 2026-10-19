@@ -1,30 +1,12 @@
 import { ICON_NAME_REGEX, MAX_NAME_LENGTH } from "@/lib/icons/validate"
 import type { createServerPB, Submission } from "@/lib/pb"
-
-export const SUBMISSION_VARIANTS = ["base", "dark", "light", "wordmark", "wordmark_dark"] as const
-export type SubmissionVariant = (typeof SUBMISSION_VARIANTS)[number]
+import { SUBMISSION_VARIANTS, type SubmissionVariant, VARIANT_KINDS, variantExtras } from "@/lib/submission-variants"
 
 export const ASSET_EXTENSIONS = { "image/svg+xml": "svg", "image/png": "png" } as const
 type AssetType = keyof typeof ASSET_EXTENSIONS
 
 export const MAX_ASSET_BYTES = 1024 * 1024 * 5
 const MAX_DESCRIPTION_LENGTH = 10000
-
-const VARIANT_SUFFIXES: Record<SubmissionVariant, string> = {
-	base: "",
-	dark: "-dark",
-	light: "-light",
-	wordmark: "-wordmark",
-	wordmark_dark: "-wordmark-dark",
-}
-
-const VARIANT_LABELS: Record<SubmissionVariant, string> = {
-	base: "Base",
-	dark: "Dark variant",
-	light: "Light variant",
-	wordmark: "Light wordmark",
-	wordmark_dark: "Dark wordmark",
-}
 
 export interface SubmissionInput {
 	name: string
@@ -62,12 +44,12 @@ function prepareAssets(input: SubmissionInput): PreparedAssets {
 	for (const variant of SUBMISSION_VARIANTS) {
 		const file = input.assets[variant]
 		if (!file) continue
-		const label = VARIANT_LABELS[variant]
+		const label = `${VARIANT_KINDS[variant].label} variant`
 		const type = assetType(file)
 		if (!type) return { ok: false, error: `The ${label} file must be an SVG or PNG` }
 		if (file.size === 0) return { ok: false, error: `The ${label} file is empty` }
 		if (file.size > MAX_ASSET_BYTES) return { ok: false, error: `The ${label} file is larger than ${MAX_ASSET_BYTES / 1024 / 1024} MB` }
-		const filename = `${input.name}${VARIANT_SUFFIXES[variant]}.${ASSET_EXTENSIONS[type]}`
+		const filename = `${input.name}${VARIANT_KINDS[variant].suffix}.${ASSET_EXTENSIONS[type]}`
 		files.push(new File([file], filename, { type }))
 		filenames[variant] = filename
 	}
@@ -82,14 +64,12 @@ export async function createSubmission(pb: SubmissionPocketBase, userId: string,
 	const prepared = prepareAssets(input)
 	if (!prepared.ok) return prepared
 
-	const { filenames } = prepared
 	const extras: Submission["extras"] = {
 		aliases: [...new Set(input.aliases)],
 		categories: [...new Set(input.categories)],
 		base: prepared.base,
+		...variantExtras(prepared.filenames),
 	}
-	if (filenames.dark || filenames.light) extras.colors = { dark: filenames.dark, light: filenames.light }
-	if (filenames.wordmark || filenames.wordmark_dark) extras.wordmark = { light: filenames.wordmark, dark: filenames.wordmark_dark }
 
 	const record = await pb.collection("submissions").create(
 		{

@@ -1,75 +1,26 @@
 "use client"
 
 import { useForm } from "@tanstack/react-form"
-import { FileImage, FileType } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { useRef, useState } from "react"
 import { toast } from "sonner"
 import { revalidateAllSubmissions } from "@/app/actions/submissions"
-import type { MultiSelectOption } from "@/components/ui/multi-select"
 import type { IconNameOption } from "@/hooks/use-submissions"
 import { pb } from "@/lib/pb"
-import {
-	ASSET_EXTENSIONS,
-	MAX_ASSET_BYTES,
-	SUBMISSION_VARIANTS,
-	type SubmissionInput,
-	type SubmissionVariant,
-} from "@/lib/submission-service"
+import { ASSET_EXTENSIONS, MAX_ASSET_BYTES, type SubmissionInput } from "@/lib/submission-service"
+import { SUBMISSION_VARIANTS, type SubmissionVariant, VARIANT_KINDS, type VariantKind } from "@/lib/submission-variants"
 import { submitProposal } from "@/lib/submit-proposal"
 
-export interface VariantConfig {
-	id: string
-	label: string
-	description: string
-	field: SubmissionVariant
+export interface VariantConfig extends VariantKind {
+	id: SubmissionVariant
 }
 
-export const VARIANTS: VariantConfig[] = [
-	{
-		id: "base",
-		label: "Base Icon",
-		description: "Main icon file (required)",
-		field: "base",
-	},
-	{
-		id: "dark",
-		label: "Dark Variant",
-		description: "Icon optimized for dark backgrounds",
-		field: "dark",
-	},
-	{
-		id: "light",
-		label: "Light Variant",
-		description: "Icon optimized for light backgrounds",
-		field: "light",
-	},
-	{
-		id: "wordmark",
-		label: "Wordmark Light",
-		description: "Wordmark optimized for light backgrounds",
-		field: "wordmark",
-	},
-	{
-		id: "wordmark_dark",
-		label: "Wordmark Dark",
-		description: "Wordmark optimized for dark backgrounds",
-		field: "wordmark_dark",
-	},
-]
-
-export const VARIANT_OPTIONS: MultiSelectOption[] = VARIANTS.map((variant) => ({
-	label: variant.label,
-	value: variant.id,
-	icon: variant.id === "base" ? FileImage : FileType,
-	disabled: variant.id === "base",
-}))
+export const VARIANTS: VariantConfig[] = SUBMISSION_VARIANTS.map((id) => ({ id, ...VARIANT_KINDS[id] }))
 
 export { SUBMISSION_CATEGORIES as AVAILABLE_CATEGORIES } from "@/lib/submission-categories"
 
 export interface FormData {
 	iconName: string
-	selectedVariants: string[]
 	files: Record<string, File[]>
 	aliases: string[]
 	aliasInput: string
@@ -93,7 +44,6 @@ export function useIconSubmissionForm() {
 	const form = useForm({
 		defaultValues: {
 			iconName: "",
-			selectedVariants: ["base"],
 			files: {} as Record<string, File[]>,
 			aliases: [] as string[],
 			aliasInput: "",
@@ -146,10 +96,10 @@ export function useIconSubmissionForm() {
 				form.reset()
 				setFilePreviews({})
 				setSelectedIcon(null)
-			} catch (error: any) {
+			} catch (error: unknown) {
 				console.error("Submission error:", error)
 				toast.error("Failed to submit icon", {
-					description: error?.message || "Please try again later",
+					description: error instanceof Error ? error.message : "Please try again later",
 				})
 			} finally {
 				isSubmittingRef.current = false
@@ -157,25 +107,6 @@ export function useIconSubmissionForm() {
 			}
 		},
 	})
-
-	const handleRemoveVariant = (variantId: string) => {
-		if (variantId !== "base") {
-			const currentVariants = form.getFieldValue("selectedVariants")
-			form.setFieldValue(
-				"selectedVariants",
-				currentVariants.filter((v) => v !== variantId),
-			)
-
-			const currentFiles = form.getFieldValue("files")
-			const newFiles = { ...currentFiles }
-			delete newFiles[variantId]
-			form.setFieldValue("files", newFiles)
-
-			const newPreviews = { ...filePreviews }
-			delete newPreviews[variantId]
-			setFilePreviews(newPreviews)
-		}
-	}
 
 	const handleFileDrop = (variantId: string, droppedFiles: File[]) => {
 		const currentFiles = form.getFieldValue("files")
@@ -267,7 +198,6 @@ export function useIconSubmissionForm() {
 		form,
 		filePreviews,
 		isSubmitting,
-		handleRemoveVariant,
 		handleFileDrop,
 		handleAddAlias,
 		handleRemoveAlias,
