@@ -1,0 +1,43 @@
+web/src/app/submit/page.tsx
+  s_e047af3de47cca::t_fabe30499b196f 7-9,55,57-59,70,84-90
+web/src/components/custom-variant-input.tsx
+  s_e047af3de47cca::t_39218adfe2c097 62,64
+web/src/components/icon-submission-form.tsx
+  s_e047af3de47cca::t_066828a0595967 28-31,35,38,51-56,63,98,106,116,134-136,164-165,167,170-171,180,187,195-198,207-210,219-222,234,238-245,256-273,280-281,289,311-313,327-328,333-337,398,431,456,469,472,475,516-531,550-558
+web/src/components/icon-submission-guidelines.tsx
+  s_e047af3de47cca::t_b97b8f10d4e1d4 49-50,56-57,65,70,72-73,90,95
+web/src/components/submission/edit-icon-picker.tsx
+  s_e047af3de47cca::t_42409429449e2a 9,20-21,73,80,105,107-109,133,135,158-159,175-179,181-190,192-211,213
+web/src/components/submission/icon-update-editor.tsx
+  s_e047af3de47cca::t_fb31f2a60111df 26,43,119-130,141,248,252-259,380,386,411,442-445,448,474,498-504,527,579,622,655,659,716,755-762,765,768-773,800,806,822-830
+web/src/components/submission/own-submission-editor.tsx
+  s_e047af3de47cca::t_23351fa4fe5111 89,93-100,216,237-239,244,259,262,303
+web/src/components/submission/rejected-round-comparison.tsx
+  s_e047af3de47cca::t_9207d46d8b3072 52,62
+web/src/components/submission/rejection-notice.tsx
+  s_e047af3de47cca::t_7f288f9f2a6786 36-41,46
+web/src/components/submission/submission-card.tsx
+  s_e047af3de47cca::t_c24e7ac58517a8 21-22,90-100,102-129,131-157,160-165,203-207,220,226,249,255,314,322-327,338,347,365,376,380,435
+web/src/components/submission/submission-form.css
+  s_e047af3de47cca::t_bd54c5bc9b3b35 2,35-36
+web/src/components/submission/submission-preview.tsx
+  s_e047af3de47cca::t_c997ec4ed5cc90 68
+web/src/components/submission/submission-ui.tsx
+  s_e047af3de47cca::t_0c54311aa034fd 15-19,26-27,37-38,70-71,86,89,93,97,100,139,142,150,185-188,254
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "1bdd6aa61c57602b505e2e2f19c0e3732f0341fa",
+  "prompts": {},
+  "sessions": {
+    "s_e047af3de47cca": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "dc68b5d9-8f96-4ff2-9461-290a37969612",
+        "model": "unknown"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
