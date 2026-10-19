@@ -1,0 +1,36 @@
+web/backend/pb_hooks/dashboard.js
+  h_d6e478ca18e517 125,131
+web/backend/pb_hooks/submission-assets.d.ts
+  h_d6e478ca18e517 1-37
+web/backend/pb_hooks/submission-assets.js
+  h_d6e478ca18e517 1-81
+web/docs/submission-resubmission.md
+  h_d6e478ca18e517 10-13
+web/src/components/submission/legacy-asset-assignment.tsx
+  h_d6e478ca18e517 1-114
+web/src/components/submission/own-submission-editor.tsx
+  h_d6e478ca18e517 8,14,16,22-24,31-40,50,64,72-75,133-134,203,205-226,250
+web/src/components/submission/rejected-round-comparison.tsx
+  h_d6e478ca18e517 5,10-31,38-61,63,66-68,72-74,93-95
+web/src/components/submission/submission-preview.tsx
+  h_d6e478ca18e517 13,18,47
+web/src/lib/__tests__/submission-guard.test.ts
+  h_d6e478ca18e517 7,310-391
+web/src/lib/community.ts
+  h_d6e478ca18e517 4,20-22
+web/src/lib/pb.ts
+  h_d6e478ca18e517 2,64-66
+web/src/lib/submission-variants.ts
+  h_d6e478ca18e517 2,4,73-74
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "77ccad8250bd402d80e1113a6cb3c5809a5c6b9c",
+  "prompts": {},
+  "humans": {
+    "h_d6e478ca18e517": {
+      "author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
