@@ -1,0 +1,31 @@
+web/backend/pb_hooks/icon-update-policy.d.ts
+  s_17ef26bd27b71a::t_d8af0b886f3213 22
+web/src/app/api/submissions/[id]/route.ts
+  s_9d8846add4ef0e::t_bdf276e29f5e0f 5,108-113,120
+web/src/components/submission/icon-update-editor.tsx
+  s_17ef26bd27b71a::t_35762fae7b9bdb 140,232
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "4dfb225e2706b26d8280895d1df2bc2787f19877",
+  "prompts": {},
+  "sessions": {
+    "s_17ef26bd27b71a": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "9db86f57-96e0-4df5-bd49-18e907fb1fe1",
+        "model": "unknown"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    },
+    "s_9d8846add4ef0e": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "789e307e-2308-4cf4-9745-51fdb0fecab1",
+        "model": "unknown"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
