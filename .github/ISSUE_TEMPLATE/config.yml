@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Submit or update an icon
+    url: https://dashboardicons.com/submit
+    about: Icon submissions and update proposals go through the website. GitHub issues are no longer used for icons.

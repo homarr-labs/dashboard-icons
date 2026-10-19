@@ -100,7 +100,7 @@ Behaviour verified in the code:
 
 - `scripts/generate_file_tree.py:7-22,38-40` lists every file in the given folders, so it is variant-agnostic. But the `generate_file_tree` job in `update_icons_and_resources.yml:63-86` only runs `git add tree.json`. **It never runs the script.** `tree.json` was last changed by hand in `bb5749ad` (2026-09-19). It lists 2,799 PNGs, against 4,459 on disk.
 - `meta/` holds 2,363 files against 3,424 metadata entries, and was last touched in `bb5749ad`. Nothing in the current `add-icon.yml` path writes it.
-- Only the legacy, issue-label workflows `on_icon_addition_approved.yml:41-53` and `on_icon_update_approved.yml:41-53` still run `generate_file_tree.py` and `generate_metadata.py`. `generate_metadata.py:20-30` **rebuilds `metadata.json` from `meta/*.json`**. **Inference:** if one of those workflows ever ran, it would drop the roughly 1,061 entries that `meta/` lacks. This is separate from the schema question, but any change to `meta/` should account for it.
+- The legacy, issue-label workflows `on_icon_addition_approved.yml` and `on_icon_update_approved.yml` used to run `generate_file_tree.py` and `generate_metadata.py`, and `generate_metadata.py` rebuilt `metadata.json` from `meta/*.json`. Had either workflow run, it would have dropped the roughly 1,061 entries that `meta/` lacks. Both workflows and `generate_metadata.py` were deleted with #2971, so that risk no longer applies. `generate_file_tree.py` is kept for the `tree.json` fix.
 
 ## 3. External consumers
 

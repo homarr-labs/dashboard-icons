@@ -97,10 +97,7 @@ These icons integrate seamlessly with popular dashboard applications:
 Need an icon that's not in our collection?
 
 > [!NOTE]
-> You can now submit new icon requests and updates directly using the form available at [dashboardicons.com](https://dashboardicons.com). This is the preferred way to make submissions and allows us to instantly receive and process icon contributions. Submissions can be directly approved and published by admins or contributors of Homarr Labs.
-
-> [!TIP]
-> Use the dashboardicons.com submission form for faster review, approval, and publishing of your icon contributions—no need to open GitHub issues!
+> Submit new icons and updates to existing ones with the form at [dashboardicons.com/submit](https://dashboardicons.com/submit). GitHub issues are no longer used for icon submissions.
 
 > [!IMPORTANT]
 > If you would like to help review, approve, or reject icon submissions, contact us:
@@ -109,19 +106,9 @@ Need an icon that's not in our collection?
 >
 > If you want to be an admin for dashboardicons.com, tell us (via Discord or email) why you'd like to help and what you bring to the project!
 
-> [!WARNING]
-> If you choose to submit an "old" issue in GitHub (instead of using the dashboardicons.com form), your request may take significantly longer to be reviewed and processed.
-
-**Preferred Method (Fast & Easy):**
-1. Visit [dashboardicons.com](https://dashboardicons.com)
-2. Use the submission form to add or update icons
-3. Your submission will be reviewed by admins and published quickly
-
-**Alternative Method (Slower):**
 1. Check the [Contribution Guidelines](CONTRIBUTING.md) for specifications
-2. Submit a request using our [issue templates](https://github.com/homarr-labs/dashboard-icons/issues/new/choose)
-3. Provide service details and optionally upload the icon
-4. Our team will review, optimize, and add it to the collection (may take longer)
+2. Open [dashboardicons.com/submit](https://dashboardicons.com/submit) to add a new icon or propose an update to an existing one
+3. Admins review your submission. Approved submissions go live once a maintainer publishes them.
 
 ### Improve the Repository
 
@@ -133,7 +120,8 @@ Want to help with the repository itself?
 
 ## Support
 
-- **GitHub Issues**: Report bugs or request icons
+- **Icon submissions**: [dashboardicons.com/submit](https://dashboardicons.com/submit)
+- **GitHub Issues**: Report bugs
 - **Email**: [homarr-labs@proton.me](mailto:homarr-labs@proton.me)
 
 ## Legal
