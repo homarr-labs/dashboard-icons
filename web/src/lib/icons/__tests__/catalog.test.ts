@@ -381,13 +381,13 @@ describe("getCatalogIcon", () => {
 				urls: {
 					svg: {
 						default: "https://cdn.simpleicons.org/openai/412991",
-						light: "https://cdn.simpleicons.org/openai/000000",
-						dark: "https://cdn.simpleicons.org/openai/FFFFFF",
+						light: "https://cdn.simpleicons.org/openai/FFFFFF",
+						dark: "https://cdn.simpleicons.org/openai/000000",
 					},
 					png: {
 						default: "https://dashboardicons.com/api/icons/external/simpleicons/openai/brand.png",
-						light: "https://dashboardicons.com/api/icons/external/simpleicons/openai/light.png",
-						dark: "https://dashboardicons.com/api/icons/external/simpleicons/openai/dark.png",
+						light: "https://dashboardicons.com/api/icons/external/simpleicons/openai/dark.png",
+						dark: "https://dashboardicons.com/api/icons/external/simpleicons/openai/light.png",
 					},
 				},
 			},
@@ -398,8 +398,8 @@ describe("getCatalogIcon", () => {
 			svg: { default: `${LOBEHUB_CDN}/icons/openai.svg` },
 			png: {
 				default: `${LOBEHUB_PNG}/light/openai.png`,
-				light: `${LOBEHUB_PNG}/light/openai.png`,
-				dark: `${LOBEHUB_PNG}/dark/openai.png`,
+				light: `${LOBEHUB_PNG}/dark/openai.png`,
+				dark: `${LOBEHUB_PNG}/light/openai.png`,
 			},
 		})
 
@@ -481,6 +481,12 @@ describe("getCatalogIconSvg", () => {
 			reason: "no_svg",
 		})
 		expect(await getCatalogIconSvg("openai", { source: "lobehub", theme: "light" })).toMatchObject({ svg: null, reason: "no_variant" })
+
+		mocks.fetchTrustedSvg.mockResolvedValue("<svg>white</svg>")
+		expect(await getCatalogIconSvg("openai", { source: "simpleicons", theme: "light" })).toMatchObject({
+			svg: "<svg>white</svg>",
+			url: "https://cdn.simpleicons.org/openai/FFFFFF",
+		})
 
 		mocks.fetchTrustedSvg.mockResolvedValue(null)
 		expect(await getCatalogIconSvg("plex")).toMatchObject({

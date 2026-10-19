@@ -3,7 +3,12 @@ import "server-only"
 import { setImmediate as yieldToEventLoop } from "node:timers/promises"
 import { unstable_rethrow } from "next/navigation"
 import { EXTERNAL_SOURCE_IDS, type ExternalSourceId, getExternalSource, WEB_URL } from "@/constants"
-import { canResolveExternalIconUrl, getExternalIconPreviewUrl, resolveExternalIconUrl } from "@/lib/external-icon-urls"
+import {
+	canResolveExternalIconUrl,
+	getExternalIconPreviewUrl,
+	getExternalToneUrlKey,
+	resolveExternalIconUrl,
+} from "@/lib/external-icon-urls"
 import { getExternalIconBySourceAndSlug, getExternalIcons } from "@/lib/external-icons"
 import { filterAndSortIcons, findMatchedVariant, levenshteinDistance, normalizeForSearch, scoreIcon } from "@/lib/icons/search"
 import { getAllIcons } from "@/lib/icons/service"
@@ -279,9 +284,9 @@ function nativeUrls(entry: NativeIconRecord): CatalogUrls {
 	return urls
 }
 
-function externalUrlKey(format: IconFormat, theme: IconTheme): string {
+function externalUrlKey(icon: ExternalIcon, format: IconFormat, theme: IconTheme): string | null {
 	if (theme === "default") return format
-	return `${format}_${theme}`
+	return getExternalToneUrlKey(icon, format, theme)
 }
 
 function externalUrls(icon: ExternalIcon): CatalogUrls {
@@ -289,9 +294,8 @@ function externalUrls(icon: ExternalIcon): CatalogUrls {
 	for (const format of FORMATS) {
 		if (!icon.formats.includes(format)) continue
 		const themed = themedUrls((theme) => {
-			const key = externalUrlKey(format, theme)
-			if (theme !== "default" && !icon.variants?.[theme]) return null
-			if (!canResolveExternalIconUrl(icon, key)) return null
+			const key = externalUrlKey(icon, format, theme)
+			if (!key || !canResolveExternalIconUrl(icon, key)) return null
 			return absoluteUrl(resolveExternalIconUrl(icon, key))
 		})
 		if (Object.keys(themed).length > 0) urls[format] = themed

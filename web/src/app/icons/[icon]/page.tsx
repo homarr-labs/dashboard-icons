@@ -3,6 +3,7 @@ import { notFound } from "next/navigation"
 import { IconDetails } from "@/components/icon-details"
 import { BASE_URL, WEB_URL } from "@/constants"
 import { computeRelatedIcons, getAllIcons, getAuthorData } from "@/lib/api"
+import { formatIconName } from "@/lib/utils"
 
 export const dynamicParams = true
 export const dynamic = "force-static"
@@ -36,10 +37,7 @@ export async function generateMetadata({ params }: Props, _parent: ResolvingMeta
 	console.debug(`Generated metadata for ${icon} by ${authorName} (${authorData.html_url}) updated at ${updateDate.toLocaleString()}`)
 
 	const pageUrl = `${WEB_URL}/icons/${icon}`
-	const formattedIconName = icon
-		.split("-")
-		.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-		.join(" ")
+	const formattedIconName = formatIconName(icon, { capitalize: true })
 	return {
 		title: `${formattedIconName} Icon & Logo`,
 		description: `Download the ${formattedIconName} icon and logo in SVG, PNG, and WEBP formats for FREE. Part of a collection of ${totalIcons} curated icons and logos for services, applications and tools, designed specifically for dashboards and app directories.`,
@@ -130,10 +128,7 @@ export default async function IconPage({ params }: { params: Promise<{ icon: str
 	const categories = originalIconData.categories || []
 	const relatedIcons = computeRelatedIcons(icon, categories, iconsData)
 
-	const formattedName = icon
-		.split("-")
-		.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-		.join(" ")
+	const formattedName = formatIconName(icon, { capitalize: true })
 
 	return (
 		<>

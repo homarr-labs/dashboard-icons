@@ -5,8 +5,10 @@ export function cn(...inputs: ClassValue[]) {
 	return twMerge(clsx(inputs))
 }
 
-export function formatIconName(name: string) {
-	return name.replace(/-/g, " ")
+export function formatIconName(name: string, { capitalize = false } = {}) {
+	const words = name.split("-")
+	if (!capitalize) return words.join(" ")
+	return words.map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join(" ")
 }
 
 export {

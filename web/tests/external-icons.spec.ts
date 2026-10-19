@@ -157,8 +157,12 @@ test.describe("External Simple Icons", () => {
 		await page.goto("/icons/external/stackoverflow")
 
 		await expect(page.getByRole("heading", { name: "Brand color" })).toBeVisible()
-		await expect(page.getByRole("heading", { name: "Light mode" })).toBeVisible()
-		await expect(page.getByRole("heading", { name: "Dark mode" })).toBeVisible()
+		await expect(page.getByRole("heading", { name: "Light", exact: true })).toBeVisible()
+		await expect(page.getByRole("heading", { name: "Dark", exact: true })).toBeVisible()
+		await expect(page.getByAltText("Stack Overflow logo, white variant for dark backgrounds (SVG)")).toHaveAttribute(
+			"src",
+			"https://cdn.simpleicons.org/stackoverflow/FFFFFF",
+		)
 		await expect(page.locator('img[src="https://cdn.simpleicons.org/stackoverflow/000000"]').first()).toBeVisible()
 		await expect(page.locator('img[src="https://cdn.simpleicons.org/stackoverflow/FFFFFF"]')).toBeVisible()
 		await expect(page.locator('img[src="/api/icons/external/simpleicons/stackoverflow/brand.png"]')).toBeVisible()

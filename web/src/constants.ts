@@ -12,6 +12,8 @@ export const websiteTitle = "Free Dashboard Icons & Logos - Download High-Qualit
 
 export type ExternalSourceId = "selfhst" | "lobehub" | "simpleicons"
 
+export type ExternalToneKey = "light" | "dark"
+
 export interface ExternalSourceConfig {
 	id: ExternalSourceId
 	label: string
@@ -23,6 +25,8 @@ export interface ExternalSourceConfig {
 	authorUrl: string
 	license: string
 	pbFilter: string
+	toneKeys: Record<ExternalToneKey, ExternalToneKey>
+	monochromeTones: boolean
 }
 
 export const EXTERNAL_SOURCES: Record<ExternalSourceId, ExternalSourceConfig> = {
@@ -37,6 +41,8 @@ export const EXTERNAL_SOURCES: Record<ExternalSourceId, ExternalSourceConfig> = 
 		authorUrl: "https://selfh.st/icons/",
 		license: "CC BY 4.0",
 		pbFilter: "selfhst",
+		toneKeys: { light: "light", dark: "dark" },
+		monochromeTones: false,
 	},
 	lobehub: {
 		id: "lobehub",
@@ -49,6 +55,8 @@ export const EXTERNAL_SOURCES: Record<ExternalSourceId, ExternalSourceConfig> = 
 		authorUrl: "https://github.com/lobehub/lobe-icons",
 		license: "MIT",
 		pbFilter: "lobehub",
+		toneKeys: { light: "dark", dark: "light" },
+		monochromeTones: false,
 	},
 	simpleicons: {
 		id: "simpleicons",
@@ -61,6 +69,8 @@ export const EXTERNAL_SOURCES: Record<ExternalSourceId, ExternalSourceConfig> = 
 		authorUrl: "https://github.com/simple-icons/simple-icons",
 		license: "CC0-1.0",
 		pbFilter: "simpleicons",
+		toneKeys: { light: "dark", dark: "light" },
+		monochromeTones: true,
 	},
 }
 

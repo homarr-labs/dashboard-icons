@@ -30,11 +30,13 @@ function toExternalIconRecord(icon: ExternalIcon, { lite = false } = {}): Extern
 	const formats = icon.formats ?? []
 	const aliases = icon.aliases ?? []
 	const categories = icon.categories ?? []
+	const lightKey = sourceConfig.toneKeys.light
+	const darkKey = sourceConfig.toneKeys.dark
 	const colors =
 		icon.variants?.light || icon.variants?.dark
 			? {
-					light: icon.variants?.light ? `${icon.slug}-light` : undefined,
-					dark: icon.variants?.dark ? `${icon.slug}-dark` : undefined,
+					light: icon.variants?.[lightKey] ? `${icon.slug}-${lightKey}` : undefined,
+					dark: icon.variants?.[darkKey] ? `${icon.slug}-${darkKey}` : undefined,
 				}
 			: undefined
 

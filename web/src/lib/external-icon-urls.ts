@@ -1,4 +1,4 @@
-import { EXTERNAL_SOURCES, type ExternalSourceId } from "@/constants"
+import { EXTERNAL_SOURCES, type ExternalSourceId, type ExternalToneKey } from "@/constants"
 import type { ExternalIcon, ExternalIconUrlData } from "@/types/icons"
 
 const FALLBACK_URL_BUILDERS: Partial<
@@ -54,4 +54,14 @@ export function getExternalIconPreviewUrl(icon: ExternalIconUrlData): string {
 	const formats = icon.formats ?? []
 	const format = formats.includes("svg") ? "svg" : formats.includes("png") ? "png" : formats[0] || "svg"
 	return resolveExternalIconUrl(icon, format)
+}
+
+export function getExternalToneUrlKey(
+	icon: Pick<ExternalIcon, "source" | "variants">,
+	format: string,
+	tone: ExternalToneKey,
+): string | null {
+	const sourceKey = EXTERNAL_SOURCES[icon.source].toneKeys[tone]
+	if (!icon.variants?.[sourceKey]) return null
+	return `${format}_${sourceKey}`
 }
