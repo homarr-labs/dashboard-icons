@@ -1,0 +1,24 @@
+.github/workflows/add-icon.yml
+  h_d6e478ca18e517 61-65
+scripts/convert-icon-asset.py
+  h_d6e478ca18e517 1-14
+scripts/import-icon.ts
+  h_d6e478ca18e517 13,293-301,310-313,440-442,510-512
+scripts/persist-icon-asset.ts
+  h_d6e478ca18e517 1-30
+web/src/lib/icons/__tests__/catalog.test.ts
+  h_d6e478ca18e517 28-46,322-323,337-341
+web/src/lib/icons/catalog.ts
+  h_d6e478ca18e517 14,279,282-286
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "8b6843e582849d152de2f729ff7a89651fc73e57",
+  "prompts": {},
+  "humans": {
+    "h_d6e478ca18e517": {
+      "author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
