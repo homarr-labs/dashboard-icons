@@ -1,0 +1,16 @@
+web/src/lib/__tests__/review-fixups.test.ts
+  h_d6e478ca18e517 215-252
+web/src/lib/dashboard/review-fixup-draft.ts
+  h_d6e478ca18e517 7,131-133
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "83e7c053292be739e44c0f3a21d53e519c1579f2",
+  "prompts": {},
+  "humans": {
+    "h_d6e478ca18e517": {
+      "author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
