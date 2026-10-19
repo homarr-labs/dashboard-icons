@@ -105,7 +105,7 @@ async function fetchGitHubAuthorData(authorId: number): Promise<AuthorData> {
 		}
 		const response = await fetch(`https://api.github.com/user/${authorId}`, {
 			headers,
-			signal: AbortSignal.timeout(10_000),
+			signal: AbortSignal.timeout(3_000),
 		})
 
 		if (response.status === 401 || response.status === 403 || response.status === 404 || response.status === 429) {

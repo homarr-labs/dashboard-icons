@@ -4,10 +4,11 @@ import { IconUpdateDiff } from "@/components/dashboard/icon-update-diff"
 import { IconDetails } from "@/components/icon-details"
 import { RejectionNotice } from "@/components/submission/rejection-notice"
 import { APACHE_LICENSE_URL, BASE_URL, WEB_URL } from "@/constants"
-import { computeRelatedIcons, getAllIcons, getAuthorData } from "@/lib/api"
+import { computeRelatedIcons, getAllIcons } from "@/lib/api"
 import { getCommunityGalleryRecord, getCommunitySubmission, getCommunitySubmissions } from "@/lib/community"
 import { iconUpdatePreviews } from "@/lib/icon-update-previews"
 import { isIconAssetUrl } from "@/lib/icon-url"
+import type { AuthorData } from "@/types/icons"
 
 export const dynamicParams = true
 export const revalidate = 900
@@ -37,10 +38,6 @@ export async function generateMetadata({ params }: Props, _parent: ResolvingMeta
 	const icon = iconData.name
 	const allIcons = await getCommunitySubmissions()
 	const totalIcons = allIcons.length
-	const updateDate = new Date(iconData.data.update.timestamp)
-	const authorName = iconData.data.update.author.name || "Community"
-
-	console.debug(`Generated metadata for community icon ${icon} by ${authorName} updated at ${updateDate.toLocaleString()}`)
 
 	const pageUrl = `${WEB_URL}/community/submissions/${id}`
 	const formattedIconName = icon
@@ -147,62 +144,24 @@ export default async function CommunityIconPage({ params }: { params: Promise<{ 
 	const relatedIcons = computeRelatedIcons(icon, categories, allIconsData)
 
 	const author = iconData.data.update.author as any
-	const githubId = author?.github_id
-	const authorMetaLogin = author?.login || author?.name
+	const authorLogin: string = author?.login || author?.name || ""
+	const githubId = String(author?.github_id ?? "")
 
-	let authorData:
-		| {
-				id: number | string
-				name?: string
-				login: string
-				avatar_url: string
-				html_url: string
-		  }
-		| undefined
-
-	if (githubId && /^\d+$/.test(String(githubId))) {
-		authorData = await getAuthorData(String(githubId), { login: authorMetaLogin, name: author?.name })
-	} else if (authorMetaLogin && authorMetaLogin !== "community" && authorMetaLogin !== "Community") {
-		// Fallback: resolve by GitHub username if we don't have github_id in the community_gallery view.
-		// This avoids losing the GitHub link when PB doesn't expose github_id in the view.
-		try {
-			const headers: Record<string, string> = {}
-			if (process.env.GITHUB_TOKEN) {
-				headers.Authorization = `Bearer ${process.env.GITHUB_TOKEN}`
-			}
-			const res = await fetch(`https://api.github.com/users/${encodeURIComponent(authorMetaLogin)}`, { headers })
-			if (res.ok) {
-				const gh = await res.json()
-				authorData = {
-					id: gh?.id ?? 0,
-					name: gh?.name ?? authorMetaLogin,
-					login: gh?.login ?? authorMetaLogin,
-					avatar_url: gh?.avatar_url ?? "",
-					html_url: gh?.html_url ?? "",
-				}
-			}
-		} catch (err) {
-			console.log("[CommunityPage] GitHub username fallback failed:", { icon, login: authorMetaLogin, err })
-		}
+	const authorData: AuthorData = {
+		id: 0,
+		name: author?.name || "Community",
+		login: authorLogin || "community",
+		avatar_url: "",
+		html_url: "",
 	}
-
-	if (!authorData) {
-		authorData = {
-			id: 0,
-			name: author?.name || "Community",
-			login: authorMetaLogin || "community",
-			avatar_url: "",
-			html_url: "",
-		}
+	if (authorLogin && authorLogin.toLowerCase() !== "community") {
+		authorData.html_url = `https://github.com/${encodeURIComponent(authorLogin)}`
+		authorData.avatar_url = `https://github.com/${encodeURIComponent(authorLogin)}.png`
 	}
-	console.log("[CommunityPage] resolved authorData:", {
-		icon,
-		id: authorData.id,
-		login: authorData.login,
-		html_url: authorData.html_url,
-		avatar_url: authorData.avatar_url,
-	})
-	console.log(iconData.data)
+	if (/^\d+$/.test(githubId)) {
+		authorData.id = Number(githubId)
+		authorData.avatar_url = `https://avatars.githubusercontent.com/u/${githubId}?v=4`
+	}
 
 	const mainIconUrl = isIconAssetUrl(iconData.data.base)
 		? iconData.data.base
