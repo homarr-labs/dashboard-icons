@@ -32,13 +32,18 @@ function context(record, auth, operation, batch) {
 }
 function validateProposalNames(app, record, old, creating) {
 	const nameChanged = !creating && record.getString("name") !== old.getString("name")
-	if (nameChanged && app.findRecordsByFilter(
-		"submissions",
-		"target_submission = {:id} && (status = 'pending' || status = 'approved')",
-		"", 1, 0, { id: record.id },
-	).length) throw new BadRequestError("A submission with active update proposals cannot be renamed")
+	if (
+		nameChanged &&
+		app.findRecordsByFilter("submissions", "target_submission = {:id} && (status = 'pending' || status = 'approved')", "", 1, 0, {
+			id: record.id,
+		}).length
+	)
+		throw new BadRequestError("A submission with active update proposals cannot be renamed")
 	const target = record.getString("target_submission")
-	if (target && (creating || nameChanged || target !== old.getString("target_submission") || record.getString("status") !== old.getString("status"))) {
+	if (
+		target &&
+		(creating || nameChanged || target !== old.getString("target_submission") || record.getString("status") !== old.getString("status"))
+	) {
 		const targetRecord = app.findRecordById("submissions", target)
 		if (targetRecord.getString("name") !== record.getString("name"))
 			throw new BadRequestError("A proposal must use its target submission's icon name")
@@ -74,7 +79,7 @@ function resolvedVariantFiles(record) {
 	const customFiles = new Set()
 	for (const kind in variants)
 		for (const mode of variants[kind]) {
-			const name = (extras[kind] || {})[mode]
+			const name = extras[kind]?.[mode]
 			if (!name) continue
 			if (stored[name]) extras[kind][mode] = stored[name]
 			else if (assets.indexOf(name) < 0) throw new BadRequestError("Variant file " + name + " is not one of the uploaded assets")
@@ -87,12 +92,16 @@ function resolvedVariantFiles(record) {
 	if (customFiles.size) {
 		const standard = []
 		for (const group of ["colors", "wordmark"]) for (const file of Object.values(extras[group] || {})) standard.push(file)
-		if (standard.some((file) => customFiles.has(file)) || assets.filter((file) => !customFiles.has(file) && !standard.includes(file)).length === 0)
+		if (
+			standard.some((file) => customFiles.has(file)) ||
+			assets.filter((file) => !customFiles.has(file) && !standard.includes(file)).length === 0
+		)
 			throw new BadRequestError("Each Custom variant needs its own uploaded file, separate from Base and well-known Variants")
 	}
 	const labelled = []
 	for (const group of ["colors", "wordmark", "variants"]) for (const file of Object.values(extras[group] || {})) labelled.push(file)
-	if (assets.length && assets.every((file) => labelled.includes(file))) throw new BadRequestError("Base icon is required, separate from optional Variants")
+	if (assets.length && assets.every((file) => labelled.includes(file)))
+		throw new BadRequestError("Base icon is required, separate from optional Variants")
 	return extras
 }
 function resolveVariantFiles(record) {
@@ -100,8 +109,13 @@ function resolveVariantFiles(record) {
 	if (extras) record.set("extras", extras)
 }
 function unchangedRejection(record, old, creating) {
-	return !creating && record.getString("status") === "rejected" &&
-		["name", "description", "assets", "extras", "target_submission", "created_by"].every((key) => JSON.stringify(field(record, key)) === JSON.stringify(field(old, key)))
+	return (
+		!creating &&
+		record.getString("status") === "rejected" &&
+		["name", "description", "assets", "extras", "target_submission", "created_by"].every(
+			(key) => JSON.stringify(field(record, key)) === JSON.stringify(field(old, key)),
+		)
+	)
 }
 function retainRejectedRound(app, record, old) {
 	const files = []
@@ -122,7 +136,12 @@ function retainRejectedRound(app, record, old) {
 		fs.close()
 	}
 	const extras = field(old, "extras") || {}
-	const metadata = require(`${__hooks}/submission-assets.js`).snapshotVariantMetadata(extras, field(old, "assets"), names, old.getString("name"))
+	const metadata = require(`${__hooks}/submission-assets.js`).snapshotVariantMetadata(
+		extras,
+		field(old, "assets"),
+		names,
+		old.getString("name"),
+	)
 	record.set("reviewed_assets", files)
 	record.set("last_rejected", {
 		round: Number(old.get("round")) || 1,
@@ -138,7 +157,12 @@ function retainRejectedRound(app, record, old) {
 function audit(e, creating) {
 	const old = e.record.original()
 	const rejectUnchanged = unchangedRejection(e.record, old, creating)
-	if (!rejectUnchanged && (creating || JSON.stringify(field(old, "extras")) !== JSON.stringify(field(e.record, "extras")) || JSON.stringify(field(old, "assets")) !== JSON.stringify(field(e.record, "assets"))))
+	if (
+		!rejectUnchanged &&
+		(creating ||
+			JSON.stringify(field(old, "extras")) !== JSON.stringify(field(e.record, "extras")) ||
+			JSON.stringify(field(old, "assets")) !== JSON.stringify(field(e.record, "assets")))
+	)
 		resolveVariantFiles(e.record)
 	const extras = field(e.record, "extras")
 	let published
@@ -150,6 +174,8 @@ function audit(e, creating) {
 		const after = field(e.record, key)
 		if (JSON.stringify(before) !== JSON.stringify(after)) changes[key] = { before, after }
 	}
+	const fixups = e.record.get("__review_fixups")
+	if (fixups?.length) changes.fixups = { before: [], after: json(fixups) }
 	const hasChanges = creating || Object.keys(changes).length > 0
 	let action = "edited"
 	if (creating) action = "submitted"
@@ -165,8 +191,7 @@ function audit(e, creating) {
 	originalApp.runInTransaction((tx) => {
 		if (!creating) {
 			const current = tx.findRecordById("submissions", e.record.id)
-			if (current.getString("updated") !== old.getString("updated"))
-				throw new ApiError(409, "Submission changed. Refresh before editing.")
+			if (current.getString("updated") !== old.getString("updated")) throw new ApiError(409, "Submission changed. Refresh before editing.")
 			const batch = reservation(tx, e.record.id)
 			if (batch && e.record.getString("__dashboard_batch") !== batch.id)
 				throw new BadRequestError("Submission is reserved by an active publish batch")
@@ -224,7 +249,8 @@ function guard(e, creating) {
 	const expected = headers["x-submission-updated"] || headers.x_submission_updated
 	if (!creating && expected && expected !== old.getString("updated"))
 		throw new ApiError(409, "Submission changed. Reload before saving; your edits have not been applied.")
-	if (!creating && !admin && old.getString("updated") && !expected) throw new ApiError(409, "Reload the Submission before saving with its updated token")
+	if (!creating && !admin && old.getString("updated") && !expected)
+		throw new ApiError(409, "Reload the Submission before saving with its updated token")
 	if (!creating && !e.hasSuperuserAuth() && e.record.getString("target_submission") !== old.getString("target_submission"))
 		throw new BadRequestError("A proposal's target cannot be changed")
 	const name = e.record.getString("name")
@@ -242,8 +268,7 @@ function guard(e, creating) {
 		e.record.set("approved_by", "")
 		e.record.set("admin_comment", "")
 	} else if (!admin) {
-		if (old.getString("created_by") !== e.auth.id)
-			throw new ForbiddenError("Only your own submissions can be edited")
+		if (old.getString("created_by") !== e.auth.id) throw new ForbiddenError("Only your own submissions can be edited")
 		for (const key of ["status", "created_by", "approved_by", "admin_comment"])
 			if (e.record.getString(key) !== old.getString(key)) throw new ForbiddenError("Moderation fields are managed by administrators")
 	} else if (!e.hasSuperuserAuth()) {
@@ -274,12 +299,19 @@ function review(e) {
 	const operation = $security.randomString(24)
 	const results = []
 	for (const item of body.items) {
+		let id = ""
+		if (item && typeof item.id === "string") id = item.id
 		try {
+			const reviewerFixups = require(`${__hooks}/review-fixups.js`)
+			reviewerFixups.validateItem(item)
+			let fixups = []
 			e.app.runInTransaction((tx) => {
-				const record = tx.findRecordById("submissions", String(item.id))
+				const record = tx.findRecordById("submissions", id)
 				if (record.getString("status") !== "pending") throw new BadRequestError("Already reviewed. Refresh to see the current decision.")
 				if (record.getString("updated") !== item.updated) throw new BadRequestError("Submission changed. Refresh before reviewing.")
 				if (reserved(tx, record.id)) throw new BadRequestError("Submission is being published")
+				fixups = reviewerFixups.apply(record, item.fixups)
+				record.set("__review_fixups", fixups)
 				context(record, e.auth, operation, "")
 				if (body.status === "rejected" && body.items.length > 1) record.set("__defer_bulk_email", true)
 				record.set("status", body.status)
@@ -287,13 +319,13 @@ function review(e) {
 				record.set("admin_comment", String(body.comment || "").slice(0, 10000))
 				tx.save(record)
 			})
-			results.push({ id: item.id, success: true })
+			results.push({ id, success: true, fixups })
 		} catch (err) {
 			let current = null
 			try {
-				current = e.app.findRecordById("submissions", String(item.id))
+				if (id) current = e.app.findRecordById("submissions", id)
 			} catch (_) {}
-			results.push({ id: item.id, success: false, error: String(err), current })
+			results.push({ id, success: false, error: String(err), current })
 		}
 	}
 	let emailFailed = false
@@ -304,6 +336,7 @@ function review(e) {
 				const record = e.app.findRecordById("submissions", result.id)
 				record.set("__previous_status", "pending")
 				record.set("__bulk_reject_id", operation)
+				record.set("__review_fixups", result.fixups)
 				mailer.notify({ app: e.app, record })
 			}
 			mailer.sendBulkRejectionEmails(e.app, operation, e.app.logger())
@@ -486,8 +519,7 @@ function reconcile(e) {
 					const commits = github("/commits?sha=main&per_page=100")
 					if (commits.statusCode !== 200) throw new Error("Could not verify repository publication")
 					const match = commits.json.find((c) => c.commit.message.includes("Dashboard-Publish-Batch: " + batch.id))
-					if (match)
-						batch = updateBatch(e.app, batch.id, { state: "running", commit_sha: match.sha, run_id: runId, run_url: run.html_url })
+					if (match) batch = updateBatch(e.app, batch.id, { state: "running", commit_sha: match.sha, run_id: runId, run_url: run.html_url })
 				}
 				if (run.conclusion === "success") state = "unknown"
 				// A successful push followed by a callback error needs reconciliation, not re-publication.
