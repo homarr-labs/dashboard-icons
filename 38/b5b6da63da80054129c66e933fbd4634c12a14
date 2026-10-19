@@ -1,0 +1,21 @@
+web/README.md
+  s_5c1ab3ba284e1f::t_669852b1c82286 153-157
+web/scripts/ping-indexnow.mjs
+  s_5c1ab3ba284e1f::t_05dc43e396f976 1-2,5,10-12,46-64,68,74,77-98
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "38b5b6da63da80054129c66e933fbd4634c12a14",
+  "prompts": {},
+  "sessions": {
+    "s_5c1ab3ba284e1f": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "847e5951-f567-444f-8082-fdc602182abd",
+        "model": "unknown"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
