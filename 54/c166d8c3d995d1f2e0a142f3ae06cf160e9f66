@@ -1,0 +1,94 @@
+.github/workflows/add-icon.yml
+  h_d6e478ca18e517 61-65
+scripts/convert-icon-asset.py
+  h_d6e478ca18e517 1-14
+scripts/import-icon.ts
+  h_d6e478ca18e517 6,14,15,40,296-304,313-315,316,333-335,445-447,456,457-459,461,463-464,469-470,519-521,562-573
+scripts/persist-icon-asset.ts
+  h_d6e478ca18e517 1-30
+web/src/lib/icons/__tests__/catalog.test.ts
+  h_d6e478ca18e517 28-46,340-341,355-359
+web/src/lib/icons/catalog.ts
+  h_d6e478ca18e517 14,279,282-286
+scripts/import-icon-update.ts
+  h_d6e478ca18e517 1-4,5,6-7,8,9-10,11,12-14,15,16-42,43-60,61-80,81,82,83-84,85-98,99-107,108-112,113,114-116,117-125,126,127-153,154,155-166,167,168-179,180-184,185-191
+web/backend/pb_hooks/custom-variants.js
+  h_d6e478ca18e517 47-50,64-65
+web/backend/pb_hooks/dashboard.js
+  h_d6e478ca18e517 71,145,162-168,181,219-220,265-267,275-276,380
+web/backend/pb_hooks/icon-update-policy.d.ts
+  h_d6e478ca18e517 1-10,11-14,15-23,24-28,29-41,42,43-48
+web/backend/pb_hooks/icon-update-policy.js
+  h_d6e478ca18e517 1-13,14-20,21-27,28-30,31-45,46-84,85-88,89-135,136
+web/backend/pb_hooks/icon-updates.js
+  h_d6e478ca18e517 1-13,14-15,16-19,20-32,33-39,40-42,43-45,46,47,48,49,50-52,53-63,64-72,73-82,83-84,85-93,94,95-98,99,100-121
+web/backend/pb_hooks/icon-updates.pb.js
+  h_d6e478ca18e517 1
+web/backend/pb_migrations/1792400000_icon_update_delta.js
+  h_d6e478ca18e517 1-20
+web/src/app/api/submissions/route.ts
+  h_d6e478ca18e517 3-4,7-13,43-44,86-96
+web/src/app/api/submissions/target/route.ts
+  h_d6e478ca18e517 1-25
+web/src/app/community/submissions/[id]/page.tsx
+  h_d6e478ca18e517 3,9,125-128,129,130-133,134-139,140-144
+web/src/components/dashboard/icon-update-diff.tsx
+  h_d6e478ca18e517 1-46,47,48-65,66-70,71-149
+web/src/components/dashboard/review-bench.tsx
+  h_d6e478ca18e517 95-103,213-217,480-482,485,607-623,625,627-629,632-633,724
+web/src/components/dashboard/review-gallery.tsx
+  h_d6e478ca18e517 10,51,63
+web/src/components/submission/edit-icon-picker.tsx
+  h_d6e478ca18e517 3,7,13-14,46,48,98,152-194
+web/src/components/submission/icon-update-editor.tsx
+  h_d6e478ca18e517 1-2,3,4-6,7-9,10-16,17-24,25-98,99-112,113-129,130-139,140-146,147-148,149-160,161,162-173,174,175-208,209-212,213-222,223-227,228,229-232,233-236,237-260,261-284,285-319,320-344,345-350,351-359,360,361,362-382,383,384-391,392,393-397,398,399-407,408,409-410,411-412,413-417,418,419-536,537,538-567,568,569-571,572,573-577
+web/src/components/submission/submission-card.tsx
+  h_d6e478ca18e517 41,66
+web/src/lib/icon-update-previews.ts
+  h_d6e478ca18e517 1-2,3,4,5-11,12-14,15,16-20,21-29
+web/src/lib/icon-update-service.ts
+  h_d6e478ca18e517 1,2-3,4,5,6-13,14-15,16,17-21,22,23,24-27,28-33,34-50,51-56,57,58,59-72,73-75,76,77-80,81-132
+web/src/lib/icon-update.ts
+  h_d6e478ca18e517 1,2-3,4,5-15,16-19
+web/src/lib/icons/files.ts
+  h_d6e478ca18e517 17-20
+web/src/lib/pb.ts
+  h_d6e478ca18e517 4,27,58,77
+web/src/lib/submission-service.ts
+  h_d6e478ca18e517 37,39-43,86,91
+web/src/lib/submit-proposal.ts
+  h_d6e478ca18e517 1,5-8,10-13,22-26,28-35
+web/backend/pb_hooks/published-icon-snapshot.js
+  h_d6e478ca18e517 1-80
+web/src/components/submission/rejection-notice.tsx
+  h_d6e478ca18e517 1-3,5-6,8,10-33,45-46
+web/backend/pb_hooks/submission-assets.d.ts
+  h_d6e478ca18e517 2,5,24,34,37
+web/backend/pb_hooks/submission-assets.js
+  h_d6e478ca18e517 20,22-47,61,65,70,72-74,77-81,90
+web/src/app/api/submissions/[id]/route.ts
+  h_d6e478ca18e517 3-6,10,21-41,77,85-115
+web/src/components/dashboard/inspector.tsx
+  h_d6e478ca18e517 75
+web/src/components/submission-details.tsx
+  h_d6e478ca18e517 77,162
+web/src/components/submission/rejected-round-comparison.tsx
+  h_d6e478ca18e517 4,20,22-28,130-131
+web/src/lib/dashboard/review-fixup-draft.ts
+  h_d6e478ca18e517 56,68,79
+web/src/lib/submission-update-service.ts
+  h_d6e478ca18e517 7,23-34
+web/src/lib/submission-variants.ts
+  h_d6e478ca18e517 2,74-80
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "54c166d8c3d995d1f2e0a142f3ae06cf160e9f66",
+  "prompts": {},
+  "humans": {
+    "h_d6e478ca18e517": {
+      "author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
