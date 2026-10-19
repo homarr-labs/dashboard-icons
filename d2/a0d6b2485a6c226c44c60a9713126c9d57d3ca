@@ -1,0 +1,19 @@
+web/scripts/import-simple-icons.ts
+  s_d7c1c9e3dcfc92::t_b19258b8cd4e5f 223-224
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "d2a0d6b2485a6c226c44c60a9713126c9d57d3ca",
+  "prompts": {},
+  "sessions": {
+    "s_d7c1c9e3dcfc92": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "ac8ddf66-4d5d-4510-b242-1e83ff37945d",
+        "model": "unknown"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
