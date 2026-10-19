@@ -1,0 +1,19 @@
+web/src/app/(legal)/license/page.tsx
+  s_131a461ca35b2d::t_e85414b544a5e4 3,7,17-19,24-25
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "ffa18603bfc73aee3198a1c04e3c1b89a19f8cc0",
+  "prompts": {},
+  "sessions": {
+    "s_131a461ca35b2d": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "a5cd169d-f66a-478f-9316-008fc6a49785",
+        "model": "unknown"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
