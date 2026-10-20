@@ -51998,5 +51998,20 @@
             "light": "ammds-wordmark-light",
             "dark": "ammds-wordmark-dark"
         }
+    },
+    "applire": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "tools",
+            "utility"
+        ],
+        "update": {
+            "timestamp": "2026-10-20T06:35:22.346Z",
+            "author": {
+                "id": 164947079,
+                "login": "tobias-rosenbaum"
+            }
+        }
     }
 }
