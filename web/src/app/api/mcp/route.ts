@@ -35,13 +35,20 @@ function withResponseHeaders(response: Response): Response {
 	return response
 }
 
-async function readToolCall(req: NextRequest): Promise<ToolCall | null> {
+async function readToolCalls(req: NextRequest): Promise<ToolCall[]> {
 	try {
-		const body = (await req.clone().json()) as { method?: unknown; params?: { name?: unknown } }
-		if (body.method !== "tools/call") return null
-		return { name: body.params?.name }
+		const body: unknown = await req.clone().json()
+		const messages = Array.isArray(body) ? body : [body]
+		return messages.flatMap((message): ToolCall[] => {
+			if (typeof message !== "object" || message === null || Array.isArray(message)) return []
+			const rpc = message as { method?: unknown; params?: unknown }
+			if (rpc.method !== "tools/call") return []
+			const params =
+				typeof rpc.params === "object" && rpc.params !== null && !Array.isArray(rpc.params) ? (rpc.params as { name?: unknown }) : undefined
+			return [{ name: params?.name }]
+		})
 	} catch {
-		return null
+		return []
 	}
 }
 
@@ -79,7 +86,7 @@ async function guardedHandler(req: NextRequest) {
 	let maxBytes = MAX_REQUEST_BODY_BYTES
 	if (auth?.scopes.includes("account")) maxBytes = MAX_ACCOUNT_REQUEST_BODY_BYTES
 
-	let toolCall: ToolCall | null = null
+	let toolCalls: ToolCall[] = []
 	if (req.method === "POST") {
 		const boundedRequest = await readBoundedPostRequest(req, maxBytes)
 		if (!boundedRequest) {
@@ -92,12 +99,12 @@ async function guardedHandler(req: NextRequest) {
 		}
 		req = boundedRequest
 
-		toolCall = await readToolCall(req)
-		const accountCall = typeof toolCall?.name === "string" && isAccountTool(toolCall.name)
+		toolCalls = await readToolCalls(req)
+		const accountCall = toolCalls.some((call) => typeof call.name === "string" && isAccountTool(call.name))
 		if (!accountCall && Number(req.headers.get("content-length")) > MAX_REQUEST_BODY_BYTES) {
 			return withResponseHeaders(new NextResponse("Payload Too Large: public calls allow at most 64 KiB of encoded JSON.", { status: 413 }))
 		}
-		if (toolCall) {
+		for (const _call of toolCalls) {
 			const toolLimit = checkRateLimit(ip, "tool")
 			if (!toolLimit.allowed) {
 				return tooManyRequests(toolLimit.retryAfter ?? 60)

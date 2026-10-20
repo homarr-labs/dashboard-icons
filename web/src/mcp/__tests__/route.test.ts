@@ -248,6 +248,101 @@ describe("MCP route sign-in gate", () => {
 		expect(handleMcpRequest).toHaveBeenCalledWith(expect.anything(), undefined)
 	})
 
+	it.each([
+		"submit_icon",
+		"propose_icon_update",
+		"list_my_submissions",
+	])("challenges a batch containing %s in either position before dispatch", async (name) => {
+		const { POST } = await import("@/app/api/mcp/route")
+		for (const names of [
+			[name, "search_icons"],
+			["search_icons", name],
+		]) {
+			const body = names.map((name, id) => ({ jsonrpc: "2.0", id, method: "tools/call", params: { name, arguments: {} } }))
+			const response = await POST(nextRequest("POST", { body: JSON.stringify(body) }))
+			expect(response.status).toBe(401)
+			expect(response.headers.get("WWW-Authenticate")).toContain('scope="account"')
+			expect(response.headers.get("Access-Control-Expose-Headers")).toBe("WWW-Authenticate")
+		}
+		expect(handleMcpRequest).not.toHaveBeenCalled()
+	})
+
+	it.each([
+		MAX_REQUEST_BODY_BYTES + 1,
+		MAX_ACCOUNT_REQUEST_BODY_BYTES,
+	])("accepts signed-in account batches of %i bytes with an understated length", async (size) => {
+		const { POST } = await import("@/app/api/mcp/route")
+		const json = JSON.stringify([
+			{ jsonrpc: "2.0", id: 1, method: "tools/call", params: { name: "list_my_submissions", arguments: {} } },
+			{ jsonrpc: "2.0", id: 2, method: "tools/call", params: { name: "list_my_submissions", arguments: {} } },
+		])
+		const response = await POST(
+			nextRequest("POST", {
+				headers: { authorization: "Bearer " + accessToken(), "content-length": "2" },
+				body: json.padEnd(size),
+			}),
+		)
+		expect(response.status).toBe(200)
+		const forwarded = handleMcpRequest.mock.calls[0]?.[0]
+		expect(Buffer.byteLength((await forwarded?.text()) ?? "")).toBe(size)
+	})
+
+	it("uses the account cap for a signed-in mixed batch", async () => {
+		const { POST } = await import("@/app/api/mcp/route")
+		const json = JSON.stringify([
+			{ jsonrpc: "2.0", id: 1, method: "tools/list" },
+			{ jsonrpc: "2.0", id: 2, method: "tools/call", params: { name: "list_my_submissions", arguments: {} } },
+		])
+		const response = await POST(
+			nextRequest("POST", {
+				headers: { authorization: "Bearer " + accessToken() },
+				body: json.padEnd(MAX_REQUEST_BODY_BYTES + 1),
+			}),
+		)
+		expect(response.status).toBe(200)
+		expect(handleMcpRequest).toHaveBeenCalledOnce()
+	})
+
+	it.each([undefined, "signed-in"])("keeps public-only batches at 64 KiB (%s)", async (mode) => {
+		const { POST } = await import("@/app/api/mcp/route")
+		const json = JSON.stringify([
+			{ jsonrpc: "2.0", id: 1, method: "tools/call", params: { name: "search_icons", arguments: {} } },
+			{ jsonrpc: "2.0", id: 2, method: "tools/list" },
+		])
+		const headers = mode ? { authorization: "Bearer " + accessToken() } : undefined
+		expect((await POST(nextRequest("POST", { headers, body: json.padEnd(MAX_REQUEST_BODY_BYTES) }))).status).toBe(200)
+		expect((await POST(nextRequest("POST", { headers, body: json.padEnd(MAX_REQUEST_BODY_BYTES + 1) }))).status).toBe(413)
+		expect(handleMcpRequest).toHaveBeenCalledOnce()
+	})
+
+	it("charges the tool quota for every call in a public batch", async () => {
+		const { POST } = await import("@/app/api/mcp/route")
+		const body = Array.from({ length: 30 }, (_, id) => ({ jsonrpc: "2.0", id, method: "tools/call", params: { name: "search_icons" } }))
+		expect((await POST(nextRequest("POST", { body: JSON.stringify(body) }))).status).toBe(200)
+		const response = await POST(toolCall("search_icons"))
+		expect(response.status).toBe(429)
+		expect(response.headers.get("Retry-After")).toBeTruthy()
+		expect(handleMcpRequest).toHaveBeenCalledOnce()
+	})
+
+	it("rejects a whole signed-in batch before dispatch when its last call exceeds the quota", async () => {
+		const { POST } = await import("@/app/api/mcp/route")
+		for (let index = 0; index < 29; index++) expect((await POST(toolCall("search_icons"))).status).toBe(200)
+		handleMcpRequest.mockClear()
+		const body = [
+			{ jsonrpc: "2.0", id: 1, method: "tools/call", params: { name: "list_my_submissions" } },
+			{ jsonrpc: "2.0", id: 2, method: "tools/call", params: { name: "search_icons" } },
+		]
+		const response = await POST(
+			nextRequest("POST", {
+				headers: { authorization: "Bearer " + accessToken() },
+				body: JSON.stringify(body),
+			}),
+		)
+		expect(response.status).toBe(429)
+		expect(handleMcpRequest).not.toHaveBeenCalled()
+	})
+
 	it("does not swallow unexpected verifier failures", async () => {
 		const auth = await import("@/mcp/auth")
 		vi.mocked(auth.verifyMcpBearer).mockRejectedValueOnce(new Error("boom"))
