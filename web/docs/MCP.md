@@ -44,7 +44,7 @@ mcp_servers:
 
 ## OpenClaw
 
-Stop the gateway, then:
+Run these with the gateway stopped, then start it again:
 
 ```bash
 openclaw mcp add dashboard-icons --url https://dashboardicons.com/api/mcp --transport streamable-http

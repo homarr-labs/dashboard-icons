@@ -50,7 +50,7 @@ The server is free and needs no API key: `https://dashboardicons.com/api/mcp`
 | ----------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
 | **Claude Code**   | `claude mcp add --transport http dashboard-icons https://dashboardicons.com/api/mcp`                                                     |
 | **Codex**         | `codex mcp add dashboard-icons --url https://dashboardicons.com/api/mcp`                                                                 |
-| **ChatGPT**       | **Plugins** → **+** → **Add custom MCP server**, then paste the URL above                                                                |
+| **ChatGPT**       | On ChatGPT web: **Plugins** → **+** → **Add custom MCP server**, then paste the URL above. Workspace plans may need an admin to allow it |
 | **Cursor**        | Add `"dashboard-icons": { "url": "https://dashboardicons.com/api/mcp" }` under `mcpServers` in `.cursor/mcp.json`                        |
 | **VS Code**       | Add `"dashboard-icons": { "type": "http", "url": "https://dashboardicons.com/api/mcp" }` under `servers` in `.vscode/mcp.json`           |
 | **Hermes Agent**  | Add `dashboard-icons: { url: "https://dashboardicons.com/api/mcp" }` under `mcp_servers` in `~/.hermes/config.yaml`                      |
