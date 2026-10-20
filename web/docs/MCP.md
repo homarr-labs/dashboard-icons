@@ -18,6 +18,54 @@ http://localhost:3005/api/mcp
 
 On ChatGPT web, open **Plugins**, select **+**, then **Add custom MCP server**. Name it Dashboard Icons, use the endpoint above as the server URL, and choose **No authentication** for the public icon tools or **OAuth** to also submit icons. Accept the warning, select **Create as a plugin**, install it, then type `@Dashboard Icons` in a chat. Workspace plans may need an admin to allow custom MCP servers.
 
+## Claude Code
+
+```bash
+claude mcp add --transport http dashboard-icons https://dashboardicons.com/api/mcp
+```
+
+## Codex
+
+```bash
+codex mcp add dashboard-icons --url https://dashboardicons.com/api/mcp
+```
+
+This writes the server to `~/.codex/config.toml`, shared by the Codex CLI and app.
+
+## Hermes Agent
+
+Add to `~/.hermes/config.yaml`, then restart Hermes:
+
+```yaml
+mcp_servers:
+  dashboard-icons:
+    url: "https://dashboardicons.com/api/mcp"
+```
+
+## OpenClaw
+
+Stop the gateway, then:
+
+```bash
+openclaw mcp add dashboard-icons --url https://dashboardicons.com/api/mcp --transport streamable-http
+openclaw mcp doctor dashboard-icons --probe
+```
+
+## VS Code
+
+`.vscode/mcp.json`:
+
+```json
+{
+  "servers": {
+    "dashboard-icons": {
+      "type": "http",
+      "url": "https://dashboardicons.com/api/mcp"
+    }
+  }
+}
+```
+
 ## Cursor configuration
 
 ```json
