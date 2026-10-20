@@ -1,0 +1,30 @@
+web/src/app/dashboard/layout.tsx
+  h_d6e478ca18e517 5-10
+web/src/app/globals.css
+  h_d6e478ca18e517 415-448
+web/src/components/dashboard/review-bench.tsx
+  h_d6e478ca18e517 31,108-115,504
+web/src/components/dashboard/review-fixup-editors.tsx
+  h_d6e478ca18e517 208
+web/src/components/dashboard/review-gallery.tsx
+  h_d6e478ca18e517 125,141-165,167-170,243-246
+web/src/components/dashboard/workspace.tsx
+  h_d6e478ca18e517 15,69,282,466
+web/src/components/header.tsx
+  h_d6e478ca18e517 120
+web/src/components/icon-submission-form.tsx
+  h_d6e478ca18e517 34,41,141-144,153
+web/src/hooks/use-collapsing-chrome.ts
+  h_d6e478ca18e517 1-38
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "7d7ce86687129a5c7b5cd13539ac80abf01c4f57",
+  "prompts": {},
+  "humans": {
+    "h_d6e478ca18e517": {
+      "author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
