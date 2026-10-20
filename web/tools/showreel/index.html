@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <title>Dashboard Icons — Motion Reel</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400..900&family=JetBrains+Mono:wght@400..800&display=block">
 <style>
 	* { box-sizing: border-box; margin: 0; padding: 0; }
 	html, body { width: 1920px; height: 1080px; overflow: hidden; background: #06080d; }
@@ -1427,7 +1428,10 @@ window.DURATION = DURATION
 window.EVENTS = EVENTS
 window.render = render
 window.ready = (async () => {
-	await Promise.all(["800 100px Inter", "600 40px Inter", "500 20px 'JetBrains Mono'", "700 20px 'JetBrains Mono'"].map((font) => document.fonts.load(font)))
+	const fonts = ["800 100px Inter", "600 40px Inter", "500 20px 'JetBrains Mono'", "700 20px 'JetBrains Mono'"]
+	const loaded = await Promise.all(fonts.map((font) => document.fonts.load(font)))
+	const missing = fonts.filter((_, i) => loaded[i].length === 0)
+	if (missing.length) throw new Error(`fonts failed to load: ${missing.join(", ")}`)
 	await document.fonts.ready
 	await Promise.all([...document.images].map((node) => node.decode().catch(() => console.warn(`image failed: ${node.src}`))))
 	measure()

@@ -47,14 +47,21 @@ const ffmpeg = spawn(
 	["-y", "-loglevel", "error", "-f", "image2pipe", "-framerate", String(fps), "-c:v", "mjpeg", "-i", "-", "-c:v", "libx264", "-preset", "slow", "-crf", "15", "-pix_fmt", "yuv420p", "-movflags", "+faststart", out],
 	{ stdio: ["pipe", "inherit", "inherit"] },
 )
+const exited = new Promise((done) => ffmpeg.on("close", done))
+ffmpeg.stdin.on("error", (error) => console.error(`ffmpeg stdin: ${error.message}`))
 const total = Math.round((to - from) * fps)
 const started = Date.now()
 for (let frame = 0; frame < total; frame++) {
 	const buffer = await frameAt(from + frame / fps, { type: "jpeg", quality: 92 })
-	if (!ffmpeg.stdin.write(buffer)) await new Promise((done) => ffmpeg.stdin.once("drain", done))
+	if (ffmpeg.exitCode !== null) break
+	if (!ffmpeg.stdin.write(buffer)) await Promise.race([new Promise((done) => ffmpeg.stdin.once("drain", done)), exited])
 	if (frame % fps === 0) console.log(`frame ${frame}/${total} · ${((Date.now() - started) / 1000).toFixed(0)}s`)
 }
 ffmpeg.stdin.end()
-await new Promise((done) => ffmpeg.on("close", done))
+const code = await exited
 await browser.close()
+if (code !== 0) {
+	console.error(`ffmpeg exited with code ${code}`)
+	process.exit(1)
+}
 console.log(`Wrote ${out}`)
