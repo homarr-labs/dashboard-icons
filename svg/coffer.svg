@@ -1,0 +1,6 @@
+<svg width="512" height="512" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Coffer mark</title>
+  <desc id="desc">A dark letter C inside a soft red rounded square.</desc>
+  <rect x="2" y="2" width="28" height="28" rx="9" fill="#CA7373"/>
+  <path d="M21.8 11.1C20.45 9.75 18.62 9 16.65 9C12.6 9 9.5 12.02 9.5 16C9.5 19.98 12.6 23 16.65 23C18.62 23 20.45 22.25 21.8 20.9L19.78 18.88C18.94 19.72 17.86 20.15 16.65 20.15C14.3 20.15 12.5 18.4 12.5 16C12.5 13.6 14.3 11.85 16.65 11.85C17.86 11.85 18.94 12.28 19.78 13.12L21.8 11.1Z" fill="#181A1B"/>
+</svg>

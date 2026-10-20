@@ -51810,5 +51810,22 @@
                 "name": "0xb0ec1d"
             }
         }
+    },
+    "coffer": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "development",
+            "utility",
+            "tools",
+            "security"
+        ],
+        "update": {
+            "timestamp": "2026-10-20T06:34:49.669Z",
+            "author": {
+                "id": "6glggqigmdexolp",
+                "name": "caglary"
+            }
+        }
     }
 }
