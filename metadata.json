@@ -51957,5 +51957,19 @@
                 "login": "my2kta"
             }
         }
+    },
+    "pterodactyl-wings": {
+        "base": "png",
+        "aliases": [],
+        "categories": [
+            "database"
+        ],
+        "update": {
+            "timestamp": "2026-10-20T06:35:15.765Z",
+            "author": {
+                "id": 93878269,
+                "login": "hanialhusein"
+            }
+        }
     }
 }
