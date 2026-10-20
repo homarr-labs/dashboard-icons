@@ -1,0 +1,21 @@
+README.md
+  s_17ef26bd27b71a::t_f7acf2997b0fe8 10,12,18,22-23,38-47,49-60,71,76,78-81,128
+web/docs/MCP.md
+  s_17ef26bd27b71a::t_ac03b577a5a229 21-68
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "bff6c31a018e812f139cedd1bd36206cfcfffc50",
+  "prompts": {},
+  "sessions": {
+    "s_17ef26bd27b71a": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "9db86f57-96e0-4df5-bd49-18e907fb1fe1",
+        "model": "unknown"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
