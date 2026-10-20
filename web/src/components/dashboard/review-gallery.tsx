@@ -122,7 +122,7 @@ export function ReviewGallery({
 						<MagicCard key={row.key} className={cn("rounded-md shadow-md", selected && selectedRing, row.dropped && "opacity-70")}>
 							<figure className="min-w-0 space-y-2 p-3">
 								<div className="flex min-w-0 flex-wrap items-center justify-between gap-1.5 text-xs">
-									<span className="flex min-w-0 items-center gap-1.5 font-semibold [overflow-wrap:anywhere]">
+									<span title={caption.description} className="flex min-w-0 items-center gap-1.5 font-semibold [overflow-wrap:anywhere]">
 										<span
 											className={cn(
 												"size-2.5 shrink-0 rounded-full ring-1 ring-border",
@@ -138,24 +138,36 @@ export function ReviewGallery({
 											</Badge>
 										)}
 									</span>
-									{row.change && (
-										<Badge
-											variant="outline"
-											className={cn("capitalize", {
-												[statusStyles.added_to_collection.badge]: row.change === "added",
-												[statusStyles.pending.badge]: row.change === "replaced",
-												[statusStyles.rejected.badge]: row.change === "removed",
-												"text-muted-foreground": row.change === "unchanged",
-											})}
+									<span className="flex shrink-0 flex-wrap items-center justify-end gap-1.5">
+										{row.change && (
+											<Badge
+												variant="outline"
+												className={cn("capitalize", {
+													[statusStyles.added_to_collection.badge]: row.change === "added",
+													[statusStyles.pending.badge]: row.change === "replaced",
+													[statusStyles.rejected.badge]: row.change === "removed",
+													"text-muted-foreground": row.change === "unchanged",
+												})}
+											>
+												{row.change}
+											</Badge>
+										)}
+										{row.fixupChanged && (
+											<Badge variant="outline" className="border-primary/30 bg-primary/10 text-primary">
+												{row.dropped ? "Drop staged" : "Kind staged"}
+											</Badge>
+										)}
+										<a
+											href={asset.url}
+											target="_blank"
+											rel="noreferrer"
+											title={asset.file}
+											className="flex items-center gap-1 rounded-sm font-mono text-[11px] font-medium text-muted-foreground uppercase outline-none hover:text-primary focus-visible:ring-[3px] focus-visible:ring-ring/50 max-lg:min-h-11"
 										>
-											{row.change}
-										</Badge>
-									)}
-									{row.fixupChanged && (
-										<Badge variant="outline" className="border-primary/30 bg-primary/10 text-primary">
-											{row.dropped ? "Drop staged" : "Kind staged"}
-										</Badge>
-									)}
+											{fileFormat(asset.file)}
+											<ExternalLink className="size-3" />
+										</a>
+									</span>
 								</div>
 								<div className="flex gap-px overflow-hidden rounded-lg bg-border ring-1 ring-border">
 									{row.before && (
@@ -200,18 +212,6 @@ export function ReviewGallery({
 										/>
 									)}
 								</div>
-								<figcaption className="space-y-0.5">
-									<p className="text-xs text-muted-foreground">{caption.description}</p>
-									<a
-										href={asset.url}
-										target="_blank"
-										rel="noreferrer"
-										className="flex min-w-0 items-center gap-1.5 rounded-sm py-1 font-mono text-[11px] text-muted-foreground underline-offset-4 outline-none hover:text-primary hover:underline focus-visible:ring-[3px] focus-visible:ring-ring/50 max-lg:min-h-11"
-									>
-										<span className="min-w-0 [overflow-wrap:anywhere]">{asset.file}</span>
-										<ExternalLink className="size-3 shrink-0" />
-									</a>
-								</figcaption>
 								{edit && selected && (
 									<ReviewVariantEditor
 										key={`${row.variant}:${row.dropped}`}
@@ -238,6 +238,10 @@ export function ReviewGallery({
 			)}
 		</section>
 	)
+}
+
+function fileFormat(file: string) {
+	return file.split(".").pop() || "file"
 }
 
 function AssetPreview({

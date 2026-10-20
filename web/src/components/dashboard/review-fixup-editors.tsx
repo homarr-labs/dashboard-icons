@@ -205,8 +205,7 @@ export function ReviewVariantEditor({
 		)
 	if (!variant || !originalVariant)
 		return <p className="text-xs text-muted-foreground">Resolve this Asset's label before applying Variant fix-ups.</p>
-	if (originalVariant === "base" && !proposal)
-		return <p className="rounded-md bg-muted/50 px-2.5 py-2 text-xs text-muted-foreground">Base is required and cannot be dropped.</p>
+	if (originalVariant === "base" && !proposal) return null
 	return (
 		<div className="space-y-2 rounded-md bg-muted/50 p-2.5">
 			<label htmlFor={`review-kind-${file}`} className="block text-xs font-medium">

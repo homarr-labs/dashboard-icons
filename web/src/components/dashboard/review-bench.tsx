@@ -28,6 +28,7 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogTitle } f
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
+import { useCollapsingChrome } from "@/hooks/use-collapsing-chrome"
 import { reviewSubmissions } from "@/hooks/use-dashboard"
 import { useReviewShortcuts } from "@/hooks/use-review-shortcuts"
 import { useSubmissionCatalog, useSubmissionHints } from "@/hooks/use-submission-catalog"
@@ -104,6 +105,14 @@ export function ReviewBench({
 	const feedbackRef = useRef<HTMLTextAreaElement>(null)
 	const actionsRef = useRef<HTMLDivElement>(null)
 	const scrollRef = useRef<HTMLDivElement>(null)
+	const collapseChrome = useCollapsingChrome()
+	const benchScrollRef = useCallback(
+		(element: HTMLDivElement | null) => {
+			scrollRef.current = element
+			collapseChrome(element)
+		},
+		[collapseChrome],
+	)
 	const hadRows = useRef(false)
 	const [actionHeight, setActionHeight] = useState(180)
 	const [queueOpen, setQueueOpen] = useState(false)
@@ -492,7 +501,7 @@ export function ReviewBench({
 				</aside>
 				<div className="flex min-w-0 flex-col lg:min-h-0">
 					<div
-						ref={scrollRef}
+						ref={benchScrollRef}
 						className="min-w-0 space-y-4 lg:relative lg:min-h-0 lg:flex-1 lg:overflow-y-auto lg:overscroll-contain lg:px-1 lg:pb-4"
 					>
 						{gallery && (

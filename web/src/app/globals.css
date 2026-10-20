@@ -412,3 +412,37 @@
 		@apply ring-2 ring-destructive ring-offset-2 ring-offset-background;
 	}
 }
+
+@media (min-width: 64rem) {
+	[data-site-header] {
+		transition: margin-top 200ms ease-out;
+	}
+	[data-dashboard-nav] {
+		max-height: 3rem;
+		transition:
+			max-height 200ms ease-out,
+			margin-bottom 200ms ease-out,
+			opacity 150ms ease-out;
+	}
+	html[data-chrome-collapsed] [data-site-header] {
+		position: relative;
+		margin-top: calc(-4.5rem - 1px);
+	}
+	html[data-chrome-collapsed] [data-dashboard-nav] {
+		max-height: 0;
+		margin-bottom: 0;
+		border-bottom-width: 0;
+		opacity: 0;
+		overflow: hidden;
+	}
+	html[data-chrome-collapsed] [data-dashboard-frame] {
+		height: 100dvh;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	[data-site-header],
+	[data-dashboard-nav] {
+		transition: none;
+	}
+}

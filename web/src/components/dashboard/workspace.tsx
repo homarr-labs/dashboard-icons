@@ -12,6 +12,7 @@ import { Card } from "@/components/ui/card"
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Sheet, SheetContent, SheetDescription, SheetTitle } from "@/components/ui/sheet"
 import { Textarea } from "@/components/ui/textarea"
+import { useCollapsingChrome } from "@/hooks/use-collapsing-chrome"
 import {
 	dashboardKey,
 	dashboardRequest,
@@ -65,6 +66,7 @@ const intentStyles = {
 	},
 } as const
 export function DashboardWorkspace() {
+	const collapseChrome = useCollapsingChrome()
 	const [mounted, setMounted] = useState(false)
 	useEffect(() => setMounted(true), [])
 	const params = useSearchParams()
@@ -277,7 +279,7 @@ export function DashboardWorkspace() {
 			<div className="mx-auto flex min-h-0 w-full max-w-[1600px] flex-1 flex-col px-3 pt-3 pb-2 sm:px-6 lg:px-8">
 				<h1 className="sr-only">{isAdmin ? "Review workbench" : "My submissions"}</h1>
 				{isAdmin && (
-					<div className="mb-4 flex shrink-0 items-center gap-2 border-b">
+					<div data-dashboard-nav className="mb-4 flex shrink-0 items-center gap-2 border-b">
 						<nav
 							aria-label="Dashboard views"
 							className="-mb-px flex min-w-0 flex-1 items-center gap-1 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
@@ -461,7 +463,7 @@ export function DashboardWorkspace() {
 											)}
 										</motion.div>
 									)}
-									<div className="relative min-h-0 flex-1 overflow-y-auto">
+									<div ref={collapseChrome} className="relative min-h-0 flex-1 overflow-y-auto">
 										{list.isLoading && <Loading />}
 										{list.error && <ErrorState error={list.error} retry={() => void list.refetch()} />}
 										{list.data && (
