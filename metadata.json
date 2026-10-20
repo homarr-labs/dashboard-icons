@@ -51865,5 +51865,21 @@
                 "login": "tc2664"
             }
         }
+    },
+    "xen": {
+        "base": "svg",
+        "aliases": [
+            "Xen Hypervisor"
+        ],
+        "categories": [
+            "cloud"
+        ],
+        "update": {
+            "timestamp": "2026-10-20T06:35:07.475Z",
+            "author": {
+                "id": "sowxli2ysgkofo9",
+                "name": "0xb0ec1d"
+            }
+        }
     }
 }
