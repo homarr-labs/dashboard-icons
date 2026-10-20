@@ -1,0 +1,21 @@
+web/tools/showreel/index.html
+  s_17ef26bd27b71a::t_f290b827bc21e4 6,1431-1434
+web/tools/showreel/render.mjs
+  s_17ef26bd27b71a::t_0caeb052dd8da9 50-51,56-57,61,63-66
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "ca29cf63c96a8053dbc4845609f6b47fbe32a876",
+  "prompts": {},
+  "sessions": {
+    "s_17ef26bd27b71a": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "9db86f57-96e0-4df5-bd49-18e907fb1fe1",
+        "model": "unknown"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
