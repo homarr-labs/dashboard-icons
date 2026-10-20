@@ -51881,5 +51881,17 @@
                 "name": "0xb0ec1d"
             }
         }
+    },
+    "factorio": {
+        "base": "png",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-10-20T06:35:09.070Z",
+            "author": {
+                "id": "iglxf8gvqrbzu7f",
+                "name": "lindholmlabs"
+            }
+        }
     }
 }
