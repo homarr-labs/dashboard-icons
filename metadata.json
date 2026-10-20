@@ -51929,5 +51929,17 @@
                 "login": "BeyondTim"
             }
         }
+    },
+    "craft-suite": {
+        "base": "png",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-10-20T06:35:13.202Z",
+            "author": {
+                "id": 185259594,
+                "login": "isanto1306"
+            }
+        }
     }
 }
