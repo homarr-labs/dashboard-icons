@@ -51971,5 +51971,32 @@
                 "login": "hanialhusein"
             }
         }
+    },
+    "ammds": {
+        "base": "svg",
+        "aliases": [
+            "AMMDS-Docker"
+        ],
+        "categories": [
+            "tools",
+            "entertainment",
+            "storage"
+        ],
+        "update": {
+            "timestamp": "2026-10-20T06:35:20.973Z",
+            "author": {
+                "id": 56836951,
+                "login": "QYG2297248353"
+            }
+        },
+        "colors": {
+            "light": "ammds-light",
+            "dark": "ammds-dark"
+        },
+        "wordmark": {
+            "default": "ammds-wordmark",
+            "light": "ammds-wordmark-light",
+            "dark": "ammds-wordmark-dark"
+        }
     }
 }
