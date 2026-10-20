@@ -51893,5 +51893,24 @@
                 "name": "lindholmlabs"
             }
         }
+    },
+    "forgegate": {
+        "base": "svg",
+        "aliases": [
+            "forge",
+            "idp"
+        ],
+        "categories": [
+            "utility",
+            "automation",
+            "monitoring"
+        ],
+        "update": {
+            "timestamp": "2026-10-20T06:35:10.339Z",
+            "author": {
+                "id": 50410476,
+                "login": "deogratias-saidi"
+            }
+        }
     }
 }
