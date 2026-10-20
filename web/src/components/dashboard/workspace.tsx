@@ -64,6 +64,8 @@ const intentStyles = {
 		label: "Publish",
 	},
 } as const
+const LIST_PAGE = 100
+
 export function DashboardWorkspace() {
 	const [mounted, setMounted] = useState(false)
 	useEffect(() => setMounted(true), [])
@@ -98,6 +100,7 @@ export function DashboardWorkspace() {
 	const [failures, setFailures] = useState<{ id: string; error: string }[]>([])
 	const [wide, setWide] = useState(false)
 	const [activityLimit, setActivityLimit] = useState(50)
+	const [listLimit, setListLimit] = useState(LIST_PAGE)
 	const [runsLimit, setRunsLimit] = useState(10)
 	const returnFocus = useRef<HTMLElement | null>(null)
 	const lastInspectedId = useRef(activeId)
@@ -125,6 +128,7 @@ export function DashboardWorkspace() {
 		setSelected([])
 		setFailures([])
 		setActivityLimit(50)
+		setListLimit(LIST_PAGE)
 	}, [selectionKey])
 	useEffect(() => {
 		const mq = window.matchMedia("(min-width: 1280px)")
@@ -466,7 +470,7 @@ export function DashboardWorkspace() {
 										{list.error && <ErrorState error={list.error} retry={() => void list.refetch()} />}
 										{list.data && (
 											<SubmissionList
-												records={rows}
+												records={rows.slice(0, listLimit)}
 												selected={selected}
 												onSelection={setSelected}
 												onOpen={open}
@@ -475,6 +479,14 @@ export function DashboardWorkspace() {
 												view={filters.view}
 												sort={filters.sort}
 												onSort={(sort) => changeFilters({ sort })}
+											/>
+										)}
+										{list.data && (
+											<LoadMore
+												shown={Math.min(listLimit, rows.length)}
+												total={rows.length}
+												loading={false}
+												onMore={() => setListLimit((limit) => limit + LIST_PAGE)}
 											/>
 										)}
 									</div>

@@ -4,7 +4,6 @@ import { useQuery } from "@tanstack/react-query"
 import {
 	ArrowLeft,
 	ArrowRight,
-	ExternalLink,
 	History,
 	Library,
 	type LucideIcon,
@@ -82,7 +81,7 @@ export function EditIconPicker({
 			description: "Each one keeps its id and history when you resubmit it.",
 		}
 	return (
-		<section className={cn(PANEL_CLASS, "mx-auto flex max-w-4xl flex-col gap-6 p-4 sm:p-6")}>
+		<section className={cn(PANEL_CLASS, "flex flex-col gap-6 p-4 sm:p-6")}>
 			<SectionHeading level={2} {...heading} />
 			<div className="flex flex-col gap-2">
 				<label htmlFor="edit-icon-search" className="text-sm font-medium">
@@ -108,54 +107,57 @@ export function EditIconPicker({
 							{matches.length}
 						</Badge>
 					</h3>
-					<ul className="flex flex-col gap-2">
+					<MagicCardPointerProvider className="grid gap-2 sm:grid-cols-2">
 						{matches.slice(0, 30).map((submission) => (
-							<li key={submission.id} className="flex flex-col gap-3 rounded-md border p-3">
-								<div className="flex flex-wrap items-center justify-between gap-3">
-									<div className="min-w-0 flex-1 basis-48">
-										<p className="flex flex-wrap items-center gap-2">
-											<span className="break-all font-mono text-sm font-semibold">{submission.name}</span>
+							<MagicCard key={submission.id} className="min-w-0 rounded-md">
+								<div className="flex min-w-0 items-center gap-3 p-2">
+									<span className="flex size-11 shrink-0 items-center justify-center rounded-lg bg-primary/15 ring-1 ring-border dark:bg-secondary/10">
+										{submission.icon && (
+											<UnoptimizedImage src={submission.icon} alt="" width={32} height={32} className="size-8 object-contain" />
+										)}
+									</span>
+									<div className="min-w-0 flex-1">
+										<Link
+											href={`/community/submissions/${submission.id}`}
+											className="flex min-w-0 items-center gap-2 font-mono text-sm font-medium underline-offset-4 hover:text-primary hover:underline"
+										>
+											<span className="truncate">{submission.name}</span>
+										</Link>
+										<p className="mt-1 flex min-w-0 items-center gap-2 text-xs text-muted-foreground">
 											<StatusBadge status={submission.status} />
-										</p>
-										<p className="mt-1 break-all text-xs text-muted-foreground">
-											<span className="font-mono">#{submission.id}</span> ·{" "}
-											{submission.mine ? "Your Submission" : "Another contributor’s Submission"}
+											<span className="truncate">{submission.mine ? "Yours" : "Another contributor"}</span>
 										</p>
 									</div>
-									<div className="flex flex-wrap gap-2">
-										<Button variant="ghost" size="sm" asChild>
-											<Link href={`/community/submissions/${submission.id}`}>
-												View Submission <ExternalLink aria-hidden />
-											</Link>
+									{!submission.mine && submission.status === "pending" && (
+										<Button
+											variant="outline"
+											size="sm"
+											className="shrink-0 border-community/40 text-community hover:bg-community/10"
+											onClick={() =>
+												setSelection({
+													label: submission.name,
+													value: submission.name,
+													source: "community",
+													submissionId: submission.id,
+													status: submission.status,
+												})
+											}
+										>
+											<PencilLine aria-hidden />
+											<span className="max-sm:sr-only">Propose an update</span>
+											<span className="sm:hidden" aria-hidden>
+												Update
+											</span>
 										</Button>
-										{!submission.mine && submission.status === "pending" && (
-											<Button
-												variant="outline"
-												size="sm"
-												className="border-community/40 text-community hover:bg-community/10"
-												onClick={() =>
-													setSelection({
-														label: submission.name,
-														value: submission.name,
-														source: "community",
-														submissionId: submission.id,
-														status: submission.status,
-													})
-												}
-											>
-												<PencilLine aria-hidden />
-												Propose an update
-											</Button>
-										)}
-										{submission.mine && (
-											<Button size="sm" onClick={() => setOwnId(submission.id)}>
-												{submission.status === "rejected" ? "Fix and resubmit" : "Edit your Submission"} <ArrowRight aria-hidden />
-											</Button>
-										)}
-									</div>
+									)}
+									{submission.mine && (
+										<Button size="sm" className="shrink-0" onClick={() => setOwnId(submission.id)}>
+											{submission.status === "rejected" ? "Fix" : "Edit"} <ArrowRight aria-hidden />
+										</Button>
+									)}
 								</div>
 								{submission.status === "rejected" && (
-									<div className="flex gap-2.5 rounded-md border-l-2 border-destructive bg-destructive/5 p-3 text-sm">
+									<div className="mx-2 mb-2 flex gap-2.5 rounded-md border-l-2 border-destructive bg-destructive/5 p-3 text-sm">
 										<MessageSquareWarning className="mt-0.5 size-4 shrink-0 text-destructive" aria-hidden />
 										<p>
 											{submission.feedback && <span className="block break-words font-medium">Reviewer: {submission.feedback}</span>}
@@ -165,9 +167,9 @@ export function EditIconPicker({
 										</p>
 									</div>
 								)}
-							</li>
+							</MagicCard>
 						))}
-					</ul>
+					</MagicCardPointerProvider>
 				</div>
 			)}
 			{!rejectedOnly && (
@@ -247,7 +249,7 @@ function OwnedEditor({ id, customNames, onBack }: { id: string; customNames: str
 	})
 	if (!query.data)
 		return (
-			<section className={cn(PANEL_CLASS, "mx-auto flex max-w-3xl flex-col gap-4 p-5")} aria-live="polite">
+			<section className={cn(PANEL_CLASS, "flex flex-col gap-4 p-5")} aria-live="polite">
 				{query.isPending && (
 					<div className="flex flex-col gap-3">
 						<p className="text-sm text-muted-foreground">Loading your Submission…</p>

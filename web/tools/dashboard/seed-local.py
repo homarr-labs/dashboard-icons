@@ -14,15 +14,16 @@ for name,admin in [('alex-admin',True),('manuel',True),('anna-user',False),('bel
  users.append(user)
 print('Local accounts ready')
 svg='<svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 96 96"><rect x="10" y="10" width="76" height="76" rx="22" fill="#e87970"/><path d="M30 30h20a18 18 0 0 1 0 36H30z" fill="none" stroke="white" stroke-width="9"/></svg>'
+dark_svg=svg.replace('#e87970','#7a2e28')
 def create(i):
  status=['pending','approved','rejected','added_to_collection'][min(i//10,3)]
  name=['healthlog','siglent','patzer','kuvasz-uptime','candlr','openusage','deckvault','seatable','met-office','homarr'][i%10]+'-'+str(i+1)
  boundary='DASHBOARDLOCAL'
- fields={'name':name,'status':status,'created_by':users[2+i%2]['id'],'approved_by':users[i%2]['id'] if status!='pending' else '', 'description':'A carefully designed icon for a self-hosted application. Review its light and dark variants before approving.', 'extras':json.dumps({'base':'svg','categories':['Tools','Self-hosted'],'aliases':[name.split('-')[0]]}), 'admin_comment':'Please provide a cleaner vector asset with transparent edges. This feedback remains visible in submission history.' if status=='rejected' else ''}
+ fields={'name':name,'status':status,'created_by':users[2+i%2]['id'],'approved_by':users[i%2]['id'] if status!='pending' else '', 'description':'A carefully designed icon for a self-hosted application. Review its light and dark variants before approving.', 'extras':json.dumps({'base':'svg','categories':['Tools','Self-hosted'],'aliases':[name.split('-')[0]],**({'colors':{'dark':name+'-dark.svg'}} if i<12 else {})}), 'admin_comment':'Please provide a cleaner vector asset with transparent edges. This feedback remains visible in submission history.' if status=='rejected' else ''}
  chunks=[]
  for key,value in fields.items():chunks.append(f'--{boundary}\r\nContent-Disposition: form-data; name="{key}"\r\n\r\n{value}\r\n'.encode())
- for file in ['icon.svg','dark.svg'] if i<12 else ['icon.svg']:
-  chunks.append(f'--{boundary}\r\nContent-Disposition: form-data; name="assets"; filename="{file}"\r\nContent-Type: image/svg+xml\r\n\r\n{svg}\r\n'.encode())
+ for file,art in [(name+'.svg',svg),(name+'-dark.svg',dark_svg)] if i<12 else [(name+'.svg',svg)]:
+  chunks.append(f'--{boundary}\r\nContent-Disposition: form-data; name="assets"; filename="{file}"\r\nContent-Type: image/svg+xml\r\n\r\n{art}\r\n'.encode())
  chunks.append(f'--{boundary}--\r\n'.encode())
  req=urllib.request.Request(base+'/api/collections/submissions/records',data=b''.join(chunks),headers={'Authorization':token,'Content-Type':'multipart/form-data; boundary='+boundary})
  try:

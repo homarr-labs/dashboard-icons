@@ -25,20 +25,20 @@ import { useEffect, useState } from "react"
 import { useDropzone } from "react-dropzone"
 import { toast } from "sonner"
 import { IconSubmissionGuidelines } from "@/components/icon-submission-guidelines"
-import { AuroraText } from "@/components/magicui/aurora-text"
 import { InteractiveHoverButton } from "@/components/magicui/interactive-hover-button"
 import { MagicCard } from "@/components/magicui/magic-card"
 import { NumberTicker } from "@/components/magicui/number-ticker"
 import { EditIconPicker } from "@/components/submission/edit-icon-picker"
 import { SubmissionCard } from "@/components/submission/submission-card"
 import { AssetPreview, SubmissionPreview } from "@/components/submission/submission-preview"
-import { AURORA_COLORS, PANEL_CLASS, SectionHeading, TONES } from "@/components/submission/submission-ui"
+import { PANEL_CLASS, SectionHeading, TONES } from "@/components/submission/submission-ui"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { Badge } from "@/components/ui/badge"
 import { BorderBeam } from "@/components/ui/border-beam"
 import { Button } from "@/components/ui/button"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Progress } from "@/components/ui/progress"
+import { UnoptimizedImage } from "@/components/unoptimized-image"
 import { useSubmissionDrafts } from "@/hooks/use-submission-drafts"
 import { isEmptyDraft, moveDraftAssets, newSubmissionDraft, sameProductSuggestion } from "@/lib/submission-drafts"
 import { MAX_SEND_ASSET_BYTES, MAX_SUBMISSIONS_PER_SEND } from "@/lib/submission-limits"
@@ -138,7 +138,10 @@ export function IconSubmissionForm() {
 				<header className="mb-6 flex flex-col gap-4">
 					<div>
 						<h1 className="text-3xl font-bold">
-							Contribute to <AuroraText colors={AURORA_COLORS}>dashboard icons</AuroraText>
+							<span className="flex items-center gap-3">
+								<UnoptimizedImage src="/favicon.svg" alt="" width={36} height={36} priority className="size-9 shrink-0" />
+								Contribute to dashboard icons
+							</span>
 						</h1>
 						<p className="text-muted-foreground">
 							Add a brand-new icon or improve one that’s already in the collection. A maintainer reviews every Submission before it’s
@@ -147,7 +150,7 @@ export function IconSubmissionForm() {
 					</div>
 					<fieldset className="min-w-0">
 						<legend className="sr-only">What do you want to do?</legend>
-						<div className={cn("grid grid-cols-2 gap-2 sm:gap-3", modes.length > 2 && "lg:grid-cols-3")}>
+						<div className="grid gap-2 sm:auto-cols-fr sm:grid-flow-col sm:gap-3">
 							{modes.map(({ id, title, short, description, Icon, tone }) => {
 								const selected = activeMode === id
 								return (
@@ -169,7 +172,6 @@ export function IconSubmissionForm() {
 											PANEL_CLASS,
 											"flex min-h-16 items-center gap-3 p-3 text-left transition-colors duration-200 sm:items-start sm:p-4",
 											MODE_STYLE[tone].hover,
-											id === "rejected" && "max-lg:col-span-2",
 											selected && MODE_STYLE[tone].selected,
 										)}
 									>
