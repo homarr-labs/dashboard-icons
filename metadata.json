@@ -51827,5 +51827,17 @@
                 "name": "caglary"
             }
         }
+    },
+    "v-corp-international": {
+        "base": "png",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-10-20T06:34:51.748Z",
+            "author": {
+                "id": "3vxzgt6jp9fbwhk",
+                "name": "lissett"
+            }
+        }
     }
 }
