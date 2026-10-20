@@ -1,0 +1,30 @@
+web/src/app/dashboard/layout.tsx
+  h_d6e478ca18e517 5
+web/src/components/dashboard/review-bench.tsx
+  h_d6e478ca18e517 495
+web/src/components/dashboard/workspace.tsx
+  h_d6e478ca18e517 67-68,103,131,284,468,473,484-491
+web/src/components/header.tsx
+  h_d6e478ca18e517 120
+web/src/components/submission/edit-icon-picker.tsx
+  h_d6e478ca18e517 84,110,112-126,128,131-150,152-157,160,170,172,252
+web/src/components/submission/icon-update-editor.tsx
+  h_d6e478ca18e517 248,281
+web/src/components/submission/own-submission-editor.tsx
+  h_d6e478ca18e517 89,123,135
+web/src/hooks/use-submission-catalog.ts
+  h_d6e478ca18e517 5,20-27,66-74,88,98
+web/tools/dashboard/seed-local.py
+  h_d6e478ca18e517 17,22,25-26
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "cae3bd198c41c5e0546775966eae47f2e185b8d9",
+  "prompts": {},
+  "humans": {
+    "h_d6e478ca18e517": {
+      "author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
