@@ -86,7 +86,7 @@ export function OwnSubmissionEditor({ id, customNames, onBack }: { id: string; c
 			<motion.section
 				initial={{ opacity: 0, y: 8 }}
 				animate={{ opacity: 1, y: 0 }}
-				className={cn(PANEL_CLASS, "mx-auto flex max-w-2xl flex-col gap-4 border-success/30 p-4 sm:p-6")}
+				className={cn(PANEL_CLASS, "flex flex-col gap-4 border-success/30 p-4 sm:p-6")}
 				aria-live="polite"
 			>
 				<div className="flex items-center gap-3">
@@ -120,7 +120,7 @@ export function OwnSubmissionEditor({ id, customNames, onBack }: { id: string; c
 		)
 	if (load.isPending || (!draft && !load.error))
 		return (
-			<div aria-busy="true" aria-live="polite" className={cn(PANEL_CLASS, "mx-auto flex max-w-3xl flex-col gap-4 p-5")}>
+			<div aria-busy="true" aria-live="polite" className={cn(PANEL_CLASS, "flex flex-col gap-4 p-5")}>
 				<p className="text-sm text-muted-foreground">Loading your Submission and all its files…</p>
 				<Skeleton className="h-20 w-full" />
 				<div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
@@ -132,7 +132,7 @@ export function OwnSubmissionEditor({ id, customNames, onBack }: { id: string; c
 		)
 	if (load.error || !record || !draft)
 		return (
-			<section className={cn(PANEL_CLASS, "mx-auto flex max-w-3xl flex-col gap-4 p-5")}>
+			<section className={cn(PANEL_CLASS, "flex flex-col gap-4 p-5")}>
 				<p role="alert" className="break-words text-sm">
 					{load.error?.message || "Your Submission could not be loaded."}
 				</p>

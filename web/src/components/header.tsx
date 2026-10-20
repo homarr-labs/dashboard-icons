@@ -117,7 +117,7 @@ export function Header() {
 	}
 
 	return (
-		<header data-site-header className="border-b sticky top-0 z-50 backdrop-blur-2xl bg-background/50 border-border/50">
+		<header className="border-b sticky top-0 z-50 backdrop-blur-2xl bg-background/50 border-border/50">
 			<div className="px-4 lg:px-12 flex items-center justify-between h-16 lg:h-18">
 				<div className="flex items-center gap-2 lg:gap-6">
 					<Link href="/" aria-label="Dashboard Icons home" className="text-lg font-bold lg:hidden">

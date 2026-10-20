@@ -12,7 +12,6 @@ import { Card } from "@/components/ui/card"
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Sheet, SheetContent, SheetDescription, SheetTitle } from "@/components/ui/sheet"
 import { Textarea } from "@/components/ui/textarea"
-import { useCollapsingChrome } from "@/hooks/use-collapsing-chrome"
 import {
 	dashboardKey,
 	dashboardRequest,
@@ -65,8 +64,9 @@ const intentStyles = {
 		label: "Publish",
 	},
 } as const
+const LIST_PAGE = 100
+
 export function DashboardWorkspace() {
-	const collapseChrome = useCollapsingChrome()
 	const [mounted, setMounted] = useState(false)
 	useEffect(() => setMounted(true), [])
 	const params = useSearchParams()
@@ -100,6 +100,7 @@ export function DashboardWorkspace() {
 	const [failures, setFailures] = useState<{ id: string; error: string }[]>([])
 	const [wide, setWide] = useState(false)
 	const [activityLimit, setActivityLimit] = useState(50)
+	const [listLimit, setListLimit] = useState(LIST_PAGE)
 	const [runsLimit, setRunsLimit] = useState(10)
 	const returnFocus = useRef<HTMLElement | null>(null)
 	const lastInspectedId = useRef(activeId)
@@ -127,6 +128,7 @@ export function DashboardWorkspace() {
 		setSelected([])
 		setFailures([])
 		setActivityLimit(50)
+		setListLimit(LIST_PAGE)
 	}, [selectionKey])
 	useEffect(() => {
 		const mq = window.matchMedia("(min-width: 1280px)")
@@ -279,7 +281,7 @@ export function DashboardWorkspace() {
 			<div className="mx-auto flex min-h-0 w-full max-w-[1600px] flex-1 flex-col px-3 pt-3 pb-2 sm:px-6 lg:px-8">
 				<h1 className="sr-only">{isAdmin ? "Review workbench" : "My submissions"}</h1>
 				{isAdmin && (
-					<div data-dashboard-nav className="mb-4 flex shrink-0 items-center gap-2 border-b">
+					<div className="mb-4 flex shrink-0 items-center gap-2 border-b">
 						<nav
 							aria-label="Dashboard views"
 							className="-mb-px flex min-w-0 flex-1 items-center gap-1 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
@@ -463,12 +465,12 @@ export function DashboardWorkspace() {
 											)}
 										</motion.div>
 									)}
-									<div ref={collapseChrome} className="relative min-h-0 flex-1 overflow-y-auto">
+									<div className="relative min-h-0 flex-1 overflow-y-auto">
 										{list.isLoading && <Loading />}
 										{list.error && <ErrorState error={list.error} retry={() => void list.refetch()} />}
 										{list.data && (
 											<SubmissionList
-												records={rows}
+												records={rows.slice(0, listLimit)}
 												selected={selected}
 												onSelection={setSelected}
 												onOpen={open}
@@ -477,6 +479,14 @@ export function DashboardWorkspace() {
 												view={filters.view}
 												sort={filters.sort}
 												onSort={(sort) => changeFilters({ sort })}
+											/>
+										)}
+										{list.data && (
+											<LoadMore
+												shown={Math.min(listLimit, rows.length)}
+												total={rows.length}
+												loading={false}
+												onMore={() => setListLimit((limit) => limit + LIST_PAGE)}
 											/>
 										)}
 									</div>

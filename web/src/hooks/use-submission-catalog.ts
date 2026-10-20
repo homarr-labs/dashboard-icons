@@ -2,6 +2,7 @@
 
 import { useQuery } from "@tanstack/react-query"
 import { type CommunityGallery, pb, type Submission } from "@/lib/pb"
+import { labelledAssets, type VariantExtras } from "@/lib/submission-variants"
 
 export interface SubmissionCatalog {
 	names: string[]
@@ -16,6 +17,14 @@ export interface ExistingSubmission {
 	mine: boolean
 	feedback: string
 	contributor?: string
+	icon?: string
+}
+
+function baseIconUrl(collection: string, record: { id: string; name: string; assets?: string[]; extras?: VariantExtras }) {
+	const assets = record.assets || []
+	const file = labelledAssets(record.extras, assets, record.name).find((asset) => asset.variant === "base")?.file || assets[0]
+	if (!file) return undefined
+	return `${pb.baseURL}/api/files/${collection}/${record.id}/${encodeURIComponent(file)}`
 }
 
 export function useSubmissionCatalog() {
@@ -54,13 +63,15 @@ export function useSubmissionHints() {
 			let contributor: string | undefined
 			if (typeof username === "string") contributor = username
 			const [community, own] = await Promise.all([
-				pb.collection("community_gallery").getFullList<Pick<CommunityGallery, "id" | "name" | "status" | "created_by">>({
-					fields: "id,name,status,created_by",
-					filter: 'status = "pending"',
-					requestKey: null,
-				}),
-				pb.collection("submissions").getFullList<Pick<Submission, "id" | "name" | "status" | "admin_comment">>({
-					fields: "id,name,status,admin_comment",
+				pb
+					.collection("community_gallery")
+					.getFullList<Pick<CommunityGallery, "id" | "name" | "status" | "created_by" | "assets" | "extras">>({
+						fields: "id,name,status,created_by,assets,extras",
+						filter: 'status = "pending"',
+						requestKey: null,
+					}),
+				pb.collection("submissions").getFullList<Pick<Submission, "id" | "name" | "status" | "admin_comment" | "assets" | "extras">>({
+					fields: "id,name,status,admin_comment,assets,extras",
 					filter: pb.filter('created_by = {:userId} && (status = "pending" || status = "rejected")', { userId }),
 					requestKey: null,
 				}),
@@ -74,6 +85,7 @@ export function useSubmissionHints() {
 					mine: false,
 					feedback: "",
 					contributor: record.created_by,
+					icon: baseIconUrl("community_gallery", record),
 				})
 			for (const record of own)
 				records.set(record.id, {
@@ -83,6 +95,7 @@ export function useSubmissionHints() {
 					mine: true,
 					feedback: record.admin_comment,
 					contributor,
+					icon: baseIconUrl("submissions", record),
 				})
 			return [...records.values()]
 		},

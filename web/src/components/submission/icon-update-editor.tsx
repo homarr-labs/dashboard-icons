@@ -245,7 +245,7 @@ export function IconUpdateEditor({
 			<motion.section
 				initial={{ opacity: 0, y: 8 }}
 				animate={{ opacity: 1, y: 0 }}
-				className={cn(PANEL_CLASS, "mx-auto flex max-w-2xl flex-col gap-4 border-success/30 p-4 sm:p-6")}
+				className={cn(PANEL_CLASS, "flex flex-col gap-4 border-success/30 p-4 sm:p-6")}
 				aria-live="polite"
 			>
 				<div className="flex items-center gap-3">
@@ -278,7 +278,7 @@ export function IconUpdateEditor({
 		)
 	if (!loaded)
 		return (
-			<section className={cn(PANEL_CLASS, "mx-auto flex max-w-3xl flex-col gap-4 p-5")} aria-live="polite">
+			<section className={cn(PANEL_CLASS, "flex flex-col gap-4 p-5")} aria-live="polite">
 				{!error && (
 					<output className="flex flex-col gap-3" aria-label="Loading current Icon">
 						<Skeleton className="h-20 w-full" />
