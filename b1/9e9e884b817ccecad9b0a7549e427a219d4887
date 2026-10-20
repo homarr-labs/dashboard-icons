@@ -1,0 +1,25 @@
+web/tools/showreel/.gitignore
+  s_17ef26bd27b71a::t_1288975ffc3e93 1
+web/tools/showreel/audio.py
+  s_17ef26bd27b71a::t_d52031a23e1360 1-375
+web/tools/showreel/index.html
+  s_17ef26bd27b71a::t_13d0167190886c 1-1439
+web/tools/showreel/render.mjs
+  s_17ef26bd27b71a::t_934c98c78216e8 1-60
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "b19e9e884b817ccecad9b0a7549e427a219d4887",
+  "prompts": {},
+  "sessions": {
+    "s_17ef26bd27b71a": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "9db86f57-96e0-4df5-bd49-18e907fb1fe1",
+        "model": "unknown"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
