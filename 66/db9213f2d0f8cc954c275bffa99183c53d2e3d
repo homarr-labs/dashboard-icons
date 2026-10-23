@@ -1,0 +1,23 @@
+web/docs/OPENAI-MARKETPLACE.md
+  s_79391f7be06a4c::t_57248f747427d2 15
+scripts/package-openai-plugin.py
+  s_79391f7be06a4c::t_607e52098c6ea1 68-77,133-142
+plugins/dashboard-icons/plugin.json
+  s_79391f7be06a4c::t_03acf6d6af3998 29-78
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "66db9213f2d0f8cc954c275bffa99183c53d2e3d",
+  "prompts": {},
+  "sessions": {
+    "s_79391f7be06a4c": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a167d0-b947-7b20-bf63-f825aff27676",
+        "model": "gpt-6.1-sol"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
