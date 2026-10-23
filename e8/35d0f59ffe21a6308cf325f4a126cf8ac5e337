@@ -1,0 +1,21 @@
+web/docs/OPENAI-MARKETPLACE.md
+  s_79391f7be06a4c::t_3382f163675604 33,73-75
+  s_79391f7be06a4c::t_d1421ccfa2906c 34,60-72,76-77
+  s_79391f7be06a4c::t_cf9bff3f9f0fe5 78
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "e835d0f59ffe21a6308cf325f4a126cf8ac5e337",
+  "prompts": {},
+  "sessions": {
+    "s_79391f7be06a4c": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a167d0-b947-7b20-bf63-f825aff27676",
+        "model": "gpt-6.1-sol"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
