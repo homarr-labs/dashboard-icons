@@ -44,8 +44,10 @@ its validation remain separate checks.
 
 The artifact remains a **draft**. Version 0.1.3 includes the confirmed Homarr Labs
 publisher, worldwide/free declarations, eight review cases, and a recorded
-ChatGPT walkthrough URL. Local video playback passed; public URL availability
-and playback remain pending after merge. See
+ChatGPT walkthrough URL. The public video returned HTTP 200 as `video/mp4` and
+played in unauthenticated Chrome without a media error. The
+[0.1.3 ZIP workflow](https://github.com/homarr-labs/dashboard-icons/actions/runs/39952808495)
+passed in 22 seconds. See
 [`web/docs/OPENAI-MARKETPLACE.md`](../web/docs/OPENAI-MARKETPLACE.md) for the visible
 case outcomes and remaining argument/portal checks. A ZIP cannot establish
 developer/domain verification, required scans or attestations, OpenAI approval,

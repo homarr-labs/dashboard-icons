@@ -14,7 +14,7 @@ Version 0.1.1 adds one read-only MCP Apps resource for inline thumbnails on `mat
 
 Version 0.1.2 lets `match_icons` return format URLs and licenses for the entire batch with `include_details=true`. This keeps the final preview grid together when the host displays only the latest tool result. It also records the publisher's confirmed Homarr Labs identity, worldwide availability, and free/no-commerce declaration. Portal verification of that identity remains separate.
 
-Version 0.1.3 changes review metadata only: it adds the recorded ChatGPT walkthrough URL. Runtime source remains `0b29982c415b62078102a45771276a53b9aff5ae`, as qualified for 0.1.2 below. Public recording URL availability and playback are pending verification after merge.
+Version 0.1.3 changes review metadata only: it adds the recorded ChatGPT walkthrough URL. Runtime source remains `0b29982c415b62078102a45771276a53b9aff5ae`, as qualified for 0.1.2 below. Public recording availability and unauthenticated Chrome playback are verified.
 
 From `web/`, run `pnpm exec tsx --tsconfig tsconfig.json scripts/check-mcp-preview.mjs` to check the registered HTML bridge, thumbnails, links, text escaping, and rejected image origins.
 
@@ -34,7 +34,7 @@ The package manifest is the source of the five positive and three negative revie
 | --- | --- |
 | Real ChatGPT case execution | All five positive and three negative prompts rerun against 0.1.2 with expected visible outcomes. Raw argument traces are not exposed by this UI. |
 | Review walkthrough recording | Complete: 103-second macOS window recording; local browser playback passed |
-| Reviewer-accessible recording URL | Declared in the package; public availability and playback verification pending after merge |
+| Reviewer-accessible recording URL | Verified: HTTP 200 `video/mp4`; unauthenticated Chrome played all 103 seconds with no media error |
 | OpenAI verified publisher identity | Not verified |
 | Country availability and commerce declaration | Publisher confirmed worldwide and free/no commerce; portal import pending |
 | Domain challenge, connection, and required scans | Not run |
@@ -63,6 +63,8 @@ The UI activity labels are observable evidence, not raw tool-call traces. Do not
 
 Source `0b29982c415b62078102a45771276a53b9aff5ae` deployed successfully in [Main CI](https://github.com/homarr-labs/dashboard-icons/actions/runs/39941006218). The [0.1.2 ZIP workflow](https://github.com/homarr-labs/dashboard-icons/actions/runs/39942607328) produced an inspected three-file archive; SHA-256: `d85ebb416be884a625195077a360c2fdc5e6babefe230d26966e2ff06b70613f`. That archive predates the 0.1.3 review metadata and recording URL.
 
+The [0.1.3 ZIP workflow](https://github.com/homarr-labs/dashboard-icons/actions/runs/39952808495) passed in 22 seconds at main source `fd8f1b4f2f65948bd19cd5acb5974b5d8ec53961`. The downloaded three-file archive contains version 0.1.3 and the actual recording URL; SHA-256: `57bd01c8733aa627e96c496689ba4599a18fdc39e6d4bd9951f1e2b955390a0a`.
+
 The [current development conversation](https://chatgpt.com/c/6adb3d48-21c4-83eb-b533-852cf36c7548) uses ChatGPT Work, selected model label **GPT-6.1 Sol Light**, and only Dashboard Icons selected. Custom-app CSP enforcement was enabled for this pass. The connection was refreshed after deployment. Its development version remains 1.0.0; the ZIP has not been imported into a submission draft.
 
 | Case | Visible result |
@@ -80,7 +82,7 @@ These are live visible-outcome checks. Raw argument traces are not exposed by th
 
 The [recorded walkthrough](../../docs/media/openai-walkthrough-0.1.2.mp4) is a 103-second macOS window capture: 1188 × 1856 H.264, 3,542,903 bytes, with no audio. Local browser playback passed. It reviews the eight existing visible outcomes above and records a fresh `match_icons` lookup for Grafana, Prometheus, and Nginx (6 seconds).
 
-The package declares the [public recording URL](https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons@main/docs/media/openai-walkthrough-0.1.2.mp4). Its HTTP availability and reviewer-accessible playback still require verification after merge, followed by rebuilding and inspecting the 0.1.3 ZIP. The recording does not establish raw tool arguments, imported package metadata, or portal review readiness.
+The package's [public recording URL](https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons@main/docs/media/openai-walkthrough-0.1.2.mp4) returned HTTP 200 with `Content-Type: video/mp4`, a content length of 3,542,903 bytes, and byte-range support. Unauthenticated Chrome completed all 103 seconds of playback, reached `readyState: 4`, and had no media error. The recording does not establish raw tool arguments, imported package metadata, or portal review readiness.
 
 ## Submit and publish
 
