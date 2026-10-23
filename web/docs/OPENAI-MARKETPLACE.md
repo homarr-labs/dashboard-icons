@@ -30,8 +30,8 @@ The package manifest is the source of the five positive and three negative revie
 
 | Evidence | Status |
 | --- | --- |
-| Real ChatGPT case execution | Eight baseline prompts executed on 2026-10-23; candidate 0.1.2 batch preview qualification pending |
-| Review walkthrough recording | Not recorded |
+| Real ChatGPT case execution | All five positive and three negative prompts rerun against 0.1.2 with expected visible outcomes. Raw argument traces are not exposed by this UI. |
+| Review walkthrough recording | agent-browser recorder available; its separate Chrome window needs ChatGPT sign-in |
 | Reviewer-accessible recording URL | Not supplied |
 | OpenAI verified publisher identity | Not verified |
 | Country availability and commerce declaration | Publisher confirmed worldwide and free/no commerce; portal import pending |
@@ -56,6 +56,25 @@ The signed-in ChatGPT **Work** surface used a personal development connection to
 | Modify Homarr | Explained inability to connect/change dashboards; no tool activity or changes claimed | Visible boundary passed. |
 
 The UI activity labels are observable evidence, not raw tool-call traces. Do not mark all acceptance criteria complete from these observations. Capture the affected cases after deploying and refreshing the preview resource, and verify package metadata separately during portal import.
+
+### Current candidate, 0.1.2
+
+Source `0b29982c415b62078102a45771276a53b9aff5ae` deployed successfully in [Main CI](https://github.com/homarr-labs/dashboard-icons/actions/runs/39941006218). The [ZIP workflow](https://github.com/homarr-labs/dashboard-icons/actions/runs/39942607328) produced an inspected three-file archive; SHA-256: `d85ebb416be884a625195077a360c2fdc5e6babefe230d26966e2ff06b70613f`.
+
+The [current development conversation](https://chatgpt.com/c/6adb3d48-21c4-83eb-b533-852cf36c7548) uses ChatGPT Work, selected model label **GPT-6.1 Sol Light**, and only Dashboard Icons selected. Custom-app CSP enforcement was enabled for this pass. The connection was refreshed after deployment. Its development version remains 1.0.0; the ZIP has not been imported into a submission draft.
+
+| Case | Visible result |
+| --- | --- |
+| Batch matching | One matching preview grid contains Docker, Plex, and Home Assistant together, with SVG/PNG/WebP links and Plex light/dark variants. |
+| Native search | Five native thumbnails and names: homer, homey, homebox, homehub, homebrew. |
+| Native SVG | Plex SVG code returned, with the expected background and logo paths. SVG retrieval activity is visible. |
+| Categories and browse | Native `tools` is largest (237); five previews: a3, aion, airdc, akvorado, aliasvault. |
+| External license | Simple Icons Home Assistant preview, returned CC0-1.0 label, attribution, variant links, and brand-guidelines link. |
+| Upload/publish | Explained the read-only limit without tool activity or claiming a stored contribution. |
+| Private submissions | Explained the public-data limit without tool activity or claiming private data access. |
+| Modify Homarr | Explained it cannot connect or change dashboards; reused an already-returned Docker URL without tool activity or claiming a change. |
+
+These are live visible-outcome checks, not a claim that raw argument traces, portal validation, or the reviewer video are complete. agent-browser can record, but cannot attach to the signed-in in-app browser. A separate Chrome for Testing window is open for the recording and awaits sign-in; no video URL is fabricated in the package.
 
 Record a short real walkthrough showing the development connection, a dashboard Icon lookup, SVG or Variant lookup, catalog exploration, and one unsupported request. Keep prompts and results readable and unrelated private content off screen. Verify the recording plays at a reviewer-accessible URL, then set `review.demo_recording_url` under `extensions.com.openai` and rebuild. A script or local recording alone does not complete this requirement.
 
