@@ -1,7 +1,7 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "dashboard-icons",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Preview dashboard icons and retrieve their CDN URLs, SVG markup, variants, and license information.",
   "homepage": "https://dashboardicons.com/",
   "repository": "https://github.com/homarr-labs/dashboard-icons",
@@ -9,6 +9,7 @@
     "com.openai": {
       "interface": {
         "displayName": "Dashboard Icons",
+        "developerName": "Homarr Labs",
         "shortDescription": "Find icons for your dashboard",
         "longDescription": "Find and preview icons for services, applications, and self-hosted dashboards. Match several service names, search the catalog, browse icons and categories, and retrieve CDN URLs, available variants, SVG markup, and license information. ChatGPT displays icon thumbnails alongside links. The public connection provides six read-only tools and requires no account. It cannot submit icons, manage accounts, or change the catalog.",
         "category": "Developer Tools",
@@ -25,16 +26,19 @@
         "composerIcon": "./assets/logo.png"
       },
       "publication": {
-        "release_notes": "Adds inline icon previews alongside CDN links for matching, search, details, and browsing. Includes six account-free, read-only tools: match_icons, search_icons, get_icon, get_icon_svg, browse_icons, and list_categories."
+        "release_notes": "Adds inline icon previews and keeps batch format/variant links together in one preview grid. Includes six account-free, read-only tools: match_icons, search_icons, get_icon, get_icon_svg, browse_icons, and list_categories.",
+        "countries": []
       },
       "review": {
+        "commerce": false,
+        "commerce_description": "Dashboard Icons is free to use. It offers no paid features, purchases, sales, or payment processing.",
         "test_cases": {
           "positive": [
             {
               "description": "Batch matching for a homelab dashboard.",
               "prompt": "Find Dashboard Icons for Docker, Plex, and Home Assistant for my homelab dashboard. Give me their available SVG and PNG CDN URLs and identify each source.",
-              "tools_triggered": "match_icons, get_icon",
-              "expected_behavior": "Call match_icons once with all three service names, then get_icon for each chosen match to obtain available SVG and PNG URLs. Show the returned icon thumbnails in ChatGPT. Report sources and only returned URLs; state when a format or match is unavailable. Include external-source attribution when applicable."
+              "tools_triggered": "match_icons",
+              "expected_behavior": "Call match_icons once with all three service names and include_details=true. Show all returned best-match thumbnails together in ChatGPT and use their returned urls and license without calling get_icon again for those matches. Report sources and only returned SVG and PNG URLs; state when details, a format, or a match are unavailable. Include external-source attribution when applicable."
             },
             {
               "description": "Bounded search in the native catalog.",
