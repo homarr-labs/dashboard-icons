@@ -1,0 +1,41 @@
+web/src/app/api/mcp/public/route.ts
+  s_79391f7be06a4c::t_b0570a8d6cf06a 1-11
+web/src/app/api/mcp/route.ts
+  s_79391f7be06a4c::t_a4a8757d06f4a3 1-2,7-8,11
+web/src/mcp/__tests__/http.test.ts
+  s_79391f7be06a4c::t_c41f056e6dba14 60
+web/src/mcp/__tests__/integration.test.ts
+  s_79391f7be06a4c::t_f7862a3c4c4f87 119-126,208-287
+web/src/mcp/__tests__/route.test.ts
+  s_79391f7be06a4c::t_df73b2a66666d6 12,430-436,498-555
+web/src/mcp/__tests__/server.test.ts
+  s_79391f7be06a4c::t_a31044ca12712e 2,18-33
+web/src/mcp/__tests__/tools.test.ts
+  s_79391f7be06a4c::t_854eabe391d69e 22,27,42-56
+web/src/mcp/http-route.ts
+  s_79391f7be06a4c::t_c192343f906a79 1-132
+web/src/mcp/http.ts
+  s_79391f7be06a4c::t_0d43308d35a853 23-27,30,33,49-50,54-55
+web/src/mcp/server.ts
+  s_79391f7be06a4c::t_b400b3078af18f 10,18-21,25-30
+web/src/mcp/tools/index.ts
+  s_79391f7be06a4c::t_e5ec7ce2aaf7f9 45,47
+web/src/mcp/tools/types.ts
+  s_79391f7be06a4c::t_7ac6c21bae4f29 37-42
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "26c9679fa9fe60d92b234356ef18b505ca4ad0f8",
+  "prompts": {},
+  "sessions": {
+    "s_79391f7be06a4c": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a167d0-b947-7b20-bf63-f825aff27676",
+        "model": "gpt-6.1-sol"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
