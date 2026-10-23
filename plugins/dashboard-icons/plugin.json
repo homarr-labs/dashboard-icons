@@ -1,7 +1,7 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "dashboard-icons",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Preview dashboard icons and retrieve their CDN URLs, SVG markup, variants, and license information.",
   "homepage": "https://dashboardicons.com/",
   "repository": "https://github.com/homarr-labs/dashboard-icons",
@@ -26,10 +26,11 @@
         "composerIcon": "./assets/logo.png"
       },
       "publication": {
-        "release_notes": "Adds inline icon previews and keeps batch format/variant links together in one preview grid. Includes six account-free, read-only tools: match_icons, search_icons, get_icon, get_icon_svg, browse_icons, and list_categories.",
+        "release_notes": "Adds the recorded ChatGPT review walkthrough for the six public, account-free icon tools. Runtime behavior is unchanged from 0.1.2.",
         "countries": []
       },
       "review": {
+        "demo_recording_url": "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons@main/docs/media/openai-walkthrough-0.1.2.mp4",
         "commerce": false,
         "commerce_description": "Dashboard Icons is free to use. It offers no paid features, purchases, sales, or payment processing.",
         "test_cases": {
