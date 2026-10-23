@@ -12,7 +12,7 @@ type ToolDefinition<Input extends z.ZodObject, Output extends z.ZodObject> = {
 		inputSchema: Input
 		outputSchema: Output
 		annotations: ToolAnnotations
-		_meta?: { category: ToolCategory }
+		_meta?: { category: ToolCategory; ui?: { resourceUri: string } }
 	}
 }
 

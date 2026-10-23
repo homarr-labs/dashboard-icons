@@ -1,6 +1,7 @@
 import { z } from "zod"
 import { browseCatalog } from "@/lib/icons/catalog"
 import { MAX_CATEGORY_LENGTH } from "@/lib/icons/validate"
+import { ICON_PREVIEW_RESOURCE_URI } from "@/mcp/icon-preview"
 import { degradedSourcesSchema, iconItemSchema, sourceSchema } from "@/mcp/tools/schemas"
 import { type PublicTool, READ_ONLY_ANNOTATIONS, structuredResult } from "@/mcp/tools/types"
 
@@ -29,7 +30,7 @@ export const browseIconsTool: PublicTool<typeof inputSchema, typeof outputSchema
 		inputSchema,
 		outputSchema,
 		annotations: READ_ONLY_ANNOTATIONS,
-		_meta: { category: "discovery" },
+		_meta: { category: "discovery", ui: { resourceUri: ICON_PREVIEW_RESOURCE_URI } },
 	},
 	async handler(options) {
 		const result: z.output<typeof outputSchema> = await browseCatalog(options)

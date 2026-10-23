@@ -121,11 +121,14 @@ type RpcResponse = {
 			inputSchema?: Record<string, unknown>
 			outputSchema?: Record<string, unknown>
 			annotations?: Record<string, unknown>
+			_meta?: { ui?: { resourceUri: string } }
 		}[]
 		instructions?: string
 		capabilities?: Record<string, unknown>
 		serverInfo?: { name: string }
 		contents?: { uri: string; mimeType: string; text: string }[]
+		resources?: { uri: string; mimeType: string }[]
+		resourceTemplates?: unknown[]
 		messages?: { content: { text: string } }[]
 		completion?: { values: string[] }
 	}
@@ -237,7 +240,7 @@ describe("MCP over HTTP (real wiring)", () => {
 			expect(initialized.result?.instructions).toContain("match_icons")
 			expect(initialized.result?.instructions).not.toMatch(/submit_icon|propose_icon_update|list_my_submissions|account/)
 			expect(initialized.result?.capabilities).not.toHaveProperty("prompts")
-			expect(initialized.result?.capabilities).not.toHaveProperty("resources")
+			expect(initialized.result?.capabilities).toHaveProperty("resources")
 		}
 		const list = await rpc(await call(2, "tools/list", {}))
 		expect(list.result?.tools?.map((tool) => tool.name)).toEqual([
@@ -250,6 +253,11 @@ describe("MCP over HTTP (real wiring)", () => {
 		])
 		for (const tool of list.result?.tools ?? []) {
 			expect(tool.annotations).toEqual({ readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false })
+			if (["match_icons", "search_icons", "get_icon", "browse_icons"].includes(tool.name)) {
+				expect(tool._meta?.ui?.resourceUri).toBe("ui://dashboard-icons/icon-preview-v1.html")
+			} else {
+				expect(tool._meta?.ui).toBeUndefined()
+			}
 			for (const parameter of ["context", "llm_model", "conversation_id"]) {
 				expect(tool.inputSchema?.properties).not.toHaveProperty(parameter)
 				expect(tool.inputSchema?.required ?? []).not.toContain(parameter)
@@ -273,13 +281,22 @@ describe("MCP over HTTP (real wiring)", () => {
 			const result = await rpc(await call(4, "tools/call", { name, arguments: {} }, name))
 			expect(result.error, name).toMatchObject({ code: -32602, message: `Tool ${name} not found` })
 		}
-		for (const method of ["prompts/list", "resources/list", "resources/templates/list"]) {
-			const response = await call(5, method, {})
-			let status = 200
-			if (version === MODERN_VERSION) status = 404
-			expect(response.status, method).toBe(status)
-			expect(await response.json(), method).toMatchObject({ error: { code: -32601 } })
-		}
+		const resources = await rpc(await call(5, "resources/list", {}))
+		expect(resources.result?.resources?.map((resource) => resource.uri)).toEqual(["ui://dashboard-icons/icon-preview-v1.html"])
+		const previewUri = "ui://dashboard-icons/icon-preview-v1.html"
+		const preview = await rpc(await call(6, "resources/read", { uri: previewUri }, previewUri))
+		expect(preview.result?.contents?.[0]).toMatchObject({
+			uri: "ui://dashboard-icons/icon-preview-v1.html",
+			mimeType: "text/html;profile=mcp-app",
+		})
+		expect(preview.result?.contents?.[0]?.text).toContain("ui/notifications/tool-result")
+		const templates = await rpc(await call(7, "resources/templates/list", {}))
+		expect(templates.result?.resourceTemplates).toEqual([])
+		const prompts = await call(8, "prompts/list", {})
+		let promptsStatus = 200
+		if (version === MODERN_VERSION) promptsStatus = 404
+		expect(prompts.status).toBe(promptsStatus)
+		expect(await prompts.json()).toMatchObject({ error: { code: -32601 } })
 		expect(submissionWrites).toEqual([])
 		await settle()
 		expect(captured).toEqual([])

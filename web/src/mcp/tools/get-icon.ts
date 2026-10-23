@@ -1,5 +1,6 @@
 import { z } from "zod"
 import { getCatalogIcon } from "@/lib/icons/catalog"
+import { ICON_PREVIEW_RESOURCE_URI } from "@/mcp/icon-preview"
 import {
 	degradedSourcesSchema,
 	didYouMeanSchema,
@@ -58,7 +59,7 @@ export const getIconTool: PublicTool<typeof inputSchema, typeof outputSchema> = 
 		inputSchema,
 		outputSchema,
 		annotations: READ_ONLY_ANNOTATIONS,
-		_meta: { category: "details" },
+		_meta: { category: "details", ui: { resourceUri: ICON_PREVIEW_RESOURCE_URI } },
 	},
 	async handler({ name, source }) {
 		const result: z.output<typeof outputSchema> = await getCatalogIcon(name, { source })
