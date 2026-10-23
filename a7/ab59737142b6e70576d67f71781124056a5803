@@ -1,0 +1,24 @@
+web/.gitignore
+  s_79391f7be06a4c::t_9cb954145af36d 63
+web/scripts/check-mcp-preview.mjs
+  s_79391f7be06a4c::t_4928170ab2f8b9 1-47
+  s_79391f7be06a4c::t_e67107e1ecb1f3 48-56
+web/docs/OPENAI-MARKETPLACE.md
+  s_79391f7be06a4c::t_4928170ab2f8b9 15-16
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "a7ab59737142b6e70576d67f71781124056a5803",
+  "prompts": {},
+  "sessions": {
+    "s_79391f7be06a4c": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a167d0-b947-7b20-bf63-f825aff27676",
+        "model": "gpt-6.1-sol"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
