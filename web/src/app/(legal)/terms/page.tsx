@@ -14,10 +14,9 @@ export default function TermsPage() {
 			<h1>Terms of Service</h1>
 			<p>Last updated: October 23, 2026</p>
 			<p>
-				These terms govern your use of the dashboardicons.com website and MCP service, maintained by Homarr Labs. By using the service,
-				you agree to these terms. If you do not agree, please stop using it. These terms do not replace licenses that apply to individual
-				assets or open-source code. Contact{" "}
-				<a href="mailto:homarr-labs@proton.me">homarr-labs@proton.me</a> with questions.
+				These terms govern your use of the dashboardicons.com website and MCP service, maintained by Homarr Labs. By using the service, you
+				agree to these terms. If you do not agree, please stop using it. These terms do not replace licenses that apply to individual assets
+				or open-source code. Contact <a href="mailto:homarr-labs@proton.me">homarr-labs@proton.me</a> with questions.
 			</p>
 
 			<h2>The service</h2>

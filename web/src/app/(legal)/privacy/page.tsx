@@ -65,14 +65,15 @@ export default function PrivacyPage() {
 			<p>
 				The separate endpoint at <code>/api/mcp</code> supports account features and uses server-side PostHog analytics when enabled. Its
 				analytics configuration includes tool-call information, client and session identifiers, conversation identifiers, supplied context
-				and model information, and the caller&apos;s IP address. Signed-in calls can be linked to your account ID, username, and administrator
-				status. Request authentication context is removed before analytics events are sent. Browser cookie settings do not disable this
-				server-side analytics; use the public endpoint for icon lookups without it.
+				and model information, and the caller&apos;s IP address. Signed-in calls can be linked to your account ID, username, and
+				administrator status. Request authentication context is removed before analytics events are sent. Browser cookie settings do not
+				disable this server-side analytics; use the public endpoint for icon lookups without it.
 			</p>
 			<p>
 				Your MCP client or AI provider also processes the conversation and tool results under its own policies. Loading an icon URL returned
 				by a tool contacts the relevant content provider, which receives request information. You can stop future MCP requests by
-				disconnecting the server in your client. For information already handled by Dashboard Icons, use the contact and rights process below.
+				disconnecting the server in your client. For information already handled by Dashboard Icons, use the contact and rights process
+				below.
 			</p>
 
 			<h2>Advertising and external services</h2>
