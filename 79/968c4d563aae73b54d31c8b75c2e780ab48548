@@ -1,0 +1,29 @@
+plugins/dashboard-icons/mcp.json
+  s_79391f7be06a4c::t_79c5d79dd87e80 1-16
+.github/workflows/openai-plugin.yml
+  s_79391f7be06a4c::t_79c5d79dd87e80 1-31
+.gitignore
+  s_79391f7be06a4c::t_79c5d79dd87e80 50-52,57
+plugins/dashboard-icons/plugin.json
+  s_79391f7be06a4c::t_79c5d79dd87e80 1-32
+plugins/README.md
+  s_79391f7be06a4c::t_79c5d79dd87e80 1-50
+scripts/package-openai-plugin.py
+  s_79391f7be06a4c::t_79c5d79dd87e80 1-163
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "79968c4d563aae73b54d31c8b75c2e780ab48548",
+  "prompts": {},
+  "sessions": {
+    "s_79391f7be06a4c": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a167d0-b947-7b20-bf63-f825aff27676",
+        "model": "gpt-6.1-sol"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
