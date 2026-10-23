@@ -25,7 +25,7 @@ The same build works locally with Python 3 and no dependencies:
 ```sh
 python3 scripts/package-openai-plugin.py --output /tmp/dashboard-icons-openai
 cd /tmp/dashboard-icons-openai
-shasum -a 256 -c dashboard-icons-openai-0.1.3.zip.sha256
+shasum -a 256 -c dashboard-icons-openai-0.1.4.zip.sha256
 ```
 
 The builder checks an exact three-file inventory, rejects symlinks and private
@@ -42,13 +42,13 @@ JSON Schema currently omits server extensions, despite
 This focused validator checks the documented OpenAI shape; a portal import and
 its validation remain separate checks.
 
-The artifact remains a **draft**. Version 0.1.3 includes the confirmed Homarr Labs
-publisher, worldwide/free declarations, eight review cases, and a recorded
-ChatGPT walkthrough URL. The public video returned HTTP 200 as `video/mp4` and
-played in unauthenticated Chrome without a media error. The
-[0.1.3 ZIP workflow](https://github.com/homarr-labs/dashboard-icons/actions/runs/39952808495)
-passed in 22 seconds. See
-[`web/docs/OPENAI-MARKETPLACE.md`](../web/docs/OPENAI-MARKETPLACE.md) for the visible
-case outcomes and remaining argument/portal checks. A ZIP cannot establish
-developer/domain verification, required scans or attestations, OpenAI approval,
-or publication.
+Version 0.1.3 is **In review** in the OpenAI portal, with the imported Homarr Labs
+listing, worldwide/free declarations, verified developer/domain, six configured
+tools without MCP findings, and completed publisher attestations. Its eight
+review cases and public ChatGPT walkthrough remain recorded evidence; raw tool
+arguments are not exposed by the host. Version 0.1.4 is a **prepared listing
+update only**: “Choose from 8,000+ icons,” with runtime unchanged from 0.1.3.
+It has not been uploaded or submitted. See
+[`web/docs/OPENAI-MARKETPLACE.md`](../web/docs/OPENAI-MARKETPLACE.md) for the receipt
+and evidence. The submitted 0.1.3 remains in review; OpenAI approval and
+publication are pending.
