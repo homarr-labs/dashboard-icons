@@ -1,7 +1,7 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "dashboard-icons",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Preview dashboard icons and retrieve their CDN URLs, SVG markup, variants, and license information.",
   "homepage": "https://dashboardicons.com/",
   "repository": "https://github.com/homarr-labs/dashboard-icons",
@@ -10,7 +10,7 @@
       "interface": {
         "displayName": "Dashboard Icons",
         "developerName": "Homarr Labs",
-        "shortDescription": "Find icons for your dashboard",
+        "shortDescription": "Choose from 8,000+ icons",
         "longDescription": "Find and preview icons for services, applications, and self-hosted dashboards. Match several service names, search the catalog, browse icons and categories, and retrieve CDN URLs, available variants, SVG markup, and license information. ChatGPT displays icon thumbnails alongside links. The public connection provides six read-only tools and requires no account. It cannot submit icons, manage accounts, or change the catalog.",
         "category": "Developer Tools",
         "defaultPrompt": [
@@ -26,7 +26,7 @@
         "composerIcon": "./assets/logo.png"
       },
       "publication": {
-        "release_notes": "Adds the recorded ChatGPT review walkthrough for the six public, account-free icon tools. Runtime behavior is unchanged from 0.1.2.",
+        "release_notes": "Updates the listing subtitle to reflect the catalog of 8,000+ icons. Listing copy only; runtime behavior is unchanged from 0.1.3.",
         "countries": []
       },
       "review": {

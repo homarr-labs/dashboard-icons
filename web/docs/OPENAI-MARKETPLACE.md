@@ -16,6 +16,10 @@ Version 0.1.2 lets `match_icons` return format URLs and licenses for the entire 
 
 Version 0.1.3 changes review metadata only: it adds the recorded ChatGPT walkthrough URL. Runtime source remains `0b29982c415b62078102a45771276a53b9aff5ae`, as qualified for 0.1.2 below. Public recording availability and unauthenticated Chrome playback are verified.
 
+Version 0.1.3 is **In review** in the OpenAI portal as of 2026-10-23. Individual developer verification is approved, and the imported listing displays **Homarr Labs**, worldwide availability, and free/no commerce. The exact domain challenge is live and verified; the connection has six configured public tools with no MCP findings. The publisher completed the attestations and clicked **Submit**. This is not approval or publication.
+
+Version 0.1.4 is **prepared only** for a later listing update: its subtitle is **Choose from 8,000+ icons**. A live `browse_icons({"limit":1})` call on 2026-10-23 returned `total: 8052` with no degraded sources. This is listing copy only; runtime behavior is unchanged from 0.1.3. The submitted 0.1.3 remains in review; 0.1.4 has not been uploaded or submitted.
+
 From `web/`, run `pnpm exec tsx --tsconfig tsconfig.json scripts/check-mcp-preview.mjs` to check the registered HTML bridge, thumbnails, links, text escaping, and rejected image origins.
 
 ## Build the ZIP
@@ -35,10 +39,12 @@ The package manifest is the source of the five positive and three negative revie
 | Real ChatGPT case execution | All five positive and three negative prompts rerun against 0.1.2 with expected visible outcomes. Raw argument traces are not exposed by this UI. |
 | Review walkthrough recording | Complete: 103-second macOS window recording; local browser playback passed |
 | Reviewer-accessible recording URL | Verified: HTTP 200 `video/mp4`; unauthenticated Chrome played all 103 seconds with no media error |
-| OpenAI verified publisher identity | Not verified |
-| Country availability and commerce declaration | Publisher confirmed worldwide and free/no commerce; portal import pending |
-| Domain challenge, connection, and required scans | Not run |
-| Review submission, approval, and publication | Not performed |
+| OpenAI developer verification and displayed publisher | Individual verification approved; imported listing displays Homarr Labs |
+| Country availability and commerce declaration | Verified in the 0.1.3 portal import: worldwide and free/no commerce |
+| Domain challenge and MCP configuration | Exact challenge at `https://dashboardicons.com/.well-known/openai-apps-challenge` is live and verified; six configured public tools, no MCP findings |
+| Publisher attestations and review submission | Publisher completed the attestations and clicked Submit; 0.1.3 is In review |
+| Approval and publication | Pending; no public directory listing |
+| Next listing update | 0.1.4 prepared only; not uploaded or submitted |
 
 For each case, record candidate version, source revision, date, ChatGPT surface, tool calls, outcome, and an evidence link. Keep all cases on the same candidate; rerun affected cases after changing its behavior.
 
@@ -65,7 +71,7 @@ Source `0b29982c415b62078102a45771276a53b9aff5ae` deployed successfully in [Main
 
 The [0.1.3 ZIP workflow](https://github.com/homarr-labs/dashboard-icons/actions/runs/39952808495) passed in 22 seconds at main source `fd8f1b4f2f65948bd19cd5acb5974b5d8ec53961`. The downloaded three-file archive contains version 0.1.3 and the actual recording URL; SHA-256: `57bd01c8733aa627e96c496689ba4599a18fdc39e6d4bd9951f1e2b955390a0a`.
 
-The [current development conversation](https://chatgpt.com/c/6adb3d48-21c4-83eb-b533-852cf36c7548) uses ChatGPT Work, selected model label **GPT-6.1 Sol Light**, and only Dashboard Icons selected. Custom-app CSP enforcement was enabled for this pass. The connection was refreshed after deployment. Its development version remains 1.0.0; the ZIP has not been imported into a submission draft.
+The [development conversation for this runtime pass](https://chatgpt.com/c/6adb3d48-21c4-83eb-b533-852cf36c7548) uses ChatGPT Work, selected model label **GPT-6.1 Sol Light**, and only Dashboard Icons selected. Custom-app CSP enforcement was enabled for this pass. The connection was refreshed after deployment. Its development version remains 1.0.0; at that point the ZIP had not yet been imported. The later 0.1.3 portal import and submission are recorded above.
 
 | Case | Visible result |
 | --- | --- |
@@ -78,21 +84,17 @@ The [current development conversation](https://chatgpt.com/c/6adb3d48-21c4-83eb-
 | Private submissions | Explained the public-data limit without tool activity or claiming private data access. |
 | Modify Homarr | Explained it cannot connect or change dashboards; reused an already-returned Docker URL without tool activity or claiming a change. |
 
-These are live visible-outcome checks. Raw argument traces are not exposed by this UI, and portal validation remains pending.
+These are live visible-outcome checks. Raw argument traces are not exposed by this UI. The later 0.1.3 portal import and six-tool configuration were verified with no MCP findings; that does not establish the unexposed raw arguments.
 
 The [recorded walkthrough](../../docs/media/openai-walkthrough-0.1.2.mp4) is a 103-second macOS window capture: 1188 × 1856 H.264, 3,542,903 bytes, with no audio. Local browser playback passed. It reviews the eight existing visible outcomes above and records a fresh `match_icons` lookup for Grafana, Prometheus, and Nginx (6 seconds).
 
 The package's [public recording URL](https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons@main/docs/media/openai-walkthrough-0.1.2.mp4) returned HTTP 200 with `Content-Type: video/mp4`, a content length of 3,542,903 bytes, and byte-range support. Unauthenticated Chrome completed all 103 seconds of playback, reached `readyState: 4`, and had no media error. The recording does not establish raw tool arguments, imported package metadata, or portal review readiness.
 
-## Submit and publish
+## Review and publication
 
-Before submission, confirm the public publisher identity, all four listing destinations, country availability, and commerce declaration. The package must contain the real listing values and review evidence. Do not invent a verified identity or a demo URL to make validation pass.
+Keep the submitted 0.1.3 unchanged while OpenAI reviews it. The 0.1.4 listing update is prepared separately for later use; it does not replace the version in review.
 
-1. Select the intended organization/project and verified developer identity.
-2. Upload the complete ZIP through **With MCP**, connect the public endpoint, and complete the domain challenge using the exact token supplied by OpenAI.
-3. Inspect imported listing/review fields and discovered tools; resolve required findings and scans.
-4. Have the authorized publisher complete the legal/policy attestations, then submit the selected version for review.
-5. After approval, publish that version. Install it from the public directory in a fresh ChatGPT session and verify its advertised flows.
+After approval, publish the approved version, install it from the public directory in a fresh ChatGPT session, and verify its advertised flows. Until then, the portal's **In review** status establishes submission only.
 
 Keep preparation, upload, submission, approval, and publication as separate states. Account-enabled review and OAuth are outside this release.
 
@@ -101,5 +103,5 @@ Keep preparation, upload, submission, approval, and publication as separate stat
 - [#2997: ZIP workflow and public endpoint](https://github.com/homarr-labs/dashboard-icons/issues/2997)
 - [#2998: Listing and privacy](https://github.com/homarr-labs/dashboard-icons/issues/2998)
 - [#2999: ChatGPT qualification and recording](https://github.com/homarr-labs/dashboard-icons/issues/2999), blocked by #2997
-- [#3000: OpenAI review submission](https://github.com/homarr-labs/dashboard-icons/issues/3000), blocked by #2998 and #2999
-- [#3001: Publish and verify installation](https://github.com/homarr-labs/dashboard-icons/issues/3001), blocked by #3000 and OpenAI approval
+- [#3000: OpenAI review submission](https://github.com/homarr-labs/dashboard-icons/issues/3000): 0.1.3 In review
+- [#3001: Publish and verify installation](https://github.com/homarr-labs/dashboard-icons/issues/3001): awaiting OpenAI approval
