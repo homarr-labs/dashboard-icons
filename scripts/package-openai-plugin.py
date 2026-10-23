@@ -98,6 +98,7 @@ def archive(files):
 def verify_endpoint():
     request = Request(ENDPOINT, data=json.dumps({"jsonrpc": "2.0", "id": 1, "method": "tools/list"}).encode(), headers={
         "Content-Type": "application/json", "Accept": "application/json, text/event-stream", "MCP-Protocol-Version": "2025-11-25",
+        "User-Agent": "DashboardIconsRelease/0.1.0",
     })
     with urlopen(request, timeout=20) as response:
         require(response.geturl() == ENDPOINT, "Public MCP endpoint must not redirect")
