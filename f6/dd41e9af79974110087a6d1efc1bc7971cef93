@@ -1,0 +1,21 @@
+web/src/app/(legal)/privacy/page.tsx
+  s_79391f7be06a4c::t_947e4790a6138c 68-70,75-76
+web/src/app/(legal)/terms/page.tsx
+  s_79391f7be06a4c::t_f54390500d9609 17-19
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "f6dd41e9af79974110087a6d1efc1bc7971cef93",
+  "prompts": {},
+  "sessions": {
+    "s_79391f7be06a4c": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a167d0-b947-7b20-bf63-f825aff27676",
+        "model": "gpt-6.1-sol"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
