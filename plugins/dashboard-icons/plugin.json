@@ -1,0 +1,32 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "dashboard-icons",
+  "version": "0.1.0",
+  "description": "Find dashboard icons and retrieve their CDN URLs, SVG markup, variants, and license information.",
+  "homepage": "https://dashboardicons.com/",
+  "repository": "https://github.com/homarr-labs/dashboard-icons",
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "Dashboard Icons",
+        "shortDescription": "Find icons for your dashboard",
+        "longDescription": "Find icons for services, applications, and self-hosted dashboards. Match several service names, search the catalog, browse icons and categories, and retrieve CDN URLs, available variants, SVG markup, and license information. The public connection provides six read-only tools and requires no account. It cannot submit icons, manage accounts, or change the catalog.",
+        "category": "Developer Tools",
+        "defaultPrompt": [
+          "Find icons for Plex, Nextcloud, and Home Assistant for my dashboard.",
+          "Show me the available icon variants and license for Grafana.",
+          "Find the SVG markup for the Docker icon."
+        ],
+        "websiteURL": "https://dashboardicons.com/",
+        "supportURL": "https://github.com/homarr-labs/dashboard-icons/blob/main/CONTRIBUTING.md#questions",
+        "privacyPolicyURL": "https://dashboardicons.com/privacy",
+        "termsOfServiceURL": "https://dashboardicons.com/terms",
+        "logo": "./assets/logo.png",
+        "composerIcon": "./assets/logo.png"
+      },
+      "publication": {
+        "release_notes": "Initial public icon connection with six account-free, read-only tools: match_icons, search_icons, get_icon, get_icon_svg, browse_icons, and list_categories."
+      }
+    }
+  }
+}
