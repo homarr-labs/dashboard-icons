@@ -1,6 +1,7 @@
 import { z } from "zod"
 import { searchCatalog } from "@/lib/icons/catalog"
 import { MAX_CATEGORY_LENGTH, MAX_QUERY_LENGTH } from "@/lib/icons/validate"
+import { ICON_PREVIEW_RESOURCE_URI } from "@/mcp/icon-preview"
 import { degradedSourcesSchema, iconHitSchema, sourcesInput } from "@/mcp/tools/schemas"
 import { type PublicTool, READ_ONLY_ANNOTATIONS, structuredResult } from "@/mcp/tools/types"
 
@@ -34,7 +35,7 @@ export const searchIconsTool: PublicTool<typeof inputSchema, typeof outputSchema
 		inputSchema,
 		outputSchema,
 		annotations: READ_ONLY_ANNOTATIONS,
-		_meta: { category: "discovery" },
+		_meta: { category: "discovery", ui: { resourceUri: ICON_PREVIEW_RESOURCE_URI } },
 	},
 	async handler({ query, sources, category, limit }) {
 		const result: z.output<typeof outputSchema> = await searchCatalog(query, { sources, category, limit })

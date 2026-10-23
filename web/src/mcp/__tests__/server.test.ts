@@ -5,25 +5,28 @@ const mocks = vi.hoisted(() => ({
 	instrumentDashboardIconsMcpAnalytics: vi.fn(),
 	registerDashboardIconsTools: vi.fn(),
 	registerDashboardIconsResources: vi.fn(),
+	registerIconPreviewResource: vi.fn(),
 	registerDashboardIconsPrompts: vi.fn(),
 }))
 
 vi.mock("@/mcp/analytics", () => ({ instrumentDashboardIconsMcpAnalytics: mocks.instrumentDashboardIconsMcpAnalytics }))
 vi.mock("@/mcp/tools", () => ({ registerDashboardIconsTools: mocks.registerDashboardIconsTools }))
 vi.mock("@/mcp/resources", () => ({ registerDashboardIconsResources: mocks.registerDashboardIconsResources }))
+vi.mock("@/mcp/icon-preview", () => ({ registerIconPreviewResource: mocks.registerIconPreviewResource }))
 vi.mock("@/mcp/prompts", () => ({ registerDashboardIconsPrompts: mocks.registerDashboardIconsPrompts }))
 vi.mock("@/constants", () => ({ WEB_URL: "https://dashboardicons.com" }))
 
 describe("createDashboardIconsServer", () => {
 	beforeEach(() => vi.clearAllMocks())
 
-	it("keeps the public server anonymous and excludes account instructions, resources, prompts and analytics", async () => {
+	it("keeps the public server anonymous with only the preview resource, no account instructions, prompts or analytics", async () => {
 		const { createDashboardIconsServer, PUBLIC_ICONS_INSTRUCTIONS } = await import("@/mcp/server")
 		const server = createDashboardIconsServer({ token: "secret", clientId: "account-client", scopes: ["account"] }, true)
 
 		expect(server).toBeInstanceOf(McpServer)
 		expect(mocks.registerDashboardIconsTools).toHaveBeenCalledWith(server, null, true)
 		expect(mocks.registerDashboardIconsResources).not.toHaveBeenCalled()
+		expect(mocks.registerIconPreviewResource).toHaveBeenCalledWith(server)
 		expect(mocks.registerDashboardIconsPrompts).not.toHaveBeenCalled()
 		expect(mocks.instrumentDashboardIconsMcpAnalytics).not.toHaveBeenCalled()
 		for (const accountTerm of ["submit_icon", "propose_icon_update", "list_my_submissions", "sign in", "account"]) {
@@ -39,11 +42,13 @@ describe("createDashboardIconsServer", () => {
 		expect(server).toBeInstanceOf(McpServer)
 		expect(mocks.registerDashboardIconsTools).toHaveBeenCalledWith(server, null)
 		expect(mocks.registerDashboardIconsResources).toHaveBeenCalledWith(server)
+		expect(mocks.registerIconPreviewResource).toHaveBeenCalledWith(server)
 		expect(mocks.registerDashboardIconsPrompts).toHaveBeenCalledWith(server)
 		expect(mocks.instrumentDashboardIconsMcpAnalytics).toHaveBeenCalledWith(server)
 		for (const register of [
 			mocks.registerDashboardIconsTools,
 			mocks.registerDashboardIconsResources,
+			mocks.registerIconPreviewResource,
 			mocks.registerDashboardIconsPrompts,
 		]) {
 			expect(register.mock.invocationCallOrder[0]).toBeLessThan(mocks.instrumentDashboardIconsMcpAnalytics.mock.invocationCallOrder[0] ?? 0)
