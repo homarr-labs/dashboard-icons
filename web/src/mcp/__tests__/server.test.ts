@@ -1,5 +1,5 @@
 import { McpServer } from "@modelcontextprotocol/server"
-import { describe, expect, it, vi } from "vitest"
+import { beforeEach, describe, expect, it, vi } from "vitest"
 
 const mocks = vi.hoisted(() => ({
 	instrumentDashboardIconsMcpAnalytics: vi.fn(),
@@ -15,6 +15,22 @@ vi.mock("@/mcp/prompts", () => ({ registerDashboardIconsPrompts: mocks.registerD
 vi.mock("@/constants", () => ({ WEB_URL: "https://dashboardicons.com" }))
 
 describe("createDashboardIconsServer", () => {
+	beforeEach(() => vi.clearAllMocks())
+
+	it("keeps the public server anonymous and excludes account instructions, resources, prompts and analytics", async () => {
+		const { createDashboardIconsServer, PUBLIC_ICONS_INSTRUCTIONS } = await import("@/mcp/server")
+		const server = createDashboardIconsServer({ token: "secret", clientId: "account-client", scopes: ["account"] }, true)
+
+		expect(server).toBeInstanceOf(McpServer)
+		expect(mocks.registerDashboardIconsTools).toHaveBeenCalledWith(server, null, true)
+		expect(mocks.registerDashboardIconsResources).not.toHaveBeenCalled()
+		expect(mocks.registerDashboardIconsPrompts).not.toHaveBeenCalled()
+		expect(mocks.instrumentDashboardIconsMcpAnalytics).not.toHaveBeenCalled()
+		for (const accountTerm of ["submit_icon", "propose_icon_update", "list_my_submissions", "sign in", "account"]) {
+			expect(PUBLIC_ICONS_INSTRUCTIONS).not.toContain(accountTerm)
+		}
+	})
+
 	it("registers tools, resources and prompts, then instruments the high-level server", async () => {
 		const { createDashboardIconsServer, DASHBOARD_ICONS_INSTRUCTIONS } = await import("@/mcp/server")
 

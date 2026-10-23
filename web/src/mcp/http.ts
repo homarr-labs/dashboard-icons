@@ -20,12 +20,17 @@ const modernHandler = createMcpHandler(({ authInfo }) => createDashboardIconsSer
 	onerror: reportError,
 })
 
+const publicModernHandler = createMcpHandler(() => createDashboardIconsServer(undefined, true), {
+	legacy: "reject",
+	onerror: reportError,
+})
+
 // 2025-era clients are served statelessly in JSON mode so the response headers are built after
 // the handlers run, which lets @posthog/mcp return its session token in `Mcp-Session-Id`.
-async function handleLegacyRequest(req: Request, authInfo?: AuthInfo): Promise<Response> {
+async function handleLegacyRequest(req: Request, authInfo: AuthInfo | undefined, publicOnly: boolean): Promise<Response> {
 	if (req.method.toUpperCase() !== "POST") return jsonRpcError(405, -32000, "Method not allowed.")
 	try {
-		const server = createDashboardIconsServer(authInfo)
+		const server = createDashboardIconsServer(authInfo, publicOnly)
 		const transport = new WebStandardStreamableHTTPServerTransport({ sessionIdGenerator: undefined, enableJsonResponse: true })
 		await server.connect(transport)
 		const teardown = () => Promise.allSettled([transport.close(), server.close()])
@@ -41,10 +46,12 @@ async function handleLegacyRequest(req: Request, authInfo?: AuthInfo): Promise<R
 	}
 }
 
-export async function handleMcpRequest(req: Request, authInfo?: AuthInfo): Promise<Response> {
+export async function handleMcpRequest(req: Request, authInfo?: AuthInfo, publicOnly = false): Promise<Response> {
+	if (publicOnly) authInfo = undefined
 	if (req.method.toUpperCase() === "POST" && !isJsonContentType(req.headers.get("content-type"))) {
 		return jsonRpcError(415, -32000, "Unsupported Media Type: Content-Type must be application/json")
 	}
-	if (await isLegacyRequest(req)) return handleLegacyRequest(req, authInfo)
+	if (await isLegacyRequest(req)) return handleLegacyRequest(req, authInfo, publicOnly)
+	if (publicOnly) return publicModernHandler.fetch(req)
 	return modernHandler.fetch(req, { authInfo })
 }

@@ -42,8 +42,9 @@ async function runTool(tool: DashboardIconsTool, args: Record<string, unknown>, 
 	return tool.handler(args, session)
 }
 
-export function registerDashboardIconsTools(server: McpServer, session: McpSession | null): void {
+export function registerDashboardIconsTools(server: McpServer, session: McpSession | null, publicOnly = false): void {
 	for (const tool of DASHBOARD_ICONS_TOOLS) {
+		if (publicOnly && tool.access !== "public") continue
 		server.registerTool(tool.name, tool.config, (args) => runTool(tool, args, session))
 	}
 }

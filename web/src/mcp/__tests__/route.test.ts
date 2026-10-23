@@ -9,7 +9,7 @@ import { MAX_ACCOUNT_REQUEST_BODY_BYTES } from "@/mcp/limits"
 const { afterTasks, flushDashboardIconsMcpAnalytics, handleMcpRequest } = vi.hoisted(() => ({
 	afterTasks: [] as (() => unknown)[],
 	flushDashboardIconsMcpAnalytics: vi.fn(async () => {}),
-	handleMcpRequest: vi.fn(async (_req: Request, _authInfo?: unknown) => new Response("ok", { status: 200 })),
+	handleMcpRequest: vi.fn(async (_req: Request, _authInfo?: unknown, _publicOnly?: boolean) => new Response("ok", { status: 200 })),
 }))
 
 vi.mock("next/server", async (importOriginal) => ({
@@ -427,6 +427,13 @@ describe("MCP route", () => {
 		expect(response.status).toBe(429)
 	})
 
+	it("ignores malformed messages when finding tool calls in a batch", async () => {
+		const { POST } = await import("@/app/api/mcp/route")
+		const response = await POST(nextRequest("POST", { body: JSON.stringify([null, [], 1, "bad", { method: "ping" }]) }))
+		expect(response.status).toBe(200)
+		expect(handleMcpRequest).toHaveBeenCalledOnce()
+	})
+
 	it("treats invalid JSON POST as non-tool request", async () => {
 		const { POST } = await import("@/app/api/mcp/route")
 		const response = await POST(
@@ -486,5 +493,63 @@ describe("MCP route", () => {
 		expect(response.status).toBe(429)
 		expect(response.headers.get("Retry-After")).toBe("60")
 		checkSpy.mockRestore()
+	})
+})
+
+describe("public MCP route", () => {
+	beforeEach(() => {
+		resetRateLimitsForTests()
+		process.env.MCP_RATE_LIMIT_ENABLED = "true"
+		vi.clearAllMocks()
+		afterTasks.length = 0
+	})
+
+	it("serves public GET/POST without verifying credentials or scheduling analytics", async () => {
+		const { GET, POST } = await import("@/app/api/mcp/public/route")
+		const { verifyMcpBearer } = await import("@/mcp/auth")
+		const response = await POST(toolCall("search_icons"))
+		expect(response.status).toBe(200)
+		expect(response.headers.get("Cache-Control")).toBe("no-store")
+		expect((await GET(nextRequest("GET", { headers: { cookie: "pb_auth=incidental-browser-cookie" } }))).status).toBe(200)
+		expect(handleMcpRequest).toHaveBeenCalledWith(expect.anything(), undefined, true)
+		expect(verifyMcpBearer).not.toHaveBeenCalled()
+		expect(afterTasks).toEqual([])
+	})
+
+	it.each(["Bearer anything", "Basic anything", ""])("rejects Authorization before reading the body (%s)", async (authorization) => {
+		const { POST } = await import("@/app/api/mcp/public/route")
+		const request = nextRequest("POST", { headers: { authorization }, body: "x".repeat(MAX_ACCOUNT_REQUEST_BODY_BYTES) })
+		const response = await POST(request)
+		expect(response.status).toBe(400)
+		expect(response.headers.has("WWW-Authenticate")).toBe(false)
+		expect(await response.text()).toContain("does not accept Authorization")
+		expect((request as Request).bodyUsed).toBe(false)
+		expect(handleMcpRequest).not.toHaveBeenCalled()
+	})
+
+	it("keeps public calls within the 64 KiB boundary", async () => {
+		const { POST } = await import("@/app/api/mcp/public/route")
+		const body = JSON.stringify({ jsonrpc: "2.0", id: 1, method: "tools/list" })
+		expect((await POST(nextRequest("POST", { body: body.padEnd(MAX_REQUEST_BODY_BYTES) }))).status).toBe(200)
+		const response = await POST(nextRequest("POST", { body: body.padEnd(MAX_REQUEST_BODY_BYTES + 1) }))
+		expect(response.status).toBe(413)
+		expect(await response.text()).toContain("public calls allow at most 64 KiB")
+		expect(handleMcpRequest).toHaveBeenCalledOnce()
+	})
+
+	it("leaves account calls unregistered instead of offering sign-in", async () => {
+		const { POST } = await import("@/app/api/mcp/public/route")
+		const response = await POST(toolCall("submit_icon"))
+		expect(response.status).toBe(200)
+		expect(response.headers.has("WWW-Authenticate")).toBe(false)
+		expect(handleMcpRequest).toHaveBeenCalledWith(expect.anything(), undefined, true)
+	})
+
+	it("shares the request and per-tool rate limits", async () => {
+		const { GET, POST } = await import("@/app/api/mcp/public/route")
+		for (let index = 0; index < 30; index++) expect((await POST(toolCall("search_icons"))).status).toBe(200)
+		expect((await POST(toolCall("search_icons"))).status).toBe(429)
+		for (let index = 0; index < 29; index++) expect((await GET(nextRequest("GET"))).status).toBe(200)
+		expect((await GET(nextRequest("GET"))).status).toBe(429)
 	})
 })
