@@ -1,0 +1,50 @@
+web/src/mcp/tools/get-icon.ts
+  s_79391f7be06a4c::t_816fcfbaed95f7 3,62
+plugins/dashboard-icons/plugin.json
+  s_79391f7be06a4c::t_47cd93c4d45fa7 4-5,13,28,37,43,55,61
+web/src/mcp/icon-preview.ts
+  s_79391f7be06a4c::t_9db101a7928bd4 95-96
+  s_79391f7be06a4c::t_a6caf0bdfd6b06 126-132
+  s_79391f7be06a4c::t_816fcfbaed95f7 1-94,97-125,133-219
+web/src/mcp/tools/browse-icons.ts
+  s_79391f7be06a4c::t_816fcfbaed95f7 4,33
+plugins/README.md
+  s_79391f7be06a4c::t_47cd93c4d45fa7 28
+web/src/mcp/server.ts
+  s_79391f7be06a4c::t_f55e3986762545 16
+  s_79391f7be06a4c::t_816fcfbaed95f7 5,31,37
+docs/chatgpt-icon-previews-research.md
+  s_79391f7be06a4c::t_32a4c78b7a333d 17,19,29
+  s_79391f7be06a4c::t_435c57ab5c6514 1-16,18,20-28,30-35
+web/src/mcp/__tests__/server.test.ts
+  s_79391f7be06a4c::t_9db101a7928bd4 8,15,22,29,45,51
+web/src/mcp/__tests__/integration.test.ts
+  s_79391f7be06a4c::t_54c338ce895e37 286-287
+  s_79391f7be06a4c::t_f55e3986762545 295-299
+  s_79391f7be06a4c::t_9db101a7928bd4 124,130-131,243,256-260,284-285,288-294
+web/docs/OPENAI-MARKETPLACE.md
+  s_79391f7be06a4c::t_6b867e8314d141 13-14,29,39-54
+  s_79391f7be06a4c::t_ae962912e749ec 55
+web/src/mcp/tools/types.ts
+  s_79391f7be06a4c::t_816fcfbaed95f7 15
+web/src/mcp/tools/match-icons.ts
+  s_79391f7be06a4c::t_816fcfbaed95f7 4,45
+web/src/mcp/tools/search-icons.ts
+  s_79391f7be06a4c::t_816fcfbaed95f7 4,38
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "f77f03666316f079dfc1d7a4a665be64fb5b2ac8",
+  "prompts": {},
+  "sessions": {
+    "s_79391f7be06a4c": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a167d0-b947-7b20-bf63-f825aff27676",
+        "model": "gpt-6.1-sol"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
