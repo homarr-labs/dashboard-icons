@@ -19,12 +19,12 @@ vi.mock("@/lib/icons/catalog", async (importOriginal) => ({
 
 type ToolCallback = (args: Record<string, unknown>) => Promise<CallToolResult>
 
-function registerWithFakeServer(caller: Parameters<typeof registerDashboardIconsTools>[1]) {
+function registerWithFakeServer(caller: Parameters<typeof registerDashboardIconsTools>[1], publicOnly = false) {
 	const callbacks = new Map<string, ToolCallback>()
 	const registerTool = vi.fn((name: string, _config: unknown, callback: ToolCallback) => {
 		callbacks.set(name, callback)
 	})
-	registerDashboardIconsTools({ registerTool } as unknown as McpServer, caller)
+	registerDashboardIconsTools({ registerTool } as unknown as McpServer, caller, publicOnly)
 	return { registerTool, call: (name: string, args: Record<string, unknown>) => callbacks.get(name)?.(args) }
 }
 
@@ -39,6 +39,21 @@ beforeEach(() => {
 })
 
 describe("tool registry", () => {
+	it("registers exactly the six public tools and cannot dispatch account tools", () => {
+		const { registerTool, call } = registerWithFakeServer(null, true)
+		expect(registerTool.mock.calls.map(([name]) => name)).toEqual([
+			"match_icons",
+			"search_icons",
+			"get_icon",
+			"get_icon_svg",
+			"browse_icons",
+			"list_categories",
+		])
+		for (const name of ["submit_icon", "propose_icon_update", "list_my_submissions", "get_more_tools"]) {
+			expect(call(name, {})).toBeUndefined()
+		}
+	})
+
 	it("lists the public read-only tools and the account tools with categories", () => {
 		expect(DASHBOARD_ICONS_TOOLS.map((tool) => [tool.name, tool.access, tool.config._meta?.category])).toEqual([
 			["match_icons", "public", "discovery"],

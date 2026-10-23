@@ -4,7 +4,7 @@ import { REPO_PATH } from "@/constants"
 
 export const metadata: Metadata = {
 	title: "Terms of Service",
-	description: "Terms for using Dashboard Icons, downloading third-party logos, creating an account, and contributing icons.",
+	description: "Terms for using the Dashboard Icons website and MCP service, downloading logos, and contributing icons.",
 	alternates: { canonical: "/terms" },
 }
 
@@ -12,11 +12,11 @@ export default function TermsPage() {
 	return (
 		<>
 			<h1>Terms of Service</h1>
-			<p>Last updated: September 19, 2026</p>
+			<p>Last updated: October 23, 2026</p>
 			<p>
-				These terms govern your use of dashboardicons.com, maintained by Homarr Labs. By using the website, you agree to these terms. If you
-				do not agree, please stop using it. These terms do not replace licenses that apply to individual assets or open-source code. Contact{" "}
-				<a href="mailto:homarr-labs@proton.me">homarr-labs@proton.me</a> with questions.
+				These terms govern your use of the dashboardicons.com website and MCP service, maintained by Homarr Labs. By using the service, you
+				agree to these terms. If you do not agree, please stop using it. These terms do not replace licenses that apply to individual assets
+				or open-source code. Contact <a href="mailto:homarr-labs@proton.me">homarr-labs@proton.me</a> with questions.
 			</p>
 
 			<h2>The service</h2>
@@ -24,6 +24,10 @@ export default function TermsPage() {
 				Dashboard Icons helps you discover and download icons and logos for applications, services, dashboards, and app directories. The
 				catalog includes our repository, community submissions, and external collections. Listings may change or be removed, and we cannot
 				guarantee that every asset, link, format, or description is accurate or always available.
+			</p>
+			<p>
+				The public MCP endpoint provides read-only icon search, matching, browsing, metadata, and SVG retrieval without an account. The
+				asset licenses and trademark requirements below apply to results obtained through MCP as well as website downloads.
 			</p>
 
 			<h2>Licenses, trademarks, and downloads</h2>
@@ -77,7 +81,7 @@ export default function TermsPage() {
 			<h2>Third parties and privacy</h2>
 			<p>
 				External collections, advertisements, sign-in providers, and donation services have their own terms. We do not control their content
-				or practices. Our <Link href="/privacy">Privacy Policy</Link> explains how information is handled on this website.
+				or practices. Our <Link href="/privacy">Privacy Policy</Link> explains how information is handled on the website and MCP service.
 			</p>
 
 			<h2>Availability and responsibility</h2>

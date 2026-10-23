@@ -34,7 +34,12 @@ export type AccountTool<Input extends z.ZodObject = z.ZodObject, Output extends 
 
 export type DashboardIconsTool = PublicTool | AccountTool
 
-export const READ_ONLY_ANNOTATIONS: ToolAnnotations = { readOnlyHint: true, idempotentHint: true, openWorldHint: false }
+export const READ_ONLY_ANNOTATIONS: ToolAnnotations = {
+	readOnlyHint: true,
+	destructiveHint: false,
+	idempotentHint: true,
+	openWorldHint: false,
+}
 
 export function structuredResult(data: Record<string, unknown>, text: string = JSON.stringify(data)): CallToolResult {
 	return { content: [{ type: "text", text }], structuredContent: data }

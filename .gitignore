@@ -47,6 +47,9 @@ import_output_*.txt
 .env.test
 web/.env.test
 
+# Local OpenAI plugin build artifacts
+/dist/openai-plugin/
+
 # Stray screenshots from testing
 *.png
 !svg/**/*.png

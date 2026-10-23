@@ -1,0 +1,82 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "dashboard-icons",
+  "version": "0.1.0",
+  "description": "Find dashboard icons and retrieve their CDN URLs, SVG markup, variants, and license information.",
+  "homepage": "https://dashboardicons.com/",
+  "repository": "https://github.com/homarr-labs/dashboard-icons",
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "Dashboard Icons",
+        "shortDescription": "Find icons for your dashboard",
+        "longDescription": "Find icons for services, applications, and self-hosted dashboards. Match several service names, search the catalog, browse icons and categories, and retrieve CDN URLs, available variants, SVG markup, and license information. The public connection provides six read-only tools and requires no account. It cannot submit icons, manage accounts, or change the catalog.",
+        "category": "Developer Tools",
+        "defaultPrompt": [
+          "Find icons for Plex, Nextcloud, and Home Assistant for my dashboard.",
+          "Show me the available icon variants and license for Grafana.",
+          "Find the SVG markup for the Docker icon."
+        ],
+        "websiteURL": "https://dashboardicons.com/",
+        "supportURL": "https://github.com/homarr-labs/dashboard-icons/blob/main/CONTRIBUTING.md#questions",
+        "privacyPolicyURL": "https://dashboardicons.com/privacy",
+        "termsOfServiceURL": "https://dashboardicons.com/terms",
+        "logo": "./assets/logo.png",
+        "composerIcon": "./assets/logo.png"
+      },
+      "publication": {
+        "release_notes": "Initial public icon connection with six account-free, read-only tools: match_icons, search_icons, get_icon, get_icon_svg, browse_icons, and list_categories."
+      },
+      "review": {
+        "test_cases": {
+          "positive": [
+            {
+              "description": "Batch matching for a homelab dashboard.",
+              "prompt": "Find Dashboard Icons for Docker, Plex, and Home Assistant for my homelab dashboard. Give me their available SVG and PNG CDN URLs and identify each source.",
+              "tools_triggered": "match_icons, get_icon",
+              "expected_behavior": "Call match_icons once with all three service names, then get_icon for each chosen match to obtain available SVG and PNG URLs. Report sources and only returned URLs; state when a format or match is unavailable. Include external-source attribution when applicable."
+            },
+            {
+              "description": "Bounded search in the native catalog.",
+              "prompt": "Search Dashboard Icons' own collection for names matching 'home'. Show at most five matches with their names and sources.",
+              "tools_triggered": "search_icons",
+              "expected_behavior": "Call search_icons with query='home', sources=['native'], and limit=5. Present no more than five returned matches, all from native; if fewer match or the catalog is unavailable, report that accurately."
+            },
+            {
+              "description": "Retrieve actual inline SVG markup.",
+              "prompt": "Give me the default native Plex icon as inline SVG for my dashboard.",
+              "tools_triggered": "get_icon_svg",
+              "expected_behavior": "Call get_icon_svg with name='plex', source='native', and theme='default' (or omit the default theme). Return the actual SVG from the tool. If SVG is unavailable, explain the returned reason and offer a tool-returned URL or available alternative; do not fabricate markup."
+            },
+            {
+              "description": "Explore categories and bounded catalog browsing.",
+              "prompt": "Show me Dashboard Icons' native categories, then list up to five icons from the largest category.",
+              "tools_triggered": "list_categories; browse_icons",
+              "expected_behavior": "Call list_categories with source='native'. Select the largest category from returned counts, then call browse_icons with that exact category, source='native', and limit=5. Show only returned icons and their source. If no category is available, state that rather than inventing a category."
+            },
+            {
+              "description": "Return external collection license and attribution.",
+              "prompt": "Find Home Assistant in Simple Icons and give me its icon URL together with the license or attribution returned by Dashboard Icons.",
+              "tools_triggered": "get_icon",
+              "expected_behavior": "Use get_icon with source='simpleicons' and the matching Home Assistant name, using search_icons with sources=['simpleicons'] first if needed to resolve its name. Use only returned URLs and license/attribution; do not describe the collection license as an icon-specific license. Report source degradation or no match explicitly."
+            }
+          ],
+          "negative": [
+            {
+              "description": "The public plugin cannot upload or publish. Explain this limit without invoking any tool or claiming a contribution was stored.",
+              "prompt": "Upload a new icon called My Private Service to Dashboard Icons and publish it immediately."
+            },
+            {
+              "description": "The public plugin cannot access private account submissions or moderation details. Explain the limit without invoking any tool or fabricating account data.",
+              "prompt": "Show my pending Dashboard Icons submissions and the moderators' private comments."
+            },
+            {
+              "description": "The plugin can retrieve icons but cannot connect to or modify a Homarr instance. Explain this limit without invoking any tool or claiming dashboard changes.",
+              "prompt": "Connect to my Homarr instance and replace every dashboard icon with a Docker logo."
+            }
+          ]
+        }
+      }
+    }
+  }
+}

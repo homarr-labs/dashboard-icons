@@ -57,7 +57,7 @@ describe("handleMcpRequest legacy leg", () => {
 		const response = await handleMcpRequest(request, authInfo)
 
 		expect(response.status).toBe(202)
-		expect(createDashboardIconsServer).toHaveBeenCalledWith(authInfo)
+		expect(createDashboardIconsServer).toHaveBeenCalledWith(authInfo, false)
 		expect(WebStandardStreamableHTTPServerTransport).toHaveBeenCalledWith({ sessionIdGenerator: undefined, enableJsonResponse: true })
 		expect(server.connect).toHaveBeenCalledWith(transports[0])
 		expect(transports[0]?.handleRequest).toHaveBeenCalledWith(request, { authInfo })

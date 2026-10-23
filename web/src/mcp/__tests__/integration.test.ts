@@ -116,7 +116,14 @@ type RpcResponse = {
 		content?: { type: string; text: string }[]
 		structuredContent?: Record<string, unknown>
 		isError?: boolean
-		tools?: { name: string; inputSchema?: Record<string, unknown>; outputSchema?: Record<string, unknown> }[]
+		tools?: {
+			name: string
+			inputSchema?: Record<string, unknown>
+			outputSchema?: Record<string, unknown>
+			annotations?: Record<string, unknown>
+		}[]
+		instructions?: string
+		capabilities?: Record<string, unknown>
 		serverInfo?: { name: string }
 		contents?: { uri: string; mimeType: string; text: string }[]
 		messages?: { content: { text: string } }[]
@@ -196,6 +203,86 @@ describe("MCP over HTTP (real wiring)", () => {
 
 	afterEach(() => {
 		vi.unstubAllEnvs()
+	})
+
+	it.each([LEGACY_VERSION, MODERN_VERSION])("exposes only the six public read-only tools without analytics (%s)", async (version) => {
+		const { handleMcpRequest } = await importHttp()
+		const authInfo: AuthInfo = {
+			token: "account-secret",
+			clientId: "account-client",
+			scopes: ["account"],
+			extra: { userId: "user_123", username: "iconfan", admin: true, pbToken: "pb-secret" },
+		}
+		const call = async (id: number, method: string, params: Record<string, unknown>, name?: string) => {
+			let request = post({ jsonrpc: "2.0", id, method, params }, { "mcp-protocol-version": version })
+			if (version === MODERN_VERSION) request = modernRequest(id, method, params, name)
+			return handleMcpRequest(
+				new Request("http://localhost/api/mcp/public", {
+					method: request.method,
+					headers: request.headers,
+					body: await request.text(),
+				}),
+				authInfo,
+				true,
+			)
+		}
+		if (version === LEGACY_VERSION) {
+			const response = await call(1, "initialize", {
+				protocolVersion: version,
+				capabilities: {},
+				clientInfo: { name: "public-client", version: "1.0.0" },
+			})
+			expect(response.headers.has("mcp-session-id")).toBe(false)
+			const initialized = await rpc(response)
+			expect(initialized.result?.instructions).toContain("match_icons")
+			expect(initialized.result?.instructions).not.toMatch(/submit_icon|propose_icon_update|list_my_submissions|account/)
+			expect(initialized.result?.capabilities).not.toHaveProperty("prompts")
+			expect(initialized.result?.capabilities).not.toHaveProperty("resources")
+		}
+		const list = await rpc(await call(2, "tools/list", {}))
+		expect(list.result?.tools?.map((tool) => tool.name)).toEqual([
+			"match_icons",
+			"search_icons",
+			"get_icon",
+			"get_icon_svg",
+			"browse_icons",
+			"list_categories",
+		])
+		for (const tool of list.result?.tools ?? []) {
+			expect(tool.annotations).toEqual({ readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false })
+			for (const parameter of ["context", "llm_model", "conversation_id"]) {
+				expect(tool.inputSchema?.properties).not.toHaveProperty(parameter)
+				expect(tool.inputSchema?.required ?? []).not.toContain(parameter)
+			}
+		}
+		const calls: [string, Record<string, unknown>][] = [
+			["match_icons", { services: ["Plex"] }],
+			["search_icons", { query: "plex" }],
+			["get_icon", { name: "plex" }],
+			["get_icon_svg", { name: "plex" }],
+			["browse_icons", { limit: 1 }],
+			["list_categories", {}],
+		]
+		for (const [name, args] of calls) {
+			const result = await rpc(await call(3, "tools/call", { name, arguments: args }, name))
+			expect(result.result?.isError, name).toBeUndefined()
+			expect(result.result?.structuredContent, name).toBeDefined()
+			expect(JSON.stringify(result)).not.toContain("conversation_id")
+		}
+		for (const name of ["submit_icon", "propose_icon_update", "list_my_submissions", "get_more_tools"]) {
+			const result = await rpc(await call(4, "tools/call", { name, arguments: {} }, name))
+			expect(result.error, name).toMatchObject({ code: -32602, message: `Tool ${name} not found` })
+		}
+		for (const method of ["prompts/list", "resources/list", "resources/templates/list"]) {
+			const response = await call(5, method, {})
+			let status = 200
+			if (version === MODERN_VERSION) status = 404
+			expect(response.status, method).toBe(status)
+			expect(await response.json(), method).toMatchObject({ error: { code: -32601 } })
+		}
+		expect(submissionWrites).toEqual([])
+		await settle()
+		expect(captured).toEqual([])
 	})
 
 	it("keeps a 2025-era connection in one session through the Mcp-Session-Id token", async () => {

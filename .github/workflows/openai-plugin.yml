@@ -1,0 +1,31 @@
+name: Build OpenAI plugin draft
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Validate and package public plugin
+        run: python3 scripts/package-openai-plugin.py --output "$RUNNER_TEMP/openai-plugin"
+      - name: Report draft status and source revision
+        run: |
+          echo 'Draft ZIP; submission evidence remains incomplete.' >> "$GITHUB_STEP_SUMMARY"
+          echo '```json' >> "$GITHUB_STEP_SUMMARY"
+          cat "$RUNNER_TEMP/openai-plugin/release-report.json" >> "$GITHUB_STEP_SUMMARY"
+          echo '```' >> "$GITHUB_STEP_SUMMARY"
+      - name: Upload ZIP, checksum, and source report
+        uses: actions/upload-artifact@v4
+        with:
+          name: dashboard-icons-openai-draft-${{ github.sha }}
+          path: ${{ runner.temp }}/openai-plugin/
+          if-no-files-found: error
+          retention-days: 30

@@ -16,6 +16,8 @@ http://localhost:3005/api/mcp
 
 ## ChatGPT
 
+The OpenAI directory package uses the public-only endpoint `https://dashboardicons.com/api/mcp/public`, with no authentication. It exposes six read-only Icon tools and no account tools. See [OpenAI release and qualification](OPENAI-MARKETPLACE.md) for the ZIP workflow and current publication gates. Public-directory availability requires OpenAI approval and publication.
+
 On ChatGPT web, open **Plugins**, select **+**, then **Add custom MCP server**. Name it Dashboard Icons, use the endpoint above as the server URL, and choose **No authentication** for the public icon tools or **OAuth** to also submit icons. Accept the warning, select **Create as a plugin**, install it, then type `@Dashboard Icons` in a chat. Workspace plans may need an admin to allow custom MCP servers.
 
 ## Claude Code
