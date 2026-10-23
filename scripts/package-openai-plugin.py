@@ -65,6 +65,16 @@ def validate(files):
     }, "MCP must use only the public endpoint with no authentication, headers, or local commands")
     review = openai.get("review", {})
     require(set(review) <= {"prompts", "test_cases", "demo_recording_url", "commerce", "commerce_description"}, "Unexpected review fields; never package reviewer credentials")
+    if "test_cases" in review:
+        cases = review["test_cases"]
+        require(set(cases) == {"positive", "negative"}, "Declare positive and negative review cases together")
+        for group, count in (("positive", 5), ("negative", 3)):
+            require(isinstance(cases[group], list) and len(cases[group]) == count, f"Provide exactly {count} {group} review cases")
+            fields = ("description", "prompt")
+            if group == "positive":
+                fields += ("tools_triggered", "expected_behavior")
+            for case in cases[group]:
+                require(all(isinstance(case.get(field), str) and case[field].strip() for field in fields), f"Invalid {group} review case")
     require(set(openai.get("publication", {})) <= {"release_notes", "countries", "translations"}, "Unexpected publication fields")
     return plugin
 
@@ -120,6 +130,16 @@ def main():
     plugin = validate(files)
     package = archive(files)
     if args.self_check:
+        invalid = dict(files)
+        mcp = json.loads(invalid["mcp.json"])
+        mcp["mcpServers"]["dashboard-icons"]["headers"] = {"Authorization": "Bearer forbidden"}
+        invalid["mcp.json"] = json.dumps(mcp).encode()
+        try:
+            validate(invalid)
+        except ValueError:
+            pass
+        else:
+            raise ValueError("Self-check failed: static credentials were accepted")
         print(f"Validated {plugin['name']} {plugin['version']}: three files, references, branding, and ZIP round-trip (offline)")
         return
     verify_endpoint()

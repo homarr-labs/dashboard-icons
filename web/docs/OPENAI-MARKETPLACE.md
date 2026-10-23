@@ -12,7 +12,7 @@ This endpoint requires no sign-in and does not use the MCP analytics SDK. The ho
 
 ## Build the ZIP
 
-Use the manual **OpenAI plugin ZIP** GitHub Actions workflow after the public endpoint has deployed. The package version comes from the manifest. See [package instructions](../../plugins/README.md) for local validation and the exact build command.
+Use the manual **Build OpenAI plugin draft** GitHub Actions workflow after the public endpoint has deployed. The package version comes from the manifest. See [package instructions](../../plugins/README.md) for local validation and the exact build command.
 
 Download the generated ZIP, checksum, and build receipt. Inspect the archive itself before uploading it through **With MCP** in the [OpenAI submission portal](https://developers.openai.com/plugins/deploy/submission). A generated archive does not establish ChatGPT qualification or review readiness.
 
