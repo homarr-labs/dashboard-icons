@@ -25,7 +25,7 @@ The same build works locally with Python 3 and no dependencies:
 ```sh
 python3 scripts/package-openai-plugin.py --output /tmp/dashboard-icons-openai
 cd /tmp/dashboard-icons-openai
-shasum -a 256 -c dashboard-icons-openai-0.1.2.zip.sha256
+shasum -a 256 -c dashboard-icons-openai-0.1.3.zip.sha256
 ```
 
 The builder checks an exact three-file inventory, rejects symlinks and private
@@ -42,9 +42,11 @@ JSON Schema currently omits server extensions, despite
 This focused validator checks the documented OpenAI shape; a portal import and
 its validation remain separate checks.
 
-The artifact is a **draft**, not submission-ready. The release report records
-missing publisher, availability, commerce, demo, and review evidence. See
-[`web/docs/OPENAI-MARKETPLACE.md`](../web/docs/OPENAI-MARKETPLACE.md) for the review
-preparation and remaining portal steps. A ZIP cannot establish developer/domain
-verification, completed review cases in ChatGPT/Codex, required scans or
-attestations, OpenAI approval, or publication.
+The artifact remains a **draft**. Version 0.1.3 includes the confirmed Homarr Labs
+publisher, worldwide/free declarations, eight review cases, and a recorded
+ChatGPT walkthrough URL. Local video playback passed; public URL availability
+and playback remain pending after merge. See
+[`web/docs/OPENAI-MARKETPLACE.md`](../web/docs/OPENAI-MARKETPLACE.md) for the visible
+case outcomes and remaining argument/portal checks. A ZIP cannot establish
+developer/domain verification, required scans or attestations, OpenAI approval,
+or publication.

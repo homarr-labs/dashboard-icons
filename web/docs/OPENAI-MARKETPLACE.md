@@ -14,6 +14,8 @@ Version 0.1.1 adds one read-only MCP Apps resource for inline thumbnails on `mat
 
 Version 0.1.2 lets `match_icons` return format URLs and licenses for the entire batch with `include_details=true`. This keeps the final preview grid together when the host displays only the latest tool result. It also records the publisher's confirmed Homarr Labs identity, worldwide availability, and free/no-commerce declaration. Portal verification of that identity remains separate.
 
+Version 0.1.3 changes review metadata only: it adds the recorded ChatGPT walkthrough URL. Runtime source remains `0b29982c415b62078102a45771276a53b9aff5ae`, as qualified for 0.1.2 below. Public recording URL availability and playback are pending verification after merge.
+
 From `web/`, run `pnpm exec tsx --tsconfig tsconfig.json scripts/check-mcp-preview.mjs` to check the registered HTML bridge, thumbnails, links, text escaping, and rejected image origins.
 
 ## Build the ZIP
@@ -31,8 +33,8 @@ The package manifest is the source of the five positive and three negative revie
 | Evidence | Status |
 | --- | --- |
 | Real ChatGPT case execution | All five positive and three negative prompts rerun against 0.1.2 with expected visible outcomes. Raw argument traces are not exposed by this UI. |
-| Review walkthrough recording | agent-browser recorder available; its separate Chrome window needs ChatGPT sign-in |
-| Reviewer-accessible recording URL | Not supplied |
+| Review walkthrough recording | Complete: 103-second macOS window recording; local browser playback passed |
+| Reviewer-accessible recording URL | Declared in the package; public availability and playback verification pending after merge |
 | OpenAI verified publisher identity | Not verified |
 | Country availability and commerce declaration | Publisher confirmed worldwide and free/no commerce; portal import pending |
 | Domain challenge, connection, and required scans | Not run |
@@ -57,9 +59,9 @@ The signed-in ChatGPT **Work** surface used a personal development connection to
 
 The UI activity labels are observable evidence, not raw tool-call traces. Do not mark all acceptance criteria complete from these observations. Capture the affected cases after deploying and refreshing the preview resource, and verify package metadata separately during portal import.
 
-### Current candidate, 0.1.2
+### Runtime candidate 0.1.2; review package 0.1.3
 
-Source `0b29982c415b62078102a45771276a53b9aff5ae` deployed successfully in [Main CI](https://github.com/homarr-labs/dashboard-icons/actions/runs/39941006218). The [ZIP workflow](https://github.com/homarr-labs/dashboard-icons/actions/runs/39942607328) produced an inspected three-file archive; SHA-256: `d85ebb416be884a625195077a360c2fdc5e6babefe230d26966e2ff06b70613f`.
+Source `0b29982c415b62078102a45771276a53b9aff5ae` deployed successfully in [Main CI](https://github.com/homarr-labs/dashboard-icons/actions/runs/39941006218). The [0.1.2 ZIP workflow](https://github.com/homarr-labs/dashboard-icons/actions/runs/39942607328) produced an inspected three-file archive; SHA-256: `d85ebb416be884a625195077a360c2fdc5e6babefe230d26966e2ff06b70613f`. That archive predates the 0.1.3 review metadata and recording URL.
 
 The [current development conversation](https://chatgpt.com/c/6adb3d48-21c4-83eb-b533-852cf36c7548) uses ChatGPT Work, selected model label **GPT-6.1 Sol Light**, and only Dashboard Icons selected. Custom-app CSP enforcement was enabled for this pass. The connection was refreshed after deployment. Its development version remains 1.0.0; the ZIP has not been imported into a submission draft.
 
@@ -74,9 +76,11 @@ The [current development conversation](https://chatgpt.com/c/6adb3d48-21c4-83eb-
 | Private submissions | Explained the public-data limit without tool activity or claiming private data access. |
 | Modify Homarr | Explained it cannot connect or change dashboards; reused an already-returned Docker URL without tool activity or claiming a change. |
 
-These are live visible-outcome checks, not a claim that raw argument traces, portal validation, or the reviewer video are complete. agent-browser can record, but cannot attach to the signed-in in-app browser. A separate Chrome for Testing window is open for the recording and awaits sign-in; no video URL is fabricated in the package.
+These are live visible-outcome checks. Raw argument traces are not exposed by this UI, and portal validation remains pending.
 
-Record a short real walkthrough showing the development connection, a dashboard Icon lookup, SVG or Variant lookup, catalog exploration, and one unsupported request. Keep prompts and results readable and unrelated private content off screen. Verify the recording plays at a reviewer-accessible URL, then set `review.demo_recording_url` under `extensions.com.openai` and rebuild. A script or local recording alone does not complete this requirement.
+The [recorded walkthrough](../../docs/media/openai-walkthrough-0.1.2.mp4) is a 103-second macOS window capture: 1188 × 1856 H.264, 3,542,903 bytes, with no audio. Local browser playback passed. It reviews the eight existing visible outcomes above and records a fresh `match_icons` lookup for Grafana, Prometheus, and Nginx (6 seconds).
+
+The package declares the [public recording URL](https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons@main/docs/media/openai-walkthrough-0.1.2.mp4). Its HTTP availability and reviewer-accessible playback still require verification after merge, followed by rebuilding and inspecting the 0.1.3 ZIP. The recording does not establish raw tool arguments, imported package metadata, or portal review readiness.
 
 ## Submit and publish
 
