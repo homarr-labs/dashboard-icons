@@ -1,0 +1,23 @@
+web/docs/MCP.md
+  s_79391f7be06a4c::t_08cb0bcff30334 19-20
+docs/openai-marketplace-research.md
+  s_79391f7be06a4c::t_08cb0bcff30334 1-71
+web/docs/OPENAI-MARKETPLACE.md
+  s_79391f7be06a4c::t_08cb0bcff30334 1-57
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "47d641d679c14406d0ddaf5d6ff51892551df1e1",
+  "prompts": {},
+  "sessions": {
+    "s_79391f7be06a4c": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a167d0-b947-7b20-bf63-f825aff27676",
+        "model": "gpt-6.1-sol"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
