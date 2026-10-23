@@ -22,7 +22,7 @@ const ICON_PREVIEW_HTML = `<!DOCTYPE html>
     #status { margin: 0 0 12px; color: GrayText; }
     #icons { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; max-height: 520px; overflow: auto; }
     article { min-width: 0; padding: 12px; border: 1px solid color-mix(in srgb, CanvasText 18%, transparent); border-radius: 12px; background: Canvas; overflow-wrap: anywhere; }
-    .preview { display: grid; place-items: center; height: 88px; margin-bottom: 8px; border-radius: 6px; background: #f1f3f5; }
+    .preview { display: grid; place-items: center; height: 88px; margin-bottom: 8px; border-radius: 6px; color: #111; background: repeating-conic-gradient(#ddd 0% 25%, #888 0% 50%) 50% / 16px 16px; }
     .preview img { width: 64px; height: 64px; object-fit: contain; }
     h2 { margin: 0; font-size: 14px; }
     p { margin: 4px 0; }
