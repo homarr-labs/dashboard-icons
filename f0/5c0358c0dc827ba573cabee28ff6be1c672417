@@ -1,0 +1,19 @@
+scripts/package-openai-plugin.py
+  s_79391f7be06a4c::t_1e4cc93d55ba7b 101
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "f05c0358c0dc827ba573cabee28ff6be1c672417",
+  "prompts": {},
+  "sessions": {
+    "s_79391f7be06a4c": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a167d0-b947-7b20-bf63-f825aff27676",
+        "model": "gpt-6.1-sol"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
