@@ -1,0 +1,22 @@
+plugins/README.md
+  s_79391f7be06a4c::t_7daa3db3fdf220 47-50
+web/docs/OPENAI-MARKETPLACE.md
+  s_79391f7be06a4c::t_7daa3db3fdf220 17,67
+  s_79391f7be06a4c::t_f5069c8d808b87 37,66,85
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "fb7ee6afc30c152e9acf887fa9d9b21e8527c82e",
+  "prompts": {},
+  "sessions": {
+    "s_79391f7be06a4c": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a167d0-b947-7b20-bf63-f825aff27676",
+        "model": "gpt-6.1-sol"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
