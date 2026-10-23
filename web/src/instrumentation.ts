@@ -47,7 +47,7 @@ export async function onRequestError(
 	request: { path: string; method: string; headers: Record<string, string> },
 	context: { routerKind: string; routePath: string; routeType: string; renderSource: string },
 ) {
-	if (error.message?.includes("NoFallbackError")) return
+	if (context.routePath === "/api/mcp/public" || error.message?.includes("NoFallbackError")) return
 
 	const posthog = getPostHogClient()
 	if (!posthog) return
