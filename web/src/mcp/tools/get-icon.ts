@@ -5,13 +5,13 @@ import {
 	degradedSourcesSchema,
 	didYouMeanSchema,
 	iconItemSchema,
+	iconLicenseSchema,
 	iconNameInput,
+	iconUrlsSchema,
 	resolvedFromSchema,
 	sourceInput,
 } from "@/mcp/tools/schemas"
 import { type PublicTool, READ_ONLY_ANNOTATIONS, structuredResult } from "@/mcp/tools/types"
-
-const variantUrlsSchema = z.record(z.string(), z.string())
 
 const iconSchema = iconItemSchema.extend({
 	aliases: z.array(z.string()),
@@ -19,24 +19,9 @@ const iconSchema = iconItemSchema.extend({
 	author: z.string().nullable(),
 	updated_at: z.string(),
 	brand_color: z.string().nullable(),
-	license: z
-		.object({
-			name: z.string(),
-			url: z.string().nullable(),
-			attribution: z.string().nullable(),
-			source_url: z.string().nullable(),
-			guidelines_url: z.string().nullable(),
-			provider: z.string(),
-			provider_url: z.string(),
-		})
-		.nullable()
-		.describe("License and attribution to show for external icons; null for dashboardicons.com icons"),
+	license: iconLicenseSchema,
 	page_url: z.string().describe("Icon page on dashboardicons.com"),
-	urls: z
-		.object({ svg: variantUrlsSchema.optional(), png: variantUrlsSchema.optional(), webp: variantUrlsSchema.optional() })
-		.describe(
-			"CDN URLs by format, then Variant: default (Base), light (light-coloured, for dark backgrounds), dark (for light backgrounds), wordmark, wordmark-light, wordmark-dark, and Custom variants by name such as '4k'. A key is absent only when the icon has no file for it; legacy icons can map light or dark to the same URL as default",
-		),
+	urls: iconUrlsSchema,
 })
 
 const inputSchema = z.object({ name: iconNameInput, source: sourceInput })

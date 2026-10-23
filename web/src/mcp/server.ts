@@ -10,10 +10,10 @@ import { registerDashboardIconsTools } from "@/mcp/tools"
 
 export const PUBLIC_ICONS_INSTRUCTIONS = [
 	"Icons for self-hosted services, homelab dashboards and app directories: dashboardicons.com plus the selfh.st, LobeHub and Simple Icons catalogs, all served from CDNs.",
-	"Several service names (a stack, a docker-compose file, a dashboard): call match_icons once with all of them.",
+	"Several service names (a stack, a docker-compose file, a dashboard): call match_icons once with all of them. Set include_details=true when the user asks for formats, variants or licenses, and use the returned best.urls and best.license without calling get_icon again for those matches.",
 	"One vague or partial name: search_icons.",
-	"Then get_icon with the chosen name and source for every URL (svg/png/webp, light/dark, wordmark and Custom variants) and license, or get_icon_svg for the SVG markup to inline.",
-	"match_icons, search_icons and browse_icons previews do not establish which formats or variants exist. When the user requests SVG or PNG URLs, call get_icon for each chosen icon and use only its returned URLs; never derive format URLs from preview_url.",
+	"For a single chosen icon, get_icon with its name and source returns every URL (svg/png/webp, light/dark, wordmark and Custom variants) and license; get_icon_svg returns SVG markup to inline.",
+	"A preview alone does not establish which formats or variants exist. Use only URLs returned by match_icons with include_details=true or by get_icon; never derive format URLs from preview_url. Report details_unavailable or absent formats accurately.",
 	"get_icon and get_icon_svg resolve loose names and answer unknown ones with did_you_mean instead of failing.",
 	"browse_icons and list_categories explore the catalog without a query.",
 	"Prefer linking the CDN URLs over copying files, and show the license for icons whose source is not native.",

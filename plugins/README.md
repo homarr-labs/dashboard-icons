@@ -25,7 +25,7 @@ The same build works locally with Python 3 and no dependencies:
 ```sh
 python3 scripts/package-openai-plugin.py --output /tmp/dashboard-icons-openai
 cd /tmp/dashboard-icons-openai
-shasum -a 256 -c dashboard-icons-openai-0.1.1.zip.sha256
+shasum -a 256 -c dashboard-icons-openai-0.1.2.zip.sha256
 ```
 
 The builder checks an exact three-file inventory, rejects symlinks and private

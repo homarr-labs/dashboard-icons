@@ -118,6 +118,62 @@ describe("tool handlers", () => {
 		const result = await registerWithFakeServer(null).call("match_icons", { services: ["Plex"] })
 		expect(catalog.matchServices).toHaveBeenCalledWith(["Plex"], { sources: undefined })
 		expect(result?.structuredContent).toEqual(matched)
+		expect(catalog.getCatalogIcon).not.toHaveBeenCalled()
+	})
+
+	it("match_icons includes requested details while preserving unmatched and unavailable results", async () => {
+		const best = { name: "plex", title: "Plex", source: "native", preview_url: "preview", score: 2 }
+		const unavailable = { ...best, name: "grafana", title: "Grafana", source: "lobehub" }
+		const failed = { ...best, name: "docker", title: "Docker", source: "simpleicons" }
+		const urls = { svg: { default: "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/plex.svg" } }
+		catalog.matchServices.mockResolvedValue({
+			matches: [
+				{ service: "Plex", best, alternatives: [] },
+				{ service: "Unknown", best: null, alternatives: [] },
+				{ service: "Grafana", best: unavailable, alternatives: [] },
+				{ service: "Docker", best: failed, alternatives: [] },
+			],
+			degraded_sources: ["selfhst"],
+		})
+		catalog.getCatalogIcon
+			.mockResolvedValueOnce({ found: true, icon: { urls, license: null } })
+			.mockResolvedValueOnce({ found: false, did_you_mean: [], degraded_sources: ["lobehub"] })
+			.mockRejectedValueOnce(new Error("Catalog unavailable"))
+		const result = await registerWithFakeServer(null).call("match_icons", {
+			services: ["Plex", "Unknown", "Grafana", "Docker"],
+			include_details: true,
+		})
+		expect(catalog.getCatalogIcon.mock.calls).toEqual([
+			["plex", { source: "native" }],
+			["grafana", { source: "lobehub" }],
+			["docker", { source: "simpleicons" }],
+		])
+		expect(result?.structuredContent).toEqual({
+			matches: [
+				{ service: "Plex", best: { ...best, urls, license: null }, alternatives: [] },
+				{ service: "Unknown", best: null, alternatives: [] },
+				{ service: "Grafana", best: unavailable, alternatives: [], details_unavailable: true },
+				{ service: "Docker", best: failed, alternatives: [], details_unavailable: true },
+			],
+			degraded_sources: ["lobehub", "selfhst", "simpleicons"],
+		})
+		expect(textOf(result)).toBe(JSON.stringify(result?.structuredContent))
+
+		catalog.matchServices.mockResolvedValue({ matches: [{ service: "Plex", best, alternatives: [] }] })
+		catalog.getCatalogIcon.mockResolvedValueOnce({ found: true, icon: { urls, license: null } })
+		const healthy = await registerWithFakeServer(null).call("match_icons", { services: ["Plex"], include_details: true })
+		expect(healthy?.structuredContent).toEqual({
+			matches: [{ service: "Plex", best: { ...best, urls, license: null }, alternatives: [] }],
+		})
+		expect(healthy?.structuredContent).not.toHaveProperty("degraded_sources")
+
+		catalog.matchServices.mockResolvedValue({ matches: [{ service: "Grafana", best: unavailable, alternatives: [] }] })
+		catalog.getCatalogIcon.mockResolvedValueOnce({ found: false, did_you_mean: [] })
+		const missing = await registerWithFakeServer(null).call("match_icons", { services: ["Grafana"], include_details: true })
+		expect(missing?.structuredContent).toEqual({
+			matches: [{ service: "Grafana", best: unavailable, alternatives: [], details_unavailable: true }],
+		})
+		expect(missing?.structuredContent).not.toHaveProperty("degraded_sources")
 	})
 
 	it("get_icon reports misses as data, not errors", async () => {

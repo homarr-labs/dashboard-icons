@@ -12,6 +12,8 @@ This endpoint requires no sign-in and does not use the MCP analytics SDK. The ho
 
 Version 0.1.1 adds one read-only MCP Apps resource for inline thumbnails on `match_icons`, `search_icons`, `get_icon`, and `browse_icons`. The HTML is served by the MCP endpoint; the ZIP still contains only the two manifests and logo. Other clients retain the same structured results. The resource permits images from the catalog CDNs and dashboardicons.com, with no network API access, account access, or analytics. [Implementation research](../../docs/chatgpt-icon-previews-research.md).
 
+Version 0.1.2 lets `match_icons` return format URLs and licenses for the entire batch with `include_details=true`. This keeps the final preview grid together when the host displays only the latest tool result. It also records the publisher's confirmed Homarr Labs identity, worldwide availability, and free/no-commerce declaration. Portal verification of that identity remains separate.
+
 From `web/`, run `pnpm exec tsx --tsconfig tsconfig.json scripts/check-mcp-preview.mjs` to check the registered HTML bridge, thumbnails, links, text escaping, and rejected image origins.
 
 ## Build the ZIP
@@ -28,11 +30,11 @@ The package manifest is the source of the five positive and three negative revie
 
 | Evidence | Status |
 | --- | --- |
-| Real ChatGPT case execution | Eight baseline prompts executed on 2026-10-23; candidate 0.1.1 preview qualification pending |
+| Real ChatGPT case execution | Eight baseline prompts executed on 2026-10-23; candidate 0.1.2 batch preview qualification pending |
 | Review walkthrough recording | Not recorded |
 | Reviewer-accessible recording URL | Not supplied |
 | OpenAI verified publisher identity | Not verified |
-| Country availability and commerce declaration | Awaiting publisher confirmation |
+| Country availability and commerce declaration | Publisher confirmed worldwide and free/no commerce; portal import pending |
 | Domain challenge, connection, and required scans | Not run |
 | Review submission, approval, and publication | Not performed |
 
