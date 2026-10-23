@@ -3,7 +3,7 @@ import Link from "next/link"
 
 export const metadata: Metadata = {
 	title: "Privacy Policy",
-	description: "How Dashboard Icons handles account information, contributions, analytics, advertising, and your privacy choices.",
+	description: "How Dashboard Icons handles website and MCP information, analytics, advertising, and your privacy choices.",
 	alternates: { canonical: "/privacy" },
 }
 
@@ -11,11 +11,11 @@ export default function PrivacyPage() {
 	return (
 		<>
 			<h1>Privacy Policy</h1>
-			<p>Last updated: September 19, 2026</p>
+			<p>Last updated: October 23, 2026</p>
 			<p>
 				Dashboard Icons is an open-source project maintained by Homarr Labs. This policy explains how we handle information on
-				dashboardicons.com. It does not cover independently hosted copies or third-party sites linked from our catalog. For privacy
-				questions or requests, contact <a href="mailto:homarr-labs@proton.me">homarr-labs@proton.me</a>.
+				dashboardicons.com and its MCP endpoints. It does not cover independently hosted copies or third-party sites linked from our
+				catalog. For privacy questions or requests, contact <a href="mailto:homarr-labs@proton.me">homarr-labs@proton.me</a>.
 			</p>
 
 			<h2>Information we handle</h2>
@@ -35,7 +35,7 @@ export default function PrivacyPage() {
 				<li>If you contact us, we receive your message, contact details, and information you choose to include.</li>
 			</ul>
 
-			<h2>Analytics and browser storage</h2>
+			<h2>Website analytics and browser storage</h2>
 			<p>
 				We use PostHog to understand usage and diagnose problems. It receives page views, including page URLs and query strings, selected
 				interactions such as searches, downloads and sign-ins, and technical diagnostics. When you sign in, analytics can be associated with
@@ -47,6 +47,32 @@ export default function PrivacyPage() {
 				analytics identifiers. These analytics functions are separate from storage needed to sign in. You can manage or clear cookies and
 				site storage in your browser and use content-blocking tools; doing so may sign you out or affect site features. Read{" "}
 				<a href="https://posthog.com/privacy">PostHog&apos;s privacy policy</a> for its processing practices.
+			</p>
+
+			<h2 id="mcp">MCP clients and tool calls</h2>
+			<p>
+				The public icon endpoint at <code>/api/mcp/public</code> processes the tool arguments your client sends, such as search terms,
+				service names, categories, and theme preferences, to return icon results. It does not require an account or accept account
+				credentials. It does not request conversation context or model information and does not use PostHog analytics. Send only the icon
+				information needed for the request; do not include secrets or sensitive personal information.
+			</p>
+			<p>
+				Public tool calls are not saved in an application history. The application temporarily holds IP-based counters in server memory to
+				enforce rate limits. Our hosting and network providers receive request information, such as IP addresses, request URLs, and client
+				headers, and may keep operational and security logs. This policy does not promise a fixed deletion period for those providers&apos;
+				logs; contact us with retention questions.
+			</p>
+			<p>
+				The separate endpoint at <code>/api/mcp</code> supports account features and uses server-side PostHog analytics when enabled. Its
+				analytics configuration includes tool-call information, client and session identifiers, conversation identifiers, supplied context
+				and model information, and the caller&apos;s IP address. Signed-in calls can be linked to your account ID, username, and administrator
+				status. Request authentication context is removed before analytics events are sent. Browser cookie settings do not disable this
+				server-side analytics; use the public endpoint for icon lookups without it.
+			</p>
+			<p>
+				Your MCP client or AI provider also processes the conversation and tool results under its own policies. Loading an icon URL returned
+				by a tool contacts the relevant content provider, which receives request information. You can stop future MCP requests by
+				disconnecting the server in your client. For information already handled by Dashboard Icons, use the contact and rights process below.
 			</p>
 
 			<h2>Advertising and external services</h2>
