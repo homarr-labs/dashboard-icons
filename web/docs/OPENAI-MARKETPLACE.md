@@ -12,6 +12,8 @@ This endpoint requires no sign-in and does not use the MCP analytics SDK. The ho
 
 Version 0.1.1 adds one read-only MCP Apps resource for inline thumbnails on `match_icons`, `search_icons`, `get_icon`, and `browse_icons`. The HTML is served by the MCP endpoint; the ZIP still contains only the two manifests and logo. Other clients retain the same structured results. The resource permits images from the catalog CDNs and dashboardicons.com, with no network API access, account access, or analytics. [Implementation research](../../docs/chatgpt-icon-previews-research.md).
 
+From `web/`, run `pnpm exec tsx --tsconfig tsconfig.json scripts/check-mcp-preview.mjs` to check the registered HTML bridge, thumbnails, links, text escaping, and rejected image origins.
+
 ## Build the ZIP
 
 Use the manual **Build OpenAI plugin draft** GitHub Actions workflow after the public endpoint has deployed. The package version comes from the manifest. See [package instructions](../../plugins/README.md) for local validation and the exact build command.
