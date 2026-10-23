@@ -72,7 +72,7 @@
     "input-otp": "^1.4.2",
     "lucide-react": "^0.553.0",
     "motion": "^12.38.0",
-    "next": "16.2.12",
+    "next": "16.4.2",
     "next-themes": "^0.4.6",
     "pocketbase": "^0.26.8",
     "posthog-js": "^1.408.2",
