@@ -52200,5 +52200,28 @@
                 "name": "discorout"
             }
         }
+    },
+    "oddinpay": {
+        "base": "svg",
+        "aliases": [
+            "opay"
+        ],
+        "categories": [
+            "finance"
+        ],
+        "update": {
+            "timestamp": "2026-10-26T14:25:35.123Z",
+            "author": {
+                "id": 127573781,
+                "login": "sachinsenal0x64"
+            }
+        },
+        "colors": {
+            "light": "oddinpay-light",
+            "dark": "oddinpay-dark"
+        },
+        "wordmark": {
+            "default": "oddinpay-wordmark"
+        }
     }
 }
