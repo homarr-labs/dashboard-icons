@@ -52134,5 +52134,17 @@
             "light": "mode-777-wordmark-light",
             "dark": "mode-777-wordmark-dark"
         }
+    },
+    "clamav-security": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-10-26T14:25:24.227Z",
+            "author": {
+                "id": 185259594,
+                "login": "isanto1306"
+            }
+        }
     }
 }
