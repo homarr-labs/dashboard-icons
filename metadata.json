@@ -52089,5 +52089,21 @@
                 "login": "hodyhq"
             }
         }
+    },
+    "tmodloader": {
+        "base": "png",
+        "aliases": [
+            "tml"
+        ],
+        "categories": [
+            "gaming"
+        ],
+        "update": {
+            "timestamp": "2026-10-26T14:25:18.239Z",
+            "author": {
+                "id": 85635561,
+                "login": "LindholmLabs"
+            }
+        }
     }
 }
