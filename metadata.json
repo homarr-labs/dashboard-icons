@@ -52223,5 +52223,23 @@
         "wordmark": {
             "default": "oddinpay-wordmark"
         }
+    },
+    "bark": {
+        "base": "png",
+        "aliases": [
+            "bark-server"
+        ],
+        "categories": [
+            "cloud",
+            "monitoring",
+            "utility"
+        ],
+        "update": {
+            "timestamp": "2026-10-26T14:25:36.124Z",
+            "author": {
+                "id": "1m185810eedvrs8",
+                "name": "jsparrowio"
+            }
+        }
     }
 }
