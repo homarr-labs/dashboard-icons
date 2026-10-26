@@ -29428,14 +29428,14 @@
         }
     },
     "dozzle": {
-        "base": "svg",
         "aliases": [],
+        "base": "svg",
         "categories": [],
         "update": {
-            "timestamp": "2025-05-11T20:18:21.889835",
+            "timestamp": "2026-10-26T14:25:26.759Z",
             "author": {
-                "id": 150048001,
-                "login": "bheberling01"
+                "id": 131440214,
+                "login": "farmatenl"
             }
         }
     },
