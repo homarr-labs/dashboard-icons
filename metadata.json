@@ -52061,5 +52061,17 @@
                 "name": "Kvarhainv"
             }
         }
+    },
+    "hudu": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-10-26T14:24:55.337Z",
+            "author": {
+                "id": 99109793,
+                "login": "hodyhq"
+            }
+        }
     }
 }
