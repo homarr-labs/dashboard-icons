@@ -52013,5 +52013,35 @@
                 "login": "tobias-rosenbaum"
             }
         }
+    },
+    "self-host": {
+        "base": "svg",
+        "aliases": [
+            "selfhost",
+            "self-host.fyi",
+            "self-host cli"
+        ],
+        "categories": [
+            "tools",
+            "development",
+            "utility"
+        ],
+        "update": {
+            "timestamp": "2026-10-26T14:24:51.412Z",
+            "author": {
+                "id": 49837342,
+                "login": "ajnart"
+            }
+        },
+        "colors": {
+            "light": "self-host-light",
+            "dark": "self-host-dark"
+        },
+        "variants": {
+            "animated-dark": "self-host-animated-dark",
+            "animated-light": "self-host-animated-light",
+            "black": "self-host-black",
+            "white": "self-host-white"
+        }
     }
 }
