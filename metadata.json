@@ -51365,11 +51365,11 @@
         }
     },
     "ifc": {
-        "base": "svg",
         "aliases": [],
+        "base": "svg",
         "categories": [],
         "update": {
-            "timestamp": "2026-10-20T06:35:04.708Z",
+            "timestamp": "2026-10-26T14:24:57.853Z",
             "author": {
                 "id": 99109793,
                 "login": "hodyhq"
