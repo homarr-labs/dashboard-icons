@@ -52073,5 +52073,21 @@
                 "login": "hodyhq"
             }
         }
+    },
+    "weavestream": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "tools",
+            "cloud",
+            "utility"
+        ],
+        "update": {
+            "timestamp": "2026-10-26T14:25:17.084Z",
+            "author": {
+                "id": 99109793,
+                "login": "hodyhq"
+            }
+        }
     }
 }
