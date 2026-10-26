@@ -52158,5 +52158,31 @@
                 "login": "isanto1306"
             }
         }
+    },
+    "refero": {
+        "base": "svg",
+        "aliases": [
+            "refero.design",
+            "Refero"
+        ],
+        "categories": [
+            "tools",
+            "media"
+        ],
+        "update": {
+            "timestamp": "2026-10-26T14:25:30.933Z",
+            "author": {
+                "id": "ocym6fn0japiplt",
+                "name": "Jacques Visser"
+            }
+        },
+        "colors": {
+            "light": "refero-light",
+            "dark": "refero-dark"
+        },
+        "variants": {
+            "mono": "refero-mono",
+            "mono-fill": "refero-mono-fill"
+        }
     }
 }
