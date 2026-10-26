@@ -52184,5 +52184,21 @@
             "mono": "refero-mono",
             "mono-fill": "refero-mono-fill"
         }
+    },
+    "puddletag": {
+        "base": "png",
+        "aliases": [],
+        "categories": [
+            "media",
+            "tools",
+            "utility"
+        ],
+        "update": {
+            "timestamp": "2026-10-26T14:25:32.284Z",
+            "author": {
+                "id": "bwky23znfhtwjy6",
+                "name": "discorout"
+            }
+        }
     }
 }
