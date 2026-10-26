@@ -52043,5 +52043,23 @@
             "black": "self-host-black",
             "white": "self-host-white"
         }
+    },
+    "lute": {
+        "base": "png",
+        "aliases": [
+            "learning-using-texts"
+        ],
+        "categories": [
+            "media",
+            "utility",
+            "tools"
+        ],
+        "update": {
+            "timestamp": "2026-10-26T14:24:53.985Z",
+            "author": {
+                "id": "ywj5yae77fhl1ze",
+                "name": "Kvarhainv"
+            }
+        }
     }
 }
