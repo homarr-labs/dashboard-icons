@@ -52241,5 +52241,27 @@
                 "name": "jsparrowio"
             }
         }
+    },
+    "btop": {
+        "base": "svg",
+        "aliases": [
+            "btop++"
+        ],
+        "categories": [
+            "monitoring",
+            "network",
+            "tools",
+            "utility"
+        ],
+        "update": {
+            "timestamp": "2026-10-26T14:25:38.098Z",
+            "author": {
+                "id": 17620345,
+                "login": "johnseth97"
+            }
+        },
+        "wordmark": {
+            "default": "btop-wordmark"
+        }
     }
 }
