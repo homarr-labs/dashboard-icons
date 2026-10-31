@@ -24518,12 +24518,12 @@
             "timestamp": "2026-10-31T05:20:00Z",
             "author": {
                 "id": 792088,
-                "name": "johnxie (TASKCADE INC.)"
+                "name": "johnxie"
             }
         },
         "colors": {
-            "light": "taskade-light",
-            "dark": "taskade"
+            "light": "taskade",
+            "dark": "taskade-light"
         }
     },
     "rallly": {
@@ -37998,7 +37998,7 @@
     "chzzk": {
         "base": "png",
         "aliases": [
-            "치지직"
+            "\uce58\uc9c0\uc9c1"
         ],
         "categories": [
             "entertainment",
@@ -41081,7 +41081,7 @@
         "aliases": [
             "sparkasse",
             "sparkassengruppe",
-            "spořitelna",
+            "spo\u0159itelna",
             "erste group"
         ],
         "categories": [
