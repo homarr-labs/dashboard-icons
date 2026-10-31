@@ -1,0 +1,20 @@
+{
+  "base": "svg",
+  "aliases": [
+    "taskade genesis"
+  ],
+  "categories": [
+    "Productivity"
+  ],
+  "update": {
+    "timestamp": "2026-10-31T02:45:00Z",
+    "author": {
+      "id": 792088,
+      "name": "johnxie"
+    }
+  },
+  "colors": {
+    "dark": "taskade-light",
+    "light": "taskade"
+  }
+}
