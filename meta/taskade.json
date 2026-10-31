@@ -7,14 +7,14 @@
     "Productivity"
   ],
   "update": {
-    "timestamp": "2026-10-31T02:45:00Z",
+    "timestamp": "2026-10-31T05:20:00Z",
     "author": {
       "id": 792088,
-      "name": "johnxie"
+      "name": "johnxie (TASKCADE INC.)"
     }
   },
   "colors": {
-    "dark": "taskade-light",
-    "light": "taskade"
+    "light": "taskade-light",
+    "dark": "taskade"
   }
 }

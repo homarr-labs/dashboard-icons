@@ -24506,6 +24506,26 @@
             }
         }
     },
+    "taskade": {
+        "base": "svg",
+        "aliases": [
+            "taskade genesis"
+        ],
+        "categories": [
+            "Productivity"
+        ],
+        "update": {
+            "timestamp": "2026-10-31T05:20:00Z",
+            "author": {
+                "id": 792088,
+                "name": "johnxie (TASKCADE INC.)"
+            }
+        },
+        "colors": {
+            "light": "taskade-light",
+            "dark": "taskade"
+        }
+    },
     "rallly": {
         "base": "svg",
         "aliases": [],
