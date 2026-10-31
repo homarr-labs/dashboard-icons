@@ -24522,8 +24522,8 @@
             }
         },
         "colors": {
-            "light": "taskade",
-            "dark": "taskade-light"
+            "light": "taskade-light",
+            "dark": "taskade"
         }
     },
     "rallly": {
