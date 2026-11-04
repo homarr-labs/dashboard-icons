@@ -148,8 +148,8 @@ cache per architecture. Generated assets and image digests pass between jobs as
 short-lived artifacts. Public environment variables and the native metadata digest
 invalidate compilation output; deployment revision labels do not.
 
-To verify a build without publishing or deploying, run the **Build images** workflow
-on a branch. Pull requests that change build inputs run it automatically.
+To verify a build without publishing or deploying, run **Main CI** on a branch with
+`build_only` enabled. Pull requests that change build inputs run it automatically.
 
 ### PocketBase deployment
 

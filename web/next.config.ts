@@ -86,7 +86,6 @@ const nextConfig: NextConfig = {
 			"./node_modules/playwright/**",
 			"./node_modules/playwright-core/**",
 			"./node_modules/typescript/**",
-			"./node_modules/@swc/helpers/**",
 		],
 	},
 	async headers() {
