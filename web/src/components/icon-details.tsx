@@ -824,28 +824,25 @@ export function IconDetails({
 					</div>
 				)}
 				{externalIcon && externalSourceConfig && (
-					<Alert role="note" className="lg:col-span-4 border-primary/30 p-5">
-						<ExternalLink aria-hidden />
-						<AlertTitle>From the {externalSourceConfig.label} collection</AlertTitle>
-						<AlertDescription>
-							<p>
-								This icon is maintained by {externalSourceConfig.label} and indexed here. {externalIcon.attribution}
-							</p>
-							<div className="mt-3 flex flex-wrap gap-3">
-								<Button asChild variant="outline">
-									<Link href={externalSourceConfig.website} target="_blank" rel="noopener noreferrer">
-										<UnoptimizedImage src={externalSourceConfig.icon} alt="" width={20} height={20} />
-										Browse {externalSourceConfig.label} icons
-									</Link>
-								</Button>
-								<Button asChild variant="outline">
-									<Link href={externalSourceConfig.supportUrl} target="_blank" rel="noopener noreferrer">
-										Support {externalSourceConfig.label}
-										<ExternalLink data-icon="inline-end" />
-									</Link>
-								</Button>
-							</div>
-						</AlertDescription>
+					<Alert role="note" className="lg:col-span-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+						<div className="min-w-0">
+							<AlertTitle>From the {externalSourceConfig.label} collection</AlertTitle>
+							<AlertDescription>This icon is maintained by {externalSourceConfig.label} and indexed here.</AlertDescription>
+						</div>
+						<div className="flex flex-wrap gap-2 sm:shrink-0">
+							<Button asChild variant="outline" size="sm">
+								<Link href={externalSourceConfig.website} target="_blank" rel="noopener noreferrer">
+									<UnoptimizedImage src={externalSourceConfig.icon} alt="" width={16} height={16} />
+									Browse {externalSourceConfig.label} icons
+								</Link>
+							</Button>
+							<Button asChild variant="outline" size="sm">
+								<Link href={externalSourceConfig.supportUrl} target="_blank" rel="noopener noreferrer">
+									Support {externalSourceConfig.label}
+									<ExternalLink data-icon="inline-end" />
+								</Link>
+							</Button>
+						</div>
 					</Alert>
 				)}
 				<div className="lg:col-span-1">

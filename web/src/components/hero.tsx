@@ -1,12 +1,12 @@
 "use client"
 
 import { motion, useAnimation, useInView } from "framer-motion"
-import { ExternalLink, Heart, Search, Share2, Sparkles, Star } from "lucide-react"
+import { DollarSign, ExternalLink, Heart, Search, Share2, Sparkles, Star } from "lucide-react"
 import Link from "next/link"
 import { useEffect, useRef, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { DASHBOARD_ICONS_ICON, EXTERNAL_SOURCE_IDS, EXTERNAL_SOURCES, REPO_NAME } from "@/constants"
+import { DASHBOARD_ICONS_ICON, EXTERNAL_SOURCE_IDS, EXTERNAL_SOURCES, type ExternalSourceId, REPO_NAME } from "@/constants"
 import { cn } from "@/lib/utils"
 import { AddMcpButton } from "./add-mcp-button"
 import { AddToSearchBarButton } from "./add-to-search-bar-button"
@@ -197,46 +197,79 @@ export function HeroSection({
 						<AuroraText colors={["#FA5352", "#FA5352", "orange"]}>dashboard icons</AuroraText>
 					</h1>
 
-					<p className="text-sm sm:text-base md:text-xl text-muted-foreground leading-relaxed font-medium max-w-2xl mx-auto">
-						Search <NumberTicker value={totalIcons} startValue={1000} className="font-bold text-muted-foreground" /> icons and logos for
-						your dashboards, app directories and docs.
+					<p className="text-sm sm:text-base md:text-xl text-muted-foreground leading-relaxed mb-8 font-medium tracking-wide max-w-2xl mx-auto px-4 motion-preset-slide-down motion-duration-500">
+						A collection of{" "}
+						<HoverCard openDelay={100} closeDelay={200}>
+							<HoverCardTrigger asChild>
+								<button
+									type="button"
+									aria-label="Icon counts by collection"
+									className="cursor-help underline decoration-dotted underline-offset-4 decoration-muted-foreground/40 hover:decoration-primary transition-colors"
+								>
+									<NumberTicker value={totalIcons} startValue={1000} className="font-bold tracking-tighter text-muted-foreground" /> curated
+									icons & logos
+								</button>
+							</HoverCardTrigger>
+							<HoverCardContent className="w-56 p-3" side="bottom">
+								<div className="flex flex-col gap-2">
+									<p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Sources</p>
+									<div className="flex items-center gap-2 text-sm">
+										<UnoptimizedImage src={DASHBOARD_ICONS_ICON} alt="" width={16} height={16} className="shrink-0" />
+										<span className="flex-1">Dashboard Icons</span>
+										<span className="font-semibold tabular-nums">{nativeCount.toLocaleString()}</span>
+									</div>
+									{Object.entries(sourceCounts).map(([sourceId, count]) => {
+										const config = EXTERNAL_SOURCES[sourceId as ExternalSourceId]
+										if (!config) return null
+										return (
+											<div key={sourceId} className="flex items-center gap-2 text-sm">
+												<UnoptimizedImage src={config.icon} alt="" width={16} height={16} className="shrink-0" />
+												<Link href={config.website} target="_blank" rel="noopener noreferrer" className="flex-1 hover:underline">
+													{config.label}
+												</Link>
+												<span className="font-semibold tabular-nums">{count.toLocaleString()}</span>
+											</div>
+										)
+									})}
+									<div className="border-t border-border pt-1.5 flex items-center gap-2 text-sm font-semibold">
+										<span className="flex-1">Total</span>
+										<span className="tabular-nums">{totalIcons.toLocaleString()}</span>
+									</div>
+								</div>
+							</HoverCardContent>
+						</HoverCard>{" "}
+						for services, applications and tools, designed specifically for dashboards and app directories. Includes icons from{" "}
+						{EXTERNAL_SOURCE_IDS.map((id, index) => (
+							<span key={id}>
+								{index > 0 && ", "}
+								<Link
+									href={EXTERNAL_SOURCES[id].website}
+									target="_blank"
+									rel="noopener noreferrer"
+									className="underline underline-offset-4"
+								>
+									{EXTERNAL_SOURCES[id].label}
+								</Link>
+							</span>
+						))}
+						.
 					</p>
-					<div className="flex flex-col gap-3 text-sm text-muted-foreground mb-4">
-						<p>{nativeCount.toLocaleString()} icons maintained by Dashboard Icons, alongside these independent collections:</p>
-						<div className="flex flex-wrap justify-center gap-x-5 gap-y-3">
-							{EXTERNAL_SOURCE_IDS.map((id) => {
-								const source = EXTERNAL_SOURCES[id]
-								return (
-									<Link
-										key={id}
-										href={source.website}
-										target="_blank"
-										rel="noopener noreferrer"
-										className="inline-flex items-center gap-2 underline underline-offset-4"
-									>
-										<UnoptimizedImage src={source.icon} alt="" width={20} height={20} className="shrink-0" />
-										{source.label}
-										{typeof sourceCounts[id] === "number" && <span>({sourceCounts[id].toLocaleString()})</span>}
-									</Link>
-								)
-							})}
-						</div>
-					</div>
-					<div className="flex w-full flex-col gap-5 max-w-4xl mx-auto">
+					<div className="flex w-full flex-col gap-4 max-w-3xl mx-auto">
 						<SearchInput searchQuery={searchQuery} setSearchQuery={setSearchQuery} totalIcons={totalIcons} />
-						<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-							<Button asChild variant="outline" size="lg" className="h-14 w-full">
+						<div className="flex flex-wrap justify-center gap-3 md:gap-4">
+							<Button asChild variant="outline">
 								<Link href="/icons">
-									<Search data-icon="inline-start" />
+									<span className="size-2 rounded-full bg-primary" />
 									Browse icons & logos
 								</Link>
 							</Button>
-							<AddMcpButton size="lg" source="hero" className="h-14 w-full" />
-
-							<AddToSearchBarButton size="lg" className="h-14 w-full" />
 							<GiveUsAStarButton />
 							<SupportCollectionsButton />
 							<GiveUsLoveButton />
+						</div>
+						<div className="flex flex-col sm:flex-row justify-center gap-3">
+							<AddToSearchBarButton size="lg" />
+							<AddMcpButton size="lg" source="hero" />
 						</div>
 					</div>
 				</div>
@@ -270,9 +303,9 @@ export default function GiveUsAStarButton() {
 	}, [])
 
 	return (
-		<Button asChild variant="outline" size="lg" className="h-14 w-full">
+		<Button asChild variant="outline" className="h-9 md:h-10 px-4">
 			<Link href="https://github.com/homarr-labs/dashboard-icons" target="_blank" rel="noopener noreferrer">
-				<Star data-icon="inline-start" />
+				<Star data-icon="inline-start" className="text-yellow-500 fill-yellow-500" />
 				Give us a star
 				{stars !== null && <span className="text-muted-foreground">{stars.toLocaleString("en-US")}</span>}
 			</Link>
@@ -284,7 +317,7 @@ export function GiveUsLoveButton() {
 	return (
 		<HoverCard openDelay={200} closeDelay={200}>
 			<HoverCardTrigger asChild>
-				<Button variant="outline" size="lg" className="h-14 w-full">
+				<Button variant="outline" className="h-9 md:h-10 px-4">
 					<div className="flex items-center gap-2">
 						<p>Give us love</p>
 						<Heart className="h-4 w-4 ml-1 fill-primary text-primary" />
@@ -357,9 +390,9 @@ function SupportCollectionsButton() {
 	return (
 		<Dialog>
 			<DialogTrigger asChild>
-				<Button variant="outline" size="lg" className="h-14 w-full">
-					<Heart data-icon="inline-start" />
-					Support icon collections
+				<Button variant="outline" className="h-9 md:h-10 px-4">
+					<DollarSign data-icon="inline-start" className="text-yellow-500" />
+					Donate
 				</Button>
 			</DialogTrigger>
 			<DialogContent>

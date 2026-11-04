@@ -1,7 +1,7 @@
 import { expect, test, type Page } from "@playwright/test"
 
 const DIALOG_TITLE = /Connect Dashboard Icons/
-const MCP_TRIGGER = /Add to AI platform/i
+const MCP_TRIGGER = /Use with AI/i
 
 test.beforeEach(async ({ page }) => {
 	await page.addInitScript(() => {

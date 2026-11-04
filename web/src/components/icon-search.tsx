@@ -28,7 +28,7 @@ import type { IconSearchEntry, IconSearchProps } from "@/types/icons"
 
 type SourceFilter = "all" | "native" | ExternalSourceId
 
-function parseSortOption(value: string | null, query = ""): SortOption {
+function parseSortOption(value: string | null): SortOption | null {
 	switch (value) {
 		case "alphabetical-asc":
 		case "alphabetical-desc":
@@ -36,9 +36,13 @@ function parseSortOption(value: string | null, query = ""): SortOption {
 		case "relevance":
 			return value
 		default:
-			if (query.trim()) return "relevance"
-			return "newest"
+			return null
 	}
+}
+
+function defaultSortOption(query: string): SortOption {
+	if (query.trim()) return "relevance"
+	return "newest"
 }
 
 function parseSourceFilter(value: string | null): SourceFilter {
@@ -61,13 +65,14 @@ function getIconsForSource(icons: IconSearchEntry[], source: SourceFilter) {
 export function IconSearch({ icons }: IconSearchProps) {
 	const searchParams = useSearchParams()
 	const urlQuery = searchParams.get("q") ?? ""
-	const urlSort = parseSortOption(searchParams.get("sort"), urlQuery)
+	const urlSort = parseSortOption(searchParams.get("sort"))
 	const urlSource = parseSourceFilter(searchParams.get("source"))
 	const router = useRouter()
 	const pathname = usePathname()
 	const [searchQuery, setSearchQuery] = useState(urlQuery)
 	const [debouncedQuery, setDebouncedQuery] = useState(urlQuery)
-	const [sortOption, setSortOption] = useState<SortOption>(urlSort)
+	const [explicitSort, setExplicitSort] = useState<SortOption | null>(urlSort)
+	const sortOption = explicitSort ?? defaultSortOption(debouncedQuery)
 	const [sourceFilter, setSourceFilter] = useState<SourceFilter>(urlSource)
 	const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 	const noIconsFoundTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
@@ -82,7 +87,7 @@ export function IconSearch({ icons }: IconSearchProps) {
 		if (timeoutRef.current !== null) return
 		setSearchQuery(urlQuery)
 		setDebouncedQuery(urlQuery)
-		setSortOption(urlSort)
+		setExplicitSort(urlSort)
 		setSourceFilter(urlSource)
 	}, [urlQuery, urlSort, urlSource])
 
@@ -129,12 +134,12 @@ export function IconSearch({ icons }: IconSearchProps) {
 	}, [filteredIcons, debouncedQuery])
 
 	const updateResults = useCallback(
-		(query: string, sort: SortOption, source: SourceFilter) => {
+		(query: string, sort: SortOption | null, source: SourceFilter) => {
 			const params = new URLSearchParams()
 			if (query) params.set("q", query)
 			if (source !== "all") params.set("source", source)
 
-			if (sort !== parseSortOption(null, query)) params.set("sort", sort)
+			if (sort) params.set("sort", sort)
 
 			const newUrl = params.toString() ? `${pathname}?${params.toString()}` : pathname
 			router.replace(newUrl, { scroll: false })
@@ -149,19 +154,17 @@ export function IconSearch({ icons }: IconSearchProps) {
 			timeoutRef.current = setTimeout(() => {
 				timeoutRef.current = null
 				setDebouncedQuery(query)
-				const nextSort = parseSortOption(searchParams.get("sort"), query)
-				setSortOption(nextSort)
-				updateResults(query, nextSort, sourceFilter)
+				updateResults(query, explicitSort, sourceFilter)
 			}, 200)
 		},
-		[cancelPendingSearch, updateResults, searchParams, sourceFilter],
+		[cancelPendingSearch, updateResults, explicitSort, sourceFilter],
 	)
 
 	const handleSortChange = useCallback(
 		(sort: SortOption) => {
 			cancelPendingSearch()
 			setDebouncedQuery(searchQuery)
-			setSortOption(sort)
+			setExplicitSort(sort)
 			updateResults(searchQuery, sort, sourceFilter)
 		},
 		[cancelPendingSearch, updateResults, searchQuery, sourceFilter],
@@ -172,27 +175,25 @@ export function IconSearch({ icons }: IconSearchProps) {
 			cancelPendingSearch()
 			setDebouncedQuery(searchQuery)
 			setSourceFilter(source)
-			updateResults(searchQuery, sortOption, source)
+			updateResults(searchQuery, explicitSort, source)
 		},
-		[cancelPendingSearch, searchQuery, sortOption, updateResults],
+		[cancelPendingSearch, searchQuery, explicitSort, updateResults],
 	)
 
 	const clearSearch = useCallback(() => {
 		cancelPendingSearch()
 		setSearchQuery("")
 		setDebouncedQuery("")
-		const nextSort = parseSortOption(searchParams.get("sort"))
-		setSortOption(nextSort)
-		updateResults("", nextSort, sourceFilter)
-	}, [cancelPendingSearch, updateResults, searchParams, sourceFilter])
+		updateResults("", explicitSort, sourceFilter)
+	}, [cancelPendingSearch, updateResults, explicitSort, sourceFilter])
 
 	const clearFilters = useCallback(() => {
 		cancelPendingSearch()
 		setSearchQuery("")
 		setDebouncedQuery("")
-		setSortOption("newest")
+		setExplicitSort(null)
 		setSourceFilter("all")
-		updateResults("", "newest", "all")
+		updateResults("", null, "all")
 	}, [cancelPendingSearch, updateResults])
 
 	useEffect(() => {
@@ -372,7 +373,7 @@ export function IconSearch({ icons }: IconSearchProps) {
 					<AddMcpButton source="icon_search" />
 
 					{/* Clear all button */}
-					{(searchQuery || sortOption !== "newest" || sourceFilter !== "all") && (
+					{(searchQuery || explicitSort !== null || sourceFilter !== "all") && (
 						<Button variant="outline" onClick={clearFilters}>
 							<X className="h-4 w-4 mr-2" />
 							<span>Reset all</span>

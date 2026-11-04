@@ -76,9 +76,9 @@ export function AddMcpButton({ size = "default", className, source, showBadge = 
 			<McpSetupDialog
 				source={source}
 				trigger={
-					<Button variant="outline" size={size} className="h-full min-h-10 w-full" data-testid="mcp-setup-trigger">
-						<UnoptimizedImage src={CHATGPT_ICON_URL} alt="" width={20} height={20} className="shrink-0 dark:invert" />
-						<span>Add to AI platform</span>
+					<Button variant="outline" size={size} className="w-full" data-testid="mcp-setup-trigger">
+						<UnoptimizedImage src={CHATGPT_ICON_URL} alt="" width={16} height={16} className="shrink-0 dark:invert" />
+						<span>Use with AI</span>
 					</Button>
 				}
 			/>
