@@ -1,0 +1,35 @@
+web/src/components/hero.tsx
+  s_05ef861992d1bd::t_27cb764414e3c0 4,211,260,308,394-395
+  s_05ef861992d1bd::t_975058b4eaa653 9,200-203,209-210,212-226,230-244,251-253,257,259,270-273,306,320,393
+  s_05ef861992d1bd::t_f8d6fc9bd4ea8c 204-208,227-229,245-250,254-255,262
+web/src/lib/icons/search.ts
+  s_05ef861992d1bd::t_975058b4eaa653 238-241
+web/tests/mcp-setup.spec.ts
+  s_05ef861992d1bd::t_975058b4eaa653 4
+web/src/components/icon-details.tsx
+  s_05ef861992d1bd::t_975058b4eaa653 827-845
+web/docs/MCP.md
+  s_05ef861992d1bd::t_975058b4eaa653 19,21
+web/src/components/add-mcp-button.tsx
+  s_05ef861992d1bd::t_975058b4eaa653 79-81
+web/src/components/icon-search.tsx
+  s_05ef861992d1bd::t_975058b4eaa653 31,39,43-47,68,74-75,90,137,142,157,160,167,178,180,187-188,194,196,376
+web/tests/icon-search.spec.ts
+  s_05ef861992d1bd::t_2c20f4021406d9 1-66
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "c2fc286a47e80d07f3596b7e448a0ffd8f943ced",
+  "prompts": {},
+  "sessions": {
+    "s_05ef861992d1bd": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a1a6e7-d402-7d23-bf4e-544804888af2",
+        "model": "gpt-6.1-sol"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
