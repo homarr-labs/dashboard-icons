@@ -1,0 +1,23 @@
+scripts/audit-selfhst-duplicates.py
+  s_05ef861992d1bd::t_ce06d04f66bf07 3-4,20-22
+  s_05ef861992d1bd::t_fce427df426684 41-43
+  s_05ef861992d1bd::t_9cded28b31724f 1-2,5-19,23-40,44-53
+web/src/lib/icons/native-icon-files.json
+  s_05ef861992d1bd::t_58e124da13aeb3 4336
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "36f96f4e944a3907ae4f6ed77e6bde249f834f3b",
+  "prompts": {},
+  "sessions": {
+    "s_05ef861992d1bd": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a1a6e7-d402-7d23-bf4e-544804888af2",
+        "model": "gpt-6.1-sol"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
