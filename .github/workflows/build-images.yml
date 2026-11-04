@@ -5,6 +5,9 @@ on:
     paths:
       - "web/**"
       - "metadata.json"
+      - "svg/**"
+      - "png/**"
+      - "webp/**"
       - ".github/workflows/build-images.yml"
       - ".github/workflows/docker.yml"
   workflow_dispatch:
@@ -74,7 +77,7 @@ jobs:
         working-directory: web
         run: bun run generate:og
         env:
-          OG_REFRESH_COUNT: "true"
+          OG_REFRESH_COUNT: ${{ inputs.publish == true }}
       - name: Share generated assets between architectures
         uses: actions/upload-artifact@v4
         with:

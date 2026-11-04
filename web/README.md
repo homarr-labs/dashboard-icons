@@ -116,7 +116,7 @@ manifest also supports local development and builds with only the `web/` directo
    - After creation, note the **Client ID** and generate a **Client Secret**
 
    b. Configure PocketBase OAuth:
-   - Start PocketBase: `bun run run backend:start`
+   - Start PocketBase: `bun run backend:start`
    - Open PocketBase admin UI at `http://127.0.0.1:8090/_/`
    - Navigate to Settings → Auth providers
    - Enable GitHub provider and enter your Client ID and Client Secret
