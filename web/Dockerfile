@@ -1,4 +1,5 @@
 # syntax=docker/dockerfile:1
+FROM oven/bun:1.3.14-alpine AS bun
 FROM node:24-alpine AS base
 
 # Immutable multi-platform image; keep its version aligned with backend/pocketbase-release.json.
@@ -8,34 +9,38 @@ FROM caddy:2.11.2-alpine AS caddy
 
 FROM base AS deps
 WORKDIR /app
-RUN apk add --no-cache libc6-compat && corepack enable
-COPY package.json pnpm-lock.yaml ./
-RUN pnpm install --frozen-lockfile
+RUN apk add --no-cache libc6-compat
+COPY --from=bun /usr/local/bin/bun /usr/local/bin/bun
+COPY package.json bun.lock ./
+RUN --mount=type=cache,target=/root/.bun/install/cache bun install --frozen-lockfile
 
-FROM base AS builder
+FROM deps AS builder
 WORKDIR /app
+ARG ICON_METADATA_HASH
 ARG NEXT_PUBLIC_POSTHOG_KEY
 ARG NEXT_PUBLIC_POSTHOG_HOST
 ARG NEXT_PUBLIC_DISABLE_POSTHOG=true
 ARG NEXT_PUBLIC_POCKETBASE_URL=/pb
 ENV NEXT_TELEMETRY_DISABLED=1 \
+    ICON_METADATA_HASH=${ICON_METADATA_HASH} \
     NEXT_PUBLIC_POSTHOG_KEY=${NEXT_PUBLIC_POSTHOG_KEY} \
     NEXT_PUBLIC_POSTHOG_HOST=${NEXT_PUBLIC_POSTHOG_HOST} \
     NEXT_PUBLIC_DISABLE_POSTHOG=${NEXT_PUBLIC_DISABLE_POSTHOG} \
     NEXT_PUBLIC_POCKETBASE_URL=${NEXT_PUBLIC_POCKETBASE_URL} \
     PB_URL=http://127.0.0.1:8090 \
     PRERENDER_ICON_PAGES=false
-COPY --from=deps /app/node_modules ./node_modules
 COPY --from=pocketbase /usr/local/bin/pocketbase /pb/pocketbase
 COPY . .
 # Build against an isolated database, never a production PocketBase instance.
-RUN --mount=type=secret,id=github_token \
+RUN --mount=type=cache,target=/app/.next/cache \
+    --mount=type=cache,target=/app/.turbo \
+    --mount=type=secret,id=github_token \
     if [ -f /run/secrets/github_token ]; then export GITHUB_TOKEN="$(cat /run/secrets/github_token)"; fi; \
     /pb/pocketbase serve --http=127.0.0.1:8090 --dir=/tmp/pb_data --hooksDir=/app/backend/pb_hooks --migrationsDir=/app/backend/pb_migrations >/tmp/pb-build.log 2>&1 & pb_pid=$!; \
     trap 'kill "$pb_pid" 2>/dev/null || true' EXIT; \
     node -e 'async function ready() { for (let n=0;n<60;n++) { try { const r=await fetch("http://127.0.0.1:8090/api/health"); if(r.ok) return; } catch {} await new Promise(r=>setTimeout(r,1000)); } process.exit(1); } ready()' \
     || { sed '/pbinstal/d' /tmp/pb-build.log; exit 1; }; \
-    npm run build
+    bun run build
 
 FROM base AS runner
 WORKDIR /app

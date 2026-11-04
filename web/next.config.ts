@@ -21,6 +21,9 @@ const nextConfig: NextConfig = {
 	turbopack: {
 		root: projectRoot,
 	},
+	experimental: {
+		turbopackFileSystemCacheForBuild: true,
+	},
 	cacheComponents: false,
 	images: {
 		unoptimized: true,
@@ -69,7 +72,7 @@ const nextConfig: NextConfig = {
 	},
 	output: "standalone",
 	outputFileTracingIncludes: {
-		"/*": ["node_modules/.pnpm/@img+sharp-libvips-*/node_modules/@img/sharp-libvips-*/**"],
+		"/*": ["node_modules/@img/sharp-libvips-*/**"],
 	},
 	outputFileTracingExcludes: {
 		"*": [

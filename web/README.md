@@ -71,7 +71,7 @@ After changing files in the repository's `svg/`, `png/` or `webp/` directories, 
 from `web/` and commit the updated manifest:
 
 ```bash
-pnpm generate:icon-files
+bun run generate:icon-files
 ```
 
 The deployment workflow refreshes it before building the Docker image. The checked-in
@@ -82,7 +82,7 @@ manifest also supports local development and builds with only the `web/` directo
 ### Prerequisites
 
 - Node.js 22.22+
-- pnpm
+- Bun 1.3.14
 - `unzip` (for the pinned PocketBase development download)
 
 ### Installation
@@ -90,11 +90,11 @@ manifest also supports local development and builds with only the `web/` directo
 1. Clone the repository
 2. Install dependencies:
    ```bash
-   pnpm install
+   bun install --frozen-lockfile
    ```
    Download the PocketBase server for your platform:
    ```bash
-   pnpm backend:download
+   bun run backend:download
    ```
    The download uses the pinned version and verified release checksums from
    `backend/pocketbase-release.json`. Linux and macOS on AMD64 and ARM64 are supported.
@@ -116,7 +116,7 @@ manifest also supports local development and builds with only the `web/` directo
    - After creation, note the **Client ID** and generate a **Client Secret**
 
    b. Configure PocketBase OAuth:
-   - Start PocketBase: `pnpm run backend:start`
+   - Start PocketBase: `bun run run backend:start`
    - Open PocketBase admin UI at `http://127.0.0.1:8090/_/`
    - Navigate to Settings → Auth providers
    - Enable GitHub provider and enter your Client ID and Client Secret
@@ -129,14 +129,27 @@ manifest also supports local development and builds with only the `web/` directo
 
 5. Start the development server:
    ```bash
-   pnpm dev
+   bun run dev
    ```
 
 ### Build
 
 ```bash
-pnpm build
+bun run build
 ```
+
+Builds use Turborepo to restore `.next` output when source files and build settings
+match. `bun run build --force` forces recompilation. Production Turbopack filesystem
+caching is enabled, so changed-source builds can reuse `.next/cache` too.
+
+CI builds AMD64 and ARM64 on native runners. Bun downloads, Next.js and Turborepo
+cache mounts persist through GitHub Actions cache; Docker layers use a separate
+cache per architecture. Generated assets and image digests pass between jobs as
+short-lived artifacts. Public environment variables and the native metadata digest
+invalidate compilation output; deployment revision labels do not.
+
+To verify a build without publishing or deploying, run the **Build images** workflow
+on a branch. Pull requests that change build inputs run it automatically.
 
 ### PocketBase deployment
 

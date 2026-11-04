@@ -29,32 +29,35 @@ jobs:
         with:
           fetch-depth: 0
           persist-credentials: false
-      - uses: pnpm/action-setup@v4
+      - uses: oven-sh/setup-bun@v2
         with:
-          package_json_file: web/package.json
+          bun-version: 1.3.14
       - uses: actions/setup-node@v4
         with:
           node-version: 24
-          cache: pnpm
-          cache-dependency-path: web/pnpm-lock.yaml
+      - uses: actions/cache@v4
+        with:
+          path: ~/.bun/install/cache
+          key: bun-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('web/bun.lock') }}
+          restore-keys: bun-${{ runner.os }}-${{ runner.arch }}-
       - name: Install frozen dependencies
-        run: pnpm install --frozen-lockfile
+        run: bun install --frozen-lockfile
       - name: Check changed source files
         env:
           BASE_SHA: ${{ github.event.pull_request.base.sha || 'origin/main' }}
         run: |
           mapfile -d '' files < <(git diff --relative --name-only --diff-filter=ACMR -z "$BASE_SHA"...HEAD -- src)
           if (( ${#files[@]} )); then
-            pnpm exec biome check --no-errors-on-unmatched "${files[@]}"
+            bun run -- biome check --no-errors-on-unmatched "${files[@]}"
           fi
           git diff --check "$BASE_SHA"...HEAD
       - name: Generate Next.js types
-        run: pnpm exec next typegen
+        run: bun run -- next typegen
       - name: Typecheck
-        run: pnpm exec tsc --noEmit --incremental false
+        run: bun run -- tsc --noEmit --incremental false
       - name: Run full suite with enforced coverage
-        run: pnpm test --coverage
+        run: bun run test --coverage
       - name: Download pinned PocketBase
-        run: pnpm backend:download
+        run: bun run backend:download
       - name: Verify durable replay against PocketBase
         run: node --test scripts/mcp-replay-integration.mjs
