@@ -396,7 +396,9 @@ The build uses an isolated, empty PocketBase database and never copies local
 `pb_data` or `.env` files. Native metadata and CDN icon files still come from the
 upstream Dashboard Icons repository; external catalogues must be imported into
 PocketBase using the scripts above. Icon detail pages are rendered on first
-request instead of fetching every icon author during the image build.
+request instead of fetching every icon author during the image build. The icon
+browser directory also renders on request, using its existing 15-minute data
+cache, so compilation does not depend on a live catalogue download.
 
 The healthcheck verifies both services through Caddy. The entrypoint stops all
 services if one exits, and forwards shutdown signals so SQLite can close cleanly.

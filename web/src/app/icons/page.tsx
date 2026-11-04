@@ -40,6 +40,8 @@ export const metadata: Metadata = {
 	},
 }
 
+// Read the live catalogue and mounted database on request, not during compilation.
+export const dynamic = "force-dynamic"
 export const revalidate = 900
 
 export default async function IconsPage() {
