@@ -11,7 +11,11 @@
     "timestamp": "2026-11-04T15:20:00Z",
     "author": {
       "id": 49837342,
+      "login": "ajnart",
       "name": "Thomas"
     }
+  },
+  "colors": {
+    "light": "rainbow-six-siege-light"
   }
 }
