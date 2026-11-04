@@ -1,0 +1,150 @@
+meta/7-days-to-die.json
+  h_d6e478ca18e517 13
+meta/apex-legends.json
+  h_d6e478ca18e517 11
+meta/balatro.json
+  h_d6e478ca18e517 11
+meta/baldurs-gate-3.json
+  h_d6e478ca18e517 13
+meta/beamng-drive.json
+  h_d6e478ca18e517 11
+meta/black-desert-online.json
+  h_d6e478ca18e517 11
+meta/black-myth-wukong.json
+  h_d6e478ca18e517 13
+meta/cities-skylines-ii.json
+  h_d6e478ca18e517 13
+meta/civilization-vi.json
+  h_d6e478ca18e517 14
+meta/crusader-kings-iii.json
+  h_d6e478ca18e517 11
+meta/cyberpunk-2077.json
+  h_d6e478ca18e517 11
+meta/dayz.json
+  h_d6e478ca18e517 11
+meta/deep-rock-galactic.json
+  h_d6e478ca18e517 13
+meta/delta-force.json
+  h_d6e478ca18e517 11
+meta/destiny-2.json
+  h_d6e478ca18e517 13
+meta/diablo-iv.json
+  h_d6e478ca18e517 11
+meta/dont-starve-together.json
+  h_d6e478ca18e517 11
+meta/dota-2.json
+  h_d6e478ca18e517 13
+meta/elden-ring.json
+  h_d6e478ca18e517 13
+meta/euro-truck-simulator-2.json
+  h_d6e478ca18e517 13
+meta/fallout-4.json
+  h_d6e478ca18e517 11
+meta/farming-simulator.json
+  h_d6e478ca18e517 11
+meta/final-fantasy-xiv.json
+  h_d6e478ca18e517 14
+meta/fortnite.json
+  h_d6e478ca18e517 11
+meta/garrys-mod.json
+  h_d6e478ca18e517 11
+meta/genshin-impact.json
+  h_d6e478ca18e517 11
+meta/geometry-dash.json
+  h_d6e478ca18e517 11
+meta/ghost-of-yotei.json
+  h_d6e478ca18e517 11
+meta/grand-theft-auto-v.json
+  h_d6e478ca18e517 15
+meta/grand-theft-auto-vi.json
+  h_d6e478ca18e517 14
+meta/helldivers-2.json
+  h_d6e478ca18e517 11
+meta/hogwarts-legacy.json
+  h_d6e478ca18e517 11
+meta/hollow-knight.json
+  h_d6e478ca18e517 11
+meta/kingdom-come-deliverance-2.json
+  h_d6e478ca18e517 13
+meta/league-of-legends.json
+  h_d6e478ca18e517 13
+meta/left-4-dead-2.json
+  h_d6e478ca18e517 13
+meta/limbus-company.json
+  h_d6e478ca18e517 11
+meta/marvel-rivals.json
+  h_d6e478ca18e517 11
+meta/mount-blade-ii-bannerlord.json
+  h_d6e478ca18e517 13
+meta/naraka-bladepoint.json
+  h_d6e478ca18e517 11
+meta/no-mans-sky.json
+  h_d6e478ca18e517 13
+meta/overwatch-2.json
+  h_d6e478ca18e517 11
+meta/phasmophobia.json
+  h_d6e478ca18e517 11
+meta/project-zomboid.json
+  h_d6e478ca18e517 13
+meta/pubg-battlegrounds.json
+  h_d6e478ca18e517 11
+meta/rainbow-six-siege.json
+  h_d6e478ca18e517 14,17-19
+meta/repo.json
+  h_d6e478ca18e517 11
+meta/resident-evil-4.json
+  h_d6e478ca18e517 13
+meta/rimworld.json
+  h_d6e478ca18e517 11
+meta/roblox.json
+  h_d6e478ca18e517 11
+meta/rocket-league.json
+  h_d6e478ca18e517 11
+meta/stardew-valley.json
+  h_d6e478ca18e517 11
+meta/street-fighter-6.json
+  h_d6e478ca18e517 13
+meta/team-fortress-2.json
+  h_d6e478ca18e517 13
+meta/tekken-8.json
+  h_d6e478ca18e517 13
+meta/the-binding-of-isaac.json
+  h_d6e478ca18e517 14
+meta/the-elder-scrolls-v-skyrim.json
+  h_d6e478ca18e517 14
+meta/the-sims-4.json
+  h_d6e478ca18e517 14
+meta/the-witcher-3.json
+  h_d6e478ca18e517 14
+meta/undertale.json
+  h_d6e478ca18e517 11
+meta/valorant.json
+  h_d6e478ca18e517 13
+meta/vrchat.json
+  h_d6e478ca18e517 11
+meta/war-thunder.json
+  h_d6e478ca18e517 11
+meta/warframe.json
+  h_d6e478ca18e517 11,14-16
+meta/warhammer-40000-space-marine-2.json
+  h_d6e478ca18e517 13
+metadata.json
+  h_d6e478ca18e517 52279,52294,52311,52326,52341,52344-52346,52362,52365-52367,52380,52395,52410,52425,52440,52455,52472,52487,52502,52519,52536,52554,52569,52584,52601,52616,52631,52646,52665,52683,52701,52716,52734,52749,52767,52784,52802,52817,52834,52849,52866,52881,52896,52911,52926,52941,52958,52975,52992,53009,53024,53041,53058,53073,53088,53105,53120,53137,53154,53169,53184,53199,53216,53233,53248,53266,53281,53298,53313
+svg/rainbow-six-siege-light.svg
+  h_d6e478ca18e517 1
+tree.json
+  h_d6e478ca18e517 3383,4341,7393,11694,12652
+web/src/lib/icons/native-icon-files.json
+  h_d6e478ca18e517 2799,4522
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "fc34c708556141505c4caa85143e046e726b7fe0",
+  "prompts": {},
+  "humans": {
+    "h_d6e478ca18e517": {
+      "author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
