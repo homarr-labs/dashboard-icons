@@ -76,8 +76,8 @@ Use icons from CDN with this pattern:
 
 ```html
 <img
-  src="https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/plex.svg"
-  alt="Plex"
+  src="https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/openai.svg"
+  alt="OpenAI"
 />
 ```
 
