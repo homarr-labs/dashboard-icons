@@ -17,13 +17,17 @@ on:
     - cron: "17 6 * * 0"
   workflow_dispatch:
     inputs:
+      build_only:
+        description: Build both native images without publishing or deploying
+        type: boolean
+        default: false
       verify_only:
         description: Read-only verification of PocketBase deployment and schema
         type: boolean
         default: false
 
 concurrency:
-  group: dashboard-icons-${{ inputs.verify_only && 'verification' || 'deployment' }}
+  group: dashboard-icons-${{ inputs.build_only && github.ref || inputs.verify_only && 'verification' || 'deployment' }}
   cancel-in-progress: false
 
 permissions:
@@ -38,115 +42,41 @@ env:
   REGISTRY: ghcr.io
   # github.repository as <account>/<repo>
   IMAGE_NAME: ${{ github.repository }}
-  # PNPM store location
-  PNPM_STORE_PATH: ~/.local/share/pnpm/store
-  NEXT_PUBLIC_POSTHOG_KEY: phc_fNHNUqEQJHL2DHlwyaPniHOcpEwe8rFPeJEcPbuifC6
-  NEXT_PUBLIC_POSTHOG_HOST: https://hog.homarr.dev
-  NEXT_PUBLIC_DISABLE_POSTHOG: false
-  NEXT_PUBLIC_POCKETBASE_URL: /pb
-  CI_MODE: true
 
 jobs:
-  # Push image to GitHub Packages.
-  # See also https://docs.docker.com/docker-hub/builds/
-  build-and-push:
+  build-images:
     if: >-
       !inputs.verify_only &&
-      github.ref == 'refs/heads/main' &&
-      (github.event_name != 'workflow_run' ||
-       (github.event.workflow_run.conclusion == 'success' &&
-        github.event.workflow_run.head_repository.full_name == github.repository))
-    runs-on: ubuntu-latest
-    timeout-minutes: 60
+      (inputs.build_only ||
+       (github.ref == 'refs/heads/main' &&
+        (github.event_name != 'workflow_run' ||
+         (github.event.workflow_run.conclusion == 'success' &&
+          github.event.workflow_run.head_repository.full_name == github.repository))))
+    uses: ./.github/workflows/build-images.yml
     permissions:
       packages: write
       contents: read
+    with:
+      ref: ${{ github.ref }}
+      publish: ${{ !inputs.build_only }}
+
+  build-and-push:
+    if: ${{ !inputs.build_only && github.ref == 'refs/heads/main' }}
+    needs: build-images
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: read
       actions: read
-
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
         with:
+          ref: ${{ needs.build-images.outputs.revision }}
+          sparse-checkout: web
           persist-credentials: false
-
-      - name: Record checked-out revision
-        id: revision
-        run: echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
-
-      - name: Set up pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          package_json_file: web/package.json
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: 24
-          cache: pnpm
-          cache-dependency-path: web/pnpm-lock.yaml
-
-      - name: Install share-image generator dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Record available native Icon files
-        run: pnpm generate:icon-files
-
-      # The path build context below includes this generated asset.
-      - name: Refresh share image
-        run: pnpm generate:og
-        env:
-          OG_REFRESH_COUNT: "true"
-
-      - name: Docker meta
-        id: meta
-        uses: docker/metadata-action@v5
-        with:
-          # list of Docker images to use as base name for tags
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-          # generate Docker tags based on the following events/attributes
-          tags: |
-            type=raw,value=latest
-            type=semver,pattern={{version}}
-
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
-        with:
-          platforms: arm64
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-
-      - name: Login to GHCR
-        uses: docker/login-action@v3
-        with:
-          registry: ghcr.io
-          username: ${{ github.repository_owner }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Build and push
-        id: build
-        uses: docker/build-push-action@v6
-        env:
-          NEXT_PUBLIC_POCKETBASE_URL: ${{ env.NEXT_PUBLIC_POCKETBASE_URL }}
-        with:
-          platforms: linux/amd64,linux/arm64
-          context: ./web
-          push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: |
-            ${{ steps.meta.outputs.labels }}
-            org.opencontainers.image.revision=${{ steps.revision.outputs.sha }}
-          no-cache: true
-          pull: true
-          build-args: |
-            NEXT_PUBLIC_POSTHOG_KEY=${{ env.NEXT_PUBLIC_POSTHOG_KEY }}
-            NEXT_PUBLIC_POSTHOG_HOST=${{ env.NEXT_PUBLIC_POSTHOG_HOST }}
-            NEXT_PUBLIC_DISABLE_POSTHOG=${{ env.NEXT_PUBLIC_DISABLE_POSTHOG }}
-            NEXT_PUBLIC_POCKETBASE_URL=${{ env.NEXT_PUBLIC_POCKETBASE_URL }}
-            CI_MODE=${{ env.CI_MODE }}
-            MCP_SERVER_BUILD=${{ steps.revision.outputs.sha }}
-          secrets: |
-            "github_token=${{ secrets.GITHUB_TOKEN }}"
-
       - name: Check PocketBase data-node placement before rollout
         env:
           DOKPLOY_URL: ${{ secrets.DOKPLOY_URL }}
@@ -174,8 +104,8 @@ jobs:
           DOKPLOY_URL: ${{ secrets.DOKPLOY_URL }}
           DOKPLOY_API_KEY: ${{ secrets.DOKPLOY_API_KEY }}
           DOKPLOY_POCKETBASE_APPLICATION_ID: ${{ vars.DOKPLOY_POCKETBASE_APPLICATION_ID }}
-          DEPLOY_IMAGE: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}@${{ steps.build.outputs.digest }}
-          EXPECTED_REVISION: ${{ steps.revision.outputs.sha }}
+          DEPLOY_IMAGE: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}@${{ needs.build-images.outputs.digest }}
+          EXPECTED_REVISION: ${{ needs.build-images.outputs.revision }}
         run: node scripts/deploy-pocketbase.mjs
 
       - name: Verify PocketBase schema and packaged migrations
@@ -191,8 +121,8 @@ jobs:
           DOKPLOY_URL: ${{ secrets.DOKPLOY_URL }}
           DOKPLOY_API_KEY: ${{ secrets.DOKPLOY_API_KEY }}
           DOKPLOY_FRONTEND_APPLICATION_ID: ${{ vars.DOKPLOY_FRONTEND_APPLICATION_ID }}
-          DEPLOY_IMAGE: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}@${{ steps.build.outputs.digest }}
-          EXPECTED_REVISION: ${{ steps.revision.outputs.sha }}
+          DEPLOY_IMAGE: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}@${{ needs.build-images.outputs.digest }}
+          EXPECTED_REVISION: ${{ needs.build-images.outputs.revision }}
         run: node scripts/deploy-pocketbase.mjs --frontend
 
       # Notify IndexNow engines (Bing and others) of icon pages changed since the last deployment.

@@ -1,4 +1,4 @@
-/** Run from web: pnpm generate:og (set OG_REFRESH_COUNT=true for the live total). */
+/** Run from web: bun run generate:og (set OG_REFRESH_COUNT=true for the live total). */
 import { readFile, writeFile } from "node:fs/promises"
 import { dirname, resolve } from "node:path"
 import { fileURLToPath } from "node:url"

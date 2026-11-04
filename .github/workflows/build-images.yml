@@ -1,0 +1,215 @@
+name: Build images
+
+on:
+  pull_request:
+    paths:
+      - "web/**"
+      - "metadata.json"
+      - "svg/**"
+      - "png/**"
+      - "webp/**"
+      - ".github/workflows/build-images.yml"
+      - ".github/workflows/docker.yml"
+  workflow_dispatch:
+  workflow_call:
+    inputs:
+      ref:
+        type: string
+        default: main
+      publish:
+        type: boolean
+        default: false
+    outputs:
+      digest:
+        value: ${{ jobs.merge.outputs.digest }}
+      revision:
+        value: ${{ jobs.prepare.outputs.revision }}
+
+permissions:
+  contents: read
+
+concurrency:
+  group: web-images-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+env:
+  IMAGE: ghcr.io/${{ github.repository }}
+  NEXT_PUBLIC_POSTHOG_KEY: phc_fNHNUqEQJHL2DHlwyaPniHOcpEwe8rFPeJEcPbuifC6
+  NEXT_PUBLIC_POSTHOG_HOST: https://hog.homarr.dev
+  NEXT_PUBLIC_DISABLE_POSTHOG: "false"
+  NEXT_PUBLIC_POCKETBASE_URL: /pb
+
+jobs:
+  prepare:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    outputs:
+      revision: ${{ steps.revision.outputs.sha }}
+      metadata: ${{ steps.revision.outputs.metadata }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref || github.ref }}
+          persist-credentials: false
+      - name: Record build inputs
+        id: revision
+        run: |
+          echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+          echo "metadata=$(sha256sum metadata.json | cut -d ' ' -f 1)" >> "$GITHUB_OUTPUT"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.3.14
+      - uses: actions/cache@v4
+        with:
+          path: ~/.bun/install/cache
+          key: bun-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('web/bun.lock') }}
+          restore-keys: bun-${{ runner.os }}-${{ runner.arch }}-
+      - name: Install frozen dependencies
+        working-directory: web
+        run: bun install --frozen-lockfile
+      - name: Record available native Icon files
+        working-directory: web
+        run: bun run generate:icon-files
+      - name: Refresh share image
+        working-directory: web
+        run: bun run generate:og
+        env:
+          OG_REFRESH_COUNT: ${{ inputs.publish == true }}
+      - name: Share generated assets between architectures
+        uses: actions/upload-artifact@v4
+        with:
+          name: web-build-assets
+          path: |
+            web/src/lib/icons/native-icon-files.json
+            web/public/og-image.png
+          retention-days: 1
+          if-no-files-found: error
+
+  build:
+    permissions:
+      contents: read
+      packages: write
+    needs: prepare
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - arch: amd64
+            runner: ubuntu-24.04
+          - arch: arm64
+            runner: ubuntu-24.04-arm
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.prepare.outputs.revision }}
+          sparse-checkout: web
+          persist-credentials: false
+      - uses: actions/download-artifact@v4
+        with:
+          name: web-build-assets
+          path: web
+      - uses: docker/setup-buildx-action@v3
+        id: buildx
+      # GHA layer exports do not include RUN cache mounts. Persist these separately.
+      - uses: actions/cache@v4
+        id: compiler-cache
+        with:
+          path: |
+            .build-cache/next
+            .build-cache/turbo
+          key: compiler-v2-${{ runner.os }}-${{ matrix.arch }}-${{ hashFiles('web/bun.lock', 'web/Dockerfile', 'web/turbo.json') }}-${{ github.run_id }}-${{ github.run_attempt }}
+          restore-keys: |
+            compiler-v2-${{ runner.os }}-${{ matrix.arch }}-${{ hashFiles('web/bun.lock', 'web/Dockerfile', 'web/turbo.json') }}-
+      - uses: reproducible-containers/buildkit-cache-dance@7a38cfab60c63ee1022b7c1a14a031c82f4114c7 # v3
+        with:
+          builder: ${{ steps.buildx.outputs.name }}
+          cache-map: |
+            {
+              ".build-cache/next": "/app/.next/cache",
+              ".build-cache/turbo": "/app/.turbo"
+            }
+      - uses: docker/metadata-action@v5
+        id: meta
+        with:
+          images: ${{ env.IMAGE }}
+      - uses: docker/login-action@v3
+        if: inputs.publish
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build native image
+        id: build
+        uses: docker/build-push-action@v6
+        with:
+          context: ./web
+          platforms: linux/${{ matrix.arch }}
+          outputs: ${{ inputs.publish && format('type=image,name={0},push-by-digest=true,name-canonical=true,push=true', env.IMAGE) || 'type=docker' }}
+          tags: ${{ env.IMAGE }}:build-${{ matrix.arch }}
+          labels: |
+            ${{ steps.meta.outputs.labels }}
+            org.opencontainers.image.revision=${{ needs.prepare.outputs.revision }}
+          cache-from: type=gha,scope=web-${{ matrix.arch }}
+          cache-to: type=gha,scope=web-${{ matrix.arch }},mode=max
+          build-args: |
+            ICON_METADATA_HASH=${{ needs.prepare.outputs.metadata }}
+            NEXT_PUBLIC_POSTHOG_KEY=${{ env.NEXT_PUBLIC_POSTHOG_KEY }}
+            NEXT_PUBLIC_POSTHOG_HOST=${{ env.NEXT_PUBLIC_POSTHOG_HOST }}
+            NEXT_PUBLIC_DISABLE_POSTHOG=${{ env.NEXT_PUBLIC_DISABLE_POSTHOG }}
+            NEXT_PUBLIC_POCKETBASE_URL=${{ env.NEXT_PUBLIC_POCKETBASE_URL }}
+            MCP_SERVER_BUILD=${{ needs.prepare.outputs.revision }}
+          secrets: |
+            github_token=${{ secrets.GITHUB_TOKEN }}
+      - name: Export image digest
+        if: inputs.publish
+        env:
+          DIGEST: ${{ steps.build.outputs.digest }}
+        run: |
+          mkdir -p "$RUNNER_TEMP/digests"
+          touch "$RUNNER_TEMP/digests/${DIGEST#sha256:}"
+      - uses: actions/upload-artifact@v4
+        if: inputs.publish
+        with:
+          name: image-digest-${{ matrix.arch }}
+          path: ${{ runner.temp }}/digests/*
+          retention-days: 1
+          if-no-files-found: error
+
+  merge:
+    permissions:
+      contents: read
+      packages: write
+    if: inputs.publish
+    needs: [prepare, build]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    outputs:
+      digest: ${{ steps.merge.outputs.digest }}
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: image-digest-*
+          path: ${{ runner.temp }}/digests
+          merge-multiple: true
+      - uses: docker/setup-buildx-action@v3
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Publish multi-platform manifest
+        id: merge
+        working-directory: ${{ runner.temp }}/digests
+        run: |
+          images=()
+          for digest in *; do images+=("${IMAGE}@sha256:${digest}"); done
+          test "${#images[@]}" -eq 2
+          docker buildx imagetools create --tag "${IMAGE}:latest" "${images[@]}"
+          digest=$(docker buildx imagetools inspect "${IMAGE}:latest" --format '{{json .Manifest}}' | jq -r '.digest')
+          test -n "$digest" && test "$digest" != null
+          echo "digest=$digest" >> "$GITHUB_OUTPUT"

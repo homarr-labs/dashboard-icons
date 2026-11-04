@@ -1,0 +1,37 @@
+{
+  "$schema": "https://turborepo.dev/schema.json",
+  "tasks": {
+    "build:next": {
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        ".env*",
+        "!docs/**",
+        "!README.md"
+      ],
+      "outputs": [
+        ".next/**",
+        "!.next/cache/**",
+        "next-env.d.ts"
+      ],
+      "env": [
+        "NEXT_PUBLIC_*",
+        "NODE_ENV",
+        "PB_URL",
+        "PRERENDER_ICON_PAGES",
+        "ICON_METADATA_HASH"
+      ],
+      "passThroughEnv": [
+        "GITHUB_TOKEN",
+        "NEXT_TELEMETRY_DISABLED"
+      ]
+    },
+    "dev:backend": {
+      "cache": false,
+      "persistent": true
+    },
+    "dev:web": {
+      "cache": false,
+      "persistent": true
+    }
+  }
+}

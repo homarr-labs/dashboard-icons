@@ -53,6 +53,6 @@ if (skipped.length) {
 		console.warn(`  ${asset.path}: expected ${asset.expected.toUpperCase()}, detected ${asset.detected.toUpperCase()}`)
 	}
 	console.warn(
-		"Restore an asset matching its extension or publish it in the correct format directory, then rerun pnpm generate:icon-files.",
+		"Restore an asset matching its extension or publish it in the correct format directory, then rerun bun run generate:icon-files.",
 	)
 }
