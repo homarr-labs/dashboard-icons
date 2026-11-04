@@ -266,7 +266,8 @@ export function HeroSection({
 							<SupportCollectionsButton />
 							<Button asChild variant="outline" className="h-9 md:h-10 px-4">
 								<Link href="https://www.raycast.com/macx/dashboard-icons" target="_blank" rel="noopener noreferrer">
-									<Command data-icon="inline-start" />Raycast extension
+									<Command data-icon="inline-start" />
+									Raycast extension
 								</Link>
 							</Button>
 						</div>
