@@ -1,8 +1,7 @@
 import { expect, test, type Page } from "@playwright/test"
 
 const DIALOG_TITLE = /Connect Dashboard Icons/
-const MCP_ENDPOINT = /\/api\/mcp/
-const MCP_TRIGGER = /Add to MCP client|MCP setup/i
+const MCP_TRIGGER = /Use with AI/i
 
 test.beforeEach(async ({ page }) => {
 	await page.addInitScript(() => {
@@ -36,8 +35,10 @@ test.describe("MCP setup dialog", () => {
 		for (const tool of ["match_icons", "search_icons", "get_icon", "get_icon_svg", "browse_icons", "list_categories"]) {
 			await expect(dialog.getByText(tool, { exact: true })).toBeVisible()
 		}
-		await expect(dialog.getByText("MCP server URL", { exact: true })).toBeVisible()
-		await expect(dialog.locator("code, pre").filter({ hasText: MCP_ENDPOINT }).first()).toBeVisible()
+		await expect(dialog.getByRole("link", { name: "Add to ChatGPT" })).toHaveAttribute(
+			"href",
+			"https://chatgpt.com/plugins/plugin_asdk_app_6adb7403f24881918e4a466aaafac771",
+		)
 	})
 
 	test("lists all supported MCP clients in the setup accordion", async ({ page }) => {
@@ -58,14 +59,12 @@ test.describe("MCP setup dialog", () => {
 		await expect(dialog.getByText("Remote MCP server URL")).toBeVisible()
 	})
 
-	test("copy button copies the visible ChatGPT server URL", async ({ page, context }) => {
-		await context.grantPermissions(["clipboard-read", "clipboard-write"])
+	test("links to the ChatGPT plugin in a new tab", async ({ page }) => {
 		const dialog = await openHeroMcpDialog(page)
-
-		await dialog.getByRole("button", { name: /^Copy$/i }).first().click()
-		await expect(dialog.getByRole("button", { name: /Copied/i })).toBeVisible()
-
-		expect(await page.evaluate(() => navigator.clipboard.readText())).toBe("https://dashboardicons.com/api/mcp")
+		const link = dialog.getByRole("link", { name: "Add to ChatGPT" })
+		await expect(link).toBeVisible()
+		await expect(link).toHaveAttribute("target", "_blank")
+		await expect(link).toHaveAttribute("rel", "noopener noreferrer")
 	})
 
 	test("links to MCP documentation", async ({ page }) => {

@@ -235,13 +235,10 @@ export function filterAndSortIcons<T extends IconSearchEntry>({
 	} else if (sort === "alphabetical-desc") {
 		filtered = filtered.slice().sort((a, b) => nativeFirst(a, b) || b.name.localeCompare(a.name))
 	} else if (sort === "newest") {
-		filtered = filtered.slice().sort((a, b) => {
-			const nf = nativeFirst(a, b)
-			if (nf !== 0) return nf
-			const aTime = a.data.update?.timestamp ? new Date(a.data.update.timestamp).getTime() : 0
-			const bTime = b.data.update?.timestamp ? new Date(b.data.update.timestamp).getTime() : 0
-			return bTime - aTime
-		})
+		filtered = filtered
+			.map((icon) => ({ icon, timestamp: Date.parse(icon.data.update?.timestamp ?? "") || 0 }))
+			.sort((a, b) => nativeFirst(a.icon, b.icon) || b.timestamp - a.timestamp)
+			.map(({ icon }) => icon)
 	}
 
 	if (limit && filtered.length > limit) {

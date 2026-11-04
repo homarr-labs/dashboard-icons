@@ -1,5 +1,8 @@
 import { BASE_URL } from "@/constants"
 
+export const CHATGPT_PLUGIN_URL = "https://chatgpt.com/plugins/plugin_asdk_app_6adb7403f24881918e4a466aaafac771"
+export const CHATGPT_ICON_URL = `${BASE_URL}/svg/openai.svg`
+
 export type McpSetupSource = "hero" | "icon_search"
 
 export type McpClientId = "chatgpt" | "vscode" | "cursor" | "claude" | "custom"
@@ -94,8 +97,8 @@ export const MCP_CLIENT_GUIDES: McpClientGuide[] = [
 	{
 		id: "chatgpt",
 		label: "ChatGPT",
-		iconUrl: `${BASE_URL}/svg/chatgpt.svg`,
-		monochromeIcon: false,
+		iconUrl: CHATGPT_ICON_URL,
+		monochromeIcon: true,
 		prerequisites: ["Use ChatGPT on the web. Workspace plans may need an admin to allow custom MCP servers."],
 		configFileLabel: "MCP server URL",
 		snippetKind: "text",

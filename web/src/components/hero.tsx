@@ -1,54 +1,21 @@
 "use client"
 
-import { Separator } from "@radix-ui/react-dropdown-menu"
 import { motion, useAnimation, useInView } from "framer-motion"
-import {
-	Car,
-	Code,
-	Coffee,
-	DollarSign,
-	ExternalLink,
-	Eye,
-	GitFork,
-	Heart,
-	Plus,
-	Search,
-	Server,
-	Share2,
-	Sparkles,
-	Star,
-	TrendingUp,
-} from "lucide-react"
+import { DollarSign, ExternalLink, Heart, Search, Share2, Sparkles, Star } from "lucide-react"
 import Link from "next/link"
 import { useEffect, useRef, useState } from "react"
 import { Button } from "@/components/ui/button"
-import { Card } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
-import { DASHBOARD_ICONS_ICON, EXTERNAL_SOURCES, type ExternalSourceId, REPO_NAME } from "@/constants"
+import { DASHBOARD_ICONS_ICON, EXTERNAL_SOURCE_IDS, EXTERNAL_SOURCES, type ExternalSourceId, REPO_NAME } from "@/constants"
 import { cn } from "@/lib/utils"
 import { AddMcpButton } from "./add-mcp-button"
 import { AddToSearchBarButton } from "./add-to-search-bar-button"
 import { AuroraText } from "./magicui/aurora-text"
-import { InteractiveHoverButton } from "./magicui/interactive-hover-button"
 import { NumberTicker } from "./magicui/number-ticker"
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "./ui/dialog"
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "./ui/hover-card"
+import { Separator } from "./ui/separator"
 import { UnoptimizedImage } from "./unoptimized-image"
-
-interface IconCardProps {
-	name: string
-	imageUrl: string
-}
-
-function _IconCard({ name, imageUrl }: IconCardProps) {
-	return (
-		<Card className="p-4 flex flex-col items-center gap-2 cursor-pointer group hover-lift card-hover">
-			<div className="w-16 h-16 flex items-center justify-center">
-				<UnoptimizedImage src={imageUrl} alt={name} width={64} height={64} className="max-w-full max-h-full object-contain" />
-			</div>
-			<p className="text-sm text-center text-muted-foreground group-hover:text-foreground transition-colors">{name}</p>
-		</Card>
-	)
-}
 
 function ElegantShape({
 	className,
@@ -234,10 +201,14 @@ export function HeroSection({
 						A collection of{" "}
 						<HoverCard openDelay={100} closeDelay={200}>
 							<HoverCardTrigger asChild>
-								<span className="cursor-default underline decoration-dotted underline-offset-4 decoration-muted-foreground/40 hover:decoration-primary transition-colors">
+								<button
+									type="button"
+									aria-label="Icon counts by collection"
+									className="cursor-help underline decoration-dotted underline-offset-4 decoration-muted-foreground/40 hover:decoration-primary transition-colors"
+								>
 									<NumberTicker value={totalIcons} startValue={1000} className="font-bold tracking-tighter text-muted-foreground" /> curated
 									icons & logos
-								</span>
+								</button>
 							</HoverCardTrigger>
 							<HoverCardContent className="w-56 p-3" side="bottom">
 								<div className="flex flex-col gap-2">
@@ -253,7 +224,9 @@ export function HeroSection({
 										return (
 											<div key={sourceId} className="flex items-center gap-2 text-sm">
 												<UnoptimizedImage src={config.icon} alt="" width={16} height={16} className="shrink-0" />
-												<span className="flex-1">{config.label}</span>
+												<Link href={config.website} target="_blank" rel="noopener noreferrer" className="flex-1 hover:underline">
+													{config.label}
+												</Link>
 												<span className="font-semibold tabular-nums">{count.toLocaleString()}</span>
 											</div>
 										)
@@ -265,16 +238,33 @@ export function HeroSection({
 								</div>
 							</HoverCardContent>
 						</HoverCard>{" "}
-						for services, applications and tools, designed specifically for dashboards and app directories.
+						for services, applications and tools, designed specifically for dashboards and app directories. Includes icons from{" "}
+						{EXTERNAL_SOURCE_IDS.map((id, index) => (
+							<span key={id}>
+								{index > 0 && ", "}
+								<Link
+									href={EXTERNAL_SOURCES[id].website}
+									target="_blank"
+									rel="noopener noreferrer"
+									className="underline underline-offset-4"
+								>
+									{EXTERNAL_SOURCES[id].label}
+								</Link>
+							</span>
+						))}
+						.
 					</p>
-					<div className="flex flex-col gap-4 max-w-3xl mx-auto">
+					<div className="flex w-full flex-col gap-4 max-w-3xl mx-auto">
 						<SearchInput searchQuery={searchQuery} setSearchQuery={setSearchQuery} totalIcons={totalIcons} />
-						<div className="w-full flex gap-3 md:gap-4 flex-wrap justify-center motion-preset-slide-down motion-duration-500">
-							<Link href="/icons">
-								<InteractiveHoverButton className="rounded-md bg-input/30">Browse icons & logos</InteractiveHoverButton>
-							</Link>
+						<div className="flex flex-wrap justify-center gap-3 md:gap-4">
+							<Button asChild variant="outline">
+								<Link href="/icons">
+									<span className="size-2 rounded-full bg-primary" />
+									Browse icons & logos
+								</Link>
+							</Button>
 							<GiveUsAStarButton />
-							<GiveUsMoneyButton />
+							<SupportCollectionsButton />
 							<GiveUsLoveButton />
 						</div>
 						<div className="flex flex-col sm:flex-row justify-center gap-3">
@@ -313,84 +303,13 @@ export default function GiveUsAStarButton() {
 	}, [])
 
 	return (
-		<HoverCard openDelay={200} closeDelay={200}>
-			<HoverCardTrigger asChild>
-				<Link
-					href="https://github.com/homarr-labs/dashboard-icons"
-					target="_blank"
-					rel="noopener noreferrer"
-					className="flex items-center text-sm md:text-base"
-				>
-					<Button variant="outline" className="h-9 md:h-10 px-4" asChild>
-						<div>
-							<p>Give us a star</p>
-							<Star className="h-4 w-4 ml-1 text-yellow-500 fill-yellow-500" />
-							{stars !== null && <span className="text-xs text-muted-foreground">{stars.toLocaleString("en-US")}</span>}
-						</div>
-					</Button>
-				</Link>
-			</HoverCardTrigger>
-			<HoverCardContent className="w-96">
-				<div className="grid gap-4">
-					<div className="space-y-2">
-						<p className="font-medium leading-none flex items-center gap-2">
-							<Star className="h-4 w-4 text-yellow-500 fill-yellow-500" />
-							What is Starring?
-						</p>
-						<p className="text-sm text-muted-foreground">
-							Starring a repository on GitHub is like bookmarking it.
-							<br /> It helps you keep track of projects you find interesting and shows appreciation to the project maintainers.
-							<br /> You can star a repository by clicking the 'Star' button, usually found in the top-right corner of the repository's page
-							on GitHub.
-						</p>
-					</div>
-
-					<div className="space-y-2">
-						<p className="text-sm font-medium text-muted-foreground">How your star helps us:</p>
-						<ul className="text-xs text-muted-foreground/80 space-y-1.5">
-							<li className="flex items-start gap-2">
-								<TrendingUp className="h-3.5 w-3.5 text-primary flex-shrink-0 mt-0.5" />
-								<span>Increases our visibility in GitHub search results</span>
-							</li>
-							<li className="flex items-start gap-2">
-								<Eye className="h-3.5 w-3.5 text-primary flex-shrink-0 mt-0.5" />
-								<span>Attracts more contributors to improve the project</span>
-							</li>
-							<li className="flex items-start gap-2">
-								<GitFork className="h-3.5 w-3.5 text-primary flex-shrink-0 mt-0.5" />
-								<span>Encourages more forks and community involvement</span>
-							</li>
-							<li className="flex items-start gap-2">
-								<Plus className="h-3.5 w-3.5 text-primary flex-shrink-0 mt-0.5" />
-								<span>Grow the library with more icons</span>
-							</li>
-						</ul>
-					</div>
-
-					<div className="flex justify-between items-center pt-2">
-						<Button
-							variant="default"
-							size="sm"
-							className="bg-primary hover:bg-primary/90"
-							onClick={() => window.open("https://github.com/homarr-labs/dashboard-icons", "_blank")}
-						>
-							Star
-						</Button>
-						<Button
-							variant="link"
-							size="sm"
-							className="flex items-center gap-1 text-xs text-muted-foreground"
-							onClick={() =>
-								window.open("https://docs.github.com/get-started/exploring-projects-on-github/saving-repositories-with-stars", "_blank")
-							}
-						>
-							Learn More
-							<ExternalLink className="h-3 w-3" />
-						</Button>
-					</div>
-				</div>
-			</HoverCardContent>
-		</HoverCard>
+		<Button asChild variant="outline" className="h-9 md:h-10 px-4">
+			<Link href="https://github.com/homarr-labs/dashboard-icons" target="_blank" rel="noopener noreferrer">
+				<Star data-icon="inline-start" className="text-yellow-500 fill-yellow-500" />
+				Give us a star
+				{stars !== null && <span className="text-muted-foreground">{stars.toLocaleString("en-US")}</span>}
+			</Link>
+		</Button>
 	)
 }
 
@@ -398,14 +317,14 @@ export function GiveUsLoveButton() {
 	return (
 		<HoverCard openDelay={200} closeDelay={200}>
 			<HoverCardTrigger asChild>
-				<Button variant="outline" className="h-9 md:h-10 px-4 cursor-pointer">
+				<Button variant="outline" className="h-9 md:h-10 px-4">
 					<div className="flex items-center gap-2">
 						<p>Give us love</p>
 						<Heart className="h-4 w-4 ml-1 fill-primary text-primary" />
 					</div>
 				</Button>
 			</HoverCardTrigger>
-			<HoverCardContent className="w-96">
+			<HoverCardContent className="w-96 max-w-[calc(100vw-2rem)]">
 				<div className="grid gap-4">
 					<div className="space-y-2">
 						<p className="font-medium leading-none flex items-center gap-2">
@@ -467,77 +386,46 @@ export function GiveUsLoveButton() {
 	)
 }
 
-export function GiveUsMoneyButton() {
-	const openCollectiveUrl = "https://opencollective.com/homarr"
-
+function SupportCollectionsButton() {
 	return (
-		<HoverCard openDelay={200} closeDelay={200}>
-			<HoverCardTrigger asChild>
-				<Link target="_blank" rel="noopener noreferrer" href={openCollectiveUrl}>
-					<Button variant="outline" className="h-9 md:h-10 px-4" asChild>
-						<div className="flex items-center gap-2">
-							<p>Give us money</p>
-							<DollarSign className="h-4 w-4 ml-1 text-yellow-500" />
-						</div>
+		<Dialog>
+			<DialogTrigger asChild>
+				<Button variant="outline" className="h-9 md:h-10 px-4">
+					<DollarSign data-icon="inline-start" className="text-yellow-500" />
+					Donate
+				</Button>
+			</DialogTrigger>
+			<DialogContent>
+				<DialogHeader>
+					<DialogTitle>Support the people behind the icons</DialogTitle>
+					<DialogDescription>
+						Dashboard Icons brings independent collections together. Choose which project to support; each link goes directly to its own
+						funding page.
+					</DialogDescription>
+				</DialogHeader>
+				<div className="flex flex-col gap-3">
+					<Button asChild variant="outline" size="lg">
+						<Link href="https://opencollective.com/homarr" target="_blank" rel="noopener noreferrer">
+							<UnoptimizedImage src={DASHBOARD_ICONS_ICON} alt="" width={20} height={20} />
+							Support Dashboard Icons / Homarr
+							<ExternalLink data-icon="inline-end" />
+						</Link>
 					</Button>
-				</Link>
-			</HoverCardTrigger>
-			<HoverCardContent className="w-96">
-				<div className="grid gap-4">
-					<div className="space-y-2">
-						<p className="font-medium leading-none flex items-center gap-2">
-							<DollarSign className="h-4 w-4 text-yellow-500" />
-							Support our open source work
-						</p>
-						<p className="text-sm text-muted-foreground">Your donations help us maintain and improve our free, open-source project.</p>
-					</div>
-
-					<div className="space-y-1">
-						<p className="text-sm font-medium text-primary">What is OpenCollective?</p>
-						<p className="text-xs text-primary/80">
-							OpenCollective is a transparent funding platform for open source projects. All donations and expenses are publicly visible,
-							ensuring complete transparency in how funds are used.
-						</p>
-					</div>
-
-					<div className="space-y-2">
-						<p className="text-sm font-medium text-muted-foreground">Where your money goes:</p>
-						<ul className="text-xs text-muted-foreground/80 space-y-1.5">
-							<li className="flex items-start gap-2">
-								<Server className="h-3.5 w-3.5 text-primary flex-shrink-0 mt-0.5" />
-								<span>Hosting and infrastructure costs</span>
-							</li>
-							<li className="flex items-start gap-2">
-								<Code className="h-3.5 w-3.5 text-primary flex-shrink-0 mt-0.5" />
-								<span>Development time for new features</span>
-							</li>
-							<li className="flex items-start gap-2">
-								<Coffee className="h-3.5 w-3.5 text-primary flex-shrink-0 mt-0.5" />
-								<span>Coffee to fuel late-night coding sessions</span>
-							</li>
-							<li className="flex items-start gap-2 line-through opacity-70">
-								<Car className="h-3.5 w-3.5 text-primary flex-shrink-0 mt-0.5" />
-								<span>A new Lamborghini (although we'd love to)</span>
-							</li>
-						</ul>
-					</div>
-
-					<div className="flex justify-between items-center pt-2">
-						<Link href={openCollectiveUrl} target="_blank" rel="noopener noreferrer">
-							<Button variant="default" size="sm" className="bg-primary hover:bg-primary/90">
-								Support
+					{EXTERNAL_SOURCE_IDS.map((id) => {
+						const source = EXTERNAL_SOURCES[id]
+						return (
+							<Button key={id} asChild variant="outline" size="lg">
+								<Link href={source.supportUrl} target="_blank" rel="noopener noreferrer">
+									<UnoptimizedImage src={source.icon} alt="" width={20} height={20} />
+									Support {source.label}
+									<ExternalLink data-icon="inline-end" />
+								</Link>
 							</Button>
-						</Link>
-						<Link href={`${openCollectiveUrl}/transactions`} target="_blank" rel="noopener noreferrer">
-							<Button variant="link" size="sm" className="flex items-center gap-1 text-xs text-muted-foreground">
-								View transactions
-								<ExternalLink className="h-3 w-3" />
-							</Button>
-						</Link>
-					</div>
+						)
+					})}
 				</div>
-			</HoverCardContent>
-		</HoverCard>
+			</DialogContent>
+		</Dialog>
 	)
 }
 
@@ -552,8 +440,9 @@ function SearchInput({ searchQuery, setSearchQuery, totalIcons }: SearchInputPro
 		<form action="/icons" method="GET" className="relative group">
 			<Input
 				name="q"
+				aria-label="Search icons across all collections"
 				type="search"
-				placeholder={`Search our collection of ${totalIcons} icons and logos...`}
+				placeholder={`Search ${totalIcons.toLocaleString()} icons across all collections...`}
 				className="pl-10 h-10 md:h-12 rounded-lg w-full border-border focus:border-primary/20 text-sm md:text-base"
 				value={searchQuery}
 				onChange={(e) => setSearchQuery(e.target.value)}

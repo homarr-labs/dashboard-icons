@@ -10,7 +10,14 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { UnoptimizedImage } from "@/components/unoptimized-image"
 import { REPO_PATH, WEB_URL } from "@/constants"
-import { MCP_CLIENT_GUIDES, MCP_TOOLS, type McpClientGuide, type McpSetupSource } from "@/lib/mcp-setup-config"
+import {
+	CHATGPT_ICON_URL,
+	CHATGPT_PLUGIN_URL,
+	MCP_CLIENT_GUIDES,
+	MCP_TOOLS,
+	type McpClientGuide,
+	type McpSetupSource,
+} from "@/lib/mcp-setup-config"
 import { cn } from "@/lib/utils"
 
 const MCP_DOCS_URL = `${REPO_PATH}/blob/main/web/docs/MCP.md`
@@ -88,6 +95,23 @@ function CodeBlock({
 }
 
 function ClientGuidePanel({ guide, source }: { guide: McpClientGuide; source: McpSetupSource }) {
+	if (guide.id === "chatgpt") {
+		return (
+			<div className="flex flex-col items-start gap-3 pb-1">
+				<p className="text-sm text-muted-foreground">
+					Find icons, compare variants and get CDN links directly in your ChatGPT conversations.
+				</p>
+				<Button asChild onClick={() => posthog?.capture("chatgpt_plugin_opened", { source })}>
+					<Link href={CHATGPT_PLUGIN_URL} target="_blank" rel="noopener noreferrer">
+						<UnoptimizedImage src={CHATGPT_ICON_URL} alt="" width={18} height={18} className="shrink-0 invert" />
+						Add to ChatGPT
+						<ExternalLink data-icon="inline-end" />
+					</Link>
+				</Button>
+			</div>
+		)
+	}
+
 	const variants = guide.variants ?? [
 		{
 			title: guide.label,
@@ -192,9 +216,7 @@ export function McpSetupDialogContent({ source }: { source: McpSetupSource }) {
 					<h3 id="mcp-setup-heading" className="text-sm font-semibold">
 						Choose your client
 					</h3>
-					<p className="text-xs text-muted-foreground leading-relaxed">
-						Open a guide, copy the config, then restart your client if prompted.
-					</p>
+					<p className="text-xs text-muted-foreground leading-relaxed">Add the ChatGPT plugin or connect another AI platform with MCP.</p>
 				</div>
 
 				<Accordion type="single" collapsible defaultValue="chatgpt" className="w-full space-y-2">
@@ -204,6 +226,7 @@ export function McpSetupDialogContent({ source }: { source: McpSetupSource }) {
 								<span className="flex items-center gap-2 text-sm font-medium">
 									<McpClientIcon guide={guide} size={18} />
 									{guide.label}
+									{guide.id === "chatgpt" && <Badge>NEW</Badge>}
 								</span>
 							</AccordionTrigger>
 							<AccordionContent>
