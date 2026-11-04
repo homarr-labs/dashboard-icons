@@ -4,15 +4,31 @@ test.beforeEach(async ({ page }) => {
 	await page.addInitScript(() => localStorage.setItem("licenseNoticeDismissed", "true"))
 })
 
-for (const query of ["", "plex", "   "]) {
+for (const query of ["", "openai", "   "]) {
 	for (const sort of ["", "invalid"]) {
 		test(`automatic sort for query ${JSON.stringify(query)} and sort ${JSON.stringify(sort)}`, async ({ page }) => {
+			await page.route("**/api/icons/search", (route) => route.fulfill({
+				json: [
+					{ name: "openai", timestamp: "2020-01-01T00:00:00Z", aliases: [] },
+					{ name: "claude-ai", timestamp: "2024-01-01T00:00:00Z", aliases: [] },
+					{ name: "sonarr", timestamp: "2026-01-01T00:00:00Z", aliases: ["openai"] },
+				].map(({ name, timestamp, aliases }) => ({
+					name,
+					source: "native",
+					data: { base: "svg", aliases, categories: [], update: { timestamp, author: { id: 1 } } },
+				})),
+			}))
 			const params = new URLSearchParams({ q: query })
 			if (sort) params.set("sort", sort)
 			await page.goto(`/icons?${params}`)
 			let label = "Newest first"
-			if (query.trim()) label = "Best match"
+			let firstIcon = "sonarr"
+			if (query.trim()) {
+				label = "Best match"
+				firstIcon = "openai"
+			}
 			await expect(page.getByRole("button", { name: label, exact: true })).toBeVisible()
+			await expect(page.locator('main a[href^="/icons/"]:has(img)').first()).toHaveAttribute("href", `/icons/${firstIcon}`)
 		})
 	}
 }

@@ -178,7 +178,7 @@ describe("filterAndSortIcons", () => {
 			},
 		]
 		const results = filterAndSortIcons({ icons: datedIcons, sort: "newest" })
-		expect(results[0]?.name).toBe("dated")
+		expect(results.map((icon) => icon.name)).toEqual(["dated", "undated"])
 	})
 
 	it("keeps undated icons stable when sorting by newest", () => {
