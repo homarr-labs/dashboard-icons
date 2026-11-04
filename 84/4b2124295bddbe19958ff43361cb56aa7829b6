@@ -1,0 +1,46 @@
+svg/apex-legends.svg
+  h_d6e478ca18e517 1-2
+svg/cities-skylines-ii.svg
+  h_d6e478ca18e517 28
+svg/civilization-vi.svg
+  h_d6e478ca18e517 31
+svg/elden-ring.svg
+  h_d6e478ca18e517 1
+svg/garrys-mod.svg
+  h_d6e478ca18e517 1-32
+svg/genshin-impact.svg
+  h_d6e478ca18e517 19
+svg/geometry-dash.svg
+  h_d6e478ca18e517 1
+svg/grand-theft-auto-v.svg
+  h_d6e478ca18e517 1
+svg/grand-theft-auto-vi.svg
+  h_d6e478ca18e517 6,8,10,13,15,17,19,33,38,48,54,59,65,71,82,87,90,95,99,113,121,131,139,146
+svg/league-of-legends.svg
+  h_d6e478ca18e517 1-20
+svg/overwatch-2.svg
+  h_d6e478ca18e517 1-2
+svg/project-zomboid.svg
+  h_d6e478ca18e517 7
+svg/rainbow-six-siege.svg
+  h_d6e478ca18e517 1
+svg/resident-evil-4.svg
+  h_d6e478ca18e517 1
+svg/rimworld.svg
+  h_d6e478ca18e517 2,16
+svg/undertale.svg
+  h_d6e478ca18e517 1
+svg/vrchat.svg
+  h_d6e478ca18e517 1
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "844b2124295bddbe19958ff43361cb56aa7829b6",
+  "prompts": {},
+  "humans": {
+    "h_d6e478ca18e517": {
+      "author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
