@@ -5,7 +5,7 @@ import type { ReactNode } from "react"
 import { Button } from "@/components/ui/button"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { UnoptimizedImage } from "@/components/unoptimized-image"
-import type { McpSetupSource } from "@/lib/mcp-setup-config"
+import { CHATGPT_ICON_URL, type McpSetupSource } from "@/lib/mcp-setup-config"
 import { cn } from "@/lib/utils"
 import { McpSetupDialogContent } from "./mcp-setup-dialog-content"
 import { Badge } from "./ui/badge"
@@ -76,21 +76,20 @@ export function AddMcpButton({ size = "default", className, source, showBadge = 
 			<McpSetupDialog
 				source={source}
 				trigger={
-					<Button variant="outline" size={size} className="w-full shadow-sm cursor-pointer" data-testid="mcp-setup-trigger">
-						<McpIcon size={16} />
-						<span className="hidden sm:inline">Add to MCP client</span>
-						<span className="sm:hidden">MCP setup</span>
+					<Button variant="outline" size={size} className="h-full min-h-10 w-full" data-testid="mcp-setup-trigger">
+						<UnoptimizedImage src={CHATGPT_ICON_URL} alt="" width={20} height={20} className="shrink-0 dark:invert" />
+						<span>Add to AI platform</span>
 					</Button>
 				}
 			/>
-			{showBadge ? (
+			{showBadge && (
 				<Badge
 					variant="default"
 					className="absolute -top-2 -right-2 h-5 px-1.5 text-[10px] font-bold bg-primary text-primary-foreground shadow-md pointer-events-none"
 				>
-					NEW
+					ChatGPT · NEW
 				</Badge>
-			) : null}
+			)}
 		</div>
 	)
 }

@@ -6,7 +6,6 @@ import { EXTERNAL_SOURCE_IDS, EXTERNAL_SOURCES } from "@/constants"
 import { useIconCatalog } from "@/hooks/use-icon-catalog"
 import type { IconSearchEntry } from "@/types/icons"
 
-const externalSourceNames = EXTERNAL_SOURCE_IDS.map((id) => EXTERNAL_SOURCES[id].label).join(", ")
 const skeletonItems = Array.from({ length: 24 }, (_, index) => index)
 
 export function IconsBrowser() {
@@ -28,8 +27,16 @@ function IconsCatalogSummary({ icons }: { icons: IconSearchEntry[] }) {
 
 	return (
 		<p className="text-muted-foreground mb-1">
-			Search through {icons.length} icons and logos from Dashboard Icons{externalSourceNames && ` and ${externalSourceNames}`}.{" "}
-			{nativeIconCount} are native Dashboard Icons.
+			Search through {icons.length.toLocaleString()} icons and logos from Dashboard Icons and the independently maintained collections{" "}
+			{EXTERNAL_SOURCE_IDS.map((id, index) => (
+				<span key={id}>
+					{index > 0 && ", "}
+					<a href={EXTERNAL_SOURCES[id].website} target="_blank" rel="noopener noreferrer" className="underline underline-offset-4">
+						{EXTERNAL_SOURCES[id].label}
+					</a>
+				</span>
+			))}
+			. {nativeIconCount.toLocaleString()} icons are maintained by Dashboard Icons.
 		</p>
 	)
 }

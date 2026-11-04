@@ -22,6 +22,7 @@ export interface ExternalSourceConfig {
 	icon: string
 	cdnBase: string
 	website: string
+	supportUrl: string
 	authorName: string
 	authorLogin: string
 	authorUrl: string
@@ -38,6 +39,7 @@ export const EXTERNAL_SOURCES: Record<ExternalSourceId, ExternalSourceConfig> = 
 		label: "selfh.st",
 		cdnBase: "https://cdn.jsdelivr.net/gh/selfhst/icons",
 		website: "https://selfh.st/icons/",
+		supportUrl: "https://selfh.st/support/",
 		icon: "https://cdn.jsdelivr.net/gh/selfhst/icons@main/svg/selfh-st.svg",
 		authorName: "selfh.st/icons",
 		authorLogin: "selfhst",
@@ -53,7 +55,8 @@ export const EXTERNAL_SOURCES: Record<ExternalSourceId, ExternalSourceConfig> = 
 		label: "LobeHub",
 		icon: "https://raw.githubusercontent.com/lobehub/lobe-icons/refs/heads/master/packages/static-png/dark/lobehub-color.png",
 		cdnBase: "https://cdn.jsdelivr.net/npm/@lobehub/icons-static-svg@latest",
-		website: "https://lobehub.com/icons",
+		website: "https://icons.lobehub.com/",
+		supportUrl: "https://opencollective.com/lobehub",
 		authorName: "LobeHub Icons",
 		authorLogin: "lobehub",
 		authorUrl: "https://github.com/lobehub/lobe-icons",
@@ -69,6 +72,7 @@ export const EXTERNAL_SOURCES: Record<ExternalSourceId, ExternalSourceConfig> = 
 		icon: "https://cdn.simpleicons.org/simpleicons/111111/FFFFFF",
 		cdnBase: "https://cdn.simpleicons.org",
 		website: "https://simpleicons.org/",
+		supportUrl: "https://opencollective.com/simple-icons",
 		authorName: "Simple Icons",
 		authorLogin: "simple-icons",
 		authorUrl: "https://github.com/simple-icons/simple-icons",

@@ -28,7 +28,7 @@ import type { IconSearchEntry, IconSearchProps } from "@/types/icons"
 
 type SourceFilter = "all" | "native" | ExternalSourceId
 
-function parseSortOption(value: string | null): SortOption {
+function parseSortOption(value: string | null, query = ""): SortOption {
 	switch (value) {
 		case "alphabetical-asc":
 		case "alphabetical-desc":
@@ -36,7 +36,8 @@ function parseSortOption(value: string | null): SortOption {
 		case "relevance":
 			return value
 		default:
-			return "relevance"
+			if (query.trim()) return "relevance"
+			return "newest"
 	}
 }
 
@@ -60,7 +61,7 @@ function getIconsForSource(icons: IconSearchEntry[], source: SourceFilter) {
 export function IconSearch({ icons }: IconSearchProps) {
 	const searchParams = useSearchParams()
 	const urlQuery = searchParams.get("q") ?? ""
-	const urlSort = parseSortOption(searchParams.get("sort"))
+	const urlSort = parseSortOption(searchParams.get("sort"), urlQuery)
 	const urlSource = parseSourceFilter(searchParams.get("source"))
 	const router = useRouter()
 	const pathname = usePathname()
@@ -133,7 +134,7 @@ export function IconSearch({ icons }: IconSearchProps) {
 			if (query) params.set("q", query)
 			if (source !== "all") params.set("source", source)
 
-			if (sort !== "relevance") params.set("sort", sort)
+			if (sort !== parseSortOption(null, query)) params.set("sort", sort)
 
 			const newUrl = params.toString() ? `${pathname}?${params.toString()}` : pathname
 			router.replace(newUrl, { scroll: false })
@@ -148,10 +149,12 @@ export function IconSearch({ icons }: IconSearchProps) {
 			timeoutRef.current = setTimeout(() => {
 				timeoutRef.current = null
 				setDebouncedQuery(query)
-				updateResults(query, sortOption, sourceFilter)
+				const nextSort = parseSortOption(searchParams.get("sort"), query)
+				setSortOption(nextSort)
+				updateResults(query, nextSort, sourceFilter)
 			}, 200)
 		},
-		[cancelPendingSearch, updateResults, sortOption, sourceFilter],
+		[cancelPendingSearch, updateResults, searchParams, sourceFilter],
 	)
 
 	const handleSortChange = useCallback(
@@ -178,16 +181,18 @@ export function IconSearch({ icons }: IconSearchProps) {
 		cancelPendingSearch()
 		setSearchQuery("")
 		setDebouncedQuery("")
-		updateResults("", sortOption, sourceFilter)
-	}, [cancelPendingSearch, updateResults, sortOption, sourceFilter])
+		const nextSort = parseSortOption(searchParams.get("sort"))
+		setSortOption(nextSort)
+		updateResults("", nextSort, sourceFilter)
+	}, [cancelPendingSearch, updateResults, searchParams, sourceFilter])
 
 	const clearFilters = useCallback(() => {
 		cancelPendingSearch()
 		setSearchQuery("")
 		setDebouncedQuery("")
-		setSortOption("relevance")
+		setSortOption("newest")
 		setSourceFilter("all")
-		updateResults("", "relevance", "all")
+		updateResults("", "newest", "all")
 	}, [cancelPendingSearch, updateResults])
 
 	useEffect(() => {
@@ -296,11 +301,11 @@ export function IconSearch({ icons }: IconSearchProps) {
 				</div>
 
 				{/* Filter and sort controls */}
-				<div className="flex flex-wrap gap-2 justify-start">
+				<div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
 					{/* Sort dropdown */}
 					<DropdownMenu>
 						<DropdownMenuTrigger asChild>
-							<Button variant="outline" size="sm" className="flex-1 sm:flex-none cursor-pointer bg-background border-border shadow-sm">
+							<Button variant="outline">
 								{getSortIcon(sortOption)}
 								<span className="ml-2">{getSortLabel(sortOption)}</span>
 							</Button>
@@ -331,7 +336,7 @@ export function IconSearch({ icons }: IconSearchProps) {
 
 					<DropdownMenu>
 						<DropdownMenuTrigger asChild>
-							<Button variant="outline" size="sm" className="flex-1 sm:flex-none cursor-pointer bg-background border-border shadow-sm">
+							<Button variant="outline">
 								{sourceFilter === "all" ? (
 									<Filter className="h-4 w-4 mr-2" />
 								) : sourceFilter === "native" ? (
@@ -363,12 +368,12 @@ export function IconSearch({ icons }: IconSearchProps) {
 						</DropdownMenuContent>
 					</DropdownMenu>
 
-					<AddToSearchBarButton className="flex-1 sm:flex-none rounded-sm" />
-					<AddMcpButton className="flex-1 sm:flex-none rounded-sm" source="icon_search" />
+					<AddToSearchBarButton />
+					<AddMcpButton source="icon_search" />
 
 					{/* Clear all button */}
-					{(searchQuery || sortOption !== "relevance" || sourceFilter !== "all") && (
-						<Button variant="outline" size="sm" onClick={clearFilters} className="flex-1 sm:flex-none cursor-pointer bg-background">
+					{(searchQuery || sortOption !== "newest" || sourceFilter !== "all") && (
+						<Button variant="outline" onClick={clearFilters}>
 							<X className="h-4 w-4 mr-2" />
 							<span>Reset all</span>
 						</Button>

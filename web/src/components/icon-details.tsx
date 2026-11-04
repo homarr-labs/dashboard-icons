@@ -10,6 +10,7 @@ import { useCallback, useEffect, useMemo, useState } from "react"
 import { toast } from "sonner"
 import { IconsGrid } from "@/components/icon-grid"
 import { MagicCardPointerProvider } from "@/components/magicui/magic-card-pointer"
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -822,6 +823,31 @@ export function IconDetails({
 						</Breadcrumb>
 					</div>
 				)}
+				{externalIcon && externalSourceConfig && (
+					<Alert role="note" className="lg:col-span-4 border-primary/30 p-5">
+						<ExternalLink aria-hidden />
+						<AlertTitle>From the {externalSourceConfig.label} collection</AlertTitle>
+						<AlertDescription>
+							<p>
+								This icon is maintained by {externalSourceConfig.label} and indexed here. {externalIcon.attribution}
+							</p>
+							<div className="mt-3 flex flex-wrap gap-3">
+								<Button asChild variant="outline">
+									<Link href={externalSourceConfig.website} target="_blank" rel="noopener noreferrer">
+										<UnoptimizedImage src={externalSourceConfig.icon} alt="" width={20} height={20} />
+										Browse {externalSourceConfig.label} icons
+									</Link>
+								</Button>
+								<Button asChild variant="outline">
+									<Link href={externalSourceConfig.supportUrl} target="_blank" rel="noopener noreferrer">
+										Support {externalSourceConfig.label}
+										<ExternalLink data-icon="inline-end" />
+									</Link>
+								</Button>
+							</div>
+						</AlertDescription>
+					</Alert>
+				)}
 				<div className="lg:col-span-1">
 					<Card className="h-full gap-2 bg-background/50 border shadow-lg">
 						<CardHeader className="pb-2">
@@ -1180,12 +1206,6 @@ export function IconDetails({
 														<Palette className="w-4 h-4 mr-2" />
 														Customize Icon
 													</Button>
-													<Badge
-														variant="default"
-														className="absolute -top-2 -right-2 h-5 px-1.5 text-[10px] font-bold bg-primary text-primary-foreground shadow-md"
-													>
-														NEW
-													</Badge>
 												</motion.div>
 											)}
 										</AnimatePresence>
