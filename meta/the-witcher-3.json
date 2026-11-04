@@ -8,11 +8,20 @@
     "videogames"
   ],
   "update": {
-    "timestamp": "2026-11-04T15:20:00Z",
+    "timestamp": "2026-11-04T17:30:00Z",
     "author": {
       "id": 49837342,
       "login": "ajnart",
       "name": "Thomas"
     }
+  },
+  "wordmark": {
+    "light": "the-witcher-3-wordmark-light"
+  },
+  "variants": {
+    "wordmark-cz": "the-witcher-3-wordmark-cz",
+    "wordmark-pl": "the-witcher-3-wordmark-pl",
+    "wordmark-ru": "the-witcher-3-wordmark-ru",
+    "wordmark-zh": "the-witcher-3-wordmark-zh"
   }
 }

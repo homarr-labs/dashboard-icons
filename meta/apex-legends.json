@@ -5,11 +5,21 @@
     "videogames"
   ],
   "update": {
-    "timestamp": "2026-11-04T15:20:00Z",
+    "timestamp": "2026-11-04T17:30:00Z",
     "author": {
       "id": 49837342,
       "login": "ajnart",
       "name": "Thomas"
     }
+  },
+  "colors": {
+    "light": "apex-legends-light"
+  },
+  "variants": {
+    "icon-app": "apex-legends-icon-app",
+    "icon-light": "apex-legends-icon-light",
+    "icon": "apex-legends-icon",
+    "upheaval": "apex-legends-upheaval",
+    "wordmark-grunge": "apex-legends-wordmark-grunge"
   }
 }

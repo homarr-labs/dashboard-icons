@@ -5,11 +5,21 @@
     "videogames"
   ],
   "update": {
-    "timestamp": "2026-11-04T15:20:00Z",
+    "timestamp": "2026-11-04T17:30:00Z",
     "author": {
       "id": 49837342,
       "login": "ajnart",
       "name": "Thomas"
     }
+  },
+  "colors": {
+    "light": "genshin-impact-light"
+  },
+  "variants": {
+    "icon": "genshin-impact-icon",
+    "wordmark-jp": "genshin-impact-wordmark-jp",
+    "wordmark-kr": "genshin-impact-wordmark-kr",
+    "wordmark-zh-hans": "genshin-impact-wordmark-zh-hans",
+    "wordmark-zh-hant": "genshin-impact-wordmark-zh-hant"
   }
 }

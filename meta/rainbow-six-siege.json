@@ -8,7 +8,7 @@
     "videogames"
   ],
   "update": {
-    "timestamp": "2026-11-04T15:20:00Z",
+    "timestamp": "2026-11-04T17:30:00Z",
     "author": {
       "id": 49837342,
       "login": "ajnart",
@@ -17,5 +17,19 @@
   },
   "colors": {
     "light": "rainbow-six-siege-light"
+  },
+  "wordmark": {
+    "dark": "rainbow-six-siege-wordmark-dark",
+    "light": "rainbow-six-siege-wordmark-light"
+  },
+  "variants": {
+    "icon-dark": "rainbow-six-siege-icon-dark",
+    "icon-light": "rainbow-six-siege-icon-light",
+    "rainbow-six-light": "rainbow-six-siege-rainbow-six-light",
+    "rainbow-six": "rainbow-six-siege-rainbow-six",
+    "siege-x-light": "rainbow-six-siege-siege-x-light",
+    "siege-x": "rainbow-six-siege-siege-x",
+    "wordmark-alt-dark": "rainbow-six-siege-wordmark-alt-dark",
+    "wordmark-alt-light": "rainbow-six-siege-wordmark-alt-light"
   }
 }

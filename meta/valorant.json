@@ -7,11 +7,22 @@
     "videogames"
   ],
   "update": {
-    "timestamp": "2026-11-04T15:20:00Z",
+    "timestamp": "2026-11-04T17:30:00Z",
     "author": {
       "id": 49837342,
       "login": "ajnart",
       "name": "Thomas"
     }
+  },
+  "wordmark": {
+    "light": "valorant-wordmark-light"
+  },
+  "variants": {
+    "champions-2022": "valorant-champions-2022",
+    "icon-dark": "valorant-icon-dark",
+    "icon-light": "valorant-icon-light",
+    "icon": "valorant-icon",
+    "wordmark-icon-dark": "valorant-wordmark-icon-dark",
+    "wordmark-icon": "valorant-wordmark-icon"
   }
 }

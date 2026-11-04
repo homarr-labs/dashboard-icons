@@ -5,11 +5,19 @@
     "videogames"
   ],
   "update": {
-    "timestamp": "2026-11-04T15:20:00Z",
+    "timestamp": "2026-11-04T17:30:00Z",
     "author": {
       "id": 49837342,
       "login": "ajnart",
       "name": "Thomas"
     }
+  },
+  "wordmark": {
+    "default": "diablo-iv-wordmark"
+  },
+  "variants": {
+    "wordmark-icon-voh": "diablo-iv-wordmark-icon-voh",
+    "wordmark-text": "diablo-iv-wordmark-text",
+    "wordmark-ue": "diablo-iv-wordmark-ue"
   }
 }

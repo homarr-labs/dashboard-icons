@@ -7,11 +7,19 @@
     "videogames"
   ],
   "update": {
-    "timestamp": "2026-11-04T15:20:00Z",
+    "timestamp": "2026-11-04T17:30:00Z",
     "author": {
       "id": 49837342,
       "login": "ajnart",
       "name": "Thomas"
     }
+  },
+  "variants": {
+    "icon-light": "cities-skylines-ii-icon-light",
+    "icon": "cities-skylines-ii-icon",
+    "wordmark-icon-light": "cities-skylines-ii-wordmark-icon-light",
+    "wordmark-icon-stacked-light": "cities-skylines-ii-wordmark-icon-stacked-light",
+    "wordmark-icon-stacked": "cities-skylines-ii-wordmark-icon-stacked",
+    "wordmark-icon": "cities-skylines-ii-wordmark-icon"
   }
 }
