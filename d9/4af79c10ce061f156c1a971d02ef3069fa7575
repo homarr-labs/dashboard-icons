@@ -1,0 +1,21 @@
+web/src/components/hero.tsx
+  s_05ef861992d1bd::t_22053a1af72a6b 269-270
+web/docs/MCP.md
+  s_05ef861992d1bd::t_30776045dcf948 23-26
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "d94af79c10ce061f156c1a971d02ef3069fa7575",
+  "prompts": {},
+  "sessions": {
+    "s_05ef861992d1bd": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a1a6e7-d402-7d23-bf4e-544804888af2",
+        "model": "gpt-6.1-sol"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
