@@ -91,7 +91,7 @@ test.describe("MCP setup entry points", () => {
 	})
 
 	test("does not appear on icon detail pages", async ({ page }) => {
-		await page.goto("/icons/plex")
+		await page.goto("/icons/openai")
 		await page.waitForLoadState("domcontentloaded")
 
 		await expect(page.getByRole("button", { name: MCP_TRIGGER })).toHaveCount(0)

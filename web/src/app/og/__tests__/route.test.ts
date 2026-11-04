@@ -30,7 +30,7 @@ const mockIconsData: Record<string, unknown> = {
 	rapid7: nativeIcons.rapid7,
 	"elgato-wave-link": nativeIcons["elgato-wave-link"],
 	notediscovery: nativeIcons.notediscovery,
-	"paperless-ai": nativeIcons["paperless-ai"],
+	"paperless-ai": { aliases: ["Paperless-AI", "PaperlessAI"], categories: ["tools"] },
 	"mlb-tv": nativeIcons["mlb-tv"],
 	magicinfo: nativeIcons.magicinfo,
 	statuspage: nativeIcons.statuspage,

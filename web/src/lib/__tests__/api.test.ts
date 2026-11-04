@@ -575,7 +575,8 @@ describe("api", () => {
 
 		it("links reviewed category-free product families in both directions", async () => {
 			getAllIconsMock.mockResolvedValue(metadata)
-			getExternalIconsMock.mockResolvedValue([])
+			const immich = external("selfhst", "immich", "Immich")
+			getExternalIconsMock.mockResolvedValue([immich])
 			const { getIconRelations } = await import("@/lib/icon-relations")
 			for (const [parent, child] of [
 				["jellyfin", "jellyfin-vue"],
@@ -587,7 +588,7 @@ describe("api", () => {
 				expect((await getIconRelations(native(parent))).relatedByName.map((icon) => icon.slug)).toContain(child)
 				expect((await getIconRelations(native(child))).relatedByName.map((icon) => icon.slug)).toContain(parent)
 			}
-			expect((await getIconRelations(native("immich"))).relatedByName.map((icon) => icon.slug)).toContain("immich-kiosk")
+			expect((await getIconRelations(immich)).relatedByName.map((icon) => icon.slug)).toContain("immich-kiosk")
 		})
 
 		it("does not infer families from generic or ambiguous parent names", async () => {
