@@ -59,7 +59,7 @@ async function IconDirectorySection() {
 				</h2>
 				<output className="block text-muted-foreground">The icon directory is temporarily unavailable.</output>
 				<Button asChild variant="outline">
-					<a href="/icons#icon-directory">Try again</a>
+					<a href="/icons">Try again</a>
 				</Button>
 			</section>
 		)
