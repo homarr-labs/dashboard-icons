@@ -40,11 +40,6 @@ function parseSortOption(value: string | null): SortOption | null {
 	}
 }
 
-function defaultSortOption(query: string): SortOption {
-	if (query.trim()) return "relevance"
-	return "newest"
-}
-
 function parseSourceFilter(value: string | null): SourceFilter {
 	if (value === "native") return value
 	if (value && EXTERNAL_SOURCE_IDS.some((sourceId) => sourceId === value)) return value as ExternalSourceId
@@ -72,7 +67,7 @@ export function IconSearch({ icons }: IconSearchProps) {
 	const [searchQuery, setSearchQuery] = useState(urlQuery)
 	const [debouncedQuery, setDebouncedQuery] = useState(urlQuery)
 	const [explicitSort, setExplicitSort] = useState<SortOption | null>(urlSort)
-	const sortOption = explicitSort ?? defaultSortOption(debouncedQuery)
+	const sortOption = explicitSort ?? "newest"
 	const [sourceFilter, setSourceFilter] = useState<SourceFilter>(urlSource)
 	const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 	const noIconsFoundTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
@@ -302,11 +297,11 @@ export function IconSearch({ icons }: IconSearchProps) {
 				</div>
 
 				{/* Filter and sort controls */}
-				<div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
+				<div className="flex flex-wrap gap-2 justify-start">
 					{/* Sort dropdown */}
 					<DropdownMenu>
 						<DropdownMenuTrigger asChild>
-							<Button variant="outline">
+							<Button variant="outline" size="sm" className="flex-1 sm:flex-none cursor-pointer bg-background border-border shadow-sm">
 								{getSortIcon(sortOption)}
 								<span className="ml-2">{getSortLabel(sortOption)}</span>
 							</Button>
@@ -337,7 +332,7 @@ export function IconSearch({ icons }: IconSearchProps) {
 
 					<DropdownMenu>
 						<DropdownMenuTrigger asChild>
-							<Button variant="outline">
+							<Button variant="outline" size="sm" className="flex-1 sm:flex-none cursor-pointer bg-background border-border shadow-sm">
 								{sourceFilter === "all" ? (
 									<Filter className="h-4 w-4 mr-2" />
 								) : sourceFilter === "native" ? (
@@ -369,12 +364,12 @@ export function IconSearch({ icons }: IconSearchProps) {
 						</DropdownMenuContent>
 					</DropdownMenu>
 
-					<AddToSearchBarButton />
-					<AddMcpButton source="icon_search" />
+					<AddToSearchBarButton className="flex-1 sm:flex-none rounded-sm" />
+					<AddMcpButton className="flex-1 sm:flex-none rounded-sm" source="icon_search" />
 
 					{/* Clear all button */}
 					{(searchQuery || explicitSort !== null || sourceFilter !== "all") && (
-						<Button variant="outline" onClick={clearFilters}>
+						<Button variant="outline" size="sm" onClick={clearFilters} className="flex-1 sm:flex-none cursor-pointer bg-background">
 							<X className="h-4 w-4 mr-2" />
 							<span>Reset all</span>
 						</Button>

@@ -21,14 +21,8 @@ for (const query of ["", "openai", "   "]) {
 			const params = new URLSearchParams({ q: query })
 			if (sort) params.set("sort", sort)
 			await page.goto(`/icons?${params}`)
-			let label = "Newest first"
-			let firstIcon = "sonarr"
-			if (query.trim()) {
-				label = "Best match"
-				firstIcon = "openai"
-			}
-			await expect(page.getByRole("button", { name: label, exact: true })).toBeVisible()
-			await expect(page.locator('main a[href^="/icons/"]:has(img)').first()).toHaveAttribute("href", `/icons/${firstIcon}`)
+			await expect(page.getByRole("button", { name: "Newest first", exact: true })).toBeVisible()
+			await expect(page.locator('main a[href^="/icons/"]:has(img)').first()).toHaveAttribute("href", "/icons/sonarr")
 		})
 	}
 }
@@ -37,7 +31,7 @@ test("automatic defaults stay out of the URL when typing and clearing", async ({
 	await page.goto("/icons?sort=invalid")
 	await page.getByRole("searchbox", { name: "Search icons", exact: true }).fill("plex")
 	await expect(page).toHaveURL(/\/icons\?q=plex$/)
-	await expect(page.getByRole("button", { name: "Best match", exact: true })).toBeVisible()
+	await expect(page.getByRole("button", { name: "Newest first", exact: true })).toBeVisible()
 	await page.getByRole("button", { name: "Clear search", exact: true }).click()
 	await expect(page).toHaveURL(/\/icons$/)
 	await expect(page.getByRole("button", { name: "Newest first", exact: true })).toBeVisible()
@@ -75,8 +69,6 @@ for (const sort of ["", "newest"]) {
 			return url.searchParams.get("q") === "plex" && url.searchParams.get("source") === "native" &&
 				(url.searchParams.get("sort") ?? "") === sort
 		})
-		let label = "Best match"
-		if (sort) label = "Newest first"
-		await expect(page.getByRole("button", { name: label, exact: true })).toBeVisible()
+		await expect(page.getByRole("button", { name: "Newest first", exact: true })).toBeVisible()
 	})
 }

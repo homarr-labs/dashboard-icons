@@ -71,14 +71,31 @@ function McpSetupDialog({ source, trigger }: McpSetupTriggerProps & { trigger: R
 }
 
 export function AddMcpButton({ size = "default", className, source, showBadge = true }: AddMcpButtonProps) {
+	let icon = <UnoptimizedImage src={CHATGPT_ICON_URL} alt="" width={16} height={16} className="shrink-0 dark:invert" />
+	let label = <span>Use with AI</span>
+	let badgeLabel = "ChatGPT · NEW"
+	let buttonClassName = "w-full"
+
+	if (source === "icon_search") {
+		icon = <McpIcon size={16} />
+		label = (
+			<>
+				<span className="hidden sm:inline">Add to MCP client</span>
+				<span className="sm:hidden">MCP setup</span>
+			</>
+		)
+		badgeLabel = "NEW"
+		buttonClassName = "w-full shadow-sm cursor-pointer"
+	}
+
 	return (
 		<div className={cn("relative inline-flex", className)}>
 			<McpSetupDialog
 				source={source}
 				trigger={
-					<Button variant="outline" size={size} className="w-full" data-testid="mcp-setup-trigger">
-						<UnoptimizedImage src={CHATGPT_ICON_URL} alt="" width={16} height={16} className="shrink-0 dark:invert" />
-						<span>Use with AI</span>
+					<Button variant="outline" size={size} className={buttonClassName} data-testid="mcp-setup-trigger">
+						{icon}
+						{label}
 					</Button>
 				}
 			/>
@@ -87,7 +104,7 @@ export function AddMcpButton({ size = "default", className, source, showBadge = 
 					variant="default"
 					className="absolute -top-2 -right-2 h-5 px-1.5 text-[10px] font-bold bg-primary text-primary-foreground shadow-md pointer-events-none"
 				>
-					ChatGPT · NEW
+					{badgeLabel}
 				</Badge>
 			)}
 		</div>

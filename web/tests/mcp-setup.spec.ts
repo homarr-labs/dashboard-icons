@@ -84,7 +84,7 @@ test.describe("MCP setup entry points", () => {
 	test("opens from icon browse page", async ({ page }) => {
 		await page.goto("/icons")
 		await page.waitForLoadState("domcontentloaded")
-		await openMcpDialog(page, page.getByRole("button", { name: MCP_TRIGGER }))
+		await openMcpDialog(page, page.getByRole("button", { name: /Add to MCP client|MCP setup/i }))
 
 		await expect(page.getByRole("heading", { name: DIALOG_TITLE })).toBeVisible()
 	})
