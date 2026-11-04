@@ -1,0 +1,43 @@
+web/src/constants.ts
+  s_05ef861992d1bd::t_3e7ec52d36d3d3 25,42,58-59,75
+web/src/components/icon-details.tsx
+  s_05ef861992d1bd::t_5d6ebd3ae104c8 831-833,843-844
+  s_05ef861992d1bd::t_60084339e1a8a6 13,826-830,834-842,845-850
+web/src/components/add-mcp-button.tsx
+  s_05ef861992d1bd::t_3e7ec52d36d3d3 8,79-81,85,90,92
+web/src/components/icons-browser.tsx
+  s_05ef861992d1bd::t_5d6ebd3ae104c8 38-39
+  s_05ef861992d1bd::t_3e7ec52d36d3d3 30-37
+web/src/lib/mcp-setup-config.ts
+  s_05ef861992d1bd::t_3e7ec52d36d3d3 3-5,100-101
+web/src/components/hero.tsx
+  s_05ef861992d1bd::t_5d6ebd3ae104c8 199-200,208-214,227-230,235-236,290-291,298-299
+  s_05ef861992d1bd::t_a1b3734ddeb894 225
+  s_05ef861992d1bd::t_7ece1d79cc0dfd 4,9,15,198,202-207,215-223,226,231-234,237-239,241,275-281,285,287-289,293-297,300-307,309-318,320-321,323-324,339,341
+web/src/components/icon-search.tsx
+  s_05ef861992d1bd::t_8f58ca41c468f6 31,39,64,137,152-154,157
+  s_05ef861992d1bd::t_60084339e1a8a6 40,193,195,308,339,371,375-376
+  s_05ef861992d1bd::t_bd8de0752c9844 184-187,304,372
+web/src/components/mcp-setup-dialog-content.tsx
+  s_05ef861992d1bd::t_3e7ec52d36d3d3 98-100,104-114,229
+  s_05ef861992d1bd::t_5d6ebd3ae104c8 13-20,101-103,219
+web/tests/mcp-setup.spec.ts
+  s_05ef861992d1bd::t_8c637085d34ace 4,38-41,64-67
+  s_05ef861992d1bd::t_8f58ca41c468f6 62
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "ffc14b317c3526f8294e29a98336eaf57fa1c882",
+  "prompts": {},
+  "sessions": {
+    "s_05ef861992d1bd": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a1a6e7-d402-7d23-bf4e-544804888af2",
+        "model": "gpt-6.1-sol"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
