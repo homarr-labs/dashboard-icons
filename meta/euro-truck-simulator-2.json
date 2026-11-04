@@ -7,11 +7,14 @@
     "videogames"
   ],
   "update": {
-    "timestamp": "2026-11-04T15:20:00Z",
+    "timestamp": "2026-11-04T17:30:00Z",
     "author": {
       "id": 49837342,
       "login": "ajnart",
       "name": "Thomas"
     }
+  },
+  "variants": {
+    "wordmark-icon": "euro-truck-simulator-2-wordmark-icon"
   }
 }

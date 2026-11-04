@@ -5,11 +5,22 @@
     "videogames"
   ],
   "update": {
-    "timestamp": "2026-11-04T15:20:00Z",
+    "timestamp": "2026-11-04T17:30:00Z",
     "author": {
       "id": 49837342,
       "login": "ajnart",
       "name": "Thomas"
     }
+  },
+  "wordmark": {
+    "dark": "fallout-4-wordmark-dark",
+    "light": "fallout-4-wordmark-light"
+  },
+  "variants": {
+    "dlc-far-harbor": "fallout-4-dlc-far-harbor",
+    "dlc-nuka-world-light": "fallout-4-dlc-nuka-world-light",
+    "dlc-nuka-world": "fallout-4-dlc-nuka-world",
+    "vault-tec-wordmark": "fallout-4-vault-tec-wordmark",
+    "vault-tec": "fallout-4-vault-tec"
   }
 }

@@ -5,11 +5,16 @@
     "videogames"
   ],
   "update": {
-    "timestamp": "2026-11-04T15:20:00Z",
+    "timestamp": "2026-11-04T17:30:00Z",
     "author": {
       "id": 49837342,
       "login": "ajnart",
       "name": "Thomas"
     }
+  },
+  "variants": {
+    "fs17": "farming-simulator-fs17",
+    "fs19": "farming-simulator-fs19",
+    "fs22": "farming-simulator-fs22"
   }
 }

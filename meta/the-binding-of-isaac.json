@@ -8,11 +8,15 @@
     "videogames"
   ],
   "update": {
-    "timestamp": "2026-11-04T15:20:00Z",
+    "timestamp": "2026-11-04T17:30:00Z",
     "author": {
       "id": 49837342,
       "login": "ajnart",
       "name": "Thomas"
     }
+  },
+  "wordmark": {
+    "dark": "the-binding-of-isaac-wordmark-dark",
+    "default": "the-binding-of-isaac-wordmark"
   }
 }

@@ -5,7 +5,7 @@
     "videogames"
   ],
   "update": {
-    "timestamp": "2026-11-04T15:20:00Z",
+    "timestamp": "2026-11-04T17:30:00Z",
     "author": {
       "id": 49837342,
       "login": "ajnart",
@@ -14,5 +14,13 @@
   },
   "colors": {
     "light": "warframe-light"
+  },
+  "variants": {
+    "icon-app": "warframe-icon-app",
+    "icon-light": "warframe-icon-light",
+    "icon": "warframe-icon",
+    "wordmark-icon-1999": "warframe-wordmark-icon-1999",
+    "wordmark-icon-dark": "warframe-wordmark-icon-dark",
+    "wordmark-icon-light": "warframe-wordmark-icon-light"
   }
 }

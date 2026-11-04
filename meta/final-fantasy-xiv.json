@@ -8,11 +8,21 @@
     "videogames"
   ],
   "update": {
-    "timestamp": "2026-11-04T15:20:00Z",
+    "timestamp": "2026-11-04T17:30:00Z",
     "author": {
       "id": 49837342,
       "login": "ajnart",
       "name": "Thomas"
     }
+  },
+  "wordmark": {
+    "default": "final-fantasy-xiv-wordmark"
+  },
+  "variants": {
+    "wordmark-2010": "final-fantasy-xiv-wordmark-2010",
+    "wordmark-icon-2010": "final-fantasy-xiv-wordmark-icon-2010",
+    "wordmark-icon-arr": "final-fantasy-xiv-wordmark-icon-arr",
+    "wordmark-jp": "final-fantasy-xiv-wordmark-jp",
+    "wordmark-xiv": "final-fantasy-xiv-wordmark-xiv"
   }
 }

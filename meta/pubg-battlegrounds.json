@@ -5,11 +5,19 @@
     "videogames"
   ],
   "update": {
-    "timestamp": "2026-11-04T15:20:00Z",
+    "timestamp": "2026-11-04T17:30:00Z",
     "author": {
       "id": 49837342,
       "login": "ajnart",
       "name": "Thomas"
     }
+  },
+  "wordmark": {
+    "dark": "pubg-battlegrounds-wordmark-dark",
+    "light": "pubg-battlegrounds-wordmark-light",
+    "default": "pubg-battlegrounds-wordmark"
+  },
+  "variants": {
+    "icon-mono": "pubg-battlegrounds-icon-mono"
   }
 }

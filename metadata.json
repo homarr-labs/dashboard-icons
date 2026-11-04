@@ -52273,12 +52273,18 @@
             "videogames"
         ],
         "update": {
-            "timestamp": "2026-11-04T15:20:00Z",
+            "timestamp": "2026-11-04T17:30:00Z",
             "author": {
                 "id": 49837342,
                 "login": "ajnart",
                 "name": "Thomas"
             }
+        },
+        "variants": {
+            "icon-mono": "dota-2-icon-mono",
+            "icon": "dota-2-icon",
+            "wordmark-icon-light": "dota-2-wordmark-icon-light",
+            "wordmark-icon": "dota-2-wordmark-icon"
         }
     },
     "apex-legends": {
@@ -52288,12 +52294,22 @@
             "videogames"
         ],
         "update": {
-            "timestamp": "2026-11-04T15:20:00Z",
+            "timestamp": "2026-11-04T17:30:00Z",
             "author": {
                 "id": 49837342,
                 "login": "ajnart",
                 "name": "Thomas"
             }
+        },
+        "colors": {
+            "light": "apex-legends-light"
+        },
+        "variants": {
+            "icon-app": "apex-legends-icon-app",
+            "icon-light": "apex-legends-icon-light",
+            "icon": "apex-legends-icon",
+            "upheaval": "apex-legends-upheaval",
+            "wordmark-grunge": "apex-legends-wordmark-grunge"
         }
     },
     "team-fortress-2": {
@@ -52305,12 +52321,16 @@
             "videogames"
         ],
         "update": {
-            "timestamp": "2026-11-04T15:20:00Z",
+            "timestamp": "2026-11-04T17:30:00Z",
             "author": {
                 "id": 49837342,
                 "login": "ajnart",
                 "name": "Thomas"
             }
+        },
+        "variants": {
+            "icon": "team-fortress-2-icon",
+            "wordmark-icon": "team-fortress-2-wordmark-icon"
         }
     },
     "cyberpunk-2077": {
@@ -52320,12 +52340,18 @@
             "videogames"
         ],
         "update": {
-            "timestamp": "2026-11-04T15:20:00Z",
+            "timestamp": "2026-11-04T17:30:00Z",
             "author": {
                 "id": 49837342,
                 "login": "ajnart",
                 "name": "Thomas"
             }
+        },
+        "colors": {
+            "dark": "cyberpunk-2077-dark"
+        },
+        "variants": {
+            "phantom-liberty": "cyberpunk-2077-phantom-liberty"
         }
     },
     "warframe": {
@@ -52335,7 +52361,7 @@
             "videogames"
         ],
         "update": {
-            "timestamp": "2026-11-04T15:20:00Z",
+            "timestamp": "2026-11-04T17:30:00Z",
             "author": {
                 "id": 49837342,
                 "login": "ajnart",
@@ -52344,6 +52370,14 @@
         },
         "colors": {
             "light": "warframe-light"
+        },
+        "variants": {
+            "icon-app": "warframe-icon-app",
+            "icon-light": "warframe-icon-light",
+            "icon": "warframe-icon",
+            "wordmark-icon-1999": "warframe-wordmark-icon-1999",
+            "wordmark-icon-dark": "warframe-wordmark-icon-dark",
+            "wordmark-icon-light": "warframe-wordmark-icon-light"
         }
     },
     "rainbow-six-siege": {
@@ -52356,7 +52390,7 @@
             "videogames"
         ],
         "update": {
-            "timestamp": "2026-11-04T15:20:00Z",
+            "timestamp": "2026-11-04T17:30:00Z",
             "author": {
                 "id": 49837342,
                 "login": "ajnart",
@@ -52365,6 +52399,20 @@
         },
         "colors": {
             "light": "rainbow-six-siege-light"
+        },
+        "wordmark": {
+            "dark": "rainbow-six-siege-wordmark-dark",
+            "light": "rainbow-six-siege-wordmark-light"
+        },
+        "variants": {
+            "icon-dark": "rainbow-six-siege-icon-dark",
+            "icon-light": "rainbow-six-siege-icon-light",
+            "rainbow-six-light": "rainbow-six-siege-rainbow-six-light",
+            "rainbow-six": "rainbow-six-siege-rainbow-six",
+            "siege-x-light": "rainbow-six-siege-siege-x-light",
+            "siege-x": "rainbow-six-siege-siege-x",
+            "wordmark-alt-dark": "rainbow-six-siege-wordmark-alt-dark",
+            "wordmark-alt-light": "rainbow-six-siege-wordmark-alt-light"
         }
     },
     "overwatch-2": {
@@ -52374,12 +52422,21 @@
             "videogames"
         ],
         "update": {
-            "timestamp": "2026-11-04T15:20:00Z",
+            "timestamp": "2026-11-04T17:30:00Z",
             "author": {
                 "id": 49837342,
                 "login": "ajnart",
                 "name": "Thomas"
             }
+        },
+        "wordmark": {
+            "dark": "overwatch-2-wordmark-dark",
+            "light": "overwatch-2-wordmark-light"
+        },
+        "variants": {
+            "icon-light": "overwatch-2-icon-light",
+            "icon": "overwatch-2-icon",
+            "wordmark-icon-light": "overwatch-2-wordmark-icon-light"
         }
     },
     "marvel-rivals": {
@@ -52389,12 +52446,18 @@
             "videogames"
         ],
         "update": {
-            "timestamp": "2026-11-04T15:20:00Z",
+            "timestamp": "2026-11-04T17:30:00Z",
             "author": {
                 "id": 49837342,
                 "login": "ajnart",
                 "name": "Thomas"
             }
+        },
+        "colors": {
+            "light": "marvel-rivals-light"
+        },
+        "variants": {
+            "icon": "marvel-rivals-icon"
         }
     },
     "vrchat": {
@@ -52404,12 +52467,19 @@
             "videogames"
         ],
         "update": {
-            "timestamp": "2026-11-04T15:20:00Z",
+            "timestamp": "2026-11-04T17:30:00Z",
             "author": {
                 "id": 49837342,
                 "login": "ajnart",
                 "name": "Thomas"
             }
+        },
+        "wordmark": {
+            "light": "vrchat-wordmark-light"
+        },
+        "variants": {
+            "icon-dark": "vrchat-icon-dark",
+            "icon-light": "vrchat-icon-light"
         }
     },
     "stardew-valley": {
@@ -52419,12 +52489,16 @@
             "videogames"
         ],
         "update": {
-            "timestamp": "2026-11-04T15:20:00Z",
+            "timestamp": "2026-11-04T17:30:00Z",
             "author": {
                 "id": 49837342,
                 "login": "ajnart",
                 "name": "Thomas"
             }
+        },
+        "variants": {
+            "icon-transparent": "stardew-valley-icon-transparent",
+            "icon": "stardew-valley-icon"
         }
     },
     "delta-force": {
@@ -52434,12 +52508,15 @@
             "videogames"
         ],
         "update": {
-            "timestamp": "2026-11-04T15:20:00Z",
+            "timestamp": "2026-11-04T17:30:00Z",
             "author": {
                 "id": 49837342,
                 "login": "ajnart",
                 "name": "Thomas"
             }
+        },
+        "variants": {
+            "wordmark-icon-light": "delta-force-wordmark-icon-light"
         }
     },
     "war-thunder": {
@@ -52449,12 +52526,19 @@
             "videogames"
         ],
         "update": {
-            "timestamp": "2026-11-04T15:20:00Z",
+            "timestamp": "2026-11-04T17:30:00Z",
             "author": {
                 "id": 49837342,
                 "login": "ajnart",
                 "name": "Thomas"
             }
+        },
+        "wordmark": {
+            "dark": "war-thunder-wordmark-dark",
+            "light": "war-thunder-wordmark-light"
+        },
+        "variants": {
+            "keyart-vertical": "war-thunder-keyart-vertical"
         }
     },
     "project-zomboid": {
@@ -52466,12 +52550,18 @@
             "videogames"
         ],
         "update": {
-            "timestamp": "2026-11-04T15:20:00Z",
+            "timestamp": "2026-11-04T17:30:00Z",
             "author": {
                 "id": 49837342,
                 "login": "ajnart",
                 "name": "Thomas"
             }
+        },
+        "wordmark": {
+            "light": "project-zomboid-wordmark-light"
+        },
+        "variants": {
+            "icon": "project-zomboid-icon"
         }
     },
     "helldivers-2": {
@@ -52481,12 +52571,24 @@
             "videogames"
         ],
         "update": {
-            "timestamp": "2026-11-04T15:20:00Z",
+            "timestamp": "2026-11-04T17:30:00Z",
             "author": {
                 "id": 49837342,
                 "login": "ajnart",
                 "name": "Thomas"
             }
+        },
+        "colors": {
+            "light": "helldivers-2-light"
+        },
+        "variants": {
+            "edition-escalation-of-freedom": "helldivers-2-edition-escalation-of-freedom",
+            "edition-heart-of-democracy": "helldivers-2-edition-heart-of-democracy",
+            "edition-into-the-unjust": "helldivers-2-edition-into-the-unjust",
+            "edition-machinery-of-oppression": "helldivers-2-edition-machinery-of-oppression",
+            "edition-omens-of-tyranny": "helldivers-2-edition-omens-of-tyranny",
+            "edition-super-citizen": "helldivers-2-edition-super-citizen",
+            "wordmark-icon": "helldivers-2-wordmark-icon"
         }
     },
     "geometry-dash": {
@@ -52496,12 +52598,15 @@
             "videogames"
         ],
         "update": {
-            "timestamp": "2026-11-04T15:20:00Z",
+            "timestamp": "2026-11-04T17:30:00Z",
             "author": {
                 "id": 49837342,
                 "login": "ajnart",
                 "name": "Thomas"
             }
+        },
+        "variants": {
+            "icon": "geometry-dash-icon"
         }
     },
     "baldurs-gate-3": {
@@ -52513,12 +52618,18 @@
             "videogames"
         ],
         "update": {
-            "timestamp": "2026-11-04T15:20:00Z",
+            "timestamp": "2026-11-04T17:30:00Z",
             "author": {
                 "id": 49837342,
                 "login": "ajnart",
                 "name": "Thomas"
             }
+        },
+        "wordmark": {
+            "default": "baldurs-gate-3-wordmark"
+        },
+        "variants": {
+            "wordmark-icon": "baldurs-gate-3-wordmark-icon"
         }
     },
     "left-4-dead-2": {
@@ -52530,12 +52641,18 @@
             "videogames"
         ],
         "update": {
-            "timestamp": "2026-11-04T15:20:00Z",
+            "timestamp": "2026-11-04T17:30:00Z",
             "author": {
                 "id": 49837342,
                 "login": "ajnart",
                 "name": "Thomas"
             }
+        },
+        "wordmark": {
+            "default": "left-4-dead-2-wordmark"
+        },
+        "variants": {
+            "icon": "left-4-dead-2-icon"
         }
     },
     "the-binding-of-isaac": {
@@ -52548,12 +52665,16 @@
             "videogames"
         ],
         "update": {
-            "timestamp": "2026-11-04T15:20:00Z",
+            "timestamp": "2026-11-04T17:30:00Z",
             "author": {
                 "id": 49837342,
                 "login": "ajnart",
                 "name": "Thomas"
             }
+        },
+        "wordmark": {
+            "dark": "the-binding-of-isaac-wordmark-dark",
+            "default": "the-binding-of-isaac-wordmark"
         }
     },
     "limbus-company": {
@@ -52563,12 +52684,19 @@
             "videogames"
         ],
         "update": {
-            "timestamp": "2026-11-04T15:20:00Z",
+            "timestamp": "2026-11-04T17:30:00Z",
             "author": {
                 "id": 49837342,
                 "login": "ajnart",
                 "name": "Thomas"
             }
+        },
+        "wordmark": {
+            "default": "limbus-company-wordmark"
+        },
+        "variants": {
+            "icon": "limbus-company-icon",
+            "wordmark-icon": "limbus-company-wordmark-icon"
         }
     },
     "repo": {
@@ -52578,12 +52706,15 @@
             "videogames"
         ],
         "update": {
-            "timestamp": "2026-11-04T15:20:00Z",
+            "timestamp": "2026-11-04T17:30:00Z",
             "author": {
                 "id": 49837342,
                 "login": "ajnart",
                 "name": "Thomas"
             }
+        },
+        "colors": {
+            "light": "repo-light"
         }
     },
     "destiny-2": {
@@ -52595,12 +52726,17 @@
             "videogames"
         ],
         "update": {
-            "timestamp": "2026-11-04T15:20:00Z",
+            "timestamp": "2026-11-04T17:30:00Z",
             "author": {
                 "id": 49837342,
                 "login": "ajnart",
                 "name": "Thomas"
             }
+        },
+        "variants": {
+            "icon-light": "destiny-2-icon-light",
+            "icon": "destiny-2-icon",
+            "wordmark-icon-light": "destiny-2-wordmark-icon-light"
         }
     },
     "dayz": {
@@ -52610,12 +52746,18 @@
             "videogames"
         ],
         "update": {
-            "timestamp": "2026-11-04T15:20:00Z",
+            "timestamp": "2026-11-04T17:30:00Z",
             "author": {
                 "id": 49837342,
                 "login": "ajnart",
                 "name": "Thomas"
             }
+        },
+        "colors": {
+            "light": "dayz-light"
+        },
+        "variants": {
+            "wordmark-grunge": "dayz-wordmark-grunge"
         }
     },
     "pubg-battlegrounds": {
@@ -52625,12 +52767,20 @@
             "videogames"
         ],
         "update": {
-            "timestamp": "2026-11-04T15:20:00Z",
+            "timestamp": "2026-11-04T17:30:00Z",
             "author": {
                 "id": 49837342,
                 "login": "ajnart",
                 "name": "Thomas"
             }
+        },
+        "wordmark": {
+            "dark": "pubg-battlegrounds-wordmark-dark",
+            "light": "pubg-battlegrounds-wordmark-light",
+            "default": "pubg-battlegrounds-wordmark"
+        },
+        "variants": {
+            "icon-mono": "pubg-battlegrounds-icon-mono"
         }
     },
     "rimworld": {
@@ -52640,12 +52790,18 @@
             "videogames"
         ],
         "update": {
-            "timestamp": "2026-11-04T15:20:00Z",
+            "timestamp": "2026-11-04T17:30:00Z",
             "author": {
                 "id": 49837342,
                 "login": "ajnart",
                 "name": "Thomas"
             }
+        },
+        "wordmark": {
+            "light": "rimworld-wordmark-light"
+        },
+        "variants": {
+            "icon": "rimworld-icon"
         }
     },
     "grand-theft-auto-v": {
@@ -52659,12 +52815,15 @@
             "videogames"
         ],
         "update": {
-            "timestamp": "2026-11-04T15:20:00Z",
+            "timestamp": "2026-11-04T17:30:00Z",
             "author": {
                 "id": 49837342,
                 "login": "ajnart",
                 "name": "Thomas"
             }
+        },
+        "variants": {
+            "wordmark-icon": "grand-theft-auto-v-wordmark-icon"
         }
     },
     "the-elder-scrolls-v-skyrim": {
@@ -52677,12 +52836,23 @@
             "videogames"
         ],
         "update": {
-            "timestamp": "2026-11-04T15:20:00Z",
+            "timestamp": "2026-11-04T17:30:00Z",
             "author": {
                 "id": 49837342,
                 "login": "ajnart",
                 "name": "Thomas"
             }
+        },
+        "wordmark": {
+            "light": "the-elder-scrolls-v-skyrim-wordmark-light"
+        },
+        "variants": {
+            "icon-dark": "the-elder-scrolls-v-skyrim-icon-dark",
+            "icon-light": "the-elder-scrolls-v-skyrim-icon-light",
+            "icon-outline": "the-elder-scrolls-v-skyrim-icon-outline",
+            "wordmark-dovahzul": "the-elder-scrolls-v-skyrim-wordmark-dovahzul",
+            "wordmark-icon-dark": "the-elder-scrolls-v-skyrim-wordmark-icon-dark",
+            "wordmark-icon-light": "the-elder-scrolls-v-skyrim-wordmark-icon-light"
         }
     },
     "civilization-vi": {
@@ -52695,12 +52865,16 @@
             "videogames"
         ],
         "update": {
-            "timestamp": "2026-11-04T15:20:00Z",
+            "timestamp": "2026-11-04T17:30:00Z",
             "author": {
                 "id": 49837342,
                 "login": "ajnart",
                 "name": "Thomas"
             }
+        },
+        "colors": {
+            "dark": "civilization-vi-dark",
+            "light": "civilization-vi-light"
         }
     },
     "dont-starve-together": {
@@ -52710,12 +52884,15 @@
             "videogames"
         ],
         "update": {
-            "timestamp": "2026-11-04T15:20:00Z",
+            "timestamp": "2026-11-04T17:30:00Z",
             "author": {
                 "id": 49837342,
                 "login": "ajnart",
                 "name": "Thomas"
             }
+        },
+        "colors": {
+            "dark": "dont-starve-together-dark"
         }
     },
     "final-fantasy-xiv": {
@@ -52728,12 +52905,22 @@
             "videogames"
         ],
         "update": {
-            "timestamp": "2026-11-04T15:20:00Z",
+            "timestamp": "2026-11-04T17:30:00Z",
             "author": {
                 "id": 49837342,
                 "login": "ajnart",
                 "name": "Thomas"
             }
+        },
+        "wordmark": {
+            "default": "final-fantasy-xiv-wordmark"
+        },
+        "variants": {
+            "wordmark-2010": "final-fantasy-xiv-wordmark-2010",
+            "wordmark-icon-2010": "final-fantasy-xiv-wordmark-icon-2010",
+            "wordmark-icon-arr": "final-fantasy-xiv-wordmark-icon-arr",
+            "wordmark-jp": "final-fantasy-xiv-wordmark-jp",
+            "wordmark-xiv": "final-fantasy-xiv-wordmark-xiv"
         }
     },
     "rocket-league": {
@@ -52743,12 +52930,21 @@
             "videogames"
         ],
         "update": {
-            "timestamp": "2026-11-04T15:20:00Z",
+            "timestamp": "2026-11-04T17:30:00Z",
             "author": {
                 "id": 49837342,
                 "login": "ajnart",
                 "name": "Thomas"
             }
+        },
+        "wordmark": {
+            "dark": "rocket-league-wordmark-dark",
+            "light": "rocket-league-wordmark-light"
+        },
+        "variants": {
+            "icon": "rocket-league-icon",
+            "wordmark-icon-light": "rocket-league-wordmark-icon-light",
+            "wordmark-icon": "rocket-league-wordmark-icon"
         }
     },
     "the-witcher-3": {
@@ -52761,12 +52957,21 @@
             "videogames"
         ],
         "update": {
-            "timestamp": "2026-11-04T15:20:00Z",
+            "timestamp": "2026-11-04T17:30:00Z",
             "author": {
                 "id": 49837342,
                 "login": "ajnart",
                 "name": "Thomas"
             }
+        },
+        "wordmark": {
+            "light": "the-witcher-3-wordmark-light"
+        },
+        "variants": {
+            "wordmark-cz": "the-witcher-3-wordmark-cz",
+            "wordmark-pl": "the-witcher-3-wordmark-pl",
+            "wordmark-ru": "the-witcher-3-wordmark-ru",
+            "wordmark-zh": "the-witcher-3-wordmark-zh"
         }
     },
     "elden-ring": {
@@ -52778,12 +52983,20 @@
             "videogames"
         ],
         "update": {
-            "timestamp": "2026-11-04T15:20:00Z",
+            "timestamp": "2026-11-04T17:30:00Z",
             "author": {
                 "id": 49837342,
                 "login": "ajnart",
                 "name": "Thomas"
             }
+        },
+        "colors": {
+            "light": "elden-ring-light"
+        },
+        "variants": {
+            "icon": "elden-ring-icon",
+            "shadow-of-the-erdtree": "elden-ring-shadow-of-the-erdtree",
+            "wordmark-icon": "elden-ring-wordmark-icon"
         }
     },
     "the-sims-4": {
@@ -52796,12 +53009,16 @@
             "videogames"
         ],
         "update": {
-            "timestamp": "2026-11-04T15:20:00Z",
+            "timestamp": "2026-11-04T17:30:00Z",
             "author": {
                 "id": 49837342,
                 "login": "ajnart",
                 "name": "Thomas"
             }
+        },
+        "variants": {
+            "icon": "the-sims-4-icon",
+            "wordmark-icon": "the-sims-4-wordmark-icon"
         }
     },
     "garrys-mod": {
@@ -52811,12 +53028,19 @@
             "videogames"
         ],
         "update": {
-            "timestamp": "2026-11-04T15:20:00Z",
+            "timestamp": "2026-11-04T17:30:00Z",
             "author": {
                 "id": 49837342,
                 "login": "ajnart",
                 "name": "Thomas"
             }
+        },
+        "wordmark": {
+            "light": "garrys-mod-wordmark-light",
+            "default": "garrys-mod-wordmark"
+        },
+        "variants": {
+            "icon-alt": "garrys-mod-icon-alt"
         }
     },
     "7-days-to-die": {
@@ -52828,12 +53052,15 @@
             "videogames"
         ],
         "update": {
-            "timestamp": "2026-11-04T15:20:00Z",
+            "timestamp": "2026-11-04T17:30:00Z",
             "author": {
                 "id": 49837342,
                 "login": "ajnart",
                 "name": "Thomas"
             }
+        },
+        "variants": {
+            "icon": "7-days-to-die-icon"
         }
     },
     "beamng-drive": {
@@ -52843,12 +53070,19 @@
             "videogames"
         ],
         "update": {
-            "timestamp": "2026-11-04T15:20:00Z",
+            "timestamp": "2026-11-04T17:30:00Z",
             "author": {
                 "id": 49837342,
                 "login": "ajnart",
                 "name": "Thomas"
             }
+        },
+        "colors": {
+            "light": "beamng-drive-light"
+        },
+        "variants": {
+            "icon": "beamng-drive-icon",
+            "wordmark-icon": "beamng-drive-wordmark-icon"
         }
     },
     "mount-blade-ii-bannerlord": {
@@ -52860,12 +53094,15 @@
             "videogames"
         ],
         "update": {
-            "timestamp": "2026-11-04T15:20:00Z",
+            "timestamp": "2026-11-04T17:30:00Z",
             "author": {
                 "id": 49837342,
                 "login": "ajnart",
                 "name": "Thomas"
             }
+        },
+        "variants": {
+            "war-sails": "mount-blade-ii-bannerlord-war-sails"
         }
     },
     "naraka-bladepoint": {
@@ -52875,12 +53112,19 @@
             "videogames"
         ],
         "update": {
-            "timestamp": "2026-11-04T15:20:00Z",
+            "timestamp": "2026-11-04T17:30:00Z",
             "author": {
                 "id": 49837342,
                 "login": "ajnart",
                 "name": "Thomas"
             }
+        },
+        "colors": {
+            "light": "naraka-bladepoint-light"
+        },
+        "variants": {
+            "wordmark-bladepoint-light": "naraka-bladepoint-wordmark-bladepoint-light",
+            "wordmark-bladepoint": "naraka-bladepoint-wordmark-bladepoint"
         }
     },
     "farming-simulator": {
@@ -52890,12 +53134,17 @@
             "videogames"
         ],
         "update": {
-            "timestamp": "2026-11-04T15:20:00Z",
+            "timestamp": "2026-11-04T17:30:00Z",
             "author": {
                 "id": 49837342,
                 "login": "ajnart",
                 "name": "Thomas"
             }
+        },
+        "variants": {
+            "fs17": "farming-simulator-fs17",
+            "fs19": "farming-simulator-fs19",
+            "fs22": "farming-simulator-fs22"
         }
     },
     "black-desert-online": {
@@ -52905,12 +53154,15 @@
             "videogames"
         ],
         "update": {
-            "timestamp": "2026-11-04T15:20:00Z",
+            "timestamp": "2026-11-04T17:30:00Z",
             "author": {
                 "id": 49837342,
                 "login": "ajnart",
                 "name": "Thomas"
             }
+        },
+        "wordmark": {
+            "default": "black-desert-online-wordmark"
         }
     },
     "crusader-kings-iii": {
@@ -52920,12 +53172,16 @@
             "videogames"
         ],
         "update": {
-            "timestamp": "2026-11-04T15:20:00Z",
+            "timestamp": "2026-11-04T17:30:00Z",
             "author": {
                 "id": 49837342,
                 "login": "ajnart",
                 "name": "Thomas"
             }
+        },
+        "variants": {
+            "wordmark-icon-dark": "crusader-kings-iii-wordmark-icon-dark",
+            "wordmark-icon-light": "crusader-kings-iii-wordmark-icon-light"
         }
     },
     "fallout-4": {
@@ -52935,12 +53191,23 @@
             "videogames"
         ],
         "update": {
-            "timestamp": "2026-11-04T15:20:00Z",
+            "timestamp": "2026-11-04T17:30:00Z",
             "author": {
                 "id": 49837342,
                 "login": "ajnart",
                 "name": "Thomas"
             }
+        },
+        "wordmark": {
+            "dark": "fallout-4-wordmark-dark",
+            "light": "fallout-4-wordmark-light"
+        },
+        "variants": {
+            "dlc-far-harbor": "fallout-4-dlc-far-harbor",
+            "dlc-nuka-world-light": "fallout-4-dlc-nuka-world-light",
+            "dlc-nuka-world": "fallout-4-dlc-nuka-world",
+            "vault-tec-wordmark": "fallout-4-vault-tec-wordmark",
+            "vault-tec": "fallout-4-vault-tec"
         }
     },
     "no-mans-sky": {
@@ -52952,12 +53219,15 @@
             "videogames"
         ],
         "update": {
-            "timestamp": "2026-11-04T15:20:00Z",
+            "timestamp": "2026-11-04T17:30:00Z",
             "author": {
                 "id": 49837342,
                 "login": "ajnart",
                 "name": "Thomas"
             }
+        },
+        "wordmark": {
+            "light": "no-mans-sky-wordmark-light"
         }
     },
     "street-fighter-6": {
@@ -52969,12 +53239,15 @@
             "videogames"
         ],
         "update": {
-            "timestamp": "2026-11-04T15:20:00Z",
+            "timestamp": "2026-11-04T17:30:00Z",
             "author": {
                 "id": 49837342,
                 "login": "ajnart",
                 "name": "Thomas"
             }
+        },
+        "variants": {
+            "wordmark-icon-light": "street-fighter-6-wordmark-icon-light"
         }
     },
     "euro-truck-simulator-2": {
@@ -52986,12 +53259,15 @@
             "videogames"
         ],
         "update": {
-            "timestamp": "2026-11-04T15:20:00Z",
+            "timestamp": "2026-11-04T17:30:00Z",
             "author": {
                 "id": 49837342,
                 "login": "ajnart",
                 "name": "Thomas"
             }
+        },
+        "variants": {
+            "wordmark-icon": "euro-truck-simulator-2-wordmark-icon"
         }
     },
     "black-myth-wukong": {
@@ -53003,12 +53279,19 @@
             "videogames"
         ],
         "update": {
-            "timestamp": "2026-11-04T15:20:00Z",
+            "timestamp": "2026-11-04T17:30:00Z",
             "author": {
                 "id": 49837342,
                 "login": "ajnart",
                 "name": "Thomas"
             }
+        },
+        "colors": {
+            "light": "black-myth-wukong-light"
+        },
+        "variants": {
+            "wordmark-chinese": "black-myth-wukong-wordmark-chinese",
+            "wordmark-seal": "black-myth-wukong-wordmark-seal"
         }
     },
     "phasmophobia": {
@@ -53018,12 +53301,15 @@
             "videogames"
         ],
         "update": {
-            "timestamp": "2026-11-04T15:20:00Z",
+            "timestamp": "2026-11-04T17:30:00Z",
             "author": {
                 "id": 49837342,
                 "login": "ajnart",
                 "name": "Thomas"
             }
+        },
+        "wordmark": {
+            "dark": "phasmophobia-wordmark-dark"
         }
     },
     "resident-evil-4": {
@@ -53035,12 +53321,18 @@
             "videogames"
         ],
         "update": {
-            "timestamp": "2026-11-04T15:20:00Z",
+            "timestamp": "2026-11-04T17:30:00Z",
             "author": {
                 "id": 49837342,
                 "login": "ajnart",
                 "name": "Thomas"
             }
+        },
+        "colors": {
+            "light": "resident-evil-4-light"
+        },
+        "variants": {
+            "wordmark-ja": "resident-evil-4-wordmark-ja"
         }
     },
     "warhammer-40000-space-marine-2": {
@@ -53052,12 +53344,15 @@
             "videogames"
         ],
         "update": {
-            "timestamp": "2026-11-04T15:20:00Z",
+            "timestamp": "2026-11-04T17:30:00Z",
             "author": {
                 "id": 49837342,
                 "login": "ajnart",
                 "name": "Thomas"
             }
+        },
+        "variants": {
+            "icon": "warhammer-40000-space-marine-2-icon"
         }
     },
     "hollow-knight": {
@@ -53067,12 +53362,19 @@
             "videogames"
         ],
         "update": {
-            "timestamp": "2026-11-04T15:20:00Z",
+            "timestamp": "2026-11-04T17:30:00Z",
             "author": {
                 "id": 49837342,
                 "login": "ajnart",
                 "name": "Thomas"
             }
+        },
+        "wordmark": {
+            "light": "hollow-knight-wordmark-light"
+        },
+        "variants": {
+            "icon": "hollow-knight-icon",
+            "wordmark-ornate-light": "hollow-knight-wordmark-ornate-light"
         }
     },
     "balatro": {
@@ -53082,12 +53384,20 @@
             "videogames"
         ],
         "update": {
-            "timestamp": "2026-11-04T15:20:00Z",
+            "timestamp": "2026-11-04T17:30:00Z",
             "author": {
                 "id": 49837342,
                 "login": "ajnart",
                 "name": "Thomas"
             }
+        },
+        "colors": {
+            "dark": "balatro-dark",
+            "light": "balatro-light"
+        },
+        "variants": {
+            "icon-mono": "balatro-icon-mono",
+            "keyart": "balatro-keyart"
         }
     },
     "kingdom-come-deliverance-2": {
@@ -53099,12 +53409,16 @@
             "videogames"
         ],
         "update": {
-            "timestamp": "2026-11-04T15:20:00Z",
+            "timestamp": "2026-11-04T17:30:00Z",
             "author": {
                 "id": 49837342,
                 "login": "ajnart",
                 "name": "Thomas"
             }
+        },
+        "wordmark": {
+            "dark": "kingdom-come-deliverance-2-wordmark-dark",
+            "light": "kingdom-come-deliverance-2-wordmark-light"
         }
     },
     "diablo-iv": {
@@ -53114,12 +53428,20 @@
             "videogames"
         ],
         "update": {
-            "timestamp": "2026-11-04T15:20:00Z",
+            "timestamp": "2026-11-04T17:30:00Z",
             "author": {
                 "id": 49837342,
                 "login": "ajnart",
                 "name": "Thomas"
             }
+        },
+        "wordmark": {
+            "default": "diablo-iv-wordmark"
+        },
+        "variants": {
+            "wordmark-icon-voh": "diablo-iv-wordmark-icon-voh",
+            "wordmark-text": "diablo-iv-wordmark-text",
+            "wordmark-ue": "diablo-iv-wordmark-ue"
         }
     },
     "cities-skylines-ii": {
@@ -53131,12 +53453,20 @@
             "videogames"
         ],
         "update": {
-            "timestamp": "2026-11-04T15:20:00Z",
+            "timestamp": "2026-11-04T17:30:00Z",
             "author": {
                 "id": 49837342,
                 "login": "ajnart",
                 "name": "Thomas"
             }
+        },
+        "variants": {
+            "icon-light": "cities-skylines-ii-icon-light",
+            "icon": "cities-skylines-ii-icon",
+            "wordmark-icon-light": "cities-skylines-ii-wordmark-icon-light",
+            "wordmark-icon-stacked-light": "cities-skylines-ii-wordmark-icon-stacked-light",
+            "wordmark-icon-stacked": "cities-skylines-ii-wordmark-icon-stacked",
+            "wordmark-icon": "cities-skylines-ii-wordmark-icon"
         }
     },
     "tekken-8": {
@@ -53148,12 +53478,18 @@
             "videogames"
         ],
         "update": {
-            "timestamp": "2026-11-04T15:20:00Z",
+            "timestamp": "2026-11-04T17:30:00Z",
             "author": {
                 "id": 49837342,
                 "login": "ajnart",
                 "name": "Thomas"
             }
+        },
+        "wordmark": {
+            "light": "tekken-8-wordmark-light"
+        },
+        "variants": {
+            "wordmark-series": "tekken-8-wordmark-series"
         }
     },
     "roblox": {
@@ -53163,12 +53499,18 @@
             "videogames"
         ],
         "update": {
-            "timestamp": "2026-11-04T15:20:00Z",
+            "timestamp": "2026-11-04T17:30:00Z",
             "author": {
                 "id": 49837342,
                 "login": "ajnart",
                 "name": "Thomas"
             }
+        },
+        "wordmark": {
+            "light": "roblox-wordmark-light"
+        },
+        "variants": {
+            "icon-light": "roblox-icon-light"
         }
     },
     "fortnite": {
@@ -53178,12 +53520,20 @@
             "videogames"
         ],
         "update": {
-            "timestamp": "2026-11-04T15:20:00Z",
+            "timestamp": "2026-11-04T17:30:00Z",
             "author": {
                 "id": 49837342,
                 "login": "ajnart",
                 "name": "Thomas"
             }
+        },
+        "wordmark": {
+            "light": "fortnite-wordmark-light"
+        },
+        "variants": {
+            "festival": "fortnite-festival",
+            "icon": "fortnite-icon",
+            "wordmark-battle-royale": "fortnite-wordmark-battle-royale"
         }
     },
     "genshin-impact": {
@@ -53193,12 +53543,22 @@
             "videogames"
         ],
         "update": {
-            "timestamp": "2026-11-04T15:20:00Z",
+            "timestamp": "2026-11-04T17:30:00Z",
             "author": {
                 "id": 49837342,
                 "login": "ajnart",
                 "name": "Thomas"
             }
+        },
+        "colors": {
+            "light": "genshin-impact-light"
+        },
+        "variants": {
+            "icon": "genshin-impact-icon",
+            "wordmark-jp": "genshin-impact-wordmark-jp",
+            "wordmark-kr": "genshin-impact-wordmark-kr",
+            "wordmark-zh-hans": "genshin-impact-wordmark-zh-hans",
+            "wordmark-zh-hant": "genshin-impact-wordmark-zh-hant"
         }
     },
     "valorant": {
@@ -53210,12 +53570,23 @@
             "videogames"
         ],
         "update": {
-            "timestamp": "2026-11-04T15:20:00Z",
+            "timestamp": "2026-11-04T17:30:00Z",
             "author": {
                 "id": 49837342,
                 "login": "ajnart",
                 "name": "Thomas"
             }
+        },
+        "wordmark": {
+            "light": "valorant-wordmark-light"
+        },
+        "variants": {
+            "champions-2022": "valorant-champions-2022",
+            "icon-dark": "valorant-icon-dark",
+            "icon-light": "valorant-icon-light",
+            "icon": "valorant-icon",
+            "wordmark-icon-dark": "valorant-wordmark-icon-dark",
+            "wordmark-icon": "valorant-wordmark-icon"
         }
     },
     "league-of-legends": {
@@ -53227,12 +53598,15 @@
             "videogames"
         ],
         "update": {
-            "timestamp": "2026-11-04T15:20:00Z",
+            "timestamp": "2026-11-04T17:30:00Z",
             "author": {
                 "id": 49837342,
                 "login": "ajnart",
                 "name": "Thomas"
             }
+        },
+        "variants": {
+            "icon": "league-of-legends-icon"
         }
     },
     "undertale": {
@@ -53242,12 +53616,18 @@
             "videogames"
         ],
         "update": {
-            "timestamp": "2026-11-04T15:20:00Z",
+            "timestamp": "2026-11-04T17:30:00Z",
             "author": {
                 "id": 49837342,
                 "login": "ajnart",
                 "name": "Thomas"
             }
+        },
+        "wordmark": {
+            "light": "undertale-wordmark-light"
+        },
+        "variants": {
+            "icon": "undertale-icon"
         }
     },
     "grand-theft-auto-vi": {
@@ -53260,12 +53640,16 @@
             "videogames"
         ],
         "update": {
-            "timestamp": "2026-11-04T15:20:00Z",
+            "timestamp": "2026-11-04T17:30:00Z",
             "author": {
                 "id": 49837342,
                 "login": "ajnart",
                 "name": "Thomas"
             }
+        },
+        "variants": {
+            "logo-no-palms": "grand-theft-auto-vi-logo-no-palms",
+            "logo-outline": "grand-theft-auto-vi-logo-outline"
         }
     },
     "hogwarts-legacy": {
@@ -53275,12 +53659,18 @@
             "videogames"
         ],
         "update": {
-            "timestamp": "2026-11-04T15:20:00Z",
+            "timestamp": "2026-11-04T17:30:00Z",
             "author": {
                 "id": 49837342,
                 "login": "ajnart",
                 "name": "Thomas"
             }
+        },
+        "colors": {
+            "light": "hogwarts-legacy-light"
+        },
+        "variants": {
+            "wordmark-icon": "hogwarts-legacy-wordmark-icon"
         }
     },
     "deep-rock-galactic": {
@@ -53292,12 +53682,15 @@
             "videogames"
         ],
         "update": {
-            "timestamp": "2026-11-04T15:20:00Z",
+            "timestamp": "2026-11-04T17:30:00Z",
             "author": {
                 "id": 49837342,
                 "login": "ajnart",
                 "name": "Thomas"
             }
+        },
+        "wordmark": {
+            "default": "deep-rock-galactic-wordmark"
         }
     },
     "ghost-of-yotei": {
@@ -53307,12 +53700,15 @@
             "videogames"
         ],
         "update": {
-            "timestamp": "2026-11-04T15:20:00Z",
+            "timestamp": "2026-11-04T17:30:00Z",
             "author": {
                 "id": 49837342,
                 "login": "ajnart",
                 "name": "Thomas"
             }
+        },
+        "wordmark": {
+            "default": "ghost-of-yotei-wordmark"
         }
     }
 }

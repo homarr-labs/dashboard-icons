@@ -5,11 +5,23 @@
     "videogames"
   ],
   "update": {
-    "timestamp": "2026-11-04T15:20:00Z",
+    "timestamp": "2026-11-04T17:30:00Z",
     "author": {
       "id": 49837342,
       "login": "ajnart",
       "name": "Thomas"
     }
+  },
+  "colors": {
+    "light": "helldivers-2-light"
+  },
+  "variants": {
+    "edition-escalation-of-freedom": "helldivers-2-edition-escalation-of-freedom",
+    "edition-heart-of-democracy": "helldivers-2-edition-heart-of-democracy",
+    "edition-into-the-unjust": "helldivers-2-edition-into-the-unjust",
+    "edition-machinery-of-oppression": "helldivers-2-edition-machinery-of-oppression",
+    "edition-omens-of-tyranny": "helldivers-2-edition-omens-of-tyranny",
+    "edition-super-citizen": "helldivers-2-edition-super-citizen",
+    "wordmark-icon": "helldivers-2-wordmark-icon"
   }
 }
