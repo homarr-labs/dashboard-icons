@@ -833,7 +833,7 @@ export function IconDetails({
 							<Button asChild variant="outline" size="sm">
 								<Link href={externalSourceConfig.website} target="_blank" rel="noopener noreferrer">
 									<UnoptimizedImage src={externalSourceConfig.icon} alt="" width={16} height={16} />
-									Browse {externalSourceConfig.label} icons
+									Browse {externalSourceConfig.label}
 								</Link>
 							</Button>
 							<Button asChild variant="outline" size="sm">

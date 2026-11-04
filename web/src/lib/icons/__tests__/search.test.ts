@@ -166,7 +166,7 @@ describe("filterAndSortIcons", () => {
 	})
 
 	it("sorts newest icons without timestamps last", () => {
-		const datedIcons: IconWithName[] = [
+		const datedIcons = [
 			mockIcon("dated", { update: { timestamp: "2025-01-01T00:00:00Z", author: { id: 1 } } }),
 			{
 				name: "undated",
@@ -174,7 +174,6 @@ describe("filterAndSortIcons", () => {
 					base: "svg",
 					aliases: [],
 					categories: [],
-					update: { timestamp: "", author: { id: 1 } },
 				},
 			},
 		]
