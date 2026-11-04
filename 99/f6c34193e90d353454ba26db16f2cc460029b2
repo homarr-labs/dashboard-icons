@@ -1,0 +1,20 @@
+web/src/components/hero.tsx
+  s_05ef861992d1bd::t_b5fd0fd7a34230 268,270-271
+  s_05ef861992d1bd::t_4386aecabced13 4,267,269
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "99f6c34193e90d353454ba26db16f2cc460029b2",
+  "prompts": {},
+  "sessions": {
+    "s_05ef861992d1bd": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a1a6e7-d402-7d23-bf4e-544804888af2",
+        "model": "gpt-6.1-sol"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
