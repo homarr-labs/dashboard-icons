@@ -116,16 +116,17 @@ jobs:
       - uses: actions/cache@v4
         id: compiler-cache
         with:
-          path: .build-cache
-          key: compiler-v1-${{ runner.os }}-${{ matrix.arch }}-${{ hashFiles('web/bun.lock', 'web/Dockerfile', 'web/turbo.json') }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            .build-cache/next
+            .build-cache/turbo
+          key: compiler-v2-${{ runner.os }}-${{ matrix.arch }}-${{ hashFiles('web/bun.lock', 'web/Dockerfile', 'web/turbo.json') }}-${{ github.run_id }}-${{ github.run_attempt }}
           restore-keys: |
-            compiler-v1-${{ runner.os }}-${{ matrix.arch }}-${{ hashFiles('web/bun.lock', 'web/Dockerfile', 'web/turbo.json') }}-
+            compiler-v2-${{ runner.os }}-${{ matrix.arch }}-${{ hashFiles('web/bun.lock', 'web/Dockerfile', 'web/turbo.json') }}-
       - uses: reproducible-containers/buildkit-cache-dance@7a38cfab60c63ee1022b7c1a14a031c82f4114c7 # v3
         with:
           builder: ${{ steps.buildx.outputs.name }}
           cache-map: |
             {
-              ".build-cache/bun": "/root/.bun/install/cache",
               ".build-cache/next": "/app/.next/cache",
               ".build-cache/turbo": "/app/.turbo"
             }

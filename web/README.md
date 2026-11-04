@@ -142,8 +142,8 @@ Builds use Turborepo to restore `.next` output when source files and build setti
 match. `bun run build --force` forces recompilation. Production Turbopack filesystem
 caching is enabled, so changed-source builds can reuse `.next/cache` too.
 
-CI builds AMD64 and ARM64 on native runners. Bun downloads, Next.js and Turborepo
-cache mounts persist through GitHub Actions cache; Docker layers use a separate
+CI builds AMD64 and ARM64 on native runners. Bun downloads on the runner and the Next.js/Turborepo
+compiler cache mounts persist through GitHub Actions cache; Docker layers use a separate
 cache per architecture. Generated assets and image digests pass between jobs as
 short-lived artifacts. Public environment variables and the native metadata digest
 invalidate compilation output; deployment revision labels do not.
