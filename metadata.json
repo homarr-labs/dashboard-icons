@@ -52263,5 +52263,1056 @@
         "wordmark": {
             "default": "btop-wordmark"
         }
+    },
+    "dota-2": {
+        "base": "png",
+        "aliases": [
+            "dota"
+        ],
+        "categories": [
+            "videogames"
+        ],
+        "update": {
+            "timestamp": "2026-11-04T15:20:00Z",
+            "author": {
+                "id": 49837342,
+                "login": "ajnart",
+                "name": "Thomas"
+            }
+        }
+    },
+    "apex-legends": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "videogames"
+        ],
+        "update": {
+            "timestamp": "2026-11-04T15:20:00Z",
+            "author": {
+                "id": 49837342,
+                "login": "ajnart",
+                "name": "Thomas"
+            }
+        }
+    },
+    "team-fortress-2": {
+        "base": "png",
+        "aliases": [
+            "tf2"
+        ],
+        "categories": [
+            "videogames"
+        ],
+        "update": {
+            "timestamp": "2026-11-04T15:20:00Z",
+            "author": {
+                "id": 49837342,
+                "login": "ajnart",
+                "name": "Thomas"
+            }
+        }
+    },
+    "cyberpunk-2077": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "videogames"
+        ],
+        "update": {
+            "timestamp": "2026-11-04T15:20:00Z",
+            "author": {
+                "id": 49837342,
+                "login": "ajnart",
+                "name": "Thomas"
+            }
+        }
+    },
+    "warframe": {
+        "base": "png",
+        "aliases": [],
+        "categories": [
+            "videogames"
+        ],
+        "update": {
+            "timestamp": "2026-11-04T15:20:00Z",
+            "author": {
+                "id": 49837342,
+                "login": "ajnart",
+                "name": "Thomas"
+            }
+        },
+        "colors": {
+            "light": "warframe-light"
+        }
+    },
+    "rainbow-six-siege": {
+        "base": "svg",
+        "aliases": [
+            "r6",
+            "r6s"
+        ],
+        "categories": [
+            "videogames"
+        ],
+        "update": {
+            "timestamp": "2026-11-04T15:20:00Z",
+            "author": {
+                "id": 49837342,
+                "login": "ajnart",
+                "name": "Thomas"
+            }
+        },
+        "colors": {
+            "light": "rainbow-six-siege-light"
+        }
+    },
+    "overwatch-2": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "videogames"
+        ],
+        "update": {
+            "timestamp": "2026-11-04T15:20:00Z",
+            "author": {
+                "id": 49837342,
+                "login": "ajnart",
+                "name": "Thomas"
+            }
+        }
+    },
+    "marvel-rivals": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "videogames"
+        ],
+        "update": {
+            "timestamp": "2026-11-04T15:20:00Z",
+            "author": {
+                "id": 49837342,
+                "login": "ajnart",
+                "name": "Thomas"
+            }
+        }
+    },
+    "vrchat": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "videogames"
+        ],
+        "update": {
+            "timestamp": "2026-11-04T15:20:00Z",
+            "author": {
+                "id": 49837342,
+                "login": "ajnart",
+                "name": "Thomas"
+            }
+        }
+    },
+    "stardew-valley": {
+        "base": "png",
+        "aliases": [],
+        "categories": [
+            "videogames"
+        ],
+        "update": {
+            "timestamp": "2026-11-04T15:20:00Z",
+            "author": {
+                "id": 49837342,
+                "login": "ajnart",
+                "name": "Thomas"
+            }
+        }
+    },
+    "delta-force": {
+        "base": "png",
+        "aliases": [],
+        "categories": [
+            "videogames"
+        ],
+        "update": {
+            "timestamp": "2026-11-04T15:20:00Z",
+            "author": {
+                "id": 49837342,
+                "login": "ajnart",
+                "name": "Thomas"
+            }
+        }
+    },
+    "war-thunder": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "videogames"
+        ],
+        "update": {
+            "timestamp": "2026-11-04T15:20:00Z",
+            "author": {
+                "id": 49837342,
+                "login": "ajnart",
+                "name": "Thomas"
+            }
+        }
+    },
+    "project-zomboid": {
+        "base": "svg",
+        "aliases": [
+            "pz"
+        ],
+        "categories": [
+            "videogames"
+        ],
+        "update": {
+            "timestamp": "2026-11-04T15:20:00Z",
+            "author": {
+                "id": 49837342,
+                "login": "ajnart",
+                "name": "Thomas"
+            }
+        }
+    },
+    "helldivers-2": {
+        "base": "png",
+        "aliases": [],
+        "categories": [
+            "videogames"
+        ],
+        "update": {
+            "timestamp": "2026-11-04T15:20:00Z",
+            "author": {
+                "id": 49837342,
+                "login": "ajnart",
+                "name": "Thomas"
+            }
+        }
+    },
+    "geometry-dash": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "videogames"
+        ],
+        "update": {
+            "timestamp": "2026-11-04T15:20:00Z",
+            "author": {
+                "id": 49837342,
+                "login": "ajnart",
+                "name": "Thomas"
+            }
+        }
+    },
+    "baldurs-gate-3": {
+        "base": "png",
+        "aliases": [
+            "bg3"
+        ],
+        "categories": [
+            "videogames"
+        ],
+        "update": {
+            "timestamp": "2026-11-04T15:20:00Z",
+            "author": {
+                "id": 49837342,
+                "login": "ajnart",
+                "name": "Thomas"
+            }
+        }
+    },
+    "left-4-dead-2": {
+        "base": "png",
+        "aliases": [
+            "l4d2"
+        ],
+        "categories": [
+            "videogames"
+        ],
+        "update": {
+            "timestamp": "2026-11-04T15:20:00Z",
+            "author": {
+                "id": 49837342,
+                "login": "ajnart",
+                "name": "Thomas"
+            }
+        }
+    },
+    "the-binding-of-isaac": {
+        "base": "png",
+        "aliases": [
+            "isaac",
+            "binding-of-isaac"
+        ],
+        "categories": [
+            "videogames"
+        ],
+        "update": {
+            "timestamp": "2026-11-04T15:20:00Z",
+            "author": {
+                "id": 49837342,
+                "login": "ajnart",
+                "name": "Thomas"
+            }
+        }
+    },
+    "limbus-company": {
+        "base": "png",
+        "aliases": [],
+        "categories": [
+            "videogames"
+        ],
+        "update": {
+            "timestamp": "2026-11-04T15:20:00Z",
+            "author": {
+                "id": 49837342,
+                "login": "ajnart",
+                "name": "Thomas"
+            }
+        }
+    },
+    "repo": {
+        "base": "png",
+        "aliases": [],
+        "categories": [
+            "videogames"
+        ],
+        "update": {
+            "timestamp": "2026-11-04T15:20:00Z",
+            "author": {
+                "id": 49837342,
+                "login": "ajnart",
+                "name": "Thomas"
+            }
+        }
+    },
+    "destiny-2": {
+        "base": "png",
+        "aliases": [
+            "destiny"
+        ],
+        "categories": [
+            "videogames"
+        ],
+        "update": {
+            "timestamp": "2026-11-04T15:20:00Z",
+            "author": {
+                "id": 49837342,
+                "login": "ajnart",
+                "name": "Thomas"
+            }
+        }
+    },
+    "dayz": {
+        "base": "png",
+        "aliases": [],
+        "categories": [
+            "videogames"
+        ],
+        "update": {
+            "timestamp": "2026-11-04T15:20:00Z",
+            "author": {
+                "id": 49837342,
+                "login": "ajnart",
+                "name": "Thomas"
+            }
+        }
+    },
+    "pubg-battlegrounds": {
+        "base": "png",
+        "aliases": [],
+        "categories": [
+            "videogames"
+        ],
+        "update": {
+            "timestamp": "2026-11-04T15:20:00Z",
+            "author": {
+                "id": 49837342,
+                "login": "ajnart",
+                "name": "Thomas"
+            }
+        }
+    },
+    "rimworld": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "videogames"
+        ],
+        "update": {
+            "timestamp": "2026-11-04T15:20:00Z",
+            "author": {
+                "id": 49837342,
+                "login": "ajnart",
+                "name": "Thomas"
+            }
+        }
+    },
+    "grand-theft-auto-v": {
+        "base": "svg",
+        "aliases": [
+            "gta",
+            "gta5",
+            "gta-v"
+        ],
+        "categories": [
+            "videogames"
+        ],
+        "update": {
+            "timestamp": "2026-11-04T15:20:00Z",
+            "author": {
+                "id": 49837342,
+                "login": "ajnart",
+                "name": "Thomas"
+            }
+        }
+    },
+    "the-elder-scrolls-v-skyrim": {
+        "base": "png",
+        "aliases": [
+            "skyrim",
+            "tes5"
+        ],
+        "categories": [
+            "videogames"
+        ],
+        "update": {
+            "timestamp": "2026-11-04T15:20:00Z",
+            "author": {
+                "id": 49837342,
+                "login": "ajnart",
+                "name": "Thomas"
+            }
+        }
+    },
+    "civilization-vi": {
+        "base": "svg",
+        "aliases": [
+            "civ6",
+            "civ-vi"
+        ],
+        "categories": [
+            "videogames"
+        ],
+        "update": {
+            "timestamp": "2026-11-04T15:20:00Z",
+            "author": {
+                "id": 49837342,
+                "login": "ajnart",
+                "name": "Thomas"
+            }
+        }
+    },
+    "dont-starve-together": {
+        "base": "png",
+        "aliases": [],
+        "categories": [
+            "videogames"
+        ],
+        "update": {
+            "timestamp": "2026-11-04T15:20:00Z",
+            "author": {
+                "id": 49837342,
+                "login": "ajnart",
+                "name": "Thomas"
+            }
+        }
+    },
+    "final-fantasy-xiv": {
+        "base": "svg",
+        "aliases": [
+            "ffxiv",
+            "ff14"
+        ],
+        "categories": [
+            "videogames"
+        ],
+        "update": {
+            "timestamp": "2026-11-04T15:20:00Z",
+            "author": {
+                "id": 49837342,
+                "login": "ajnart",
+                "name": "Thomas"
+            }
+        }
+    },
+    "rocket-league": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "videogames"
+        ],
+        "update": {
+            "timestamp": "2026-11-04T15:20:00Z",
+            "author": {
+                "id": 49837342,
+                "login": "ajnart",
+                "name": "Thomas"
+            }
+        }
+    },
+    "the-witcher-3": {
+        "base": "svg",
+        "aliases": [
+            "witcher-3",
+            "witcher3"
+        ],
+        "categories": [
+            "videogames"
+        ],
+        "update": {
+            "timestamp": "2026-11-04T15:20:00Z",
+            "author": {
+                "id": 49837342,
+                "login": "ajnart",
+                "name": "Thomas"
+            }
+        }
+    },
+    "elden-ring": {
+        "base": "svg",
+        "aliases": [
+            "eldenring"
+        ],
+        "categories": [
+            "videogames"
+        ],
+        "update": {
+            "timestamp": "2026-11-04T15:20:00Z",
+            "author": {
+                "id": 49837342,
+                "login": "ajnart",
+                "name": "Thomas"
+            }
+        }
+    },
+    "the-sims-4": {
+        "base": "svg",
+        "aliases": [
+            "sims-4",
+            "sims4"
+        ],
+        "categories": [
+            "videogames"
+        ],
+        "update": {
+            "timestamp": "2026-11-04T15:20:00Z",
+            "author": {
+                "id": 49837342,
+                "login": "ajnart",
+                "name": "Thomas"
+            }
+        }
+    },
+    "garrys-mod": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "videogames"
+        ],
+        "update": {
+            "timestamp": "2026-11-04T15:20:00Z",
+            "author": {
+                "id": 49837342,
+                "login": "ajnart",
+                "name": "Thomas"
+            }
+        }
+    },
+    "7-days-to-die": {
+        "base": "png",
+        "aliases": [
+            "7dtd"
+        ],
+        "categories": [
+            "videogames"
+        ],
+        "update": {
+            "timestamp": "2026-11-04T15:20:00Z",
+            "author": {
+                "id": 49837342,
+                "login": "ajnart",
+                "name": "Thomas"
+            }
+        }
+    },
+    "beamng-drive": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "videogames"
+        ],
+        "update": {
+            "timestamp": "2026-11-04T15:20:00Z",
+            "author": {
+                "id": 49837342,
+                "login": "ajnart",
+                "name": "Thomas"
+            }
+        }
+    },
+    "mount-blade-ii-bannerlord": {
+        "base": "png",
+        "aliases": [
+            "bannerlord"
+        ],
+        "categories": [
+            "videogames"
+        ],
+        "update": {
+            "timestamp": "2026-11-04T15:20:00Z",
+            "author": {
+                "id": 49837342,
+                "login": "ajnart",
+                "name": "Thomas"
+            }
+        }
+    },
+    "naraka-bladepoint": {
+        "base": "png",
+        "aliases": [],
+        "categories": [
+            "videogames"
+        ],
+        "update": {
+            "timestamp": "2026-11-04T15:20:00Z",
+            "author": {
+                "id": 49837342,
+                "login": "ajnart",
+                "name": "Thomas"
+            }
+        }
+    },
+    "farming-simulator": {
+        "base": "png",
+        "aliases": [],
+        "categories": [
+            "videogames"
+        ],
+        "update": {
+            "timestamp": "2026-11-04T15:20:00Z",
+            "author": {
+                "id": 49837342,
+                "login": "ajnart",
+                "name": "Thomas"
+            }
+        }
+    },
+    "black-desert-online": {
+        "base": "png",
+        "aliases": [],
+        "categories": [
+            "videogames"
+        ],
+        "update": {
+            "timestamp": "2026-11-04T15:20:00Z",
+            "author": {
+                "id": 49837342,
+                "login": "ajnart",
+                "name": "Thomas"
+            }
+        }
+    },
+    "crusader-kings-iii": {
+        "base": "png",
+        "aliases": [],
+        "categories": [
+            "videogames"
+        ],
+        "update": {
+            "timestamp": "2026-11-04T15:20:00Z",
+            "author": {
+                "id": 49837342,
+                "login": "ajnart",
+                "name": "Thomas"
+            }
+        }
+    },
+    "fallout-4": {
+        "base": "png",
+        "aliases": [],
+        "categories": [
+            "videogames"
+        ],
+        "update": {
+            "timestamp": "2026-11-04T15:20:00Z",
+            "author": {
+                "id": 49837342,
+                "login": "ajnart",
+                "name": "Thomas"
+            }
+        }
+    },
+    "no-mans-sky": {
+        "base": "svg",
+        "aliases": [
+            "nms"
+        ],
+        "categories": [
+            "videogames"
+        ],
+        "update": {
+            "timestamp": "2026-11-04T15:20:00Z",
+            "author": {
+                "id": 49837342,
+                "login": "ajnart",
+                "name": "Thomas"
+            }
+        }
+    },
+    "street-fighter-6": {
+        "base": "png",
+        "aliases": [
+            "sf6"
+        ],
+        "categories": [
+            "videogames"
+        ],
+        "update": {
+            "timestamp": "2026-11-04T15:20:00Z",
+            "author": {
+                "id": 49837342,
+                "login": "ajnart",
+                "name": "Thomas"
+            }
+        }
+    },
+    "euro-truck-simulator-2": {
+        "base": "png",
+        "aliases": [
+            "ets2"
+        ],
+        "categories": [
+            "videogames"
+        ],
+        "update": {
+            "timestamp": "2026-11-04T15:20:00Z",
+            "author": {
+                "id": 49837342,
+                "login": "ajnart",
+                "name": "Thomas"
+            }
+        }
+    },
+    "black-myth-wukong": {
+        "base": "png",
+        "aliases": [
+            "wukong"
+        ],
+        "categories": [
+            "videogames"
+        ],
+        "update": {
+            "timestamp": "2026-11-04T15:20:00Z",
+            "author": {
+                "id": 49837342,
+                "login": "ajnart",
+                "name": "Thomas"
+            }
+        }
+    },
+    "phasmophobia": {
+        "base": "png",
+        "aliases": [],
+        "categories": [
+            "videogames"
+        ],
+        "update": {
+            "timestamp": "2026-11-04T15:20:00Z",
+            "author": {
+                "id": 49837342,
+                "login": "ajnart",
+                "name": "Thomas"
+            }
+        }
+    },
+    "resident-evil-4": {
+        "base": "svg",
+        "aliases": [
+            "re4"
+        ],
+        "categories": [
+            "videogames"
+        ],
+        "update": {
+            "timestamp": "2026-11-04T15:20:00Z",
+            "author": {
+                "id": 49837342,
+                "login": "ajnart",
+                "name": "Thomas"
+            }
+        }
+    },
+    "warhammer-40000-space-marine-2": {
+        "base": "png",
+        "aliases": [
+            "space-marine-2"
+        ],
+        "categories": [
+            "videogames"
+        ],
+        "update": {
+            "timestamp": "2026-11-04T15:20:00Z",
+            "author": {
+                "id": 49837342,
+                "login": "ajnart",
+                "name": "Thomas"
+            }
+        }
+    },
+    "hollow-knight": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "videogames"
+        ],
+        "update": {
+            "timestamp": "2026-11-04T15:20:00Z",
+            "author": {
+                "id": 49837342,
+                "login": "ajnart",
+                "name": "Thomas"
+            }
+        }
+    },
+    "balatro": {
+        "base": "png",
+        "aliases": [],
+        "categories": [
+            "videogames"
+        ],
+        "update": {
+            "timestamp": "2026-11-04T15:20:00Z",
+            "author": {
+                "id": 49837342,
+                "login": "ajnart",
+                "name": "Thomas"
+            }
+        }
+    },
+    "kingdom-come-deliverance-2": {
+        "base": "png",
+        "aliases": [
+            "kcd2"
+        ],
+        "categories": [
+            "videogames"
+        ],
+        "update": {
+            "timestamp": "2026-11-04T15:20:00Z",
+            "author": {
+                "id": 49837342,
+                "login": "ajnart",
+                "name": "Thomas"
+            }
+        }
+    },
+    "diablo-iv": {
+        "base": "png",
+        "aliases": [],
+        "categories": [
+            "videogames"
+        ],
+        "update": {
+            "timestamp": "2026-11-04T15:20:00Z",
+            "author": {
+                "id": 49837342,
+                "login": "ajnart",
+                "name": "Thomas"
+            }
+        }
+    },
+    "cities-skylines-ii": {
+        "base": "svg",
+        "aliases": [
+            "cities-skylines-2"
+        ],
+        "categories": [
+            "videogames"
+        ],
+        "update": {
+            "timestamp": "2026-11-04T15:20:00Z",
+            "author": {
+                "id": 49837342,
+                "login": "ajnart",
+                "name": "Thomas"
+            }
+        }
+    },
+    "tekken-8": {
+        "base": "svg",
+        "aliases": [
+            "tekken"
+        ],
+        "categories": [
+            "videogames"
+        ],
+        "update": {
+            "timestamp": "2026-11-04T15:20:00Z",
+            "author": {
+                "id": 49837342,
+                "login": "ajnart",
+                "name": "Thomas"
+            }
+        }
+    },
+    "roblox": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "videogames"
+        ],
+        "update": {
+            "timestamp": "2026-11-04T15:20:00Z",
+            "author": {
+                "id": 49837342,
+                "login": "ajnart",
+                "name": "Thomas"
+            }
+        }
+    },
+    "fortnite": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "videogames"
+        ],
+        "update": {
+            "timestamp": "2026-11-04T15:20:00Z",
+            "author": {
+                "id": 49837342,
+                "login": "ajnart",
+                "name": "Thomas"
+            }
+        }
+    },
+    "genshin-impact": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "videogames"
+        ],
+        "update": {
+            "timestamp": "2026-11-04T15:20:00Z",
+            "author": {
+                "id": 49837342,
+                "login": "ajnart",
+                "name": "Thomas"
+            }
+        }
+    },
+    "valorant": {
+        "base": "svg",
+        "aliases": [
+            "val"
+        ],
+        "categories": [
+            "videogames"
+        ],
+        "update": {
+            "timestamp": "2026-11-04T15:20:00Z",
+            "author": {
+                "id": 49837342,
+                "login": "ajnart",
+                "name": "Thomas"
+            }
+        }
+    },
+    "league-of-legends": {
+        "base": "svg",
+        "aliases": [
+            "lol"
+        ],
+        "categories": [
+            "videogames"
+        ],
+        "update": {
+            "timestamp": "2026-11-04T15:20:00Z",
+            "author": {
+                "id": 49837342,
+                "login": "ajnart",
+                "name": "Thomas"
+            }
+        }
+    },
+    "undertale": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "videogames"
+        ],
+        "update": {
+            "timestamp": "2026-11-04T15:20:00Z",
+            "author": {
+                "id": 49837342,
+                "login": "ajnart",
+                "name": "Thomas"
+            }
+        }
+    },
+    "grand-theft-auto-vi": {
+        "base": "svg",
+        "aliases": [
+            "gta6",
+            "gta-vi"
+        ],
+        "categories": [
+            "videogames"
+        ],
+        "update": {
+            "timestamp": "2026-11-04T15:20:00Z",
+            "author": {
+                "id": 49837342,
+                "login": "ajnart",
+                "name": "Thomas"
+            }
+        }
+    },
+    "hogwarts-legacy": {
+        "base": "png",
+        "aliases": [],
+        "categories": [
+            "videogames"
+        ],
+        "update": {
+            "timestamp": "2026-11-04T15:20:00Z",
+            "author": {
+                "id": 49837342,
+                "login": "ajnart",
+                "name": "Thomas"
+            }
+        }
+    },
+    "deep-rock-galactic": {
+        "base": "png",
+        "aliases": [
+            "drg"
+        ],
+        "categories": [
+            "videogames"
+        ],
+        "update": {
+            "timestamp": "2026-11-04T15:20:00Z",
+            "author": {
+                "id": 49837342,
+                "login": "ajnart",
+                "name": "Thomas"
+            }
+        }
+    },
+    "ghost-of-yotei": {
+        "base": "png",
+        "aliases": [],
+        "categories": [
+            "videogames"
+        ],
+        "update": {
+            "timestamp": "2026-11-04T15:20:00Z",
+            "author": {
+                "id": 49837342,
+                "login": "ajnart",
+                "name": "Thomas"
+            }
+        }
     }
 }

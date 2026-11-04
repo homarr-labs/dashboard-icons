@@ -1,0 +1,17 @@
+{
+  "base": "png",
+  "aliases": [
+    "kcd2"
+  ],
+  "categories": [
+    "videogames"
+  ],
+  "update": {
+    "timestamp": "2026-11-04T15:20:00Z",
+    "author": {
+      "id": 49837342,
+      "login": "ajnart",
+      "name": "Thomas"
+    }
+  }
+}

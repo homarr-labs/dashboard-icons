@@ -15,4 +15,5 @@ export const SUBMISSION_CATEGORIES = [
 	"storage",
 	"tools",
 	"utility",
+	"videogames",
 ] as const
