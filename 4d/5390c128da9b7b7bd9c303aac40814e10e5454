@@ -1,0 +1,21 @@
+web/src/lib/icons/__tests__/search.test.ts
+  s_05ef861992d1bd::t_fb7e22c586b9f7 181
+web/tests/icon-search.spec.ts
+  s_05ef861992d1bd::t_fb7e22c586b9f7 7,10-20,25-29,31
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "4d5390c128da9b7b7bd9c303aac40814e10e5454",
+  "prompts": {},
+  "sessions": {
+    "s_05ef861992d1bd": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a1a6e7-d402-7d23-bf4e-544804888af2",
+        "model": "gpt-6.1-sol"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
