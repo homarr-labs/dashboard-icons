@@ -25,6 +25,10 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: web-images-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
 env:
   IMAGE: ghcr.io/${{ github.repository }}
   NEXT_PUBLIC_POSTHOG_KEY: phc_fNHNUqEQJHL2DHlwyaPniHOcpEwe8rFPeJEcPbuifC6

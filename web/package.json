@@ -3,7 +3,7 @@
   "version": "0.2.0",
   "private": false,
   "scripts": {
-    "dev": "turbo run dev:backend dev:web --single-package --ui tui",
+    "dev": "turbo run dev:backend dev:web --single-package --cache-dir .turbo/cache --ui tui",
     "dev:backend": "cd backend && ./pocketbase serve",
     "dev:web": "next dev --turbopack --port 3005",
     "build": "turbo run build:next --single-package --cache-dir .turbo/cache",
