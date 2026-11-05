@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="10.3 8.84 101.82 101.82">
+  <defs>
+    <linearGradient id="rtvBorder" x1="26" y1="23" x2="26" y2="104" gradientUnits="userSpaceOnUse" gradientTransform="translate(-7.0225934,-4.3094571)">
+      <stop offset="0" stop-color="#36D9F4"/>
+      <stop offset="1" stop-color="#2D89FF"/>
+    </linearGradient>
+    <linearGradient id="rtvNode" x1="44" y1="52" x2="85" y2="80" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#36D9F4"/>
+      <stop offset="1" stop-color="#2D89FF"/>
+    </linearGradient>
+    <linearGradient xlink:href="#rtvNode" id="linearGradient7" gradientUnits="userSpaceOnUse" x1="44" y1="52" x2="85" y2="80" gradientTransform="translate(-4.4220694,-33.157406)"/>
+    <linearGradient xlink:href="#rtvNode" id="linearGradient8" gradientUnits="userSpaceOnUse" x1="44" y1="52" x2="85" y2="80" gradientTransform="matrix(0.69654129,0,0,0.69654129,-0.44964633,-13.4924)"/>
+    <linearGradient xlink:href="#rtvNode" id="linearGradient9" gradientUnits="userSpaceOnUse" x1="44" y1="52" x2="85" y2="80" gradientTransform="matrix(1.4231088,0,0,1.4231088,-57.907395,-16.469392)"/>
+    <linearGradient xlink:href="#rtvNode" id="linearGradient10" gradientUnits="userSpaceOnUse" x1="44" y1="52" x2="85" y2="80" gradientTransform="translate(-1.9563444,-19.262153)"/>
+  </defs>
+  <path d="m 12.977405,22.421411 v 74.538263 c 0,5.480756 2.192302,9.865356 6.576907,12.057656 4.384602,2.1923 8.769207,2.1923 13.153811,0 L 102.86178,71.748202 c 4.3846,-2.192301 6.5769,-6.576904 6.5769,-12.05766 0,-5.480755 -2.1923,-9.865358 -6.5769,-12.05766 L 32.708123,10.363751 c -9.243046,-4.6215229 -19.730718,2.63855 -19.730718,12.05766 z" fill="#ffffff"/>
+  <path d="m 16.977405,25.690543 v 68 c 0,5 2,8.999997 6.000001,10.999997 4,2 8,2 12,0 L 98.977405,70.690543 c 3.999995,-2 5.999995,-6 5.999995,-11 0,-5 -2,-9 -5.999995,-11 l -63.999999,-34 c -8.432274,-4.216137 -18.000001,2.407104 -18.000001,11 z" fill="#1b2439"/>
+  <path d="M 64.888912,39.132085 C 61.322926,36.625291 38.942884,24.088302 34.008525,21.830028 c -5.764742,-2.63831 -10.273365,1.854728 -9.880923,5.883937 0.172465,1.770705 0.181759,57.55271 0.209974,63.088644 0.04095,8.033864 5.24639,8.104474 8.462933,7.161964 5.13517,-1.41245 28.584861,-15.178429 29.632012,-15.777348" fill="none" stroke="url(#rtvBorder)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 66.281831,72.153756 C 65.097162,71.980113 52.367404,69.366545 50.403175,69.243248 M 67.68942,50.586989 C 65.099838,51.839237 49.195278,61.510615 49.195278,61.510615" fill="none" stroke="url(#linearGradient7)" stroke-width="4" stroke-linecap="round"/>
+  <circle cx="73.010902" cy="73.952789" r="6.9654131" fill="url(#linearGradient8)"/>
+  <circle cx="44.864246" cy="65.872444" r="9.9617615" fill="url(#linearGradient9)"/>
+  <circle cx="74.238838" cy="48.116142" r="7" fill="url(#linearGradient10)"/>
+</svg>
