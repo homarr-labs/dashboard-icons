@@ -15234,15 +15234,20 @@
         }
     },
     "instagram": {
-        "base": "svg",
         "aliases": [],
+        "base": "svg",
         "categories": [],
         "update": {
-            "timestamp": "2023-04-13T13:56:18Z",
+            "timestamp": "2026-11-06T13:31:34.297Z",
             "author": {
-                "id": 71191962,
-                "name": "walkxcode"
+                "id": 151365993,
+                "login": "fabianternis"
             }
+        },
+        "variants": {
+            "icon": "instagram-icon",
+            "old-wordmark-2016": "instagram-old-wordmark-2016",
+            "old-wordmark-2022": "instagram-old-wordmark-2022"
         }
     },
     "check-cle": {
