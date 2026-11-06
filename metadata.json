@@ -53785,5 +53785,17 @@
                 "login": "STY1001"
             }
         }
+    },
+    "canva": {
+        "base": "png",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-11-06T13:31:33.485Z",
+            "author": {
+                "id": 238691132,
+                "login": "munier-ie"
+            }
+        }
     }
 }
