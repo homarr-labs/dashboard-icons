@@ -53741,5 +53741,21 @@
                 "login": "jade-city2"
             }
         }
+    },
+    "microsoft-powerapps": {
+        "base": "svg",
+        "aliases": [
+            "powerapps",
+            "power-apps",
+            "mspowerapps"
+        ],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-11-06T13:31:28.282Z",
+            "author": {
+                "id": 29456736,
+                "login": "savage4618"
+            }
+        }
     }
 }
