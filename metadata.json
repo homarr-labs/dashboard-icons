@@ -53771,5 +53771,19 @@
                 "login": "STY1001"
             }
         }
+    },
+    "visual-studio-2026": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "development"
+        ],
+        "update": {
+            "timestamp": "2026-11-06T13:31:31.389Z",
+            "author": {
+                "id": 57889852,
+                "login": "STY1001"
+            }
+        }
     }
 }
