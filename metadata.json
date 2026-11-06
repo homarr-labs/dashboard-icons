@@ -53710,5 +53710,21 @@
         "wordmark": {
             "default": "ghost-of-yotei-wordmark"
         }
+    },
+    "dashboard": {
+        "base": "svg",
+        "aliases": [
+            "homelab-dashboard"
+        ],
+        "categories": [
+            "home-automation"
+        ],
+        "update": {
+            "timestamp": "2026-11-06T13:31:24.219Z",
+            "author": {
+                "id": 1297864,
+                "login": "stefanrenne"
+            }
+        }
     }
 }
