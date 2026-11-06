@@ -53726,5 +53726,20 @@
                 "login": "stefanrenne"
             }
         }
+    },
+    "duckduckgo-ai": {
+        "base": "svg",
+        "aliases": [
+            "ai",
+            "private-ai"
+        ],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-11-06T13:31:26.397Z",
+            "author": {
+                "id": 199529053,
+                "login": "jade-city2"
+            }
+        }
     }
 }
