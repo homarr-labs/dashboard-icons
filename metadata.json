@@ -54156,5 +54156,27 @@
                 "login": "carloluis"
             }
         }
+    },
+    "rex": {
+        "base": "svg",
+        "aliases": [
+            "rex",
+            "terminal",
+            "superlogical"
+        ],
+        "categories": [
+            "tools",
+            "development"
+        ],
+        "update": {
+            "timestamp": "2026-11-08T19:01:40.334Z",
+            "author": {
+                "id": 6170808,
+                "login": "carloluis"
+            }
+        },
+        "variants": {
+            "icon-app": "rex-icon-app"
+        }
     }
 }
