@@ -53938,5 +53938,34 @@
                 "login": "eidolumbra"
             }
         }
+    },
+    "nexusai": {
+        "base": "png",
+        "aliases": [
+            "NexusAi",
+            "Technology",
+            "Nexus",
+            "AI",
+            "Tools",
+            "Directory",
+            "Discovery",
+            "Platform"
+        ],
+        "categories": [
+            "tools",
+            "development",
+            "automation"
+        ],
+        "update": {
+            "timestamp": "2026-11-08T19:01:12.621Z",
+            "author": {
+                "id": "bv8734bcs2dt655",
+                "name": "nexusai"
+            }
+        },
+        "colors": {
+            "light": "nexusai-light",
+            "dark": "nexusai-dark"
+        }
     }
 }
