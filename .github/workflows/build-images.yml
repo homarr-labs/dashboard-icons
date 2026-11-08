@@ -150,7 +150,7 @@ jobs:
           context: ./web
           platforms: linux/${{ matrix.arch }}
           outputs: ${{ inputs.publish && format('type=image,name={0},push-by-digest=true,name-canonical=true,push=true', env.IMAGE) || 'type=docker' }}
-          tags: ${{ env.IMAGE }}:build-${{ matrix.arch }}
+          tags: ${{ !inputs.publish && format('{0}:build-{1}', env.IMAGE, matrix.arch) || '' }}
           labels: |
             ${{ steps.meta.outputs.labels }}
             org.opencontainers.image.revision=${{ needs.prepare.outputs.revision }}

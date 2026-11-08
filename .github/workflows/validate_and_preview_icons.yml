@@ -13,9 +13,9 @@ jobs:
         uses: actions/checkout@v5
 
       - name: Set Up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v6
         with:
-          python-version: "3.14.0"
+          python-version: "3.14"
 
       - name: Install Dependencies
         run: |

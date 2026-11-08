@@ -32,9 +32,9 @@ jobs:
           ref: ${{ github.ref_name }}
 
       - name: Set Up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v6
         with:
-          python-version: "3.14.0"
+          python-version: "3.14"
 
       - name: Install Dependencies
         run: |
@@ -72,9 +72,9 @@ jobs:
           ref: ${{ github.ref_name }}
 
       - name: Set Up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v6
         with:
-          python-version: "3.14.0"
+          python-version: "3.14"
 
       - name: Commit and Push Changes
         run: |
@@ -97,9 +97,9 @@ jobs:
           ref: ${{ github.ref_name }}
 
       - name: Set Up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v6
         with:
-          python-version: "3.14.0"
+          python-version: "3.14"
 
       - name: Commit and Push Changes
         run: |
