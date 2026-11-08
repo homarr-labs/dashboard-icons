@@ -47445,20 +47445,28 @@
         }
     },
     "mos": {
+        "aliases": [
+            "MOS"
+        ],
         "base": "png",
-        "aliases": [],
         "categories": [
             "media",
-            "cloud",
             "home-automation",
-            "network"
+            "network",
+            "storage",
+            "utility",
+            "tools"
         ],
         "update": {
-            "timestamp": "2026-08-22T21:39:38.818Z",
+            "timestamp": "2026-11-08T19:00:51.078Z",
             "author": {
-                "id": 157283395,
-                "login": "Baloe2000"
+                "id": 60364963,
+                "login": "J000K3R"
             }
+        },
+        "colors": {
+            "light": "mos-light",
+            "dark": "mos-dark"
         }
     },
     "docusign": {
