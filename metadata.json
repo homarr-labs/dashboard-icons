@@ -52939,17 +52939,23 @@
         }
     },
     "rocket-league": {
-        "base": "svg",
-        "aliases": [],
+        "base": "png",
+        "aliases": [
+            "rl",
+            "Rocket",
+            "League",
+            "Rocketleague"
+        ],
         "categories": [
-            "videogames"
+            "videogames",
+            "entertainment",
+            "gaming"
         ],
         "update": {
-            "timestamp": "2026-11-04T17:30:00Z",
+            "timestamp": "2026-11-08T19:01:14.325Z",
             "author": {
-                "id": 49837342,
-                "login": "ajnart",
-                "name": "Thomas"
+                "id": 190380981,
+                "login": "Shakinoz"
             }
         },
         "wordmark": {
@@ -52960,6 +52966,9 @@
             "icon": "rocket-league-icon",
             "wordmark-icon-light": "rocket-league-wordmark-icon-light",
             "wordmark-icon": "rocket-league-wordmark-icon"
+        },
+        "colors": {
+            "light": "rocket-league-light"
         }
     },
     "the-witcher-3": {
