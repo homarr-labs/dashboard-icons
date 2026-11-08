@@ -53810,5 +53810,20 @@
                 "login": "munier-ie"
             }
         }
+    },
+    "quickline": {
+        "base": "png",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-11-08T19:00:55.868Z",
+            "author": {
+                "id": "mvwyxlwx8xa2kww",
+                "name": "alfl87"
+            }
+        },
+        "variants": {
+            "tv": "quickline-tv"
+        }
     }
 }
