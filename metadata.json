@@ -53924,5 +53924,19 @@
                 "login": "mrblomblo"
             }
         }
+    },
+    "netskope": {
+        "base": "svg",
+        "aliases": [
+            "Netskope"
+        ],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-11-08T19:01:10.623Z",
+            "author": {
+                "id": 3473729,
+                "login": "eidolumbra"
+            }
+        }
     }
 }
