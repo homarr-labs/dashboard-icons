@@ -53864,5 +53864,17 @@
                 "login": "the-wondersmith"
             }
         }
+    },
+    "s3": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-11-08T19:01:04.419Z",
+            "author": {
+                "id": 99109793,
+                "login": "hodyhq"
+            }
+        }
     }
 }
