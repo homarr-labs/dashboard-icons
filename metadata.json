@@ -54123,5 +54123,26 @@
         "variants": {
             "icon": "hacker-tube-icon-icon"
         }
+    },
+    "speediness": {
+        "base": "svg",
+        "aliases": [
+            "speediness",
+            "internet-speed"
+        ],
+        "categories": [
+            "network",
+            "utility"
+        ],
+        "update": {
+            "timestamp": "2026-11-08T19:01:37.526Z",
+            "author": {
+                "id": 6170808,
+                "login": "carloluis"
+            }
+        },
+        "variants": {
+            "icon-app": "speediness-icon-app"
+        }
     }
 }
