@@ -54221,5 +54221,21 @@
         "variants": {
             "icon-app": "keymapp-icon-app"
         }
+    },
+    "kiosk-satellite": {
+        "base": "svg",
+        "aliases": [
+            "ks"
+        ],
+        "categories": [
+            "home-automation"
+        ],
+        "update": {
+            "timestamp": "2026-11-08T19:01:44.978Z",
+            "author": {
+                "id": 64123611,
+                "login": "proud-nerd"
+            }
+        }
     }
 }
