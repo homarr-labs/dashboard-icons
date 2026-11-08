@@ -53825,5 +53825,23 @@
         "variants": {
             "tv": "quickline-tv"
         }
+    },
+    "monloader": {
+        "base": "png",
+        "aliases": [
+            "monloader",
+            "monsender"
+        ],
+        "categories": [
+            "media",
+            "storage"
+        ],
+        "update": {
+            "timestamp": "2026-11-08T19:00:57.135Z",
+            "author": {
+                "id": "n3tv482bfxuazxy",
+                "name": "leqwin"
+            }
+        }
     }
 }
