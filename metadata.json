@@ -54198,5 +54198,28 @@
         "variants": {
             "icon-app": "recordly-icon-app"
         }
+    },
+    "keymapp": {
+        "base": "svg",
+        "aliases": [
+            "keymapp",
+            "zsa",
+            "keyboard",
+            "keyboard-layout"
+        ],
+        "categories": [
+            "tools",
+            "utility"
+        ],
+        "update": {
+            "timestamp": "2026-11-08T19:01:43.744Z",
+            "author": {
+                "id": 6170808,
+                "login": "carloluis"
+            }
+        },
+        "variants": {
+            "icon-app": "keymapp-icon-app"
+        }
     }
 }
