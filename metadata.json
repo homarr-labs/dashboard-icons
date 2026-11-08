@@ -54255,5 +54255,23 @@
             "light": "hermes-webui-light",
             "dark": "hermes-webui-dark"
         }
+    },
+    "calibre-web-nextgen": {
+        "base": "svg",
+        "aliases": [
+            "calibre-web-nextgen"
+        ],
+        "categories": [
+            "entertainment",
+            "media",
+            "utility"
+        ],
+        "update": {
+            "timestamp": "2026-11-08T19:01:49.176Z",
+            "author": {
+                "id": 40286677,
+                "login": "SpookyUSAF"
+            }
+        }
     }
 }
