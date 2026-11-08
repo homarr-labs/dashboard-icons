@@ -54144,5 +54144,17 @@
         "variants": {
             "icon-app": "speediness-icon-app"
         }
+    },
+    "apple-touch-icon-rex": {
+        "base": "png",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-11-08T19:01:38.698Z",
+            "author": {
+                "id": 6170808,
+                "login": "carloluis"
+            }
+        }
     }
 }
