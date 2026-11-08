@@ -54178,5 +54178,25 @@
         "variants": {
             "icon-app": "rex-icon-app"
         }
+    },
+    "recordly": {
+        "base": "svg",
+        "aliases": [
+            "recordly",
+            "record-screen"
+        ],
+        "categories": [
+            "tools"
+        ],
+        "update": {
+            "timestamp": "2026-11-08T19:01:42.087Z",
+            "author": {
+                "id": 6170808,
+                "login": "carloluis"
+            }
+        },
+        "variants": {
+            "icon-app": "recordly-icon-app"
+        }
     }
 }
