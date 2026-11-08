@@ -34329,15 +34329,29 @@
         }
     },
     "plane": {
-        "base": "svg",
         "aliases": [],
-        "categories": [],
+        "base": "svg",
+        "categories": [
+            "development",
+            "tools"
+        ],
         "update": {
-            "timestamp": "2024-10-20T17:24:03Z",
+            "timestamp": "2026-11-08T19:01:25.044Z",
             "author": {
-                "id": 71191962,
-                "name": "walkxcode"
+                "id": 17690438,
+                "login": "jrmann100"
             }
+        },
+        "colors": {
+            "light": "plane-light"
+        },
+        "wordmark": {
+            "default": "plane-wordmark",
+            "light": "plane-wordmark-light"
+        },
+        "variants": {
+            "wordmark-icon": "plane-wordmark-icon",
+            "wordmark-icon-light": "plane-wordmark-icon-light"
         }
     },
     "awtrix": {
