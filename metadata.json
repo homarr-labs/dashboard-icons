@@ -54273,5 +54273,32 @@
                 "login": "SpookyUSAF"
             }
         }
+    },
+    "rogueforge": {
+        "base": "png",
+        "aliases": [],
+        "categories": [
+            "automation",
+            "development",
+            "home-automation",
+            "monitoring",
+            "network",
+            "utility"
+        ],
+        "update": {
+            "timestamp": "2026-11-08T19:01:53.936Z",
+            "author": {
+                "id": "tq2227o2e00okmj",
+                "name": "rogue@roguegaming.com.au"
+            }
+        },
+        "colors": {
+            "light": "rogueforge-light",
+            "dark": "rogueforge-dark"
+        },
+        "wordmark": {
+            "light": "rogueforge-wordmark-light",
+            "dark": "rogueforge-wordmark-dark"
+        }
     }
 }
