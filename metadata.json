@@ -51916,14 +51916,16 @@
         }
     },
     "factorio": {
-        "base": "png",
         "aliases": [],
-        "categories": [],
+        "base": "png",
+        "categories": [
+            "gaming"
+        ],
         "update": {
-            "timestamp": "2026-10-20T06:35:09.070Z",
+            "timestamp": "2026-11-08T19:01:47.851Z",
             "author": {
-                "id": "iglxf8gvqrbzu7f",
-                "name": "lindholmlabs"
+                "id": 85635561,
+                "login": "LindholmLabs"
             }
         }
     },
