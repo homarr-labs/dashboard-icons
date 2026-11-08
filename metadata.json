@@ -54062,5 +54062,17 @@
                 "name": "ectonstore"
             }
         }
+    },
+    "silver-peak": {
+        "base": "png",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-11-08T19:01:23.010Z",
+            "author": {
+                "id": "z00yglez0gjsy34",
+                "name": "Antrax_XP"
+            }
+        }
     }
 }
