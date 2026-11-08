@@ -54074,5 +54074,21 @@
                 "name": "Antrax_XP"
             }
         }
+    },
+    "yuvomi": {
+        "base": "svg",
+        "aliases": [
+            "oikos"
+        ],
+        "categories": [
+            "utility"
+        ],
+        "update": {
+            "timestamp": "2026-11-08T19:01:24.314Z",
+            "author": {
+                "id": 108589275,
+                "login": "ulsklyc"
+            }
+        }
     }
 }
