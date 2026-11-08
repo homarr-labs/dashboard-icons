@@ -50656,18 +50656,16 @@
         }
     },
     "monbooru": {
-        "base": "png",
         "aliases": [
-            "monbooru",
-            "monloader",
-            "monsender"
+            "monbooru"
         ],
+        "base": "png",
         "categories": [
             "media",
             "storage"
         ],
         "update": {
-            "timestamp": "2026-09-29T07:31:45.254Z",
+            "timestamp": "2026-11-08T19:00:58.011Z",
             "author": {
                 "id": "n3tv482bfxuazxy",
                 "name": "leqwin"
