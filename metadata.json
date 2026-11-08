@@ -53876,5 +53876,24 @@
                 "login": "hodyhq"
             }
         }
+    },
+    "oxynote": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "development",
+            "tools"
+        ],
+        "update": {
+            "timestamp": "2026-11-08T19:01:06.620Z",
+            "author": {
+                "id": 58231312,
+                "login": "davseby"
+            }
+        },
+        "colors": {
+            "light": "oxynote-light",
+            "dark": "oxynote-dark"
+        }
     }
 }
