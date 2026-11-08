@@ -49,6 +49,24 @@
             }
         }
     },
+    "relaytv": {
+        "base": "svg",
+        "aliases": [
+            "Relay TV"
+        ],
+        "categories": [
+            "Media",
+            "Home-Automation"
+        ],
+        "update": {
+            "timestamp": "2026-11-05T04:59:00Z",
+            "author": {
+                "id": 1297874,
+                "name": "mcgeezy",
+                "login": "mcgeezy"
+            }
+        }
+    },
     "storj": {
         "base": "svg",
         "aliases": [],
@@ -38005,7 +38023,7 @@
     "chzzk": {
         "base": "png",
         "aliases": [
-            "치지직"
+            "\uce58\uc9c0\uc9c1"
         ],
         "categories": [
             "entertainment",
@@ -41088,7 +41106,7 @@
         "aliases": [
             "sparkasse",
             "sparkassengruppe",
-            "spořitelna",
+            "spo\u0159itelna",
             "erste group"
         ],
         "categories": [
