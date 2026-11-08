@@ -53907,5 +53907,22 @@
                 "login": "FistOfDen"
             }
         }
+    },
+    "blombooru": {
+        "base": "png",
+        "aliases": [
+            "Blombooru"
+        ],
+        "categories": [
+            "media",
+            "storage"
+        ],
+        "update": {
+            "timestamp": "2026-11-08T19:01:09.465Z",
+            "author": {
+                "id": 63555404,
+                "login": "mrblomblo"
+            }
+        }
     }
 }
