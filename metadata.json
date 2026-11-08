@@ -25056,20 +25056,24 @@
         }
     },
     "trakt": {
-        "base": "svg",
         "aliases": [
             "Media Tracking"
         ],
+        "base": "svg",
         "categories": [
             "Media-Servers",
             "Social-Media"
         ],
         "update": {
-            "timestamp": "2025-04-06T10:49:45.530344",
+            "timestamp": "2026-11-08T19:01:31.835Z",
             "author": {
-                "id": 63781622,
-                "login": "Meierschlumpf"
+                "id": 84112,
+                "login": "macx"
             }
+        },
+        "wordmark": {
+            "light": "trakt-wordmark-light",
+            "dark": "trakt-wordmark-dark"
         }
     },
     "akkoma": {
