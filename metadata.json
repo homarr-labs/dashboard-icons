@@ -53845,5 +53845,24 @@
                 "name": "leqwin"
             }
         }
+    },
+    "audiobookshelf-hardcover-sync": {
+        "base": "svg",
+        "aliases": [
+            "abs-hc-sync"
+        ],
+        "categories": [
+            "automation",
+            "entertainment",
+            "social",
+            "utility"
+        ],
+        "update": {
+            "timestamp": "2026-11-08T19:01:03.089Z",
+            "author": {
+                "id": 61921871,
+                "login": "the-wondersmith"
+            }
+        }
     }
 }
