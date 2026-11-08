@@ -53895,5 +53895,17 @@
             "light": "oxynote-light",
             "dark": "oxynote-dark"
         }
+    },
+    "cashquack": {
+        "base": "png",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-11-08T19:01:08.111Z",
+            "author": {
+                "id": 88396610,
+                "login": "FistOfDen"
+            }
+        }
     }
 }
