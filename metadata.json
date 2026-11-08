@@ -53976,5 +53976,32 @@
             "light": "nexusai-light",
             "dark": "nexusai-dark"
         }
+    },
+    "hostlegio": {
+        "base": "png",
+        "aliases": [
+            "HostLegio"
+        ],
+        "categories": [
+            "database",
+            "development",
+            "utility"
+        ],
+        "update": {
+            "timestamp": "2026-11-08T19:01:17.693Z",
+            "author": {
+                "id": 289141042,
+                "login": "sagar902722"
+            }
+        },
+        "colors": {
+            "light": "hostlegio-light",
+            "dark": "hostlegio-dark"
+        },
+        "wordmark": {
+            "default": "hostlegio-wordmark",
+            "light": "hostlegio-wordmark-light",
+            "dark": "hostlegio-wordmark-dark"
+        }
     }
 }
