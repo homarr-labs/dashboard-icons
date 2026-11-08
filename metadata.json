@@ -54237,5 +54237,21 @@
                 "login": "proud-nerd"
             }
         }
+    },
+    "hermes-webui": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-11-08T19:01:47.229Z",
+            "author": {
+                "id": "xnn6ppdb0j5tyz5",
+                "name": "Scroop"
+            }
+        },
+        "colors": {
+            "light": "hermes-webui-light",
+            "dark": "hermes-webui-dark"
+        }
     }
 }
