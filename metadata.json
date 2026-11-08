@@ -54038,5 +54038,17 @@
                 "login": "pavelhampl-tech"
             }
         }
+    },
+    "ferret": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-11-08T19:01:20.712Z",
+            "author": {
+                "id": 95475404,
+                "login": "UmbrellaCodr"
+            }
+        }
     }
 }
