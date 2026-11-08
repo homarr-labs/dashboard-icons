@@ -54003,5 +54003,22 @@
             "light": "hostlegio-wordmark-light",
             "dark": "hostlegio-wordmark-dark"
         }
+    },
+    "bytesized": {
+        "base": "png",
+        "aliases": [],
+        "categories": [
+            "media",
+            "database",
+            "storage",
+            "cloud"
+        ],
+        "update": {
+            "timestamp": "2026-11-08T19:01:18.655Z",
+            "author": {
+                "id": 62458225,
+                "login": "Rodnic80"
+            }
+        }
     }
 }
