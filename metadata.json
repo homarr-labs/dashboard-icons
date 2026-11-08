@@ -54020,5 +54020,23 @@
                 "login": "Rodnic80"
             }
         }
+    },
+    "xormon": {
+        "base": "png",
+        "aliases": [
+            "XorMon"
+        ],
+        "categories": [
+            "monitoring",
+            "tools",
+            "network"
+        ],
+        "update": {
+            "timestamp": "2026-11-08T19:01:19.614Z",
+            "author": {
+                "id": 352616195,
+                "login": "pavelhampl-tech"
+            }
+        }
     }
 }
