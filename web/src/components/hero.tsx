@@ -1,7 +1,7 @@
 "use client"
 
 import { motion, useAnimation, useInView } from "framer-motion"
-import { DollarSign, ExternalLink, Heart, Search, Share2, Sparkles, Star } from "lucide-react"
+import { Command, DollarSign, ExternalLink, Search, Sparkles, Star } from "lucide-react"
 import Link from "next/link"
 import { useEffect, useRef, useState } from "react"
 import { Button } from "@/components/ui/button"
@@ -14,7 +14,6 @@ import { AuroraText } from "./magicui/aurora-text"
 import { NumberTicker } from "./magicui/number-ticker"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "./ui/dialog"
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "./ui/hover-card"
-import { Separator } from "./ui/separator"
 import { UnoptimizedImage } from "./unoptimized-image"
 
 function ElegantShape({
@@ -265,7 +264,12 @@ export function HeroSection({
 							</Button>
 							<GiveUsAStarButton />
 							<SupportCollectionsButton />
-							<GiveUsLoveButton />
+							<Button asChild variant="outline" className="h-9 md:h-10 px-4">
+								<Link href="https://www.raycast.com/macx/dashboard-icons" target="_blank" rel="noopener noreferrer">
+									<Command data-icon="inline-start" />
+									Raycast extension
+								</Link>
+							</Button>
 						</div>
 						<div className="flex flex-col sm:flex-row justify-center gap-3">
 							<AddToSearchBarButton size="lg" />
@@ -310,79 +314,6 @@ export default function GiveUsAStarButton() {
 				{stars !== null && <span className="text-muted-foreground">{stars.toLocaleString("en-US")}</span>}
 			</Link>
 		</Button>
-	)
-}
-
-export function GiveUsLoveButton() {
-	return (
-		<HoverCard openDelay={200} closeDelay={200}>
-			<HoverCardTrigger asChild>
-				<Button variant="outline" className="h-9 md:h-10 px-4">
-					<div className="flex items-center gap-2">
-						<p>Give us love</p>
-						<Heart className="h-4 w-4 ml-1 fill-primary text-primary" />
-					</div>
-				</Button>
-			</HoverCardTrigger>
-			<HoverCardContent className="w-96 max-w-[calc(100vw-2rem)]">
-				<div className="grid gap-4">
-					<div className="space-y-2">
-						<p className="font-medium leading-none flex items-center gap-2">
-							<Heart className="h-4 w-4 fill-primary text-primary" />
-							Support us without spending
-						</p>
-						<p className="text-sm text-muted-foreground">We keep our service free through minimal, non-intrusive ads.</p>
-					</div>
-
-					<div className="flex gap-2 items-start">
-						<div className="space-y-1">
-							<p className="text-sm font-medium text-primary">Please consider disabling your ad-blocker</p>
-							<p className="text-xs text-primary/80">
-								We only show ads on the icon detail pages (/icons/{"{id}"}) and never on the main site.
-							</p>
-							<p className="text-xs text-primary/80 mt-2 italic">
-								Note: If you use a network-wide ad blocker (like Pi-hole or AdGuard Home), you may need to whitelist "carbonads.net"
-								specifically.
-							</p>
-						</div>
-					</div>
-
-					<div className="space-y-2">
-						<p className="text-sm font-medium text-muted-foreground">Privacy and analytics:</p>
-						<ul className="text-xs text-muted-foreground/80 space-y-1.5">
-							<li className="flex items-start gap-2">
-								<span className="text-primary font-bold">✓</span>
-								<span>We use analytics to understand site usage</span>
-							</li>
-							<li className="flex items-start gap-2">
-								<span className="text-primary font-bold">✓</span>
-								<span>We don't sell account information</span>
-							</li>
-							<li className="flex items-start gap-2">
-								<span className="text-primary font-bold">✓</span>
-								<span>Browser storage supports sign-in, preferences, and analytics</span>
-							</li>
-						</ul>
-					</div>
-
-					<Link href="/privacy" className="text-xs underline underline-offset-4 hover:text-primary">
-						Read our Privacy Policy
-					</Link>
-
-					<Separator className="bg-secondary/20" />
-
-					<div className="space-y-2">
-						<p className="text-sm font-medium text-muted-foreground flex items-center gap-2">
-							<Share2 className="h-4 w-4 text-primary" />
-							Spread the word
-						</p>
-						<p className="text-xs text-muted-foreground/80">
-							Don't want to disable your ad blocker? You can still help us by sharing our website with others who might find it useful.
-						</p>
-					</div>
-				</div>
-			</HoverCardContent>
-		</HoverCard>
 	)
 }
 
