@@ -24515,6 +24515,26 @@
             }
         }
     },
+    "taskade": {
+        "base": "svg",
+        "aliases": [
+            "taskade genesis"
+        ],
+        "categories": [
+            "Productivity"
+        ],
+        "update": {
+            "timestamp": "2026-10-31T05:20:00Z",
+            "author": {
+                "id": 792088,
+                "name": "johnxie"
+            }
+        },
+        "colors": {
+            "light": "taskade-light",
+            "dark": "taskade"
+        }
+    },
     "rallly": {
         "base": "svg",
         "aliases": [],
@@ -38005,7 +38025,7 @@
     "chzzk": {
         "base": "png",
         "aliases": [
-            "치지직"
+            "\uce58\uc9c0\uc9c1"
         ],
         "categories": [
             "entertainment",
@@ -41088,7 +41108,7 @@
         "aliases": [
             "sparkasse",
             "sparkassengruppe",
-            "spořitelna",
+            "spo\u0159itelna",
             "erste group"
         ],
         "categories": [
