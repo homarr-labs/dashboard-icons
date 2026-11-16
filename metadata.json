@@ -54685,5 +54685,23 @@
                 "login": "visualfusion"
             }
         }
+    },
+    "alpine": {
+        "base": "svg",
+        "aliases": [
+            "Alpines"
+        ],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-11-16T18:42:13.096Z",
+            "author": {
+                "id": 167616802,
+                "login": "Taglhydz"
+            }
+        },
+        "colors": {
+            "light": "alpine-light",
+            "dark": "alpine-dark"
+        }
     }
 }
