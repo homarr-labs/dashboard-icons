@@ -54602,5 +54602,23 @@
                 "login": "maciekzygmunt"
             }
         }
+    },
+    "arr-media-guard": {
+        "base": "svg",
+        "aliases": [
+            "AMG"
+        ],
+        "categories": [
+            "automation",
+            "media",
+            "utility"
+        ],
+        "update": {
+            "timestamp": "2026-11-16T18:42:04.889Z",
+            "author": {
+                "id": "x5eo2cnyac0b0r9",
+                "name": "arcanemagus"
+            }
+        }
     }
 }
