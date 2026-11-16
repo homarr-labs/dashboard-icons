@@ -54363,5 +54363,27 @@
             "light": "globe-light",
             "dark": "globe-dark"
         }
+    },
+    "settings": {
+        "base": "svg",
+        "aliases": [
+            "setting",
+            "gear",
+            "settings gear"
+        ],
+        "categories": [
+            "utility"
+        ],
+        "update": {
+            "timestamp": "2026-11-16T18:41:40.139Z",
+            "author": {
+                "id": 49837342,
+                "login": "ajnart"
+            }
+        },
+        "colors": {
+            "light": "settings-light",
+            "dark": "settings-dark"
+        }
     }
 }
