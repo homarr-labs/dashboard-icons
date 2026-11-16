@@ -54620,5 +54620,26 @@
                 "name": "arcanemagus"
             }
         }
+    },
+    "gridlock": {
+        "base": "svg",
+        "aliases": [
+            "gridlock"
+        ],
+        "categories": [
+            "entertainment",
+            "social"
+        ],
+        "update": {
+            "timestamp": "2026-11-16T18:42:07.060Z",
+            "author": {
+                "id": "yarhr7vwsi7n0jz",
+                "name": "goosekai"
+            }
+        },
+        "colors": {
+            "light": "gridlock-light",
+            "dark": "gridlock-dark"
+        }
     }
 }
