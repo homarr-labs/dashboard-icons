@@ -54641,5 +54641,20 @@
             "light": "gridlock-light",
             "dark": "gridlock-dark"
         }
+    },
+    "modan": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "security",
+            "network"
+        ],
+        "update": {
+            "timestamp": "2026-11-16T18:42:08.272Z",
+            "author": {
+                "id": 147527091,
+                "login": "mayberryjp"
+            }
+        }
     }
 }
