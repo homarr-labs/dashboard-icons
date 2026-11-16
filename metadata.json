@@ -54432,5 +54432,24 @@
                 "login": "frops"
             }
         }
+    },
+    "size-m": {
+        "base": "png",
+        "aliases": [
+            "size",
+            "t-shirt",
+            "medium",
+            "m"
+        ],
+        "categories": [
+            "development"
+        ],
+        "update": {
+            "timestamp": "2026-11-16T18:41:46.353Z",
+            "author": {
+                "id": 3303753,
+                "login": "frops"
+            }
+        }
     }
 }
