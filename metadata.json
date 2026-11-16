@@ -54588,5 +54588,19 @@
                 "login": "brotasangre"
             }
         }
+    },
+    "excaliself": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "tools"
+        ],
+        "update": {
+            "timestamp": "2026-11-16T18:42:03.659Z",
+            "author": {
+                "id": 77489537,
+                "login": "maciekzygmunt"
+            }
+        }
     }
 }
