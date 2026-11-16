@@ -16408,25 +16408,24 @@
         }
     },
     "posthog": {
-        "base": "svg",
         "aliases": [
             "product-analytics-tool",
             "user-analytics"
         ],
+        "base": "svg",
         "categories": [
             "Developer-Tools",
             "Monitoring-Tools"
         ],
-        "update": {
-            "timestamp": "2024-10-20T17:24:03Z",
-            "author": {
-                "id": 71191962,
-                "name": "walkxcode"
-            }
-        },
         "colors": {
-            "dark": "posthog",
             "light": "posthog-light"
+        },
+        "update": {
+            "timestamp": "2026-11-16T18:42:13.773Z",
+            "author": {
+                "id": 32079912,
+                "login": "rafaeelaudibert"
+            }
         }
     },
     "stb-proxy": {
