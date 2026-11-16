@@ -54576,5 +54576,17 @@
             "light": "csp-light",
             "dark": "csp-dark"
         }
+    },
+    "piskel-logo": {
+        "base": "png",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-11-16T18:42:02.422Z",
+            "author": {
+                "id": 313751149,
+                "login": "brotasangre"
+            }
+        }
     }
 }
