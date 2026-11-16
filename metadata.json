@@ -54511,5 +54511,28 @@
         "colors": {
             "light": "roboform-light"
         }
+    },
+    "gather": {
+        "base": "png",
+        "aliases": [],
+        "categories": [
+            "development"
+        ],
+        "update": {
+            "timestamp": "2026-11-16T18:41:53.564Z",
+            "author": {
+                "id": 2863673,
+                "login": "grantstephens"
+            }
+        },
+        "colors": {
+            "light": "gather-light",
+            "dark": "gather-dark"
+        },
+        "wordmark": {
+            "default": "gather-wordmark",
+            "light": "gather-wordmark-light",
+            "dark": "gather-wordmark-dark"
+        }
     }
 }
