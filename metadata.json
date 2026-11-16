@@ -54413,5 +54413,24 @@
             "light": "size-xs-wordmark-light",
             "dark": "size-xs-wordmark-dark"
         }
+    },
+    "size-s": {
+        "base": "png",
+        "aliases": [
+            "size",
+            "t-shirt",
+            "size-s",
+            "small"
+        ],
+        "categories": [
+            "development"
+        ],
+        "update": {
+            "timestamp": "2026-11-16T18:41:45.225Z",
+            "author": {
+                "id": 3303753,
+                "login": "frops"
+            }
+        }
     }
 }
