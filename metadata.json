@@ -54558,5 +54558,23 @@
         "variants": {
             "subtitle-included": "haste-subtitle-included"
         }
+    },
+    "csp": {
+        "base": "png",
+        "aliases": [
+            "clip-studio-pain"
+        ],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-11-16T18:42:01.080Z",
+            "author": {
+                "id": 313751149,
+                "login": "brotasangre"
+            }
+        },
+        "colors": {
+            "light": "csp-light",
+            "dark": "csp-dark"
+        }
     }
 }
