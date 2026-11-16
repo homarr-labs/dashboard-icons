@@ -54534,5 +54534,29 @@
             "light": "gather-wordmark-light",
             "dark": "gather-wordmark-dark"
         }
+    },
+    "haste": {
+        "base": "png",
+        "aliases": [],
+        "categories": [
+            "videogames"
+        ],
+        "update": {
+            "timestamp": "2026-11-16T18:41:58.002Z",
+            "author": {
+                "id": 114338572,
+                "login": "BajekekButLost"
+            }
+        },
+        "colors": {
+            "light": "haste-light"
+        },
+        "wordmark": {
+            "default": "haste-wordmark",
+            "light": "haste-wordmark-light"
+        },
+        "variants": {
+            "subtitle-included": "haste-subtitle-included"
+        }
     }
 }
