@@ -54385,5 +54385,33 @@
             "light": "settings-light",
             "dark": "settings-dark"
         }
+    },
+    "size-xs": {
+        "base": "png",
+        "aliases": [
+            "size-xs",
+            "extra-small",
+            "small",
+            "t-shirt"
+        ],
+        "categories": [
+            "development"
+        ],
+        "update": {
+            "timestamp": "2026-11-16T18:41:43.754Z",
+            "author": {
+                "id": 3303753,
+                "login": "frops"
+            }
+        },
+        "colors": {
+            "light": "size-xs-light",
+            "dark": "size-xs-dark"
+        },
+        "wordmark": {
+            "default": "size-xs-wordmark",
+            "light": "size-xs-wordmark-light",
+            "dark": "size-xs-wordmark-dark"
+        }
     }
 }
