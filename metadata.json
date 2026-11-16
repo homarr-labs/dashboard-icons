@@ -54340,5 +54340,28 @@
         "colors": {
             "light": "cpu-light"
         }
+    },
+    "globe": {
+        "base": "svg",
+        "aliases": [
+            "internet",
+            "world",
+            "network"
+        ],
+        "categories": [
+            "network",
+            "utility"
+        ],
+        "update": {
+            "timestamp": "2026-11-16T18:41:37.874Z",
+            "author": {
+                "id": 49837342,
+                "login": "ajnart"
+            }
+        },
+        "colors": {
+            "light": "globe-light",
+            "dark": "globe-dark"
+        }
     }
 }
