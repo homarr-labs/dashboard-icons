@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="84 28 344 464" width="380" height="512" role="img" aria-label="VPN Sentinel">
+  <title>VPN Sentinel</title>
+  <path d="M96 128 L156 40 L204 112 H308 L356 40 L416 128 V312 C416 416 344 480 256 480 C168 480 96 416 96 312 Z" fill="#1e3a5f" stroke="#e8eef5" stroke-width="16" stroke-linejoin="round"/>
+  <circle cx="186" cy="240" r="70" fill="#e8eef5"/>
+  <circle cx="326" cy="240" r="70" fill="#e8eef5"/>
+  <circle cx="186" cy="240" r="38" fill="#22c55e"/>
+  <circle cx="326" cy="240" r="38" fill="#22c55e"/>
+  <circle cx="186" cy="240" r="14" fill="#0f1f33"/>
+  <circle cx="326" cy="240" r="14" fill="#0f1f33"/>
+  <path d="M234 312 H278 L256 356 Z" fill="#f5b800" stroke="#f5b800" stroke-width="8" stroke-linejoin="round"/>
+</svg>

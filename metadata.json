@@ -54300,5 +54300,23 @@
             "light": "rogueforge-wordmark-light",
             "dark": "rogueforge-wordmark-dark"
         }
+    },
+    "vpn-sentinel": {
+        "base": "svg",
+        "aliases": [
+            "vpnsentinel"
+        ],
+        "categories": [
+            "monitoring",
+            "network",
+            "security"
+        ],
+        "update": {
+            "timestamp": "2026-11-16T18:41:33.040Z",
+            "author": {
+                "id": 6804522,
+                "login": "agigante80"
+            }
+        }
     }
 }
