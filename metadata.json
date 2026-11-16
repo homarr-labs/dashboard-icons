@@ -54493,5 +54493,23 @@
                 "login": "frops"
             }
         }
+    },
+    "roboform": {
+        "base": "png",
+        "aliases": [
+            "password",
+            "manager"
+        ],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-11-16T18:41:50.075Z",
+            "author": {
+                "id": 292285727,
+                "login": "Kengkorok"
+            }
+        },
+        "colors": {
+            "light": "roboform-light"
+        }
     }
 }
