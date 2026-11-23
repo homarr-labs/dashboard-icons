@@ -55125,5 +55125,24 @@
                 "login": "junkerderprovinz"
             }
         }
+    },
+    "parleyport": {
+        "base": "svg",
+        "aliases": [
+            "ParleyPort"
+        ],
+        "categories": [
+            "network"
+        ],
+        "update": {
+            "timestamp": "2026-11-23T14:53:38.759Z",
+            "author": {
+                "id": 133605895,
+                "login": "junkerderprovinz"
+            }
+        },
+        "colors": {
+            "dark": "parleyport-dark"
+        }
     }
 }
