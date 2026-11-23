@@ -54702,5 +54702,17 @@
             "light": "alpine-light",
             "dark": "alpine-dark"
         }
+    },
+    "minios": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-11-23T14:52:26.159Z",
+            "author": {
+                "id": 1015200,
+                "login": "tas50"
+            }
+        }
     }
 }
