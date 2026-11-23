@@ -54800,5 +54800,26 @@
             "light": "halesis-wordmark-light",
             "dark": "halesis-wordmark-dark"
         }
+    },
+    "ph-intercept": {
+        "base": "svg",
+        "aliases": [
+            "phintercept"
+        ],
+        "categories": [
+            "network",
+            "monitoring"
+        ],
+        "update": {
+            "timestamp": "2026-11-23T14:52:43.802Z",
+            "author": {
+                "id": 53917237,
+                "login": "m00grin"
+            }
+        },
+        "colors": {
+            "light": "ph-intercept-light",
+            "dark": "ph-intercept-dark"
+        }
     }
 }
