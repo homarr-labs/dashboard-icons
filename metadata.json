@@ -55144,5 +55144,22 @@
         "colors": {
             "dark": "parleyport-dark"
         }
+    },
+    "trickwork": {
+        "base": "svg",
+        "aliases": [
+            "TrickWork"
+        ],
+        "categories": [
+            "tools",
+            "media"
+        ],
+        "update": {
+            "timestamp": "2026-11-23T14:53:40.302Z",
+            "author": {
+                "id": 133605895,
+                "login": "junkerderprovinz"
+            }
+        }
     }
 }
