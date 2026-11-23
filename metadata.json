@@ -54731,5 +54731,20 @@
                 "login": "Jack-Overflow"
             }
         }
+    },
+    "lurker": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "social",
+            "tools"
+        ],
+        "update": {
+            "timestamp": "2026-11-23T14:52:31.948Z",
+            "author": {
+                "id": 249737766,
+                "login": "headscarf737"
+            }
+        }
     }
 }
