@@ -54876,5 +54876,33 @@
         "wordmark": {
             "default": "tilemark-wordmark"
         }
+    },
+    "redterm": {
+        "base": "png",
+        "aliases": [
+            "redterm",
+            "termux",
+            "terminal"
+        ],
+        "categories": [
+            "tools",
+            "development"
+        ],
+        "update": {
+            "timestamp": "2026-11-23T14:52:54.102Z",
+            "author": {
+                "id": 166284738,
+                "login": "GlobalTechInfo"
+            }
+        },
+        "colors": {
+            "light": "redterm-light",
+            "dark": "redterm-dark"
+        },
+        "wordmark": {
+            "default": "redterm-wordmark",
+            "light": "redterm-wordmark-light",
+            "dark": "redterm-wordmark-dark"
+        }
     }
 }
