@@ -16423,11 +16423,15 @@
             "light": "posthog-light"
         },
         "update": {
-            "timestamp": "2026-11-16T18:42:13.773Z",
+            "timestamp": "2026-11-23T14:53:00.860Z",
             "author": {
                 "id": 32079912,
                 "login": "rafaeelaudibert"
             }
+        },
+        "wordmark": {
+            "default": "posthog-wordmark",
+            "light": "posthog-wordmark-light"
         }
     },
     "stb-proxy": {
