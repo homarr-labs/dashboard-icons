@@ -54821,5 +54821,22 @@
             "light": "ph-intercept-light",
             "dark": "ph-intercept-dark"
         }
+    },
+    "notiforwarder": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "tools",
+            "utility",
+            "monitoring",
+            "automation"
+        ],
+        "update": {
+            "timestamp": "2026-11-23T14:52:45.345Z",
+            "author": {
+                "id": 66271788,
+                "login": "tianyu-00"
+            }
+        }
     }
 }
