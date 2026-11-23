@@ -54922,5 +54922,26 @@
                 "login": "chendada00"
             }
         }
+    },
+    "monize-logo": {
+        "base": "svg",
+        "aliases": [
+            "selfhost",
+            "monize",
+            "finance"
+        ],
+        "categories": [
+            "home-automation",
+            "tools",
+            "finance",
+            "database"
+        ],
+        "update": {
+            "timestamp": "2026-11-23T14:53:06.117Z",
+            "author": {
+                "id": 103329842,
+                "login": "TheLumoc"
+            }
+        }
     }
 }
