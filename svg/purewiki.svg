@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" fill="none">
+    <defs>
+        <linearGradient id="pw-grad-1" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#3B82F6"></stop>
+            <stop offset="100%" stop-color="#1D4ED8"></stop>
+        </linearGradient>
+    </defs>
+    <rect x="24" y="24" width="60" height="60" rx="16" fill="url(#pw-grad-1)" opacity="0.9"></rect>
+    <rect x="44" y="44" width="60" height="60" rx="16" stroke="#60A5FA" stroke-width="8"></rect>
+</svg>

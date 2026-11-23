@@ -55221,5 +55221,29 @@
         "variants": {
             "icon-app": "tinyhand-icon-app"
         }
+    },
+    "purewiki": {
+        "base": "svg",
+        "aliases": [
+            "pure-wiki",
+            "flat-file-wiki",
+            "knowledge-base"
+        ],
+        "categories": [
+            "tools",
+            "development"
+        ],
+        "update": {
+            "timestamp": "2026-11-23T14:53:53.977Z",
+            "author": {
+                "id": 71061042,
+                "login": "OliverWeinhold"
+            }
+        },
+        "wordmark": {
+            "default": "purewiki-wordmark",
+            "light": "purewiki-wordmark-light",
+            "dark": "purewiki-wordmark-dark"
+        }
     }
 }

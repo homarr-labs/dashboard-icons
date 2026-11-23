@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 64" fill="none">
+    <defs>
+        <linearGradient id="pw-grad-1-nav" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#3B82F6"></stop>
+            <stop offset="100%" stop-color="#1D4ED8"></stop>
+        </linearGradient>
+    </defs>
+    <!-- Icon -->
+    <rect x="4" y="8" width="30" height="30" rx="8" fill="url(#pw-grad-1-nav)" opacity="0.9"></rect>
+    <rect x="14" y="18" width="30" height="30" rx="8" stroke="#60A5FA" stroke-width="5"></rect>
+    <!-- Text -->
+    <text x="64" y="42" font-family="system-ui, -apple-system, sans-serif" font-size="32" font-weight="700" fill="#FFFFFF">Pure<tspan font-weight="300" fill="#9CA3AF">Wiki</tspan></text>
+</svg>
