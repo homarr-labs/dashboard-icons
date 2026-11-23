@@ -62,15 +62,18 @@
         }
     },
     "docker": {
-        "base": "svg",
         "aliases": [],
+        "base": "svg",
         "categories": [],
         "update": {
-            "timestamp": "2022-08-16T17:22:56Z",
+            "timestamp": "2026-11-23T14:53:41.193Z",
             "author": {
-                "id": 71191962,
-                "name": "walkxcode"
+                "id": 18125347,
+                "login": "mpatfield"
             }
+        },
+        "colors": {
+            "light": "docker-light"
         }
     },
     "ceph": {
