@@ -54857,5 +54857,24 @@
             "light": "printview3d-light",
             "dark": "printview3d-dark"
         }
+    },
+    "tilemark": {
+        "base": "png",
+        "aliases": [
+            "docker",
+            "dockge",
+            "home-assistant-apps"
+        ],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-11-23T14:52:50.211Z",
+            "author": {
+                "id": 56670426,
+                "login": "sevagjb"
+            }
+        },
+        "wordmark": {
+            "default": "tilemark-wordmark"
+        }
     }
 }
