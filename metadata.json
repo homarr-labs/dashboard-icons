@@ -54904,5 +54904,19 @@
             "light": "redterm-wordmark-light",
             "dark": "redterm-wordmark-dark"
         }
+    },
+    "newsnow": {
+        "base": "svg",
+        "aliases": [
+            "newsnow"
+        ],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-11-23T14:52:59.926Z",
+            "author": {
+                "id": 53457984,
+                "login": "chendada00"
+            }
+        }
     }
 }
