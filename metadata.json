@@ -54996,5 +54996,26 @@
                 "login": "OzmaXochi"
             }
         }
+    },
+    "actual-mcp-server": {
+        "base": "svg",
+        "aliases": [
+            "actual-mcp",
+            "actual-budget-mcp"
+        ],
+        "categories": [
+            "finance",
+            "tools"
+        ],
+        "update": {
+            "timestamp": "2026-11-23T14:53:22.993Z",
+            "author": {
+                "id": 6804522,
+                "login": "agigante80"
+            }
+        },
+        "colors": {
+            "light": "actual-mcp-server-light"
+        }
     }
 }
