@@ -55017,5 +55017,28 @@
         "colors": {
             "light": "actual-mcp-server-light"
         }
+    },
+    "encrivolabs": {
+        "base": "svg",
+        "aliases": [
+            "EncrivoLabs"
+        ],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-11-23T14:53:28.713Z",
+            "author": {
+                "id": 28524634,
+                "login": "dizzpy"
+            }
+        },
+        "colors": {
+            "light": "encrivolabs-light",
+            "dark": "encrivolabs-dark"
+        },
+        "wordmark": {
+            "default": "encrivolabs-wordmark",
+            "light": "encrivolabs-wordmark-light",
+            "dark": "encrivolabs-wordmark-dark"
+        }
     }
 }
