@@ -54943,5 +54943,30 @@
                 "login": "TheLumoc"
             }
         }
+    },
+    "codetta": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "development",
+            "media",
+            "monitoring"
+        ],
+        "update": {
+            "timestamp": "2026-11-23T14:53:11.451Z",
+            "author": {
+                "id": 133070834,
+                "login": "gavndev"
+            }
+        },
+        "colors": {
+            "light": "codetta-light",
+            "dark": "codetta-dark"
+        },
+        "wordmark": {
+            "default": "codetta-wordmark",
+            "light": "codetta-wordmark-light",
+            "dark": "codetta-wordmark-dark"
+        }
     }
 }
