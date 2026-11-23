@@ -55057,5 +55057,22 @@
                 "login": "junkerderprovinz"
             }
         }
+    },
+    "bombvault": {
+        "base": "svg",
+        "aliases": [
+            "BombVault"
+        ],
+        "categories": [
+            "storage",
+            "utility"
+        ],
+        "update": {
+            "timestamp": "2026-11-23T14:53:31.847Z",
+            "author": {
+                "id": 133605895,
+                "login": "junkerderprovinz"
+            }
+        }
     }
 }
