@@ -55164,5 +55164,22 @@
                 "login": "junkerderprovinz"
             }
         }
+    },
+    "metalzone": {
+        "base": "png",
+        "aliases": [
+            "metalzone"
+        ],
+        "categories": [
+            "cloud",
+            "entertainment"
+        ],
+        "update": {
+            "timestamp": "2026-11-23T14:53:44.783Z",
+            "author": {
+                "id": 213477120,
+                "login": "vcaligiuri"
+            }
+        }
     }
 }
