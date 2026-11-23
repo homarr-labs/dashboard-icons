@@ -54746,5 +54746,20 @@
                 "login": "headscarf737"
             }
         }
+    },
+    "yattee": {
+        "base": "png",
+        "aliases": [
+            "yattee-server",
+            "yattee-client"
+        ],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-11-23T14:52:34.398Z",
+            "author": {
+                "id": "di5g6rivw5r9xsh",
+                "name": "FishHatchery"
+            }
+        }
     }
 }
