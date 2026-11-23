@@ -54838,5 +54838,24 @@
                 "login": "tianyu-00"
             }
         }
+    },
+    "printview3d": {
+        "base": "png",
+        "aliases": [
+            "3d-printer",
+            "slicer"
+        ],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-11-23T14:52:47.901Z",
+            "author": {
+                "id": 56670426,
+                "login": "sevagjb"
+            }
+        },
+        "colors": {
+            "light": "printview3d-light",
+            "dark": "printview3d-dark"
+        }
     }
 }
