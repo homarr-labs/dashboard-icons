@@ -55201,5 +55201,25 @@
         "variants": {
             "icon-app": "rascal-icon-app"
         }
+    },
+    "tinyhand": {
+        "base": "svg",
+        "aliases": [
+            "cursor",
+            "pointer"
+        ],
+        "categories": [
+            "utility"
+        ],
+        "update": {
+            "timestamp": "2026-11-23T14:53:50.058Z",
+            "author": {
+                "id": 6170808,
+                "login": "carloluis"
+            }
+        },
+        "variants": {
+            "icon-app": "tinyhand-icon-app"
+        }
     }
 }
