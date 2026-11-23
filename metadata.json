@@ -54968,5 +54968,22 @@
             "light": "codetta-wordmark-light",
             "dark": "codetta-wordmark-dark"
         }
+    },
+    "gtsuite": {
+        "base": "svg",
+        "aliases": [
+            "gtise"
+        ],
+        "categories": [
+            "utility",
+            "automation"
+        ],
+        "update": {
+            "timestamp": "2026-11-23T14:53:12.971Z",
+            "author": {
+                "id": 126305018,
+                "login": "OzmaXochi"
+            }
+        }
     }
 }
