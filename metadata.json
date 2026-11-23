@@ -55074,5 +55074,22 @@
                 "login": "junkerderprovinz"
             }
         }
+    },
+    "cannoncommander": {
+        "base": "svg",
+        "aliases": [
+            "CannonCommander"
+        ],
+        "categories": [
+            "tools",
+            "storage"
+        ],
+        "update": {
+            "timestamp": "2026-11-23T14:53:33.518Z",
+            "author": {
+                "id": 133605895,
+                "login": "junkerderprovinz"
+            }
+        }
     }
 }
