@@ -15538,14 +15538,16 @@
         }
     },
     "whats-up-docker": {
+        "aliases": [
+            "WUD"
+        ],
         "base": "svg",
-        "aliases": [],
         "categories": [],
         "update": {
-            "timestamp": "2025-05-11T20:26:17.225235",
+            "timestamp": "2026-11-23T14:52:35.318Z",
             "author": {
-                "id": 72615568,
-                "login": "pat-gal"
+                "id": 49837342,
+                "login": "ajnart"
             }
         }
     },
