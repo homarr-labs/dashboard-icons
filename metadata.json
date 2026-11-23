@@ -8891,17 +8891,28 @@
         }
     },
     "tracearr": {
-        "base": "svg",
         "aliases": [],
+        "base": "svg",
         "categories": [
-            "Media"
+            "Media",
+            "monitoring",
+            "media"
         ],
         "update": {
-            "timestamp": "2025-12-20T17:58:49.047941",
+            "timestamp": "2026-11-23T14:53:13.799Z",
             "author": {
-                "id": 10216384,
-                "login": "memesalot"
+                "id": 21372032,
+                "login": "connorgallopo"
             }
+        },
+        "colors": {
+            "light": "tracearr-light",
+            "dark": "tracearr-dark"
+        },
+        "wordmark": {
+            "default": "tracearr-wordmark",
+            "light": "tracearr-wordmark-light",
+            "dark": "tracearr-wordmark-dark"
         }
     },
     "photostructure": {
