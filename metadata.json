@@ -55040,5 +55040,22 @@
             "light": "encrivolabs-wordmark-light",
             "dark": "encrivolabs-wordmark-dark"
         }
+    },
+    "arrowloop": {
+        "base": "svg",
+        "aliases": [
+            "ArrowLoop"
+        ],
+        "categories": [
+            "storage",
+            "utility"
+        ],
+        "update": {
+            "timestamp": "2026-11-23T14:53:30.259Z",
+            "author": {
+                "id": 133605895,
+                "login": "junkerderprovinz"
+            }
+        }
     }
 }
