@@ -37691,16 +37691,16 @@
         }
     },
     "journiv": {
-        "base": "png",
         "aliases": [],
+        "base": "svg",
         "categories": [
             "social"
         ],
         "update": {
-            "timestamp": "2026-02-10T18:42:03.236Z",
+            "timestamp": "2026-11-23T14:52:57.116Z",
             "author": {
-                "id": 7321259,
-                "login": "michaelkrieger"
+                "id": 17237619,
+                "login": "bbman225"
             }
         }
     },
