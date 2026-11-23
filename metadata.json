@@ -55108,5 +55108,22 @@
                 "login": "junkerderprovinz"
             }
         }
+    },
+    "knightloader": {
+        "base": "svg",
+        "aliases": [
+            "KnightLoader"
+        ],
+        "categories": [
+            "tools",
+            "utility"
+        ],
+        "update": {
+            "timestamp": "2026-11-23T14:53:36.540Z",
+            "author": {
+                "id": 133605895,
+                "login": "junkerderprovinz"
+            }
+        }
     }
 }
