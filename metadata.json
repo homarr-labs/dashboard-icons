@@ -54714,5 +54714,22 @@
                 "login": "tas50"
             }
         }
+    },
+    "evigo": {
+        "base": "svg",
+        "aliases": [],
+        "categories": [
+            "utility",
+            "tools",
+            "network",
+            "monitoring"
+        ],
+        "update": {
+            "timestamp": "2026-11-23T14:52:28.106Z",
+            "author": {
+                "id": 31845161,
+                "login": "Jack-Overflow"
+            }
+        }
     }
 }
