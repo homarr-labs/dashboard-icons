@@ -5298,11 +5298,11 @@
         }
     },
     "termix": {
-        "base": "svg",
         "aliases": [],
+        "base": "png",
         "categories": [],
         "update": {
-            "timestamp": "2026-07-28T09:51:35.921Z",
+            "timestamp": "2026-11-23T14:52:54.943Z",
             "author": {
                 "id": 97117269,
                 "login": "marcio-af-oliveira"
