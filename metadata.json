@@ -54778,5 +54778,27 @@
         "variants": {
             "icon": "nordpass-icon"
         }
+    },
+    "halesis": {
+        "base": "svg",
+        "aliases": [
+            "Secton",
+            "halesis.com"
+        ],
+        "categories": [
+            "cloud",
+            "development"
+        ],
+        "update": {
+            "timestamp": "2026-11-23T14:52:40.806Z",
+            "author": {
+                "id": 74821251,
+                "login": "leeteral"
+            }
+        },
+        "wordmark": {
+            "light": "halesis-wordmark-light",
+            "dark": "halesis-wordmark-dark"
+        }
     }
 }
