@@ -55091,5 +55091,22 @@
                 "login": "junkerderprovinz"
             }
         }
+    },
+    "castleparcel": {
+        "base": "svg",
+        "aliases": [
+            "CastleParcel"
+        ],
+        "categories": [
+            "storage",
+            "utility"
+        ],
+        "update": {
+            "timestamp": "2026-11-23T14:53:35.052Z",
+            "author": {
+                "id": 133605895,
+                "login": "junkerderprovinz"
+            }
+        }
     }
 }
