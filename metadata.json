@@ -54763,5 +54763,20 @@
                 "name": "FishHatchery"
             }
         }
+    },
+    "nordpass": {
+        "base": "png",
+        "aliases": [],
+        "categories": [],
+        "update": {
+            "timestamp": "2026-11-23T14:52:37.576Z",
+            "author": {
+                "id": 292285727,
+                "login": "Kengkorok"
+            }
+        },
+        "variants": {
+            "icon": "nordpass-icon"
+        }
     }
 }
