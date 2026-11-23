@@ -55181,5 +55181,25 @@
                 "login": "vcaligiuri"
             }
         }
+    },
+    "rascal": {
+        "base": "svg",
+        "aliases": [
+            "file-manager",
+            "finder"
+        ],
+        "categories": [
+            "utility"
+        ],
+        "update": {
+            "timestamp": "2026-11-23T14:53:47.301Z",
+            "author": {
+                "id": 6170808,
+                "login": "carloluis"
+            }
+        },
+        "variants": {
+            "icon-app": "rascal-icon-app"
+        }
     }
 }
