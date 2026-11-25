@@ -3,7 +3,13 @@ import { customVariantNameError, SUBMISSION_VARIANTS, variantKind } from "@/lib/
 import type { IconFile } from "@/types/icons"
 import { addStemOwnership, stemCollisionError, stemOwnership, submissionVariantStems } from "../../../backend/pb_hooks/variant-policy.js"
 
-type PendingIcon = Pick<CommunityGallery, "name" | "extras">
+type PendingIcon = Pick<CommunityGallery, "id" | "name" | "extras">
+
+export function proposeUpdateHint(name: string, submissionId?: string): string {
+	let hint = `Call propose_icon_update with name "${name}"`
+	if (submissionId) hint += ` and submission_id "${submissionId}"`
+	return `${hint} to propose changes for review.`
+}
 
 export function submissionConflict(
 	name: string,
@@ -34,7 +40,8 @@ export function submissionConflict(
 				Object.hasOwn(native[parent]?.variants ?? {}, suffix) ||
 				pending.some((item) => item.name === parent && Object.hasOwn(item.extras?.variants ?? {}, suffix))
 			if (!suffixes.has(suffix) && (customVariantNameError(suffix) || !ownCustom)) continue
-			return `"${name}" looks like the "${suffix}" Variant of "${parent}". Send that SVG as a Variant of "${parent}", not as a separate Submission. Use one call per Icon; never split Variants into separate slugs. For an existing Icon, open https://dashboardicons.com/submit and propose an update.`
+			const submissionId = Object.hasOwn(native, parent) ? undefined : pending.find((item) => item.name === parent)?.id
+			return `"${name}" looks like the "${suffix}" Variant of "${parent}". Send that SVG as a Variant of "${parent}", not as a separate Submission. Use one call per Icon; never split Variants into separate slugs. ${proposeUpdateHint(parent, submissionId)}`
 		}
 	}
 	const index = stemOwnership(native)

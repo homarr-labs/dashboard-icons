@@ -361,11 +361,10 @@ describe("submit_icon", () => {
 		expect(pb.authRefresh).not.toHaveBeenCalled()
 	})
 
-	it("points existing native icons to the site's update proposal flow", async () => {
+	it("points existing native icons to the MCP update tool", async () => {
 		const result = await register(SESSION)("submit_icon", { name: "plex", svg: SVG })
 		expect(result.isError).toBe(true)
-		expect(textOf(result)).toContain("https://dashboardicons.com/submit")
-		expect(textOf(result)).toContain("update proposal")
+		expect(textOf(result)).toContain('propose_icon_update with name "plex"')
 		expect(pb.create).not.toHaveBeenCalled()
 	})
 
@@ -481,6 +480,7 @@ describe("submit_icon", () => {
 		for (const name of ["self-host-dark", "self-host-outline"]) {
 			const result = await register(SESSION)("submit_icon", { name, svg: SVG })
 			expect(textOf(result)).toContain('Variant of "self-host"')
+			expect(textOf(result)).toContain('propose_icon_update with name "self-host" and submission_id "parent"')
 		}
 		expect(pb.getFullList).toHaveBeenCalledWith({
 			filter: "status = 'pending' || status = 'approved'",
@@ -498,7 +498,7 @@ describe("submit_icon", () => {
 		const result = await register(SESSION)("submit_icon", { name: "plex-dark", svg: SVG })
 		expect(result.isError).toBe(true)
 		expect(textOf(result)).toContain("https://dashboardicons.com/community/submissions/existing")
-		expect(textOf(result)).toContain("update proposal")
+		expect(textOf(result)).toContain('propose_icon_update with name "plex-dark" and submission_id "existing"')
 		expect(textOf(result)).not.toContain("looks like")
 		expect(pb.create).not.toHaveBeenCalled()
 	})
