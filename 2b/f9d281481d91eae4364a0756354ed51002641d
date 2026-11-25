@@ -1,0 +1,33 @@
+web/docs/MCP.md
+  s_4ea720c0429591::t_984ab65eafeffc 167,177-179
+web/src/mcp/__tests__/account-tools.test.ts
+  s_be039516611af5::t_b0db7906d8a613 364,367,483,501
+web/src/mcp/__tests__/server.test.ts
+  s_be039516611af5::t_d15c7210428f0d 69
+web/src/mcp/tools/submission-policy.ts
+  s_4ea720c0429591::t_3832cc2762aacc 6-12,43-44
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "2bf9d281481d91eae4364a0756354ed51002641d",
+  "prompts": {},
+  "sessions": {
+    "s_4ea720c0429591": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "ff976cd2-c565-4364-be91-cfc7c382e092",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    },
+    "s_be039516611af5": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a21250-c638-7d43-9424-12307e9f9cbb",
+        "model": "gpt-6.2-sol"
+      },
+      "human_author": "Thomas Camlong <thomas@ajnart.fr>"
+    }
+  }
+}
