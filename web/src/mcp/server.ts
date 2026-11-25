@@ -21,7 +21,7 @@ export const PUBLIC_ICONS_INSTRUCTIONS = [
 
 export const DASHBOARD_ICONS_INSTRUCTIONS = [
 	PUBLIC_ICONS_INSTRUCTIONS,
-	"Sign in to this MCP server to use account tools. Only submit Icons or propose changes the user requested. Use submit_icon for a new Icon, propose_icon_update for changes to an existing published or community Icon, and list_my_submissions to track review status. For PNG uploads, use https://dashboardicons.com/submit; the MCP tools accept inline SVGs.",
+	"Sign in to this MCP server to use account tools. Only submit Icons or propose changes the user requested. Use submit_icon for a new Icon, propose_icon_update for changes to an existing published or community Icon, and list_my_submissions to track review status. Send inline SVG or a supported public PNG URL for Base and each Variant together. For local PNGs or other image hosts, use https://dashboardicons.com/submit.",
 ].join(" ")
 
 export function createDashboardIconsServer(authInfo?: AuthInfo, publicOnly = false): McpServer {

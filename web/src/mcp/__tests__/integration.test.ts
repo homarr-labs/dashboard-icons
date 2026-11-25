@@ -206,6 +206,7 @@ describe("MCP over HTTP (real wiring)", () => {
 
 	afterEach(() => {
 		vi.unstubAllEnvs()
+		vi.unstubAllGlobals()
 	})
 
 	it.each([LEGACY_VERSION, MODERN_VERSION])("exposes only the six public read-only tools without analytics (%s)", async (version) => {
@@ -484,6 +485,81 @@ describe("MCP over HTTP (real wiring)", () => {
 		])
 		const logged = JSON.stringify(captured)
 		for (const secret of ["pb-old-secret", "pb-fresh-secret", "mcp-access-secret"]) expect(logged).not.toContain(secret)
+	})
+
+	it("imports a PNG Base and localized Variants together, and preserves Base on a PNG-only update", async () => {
+		const { handleMcpRequest } = await importHttp()
+		const auth: AuthInfo = {
+			token: "access",
+			clientId: "client",
+			scopes: ["account"],
+			extra: { userId: "user_123", username: "iconfan", admin: false, pbToken: "pb-old" },
+		}
+		const png = Buffer.from("iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+a4FYAAAAASUVORK5CYII=", "base64")
+		const download = vi.fn(async () => new Response(png, { headers: { "Content-Type": "image/png" } }))
+		vi.stubGlobal("fetch", download)
+		const base = "https://cdn.wikimg.net/en/base.png"
+		const variants = {
+			custom: Object.fromEntries(["ja", "ko", "zh-hant"].map((lang) => [lang, { png_url: `https://cdn.wikimg.net/en/${lang}.png` }])),
+		}
+		const call = async (name: string, args: Record<string, unknown>, session?: AuthInfo) =>
+			rpc(await handleMcpRequest(modernRequest(1, "tools/call", { name, arguments: args }, name), session))
+		expect((await call("submit_icon", { name: "new-icon", png_url: base, variants })).result?.isError).toBe(true)
+		expect(download).not.toHaveBeenCalled()
+		expect((await call("submit_icon", { name: "new-icon", png_url: base, variants }, auth)).result?.isError).toBeUndefined()
+		expect(submissionWrites).toHaveLength(1)
+		expect(submissionWrites[0]?.extras).toMatchObject({
+			base: "png",
+			variants: { ja: "new-icon-ja.png", ko: "new-icon-ko.png", "zh-hant": "new-icon-zh-hant.png" },
+		})
+		expect(download).toHaveBeenCalledTimes(4)
+		expect(download).toHaveBeenCalledWith(
+			new URL(base),
+			expect.objectContaining({ redirect: "error", credentials: "omit", headers: { Accept: "image/png" } }),
+		)
+		expect(
+			(await call("propose_icon_update", { name: "plex", variants: { wordmark: { png_url: base } } }, auth)).result?.isError,
+		).toBeUndefined()
+		expect(submissionWrites[1]?.icon_update).toMatchObject({ variants: [{ key: "wordmark", file: "plex-wordmark.png", action: "add" }] })
+	})
+
+	it("does not write a partial PNG family when a variant download fails", async () => {
+		const { handleMcpRequest } = await importHttp()
+		const auth: AuthInfo = {
+			token: "access",
+			clientId: "client",
+			scopes: ["account"],
+			extra: { userId: "user_123", username: "iconfan", admin: false, pbToken: "pb-old" },
+		}
+		const download = vi.fn<typeof fetch>()
+		vi.stubGlobal("fetch", download)
+		const svg = '<svg xmlns="http://www.w3.org/2000/svg"></svg>'
+		const args = { name: "new-icon", svg, variants: { dark: { png_url: "https://cdn.wikimg.net/en/dark.png" } } }
+		const call = async (name: string, args: Record<string, unknown>) =>
+			rpc(await handleMcpRequest(modernRequest(1, "tools/call", { name, arguments: args }, name), auth))
+		for (const png_url of ["https://example.org/icon.png", "https://cdn.wikimg.net/icon.png?key=x", "https://cdn.wikimg.net/icon.svg"]) {
+			expect((await call("submit_icon", { ...args, variants: { dark: { png_url } } })).result?.isError).toBe(true)
+		}
+		expect((await call("propose_icon_update", { ...args, png_url: args.variants.dark.png_url })).result?.isError).toBe(true)
+		const custom = Object.fromEntries(Array.from({ length: 9 }, (_, i) => [`language-${i}`, args.variants.dark]))
+		expect((await call("submit_icon", { ...args, variants: { custom } })).result?.isError).toBe(true)
+		expect(download).not.toHaveBeenCalled()
+		for (const response of [
+			new Response(null, { status: 404 }),
+			new Response("not PNG"),
+			new Response(null),
+			new Response("truncated", { headers: { "content-type": "image/png" } }),
+			new Response("invalid".repeat(30), { headers: { "content-type": "image/png" } }),
+			new Response(Buffer.from(`89504e470d0a1a0a0000000d49484452${"00".repeat(60)}`, "hex"), { headers: { "content-type": "image/png" } }),
+			new Response("oversize", { headers: { "content-type": "image/png", "content-length": "5242881" } }),
+			new Response(new Uint8Array(5242881), { headers: { "content-type": "image/png" } }),
+		]) {
+			download.mockResolvedValueOnce(response)
+			expect((await call("submit_icon", args)).result?.isError).toBe(true)
+		}
+		download.mockRejectedValueOnce(new Error("download timed out"))
+		expect((await call("propose_icon_update", { ...args, name: "plex" })).result?.isError).toBe(true)
+		expect(submissionWrites).toHaveLength(0)
 	})
 
 	it("rejects malformed or malicious inline Variants through real MCP validation without writes", async () => {
