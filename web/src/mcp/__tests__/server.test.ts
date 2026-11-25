@@ -66,6 +66,7 @@ describe("createDashboardIconsServer", () => {
 		]) {
 			expect(DASHBOARD_ICONS_INSTRUCTIONS).toContain(tool)
 		}
+		expect(DASHBOARD_ICONS_INSTRUCTIONS).not.toMatch(/propose_icon_update[^.]*unavailable/)
 	})
 
 	it("hands the signed-in session to the tools", async () => {

@@ -164,7 +164,7 @@ These act on your dashboardicons.com account. They are listed for every client; 
 
 #### `submit_icon`
 
-Submits a new icon as the signed-in user. It becomes a pending community submission in the normal review queue, with the same record the website's submit form creates (`status: pending`, the SVG as the base asset, `extras.base: "svg"`, aliases, categories). Not read-only and not idempotent: calling it twice creates two submissions.
+Submits a new Icon as the signed-in user. It becomes a pending community Submission in the normal review queue, with the same record the website's submit form creates (`status: pending`, the SVG as the base asset, `extras.base: "svg"`, aliases, categories). To resubmit your own rejected Submission, use the same slug and include the full set of files to keep.
 
 | Parameter     | Type     | Default  | Max                                                     |
 | ------------- | -------- | -------- | ------------------------------------------------------- |
@@ -174,7 +174,9 @@ Submits a new icon as the signed-in user. It becomes a pending community submiss
 | `categories`  | enum[]   | `[]`     | the website's submission categories (`media`, `tools`…) |
 | `description` | string   | `""`     | 2000 chars                                              |
 
-Rejected before anything is stored: names that already exist on dashboardicons.com (the error points to `/submit`, where picking an existing icon files an update proposal), and SVGs with `<script>`, `<foreignObject>`, embedded documents, `on*=` handlers, `javascript:` URLs, DOCTYPE/entities, CSS escapes or `@import`, attribute animations, foreign namespaces, or references other than `#ids` and inline base64 PNG/JPEG/GIF/WebP. Submission pauses if the native catalog cannot be checked for duplicates. Returns `id`, `status`, `url` (the public submission page) and `dashboard_url`.
+For an existing Icon, use `propose_icon_update`. Duplicate-name errors give the target `name` and, for a community Icon, its `submission_id`. Submission pauses if the native catalog cannot be checked for duplicates. A successful call returns `id`, `status`, `url` (the public submission page) and `dashboard_url`.
+
+Both write tools accept inline SVG only. Unsafe markup, external references and embedded raster images are rejected before storage. For PNGs, use the [website submission form](https://dashboardicons.com/submit).
 
 #### `propose_icon_update`
 

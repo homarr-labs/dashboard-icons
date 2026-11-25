@@ -7,7 +7,7 @@ import { prepareSubmission, type SubmissionInput } from "@/lib/submission-servic
 import { updateOwnSubmission } from "@/lib/submission-update-service"
 import { customVariantNameError, resolveSubmissionAssets, type SubmissionVariant, variantKind } from "@/lib/submission-variants"
 import { DASHBOARD_URL, pocketBaseAsUser, pocketBaseFailure, submissionUrl, toolError } from "@/mcp/tools/account"
-import { submissionConflict } from "@/mcp/tools/submission-policy"
+import { proposeUpdateHint, submissionConflict } from "@/mcp/tools/submission-policy"
 import { submissionOutputSchema as outputSchema, submissionFields } from "@/mcp/tools/submission-schemas"
 import { type AccountTool, structuredResult } from "@/mcp/tools/types"
 
@@ -23,7 +23,7 @@ async function nativeCatalog() {
 
 function alreadyExists(name: string) {
 	return toolError(
-		`"${name}" already exists on dashboardicons.com (${WEB_URL}/icons/${name}); submit_icon creates new Icons or resubmits your own rejected Submissions. To change an existing icon, the user opens ${WEB_URL}/submit, picks "${name}" from the icon name list and uploads the new file, which files an update proposal for review.`,
+		`"${name}" already exists on dashboardicons.com (${WEB_URL}/icons/${name}); submit_icon creates new Icons or resubmits your own rejected Submissions. ${proposeUpdateHint(name)}`,
 	)
 }
 
@@ -102,7 +102,7 @@ export const submitIconTool: AccountTool<typeof inputSchema, typeof outputSchema
 			const existing = pending.find((item) => item.name === name)
 			if (existing && !rejected)
 				return toolError(
-					`"${name}" already has a community Submission (${submissionUrl(existing.id)}). Send changes as an update proposal at ${WEB_URL}/submit, not a duplicate Submission.`,
+					`"${name}" already has a community Submission (${submissionUrl(existing.id)}). ${proposeUpdateHint(name, existing.id)}`,
 				)
 			let record: Submission
 			if (rejected) record = await updateOwnSubmission(session.pb, session.user.id, rejected.id, { ...input, updated: rejected.updated })
