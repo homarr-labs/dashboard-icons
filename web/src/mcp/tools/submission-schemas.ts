@@ -10,6 +10,15 @@ const svgSchema = z
 		`Complete inline SVG markup; at most ${MAX_SUBMITTED_SVG_BYTES / 1024} KiB of UTF-8 per SVG, including Base. No scripts, event handlers, foreignObject, external references or embedded raster images.`,
 	)
 
+const pngUrl = z
+	.string()
+	.url()
+	.max(2048)
+	.describe(
+		"Direct HTTPS .png URL on upload.wikimedia.org, cdn.wikimg.net or raw.githubusercontent.com. No redirects, credentials, query or fragment; 5 MiB per PNG, 8 PNGs and 16 MiB combined per Icon.",
+	)
+const artwork = z.union([svgSchema, z.strictObject({ png_url: pngUrl })])
+
 export const submissionFields = {
 	name: z
 		.string()
@@ -20,19 +29,20 @@ export const submissionFields = {
 		.describe(
 			"Icon slug: lowercase letters, digits and single hyphens, e.g. 'my-app'. Becomes the file name. Reuse your rejected Submission's slug to resubmit it in place.",
 		),
-	svg: svgSchema.describe('Required colour Base SVG, from <svg xmlns="http://www.w3.org/2000/svg" ...> to </svg>. At most 48 KiB UTF-8.'),
+	svg: svgSchema.optional().describe("Colour Base as inline SVG, up to 48 KiB. For a new Icon supply exactly one of svg or png_url."),
+	png_url: pngUrl.optional(),
 	variants: z
 		.strictObject({
-			light: svgSchema.optional().describe("Light-coloured icon for dark backgrounds"),
-			dark: svgSchema.optional().describe("Dark-coloured icon for light backgrounds"),
-			wordmark: svgSchema.optional().describe("Colour brand name"),
-			wordmark_light: svgSchema.optional().describe("Light-coloured brand name for dark backgrounds"),
-			wordmark_dark: svgSchema.optional().describe("Dark-coloured brand name for light backgrounds"),
+			light: artwork.optional().describe("Light-coloured icon for dark backgrounds"),
+			dark: artwork.optional().describe("Dark-coloured icon for light backgrounds"),
+			wordmark: artwork.optional().describe("Colour brand name"),
+			wordmark_light: artwork.optional().describe("Light-coloured brand name for dark backgrounds"),
+			wordmark_dark: artwork.optional().describe("Dark-coloured brand name for light backgrounds"),
 			custom: z
-				.record(z.string(), svgSchema)
+				.record(z.string(), artwork)
 				.optional()
 				.describe(
-					"Custom variant name to inline SVG, e.g. { '4k': '<svg ...>...</svg>' }. Names are lowercase kebab-case, at most 32 characters, and cannot be well-known Variant names or collide with another Icon.",
+					"Custom variant name to inline SVG or { png_url }. Names are lowercase kebab-case, at most 32 characters, and cannot be well-known Variant names or collide with another Icon.",
 				),
 		})
 		.optional()

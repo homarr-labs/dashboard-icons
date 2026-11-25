@@ -1,17 +1,19 @@
 import { z } from "zod"
 import { WEB_URL } from "@/constants"
 import { getAllIcons } from "@/lib/icons/service"
-import { checkSubmittedSvg } from "@/lib/icons/svg-safety"
 import type { Submission } from "@/lib/pb"
 import { prepareSubmission, type SubmissionInput } from "@/lib/submission-service"
 import { updateOwnSubmission } from "@/lib/submission-update-service"
-import { customVariantNameError, resolveSubmissionAssets, type SubmissionVariant, variantKind } from "@/lib/submission-variants"
+import { resolveSubmissionAssets } from "@/lib/submission-variants"
 import { DASHBOARD_URL, pocketBaseAsUser, pocketBaseFailure, submissionUrl, toolError } from "@/mcp/tools/account"
+import { prepareArtwork, resolveArtwork } from "@/mcp/tools/submission-artwork"
 import { proposeUpdateHint, submissionConflict } from "@/mcp/tools/submission-policy"
 import { submissionOutputSchema as outputSchema, submissionFields } from "@/mcp/tools/submission-schemas"
 import { type AccountTool, structuredResult } from "@/mcp/tools/types"
 
-const inputSchema = z.object(submissionFields)
+const inputSchema = z.object(submissionFields).refine(({ svg, png_url }) => (svg === undefined) !== (png_url === undefined), {
+	message: "Supply exactly one Base: svg or png_url.",
+})
 
 async function nativeCatalog() {
 	try {
@@ -33,38 +35,22 @@ export const submitIconTool: AccountTool<typeof inputSchema, typeof outputSchema
 	config: {
 		title: "Submit a new icon",
 		description:
-			"Submit one Icon with its required Base svg and all optional well-known and Custom inline SVG Variants in one call per Icon. Never split Variants into separate Submissions or variant slugs. Needs the user to sign in to this MCP server. Signed-in account calls allow at most 512 KiB for the complete encoded JSON body (including escaping and MCP fields), and each SVG is capped at 48 KiB UTF-8. A rejection is not final: fix the files and resubmit the same slug to return your rejected Submission to pending in place. Resubmission replaces the FULL file set: include Base and ALL Variants to keep; omitted optional Variants are removed. Only submit icons the user asked for and has the right to share; check search_icons first. Approval and publishing are separate steps. Returns the submission page URL to share; track it with list_my_submissions.",
+			"Submit a Base (svg or png_url) and all its Variants in one call per Icon. Variants take inline SVG or { png_url } from a supported public image host. Never split Variants into separate Submissions or variant slugs. Needs the user to sign in to this MCP server. Signed-in account calls allow at most 512 KiB for the complete encoded JSON body (including escaping and MCP fields), and each SVG is capped at 48 KiB UTF-8. A rejection is not final: fix the files and resubmit the same slug to return your rejected Submission to pending in place. Resubmission replaces the FULL file set: include Base and ALL Variants to keep; omitted optional Variants are removed. Only submit icons the user asked for and has the right to share; check search_icons first. Approval and publishing are separate steps. Returns the submission page URL to share; track it with list_my_submissions.",
 		inputSchema,
 		outputSchema,
-		annotations: { readOnlyHint: false, destructiveHint: false, idempotentHint: false, openWorldHint: false },
+		annotations: { readOnlyHint: false, destructiveHint: false, idempotentHint: false, openWorldHint: true },
 		_meta: { category: "account" },
 	},
-	async handler({ name, svg, variants, aliases, categories, description }, { pbToken }) {
-		const inline: Partial<Record<SubmissionVariant, string>> = { base: svg }
-		if (variants) {
-			const { custom, ...standard } = variants
-			Object.assign(inline, standard)
-			for (const [key, markup] of Object.entries(custom ?? {})) {
-				const error = customVariantNameError(key)
-				if (error) return toolError(`Custom variant "${key}" was not accepted: ${error}.`)
-				inline[`custom:${key}`] = markup
-			}
-		}
-		const assets: SubmissionInput["assets"] = {}
-		for (const [key, markup] of Object.entries(inline)) {
-			if (markup === undefined) continue
-			const variant = key as SubmissionVariant
-			const checked = checkSubmittedSvg(markup)
-			if (!checked.ok) return toolError(`The ${variantKind(variant).label} SVG was not accepted: ${checked.reason}.`)
-			assets[variant] = new File([checked.svg], `${name}${variantKind(variant).suffix}.svg`, { type: "image/svg+xml" })
-		}
+	async handler({ name, svg, png_url, variants, aliases, categories, description }, { pbToken }) {
+		const artwork = prepareArtwork(name, svg, png_url, variants)
+		if (!artwork.ok) return toolError(artwork.error)
 		const input: SubmissionInput = {
 			name,
 			description: description ?? "",
 			aliases: aliases ?? [],
 			categories: categories ?? [],
 			targetSubmission: "",
-			assets,
+			assets: {},
 		}
 		const native = await nativeCatalog()
 		if (native === null) return toolError("The native icon catalog is unavailable. Try again before submitting a new icon.")
@@ -82,7 +68,7 @@ export const submitIconTool: AccountTool<typeof inputSchema, typeof outputSchema
 				const resolved = resolveSubmissionAssets(rejected.extras, rejected.assets, rejected.name)
 				if (variants === undefined && (resolved.references.length > 0 || resolved.assets.some((asset) => asset.variant !== "base"))) {
 					return toolError(
-						"Resubmission replaces the FULL file set. Include the required Base svg and an explicit variants object containing ALL optional Variants to keep; omitted optional Variants are removed. Use variants: {} only to intentionally remove all optional or unresolved files. No files were changed.",
+						"Resubmission replaces the FULL file set. Include the required Base (svg or png_url) and an explicit variants object containing ALL optional Variants to keep; omitted optional Variants are removed. Use variants: {} only to intentionally remove all optional or unresolved files. No files were changed.",
 					)
 				}
 				input.targetSubmission = rejected.target_submission || ""
@@ -90,6 +76,9 @@ export const submitIconTool: AccountTool<typeof inputSchema, typeof outputSchema
 				input.categories = categories ?? rejected.extras?.categories ?? []
 				input.description = description ?? rejected.description ?? ""
 			} else if (Object.hasOwn(native, name)) return alreadyExists(name)
+			const assets = await resolveArtwork(name, artwork.value)
+			if (!assets.ok) return toolError(assets.error)
+			input.assets = assets.value
 			const prepared = prepareSubmission(session.user.id, input)
 			if (!prepared.ok) return toolError(`The submission was not accepted: ${prepared.error}.`)
 			const pending = await session.pb.collection("community_gallery").getFullList({

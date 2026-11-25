@@ -2,11 +2,11 @@ import { ClientResponseError } from "pocketbase"
 import { z } from "zod"
 import type { UpdateVariantKey } from "@/lib/icon-update"
 import { createIconUpdate, type IconUpdateInput, loadUpdateTarget, updateOwnIconUpdate } from "@/lib/icon-update-service"
-import { checkSubmittedSvg } from "@/lib/icons/svg-safety"
 import type { Submission } from "@/lib/pb"
-import { MAX_SUBMISSION_ASSETS, type SubmissionInput } from "@/lib/submission-service"
-import { customVariantNameError, SUBMISSION_VARIANTS, type SubmissionVariant, variantKind } from "@/lib/submission-variants"
+import { MAX_SUBMISSION_ASSETS } from "@/lib/submission-service"
+import { customVariantNameError, SUBMISSION_VARIANTS, type SubmissionVariant } from "@/lib/submission-variants"
 import { DASHBOARD_URL, pocketBaseAsUser, pocketBaseFailure, submissionUrl, toolError } from "@/mcp/tools/account"
+import { prepareArtwork, resolveArtwork } from "@/mcp/tools/submission-artwork"
 import { submissionFields, submissionOutputSchema } from "@/mcp/tools/submission-schemas"
 import { type AccountTool, structuredResult } from "@/mcp/tools/types"
 
@@ -31,9 +31,7 @@ const inputSchema = z.object({
 		.describe(
 			"Community Submission id when targeting a pending or approved community Icon instead of the published catalog. Must match name.",
 		),
-	svg: submissionFields.svg
-		.optional()
-		.describe("Optional replacement Base SVG, at most 48 KiB UTF-8. Omit to keep Base; Base cannot be removed."),
+	svg: submissionFields.svg.describe("Optional replacement Base SVG, at most 48 KiB UTF-8. Omit both svg and png_url to keep Base."),
 	variants: submissionFields.variants.describe(
 		"Only Variant additions or replacements, using the same shape as submit_icon. Omitted Variants are preserved, NOT removed. Existing keys are replaced; new keys are added. Each SVG is at most 48 KiB UTF-8. The complete encoded JSON request must fit within 512 KiB.",
 	),
@@ -66,43 +64,26 @@ export const proposeIconUpdateTool: AccountTool<typeof inputSchema, typeof submi
 	config: {
 		title: "Propose an icon update",
 		description:
-			"Propose changes to one existing published or community Icon for maintainer review, not direct publication. Needs the user to sign in to this MCP server; only propose changes the user asked for and has the right to share. Optional svg replaces Base; variants adds or replaces well-known and Custom inline SVGs in the same shape as submit_icon. Omitted files are preserved; remove explicitly lists { key, note? } objects for optional Variants to delete, never Base, with an optional per-Variant reason for reviewers. aliases and categories are FINAL desired lists: omit to preserve, [] to clear. Each SVG is capped at 48 KiB UTF-8; the complete encoded account request body at 512 KiB. Pinned to the target's current revision: if it changed meanwhile the call fails and nothing is stored, so retry. Calling again for the same Icon after a maintainer rejected your proposal resubmits it in place and replaces the whole rejected proposal with this call's changes. Returns the proposal Submission URL; track it with list_my_submissions.",
+			"Propose changes to one existing published or community Icon for maintainer review, not direct publication. Needs the user to sign in to this MCP server; only propose changes the user asked for and has the right to share. Optional svg or png_url replaces Base; variants adds or replaces SVGs or PNGs in the same shape as submit_icon. Omitted files are preserved; remove explicitly lists { key, note? } objects for optional Variants to delete, never Base, with an optional per-Variant reason for reviewers. aliases and categories are FINAL desired lists: omit to preserve, [] to clear. Each SVG is capped at 48 KiB UTF-8; the complete encoded account request body at 512 KiB. Pinned to the target's current revision: if it changed meanwhile the call fails and nothing is stored, so retry. Calling again for the same Icon after a maintainer rejected your proposal resubmits it in place and replaces the whole rejected proposal with this call's changes. Returns the proposal Submission URL; track it with list_my_submissions.",
 		inputSchema,
 		outputSchema: submissionOutputSchema,
-		annotations: { readOnlyHint: false, destructiveHint: false, idempotentHint: false, openWorldHint: false },
+		annotations: { readOnlyHint: false, destructiveHint: false, idempotentHint: false, openWorldHint: true },
 		_meta: { category: "account" },
 	},
-	async handler({ name, submission_id, svg, variants, remove, aliases, categories, description }, { pbToken }) {
-		const inline: Partial<Record<SubmissionVariant, string>> = {}
-		if (svg !== undefined) inline.base = svg
-		if (variants) {
-			const { custom, ...standard } = variants
-			Object.assign(inline, standard)
-			for (const [key, markup] of Object.entries(custom ?? {})) {
-				const error = customVariantNameError(key)
-				if (error) return toolError(`Custom variant "${key}" was not accepted: ${error}.`)
-				inline[`custom:${key}`] = markup
-			}
-		}
+	async handler({ name, submission_id, svg, png_url, variants, remove, aliases, categories, description }, { pbToken }) {
+		const artwork = prepareArtwork(name, svg, png_url, variants)
+		if (!artwork.ok) return toolError(artwork.error)
 		const removedKeys = new Set<string>()
 		for (const { key } of remove ?? []) {
 			if (removedKeys.has(key)) return toolError(`Variant "${key}" is listed for removal more than once. List each removed Variant once.`)
 			removedKeys.add(key)
-			if (inline[key as SubmissionVariant] !== undefined)
+			if (artwork.value.has(key as SubmissionVariant))
 				return toolError(`Variant "${key}" cannot be supplied and removed in the same proposal.`)
 		}
-		for (const [key, markup] of Object.entries(inline)) {
-			if (markup === undefined) continue
-			const checked = checkSubmittedSvg(markup)
-			if (!checked.ok) return toolError(`The ${variantKind(key as SubmissionVariant).label} SVG was not accepted: ${checked.reason}.`)
-		}
-		if (
-			!Object.values(inline).some((markup) => markup !== undefined) &&
-			!remove?.length &&
-			aliases === undefined &&
-			categories === undefined
-		)
-			return toolError("Supply an SVG addition/replacement, an explicit optional Variant removal, or a final aliases/categories list.")
+		if (!artwork.value.size && !remove?.length && aliases === undefined && categories === undefined)
+			return toolError(
+				"Supply an SVG or PNG addition/replacement, an explicit optional Variant removal, or a final aliases/categories list.",
+			)
 		const session = await pocketBaseAsUser(pbToken)
 		if (!session.ok) return session.result
 		const targetSubmission = submission_id ?? ""
@@ -117,19 +98,15 @@ export const proposeIconUpdateTool: AccountTool<typeof inputSchema, typeof submi
 			for (const { key } of remove ?? [])
 				if (!target.files[key as UpdateVariantKey])
 					throw new UpdateRefused(`"${name}" has no ${key} Variant to remove. Nothing was changed.`)
-			const assets: SubmissionInput["assets"] = {}
-			for (const [key, markup] of Object.entries(inline)) {
-				if (markup === undefined) continue
-				const variant = key as SubmissionVariant
-				assets[variant] = new File([markup], `${name}${variantKind(variant).suffix}.svg`, { type: "image/svg+xml" })
-			}
+			const assets = await resolveArtwork(name, artwork.value)
+			if (!assets.ok) return toolError(assets.error)
 			const input: IconUpdateInput = {
 				name,
 				description: description ?? "",
 				aliases: aliases ?? target.metadata.aliases,
 				categories: categories ?? target.metadata.categories,
 				targetSubmission,
-				assets,
+				assets: assets.value,
 				kind: "update",
 				revision: target.revision,
 				removeVariants: remove,

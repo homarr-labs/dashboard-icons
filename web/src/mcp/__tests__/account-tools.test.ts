@@ -100,7 +100,7 @@ describe("account tool registry", () => {
 			readOnlyHint: false,
 			destructiveHint: false,
 			idempotentHint: false,
-			openWorldHint: false,
+			openWorldHint: true,
 		})
 		for (const text of ["one call per Icon", "Never split Variants", "sign in", "512 KiB", "48 KiB", "rejection is not final"]) {
 			expect(submitIconTool.config.description).toContain(text)
@@ -271,6 +271,8 @@ describe("submit_icon", () => {
 		expect(pb.update.mock.calls[0]?.[1].extras).not.toHaveProperty("colors")
 		expect(pb.update.mock.calls[0]?.[1].extras).not.toHaveProperty("variants")
 		expect(submitIconTool.config.inputSchema.safeParse({ name: "my-app", variants: {} }).success).toBe(false)
+		const missingBase = await register(SESSION)("submit_icon", { name: "my-app", variants: {} })
+		expect(textOf(missingBase)).toContain("Base icon is required")
 	})
 
 	it("does not overwrite a rejected record that changed after lookup", async () => {

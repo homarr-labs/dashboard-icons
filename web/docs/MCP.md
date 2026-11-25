@@ -164,34 +164,36 @@ These act on your dashboardicons.com account. They are listed for every client; 
 
 #### `submit_icon`
 
-Submits a new Icon as the signed-in user. It becomes a pending community Submission in the normal review queue, with the same record the website's submit form creates (`status: pending`, the SVG as the base asset, `extras.base: "svg"`, aliases, categories). To resubmit your own rejected Submission, use the same slug and include the full set of files to keep.
+Submits a new Icon as the signed-in user. It becomes a pending community Submission in the normal review queue, with the same files and Variant metadata as the website's submit form. To resubmit your own rejected Submission, use the same slug and include the full set of files to keep.
 
-| Parameter     | Type     | Default  | Max                                                     |
-| ------------- | -------- | -------- | ------------------------------------------------------- |
-| `name`        | string   | required | 80 chars, kebab-case slug (`my-app`)                    |
-| `svg`         | string   | required | 48 KB, one SVG document with the SVG `xmlns`            |
-| `aliases`     | string[] | `[]`     | 20 items                                                |
-| `categories`  | enum[]   | `[]`     | the website's submission categories (`media`, `tools`…) |
-| `description` | string   | `""`     | 2000 chars                                              |
+| Parameter     | Type     | Default  | Max                                                                |
+| ------------- | -------- | -------- | ------------------------------------------------------------------ |
+| `name`        | string   | required | 80 chars, kebab-case slug (`my-app`)                               |
+| `svg`         | string   | optional | 48 KiB inline Base SVG; supply `svg` or `png_url`, not both        |
+| `png_url`     | string   | optional | Direct public URL of the Base PNG                                  |
+| `variants`    | object   | optional | Well-known or Custom Variants (inline SVG or `{ "png_url": "…" }`) |
+| `aliases`     | string[] | `[]`     | 20 items                                                           |
+| `categories`  | enum[]   | `[]`     | the website's submission categories (`media`, `tools`…)            |
+| `description` | string   | `""`     | 2000 chars                                                         |
 
 For an existing Icon, use `propose_icon_update`. Duplicate-name errors give the target `name` and, for a community Icon, its `submission_id`. Submission pauses if the native catalog cannot be checked for duplicates. A successful call returns `id`, `status`, `url` (the public submission page) and `dashboard_url`.
 
-Both write tools accept inline SVG only. Unsafe markup, external references and embedded raster images are rejected before storage. For PNGs, use the [website submission form](https://dashboardicons.com/submit).
+Both write tools accept PNGs from direct HTTPS `.png` URLs on `upload.wikimedia.org`, `cdn.wikimg.net` and `raw.githubusercontent.com`. Pass one `png_url` for Base and, for example, `variants.custom.japanese: { "png_url": "…" }` for a localized Variant. URLs must not redirect or contain credentials, a query or a fragment. A signed-in call may import up to 8 PNGs, 5 MiB per file and 16 MiB combined. All files are downloaded before the Submission is written; if one fails, nothing is submitted. Local PNGs and other hosts still use the [website submission form](https://dashboardicons.com/submit). Inline SVGs cannot embed raster images.
 
 #### `propose_icon_update`
 
 The tool files one Update proposal for an existing published or pending/approved community Icon, for maintainer review rather than direct publication. Its success schema is the same as `submit_icon`: `id`, `name`, `status`, `url` (the proposal Submission page) and `dashboard_url`.
 
-| Parameter       | Type     | Meaning                                                                                                                                                                                            |
-| --------------- | -------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `name`          | string   | Required exact target slug, at most 80 chars; find published Icons with `search_icons`                                                                                                             |
-| `submission_id` | string   | Optional 15-character community Submission id; must match the target slug                                                                                                                          |
-| `svg`           | string   | Optional replacement Base SVG; omit to preserve Base, which cannot be removed                                                                                                                      |
-| `variants`      | object   | Additions/replacements only, same shape as `submit_icon`: `light`, `dark`, `wordmark`, `wordmark_light`, `wordmark_dark`, `custom: { "4k": "<svg ...>...</svg>" }`                                 |
-| `remove`        | object[] | Explicit `{ key, note? }` removals, e.g. `[{ "key": "custom:4k", "note": "Obsolete artwork" }]`; optional keys are `light`, `dark`, `wordmark`, `wordmark_light`, `wordmark_dark`, `custom:<name>` |
-| `aliases`       | string[] | Final desired list, at most 20 items; omit to preserve, `[]` to clear                                                                                                                              |
-| `categories`    | enum[]   | Final desired list using submission categories; omit to preserve, `[]` to clear                                                                                                                    |
-| `description`   | string   | Reviewer explanation, at most 2000 chars                                                                                                                                                           |
+| Parameter         | Type     | Meaning                                                                                                                                                                                            |
+| ----------------- | -------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `name`            | string   | Required exact target slug, at most 80 chars; find published Icons with `search_icons`                                                                                                             |
+| `submission_id`   | string   | Optional 15-character community Submission id; must match the target slug                                                                                                                          |
+| `svg` / `png_url` | string   | Optional replacement Base as inline SVG or a supported PNG URL; omit both to preserve Base, which cannot be removed                                                                                |
+| `variants`        | object   | Additions/replacements only, same shape as `submit_icon`: `light`, `dark`, `wordmark`, `wordmark_light`, `wordmark_dark`, `custom: { "4k": "<svg ...>...</svg>" }`                                 |
+| `remove`          | object[] | Explicit `{ key, note? }` removals, e.g. `[{ "key": "custom:4k", "note": "Obsolete artwork" }]`; optional keys are `light`, `dark`, `wordmark`, `wordmark_light`, `wordmark_dark`, `custom:<name>` |
+| `aliases`         | string[] | Final desired list, at most 20 items; omit to preserve, `[]` to clear                                                                                                                              |
+| `categories`      | enum[]   | Final desired list using submission categories; omit to preserve, `[]` to clear                                                                                                                    |
+| `description`     | string   | Reviewer explanation, at most 2000 chars                                                                                                                                                           |
 
 Omitted Variants are preserved, unlike full-file-set rejected resubmissions in `submit_icon`. Each removal accepts an optional reviewer reason in `note`. List each removed key once, never Base, and do not also supply its SVG. Removal objects reject `file`, `destination` and `action`: the server resolves the actual existing file. Custom names follow the shared lowercase kebab-case rules (at most 32 chars, no well-known names). Every supplied SVG passes the same 48 KiB UTF-8 safety check as `submit_icon`, including rejection of embedded raster images. The existing verified-account route permits at most 512 KiB for the complete encoded JSON body, including escaping and MCP fields; unverified callers do not get the higher cap.
 
