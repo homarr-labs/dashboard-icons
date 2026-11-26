@@ -1,7 +1,7 @@
 "use client"
 
 import { ArrowDownAZ, ArrowUpZA, Calendar, Filter, Search, SortAsc, X } from "lucide-react"
-import { usePathname, useRouter, useSearchParams } from "next/navigation"
+import { useSearchParams } from "next/navigation"
 import posthog from "posthog-js"
 import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { AddMcpButton } from "@/components/add-mcp-button"
@@ -23,10 +23,17 @@ import { Separator } from "@/components/ui/separator"
 import { UnoptimizedImage } from "@/components/unoptimized-image"
 import { DASHBOARD_ICONS_ICON, EXTERNAL_SOURCE_IDS, EXTERNAL_SOURCES, type ExternalSourceId } from "@/constants"
 import type { IconVariantMatch } from "@/lib/icons/variants"
-import { cn, filterAndSortIcons, findMatchedVariant, normalizeForSearch, type SortOption } from "@/lib/utils"
+import { cn, filterAndSortIcons, findMatchedVariant, formatIconName, normalizeForSearch, type SortOption } from "@/lib/utils"
 import type { IconSearchEntry, IconSearchProps } from "@/types/icons"
 
 type SourceFilter = "all" | "native" | ExternalSourceId
+
+type BrowseUpdate = {
+	sort?: SortOption
+	source?: SourceFilter
+	removeCategory?: string
+	reset?: boolean
+}
 
 function parseSortOption(value: string | null): SortOption | null {
 	switch (value) {
@@ -46,6 +53,37 @@ function parseSourceFilter(value: string | null): SourceFilter {
 	return "all"
 }
 
+function readCategories(params: URLSearchParams): string[] {
+	const categories = new Map<string, string>()
+	for (const value of params.getAll("category")) {
+		const category = value.trim()
+		const key = category.toLowerCase()
+		if (category && !categories.has(key)) categories.set(key, category)
+	}
+	return Array.from(categories.values())
+}
+
+function updateResults(query: string, { sort, source, removeCategory, reset }: BrowseUpdate = {}) {
+	const url = new URL(window.location.href)
+	const categories = readCategories(url.searchParams)
+	const params = new URLSearchParams()
+	if (!reset) {
+		const nextSource = source ?? parseSourceFilter(url.searchParams.get("source"))
+		const nextSort = sort ?? parseSortOption(url.searchParams.get("sort"))
+		if (query) params.set("q", query)
+		if (nextSource !== "all") params.set("source", nextSource)
+		if (nextSort) params.set("sort", nextSort)
+		for (const category of categories) {
+			if (category !== removeCategory) params.append("category", category)
+		}
+	}
+
+	url.search = params.toString()
+	if (url.href === window.location.href) return
+	if (removeCategory || (reset && categories.length > 0)) window.history.pushState(null, "", url)
+	else window.history.replaceState(null, "", url)
+}
+
 function getResultsStatus(count: number): string {
 	if (count === 0) return "No icons found."
 	if (count === 1) return "Found 1 icon."
@@ -59,16 +97,14 @@ function getIconsForSource(icons: IconSearchEntry[], source: SourceFilter) {
 
 export function IconSearch({ icons }: IconSearchProps) {
 	const searchParams = useSearchParams()
-	const urlQuery = searchParams.get("q") ?? ""
-	const urlSort = parseSortOption(searchParams.get("sort"))
-	const urlSource = parseSourceFilter(searchParams.get("source"))
-	const router = useRouter()
-	const pathname = usePathname()
-	const [searchQuery, setSearchQuery] = useState(urlQuery)
-	const [debouncedQuery, setDebouncedQuery] = useState(urlQuery)
-	const [explicitSort, setExplicitSort] = useState<SortOption | null>(urlSort)
+	const debouncedQuery = searchParams.get("q") ?? ""
+	const explicitSort = parseSortOption(searchParams.get("sort"))
 	const sortOption = explicitSort ?? "newest"
-	const [sourceFilter, setSourceFilter] = useState<SourceFilter>(urlSource)
+	const sourceFilter = parseSourceFilter(searchParams.get("source"))
+	const categories = useMemo(() => readCategories(searchParams), [searchParams])
+	const [queryDraft, setQueryDraft] = useState<{ value: string; params: typeof searchParams } | null>(null)
+	const searchQuery = queryDraft?.params === searchParams ? queryDraft.value : debouncedQuery
+	const sortButtonRef = useRef<HTMLButtonElement>(null)
 	const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 	const noIconsFoundTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
@@ -79,12 +115,13 @@ export function IconSearch({ icons }: IconSearchProps) {
 	}, [])
 
 	useEffect(() => {
-		if (timeoutRef.current !== null) return
-		setSearchQuery(urlQuery)
-		setDebouncedQuery(urlQuery)
-		setExplicitSort(urlSort)
-		setSourceFilter(urlSource)
-	}, [urlQuery, urlSort, urlSource])
+		const restoreSearch = () => {
+			cancelPendingSearch()
+			setQueryDraft(null)
+		}
+		window.addEventListener("popstate", restoreSearch)
+		return () => window.removeEventListener("popstate", restoreSearch)
+	}, [cancelPendingSearch])
 
 	// Find matched aliases for display purposes
 	const matchedAliases = useMemo(() => {
@@ -115,9 +152,10 @@ export function IconSearch({ icons }: IconSearchProps) {
 		return filterAndSortIcons({
 			icons: getIconsForSource(icons, sourceFilter),
 			query: debouncedQuery,
+			categories,
 			sort: sortOption,
 		})
-	}, [icons, debouncedQuery, sortOption, sourceFilter])
+	}, [icons, debouncedQuery, categories, sortOption, sourceFilter])
 
 	const matchedVariants = useMemo(() => {
 		const matches = new Map<IconSearchEntry, IconVariantMatch>()
@@ -128,68 +166,42 @@ export function IconSearch({ icons }: IconSearchProps) {
 		return matches
 	}, [filteredIcons, debouncedQuery])
 
-	const updateResults = useCallback(
-		(query: string, sort: SortOption | null, source: SourceFilter) => {
-			const params = new URLSearchParams()
-			if (query) params.set("q", query)
-			if (source !== "all") params.set("source", source)
-
-			if (sort) params.set("sort", sort)
-
-			const newUrl = params.toString() ? `${pathname}?${params.toString()}` : pathname
-			router.replace(newUrl, { scroll: false })
-		},
-		[pathname, router],
-	)
-
-	const handleSearch = useCallback(
-		(query: string) => {
-			setSearchQuery(query)
-			cancelPendingSearch()
-			timeoutRef.current = setTimeout(() => {
-				timeoutRef.current = null
-				setDebouncedQuery(query)
-				updateResults(query, explicitSort, sourceFilter)
-			}, 200)
-		},
-		[cancelPendingSearch, updateResults, explicitSort, sourceFilter],
-	)
-
-	const handleSortChange = useCallback(
-		(sort: SortOption) => {
-			cancelPendingSearch()
-			setDebouncedQuery(searchQuery)
-			setExplicitSort(sort)
-			updateResults(searchQuery, sort, sourceFilter)
-		},
-		[cancelPendingSearch, updateResults, searchQuery, sourceFilter],
-	)
-
-	const handleSourceChange = useCallback(
-		(source: SourceFilter) => {
-			cancelPendingSearch()
-			setDebouncedQuery(searchQuery)
-			setSourceFilter(source)
-			updateResults(searchQuery, explicitSort, source)
-		},
-		[cancelPendingSearch, searchQuery, explicitSort, updateResults],
-	)
-
-	const clearSearch = useCallback(() => {
+	function handleSearch(query: string) {
+		setQueryDraft({ value: query, params: searchParams })
 		cancelPendingSearch()
-		setSearchQuery("")
-		setDebouncedQuery("")
-		updateResults("", explicitSort, sourceFilter)
-	}, [cancelPendingSearch, updateResults, explicitSort, sourceFilter])
+		const originalUrl = window.location.href
+		timeoutRef.current = setTimeout(() => {
+			timeoutRef.current = null
+			if (window.location.href === originalUrl) updateResults(query)
+		}, 200)
+	}
 
-	const clearFilters = useCallback(() => {
+	function changeFilters(update: BrowseUpdate) {
 		cancelPendingSearch()
-		setSearchQuery("")
-		setDebouncedQuery("")
-		setExplicitSort(null)
-		setSourceFilter("all")
-		updateResults("", null, "all")
-	}, [cancelPendingSearch, updateResults])
+		updateResults(searchQuery, update)
+	}
+
+	function removeCategory(category: string, button: HTMLButtonElement) {
+		if (document.activeElement === button) {
+			const adjacentButton = button.nextElementSibling ?? button.previousElementSibling
+			let focusTarget = sortButtonRef.current
+			if (adjacentButton instanceof HTMLButtonElement) focusTarget = adjacentButton
+			focusTarget?.focus({ preventScroll: true })
+		}
+		changeFilters({ removeCategory: category })
+	}
+
+	function clearSearch() {
+		cancelPendingSearch()
+		setQueryDraft({ value: "", params: searchParams })
+		updateResults("")
+	}
+
+	function clearFilters() {
+		cancelPendingSearch()
+		setQueryDraft({ value: "", params: searchParams })
+		updateResults("", { reset: true })
+	}
 
 	useEffect(() => {
 		return () => {
@@ -301,7 +313,12 @@ export function IconSearch({ icons }: IconSearchProps) {
 					{/* Sort dropdown */}
 					<DropdownMenu>
 						<DropdownMenuTrigger asChild>
-							<Button variant="outline" size="sm" className="flex-1 sm:flex-none cursor-pointer bg-background border-border shadow-sm">
+							<Button
+								ref={sortButtonRef}
+								variant="outline"
+								size="sm"
+								className="flex-1 sm:flex-none cursor-pointer bg-background border-border shadow-sm"
+							>
 								{getSortIcon(sortOption)}
 								<span className="ml-2">{getSortLabel(sortOption)}</span>
 							</Button>
@@ -309,7 +326,7 @@ export function IconSearch({ icons }: IconSearchProps) {
 						<DropdownMenuContent align="start" className="w-56">
 							<DropdownMenuLabel className="font-semibold">Sort By</DropdownMenuLabel>
 							<DropdownMenuSeparator />
-							<DropdownMenuRadioGroup value={sortOption} onValueChange={(value) => handleSortChange(value as SortOption)}>
+							<DropdownMenuRadioGroup value={sortOption} onValueChange={(value) => changeFilters({ sort: value as SortOption })}>
 								<DropdownMenuRadioItem value="relevance" className="cursor-pointer">
 									<Search className="h-4 w-4 mr-2" />
 									Relevance
@@ -346,7 +363,7 @@ export function IconSearch({ icons }: IconSearchProps) {
 						<DropdownMenuContent align="start" className="w-56">
 							<DropdownMenuLabel className="font-semibold">Source</DropdownMenuLabel>
 							<DropdownMenuSeparator />
-							<DropdownMenuRadioGroup value={sourceFilter} onValueChange={(value) => handleSourceChange(value as SourceFilter)}>
+							<DropdownMenuRadioGroup value={sourceFilter} onValueChange={(value) => changeFilters({ source: value as SourceFilter })}>
 								<DropdownMenuRadioItem value="all" className="cursor-pointer">
 									All
 								</DropdownMenuRadioItem>
@@ -368,13 +385,35 @@ export function IconSearch({ icons }: IconSearchProps) {
 					<AddMcpButton className="flex-1 sm:flex-none rounded-sm" source="icon_search" />
 
 					{/* Clear all button */}
-					{(searchQuery || explicitSort !== null || sourceFilter !== "all") && (
+					{(searchQuery || explicitSort !== null || sourceFilter !== "all" || categories.length > 0) && (
 						<Button variant="outline" size="sm" onClick={clearFilters} className="flex-1 sm:flex-none cursor-pointer bg-background">
 							<X className="h-4 w-4 mr-2" />
 							<span>Reset all</span>
 						</Button>
 					)}
 				</div>
+
+				{categories.length > 0 && (
+					<fieldset className="flex min-w-0 flex-wrap gap-2">
+						<legend className="sr-only">Active categories</legend>
+						{categories.map((category) => (
+							<Button
+								key={category.toLowerCase()}
+								type="button"
+								variant="secondary"
+								size="sm"
+								className="h-auto min-h-9 max-w-full rounded-full py-1 text-start whitespace-normal"
+								onClick={(event) => removeCategory(category, event.currentTarget)}
+							>
+								<span className="[overflow-wrap:anywhere]">
+									<span className="sr-only">Remove category </span>
+									{formatIconName(category, { capitalize: true })}
+								</span>
+								<X aria-hidden="true" className="size-4" />
+							</Button>
+						))}
+					</fieldset>
+				)}
 
 				<Separator className="my-2" />
 			</div>
