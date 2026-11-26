@@ -34,6 +34,9 @@ export type AccountTool<Input extends z.ZodObject = z.ZodObject, Output extends 
 
 export type DashboardIconsTool = PublicTool | AccountTool
 
+export const ICON_PREVIEW_INSTRUCTIONS =
+	"Use matched_variant.preview_url for the Variant preview when present or preview_url for the Base image."
+
 export const READ_ONLY_ANNOTATIONS: ToolAnnotations = {
 	readOnlyHint: true,
 	destructiveHint: false,

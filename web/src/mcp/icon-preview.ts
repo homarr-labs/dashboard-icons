@@ -1,8 +1,10 @@
-import type { McpServer } from "@modelcontextprotocol/server"
+import type { McpServer, ReadResourceCallback } from "@modelcontextprotocol/server"
 import { WEB_URL } from "@/constants"
 
-export const ICON_PREVIEW_RESOURCE_URI = "ui://dashboard-icons/icon-preview-v1.html"
+export const ICON_PREVIEW_RESOURCE_URI = "ui://dashboard-icons/icon-preview-v2.html"
 export const ICON_PREVIEW_MIME_TYPE = "text/html;profile=mcp-app"
+
+const LEGACY_ICON_PREVIEW_RESOURCE_URI = "ui://dashboard-icons/icon-preview-v1.html"
 
 const RESOURCE_DOMAINS = ["https://cdn.jsdelivr.net", "https://cdn.simpleicons.org", WEB_URL]
 
@@ -231,19 +233,27 @@ const ICON_PREVIEW_HTML = `<!DOCTYPE html>
 </html>`
 
 export function registerIconPreviewResource(server: McpServer): void {
+	const metadata = {
+		title: "Icon previews",
+		description: "Read-only icon thumbnails, sources and CDN links.",
+		mimeType: ICON_PREVIEW_MIME_TYPE,
+	}
+	const readPreview: ReadResourceCallback = async (uri) => ({
+		contents: [
+			{
+				uri: uri.href,
+				mimeType: ICON_PREVIEW_MIME_TYPE,
+				text: ICON_PREVIEW_HTML,
+				_meta: { ui: { domain: WEB_URL, prefersBorder: true, csp: { connectDomains: [], resourceDomains: RESOURCE_DOMAINS } } },
+			},
+		],
+	})
+	server.registerResource("icon_preview", ICON_PREVIEW_RESOURCE_URI, metadata, readPreview)
+	// Clients with cached tool definitions can still load the updated template from the old URI.
 	server.registerResource(
-		"icon_preview",
-		ICON_PREVIEW_RESOURCE_URI,
-		{ title: "Icon previews", description: "Read-only icon thumbnails, sources and CDN links.", mimeType: ICON_PREVIEW_MIME_TYPE },
-		async (uri) => ({
-			contents: [
-				{
-					uri: uri.href,
-					mimeType: ICON_PREVIEW_MIME_TYPE,
-					text: ICON_PREVIEW_HTML,
-					_meta: { ui: { domain: WEB_URL, prefersBorder: true, csp: { connectDomains: [], resourceDomains: RESOURCE_DOMAINS } } },
-				},
-			],
-		}),
+		"icon_preview_v1",
+		LEGACY_ICON_PREVIEW_RESOURCE_URI,
+		{ ...metadata, title: "Icon previews (legacy URI)" },
+		readPreview,
 	)
 }

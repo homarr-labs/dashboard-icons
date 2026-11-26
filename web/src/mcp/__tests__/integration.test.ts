@@ -254,7 +254,7 @@ describe("MCP over HTTP (real wiring)", () => {
 		for (const tool of list.result?.tools ?? []) {
 			expect(tool.annotations).toEqual({ readOnlyHint: true, destructiveHint: false, idempotentHint: true, openWorldHint: false })
 			if (["match_icons", "search_icons", "get_icon", "browse_icons"].includes(tool.name)) {
-				expect(tool._meta?.ui?.resourceUri).toBe("ui://dashboard-icons/icon-preview-v1.html")
+				expect(tool._meta?.ui?.resourceUri).toBe("ui://dashboard-icons/icon-preview-v2.html")
 			} else {
 				expect(tool._meta?.ui).toBeUndefined()
 			}
@@ -282,11 +282,14 @@ describe("MCP over HTTP (real wiring)", () => {
 			expect(result.error, name).toMatchObject({ code: -32602, message: `Tool ${name} not found` })
 		}
 		const resources = await rpc(await call(5, "resources/list", {}))
-		expect(resources.result?.resources?.map((resource) => resource.uri)).toEqual(["ui://dashboard-icons/icon-preview-v1.html"])
-		const previewUri = "ui://dashboard-icons/icon-preview-v1.html"
+		expect(resources.result?.resources?.map((resource) => resource.uri)).toEqual([
+			"ui://dashboard-icons/icon-preview-v2.html",
+			"ui://dashboard-icons/icon-preview-v1.html",
+		])
+		const previewUri = "ui://dashboard-icons/icon-preview-v2.html"
 		const preview = await rpc(await call(6, "resources/read", { uri: previewUri }, previewUri))
 		expect(preview.result?.contents?.[0]).toMatchObject({
-			uri: "ui://dashboard-icons/icon-preview-v1.html",
+			uri: previewUri,
 			mimeType: "text/html;profile=mcp-app",
 		})
 		expect(preview.result?.contents?.[0]?.text).toContain("ui/notifications/tool-result")
