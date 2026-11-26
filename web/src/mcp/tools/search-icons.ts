@@ -3,7 +3,7 @@ import { searchCatalog } from "@/lib/icons/catalog"
 import { MAX_CATEGORY_LENGTH, MAX_QUERY_LENGTH } from "@/lib/icons/validate"
 import { ICON_PREVIEW_RESOURCE_URI } from "@/mcp/icon-preview"
 import { degradedSourcesSchema, iconHitSchema, sourcesInput } from "@/mcp/tools/schemas"
-import { type PublicTool, READ_ONLY_ANNOTATIONS, structuredResult } from "@/mcp/tools/types"
+import { ICON_PREVIEW_INSTRUCTIONS, type PublicTool, READ_ONLY_ANNOTATIONS, structuredResult } from "@/mcp/tools/types"
 
 const inputSchema = z.object({
 	query: z
@@ -30,8 +30,7 @@ export const searchIconsTool: PublicTool<typeof inputSchema, typeof outputSchema
 	access: "public",
 	config: {
 		title: "Search icons",
-		description:
-			"Fuzzy-search icons by name, alias or category across dashboardicons.com and the selfh.st, LobeHub and Simple Icons catalogs, best match first (native icons win ties). Queries also match dashboardicons.com Variant names and synonyms: 'light'/'white'/'for dark background', 'dark'/'black', 'wordmark'/'text logo' and Custom variant names such as '4k'. The parent icon is returned and matched_variant says which Variant matched. Use it for one vague or partial name, or to explore options. For a list of known services use match_icons instead: one call for all of them. Each result's preview_url is a ready CDN image; pass its name and source to get_icon for every format and Variant (matched_variant.key is the key in its urls), or to get_icon_svg for inline SVG markup.",
+		description: `Fuzzy-search icons by name, alias or category across dashboardicons.com and the selfh.st, LobeHub and Simple Icons catalogs, best match first (native icons win ties). Queries also match dashboardicons.com Variant names and synonyms: 'light'/'white'/'for dark background', 'dark'/'black', 'wordmark'/'text logo' and Custom variant names such as '4k'. The parent icon is returned and matched_variant says which Variant matched. Use it for one vague or partial name, or to explore options. For a list of known services use match_icons instead: one call for all of them. ${ICON_PREVIEW_INSTRUCTIONS} Pass the result's name and source to get_icon for every format and Variant (matched_variant.key is the key in its urls), or to get_icon_svg for inline SVG markup.`,
 		inputSchema,
 		outputSchema,
 		annotations: READ_ONLY_ANNOTATIONS,

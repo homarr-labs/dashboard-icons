@@ -1,8 +1,10 @@
-import type { McpServer } from "@modelcontextprotocol/server"
+import type { McpServer, ReadResourceCallback } from "@modelcontextprotocol/server"
 import { WEB_URL } from "@/constants"
 
-export const ICON_PREVIEW_RESOURCE_URI = "ui://dashboard-icons/icon-preview-v1.html"
+export const ICON_PREVIEW_RESOURCE_URI = "ui://dashboard-icons/icon-preview-v2.html"
 export const ICON_PREVIEW_MIME_TYPE = "text/html;profile=mcp-app"
+
+const LEGACY_ICON_PREVIEW_RESOURCE_URI = "ui://dashboard-icons/icon-preview-v1.html"
 
 const RESOURCE_DOMAINS = ["https://cdn.jsdelivr.net", "https://cdn.simpleicons.org", WEB_URL]
 
@@ -26,7 +28,7 @@ const ICON_PREVIEW_HTML = `<!DOCTYPE html>
     .preview img { width: 64px; height: 64px; object-fit: contain; }
     h2 { margin: 0; font-size: 14px; }
     p { margin: 4px 0; }
-    .source, .requested, .license { font-size: 12px; }
+    .source, .requested, .license, .variant { font-size: 12px; }
     .requested { color: GrayText; }
     .links { display: flex; flex-wrap: wrap; gap: 6px 12px; margin-top: 8px; }
     a { color: LinkText; text-underline-offset: 2px; }
@@ -80,9 +82,10 @@ const ICON_PREVIEW_HTML = `<!DOCTYPE html>
       link.addEventListener("click", (event) => {
         if (!initialized || !openLinks) return;
         event.preventDefault();
-        post({ id: ++requestId, method: "ui/open-link", params: { url } });
+        post({ id: ++requestId, method: "ui/open-link", params: { url: link.href } });
       });
       container.append(link);
+      return link;
     }
 
     function card(icon, requested) {
@@ -95,22 +98,54 @@ const ICON_PREVIEW_HTML = `<!DOCTYPE html>
       let title = icon.name.slice(0, 200);
       if (typeof icon.title === "string" && icon.title) title = icon.title.slice(0, 200);
       const preview = element("div", undefined, "preview");
-      const imageUrl = safeUrl(icon.preview_url, imageOrigins);
-      if (imageUrl) {
+      const variant = element("p", undefined, "variant");
+      const links = element("div", undefined, "links");
+      const isNative = icon.source === "native";
+      const hasUrls = icon.urls && typeof icon.urls === "object";
+      const baseUrl = safeUrl(icon.preview_url, imageOrigins);
+      let matchedLabel = "";
+      let variantUrl = null;
+      if (isNative && typeof icon.matched_variant?.label === "string") {
+        matchedLabel = icon.matched_variant.label.slice(0, 200);
+        if (matchedLabel) variantUrl = safeUrl(icon.matched_variant.preview_url, imageOrigins);
+      }
+      let previewLink;
+      if (isNative || !hasUrls) previewLink = addLink(links, "CDN image", variantUrl ?? baseUrl, imageOrigins);
+
+      function showPreview(imageUrl) {
+        const isMatched = imageUrl !== null && imageUrl === variantUrl;
+        let label = "Base";
+        if (isMatched) label = matchedLabel;
+        variant.textContent = "Variant · " + label;
+        if (!isMatched && matchedLabel && imageUrl) variant.textContent += " (fallback for " + matchedLabel + ")";
+        if (!imageUrl) {
+          preview.replaceChildren(element("span", "Preview unavailable"));
+          return;
+        }
         const img = element("img");
         img.alt = title + " icon";
+        if (isNative) img.alt += " · " + label;
         img.width = 64;
         img.height = 64;
         img.loading = "lazy";
         img.referrerPolicy = "no-referrer";
-        img.addEventListener("error", () => preview.replaceChildren(element("span", "Preview unavailable")), { once: true });
+        img.addEventListener("error", () => {
+          if (isMatched && baseUrl && baseUrl !== imageUrl) {
+            if (previewLink) previewLink.href = baseUrl;
+            showPreview(baseUrl);
+            return;
+          }
+          preview.replaceChildren(element("span", "Preview unavailable"));
+        }, { once: true });
         img.src = imageUrl;
-        preview.append(img);
-      } else {
-        preview.append(element("span", "Preview unavailable"));
+        preview.replaceChildren(img);
       }
+      showPreview(variantUrl ?? baseUrl);
+
       node.append(preview, element("h2", title), element("p", sources[icon.source], "source"));
-      if (icon.source !== "native") {
+      if (isNative) {
+        node.append(variant);
+      } else {
         let attribution = "Icon via " + sources[icon.source];
         if (typeof icon.license?.attribution === "string" && icon.license.attribution) attribution = icon.license.attribution;
         node.append(element("p", attribution, "license"));
@@ -120,8 +155,7 @@ const ICON_PREVIEW_HTML = `<!DOCTYPE html>
           node.append(license);
         }
       }
-      const links = element("div", undefined, "links");
-      if (icon.urls && typeof icon.urls === "object") {
+      if (hasUrls) {
         for (const format of ["svg", "png", "webp"]) {
           const variants = icon.urls[format];
           if (!variants || typeof variants !== "object") continue;
@@ -131,11 +165,9 @@ const ICON_PREVIEW_HTML = `<!DOCTYPE html>
             addLink(links, label, url, imageOrigins);
           }
         }
-      } else {
-        addLink(links, "CDN image", imageUrl, imageOrigins);
       }
       let page = ${JSON.stringify(WEB_URL)} + "/icons/" + encodeURIComponent(icon.name);
-      if (icon.source !== "native") page = ${JSON.stringify(WEB_URL)} + "/icons/external/" + icon.source + "/" + encodeURIComponent(icon.name);
+      if (!isNative) page = ${JSON.stringify(WEB_URL)} + "/icons/external/" + icon.source + "/" + encodeURIComponent(icon.name);
       addLink(links, "Icon details", page);
       node.append(links);
       return node;
@@ -201,19 +233,27 @@ const ICON_PREVIEW_HTML = `<!DOCTYPE html>
 </html>`
 
 export function registerIconPreviewResource(server: McpServer): void {
+	const metadata = {
+		title: "Icon previews",
+		description: "Read-only icon thumbnails, sources and CDN links.",
+		mimeType: ICON_PREVIEW_MIME_TYPE,
+	}
+	const readPreview: ReadResourceCallback = async (uri) => ({
+		contents: [
+			{
+				uri: uri.href,
+				mimeType: ICON_PREVIEW_MIME_TYPE,
+				text: ICON_PREVIEW_HTML,
+				_meta: { ui: { domain: WEB_URL, prefersBorder: true, csp: { connectDomains: [], resourceDomains: RESOURCE_DOMAINS } } },
+			},
+		],
+	})
+	server.registerResource("icon_preview", ICON_PREVIEW_RESOURCE_URI, metadata, readPreview)
+	// Clients with cached tool definitions can still load the updated template from the old URI.
 	server.registerResource(
-		"icon_preview",
-		ICON_PREVIEW_RESOURCE_URI,
-		{ title: "Icon previews", description: "Read-only icon thumbnails, sources and CDN links.", mimeType: ICON_PREVIEW_MIME_TYPE },
-		async (uri) => ({
-			contents: [
-				{
-					uri: uri.href,
-					mimeType: ICON_PREVIEW_MIME_TYPE,
-					text: ICON_PREVIEW_HTML,
-					_meta: { ui: { domain: WEB_URL, prefersBorder: true, csp: { connectDomains: [], resourceDomains: RESOURCE_DOMAINS } } },
-				},
-			],
-		}),
+		"icon_preview_v1",
+		LEGACY_ICON_PREVIEW_RESOURCE_URI,
+		{ ...metadata, title: "Icon previews (legacy URI)" },
+		readPreview,
 	)
 }

@@ -4,7 +4,7 @@ import { getCatalogIcon, MAX_FUZZY_MATCHES, matchServices } from "@/lib/icons/ca
 import { MAX_QUERY_LENGTH } from "@/lib/icons/validate"
 import { ICON_PREVIEW_RESOURCE_URI } from "@/mcp/icon-preview"
 import { degradedSourcesSchema, iconHitSchema, iconLicenseSchema, iconUrlsSchema, sourcesInput } from "@/mcp/tools/schemas"
-import { type PublicTool, READ_ONLY_ANNOTATIONS, structuredResult } from "@/mcp/tools/types"
+import { ICON_PREVIEW_INSTRUCTIONS, type PublicTool, READ_ONLY_ANNOTATIONS, structuredResult } from "@/mcp/tools/types"
 
 export const MAX_SERVICES = 50
 
@@ -49,7 +49,7 @@ export const matchIconsTool: PublicTool<typeof inputSchema, typeof outputSchema>
 	access: "public",
 	config: {
 		title: "Match icons to services",
-		description: `Find the best icon for each of up to ${MAX_SERVICES} service names in one call, e.g. a whole homelab or docker-compose stack. Names, slugs and aliases are matched ignoring case, spaces and punctuation ('Pi-hole' = 'pihole'); otherwise the first ${MAX_FUZZY_MATCHES} unmatched names fall back to fuzzy search and typo tolerance. Use this first whenever you have more than one name. Set include_details=true when formats, variants or licenses are requested: every best match includes its available urls and license, keeping all previews in one result. Use those returned URLs without calling get_icon again or deriving paths from preview_url. details_unavailable means only the preview was loaded; do not invent formats or licenses. When best is null, try search_icons with a shorter or alternative name.`,
+		description: `Find the best icon for each of up to ${MAX_SERVICES} service names in one call, e.g. a whole homelab or docker-compose stack. Names, slugs and aliases are matched ignoring case, spaces and punctuation ('Pi-hole' = 'pihole'); otherwise the first ${MAX_FUZZY_MATCHES} unmatched names fall back to fuzzy search and typo tolerance. Use this first whenever you have more than one name. ${ICON_PREVIEW_INSTRUCTIONS} Set include_details=true when format URLs, available Variants or licenses are requested: every best match includes its available urls and license, keeping all previews in one result. Use those returned URLs without calling get_icon again or deriving paths from preview_url. details_unavailable means only the preview was loaded; do not invent formats or licenses. When best is null, try search_icons with a shorter or alternative name.`,
 		inputSchema,
 		outputSchema,
 		annotations: READ_ONLY_ANNOTATIONS,

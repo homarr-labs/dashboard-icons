@@ -37,6 +37,7 @@ import type {
 } from "@/lib/icons/types"
 import { buildIconUrl, type IconFormat, type IconTheme } from "@/lib/icons/urls"
 import { assertCatalogInputLength, MAX_NAME_LENGTH, MAX_QUERY_LENGTH } from "@/lib/icons/validate"
+import { resolveIconVariants } from "@/lib/icons/variants"
 import { formatIconName } from "@/lib/utils"
 import type { ExternalIcon, ExternalIconRecord, IconFile, IconRecord, NativeIconRecord } from "@/types/icons"
 
@@ -239,8 +240,22 @@ function toItem(entry: IconRecord): CatalogItem {
 
 function toHit(entry: IconRecord, query: string): CatalogHit {
 	const hit: CatalogHit = { ...toItem(entry), score: Math.round(scoreIcon(entry, query) * 100) / 100 }
-	const matchedVariant = findMatchedVariant(entry, query)
-	if (matchedVariant) hit.matched_variant = matchedVariant
+	if (entry.source !== "native") return hit
+
+	let matchedVariant = findMatchedVariant(entry, query)
+	if (!matchedVariant) {
+		const queryKey = compactKey(query)
+		if (queryKey === compactKey(entry.name)) return hit
+		matchedVariant =
+			resolveIconVariants(entry.name, entry.data).find(({ key, stem }) => key !== "default" && compactKey(stem) === queryKey) ?? null
+	}
+	if (!matchedVariant) return hit
+
+	const { key, label, stem } = matchedVariant
+	hit.matched_variant = { key, label, stem }
+	const variant = getNativeIconVariants(entry.name, entry.data).find((candidate) => candidate.stem === stem)
+	const format = FORMATS.find((format) => variant?.formats.includes(format))
+	if (format) hit.matched_variant.preview_url = buildIconUrl(stem, format)
 	return hit
 }
 
@@ -380,25 +395,37 @@ export async function matchServices(
 	serviceNames: readonly string[],
 	options: { sources?: readonly CatalogSource[] } = {},
 ): Promise<CatalogMatchResult> {
-	for (const name of serviceNames) assertCatalogInputLength(name, MAX_QUERY_LENGTH)
+	const queries = new Map<string, { text: string; wordCount: number }>()
+	const requests = serviceNames.map((service) => {
+		assertCatalogInputLength(service, MAX_QUERY_LENGTH)
+		const key = compactKey(service)
+		const words = service.match(/[\p{L}\p{M}\p{N}]+/gu) ?? []
+		const text = words.join(" ").normalize("NFC").toLowerCase()
+		const previous = queries.get(key)
+		// Spellings with the same compact key share one lookup. Preserve word boundaries for Variant matching.
+		if (!previous || words.length > previous.wordCount || (words.length === previous.wordCount && text < previous.text)) {
+			queries.set(key, { text, wordCount: words.length })
+		}
+		return { service, key }
+	})
 	const snapshot = await loadCatalog(options.sources)
 	const fuzzy = new Map<string, CatalogHit[]>()
 	const matches: CatalogServiceMatch[] = []
-	for (const service of serviceNames) {
+	for (const { service, key } of requests) {
 		const exact = exactMatches(snapshot, service).map(({ entry }) => toHit(entry, service.trim()))
 		if (exact.length > 0) {
 			matches.push(toMatch(service, exact))
 			continue
 		}
 
-		const key = compactKey(service)
 		let hits = fuzzy.get(key)
 		if (!hits && fuzzy.size >= MAX_FUZZY_MATCHES) {
 			matches.push({ ...toMatch(service, []), reason: "fuzzy_limit" })
 			continue
 		}
 		if (!hits) {
-			hits = suggest(snapshot, service, MATCH_ALTERNATIVES + 1)
+			const query = queries.get(key)?.text ?? service
+			hits = suggest(snapshot, query, MATCH_ALTERNATIVES + 1)
 			fuzzy.set(key, hits)
 			await yieldToEventLoop()
 		}

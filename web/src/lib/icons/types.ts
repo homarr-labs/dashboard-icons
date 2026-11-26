@@ -11,7 +11,10 @@ export type CatalogItem = {
 	preview_url: string
 }
 
-export type CatalogHit = CatalogItem & { score: number; matched_variant?: IconVariantMatch }
+export type CatalogHit = CatalogItem & {
+	score: number
+	matched_variant?: IconVariantMatch & { preview_url?: string }
+}
 
 export type CatalogUrls = Partial<Record<IconFormat, Record<string, string>>>
 
