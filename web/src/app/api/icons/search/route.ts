@@ -2,11 +2,12 @@ import { NextResponse } from "next/server"
 import { getIconsArray } from "@/lib/api"
 import { getExternalIcons } from "@/lib/external-icons"
 import type { IconSearchEntry, IconWithName } from "@/types/icons"
+import { getNativeIconPreviewFormats } from "../../../../lib/icons/files"
 
 const REVALIDATE_SECONDS = 900
 
 function toCommandMenuEntry(icon: IconWithName): IconSearchEntry {
-	return {
+	const entry: IconSearchEntry = {
 		name: icon.name,
 		source: icon.source,
 		slug: icon.slug,
@@ -19,18 +20,15 @@ function toCommandMenuEntry(icon: IconWithName): IconSearchEntry {
 			wordmark: icon.data.wordmark,
 			variants: icon.data.variants,
 		},
-		...(icon.external
-			? {
-					external: {
-						source: icon.external.source,
-						slug: icon.external.slug,
-						formats: icon.external.formats,
-						url_templates: icon.external.url_templates,
-						brand_color: icon.external.brand_color,
-					},
-				}
-			: {}),
 	}
+	if (icon.source === "native") {
+		entry.nativePreviewFormats = getNativeIconPreviewFormats(icon.name, icon.data)
+	}
+	if (icon.external) {
+		const { source, slug, formats, url_templates, brand_color } = icon.external
+		entry.external = { source, slug, formats, url_templates, brand_color }
+	}
+	return entry
 }
 
 export async function GET() {

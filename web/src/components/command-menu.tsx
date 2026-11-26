@@ -11,8 +11,8 @@ import { UnoptimizedImage } from "@/components/unoptimized-image"
 import { EXTERNAL_SOURCES, type ExternalSourceId } from "@/constants"
 import { useMediaQuery } from "@/hooks/use-media-query"
 import { getExternalIconPagePath } from "@/lib/external-icon-urls"
-import { getIconImageUrl } from "@/lib/icon-url"
-import { type IconVariantMatch, variantToneClass } from "@/lib/icons/variants"
+import { getIconSearchPreview } from "@/lib/icon-url"
+import { variantToneClass } from "@/lib/icons/variants"
 import { cn, filterAndSortIcons, findMatchedVariant, formatIconName } from "@/lib/utils"
 import type { IconSearchEntry } from "@/types/icons"
 
@@ -65,17 +65,17 @@ export function CommandMenu({ icons, isLoaded, hasLoadError, open: externalOpen,
 	)
 
 	const filteredIcons = useMemo(() => filterAndSortIcons({ icons, query, limit: 20 }), [icons, query])
-	const matchedVariants = useMemo(() => {
-		const matches = new Map<IconSearchEntry, IconVariantMatch>()
+	const matchedPreviews = useMemo(() => {
+		const previews = new Map<IconSearchEntry, ReturnType<typeof getIconSearchPreview>>()
 		for (const icon of filteredIcons) {
 			const variant = findMatchedVariant(icon, query)
-			if (variant) matches.set(icon, variant)
+			if (variant) previews.set(icon, getIconSearchPreview(icon, variant))
 		}
-		return matches
+		return previews
 	}, [filteredIcons, query])
-	const selectedVariant = selectedIcon ? matchedVariants.get(selectedIcon) : undefined
+	const selectedPreview = selectedIcon && (matchedPreviews.get(selectedIcon) ?? getIconSearchPreview(selectedIcon))
 	let previewAlt = selectedIcon?.name ?? ""
-	if (selectedIcon && selectedVariant) previewAlt = `${selectedIcon.name} ${selectedVariant.label} variant`
+	if (selectedIcon && selectedPreview?.variant) previewAlt = `${selectedIcon.name} ${selectedPreview.variant.label} variant`
 	const totalIcons = icons.length
 	const isReady = isLoaded && !hasLoadError
 
@@ -170,7 +170,7 @@ export function CommandMenu({ icons, isLoaded, hasLoadError, open: externalOpen,
 						const formattedIconName = formatIconName(name)
 						const isExternal = source && source !== "native"
 						const sourceConfig = isExternal ? EXTERNAL_SOURCES[source as ExternalSourceId] : undefined
-						const matchedVariant = matchedVariants.get(icon)
+						const variantLabel = matchedPreviews.get(icon)?.variantLabel
 
 						return (
 							<CommandItem
@@ -181,9 +181,9 @@ export function CommandMenu({ icons, isLoaded, hasLoadError, open: externalOpen,
 								onMouseEnter={() => setSelectedIcon(icon)}
 							>
 								<span className="flex-grow capitalize font-medium truncate">{formattedIconName}</span>
-								{matchedVariant && (
+								{variantLabel && (
 									<Badge variant="outline" className="text-xs px-2 h-6 shrink-0 text-muted-foreground">
-										{matchedVariant.label} variant
+										{variantLabel}
 									</Badge>
 								)}
 								{isExternal && sourceConfig && (
@@ -230,11 +230,11 @@ export function CommandMenu({ icons, isLoaded, hasLoadError, open: externalOpen,
 					{listContent}
 				</CommandList>
 
-				{isReady && isDesktop && selectedIcon && (
+				{isReady && isDesktop && selectedIcon && selectedPreview && (
 					<div className="w-56 border-l border-border flex flex-col items-center justify-center p-6">
 						<AnimatePresence mode="wait">
 							<motion.div
-								key={`${selectedIcon.source || "native"}-${selectedIcon.name}-${selectedVariant?.key ?? ""}`}
+								key={`${selectedIcon.source || "native"}-${selectedIcon.name}-${selectedPreview.variant?.key ?? ""}`}
 								className="flex flex-col items-center gap-3"
 								initial={{ opacity: 0, scale: 0.92 }}
 								animate={{ opacity: 1, scale: 1 }}
@@ -244,19 +244,13 @@ export function CommandMenu({ icons, isLoaded, hasLoadError, open: externalOpen,
 								<div
 									className={cn(
 										"h-24 w-24 rounded-xl ring-1 flex items-center justify-center overflow-hidden",
-										variantToneClass(selectedVariant) ?? "bg-muted ring-border",
+										variantToneClass(selectedPreview.variant) ?? "bg-muted ring-border",
 									)}
 								>
-									<UnoptimizedImage
-										src={getIconImageUrl(selectedIcon, selectedVariant?.stem)}
-										alt={previewAlt}
-										width={64}
-										height={64}
-										className="object-contain"
-									/>
+									<UnoptimizedImage src={selectedPreview.url} alt={previewAlt} width={64} height={64} className="object-contain" />
 								</div>
 								<span className="text-sm font-medium text-center capitalize truncate max-w-full">{formatIconName(selectedIcon.name)}</span>
-								{selectedVariant && <span className="text-xs text-muted-foreground">{selectedVariant.label} variant</span>}
+								{selectedPreview.variantLabel && <span className="text-xs text-muted-foreground">{selectedPreview.variantLabel}</span>}
 								{selectedIcon.source && selectedIcon.source !== "native" && (
 									<span className="text-xs text-muted-foreground">{EXTERNAL_SOURCES[selectedIcon.source as ExternalSourceId]?.label}</span>
 								)}

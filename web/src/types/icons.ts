@@ -1,4 +1,5 @@
 import type { ExternalSourceId } from "@/constants"
+import type { IconFormat } from "@/lib/icons/urls"
 
 export type IconAuthor = {
 	id: number | string
@@ -55,6 +56,7 @@ export type IconSearchEntry = {
 	source?: "native" | ExternalSourceId
 	slug?: string
 	external?: ExternalIconUrlData
+	nativePreviewFormats?: Partial<Record<string, IconFormat>>
 }
 
 export type IconSearchProps = {
