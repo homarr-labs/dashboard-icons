@@ -2,7 +2,7 @@ import fs from "node:fs"
 import path from "node:path"
 import PocketBase from "pocketbase"
 import { getLobehubBaseSlug } from "../src/lib/lobehub-variants"
-import { executeExternalIconImport, planExternalIconImport } from "./external-icon-import"
+import { executeExternalIconImport, type ImportIcon, planExternalIconImport } from "./external-icon-import"
 
 type GitHubTreeEntry = {
 	path: string
@@ -254,7 +254,7 @@ function toRecord(group: BrandGroup, index: AssetIndex, slugBrandMap: Map<string
 		attribution: ATTRIBUTION,
 		source_url: `${SOURCE_URL}/${slug}`,
 		updated_at_source: null,
-	}
+	} satisfies ImportIcon
 }
 
 async function fetchTree(): Promise<GitHubTreeResponse> {
@@ -325,7 +325,7 @@ async function main() {
 	await pb.collection("_superusers").authWithPassword(adminEmail, adminPassword)
 
 	if (flags.purge) {
-		const plan = await planExternalIconImport(pb, { source: SOURCE, buildRecords: () => [] })
+		const plan = await planExternalIconImport(pb, { source: SOURCE, intent: "purge" })
 		console.log(`Purging all ${plan.counts.delete} lobehub records...`)
 		await executeExternalIconImport(pb, plan, flags.dryRun)
 		console.log(flags.dryRun ? "(dry run, nothing deleted)" : `Deleted ${plan.counts.delete} records`)
@@ -340,7 +340,9 @@ async function main() {
 	}
 
 	const index = indexTree(tree)
-	if (index.svgSlugs.size === 0) throw new Error("No SVG assets found; refusing to synchronize an empty catalogue")
+	if (index.svgSlugs.size === 0) {
+		throw new Error("No LobeHub SVG assets found. Use --purge to remove all records for this source.")
+	}
 	console.log(
 		`Found: ${index.svgSlugs.size} SVGs, ${index.pngLightSlugs.size} PNG light, ${index.pngDarkSlugs.size} PNG dark, ${index.webpLightSlugs.size} WebP light, ${index.webpDarkSlugs.size} WebP dark`,
 	)
@@ -360,6 +362,7 @@ async function main() {
 
 	const plan = await planExternalIconImport<{ id: string; slug: string; aliases?: string[] }>(pb, {
 		source: SOURCE,
+		intent: "sync",
 		fields: ["aliases"],
 		buildRecords(existing) {
 			const historicalAliases = new Map<string, Set<string>>()

@@ -2,7 +2,7 @@ import fs from "node:fs"
 import path from "node:path"
 import { pathToFileURL } from "node:url"
 import PocketBase from "pocketbase"
-import { type CollectionField, executeExternalIconImport, planExternalIconImport } from "./external-icon-import"
+import { type CollectionField, executeExternalIconImport, type ImportIcon, planExternalIconImport } from "./external-icon-import"
 import { BLACKLISTED_ICONS } from "./icon-blacklist"
 
 const SOURCE = "simpleicons"
@@ -41,6 +41,10 @@ type BuildOptions = {
 type StoredSimpleIcon = {
 	id: string
 	slug: string
+	brand_color?: string
+	guidelines_url?: string
+	license_url?: string
+	stable_svg_url?: string
 	upstream_version?: string
 	upstream_data?: { import_schema_version?: number }
 	updated_at_source?: string
@@ -163,7 +167,7 @@ export function buildSimpleIconRecords(
 				disclaimer_url: DISCLAIMER_URL,
 			},
 			updated_at_source: options.publishedAt ?? null,
-		}]
+		} satisfies ImportIcon]
 	})
 }
 
@@ -213,8 +217,8 @@ async function main() {
 	if (flags.purge) {
 		const plan = await planExternalIconImport(pb, {
 			source: SOURCE,
+			intent: "purge",
 			mergeFields: mergeSimpleIconsSchemaFields,
-			buildRecords: () => [],
 		})
 		await executeExternalIconImport(pb, plan, flags.dryRun)
 		console.log(`${flags.dryRun ? "Would remove" : "Removed"} ${plan.counts.delete} Simple Icons records`)
@@ -224,22 +228,29 @@ async function main() {
 	const excludedSlugs = new Set([...readNativeSlugs(), ...BLACKLISTED_ICONS])
 	const upstream = readManifest(flags.manifest)
 	const records = buildSimpleIconRecords(upstream, excludedSlugs, { version: flags.version, publishedAt: flags.publishedAt })
-	const targetSlugs = new Set(records.map((record) => record.slug))
+	const recordsBySlug = new Map(records.map((record) => [record.slug, record]))
 	const expectedPublishedAt = flags.publishedAt ? new Date(flags.publishedAt).getTime() : null
 	const plan = await planExternalIconImport<StoredSimpleIcon>(pb, {
 		source: SOURCE,
-		fields: ["upstream_version", "upstream_data", "updated_at_source"],
+		intent: "sync",
+		fields: ["brand_color", "guidelines_url", "license_url", "stable_svg_url", "upstream_version", "upstream_data", "updated_at_source"],
 		mergeFields: mergeSimpleIconsSchemaFields,
 		buildRecords(existing, needsSchemaRepair) {
 			if (needsSchemaRepair || existing.length !== records.length) return records
 
-			const isAlreadyCurrent = existing.every(
-				(record) =>
+			const isAlreadyCurrent = existing.every((record) => {
+				const imported = recordsBySlug.get(record.slug)
+				if (!imported) return false
+				return (
+					record.brand_color === imported.brand_color &&
+					record.guidelines_url === imported.guidelines_url &&
+					record.license_url === imported.license_url &&
+					record.stable_svg_url === imported.stable_svg_url &&
 					record.upstream_version === flags.version &&
 					record.upstream_data?.import_schema_version === IMPORT_SCHEMA_VERSION &&
-					targetSlugs.has(record.slug) &&
-					(expectedPublishedAt === null || new Date(record.updated_at_source ?? "").getTime() === expectedPublishedAt),
-			)
+					(expectedPublishedAt === null || new Date(record.updated_at_source ?? "").getTime() === expectedPublishedAt)
+				)
+			})
 			if (isAlreadyCurrent) return null
 			return records
 		},
