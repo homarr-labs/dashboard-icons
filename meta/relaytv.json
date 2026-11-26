@@ -1,0 +1,18 @@
+{
+    "base": "svg",
+    "aliases": [
+        "Relay TV"
+    ],
+    "categories": [
+        "Media",
+        "Home-Automation"
+    ],
+    "update": {
+        "timestamp": "2026-11-05T04:59:00Z",
+        "author": {
+            "id": 1297874,
+            "name": "mcgeezy",
+            "login": "mcgeezy"
+        }
+    }
+}
