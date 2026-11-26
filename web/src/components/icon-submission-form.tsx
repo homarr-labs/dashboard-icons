@@ -29,6 +29,7 @@ import { InteractiveHoverButton } from "@/components/magicui/interactive-hover-b
 import { MagicCard } from "@/components/magicui/magic-card"
 import { NumberTicker } from "@/components/magicui/number-ticker"
 import { EditIconPicker } from "@/components/submission/edit-icon-picker"
+import { IconUpdateEditor } from "@/components/submission/icon-update-editor"
 import { SubmissionCard } from "@/components/submission/submission-card"
 import { AssetPreview, SubmissionPreview } from "@/components/submission/submission-preview"
 import { PANEL_CLASS, SectionHeading, TONES } from "@/components/submission/submission-ui"
@@ -40,7 +41,15 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Progress } from "@/components/ui/progress"
 import { UnoptimizedImage } from "@/components/unoptimized-image"
 import { useSubmissionDrafts } from "@/hooks/use-submission-drafts"
-import { isEmptyDraft, moveDraftAssets, newSubmissionDraft, sameProductSuggestion } from "@/lib/submission-drafts"
+import {
+	draftInput,
+	draftUpdateAssetError,
+	isEmptyDraft,
+	moveDraftAssets,
+	newSubmissionDraft,
+	type SubmissionDraft,
+	sameProductSuggestion,
+} from "@/lib/submission-drafts"
 import { MAX_SEND_ASSET_BYTES, MAX_SUBMISSIONS_PER_SEND } from "@/lib/submission-limits"
 import { cn } from "@/lib/utils"
 
@@ -63,12 +72,16 @@ interface ModeOption {
 	tone: keyof typeof MODE_STYLE
 }
 
+type DraftUpdate = Pick<SubmissionDraft, "id" | "name"> & { assets: ReturnType<typeof draftInput>["assets"] }
+
 export function IconSubmissionForm() {
 	const form = useSubmissionDrafts()
 	const [mode, setMode] = useState<"submit" | "edit">("submit")
 	const [editSearch, setEditSearch] = useState("")
 	const [rejectedOnly, setRejectedOnly] = useState(false)
 	const [initialSubmissionId, setInitialSubmissionId] = useState("")
+	const [draftUpdate, setDraftUpdate] = useState<DraftUpdate | null>(null)
+	const [savingDraftUpdate, setSavingDraftUpdate] = useState(false)
 	useEffect(() => {
 		const params = new URLSearchParams(window.location.search)
 		const id = params.get("submission")
@@ -90,6 +103,17 @@ export function IconSubmissionForm() {
 		setInitialSubmissionId("")
 		setRejectedOnly(onlyRejected)
 		setMode("edit")
+	}
+	const removeDraft = (id: string) => {
+		form.setDrafts((items) => {
+			const remaining = items.filter((item) => item.id !== id)
+			if (remaining.length) return remaining
+			return [newSubmissionDraft()]
+		})
+		form.setSelected((selected) => {
+			if (selected === id) return null
+			return selected
+		})
 	}
 	let activeMode: ModeId | "" = mode
 	if (mode === "edit" && rejectedOnly) activeMode = "rejected"
@@ -157,10 +181,11 @@ export function IconSubmissionForm() {
 									<button
 										key={id}
 										type="button"
-										disabled={form.sending}
+										disabled={form.sending || savingDraftUpdate}
 										aria-pressed={selected}
 										onClick={() => {
 											form.setSent(null)
+											setDraftUpdate(null)
 											if (id === "rejected") {
 												edit("", true)
 												return
@@ -297,7 +322,21 @@ export function IconSubmissionForm() {
 						</InteractiveHoverButton>
 					</motion.section>
 				)}
-				{!form.sent && (
+				{draftUpdate && (
+					<IconUpdateEditor
+						key={draftUpdate.id}
+						selection={{ label: draftUpdate.name, value: draftUpdate.name, source: "collection" }}
+						initialAssets={draftUpdate.assets}
+						backLabel="Back to drafts"
+						onCancel={() => {
+							setDraftUpdate(null)
+							setMode("submit")
+						}}
+						onSavingChange={setSavingDraftUpdate}
+						onSaved={() => removeDraft(draftUpdate.id)}
+					/>
+				)}
+				{!form.sent && !draftUpdate && (
 					<div hidden={mode !== "edit"}>
 						<EditIconPicker
 							key={`${editSearch}-${rejectedOnly}-${initialSubmissionId}`}
@@ -353,6 +392,8 @@ export function IconSubmissionForm() {
 										const suggestionSlugs = new Set([...form.knownSlugs, ...(form.hints.data ?? []).map((item) => item.name)])
 										const suggestion = sameProductSuggestion(draft, form.drafts, suggestionSlugs)
 										const pending = form.hints.data?.filter((item) => item.name === draft.name) ?? []
+										const published = form.knownSlugs.has(draft.name)
+										const updateError = published && draftUpdateAssetError(draft, form.knownSlugs)
 										return (
 											<motion.div
 												key={draft.id}
@@ -366,7 +407,7 @@ export function IconSubmissionForm() {
 													draft={draft}
 													index={index + 1}
 													open={!collapsed && form.current?.id === draft.id}
-													error={form.cardErrors[draft.id]}
+													error={updateError || form.cardErrors[draft.id]}
 													customNames={form.catalog.data?.customVariantNames ?? []}
 													onSelect={() => {
 														setCollapsed(form.current?.id === draft.id && !collapsed)
@@ -374,13 +415,7 @@ export function IconSubmissionForm() {
 													}}
 													onChange={(patch) => form.update(draft.id, patch)}
 													onFiles={(files) => form.addFiles(files, draft.id)}
-													onRemove={() => {
-														form.setDrafts((items) => {
-															const next = items.filter((item) => item.id !== draft.id)
-															return next.length ? next : [newSubmissionDraft()]
-														})
-														form.setSelected(null)
-													}}
+													onRemove={() => removeDraft(draft.id)}
 													onPreview={() => {
 														form.setSelected(draft.id)
 														setPreviewOpen(true)
@@ -396,8 +431,17 @@ export function IconSubmissionForm() {
 														toast.success("Categories added to the other filled cards")
 													}}
 												>
-													{form.knownSlugs.has(draft.name) && (
-														<Button variant="outline" className="self-start" onClick={() => edit(draft.name)}>
+													{published && (
+														<Button
+															type="button"
+															variant="outline"
+															className="self-start"
+															disabled={Boolean(updateError)}
+															onClick={() => {
+																setDraftUpdate({ id: draft.id, name: draft.name, assets: draftInput(draft).assets })
+																setMode("edit")
+															}}
+														>
 															<PencilLine aria-hidden />
 															Update {draft.name} instead
 														</Button>

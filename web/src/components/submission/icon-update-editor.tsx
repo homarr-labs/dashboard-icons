@@ -150,10 +150,18 @@ export function IconUpdateEditor({
 	selection,
 	onCancel,
 	owned,
+	initialAssets,
+	backLabel = "Choose another Icon",
+	onSavingChange,
+	onSaved,
 }: {
 	selection: IconNameOption
 	onCancel: () => void
 	owned?: OwnedSubmissionResponse
+	initialAssets?: Partial<Record<SubmissionVariant, File>>
+	backLabel?: string
+	onSavingChange?: (saving: boolean) => void
+	onSaved?: () => void
 }) {
 	const queryClient = useQueryClient()
 	const [loaded, setLoaded] = useState<UpdateTargetResponse | null>(owned?.baseline ?? null)
@@ -161,7 +169,7 @@ export function IconUpdateEditor({
 	const [retained, setRetained] = useState<IconUpdate["variants"]>([])
 	const [refreshChosen, setRefreshChosen] = useState(false)
 	const [error, setError] = useState("")
-	const [files, setFiles] = useState<Partial<Record<SubmissionVariant, File>>>({})
+	const [files, setFiles] = useState(() => ({ ...initialAssets }))
 	const [removals, setRemovals] = useState<Partial<Record<RemovableVariantKey, string>>>({})
 	const [aliases, setAliases] = useState("")
 	const [aliasesEdited, setAliasesEdited] = useState(false)
@@ -173,6 +181,8 @@ export function IconUpdateEditor({
 	const [suggestionsError, setSuggestionsError] = useState("")
 	const [note, setNote] = useState("")
 	const [busy, setBusy] = useState(false)
+	const savingRef = useRef(false)
+	const heading = useRef<HTMLHeadingElement>(null)
 	const [sent, setSent] = useState("")
 	const [attempt, setAttempt] = useState(0)
 	useEffect(() => {
@@ -218,6 +228,9 @@ export function IconUpdateEditor({
 	useEffect(() => {
 		if (customOpen) customInput.current?.focus()
 	}, [customOpen])
+	useEffect(() => {
+		if (initialAssets && loaded) heading.current?.focus()
+	}, [initialAssets, loaded])
 	const changeFile = (key: SubmissionVariant, file: File) => {
 		if (!/\.(svg|png)$/i.test(file.name) || !file.size || file.size > MAX_ASSET_BYTES) {
 			setError("Choose a non-empty SVG or PNG, up to 5 MB.")
@@ -270,8 +283,8 @@ export function IconUpdateEditor({
 							<ArrowRight aria-hidden />
 						</Link>
 					</Button>
-					<Button variant="outline" onClick={onCancel}>
-						Choose another Icon
+					<Button type="button" variant="outline" onClick={onCancel}>
+						{backLabel}
 					</Button>
 				</div>
 			</motion.section>
@@ -300,9 +313,9 @@ export function IconUpdateEditor({
 							Retry loading Icon
 						</Button>
 					)}
-					<Button variant="ghost" className="min-h-11" onClick={onCancel}>
+					<Button type="button" variant="ghost" className="min-h-11" onClick={onCancel}>
 						<ArrowLeft aria-hidden />
-						Choose another Icon
+						{backLabel}
 					</Button>
 				</div>
 			</section>
@@ -331,7 +344,10 @@ export function IconUpdateEditor({
 	if (busy) saveLabel = "Saving proposal…"
 	const disabled = !changes || busy || Boolean(target.unresolved) || stale || Boolean(owned && !live)
 	const send = async () => {
+		if (disabled || savingRef.current) return
+		savingRef.current = true
 		setBusy(true)
+		onSavingChange?.(true)
 		setError("")
 		try {
 			const result = await submitProposal(
@@ -360,10 +376,13 @@ export function IconUpdateEditor({
 				await queryClient.invalidateQueries({ queryKey: ["owned-editor", owned.record.id] })
 			}
 			setSent(result.id)
+			onSaved?.()
 		} catch (error) {
 			setError(String(error))
 		} finally {
+			savingRef.current = false
 			setBusy(false)
+			onSavingChange?.(false)
 		}
 	}
 	const cta = (
@@ -390,11 +409,13 @@ export function IconUpdateEditor({
 								{target.kind === "published" ? "Published Icon" : "Community Submission"}
 							</Badge>
 						</div>
-						<h2 className="mt-1.5 break-all font-mono text-2xl font-semibold">{target.name}</h2>
+						<h2 ref={heading} tabIndex={-1} className="mt-1.5 break-all font-mono text-2xl font-semibold">
+							{target.name}
+						</h2>
 					</div>
-					<Button variant="ghost" disabled={busy} onClick={onCancel}>
+					<Button type="button" variant="ghost" disabled={busy} onClick={onCancel}>
 						<ArrowLeft aria-hidden />
-						Choose another Icon
+						{backLabel}
 					</Button>
 				</header>
 				{owned?.record.status === "rejected" && (

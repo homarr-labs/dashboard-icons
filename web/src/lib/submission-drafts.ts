@@ -1,5 +1,5 @@
-import type { SubmissionInput } from "@/lib/submission-service"
-import { SUBMISSION_VARIANTS, type SubmissionVariant, variantKind } from "@/lib/submission-variants"
+import { MAX_ASSET_BYTES, type SubmissionInput } from "@/lib/submission-service"
+import { customVariantNameError, SUBMISSION_VARIANTS, type SubmissionVariant, variantKind } from "@/lib/submission-variants"
 
 export interface DraftAsset {
 	id: string
@@ -43,6 +43,23 @@ export function draftInput(draft: SubmissionDraft): SubmissionInput {
 		categories: draft.categories,
 		targetSubmission: "",
 		assets: Object.fromEntries(draft.assets.map((asset) => [asset.variant, asset.file])),
+	}
+}
+
+export function draftUpdateAssetError(draft: SubmissionDraft, knownSlugs: Set<string>): string | undefined {
+	if (draft.customVariantName) return "Choose a file for the Custom variant, or clear its name."
+	const occupied = new Set<SubmissionVariant>()
+	for (const { variant, file } of draft.assets) {
+		if (occupied.has(variant)) return "Two files occupy the same Variant slot. Choose which file to keep."
+		occupied.add(variant)
+		if (variant.startsWith("custom:")) {
+			const error = customVariantNameError(variant.slice(7))
+			if (error) return error
+			const stem = draft.name + variantKind(variant).suffix
+			if (knownSlugs.has(stem)) return `${stem} is a separate published Icon. Choose a different Custom variant name.`
+		}
+		if (!/\.(svg|png)$/i.test(file.name) || !file.size || file.size > MAX_ASSET_BYTES)
+			return `Replace or remove ${file.name}. Choose a non-empty SVG or PNG, up to 5 MB.`
 	}
 }
 
