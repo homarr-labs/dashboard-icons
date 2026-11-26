@@ -144,14 +144,23 @@ export const getExternalIcons = cache(async (): Promise<ExternalIconRecord[]> =>
 	return fetchExternalIconsWithTTL()
 })
 
-export async function getExternalIconBySourceAndSlug(source: ExternalSourceId, slug: string): Promise<ExternalIconRecord | null> {
+export async function getExternalIconBySourceAndSlug(
+	source: ExternalSourceId,
+	slug: string,
+	{ throwOnError = false }: { throwOnError?: boolean } = {},
+): Promise<ExternalIconRecord | null> {
 	try {
 		const pb = createServerPB()
-		const record = await pb
-			.collection("external_icons")
-			.getFirstListItem<ExternalIcon>(pb.filter("source = {:source} && slug = {:slug}", { source, slug }), { requestKey: null })
+		const { items } = await pb.collection("external_icons").getList<ExternalIcon>(1, 1, {
+			filter: pb.filter("source = {:source} && slug = {:slug}", { source, slug }),
+			skipTotal: true,
+			requestKey: null,
+		})
+		const [record] = items
+		if (!record) return null
 		return toExternalIconRecord(record)
-	} catch {
+	} catch (error) {
+		if (throwOnError) throw error
 		return null
 	}
 }
