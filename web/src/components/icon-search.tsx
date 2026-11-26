@@ -102,22 +102,31 @@ export function IconSearch({ icons }: IconSearchProps) {
 	const sortOption = explicitSort ?? "newest"
 	const sourceFilter = parseSourceFilter(searchParams.get("source"))
 	const categories = useMemo(() => readCategories(searchParams), [searchParams])
-	const [queryDraft, setQueryDraft] = useState<{ value: string; params: typeof searchParams } | null>(null)
-	const searchQuery = queryDraft?.params === searchParams ? queryDraft.value : debouncedQuery
+	const [queryDraft, setQueryDraft] = useState<string | null>(null)
+	const searchQuery = queryDraft ?? debouncedQuery
 	const sortButtonRef = useRef<HTMLButtonElement>(null)
-	const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+	const pendingSearchRef = useRef<{ timeout: ReturnType<typeof setTimeout>; url: string } | null>(null)
 	const noIconsFoundTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
 	const cancelPendingSearch = useCallback(() => {
-		if (timeoutRef.current === null) return
-		clearTimeout(timeoutRef.current)
-		timeoutRef.current = null
+		if (pendingSearchRef.current === null) return
+		clearTimeout(pendingSearchRef.current.timeout)
+		pendingSearchRef.current = null
 	}, [])
+
+	useEffect(() => {
+		const url = new URL(window.location.href)
+		if (url.searchParams.toString() !== searchParams.toString()) return
+		// Next.js can reflect an earlier history write while the next query is pending.
+		if (pendingSearchRef.current?.url === url.href) return
+		cancelPendingSearch()
+		setQueryDraft(null)
+	}, [cancelPendingSearch, searchParams])
 
 	useEffect(() => {
 		const restoreSearch = () => {
 			cancelPendingSearch()
-			setQueryDraft(null)
+			setQueryDraft(new URLSearchParams(window.location.search).get("q") ?? "")
 		}
 		window.addEventListener("popstate", restoreSearch)
 		return () => window.removeEventListener("popstate", restoreSearch)
@@ -167,18 +176,23 @@ export function IconSearch({ icons }: IconSearchProps) {
 	}, [filteredIcons, debouncedQuery])
 
 	function handleSearch(query: string) {
-		setQueryDraft({ value: query, params: searchParams })
+		setQueryDraft(query)
 		cancelPendingSearch()
-		const originalUrl = window.location.href
-		timeoutRef.current = setTimeout(() => {
-			timeoutRef.current = null
-			if (window.location.href === originalUrl) updateResults(query)
+		const url = window.location.href
+		const timeout = setTimeout(() => {
+			pendingSearchRef.current = null
+			if (window.location.href === url) updateResults(query)
+			else setQueryDraft(null)
 		}, 200)
+		pendingSearchRef.current = { timeout, url }
 	}
 
 	function changeFilters(update: BrowseUpdate) {
+		const url = new URL(window.location.href)
+		let query = url.searchParams.get("q") ?? ""
+		if (pendingSearchRef.current?.url === url.href && queryDraft !== null) query = queryDraft
 		cancelPendingSearch()
-		updateResults(searchQuery, update)
+		updateResults(query, update)
 	}
 
 	function removeCategory(category: string, button: HTMLButtonElement) {
@@ -193,13 +207,13 @@ export function IconSearch({ icons }: IconSearchProps) {
 
 	function clearSearch() {
 		cancelPendingSearch()
-		setQueryDraft({ value: "", params: searchParams })
+		setQueryDraft("")
 		updateResults("")
 	}
 
 	function clearFilters() {
 		cancelPendingSearch()
-		setQueryDraft({ value: "", params: searchParams })
+		setQueryDraft("")
 		updateResults("", { reset: true })
 	}
 
