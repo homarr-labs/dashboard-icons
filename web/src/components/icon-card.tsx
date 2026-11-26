@@ -40,10 +40,12 @@ export function IconCard({
 	icon,
 	matchedAlias,
 	matchedVariant,
+	onNavigate,
 }: {
 	icon: IconSearchEntry
 	matchedAlias?: string
 	matchedVariant?: IconVariantMatch
+	onNavigate?: () => void
 }) {
 	const { name } = icon
 	const kind = getIconKind(icon)
@@ -62,7 +64,12 @@ export function IconCard({
 					<span className="truncate text-xs leading-none text-foreground/80">from {sourceConfig.label}</span>
 				</div>
 			)}
-			<Link prefetch={false} href={getLinkHref(kind, name)} className="group flex flex-col items-center p-3 sm:p-4 cursor-pointer">
+			<Link
+				prefetch={false}
+				href={getLinkHref(kind, name)}
+				onNavigate={onNavigate}
+				className="group flex flex-col items-center p-3 sm:p-4 cursor-pointer"
+			>
 				<div
 					className={cn(
 						"mb-2 flex h-16 w-16 items-center justify-center rounded-lg ring-1",
