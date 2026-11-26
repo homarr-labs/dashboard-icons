@@ -1,12 +1,12 @@
 import { NextResponse } from "next/server"
 import { getIconsArray } from "@/lib/api"
 import { getExternalIcons } from "@/lib/external-icons"
-import { getNativeIconPreviewFormats } from "@/lib/icons/files"
 import type { IconSearchEntry, IconWithName } from "@/types/icons"
+import { getNativeIconPreviewFormats } from "../../../../lib/icons/files"
 
 const REVALIDATE_SECONDS = 900
 
-function toIconSearchEntry(icon: IconWithName): IconSearchEntry {
+function toCommandMenuEntry(icon: IconWithName): IconSearchEntry {
 	const entry: IconSearchEntry = {
 		name: icon.name,
 		source: icon.source,
@@ -33,7 +33,7 @@ function toIconSearchEntry(icon: IconWithName): IconSearchEntry {
 
 export async function GET() {
 	const [native, external] = await Promise.all([getIconsArray(), getExternalIcons()])
-	const icons = [...native, ...external].map(toIconSearchEntry)
+	const icons = [...native, ...external].map(toCommandMenuEntry)
 	return NextResponse.json(icons, {
 		headers: {
 			"Cache-Control": `public, s-maxage=${REVALIDATE_SECONDS}, stale-while-revalidate=${REVALIDATE_SECONDS * 2}`,
