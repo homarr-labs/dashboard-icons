@@ -3,12 +3,12 @@ import ExternalIconPage, { generateMetadata } from "@/app/icons/external/[source
 import { getExternalIconBySourceAndSlug } from "@/lib/external-icons"
 import { buildSimpleIconRecords, mergeSimpleIconsSchemaFields } from "../../../scripts/import-simple-icons"
 
-const mockGetFirstListItem = vi.hoisted(() => vi.fn())
+const mockGetList = vi.hoisted(() => vi.fn())
 
 vi.mock("@/lib/pb", () => ({
 	createServerPB: () => ({
 		filter: vi.fn(),
-		collection: () => ({ getFirstListItem: mockGetFirstListItem, getFullList: vi.fn().mockResolvedValue([]) }),
+		collection: () => ({ getList: mockGetList, getFullList: vi.fn().mockResolvedValue([]) }),
 	}),
 }))
 
@@ -96,7 +96,7 @@ describe("buildSimpleIconRecords", () => {
 		expect(records[1]?.license_url).toBe("")
 		expect(records[1]?.attribution).toBe("Home Assistant icon via Simple Icons. Brand marks remain subject to their owners' terms.")
 
-		mockGetFirstListItem.mockResolvedValue({ ...records[1], id: "unknown-license" })
+		mockGetList.mockResolvedValue({ items: [{ ...records[1], id: "unknown-license" }] })
 		const icon = await getExternalIconBySourceAndSlug("simpleicons", "homeassistant")
 		expect(icon?.external.license).toBe("")
 		expect(icon?.external.license_url).toBeUndefined()
@@ -119,7 +119,7 @@ describe("buildSimpleIconRecords", () => {
 		expect(record?.license_url).toBe("")
 		expect(record?.attribution).toContain("(Apache-2.0)")
 
-		mockGetFirstListItem.mockResolvedValue({ ...record, id: "apache-license" })
+		mockGetList.mockResolvedValue({ items: [{ ...record, id: "apache-license" }] })
 		const icon = await getExternalIconBySourceAndSlug("simpleicons", "homeassistant")
 		expect(icon?.external.license).toBe("Apache-2.0")
 		expect(icon?.external.license_url).toBe("https://spdx.org/licenses/Apache-2.0.html")
@@ -130,11 +130,15 @@ describe("buildSimpleIconRecords", () => {
 		expect(imageObject.license).toBe("https://spdx.org/licenses/Apache-2.0.html")
 		expect(imageObject.acquireLicensePage).toBe(imageObject.license)
 
-		mockGetFirstListItem.mockResolvedValue({
-			...record,
-			id: "custom-license",
-			license: "custom",
-			license_url: "https://example.com/artwork-license",
+		mockGetList.mockResolvedValue({
+			items: [
+				{
+					...record,
+					id: "custom-license",
+					license: "custom",
+					license_url: "https://example.com/artwork-license",
+				},
+			],
 		})
 		const customPage = await ExternalIconPage({ params })
 		const customImageObject = JSON.parse(customPage.props.children[0].props.dangerouslySetInnerHTML.__html)

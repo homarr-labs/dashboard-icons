@@ -31,7 +31,7 @@ async function getIcon(params: Params): Promise<ExternalIconRecord> {
 	}
 	let canonicalSlug = slug
 	if (source === "lobehub") canonicalSlug = getLobehubBaseSlug(slug)
-	const icon = await getExternalIconBySourceAndSlug(source, canonicalSlug)
+	const icon = await getExternalIconBySourceAndSlug(source, canonicalSlug, { throwOnError: true })
 	if (!icon) {
 		notFound()
 	}
