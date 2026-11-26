@@ -53,16 +53,21 @@ export function CandidateDetails({ candidate }: { candidate: ServiceListCandidat
 
 export function CandidateSourceLink({ candidate }: { candidate: ServiceListCandidate }) {
 	const { source, external } = candidate.icon
-	if (!source || source === "native") return null
+	let href = "/license"
+	let label = "Dashboard Icons"
+	if (source && source !== "native") {
+		href = getExternalIconPagePath({ source, slug: external?.slug ?? candidate.slug })
+		label = EXTERNAL_SOURCES[source].label
+	}
 
 	return (
 		<Button asChild variant="ghost" size="sm" className="min-h-11 motion-reduce:transition-none motion-reduce:hover:scale-100">
 			<Link
-				href={getExternalIconPagePath({ source, slug: external?.slug ?? candidate.slug })}
+				href={href}
 				prefetch={false}
 				target="_blank"
 				rel="noopener noreferrer"
-				aria-label={`View source and license for ${candidateName(candidate)} from ${EXTERNAL_SOURCES[source].label}`}
+				aria-label={`View source and license for ${candidateName(candidate)} from ${label}`}
 			>
 				License <ExternalLink aria-hidden="true" />
 			</Link>
