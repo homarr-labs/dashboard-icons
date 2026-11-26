@@ -14,7 +14,6 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { UnoptimizedImage } from "@/components/unoptimized-image"
 import { BASE_URL, EXTERNAL_SOURCES, type ExternalSourceId, REPO_PATH, SIMPLE_ICONS_DISCLAIMER_URL, WEB_URL } from "@/constants"
 import {
@@ -41,14 +40,14 @@ import { isClipboardAvailable } from "@/lib/svg-color-utils"
 import { cn, formatIconName } from "@/lib/utils"
 import type { AuthorData, ExternalIcon, Icon } from "@/types/icons"
 import { Carbon } from "./carbon"
-import { IconActions } from "./icon-actions"
+import { CopyIconUrl, IconActions } from "./icon-actions"
 import { IconCustomizerInline } from "./icon-customizer-inline"
 import { MagicCard } from "./magicui/magic-card"
 import { Badge } from "./ui/badge"
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "./ui/breadcrumb"
 import { Separator } from "./ui/separator"
 
-type RenderVariantFn = (format: string, iconName: string, variant: IconImageVariant) => React.ReactNode
+type RenderVariantFn = (format: string, iconName: string, variant: IconImageVariant, variantLabel: string) => React.ReactNode
 
 const COPY_SUPPORTED_FORMATS = new Set(["svg", "png", "webp"])
 
@@ -86,7 +85,7 @@ function IconVariantsSection({
 	variant,
 	renderVariant,
 }: IconVariantsSectionProps) {
-	const tiles = availableFormats.map((format) => renderVariant(format, iconName, variant))
+	const tiles = availableFormats.map((format) => renderVariant(format, iconName, variant, title))
 	if (tiles.every((tile) => tile === null)) return null
 
 	return (
@@ -109,6 +108,7 @@ type WordmarkSectionProps = {
 
 type WordmarkGroup = {
 	key: string
+	label: string
 	heading: React.ReactNode
 	fileName: string
 	variant: IconImageVariant
@@ -121,6 +121,7 @@ function WordmarkSection({ iconData, availableFormats, renderVariant }: Wordmark
 	if (iconData.wordmark.default) {
 		wordmarkGroups.push({
 			key: "default",
+			label: "Colour wordmark",
 			heading: (
 				<>
 					<Palette className="w-4 h-4 text-pink-500" />
@@ -132,12 +133,14 @@ function WordmarkSection({ iconData, availableFormats, renderVariant }: Wordmark
 		})
 	}
 	for (const { tone, fileName } of getToneEntries(iconData.wordmark)) {
+		const label = `${TONE_TITLE[tone]} wordmark`
 		wordmarkGroups.push({
 			key: tone,
+			label,
 			heading: (
 				<>
 					{TONE_ICON[tone]}
-					{TONE_TITLE[tone]} wordmark <span className="font-normal text-muted-foreground">for {TONE_BACKGROUND[tone]}</span>
+					{label} <span className="font-normal text-muted-foreground">for {TONE_BACKGROUND[tone]}</span>
 				</>
 			),
 			fileName,
@@ -146,7 +149,10 @@ function WordmarkSection({ iconData, availableFormats, renderVariant }: Wordmark
 	}
 
 	const groups = wordmarkGroups
-		.map((group) => ({ ...group, tiles: availableFormats.map((format) => renderVariant(format, group.fileName, group.variant)) }))
+		.map((group) => ({
+			...group,
+			tiles: availableFormats.map((format) => renderVariant(format, group.fileName, group.variant, group.label)),
+		}))
 		.filter((group) => group.tiles.some((tile) => tile !== null))
 	if (groups.length === 0) return null
 
@@ -156,7 +162,7 @@ function WordmarkSection({ iconData, availableFormats, renderVariant }: Wordmark
 				<Type className="w-4 h-4 text-green-500" />
 				Wordmark Variants
 			</h3>
-			<p className="text-sm text-muted-foreground mb-4">Icon variants that include the brand name. Click to copy URL.</p>
+			<p className="text-sm text-muted-foreground mb-4">Icon variants that include the brand name.</p>
 			<div className="space-y-6">
 				{groups.map((group) => (
 					<div key={group.key}>
@@ -304,7 +310,6 @@ export function IconDetails({
 	}
 
 	const availableFormats = getAvailableFormats()
-	const [copiedUrlKey, setCopiedUrlKey] = useState<string | null>(null)
 	const [copiedImageKey, setCopiedImageKey] = useState<string | null>(null)
 	const [isCustomizerOpen, setIsCustomizerOpen] = useState(false)
 	const [selectedVariant, setSelectedVariant] = useState<string>("base")
@@ -339,42 +344,16 @@ export function IconDetails({
 		}
 	}, [])
 
-	const handleCopyUrl = async (url: string, variantKey: string, event?: React.MouseEvent) => {
-		if (!isClipboardAvailable()) {
-			toast.error("Clipboard not available", {
-				description: "Your browser does not support clipboard operations. Please copy manually.",
-			})
-			return
-		}
-
-		try {
-			const copyableUrl = url.startsWith("/") ? new URL(url, window.location.origin).href : url
-			await navigator.clipboard.writeText(copyableUrl)
-			setCopiedUrlKey(variantKey)
-			posthog.capture("icon_url_copied", {
-				icon_name: icon,
-				variant: variantKey,
-				is_external: isExternalIcon,
-			})
-			setTimeout(() => {
-				setCopiedUrlKey(null)
-			}, 2000)
-
-			if (event) {
-				launchConfetti(event.clientX, event.clientY)
-			} else {
-				launchConfetti()
-			}
-
-			toast.success("URL copied", {
-				description: "The icon URL has been copied to your clipboard. Ready to use!",
-			})
-		} catch (error) {
-			console.error("Error copying URL:", error)
-			const errorMessage = error instanceof Error ? error.message : "Unknown error"
-			toast.error("Copy failed", {
-				description: `Could not copy URL: ${errorMessage}`,
-			})
+	const handleUrlCopied = (variantKey: string, event: React.MouseEvent<HTMLButtonElement>) => {
+		posthog.capture("icon_url_copied", {
+			icon_name: icon,
+			variant: variantKey,
+			is_external: isExternalIcon,
+		})
+		if (event.detail > 0) {
+			launchConfetti(event.clientX, event.clientY)
+		} else {
+			launchConfetti()
 		}
 	}
 
@@ -519,7 +498,7 @@ export function IconDetails({
 		}
 	}
 
-	const renderVariant = (format: string, iconName: string, variant: IconImageVariant) => {
+	const renderVariant = (format: string, iconName: string, variant: IconImageVariant, variantLabel: string) => {
 		let imageUrl: string
 		let githubUrl: string
 		let theme: IconTone | undefined
@@ -547,6 +526,7 @@ export function IconDetails({
 			githubUrl = `${REPO_PATH}/tree/main/${format}/${iconName}.${format}`
 		}
 
+		const formatLabel = format.toUpperCase()
 		let variantKey = `${format}-${theme || "default"}`
 		if (variant.kind === "wordmark") variantKey = `${format}-wordmark-${variant.tone}`
 		if (variant.kind === "custom") variantKey = `${format}-custom-${variant.name}`
@@ -554,62 +534,33 @@ export function IconDetails({
 		const tileBackground = theme ? TONE_TILE_CLASS[theme] : "bg-primary/15 dark:bg-secondary/10"
 
 		return (
-			<TooltipProvider key={variantKey} delayDuration={500}>
-				<MagicCard className="p-0 rounded-md">
-					<div className="flex flex-col items-center p-4 transition-all">
-						<Tooltip>
-							<TooltipTrigger asChild>
-								<motion.div
-									className={cn(
-										"relative flex h-28 w-28 items-center justify-center mb-3 ring-1 ring-white/5 dark:ring-white/10 cursor-pointer rounded-xl overflow-hidden group",
-										tileBackground,
-									)}
-									whileHover={{ scale: 1.05 }}
-									whileTap={{ scale: 0.95 }}
-									onClick={(e) => handleCopyUrl(imageUrl, variantKey, e)}
-									onKeyDown={(event) => {
-										if (event.key === "Enter" || event.key === " ") {
-											event.preventDefault()
-											handleCopyUrl(imageUrl, variantKey)
-										}
-									}}
-									role="button"
-									tabIndex={0}
-									aria-label={`Copy URL for ${altText}`}
-								>
-									<div className="absolute inset-0 border-2 border-transparent group-hover:border-primary/20 rounded-xl z-10 transition-colors" />
-
-									<UnoptimizedImage
-										src={imageUrl}
-										alt={altText}
-										width={88}
-										height={88}
-										className="max-h-full max-w-full object-contain p-4"
-									/>
-								</motion.div>
-							</TooltipTrigger>
-							<TooltipContent>
-								<p>Click to copy direct URL to clipboard</p>
-							</TooltipContent>
-						</Tooltip>
-
-						<p className="text-sm font-medium">{format.toUpperCase()}</p>
-
-						<IconActions
-							imageUrl={imageUrl}
-							githubUrl={githubUrl}
-							iconName={iconName}
-							format={format}
-							variantKey={variantKey}
-							copiedUrlKey={copiedUrlKey}
-							copiedImageKey={copiedImageKey}
-							handleDownload={handleDownload}
-							handleCopyUrl={handleCopyUrl}
-							handleCopyImage={handleCopyImage}
-						/>
-					</div>
-				</MagicCard>
-			</TooltipProvider>
+			<MagicCard key={variantKey} className="p-0 rounded-md">
+				<div className="flex flex-col items-center p-4">
+					<CopyIconUrl
+						key={imageUrl}
+						imageUrl={imageUrl}
+						assetLabel={`${formatedIconName} ${variantLabel} ${formatLabel}`}
+						onCopy={(event) => handleUrlCopied(variantKey, event)}
+					>
+						<span
+							className={cn("flex size-28 items-center justify-center rounded-xl ring-1 ring-white/5 dark:ring-white/10", tileBackground)}
+						>
+							<UnoptimizedImage src={imageUrl} alt={altText} width={88} height={88} className="max-h-full max-w-full object-contain p-4" />
+						</span>
+						<span className="text-sm font-medium">{formatLabel}</span>
+					</CopyIconUrl>
+					<IconActions
+						imageUrl={imageUrl}
+						githubUrl={githubUrl}
+						iconName={iconName}
+						format={format}
+						variantKey={variantKey}
+						copiedImageKey={copiedImageKey}
+						handleDownload={handleDownload}
+						handleCopyImage={handleCopyImage}
+					/>
+				</div>
+			</MagicCard>
 		)
 	}
 
@@ -1028,7 +979,6 @@ export function IconDetails({
 							<CardTitle>
 								<h2>Icon variants</h2>
 							</CardTitle>
-							<CardDescription>Click on any icon to copy its URL to your clipboard.</CardDescription>
 						</CardHeader>
 						<CardContent>
 							<div className="space-y-10">
