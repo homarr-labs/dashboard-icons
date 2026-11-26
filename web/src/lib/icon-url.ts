@@ -12,32 +12,38 @@ function getKnownPreviewFormat(icon: IconSearchEntry, stem: string): IconFormat 
 	if (formats && Object.hasOwn(formats, stem)) return formats[stem]
 }
 
-export function getIconImageUrl(icon: IconSearchEntry, stem = icon.name): string {
+function resolveIconPreview(icon: IconSearchEntry, stem: string): { url: string; stem?: string } {
 	if (icon.source && icon.source !== "native" && icon.external) {
-		return getExternalIconPreviewUrl(icon.external)
+		return { url: getExternalIconPreviewUrl(icon.external) }
 	}
 
 	const { base } = icon.data
 	if (isIconAssetUrl(base)) {
-		return base
+		return { url: base }
 	}
 
-	const format = getKnownPreviewFormat(icon, stem)
-	if (format) return buildIconUrl(stem, format)
+	if (stem !== icon.name) {
+		const format = getKnownPreviewFormat(icon, stem)
+		if (format) return { url: buildIconUrl(stem, format), stem }
+	}
 
-	return buildIconUrl(icon.name, getKnownPreviewFormat(icon, icon.name) ?? getBaseIconFormat(base))
+	const baseFormat = getKnownPreviewFormat(icon, icon.name) ?? getBaseIconFormat(base)
+	return { url: buildIconUrl(icon.name, baseFormat), stem: icon.name }
+}
+
+export function getIconImageUrl(icon: IconSearchEntry, stem = icon.name): string {
+	return resolveIconPreview(icon, stem).url
 }
 
 export function getIconSearchPreview(
 	icon: IconSearchEntry,
 	match?: IconVariantMatch,
 ): { url: string; variant?: IconVariantMatch; variantLabel?: string } {
-	const url = getIconImageUrl(icon, match?.stem)
-	if (!match) return { url }
+	const { url, stem } = resolveIconPreview(icon, match?.stem ?? icon.name)
+	if (!match || stem === undefined) return { url }
 
-	const label = `${match.label} variant`
-	if (match.stem === icon.name || getKnownPreviewFormat(icon, match.stem)) {
-		return { url, variant: match, variantLabel: label }
+	if (match.stem === stem) {
+		return { url, variant: match, variantLabel: `${match.label} variant` }
 	}
-	return { url, variantLabel: `Base preview · ${label}` }
+	return { url, variantLabel: "Base preview" }
 }

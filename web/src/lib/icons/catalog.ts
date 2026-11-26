@@ -35,7 +35,7 @@ import type {
 	CatalogSvgResult,
 	CatalogUrls,
 } from "@/lib/icons/types"
-import { buildIconUrl, type IconFormat, type IconTheme } from "@/lib/icons/urls"
+import { buildIconUrl, getBaseIconFormat, type IconFormat, type IconTheme } from "@/lib/icons/urls"
 import { assertCatalogInputLength, MAX_NAME_LENGTH, MAX_QUERY_LENGTH } from "@/lib/icons/validate"
 import { formatIconName } from "@/lib/utils"
 import type { ExternalIcon, ExternalIconRecord, IconFile, IconRecord, NativeIconRecord } from "@/types/icons"
@@ -209,13 +209,8 @@ function absoluteUrl(url: string): string {
 	return url
 }
 
-function isIconFormat(value: string): value is IconFormat {
-	return FORMATS.some((format) => format === value)
-}
-
 function nativePreviewFormat(entry: NativeIconRecord): IconFormat {
-	if (isIconFormat(entry.data.base)) return entry.data.base
-	return "svg"
+	return getBaseIconFormat(entry.data.base)
 }
 
 function titleOf(entry: IconRecord): string {

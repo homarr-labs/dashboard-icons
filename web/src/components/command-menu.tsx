@@ -12,7 +12,7 @@ import { EXTERNAL_SOURCES, type ExternalSourceId } from "@/constants"
 import { useMediaQuery } from "@/hooks/use-media-query"
 import { getExternalIconPagePath } from "@/lib/external-icon-urls"
 import { getIconSearchPreview } from "@/lib/icon-url"
-import { type IconVariantMatch, variantToneClass } from "@/lib/icons/variants"
+import { variantToneClass } from "@/lib/icons/variants"
 import { cn, filterAndSortIcons, findMatchedVariant, formatIconName } from "@/lib/utils"
 import type { IconSearchEntry } from "@/types/icons"
 
@@ -65,16 +65,15 @@ export function CommandMenu({ icons, isLoaded, hasLoadError, open: externalOpen,
 	)
 
 	const filteredIcons = useMemo(() => filterAndSortIcons({ icons, query, limit: 20 }), [icons, query])
-	const matchedVariants = useMemo(() => {
-		const matches = new Map<IconSearchEntry, IconVariantMatch>()
+	const matchedPreviews = useMemo(() => {
+		const previews = new Map<IconSearchEntry, ReturnType<typeof getIconSearchPreview>>()
 		for (const icon of filteredIcons) {
 			const variant = findMatchedVariant(icon, query)
-			if (variant) matches.set(icon, variant)
+			if (variant) previews.set(icon, getIconSearchPreview(icon, variant))
 		}
-		return matches
+		return previews
 	}, [filteredIcons, query])
-	const selectedVariant = selectedIcon ? matchedVariants.get(selectedIcon) : undefined
-	const selectedPreview = selectedIcon && getIconSearchPreview(selectedIcon, selectedVariant)
+	const selectedPreview = selectedIcon && (matchedPreviews.get(selectedIcon) ?? getIconSearchPreview(selectedIcon))
 	let previewAlt = selectedIcon?.name ?? ""
 	if (selectedIcon && selectedPreview?.variant) previewAlt = `${selectedIcon.name} ${selectedPreview.variant.label} variant`
 	const totalIcons = icons.length
@@ -171,7 +170,7 @@ export function CommandMenu({ icons, isLoaded, hasLoadError, open: externalOpen,
 						const formattedIconName = formatIconName(name)
 						const isExternal = source && source !== "native"
 						const sourceConfig = isExternal ? EXTERNAL_SOURCES[source as ExternalSourceId] : undefined
-						const matchedVariant = matchedVariants.get(icon)
+						const variantLabel = matchedPreviews.get(icon)?.variantLabel
 
 						return (
 							<CommandItem
@@ -182,9 +181,9 @@ export function CommandMenu({ icons, isLoaded, hasLoadError, open: externalOpen,
 								onMouseEnter={() => setSelectedIcon(icon)}
 							>
 								<span className="flex-grow capitalize font-medium truncate">{formattedIconName}</span>
-								{matchedVariant && (
+								{variantLabel && (
 									<Badge variant="outline" className="text-xs px-2 h-6 shrink-0 text-muted-foreground">
-										{matchedVariant.label} variant
+										{variantLabel}
 									</Badge>
 								)}
 								{isExternal && sourceConfig && (
@@ -235,7 +234,7 @@ export function CommandMenu({ icons, isLoaded, hasLoadError, open: externalOpen,
 					<div className="w-56 border-l border-border flex flex-col items-center justify-center p-6">
 						<AnimatePresence mode="wait">
 							<motion.div
-								key={`${selectedIcon.source || "native"}-${selectedIcon.name}-${selectedVariant?.key ?? ""}`}
+								key={`${selectedIcon.source || "native"}-${selectedIcon.name}-${selectedPreview.variant?.key ?? ""}`}
 								className="flex flex-col items-center gap-3"
 								initial={{ opacity: 0, scale: 0.92 }}
 								animate={{ opacity: 1, scale: 1 }}
