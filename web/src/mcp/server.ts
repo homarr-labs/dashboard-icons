@@ -13,7 +13,7 @@ export const PUBLIC_ICONS_INSTRUCTIONS = [
 	"Several service names (a stack, a docker-compose file, a dashboard): call match_icons once with all of them. Set include_details=true when the user asks for formats, variants or licenses, and use the returned best.urls and best.license without calling get_icon again for those matches.",
 	"One vague or partial name: search_icons.",
 	"For a single chosen icon, get_icon with its name and source returns every URL (svg/png/webp, light/dark, wordmark and Custom variants) and license; get_icon_svg returns SVG markup to inline.",
-	"A preview alone does not establish which formats or variants exist. Use only URLs returned by match_icons with include_details=true or by get_icon; never derive format URLs from preview_url. Report details_unavailable or absent formats accurately.",
+	"For previews, use matched_variant.preview_url when present or preview_url for the default image. For available format and Variant URLs, use match_icons with include_details=true or get_icon. Never derive those URLs from a preview URL. Report details_unavailable or absent formats accurately.",
 	"get_icon and get_icon_svg resolve loose names and answer unknown ones with did_you_mean instead of failing.",
 	"browse_icons and list_categories explore the catalog without a query.",
 	"Prefer linking the CDN URLs over copying files, and show the license for icons whose source is not native.",

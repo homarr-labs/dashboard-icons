@@ -173,7 +173,7 @@ describe("searchCatalog", () => {
 					source: "native",
 					preview_url: `${NATIVE_CDN}/svg/sonarr.svg`,
 					score: 3.6,
-					matched_variant: { key: "4k", label: "4k", stem: "sonarr-4k" },
+					matched_variant: { key: "4k", label: "4k", stem: "sonarr-4k", preview_url: `${NATIVE_CDN}/png/sonarr-4k.png` },
 				},
 			],
 		})

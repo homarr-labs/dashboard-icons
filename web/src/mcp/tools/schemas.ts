@@ -57,6 +57,7 @@ export const iconHitSchema = iconItemSchema.extend({
 			key: z.string().describe("Key of this Variant in get_icon urls, e.g. 'light', 'wordmark' or '4k'"),
 			label: z.string(),
 			stem: z.string().describe("File name without extension on the CDN"),
+			preview_url: z.string().optional().describe("CDN preview URL for the matched Variant when a file is available"),
 		})
 		.optional()
 		.describe("The Variant the query named, e.g. the Light variant for 'github white'; absent when the query matched the icon itself"),

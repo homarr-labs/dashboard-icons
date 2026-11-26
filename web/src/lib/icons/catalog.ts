@@ -239,8 +239,15 @@ function toItem(entry: IconRecord): CatalogItem {
 
 function toHit(entry: IconRecord, query: string): CatalogHit {
 	const hit: CatalogHit = { ...toItem(entry), score: Math.round(scoreIcon(entry, query) * 100) / 100 }
+	if (entry.source !== "native") return hit
+
 	const matchedVariant = findMatchedVariant(entry, query)
-	if (matchedVariant) hit.matched_variant = matchedVariant
+	if (!matchedVariant) return hit
+
+	hit.matched_variant = matchedVariant
+	const variant = getNativeIconVariants(entry.name, entry.data).find(({ stem }) => stem === matchedVariant.stem)
+	const format = FORMATS.find((format) => variant?.formats.includes(format))
+	if (format) hit.matched_variant = { ...matchedVariant, preview_url: buildIconUrl(matchedVariant.stem, format) }
 	return hit
 }
 
