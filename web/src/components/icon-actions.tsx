@@ -37,18 +37,20 @@ export function CopyIconUrl({ imageUrl, assetLabel, children, onCopy }: CopyIcon
 
 	return (
 		<>
-			<button
+			<Button
 				type="button"
+				variant={null}
+				size={null}
 				aria-label={`Copy URL for ${assetLabel}`}
 				onClick={handleCopy}
-				className="group/copy flex min-h-11 min-w-11 cursor-pointer flex-col items-center gap-2 rounded-md p-1 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground"
+				className="group/copy flex min-h-11 min-w-11 flex-col p-1 transition-none hover:scale-none focus-visible:ring-0 focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-2 focus-visible:outline-foreground"
 			>
 				{children}
 				<span className="flex items-center justify-center gap-1.5 rounded-md border border-input px-2.5 py-1.5 text-sm font-medium group-hover/copy:bg-muted">
 					<LinkIcon aria-hidden="true" className="size-4" />
 					Copy URL
 				</span>
-			</button>
+			</Button>
 			{fallbackUrl && (
 				<div className="mt-3 w-full min-w-0 space-y-1">
 					<label htmlFor={fieldId} className="block text-sm font-medium">
