@@ -1,6 +1,7 @@
 "use client"
 
-import { ArrowDownAZ, ArrowUpZA, Calendar, Filter, Search, SortAsc, X } from "lucide-react"
+import { ArrowDownAZ, ArrowRight, ArrowUpZA, Calendar, Filter, Search, SortAsc, X } from "lucide-react"
+import Link from "next/link"
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { IconsGrid } from "@/components/icon-grid"
@@ -21,16 +22,14 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Input } from "@/components/ui/input"
 import { Separator } from "@/components/ui/separator"
+import type { CommunityGalleryEntry, CommunityIcon, CommunityUpdate } from "@/lib/community"
 import { filterAndSortIcons, type SortOption } from "@/lib/utils"
-import type { IconWithName } from "@/types/icons"
-
-type IconWithStatus = IconWithName & { status: string }
 
 interface CommunityIconSearchProps {
-	icons: IconWithStatus[]
+	submissions: CommunityGalleryEntry[]
 }
 
-export function CommunityIconSearch({ icons }: CommunityIconSearchProps) {
+export function CommunityIconSearch({ submissions }: CommunityIconSearchProps) {
 	const searchParams = useSearchParams()
 	const initialQuery = searchParams.get("q")
 	const initialCategories = searchParams.getAll("category")
@@ -51,15 +50,27 @@ export function CommunityIconSearch({ icons }: CommunityIconSearchProps) {
 		return () => clearTimeout(timer)
 	}, [searchQuery])
 
+	const searchEntries = useMemo(
+		() =>
+			submissions.map((entry) => {
+				if (entry.kind === "icon") return { name: entry.name, data: entry.data, entry }
+
+				const aliases = [...entry.data.aliases, entry.slug]
+				if (entry.targetId) aliases.push(entry.targetId)
+				return { name: entry.name, data: { ...entry.data, aliases, base: "" }, entry }
+			}),
+		[submissions],
+	)
+
 	const allCategories = useMemo(() => {
 		const categories = new Set<string>()
-		for (const icon of icons) {
-			for (const category of icon.data.categories) {
+		for (const { data } of searchEntries) {
+			for (const category of data.categories) {
 				categories.add(category.toLowerCase())
 			}
 		}
 		return Array.from(categories).sort()
-	}, [icons])
+	}, [searchEntries])
 
 	const matchedAliases = useMemo(() => {
 		if (!searchQuery.trim()) return {}
@@ -67,8 +78,8 @@ export function CommunityIconSearch({ icons }: CommunityIconSearchProps) {
 		const q = searchQuery.toLowerCase()
 		const matches: Record<string, string> = {}
 
-		for (const { name, data } of icons) {
-			if (!name.toLowerCase().includes(q)) {
+		for (const { kind, name, data } of submissions) {
+			if (kind === "icon" && !name.toLowerCase().includes(q)) {
 				const matchingAlias = data.aliases.find((alias) => alias.toLowerCase().includes(q))
 				if (matchingAlias) {
 					matches[name] = matchingAlias
@@ -77,43 +88,46 @@ export function CommunityIconSearch({ icons }: CommunityIconSearchProps) {
 		}
 
 		return matches
-	}, [icons, searchQuery])
+	}, [submissions, searchQuery])
 
-	const filteredIcons = useMemo(() => {
-		const result = filterAndSortIcons({
-			icons,
-			query: debouncedQuery,
-			categories: selectedCategories,
-			sort: sortOption,
-		}) as IconWithStatus[]
+	const filteredEntries = useMemo(
+		() =>
+			filterAndSortIcons({
+				icons: searchEntries,
+				query: debouncedQuery,
+				categories: selectedCategories,
+				sort: sortOption,
+			}).map(({ entry }) => entry),
+		[searchEntries, debouncedQuery, selectedCategories, sortOption],
+	)
 
-		return result
-	}, [icons, debouncedQuery, selectedCategories, sortOption])
-
-	const groupedIcons = useMemo(() => {
+	const groupedEntries = useMemo(() => {
 		const statusPriority = { pending: 0, approved: 2, rejected: 3, added_to_collection: 1 }
+		const groups: Record<string, { icons: CommunityIcon[]; updates: CommunityUpdate[] }> = {}
 
-		const groups: Record<string, IconWithStatus[]> = {}
-
-		for (const icon of filteredIcons) {
-			const iconWithStatus = icon as IconWithStatus
-			const status = iconWithStatus.status || "pending"
-
-			if (!groups[status]) {
-				groups[status] = []
-			}
-			groups[status].push(iconWithStatus)
+		for (const entry of filteredEntries) {
+			const status = entry.status || "pending"
+			groups[status] ??= { icons: [], updates: [] }
+			const group = groups[status]
+			if (entry.kind === "icon") group.icons.push(entry)
+			else group.updates.push(entry)
 		}
 
-		return Object.entries(groups)
-			.sort(([a], [b]) => {
-				return (statusPriority[a as keyof typeof statusPriority] ?? 999) - (statusPriority[b as keyof typeof statusPriority] ?? 999)
-			})
-			.map(([status, items]) => ({ status, items }))
-	}, [filteredIcons])
+		return Object.entries(groups).sort(([a], [b]) => {
+			return (statusPriority[a as keyof typeof statusPriority] ?? 999) - (statusPriority[b as keyof typeof statusPriority] ?? 999)
+		})
+	}, [filteredEntries])
+
+	const cancelSearchNavigation = useCallback(() => {
+		if (timeoutRef.current) {
+			clearTimeout(timeoutRef.current)
+			timeoutRef.current = null
+		}
+	}, [])
 
 	const updateResults = useCallback(
 		(query: string, categories: string[], sort: SortOption) => {
+			cancelSearchNavigation()
 			const params = new URLSearchParams()
 			if (query) params.set("q", query)
 
@@ -128,20 +142,18 @@ export function CommunityIconSearch({ icons }: CommunityIconSearchProps) {
 			const newUrl = params.toString() ? `${pathname}?${params.toString()}` : pathname
 			router.push(newUrl, { scroll: false })
 		},
-		[pathname, router, initialSort],
+		[pathname, router, initialSort, cancelSearchNavigation],
 	)
 
 	const handleSearch = useCallback(
 		(query: string) => {
 			setSearchQuery(query)
-			if (timeoutRef.current) {
-				clearTimeout(timeoutRef.current)
-			}
+			cancelSearchNavigation()
 			timeoutRef.current = setTimeout(() => {
 				updateResults(query, selectedCategories, sortOption)
 			}, 200)
 		},
-		[updateResults, selectedCategories, sortOption],
+		[updateResults, selectedCategories, sortOption, cancelSearchNavigation],
 	)
 
 	const handleCategoryChange = useCallback(
@@ -176,13 +188,7 @@ export function CommunityIconSearch({ icons }: CommunityIconSearchProps) {
 		updateResults("", [], "relevance")
 	}, [updateResults])
 
-	useEffect(() => {
-		return () => {
-			if (timeoutRef.current) {
-				clearTimeout(timeoutRef.current)
-			}
-		}
-	}, [])
+	useEffect(() => cancelSearchNavigation, [cancelSearchNavigation])
 
 	if (!searchParams) return null
 
@@ -225,7 +231,8 @@ export function CommunityIconSearch({ icons }: CommunityIconSearchProps) {
 					</div>
 					<Input
 						type="search"
-						placeholder="Search icons by name, alias, or category..."
+						aria-label="Search community submissions"
+						placeholder="Search by icon name, alias, category, or submission ID"
 						className="w-full h-10 pl-9 cursor-text transition-all duration-300 text-sm md:text-base border-border shadow-sm"
 						value={searchQuery}
 						onChange={(e) => handleSearch(e.target.value)}
@@ -354,10 +361,10 @@ export function CommunityIconSearch({ icons }: CommunityIconSearchProps) {
 				<Separator className="my-2" />
 			</div>
 
-			{filteredIcons.length === 0 ? (
+			{filteredEntries.length === 0 ? (
 				<div className="flex flex-col gap-8 py-12 px-2 w-full max-w-full sm:max-w-2xl mx-auto items-center overflow-x-hidden">
 					<div className="text-center w-full">
-						<h2 className="text-3xl sm:text-5xl font-semibold">No icons found</h2>
+						<h2 className="text-3xl sm:text-5xl font-semibold">No submissions found</h2>
 						<p className="text-lg text-muted-foreground mt-2">Try adjusting your search or filters</p>
 					</div>
 				</div>
@@ -365,8 +372,7 @@ export function CommunityIconSearch({ icons }: CommunityIconSearchProps) {
 				<div className="space-y-8">
 					<div className="flex justify-between items-center">
 						<p className="text-sm text-muted-foreground">
-							Found {filteredIcons.length} icon
-							{filteredIcons.length !== 1 ? "s" : ""}.
+							Found {filteredEntries.length} {filteredEntries.length === 1 ? "submission" : "submissions"}.
 						</p>
 						<div className="flex items-center gap-1 text-xs text-muted-foreground">
 							{getSortIcon(sortOption)}
@@ -374,23 +380,78 @@ export function CommunityIconSearch({ icons }: CommunityIconSearchProps) {
 						</div>
 					</div>
 
-					{groupedIcons.map(({ status, items }) => (
-						<section key={status} className="space-y-4">
-							<div className="flex items-center gap-3">
-								<StatusBadge status={status} showCollectionStatus />
-								<span className="text-sm text-muted-foreground">
-									{items.length} {items.length === 1 ? "icon" : "icons"}
-								</span>
-							</div>
-							<Card className="bg-background/50 border shadow-lg">
-								<CardContent>
-									<IconsGrid filteredIcons={items} matchedAliases={matchedAliases} />
-								</CardContent>
-							</Card>
-						</section>
-					))}
+					{groupedEntries.map(([status, { icons, updates }]) => {
+						const count = icons.length + updates.length
+						return (
+							<section key={status} className="space-y-4">
+								<div className="flex items-center gap-3">
+									<h2>
+										<StatusBadge status={status} showCollectionStatus />
+									</h2>
+									<span className="text-sm text-muted-foreground">
+										{count} {count === 1 ? "submission" : "submissions"}
+									</span>
+								</div>
+								{icons.length > 0 && (
+									<Card className="bg-background/50 border shadow-lg">
+										<CardContent>
+											<IconsGrid filteredIcons={icons} matchedAliases={matchedAliases} />
+										</CardContent>
+									</Card>
+								)}
+								{updates.length > 0 && (
+									<ul className="grid gap-2">
+										{updates.map((entry) => (
+											<CommunityUpdateRow key={entry.slug} entry={entry} onNavigate={cancelSearchNavigation} />
+										))}
+									</ul>
+								)}
+							</section>
+						)
+					})}
 				</div>
 			)}
 		</>
+	)
+}
+
+function CommunityUpdateRow({ entry, onNavigate }: { entry: CommunityUpdate; onNavigate: () => void }) {
+	const titleId = `community-target-${entry.slug}`
+	const actionId = `community-comparison-${entry.slug}`
+	const summaryId = `community-summary-${entry.slug}`
+	const authorId = `community-author-${entry.slug}`
+
+	return (
+		<li>
+			<Link
+				href={`/community/submissions/${entry.slug}`}
+				aria-labelledby={`${actionId} ${titleId} ${authorId}`}
+				aria-describedby={summaryId}
+				onNavigate={onNavigate}
+				prefetch={false}
+				className="group block rounded-lg border bg-background/75 shadow-sm hover:border-primary/50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+			>
+				<article className="flex flex-wrap items-center justify-between gap-x-6 gap-y-2 p-4">
+					<header className="min-w-0 space-y-1.5">
+						<div className="flex flex-wrap items-center gap-2">
+							<h3 id={titleId} className="break-all font-medium">
+								{entry.name}
+							</h3>
+							<Badge variant="outline">Update proposal</Badge>
+							<StatusBadge status={entry.status} showCollectionStatus />
+						</div>
+						<p id={summaryId} className="break-words text-sm text-muted-foreground">
+							{entry.summary}
+						</p>
+						<p id={authorId} className="break-all text-xs text-muted-foreground">
+							Submitted by {entry.data.update.author.name}
+						</p>
+					</header>
+					<span id={actionId} className="flex items-center gap-1.5 text-sm font-medium group-hover:text-primary">
+						View comparison <ArrowRight className="size-4" aria-hidden />
+					</span>
+				</article>
+			</Link>
+		</li>
 	)
 }

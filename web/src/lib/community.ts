@@ -1,56 +1,128 @@
 import { unstable_cache } from "next/cache"
 import { unstable_rethrow } from "next/navigation"
 import { ClientResponseError } from "pocketbase"
-import type { CommunityGallery } from "@/lib/pb"
-import { createServerPB, getPocketBaseUrl } from "@/lib/pb"
-import { resolveSubmissionAssets, variantExtras } from "@/lib/submission-variants"
-import type { IconWithName } from "@/types/icons"
+import type { IconUpdate, ListDelta } from "@/lib/icon-update"
+import { type CommunityGallery, createServerPB, getPocketBaseUrl } from "@/lib/pb"
+import { resolveSubmissionAssets, variantExtras, variantKind } from "@/lib/submission-variants"
+import type { Icon } from "@/types/icons"
 
-/**
- * Transform a CommunityGallery item to IconWithName format for use with IconSearch
- * For community icons, base is the full HTTP URL to the main icon asset
- * Additional assets are stored but not exposed in the standard Icon format
- */
-function transformGalleryToIcon(item: CommunityGallery): any {
-	const pbUrl = getPocketBaseUrl()
+type CommunitySubmission = {
+	name: string
+	slug: string
+	status: CommunityGallery["status"]
+}
 
-	const mainIcon = item.assets?.[0] ? `${pbUrl}/api/files/community_gallery/${item.id}/${item.assets[0]}` : ""
+export type CommunityIcon = CommunitySubmission & {
+	kind: "icon"
+	data: Icon & {
+		baseFormat: "svg" | "png" | "webp"
+		mainIconUrl: string
+		assetUrls: string[]
+	}
+}
 
-	const mainAssetExt = item.assets?.[0]?.split(".").pop()?.toLowerCase() || "svg"
-	const baseFormat = mainAssetExt === "svg" ? "svg" : mainAssetExt === "png" ? "png" : "webp"
+export type CommunityUpdate = CommunitySubmission & {
+	kind: "update"
+	targetId: string
+	hasAssets: boolean
+	summary: string
+	data: Pick<Icon, "aliases" | "categories" | "update">
+}
+
+export type CommunityGalleryEntry = CommunityIcon | CommunityUpdate
+
+function submissionActivity(item: CommunityGallery): Icon["update"] {
+	return {
+		timestamp: item.updated,
+		author: {
+			id: 0,
+			name: item.created_by || "Community",
+			login: item.created_by || undefined,
+			github_id: item.created_by_github_id,
+		},
+	}
+}
+
+export function transformGalleryToIcon(item: CommunityGallery): CommunityIcon {
+	const fileRoot = `${getPocketBaseUrl()}/api/files/community_gallery/${item.id}`
+	const assetUrls = item.assets?.map((asset) => `${fileRoot}/${asset}`) || []
+	const mainIconUrl = assetUrls[0] || ""
+	const extension = item.assets?.[0]?.split(".").pop()?.toLowerCase() || "svg"
+	let baseFormat: CommunityIcon["data"]["baseFormat"] = "webp"
+	if (extension === "svg" || extension === "png") baseFormat = extension
 
 	const resolved = resolveSubmissionAssets(item.extras, item.assets, item.name)
 	const { colors, wordmark, variants } = variantExtras(
 		Object.fromEntries(resolved.assets.flatMap(({ file, variant }) => (variant ? [[variant, file]] : []))),
 	)
 
-	const transformed = {
+	return {
+		kind: "icon",
 		name: item.name,
 		slug: item.id,
 		status: item.status,
 		data: {
-			base: mainIcon || "svg",
+			base: mainIconUrl || "svg",
 			baseFormat,
-			mainIconUrl: mainIcon,
-			assetUrls: item.assets?.map((asset) => `${pbUrl}/api/files/community_gallery/${item.id}/${asset}`) || [],
+			mainIconUrl,
+			assetUrls,
 			aliases: item.extras?.aliases || [],
 			categories: item.extras?.categories || [],
-			update: {
-				timestamp: item.updated,
-				author: {
-					id: 0,
-					name: item.created_by || "Community",
-					login: item.created_by || undefined,
-					github_id: item.created_by_github_id,
-				},
-			},
-			colors: colors,
-			wordmark: wordmark,
+			update: submissionActivity(item),
+			colors,
+			wordmark,
 			variants,
 		},
 	}
+}
 
-	return transformed
+function listChangeSummary(delta: ListDelta, singular: string, plural: string): string[] {
+	const changes: string[] = []
+	for (const [verb, values] of [
+		["Add", delta.add],
+		["Remove", delta.remove],
+	] as const) {
+		if (values.length === 1) changes.push(`${verb} ${singular} “${values[0]}”`)
+		if (values.length > 1) changes.push(`${verb} ${values.length} ${plural}`)
+	}
+	return changes
+}
+
+export function summarizeCommunityUpdate(update: IconUpdate): string {
+	const changes: string[] = []
+	for (const [action, verb] of [
+		["add", "Add"],
+		["replace", "Replace"],
+		["remove", "Remove"],
+	] as const) {
+		const variants = update.variants.filter((change) => change.action === action)
+		if (variants.length > 1) changes.push(`${verb} ${variants.length} variants`)
+		if (variants.length === 1) {
+			const { key } = variants[0]
+			if (key === "base") changes.push(`${verb} Base artwork`)
+			else changes.push(`${verb} ${variantKind(key).label} variant`)
+		}
+	}
+	changes.push(...listChangeSummary(update.aliases, "alias", "aliases"), ...listChangeSummary(update.categories, "category", "categories"))
+	return changes.join(" · ")
+}
+
+function transformGalleryToUpdate(item: CommunityGallery, update: IconUpdate): CommunityUpdate {
+	const { target } = update
+	return {
+		kind: "update",
+		name: target.name,
+		slug: item.id,
+		status: item.status,
+		targetId: target.id,
+		hasAssets: Boolean(item.assets?.length),
+		summary: summarizeCommunityUpdate(update),
+		data: {
+			aliases: [...new Set([...(target.metadata.aliases ?? []), ...update.aliases.add])],
+			categories: [...new Set([...(target.metadata.categories ?? []), ...update.categories.add])],
+			update: submissionActivity(item),
+		},
+	}
 }
 
 let hasLoggedCommunityFetchFailure = false
@@ -66,37 +138,44 @@ function logCommunityFetchFailure(error: unknown): void {
 	console.warn(`Community submissions unavailable (${message}); continuing without community icons.`)
 }
 
-async function loadCommunitySubmissions(): Promise<IconWithName[]> {
+async function loadCommunityGallery(): Promise<CommunityGalleryEntry[]> {
 	const records = await createServerPB().collection("community_gallery").getFullList<CommunityGallery>({
 		sort: "-updated",
 	})
-	return records.filter((item) => item.assets && item.assets.length > 0).map(transformGalleryToIcon)
+	const entries: CommunityGalleryEntry[] = []
+	for (const record of records) {
+		if (record.icon_update) entries.push(transformGalleryToUpdate(record, record.icon_update))
+		else if (record.assets?.length) entries.push(transformGalleryToIcon(record))
+	}
+	return entries
 }
 
-/**
- * Fetch community gallery items without caching. Uses the community_gallery view collection for public-facing data.
- */
-export async function fetchCommunitySubmissions(): Promise<IconWithName[]> {
+function hasAssets(entry: CommunityGalleryEntry): boolean {
+	return entry.kind === "icon" || entry.hasAssets
+}
+
+/** Fetch asset-bearing community submissions without caching. */
+export async function fetchCommunitySubmissions(): Promise<CommunityGalleryEntry[]> {
 	try {
-		return await loadCommunitySubmissions()
+		return (await loadCommunityGallery()).filter(hasAssets)
 	} catch (error) {
 		logCommunityFetchFailure(error)
 		return []
 	}
 }
 
-const getCachedCommunitySubmissions = unstable_cache(loadCommunitySubmissions, ["community-submissions-list-v3"], {
+const getCachedCommunityGallery = unstable_cache(loadCommunityGallery, ["community-submissions-list-v4"], {
 	revalidate: 900,
 	tags: ["community-gallery"],
 })
 
 /**
- * Cached community gallery items, revalidated every 15 minutes or on demand with revalidateTag("community-gallery").
+ * Cached public gallery, revalidated every 15 minutes or on demand with the community-gallery tag.
  * Failures are never cached: the previous list keeps being served, or an empty list is returned for this request only.
  */
-export async function getCommunitySubmissions(): Promise<IconWithName[]> {
+export async function getCommunityGallery(): Promise<CommunityGalleryEntry[]> {
 	try {
-		return await getCachedCommunitySubmissions()
+		return await getCachedCommunityGallery()
 	} catch (error) {
 		unstable_rethrow(error)
 		logCommunityFetchFailure(error)
@@ -104,10 +183,9 @@ export async function getCommunitySubmissions(): Promise<IconWithName[]> {
 	}
 }
 
-/** Fetch a proposal by record ID, independently of its icon name. */
-export async function getCommunitySubmission(id: string): Promise<IconWithName | null> {
-	const record = await getCommunityGalleryRecord(id)
-	return record ? transformGalleryToIcon(record) : null
+/** Preserve asset-based membership for the community sitemap and detail prerendering. */
+export async function getCommunitySubmissions(): Promise<CommunityGalleryEntry[]> {
+	return (await getCommunityGallery()).filter(hasAssets)
 }
 
 /** Keep historical name-based URLs pointing to the original submission. */
