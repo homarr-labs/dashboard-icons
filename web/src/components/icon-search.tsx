@@ -463,7 +463,12 @@ export function IconSearch({ icons }: IconSearchProps) {
 					)}
 				</div>
 			) : (
-				<VirtualizedIconsGrid filteredIcons={filteredIcons} matchedAliases={matchedAliases} matchedVariants={matchedVariants} />
+				<VirtualizedIconsGrid
+					filteredIcons={filteredIcons}
+					matchedAliases={matchedAliases}
+					matchedVariants={matchedVariants}
+					onNavigate={cancelPendingSearch}
+				/>
 			)}
 		</>
 	)
