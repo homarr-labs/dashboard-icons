@@ -6,7 +6,7 @@ import type { RelatedIcon } from "@/components/icon-details"
 import { ApiError } from "@/lib/errors"
 import * as iconService from "@/lib/icons/service"
 import { assertIconName, ValidationError } from "@/lib/icons/validate"
-import type { AuthorData, Icon, IconFile, IconWithName, NativeIconRecord } from "@/types/icons"
+import type { AuthorData, IconFile, IconWithName, NativeIconRecord } from "@/types/icons"
 
 const CACHE_TTL_SECONDS = 900
 const MAX_RELATED_ICONS = 16
@@ -170,40 +170,65 @@ export async function getAuthorData(authorId: number | string, authorMeta?: { na
 	return data
 }
 
+type RelatedIconIndex = {
+	names: string[]
+	byCategory: Map<string, number[]>
+}
+
+const relatedIconsBySnapshot = new WeakMap<IconFile, RelatedIconIndex>()
+
+function getRelatedIconIndex(allIcons: IconFile): RelatedIconIndex {
+	const cached = relatedIconsBySnapshot.get(allIcons)
+	if (cached) return cached
+
+	const names = Object.keys(allIcons)
+	const byCategory = new Map<string, number[]>()
+	for (let position = 0; position < names.length; position++) {
+		const { categories } = allIcons[names[position]]
+		if (!categories?.length) continue
+
+		for (const category of categories) {
+			const positions = byCategory.get(category)
+			if (positions) positions.push(position)
+			else byCategory.set(category, [position])
+		}
+	}
+
+	const index = { names, byCategory }
+	relatedIconsBySnapshot.set(allIcons, index)
+	return index
+}
+
 export function computeRelatedIcons(currentIcon: string, currentCategories: string[], allIcons: IconFile): RelatedIcon[] {
 	if (currentCategories.length === 0) return []
 
-	const categorySet = new Set(currentCategories)
-	const scored: { name: string; data: Icon; score: number }[] = []
-
-	for (const [name, data] of Object.entries(allIcons)) {
-		if (name === currentIcon) continue
-
-		const otherCategories = data.categories
-		if (!otherCategories?.length) continue
-
-		let score = 0
-		for (const cat of otherCategories) {
-			if (categorySet.has(cat)) score++
+	const { names, byCategory } = getRelatedIconIndex(allIcons)
+	const scores = new Map<number, number>()
+	for (const category of new Set(currentCategories)) {
+		for (const position of byCategory.get(category) ?? []) {
+			if (names[position] === currentIcon) continue
+			scores.set(position, (scores.get(position) ?? 0) + 1)
 		}
-		if (score === 0) continue
-
-		scored.push({ name, data, score })
 	}
 
-	return scored
-		.toSorted((a, b) => b.score - a.score)
+	// Preserve metadata order for icons with the same number of shared categories.
+	return [...scores]
+		.sort(([a, aScore], [b, bScore]) => bScore - aScore || a - b)
 		.slice(0, MAX_RELATED_ICONS)
-		.map(({ name, data }) => ({
-			name,
-			data: {
-				base: data.base,
-				aliases: data.aliases ?? [],
-				categories: data.categories,
-				update: data.update,
-				colors: data.colors,
-			},
-		}))
+		.map(([position]) => {
+			const name = names[position]
+			const data = allIcons[name]
+			return {
+				name,
+				data: {
+					base: data.base,
+					aliases: data.aliases ?? [],
+					categories: data.categories,
+					update: data.update,
+					colors: data.colors,
+				},
+			}
+		})
 }
 
 export async function getTotalIcons() {
