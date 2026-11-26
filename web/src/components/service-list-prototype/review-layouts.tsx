@@ -1,7 +1,10 @@
-import { ChevronLeft, ChevronRight, ImageOff, Search } from "lucide-react"
+import { ChevronLeft, ChevronRight, ExternalLink, ImageOff, Search } from "lucide-react"
+import Link from "next/link"
 import type { MouseEvent } from "react"
 import { Button } from "@/components/ui/button"
 import { VariantPreview } from "@/components/variant-preview"
+import { EXTERNAL_SOURCES } from "@/constants"
+import { getExternalIconPagePath } from "@/lib/external-icon-urls"
 import { cn, formatIconName } from "@/lib/utils"
 import type { ServiceListAction, ServiceListCandidate, ServiceListRow } from "./model"
 
@@ -25,8 +28,46 @@ const CONFIRM_ACTIONS = {
 	skipped: null,
 } as const
 
-export function candidateName({ icon }: ServiceListCandidate) {
+function candidateName({ icon }: ServiceListCandidate) {
 	return formatIconName(icon.name, { capitalize: true, aliases: icon.data.aliases })
+}
+
+export function CandidateDetails({ candidate }: { candidate: ServiceListCandidate }) {
+	let attribution = "Dashboard Icons"
+	const source = candidate.icon.source
+	if (source && source !== "native") attribution = EXTERNAL_SOURCES[source].label
+	let format = new URL(candidate.url).pathname.match(/\.(svg|png|webp|avif|ico|gif|jpe?g)$/i)?.[1]?.toUpperCase()
+	if (!format && source === "simpleicons" && candidate.icon.external) format = "SVG"
+
+	return (
+		<span className="block min-w-0">
+			<span className="block break-words text-sm font-medium">{candidateName(candidate)}</span>
+			<span className="flex flex-wrap gap-x-2 text-xs text-muted-foreground">
+				<span className="break-all">{candidate.slug}</span>
+				{format && <span>{format}</span>}
+				<span>{attribution}</span>
+			</span>
+		</span>
+	)
+}
+
+export function CandidateSourceLink({ candidate }: { candidate: ServiceListCandidate }) {
+	const { source, external } = candidate.icon
+	if (!source || source === "native") return null
+
+	return (
+		<Button asChild variant="ghost" size="sm" className="min-h-11 motion-reduce:transition-none motion-reduce:hover:scale-100">
+			<Link
+				href={getExternalIconPagePath({ source, slug: external?.slug ?? candidate.slug })}
+				prefetch={false}
+				target="_blank"
+				rel="noopener noreferrer"
+				aria-label={`View source and license for ${candidateName(candidate)} from ${EXTERNAL_SOURCES[source].label}`}
+			>
+				License <ExternalLink aria-hidden="true" />
+			</Link>
+		</Button>
+	)
 }
 
 function RowStatus({ row }: { row: ServiceListRow }) {
@@ -40,11 +81,10 @@ function RowStatus({ row }: { row: ServiceListRow }) {
 
 function MatchDetails({ candidate }: { candidate: ServiceListCandidate | null }) {
 	if (!candidate) return <p className="text-sm text-muted-foreground">No match</p>
-
 	return (
-		<div className="min-w-0">
-			<p className="break-words text-sm font-medium">{candidateName(candidate)}</p>
-			<p className="break-all text-xs text-muted-foreground">{candidate.slug}</p>
+		<div className="flex min-w-0 items-center justify-between">
+			<CandidateDetails candidate={candidate} />
+			<CandidateSourceLink candidate={candidate} />
 		</div>
 	)
 }

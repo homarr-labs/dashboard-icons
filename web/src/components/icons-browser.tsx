@@ -2,6 +2,7 @@
 
 import dynamic from "next/dynamic"
 import { IconSearch } from "@/components/icon-search"
+import type { ServiceListLayout } from "@/components/service-list-prototype/layouts"
 import { Button } from "@/components/ui/button"
 import { EXTERNAL_SOURCE_IDS, EXTERNAL_SOURCES } from "@/constants"
 import { useIconCatalog } from "@/hooks/use-icon-catalog"
@@ -10,12 +11,12 @@ import type { IconSearchEntry } from "@/types/icons"
 const skeletonItems = Array.from({ length: 24 }, (_, index) => index)
 const ServiceListPrototype = dynamic(() => import("@/components/service-list-prototype/workspace"))
 
-export function IconsBrowser({ prototypeLayout }: { prototypeLayout?: "tiles" | "list" | "focus" }) {
+export function IconsBrowser({ prototypeLayout }: { prototypeLayout?: ServiceListLayout }) {
 	const { data: icons, isError, isPending, refetch } = useIconCatalog()
 
+	if (prototypeLayout && icons) return <ServiceListPrototype icons={icons} initialLayout={prototypeLayout} />
 	if (isPending) return <IconsSearchSkeleton />
 	if (isError) return <IconsCatalogError onRetry={() => void refetch()} />
-	if (prototypeLayout) return <ServiceListPrototype icons={icons} initialLayout={prototypeLayout} />
 
 	return (
 		<>

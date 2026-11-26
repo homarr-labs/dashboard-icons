@@ -28,7 +28,7 @@ export type ServiceListAction = { type: "confirm" | "skip" | "undo-skip" | "reop
 function toCandidate(icon: IconSearchEntry): ServiceListCandidate | null {
 	const slug = icon.slug ?? icon.name
 	const url = getIconImageUrl(icon, slug)
-	if (!/^https?:\/\//.test(url)) return null
+	if (!/^https?:\/\//.test(url) || !URL.canParse(url)) return null
 	return { icon, slug, url }
 }
 
