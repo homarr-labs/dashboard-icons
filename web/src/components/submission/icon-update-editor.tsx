@@ -21,7 +21,7 @@ import {
 } from "lucide-react"
 import { motion } from "motion/react"
 import Link from "next/link"
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useId, useRef, useState } from "react"
 import { revalidateAllSubmissions } from "@/app/actions/submissions"
 import { NumberTicker } from "@/components/magicui/number-ticker"
 import { RejectedRoundComparison } from "@/components/submission/rejected-round-comparison"
@@ -59,7 +59,7 @@ import {
 } from "@/lib/icon-update"
 import { pb } from "@/lib/pb"
 import { SUBMISSION_CATEGORIES } from "@/lib/submission-categories"
-import { MAX_ASSET_BYTES } from "@/lib/submission-service"
+import { type SubmissionInput, updateAssetFileError } from "@/lib/submission-service"
 import { customVariantNameError, SUBMISSION_VARIANTS, type SubmissionVariant, variantKind } from "@/lib/submission-variants"
 import { submitProposal } from "@/lib/submit-proposal"
 import { cn } from "@/lib/utils"
@@ -158,12 +158,13 @@ export function IconUpdateEditor({
 	selection: IconNameOption
 	onCancel: () => void
 	owned?: OwnedSubmissionResponse
-	initialAssets?: Partial<Record<SubmissionVariant, File>>
+	initialAssets?: SubmissionInput["assets"]
 	backLabel?: string
 	onSavingChange?: (saving: boolean) => void
-	onSaved?: () => void
+	onSaved?: (assets: SubmissionInput["assets"]) => void
 }) {
 	const queryClient = useQueryClient()
+	const fieldId = useId()
 	const [loaded, setLoaded] = useState<UpdateTargetResponse | null>(owned?.baseline ?? null)
 	const [live, setLive] = useState<UpdateTargetResponse | null>(null)
 	const [retained, setRetained] = useState<IconUpdate["variants"]>([])
@@ -232,8 +233,9 @@ export function IconUpdateEditor({
 		if (initialAssets && loaded) heading.current?.focus()
 	}, [initialAssets, loaded])
 	const changeFile = (key: SubmissionVariant, file: File) => {
-		if (!/\.(svg|png)$/i.test(file.name) || !file.size || file.size > MAX_ASSET_BYTES) {
-			setError("Choose a non-empty SVG or PNG, up to 5 MB.")
+		const error = updateAssetFileError(file)
+		if (error) {
+			setError(error)
 			return
 		}
 		setError("")
@@ -376,7 +378,7 @@ export function IconUpdateEditor({
 				await queryClient.invalidateQueries({ queryKey: ["owned-editor", owned.record.id] })
 			}
 			setSent(result.id)
-			onSaved?.()
+			onSaved?.(files)
 		} catch (error) {
 			setError(String(error))
 		} finally {
@@ -622,11 +624,11 @@ export function IconUpdateEditor({
 										)}
 										{removed && (
 											<div className="flex flex-col gap-2">
-												<label htmlFor={`remove-${key}`} className="text-sm font-medium">
+												<label htmlFor={`${fieldId}-remove-${key}`} className="text-sm font-medium">
 													Why remove {kind.label}? (optional)
 												</label>
 												<Textarea
-													id={`remove-${key}`}
+													id={`${fieldId}-remove-${key}`}
 													value={removals[key]}
 													maxLength={10000}
 													onChange={(event) => setRemovals((current) => ({ ...current, [key]: event.target.value }))}
@@ -676,7 +678,7 @@ export function IconUpdateEditor({
 								className="flex flex-col gap-2 rounded-md border border-community/30 bg-community/5 p-3"
 							>
 								<div className="flex items-center justify-between gap-2">
-									<label htmlFor="update-custom" className="flex items-center gap-1.5 text-sm font-medium">
+									<label htmlFor={`${fieldId}-custom`} className="flex items-center gap-1.5 text-sm font-medium">
 										<WandSparkles className="size-4 text-community" aria-hidden />
 										Custom variant name
 									</label>
@@ -697,15 +699,15 @@ export function IconUpdateEditor({
 								<div className="flex flex-wrap items-center gap-2">
 									<Input
 										ref={customInput}
-										id="update-custom"
+										id={`${fieldId}-custom`}
 										value={custom}
 										onChange={(event) => setCustom(event.target.value)}
 										placeholder="For example 4k or animated"
-										list="update-custom-names"
+										list={`${fieldId}-custom-names`}
 										className="min-w-0 flex-1 basis-48 font-mono"
 										aria-invalid={Boolean(customError)}
 									/>
-									<datalist id="update-custom-names">
+									<datalist id={`${fieldId}-custom-names`}>
 										{customNames.map((name) => (
 											<option key={name} value={name} />
 										))}
@@ -736,11 +738,11 @@ export function IconUpdateEditor({
 					<legend className="sr-only">Icon metadata</legend>
 					<SectionHeading icon={Tags} tone="success" title="Details" description="Aliases and categories help people find this Icon." />
 					<div className="flex flex-col gap-2">
-						<label htmlFor="update-aliases" className="text-sm font-medium">
+						<label htmlFor={`${fieldId}-aliases`} className="text-sm font-medium">
 							Aliases
 						</label>
 						<TagInput
-							id="update-aliases"
+							id={`${fieldId}-aliases`}
 							value={splitAliases(aliases)}
 							onValueChange={(next) => {
 								setAliases(next.join(", "))
@@ -760,11 +762,11 @@ export function IconUpdateEditor({
 						/>
 					</fieldset>
 					<div className="flex flex-col gap-2">
-						<label htmlFor="update-note" className="text-sm font-medium">
+						<label htmlFor={`${fieldId}-note`} className="text-sm font-medium">
 							Note for the reviewer <span className="font-normal text-muted-foreground">(optional)</span>
 						</label>
 						<Textarea
-							id="update-note"
+							id={`${fieldId}-note`}
 							value={note}
 							maxLength={10000}
 							onChange={(event) => setNote(event.target.value)}

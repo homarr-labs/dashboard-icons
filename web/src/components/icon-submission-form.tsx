@@ -51,6 +51,7 @@ import {
 	sameProductSuggestion,
 } from "@/lib/submission-drafts"
 import { MAX_SEND_ASSET_BYTES, MAX_SUBMISSIONS_PER_SEND } from "@/lib/submission-limits"
+import type { SubmissionInput } from "@/lib/submission-service"
 import { cn } from "@/lib/utils"
 
 export { IconSubmissionContent } from "@/components/legacy-icon-submission-form"
@@ -72,7 +73,7 @@ interface ModeOption {
 	tone: keyof typeof MODE_STYLE
 }
 
-type DraftUpdate = Pick<SubmissionDraft, "id" | "name"> & { assets: ReturnType<typeof draftInput>["assets"] }
+type DraftUpdate = { draft: SubmissionDraft; assets: SubmissionInput["assets"] }
 
 export function IconSubmissionForm() {
 	const form = useSubmissionDrafts()
@@ -113,6 +114,20 @@ export function IconSubmissionForm() {
 		form.setSelected((selected) => {
 			if (selected === id) return null
 			return selected
+		})
+	}
+	const removeSentDraftAssets = (draft: SubmissionDraft, assets: SubmissionInput["assets"]) => {
+		const sentIds = new Set(draft.assets.filter(({ file, variant }) => assets[variant] === file).map(({ id }) => id))
+		if (!sentIds.size) return
+		form.setDrafts((items) => {
+			const remaining = items.flatMap((item) => {
+				if (item.id !== draft.id) return [item]
+				const unsentAssets = item.assets.filter(({ id }) => !sentIds.has(id))
+				if (!unsentAssets.length) return []
+				return [{ ...item, assets: unsentAssets }]
+			})
+			if (remaining.length) return remaining
+			return [newSubmissionDraft()]
 		})
 	}
 	let activeMode: ModeId | "" = mode
@@ -324,8 +339,8 @@ export function IconSubmissionForm() {
 				)}
 				{draftUpdate && (
 					<IconUpdateEditor
-						key={draftUpdate.id}
-						selection={{ label: draftUpdate.name, value: draftUpdate.name, source: "collection" }}
+						key={draftUpdate.draft.id}
+						selection={{ label: draftUpdate.draft.name, value: draftUpdate.draft.name, source: "collection" }}
 						initialAssets={draftUpdate.assets}
 						backLabel="Back to drafts"
 						onCancel={() => {
@@ -333,11 +348,11 @@ export function IconSubmissionForm() {
 							setMode("submit")
 						}}
 						onSavingChange={setSavingDraftUpdate}
-						onSaved={() => removeDraft(draftUpdate.id)}
+						onSaved={(assets) => removeSentDraftAssets(draftUpdate.draft, assets)}
 					/>
 				)}
-				{!form.sent && !draftUpdate && (
-					<div hidden={mode !== "edit"}>
+				{!form.sent && (
+					<div hidden={mode !== "edit" || Boolean(draftUpdate)}>
 						<EditIconPicker
 							key={`${editSearch}-${rejectedOnly}-${initialSubmissionId}`}
 							names={form.catalog.data?.names ?? []}
@@ -438,7 +453,7 @@ export function IconSubmissionForm() {
 															className="self-start"
 															disabled={Boolean(updateError)}
 															onClick={() => {
-																setDraftUpdate({ id: draft.id, name: draft.name, assets: draftInput(draft).assets })
+																setDraftUpdate({ draft, assets: draftInput(draft).assets })
 																setMode("edit")
 															}}
 														>

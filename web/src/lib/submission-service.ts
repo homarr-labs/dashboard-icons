@@ -9,6 +9,10 @@ export const MAX_ASSET_BYTES = 1024 * 1024 * 5
 export const MAX_SUBMISSION_ASSETS = 99
 const MAX_DESCRIPTION_LENGTH = 10000
 
+export function updateAssetFileError(file: File): string | undefined {
+	if (!/\.(svg|png)$/i.test(file.name) || !file.size || file.size > MAX_ASSET_BYTES) return "Choose a non-empty SVG or PNG, up to 5 MB."
+}
+
 export interface SubmissionInput {
 	name: string
 	description: string
