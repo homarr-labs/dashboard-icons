@@ -526,12 +526,12 @@ export function IconDetails({
 			githubUrl = `${REPO_PATH}/tree/main/${format}/${iconName}.${format}`
 		}
 
+		const formatLabel = format.toUpperCase()
 		let variantKey = `${format}-${theme || "default"}`
 		if (variant.kind === "wordmark") variantKey = `${format}-wordmark-${variant.tone}`
 		if (variant.kind === "custom") variantKey = `${format}-custom-${variant.name}`
 		const altText = buildIconAltText(formatedIconName, variant, format)
 		const tileBackground = theme ? TONE_TILE_CLASS[theme] : "bg-primary/15 dark:bg-secondary/10"
-		const formatLabel = format.toUpperCase()
 
 		return (
 			<MagicCard key={variantKey} className="p-0 rounded-md">
