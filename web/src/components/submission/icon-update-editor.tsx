@@ -373,19 +373,23 @@ export function IconUpdateEditor({
 						}
 					: undefined,
 			)
-			if (owned) {
-				await revalidateAllSubmissions()
-				await queryClient.invalidateQueries({ queryKey: ["owned-editor", owned.record.id] })
-			}
 			setSent(result.id)
 			onSaved?.(files)
 		} catch (error) {
 			setError(String(error))
+			return
 		} finally {
 			savingRef.current = false
 			setBusy(false)
 			onSavingChange?.(false)
 		}
+		const refreshes = [
+			revalidateAllSubmissions(),
+			queryClient.invalidateQueries({ queryKey: ["submission-hints"] }),
+			queryClient.invalidateQueries({ queryKey: ["submissions"] }),
+		]
+		if (owned) refreshes.push(queryClient.invalidateQueries({ queryKey: ["owned-editor", owned.record.id] }))
+		await Promise.allSettled(refreshes)
 	}
 	const cta = (
 		<Button disabled={disabled} onClick={() => void send()} className="w-full max-lg:w-auto max-lg:shrink-0">
