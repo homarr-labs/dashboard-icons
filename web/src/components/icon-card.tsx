@@ -4,7 +4,7 @@ import { UnoptimizedImage } from "@/components/unoptimized-image"
 import { VariantPreview } from "@/components/variant-preview"
 import { EXTERNAL_SOURCES, type ExternalSourceId } from "@/constants"
 import { getExternalIconPagePath, resolveExternalIconUrl } from "@/lib/external-icon-urls"
-import { getIconImageUrl, isIconAssetUrl } from "@/lib/icon-url"
+import { getIconSearchPreview, isIconAssetUrl } from "@/lib/icon-url"
 import { type IconVariantMatch, variantToneClass } from "@/lib/icons/variants"
 import type { VariantBackground } from "@/lib/submission-variants"
 import { cn, formatIconName } from "@/lib/utils"
@@ -48,10 +48,10 @@ export function IconCard({
 	const { name } = icon
 	const kind = getIconKind(icon)
 	const sourceConfig = kind.type === "external" ? EXTERNAL_SOURCES[kind.sourceId] : undefined
-	const imageUrl = getIconImageUrl(icon, matchedVariant?.stem)
-	const toneClass = variantToneClass(matchedVariant)
+	const preview = getIconSearchPreview(icon, matchedVariant)
+	const toneClass = variantToneClass(preview.variant)
 	let imageAlt = `${name} icon and logo`
-	if (matchedVariant) imageAlt = `${name} ${matchedVariant.label} variant`
+	if (preview.variant) imageAlt = `${name} ${preview.variant.label} variant`
 	const themedExternalIcon = kind.type === "external" && kind.sourceId === "simpleicons" ? icon.external : undefined
 
 	return (
@@ -79,7 +79,7 @@ export function IconCard({
 						/>
 					) : (
 						<UnoptimizedImage
-							src={imageUrl}
+							src={preview.url}
 							alt={imageAlt}
 							width={56}
 							height={56}
@@ -90,9 +90,7 @@ export function IconCard({
 				<span className="text-xs sm:text-sm text-center truncate w-full capitalize group-hover:text-primary dark:group-hover:text-primary transition-colors duration-200 font-medium">
 					{formatIconName(name)}
 				</span>
-				{matchedVariant && (
-					<span className="mt-1 max-w-full truncate text-[10px] text-muted-foreground">{matchedVariant.label} variant</span>
-				)}
+				{preview.variantLabel && <span className="mt-1 max-w-full truncate text-[10px] text-muted-foreground">{preview.variantLabel}</span>}
 				{!matchedVariant && matchedAlias && (
 					<span className="mt-1 max-w-full truncate text-[10px] text-muted-foreground">Alias: {matchedAlias}</span>
 				)}

@@ -11,7 +11,7 @@ import { UnoptimizedImage } from "@/components/unoptimized-image"
 import { EXTERNAL_SOURCES, type ExternalSourceId } from "@/constants"
 import { useMediaQuery } from "@/hooks/use-media-query"
 import { getExternalIconPagePath } from "@/lib/external-icon-urls"
-import { getIconImageUrl } from "@/lib/icon-url"
+import { getIconSearchPreview } from "@/lib/icon-url"
 import { type IconVariantMatch, variantToneClass } from "@/lib/icons/variants"
 import { cn, filterAndSortIcons, findMatchedVariant, formatIconName } from "@/lib/utils"
 import type { IconSearchEntry } from "@/types/icons"
@@ -74,8 +74,9 @@ export function CommandMenu({ icons, isLoaded, hasLoadError, open: externalOpen,
 		return matches
 	}, [filteredIcons, query])
 	const selectedVariant = selectedIcon ? matchedVariants.get(selectedIcon) : undefined
+	const selectedPreview = selectedIcon && getIconSearchPreview(selectedIcon, selectedVariant)
 	let previewAlt = selectedIcon?.name ?? ""
-	if (selectedIcon && selectedVariant) previewAlt = `${selectedIcon.name} ${selectedVariant.label} variant`
+	if (selectedIcon && selectedPreview?.variant) previewAlt = `${selectedIcon.name} ${selectedPreview.variant.label} variant`
 	const totalIcons = icons.length
 	const isReady = isLoaded && !hasLoadError
 
@@ -230,7 +231,7 @@ export function CommandMenu({ icons, isLoaded, hasLoadError, open: externalOpen,
 					{listContent}
 				</CommandList>
 
-				{isReady && isDesktop && selectedIcon && (
+				{isReady && isDesktop && selectedIcon && selectedPreview && (
 					<div className="w-56 border-l border-border flex flex-col items-center justify-center p-6">
 						<AnimatePresence mode="wait">
 							<motion.div
@@ -244,19 +245,13 @@ export function CommandMenu({ icons, isLoaded, hasLoadError, open: externalOpen,
 								<div
 									className={cn(
 										"h-24 w-24 rounded-xl ring-1 flex items-center justify-center overflow-hidden",
-										variantToneClass(selectedVariant) ?? "bg-muted ring-border",
+										variantToneClass(selectedPreview.variant) ?? "bg-muted ring-border",
 									)}
 								>
-									<UnoptimizedImage
-										src={getIconImageUrl(selectedIcon, selectedVariant?.stem)}
-										alt={previewAlt}
-										width={64}
-										height={64}
-										className="object-contain"
-									/>
+									<UnoptimizedImage src={selectedPreview.url} alt={previewAlt} width={64} height={64} className="object-contain" />
 								</div>
 								<span className="text-sm font-medium text-center capitalize truncate max-w-full">{formatIconName(selectedIcon.name)}</span>
-								{selectedVariant && <span className="text-xs text-muted-foreground">{selectedVariant.label} variant</span>}
+								{selectedPreview.variantLabel && <span className="text-xs text-muted-foreground">{selectedPreview.variantLabel}</span>}
 								{selectedIcon.source && selectedIcon.source !== "native" && (
 									<span className="text-xs text-muted-foreground">{EXTERNAL_SOURCES[selectedIcon.source as ExternalSourceId]?.label}</span>
 								)}
