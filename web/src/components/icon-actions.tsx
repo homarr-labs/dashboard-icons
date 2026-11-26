@@ -1,8 +1,76 @@
 import { Check, Copy, Download, Github, Link as LinkIcon } from "lucide-react"
 import Link from "next/link"
-import type React from "react"
+import { type MouseEvent, type ReactNode, useId, useState } from "react"
+import { toast } from "sonner"
 import { Button } from "@/components/ui/button"
+import { Textarea } from "@/components/ui/textarea"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
+
+type CopyIconUrlProps = {
+	imageUrl: string
+	assetLabel: string
+	children: ReactNode
+	onCopy: (event: MouseEvent<HTMLButtonElement>) => void
+}
+
+export function CopyIconUrl({ imageUrl, assetLabel, children, onCopy }: CopyIconUrlProps) {
+	const fieldId = useId()
+	const [fallbackUrl, setFallbackUrl] = useState<string | null>(null)
+
+	const handleCopy = async (event: MouseEvent<HTMLButtonElement>) => {
+		let url = imageUrl
+		if (url.startsWith("/")) url = new URL(url, window.location.origin).href
+
+		try {
+			await navigator.clipboard.writeText(url)
+		} catch {
+			setFallbackUrl(url)
+			toast.error("Could not copy URL", {
+				description: `Select and copy the direct URL for ${assetLabel} in the field below the button.`,
+			})
+			return
+		}
+
+		toast.success(`Copied URL for ${assetLabel}`)
+		onCopy(event)
+	}
+
+	return (
+		<>
+			<button
+				type="button"
+				aria-label={`Copy URL for ${assetLabel}`}
+				onClick={handleCopy}
+				className="group/copy flex min-h-11 min-w-11 cursor-pointer flex-col items-center gap-2 rounded-md p-1 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground"
+			>
+				{children}
+				<span className="flex items-center justify-center gap-1.5 rounded-md border border-input px-2.5 py-1.5 text-sm font-medium group-hover/copy:bg-muted">
+					<LinkIcon aria-hidden="true" className="size-4" />
+					Copy URL
+				</span>
+			</button>
+			{fallbackUrl && (
+				<div className="mt-3 w-full min-w-0 space-y-1">
+					<label htmlFor={fieldId} className="block text-sm font-medium">
+						Direct URL <span className="sr-only">for {assetLabel}</span>
+					</label>
+					<p id={`${fieldId}-hint`} className="text-xs text-muted-foreground">
+						Select and copy the URL.
+					</p>
+					<Textarea
+						id={fieldId}
+						aria-describedby={`${fieldId}-hint`}
+						value={fallbackUrl}
+						readOnly
+						rows={3}
+						onFocus={(event) => event.currentTarget.select()}
+						className="w-full min-w-0 resize-y font-mono focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground"
+					/>
+				</div>
+			)}
+		</>
+	)
+}
 
 export type IconActionsProps = {
 	imageUrl: string
@@ -10,11 +78,9 @@ export type IconActionsProps = {
 	iconName: string
 	format: string
 	variantKey: string
-	copiedUrlKey: string | null
 	copiedImageKey: string | null
-	handleDownload: (event: React.MouseEvent, url: string, filename: string) => Promise<void>
-	handleCopyUrl: (url: string, variantKey: string, event?: React.MouseEvent) => void
-	handleCopyImage: (imageUrl: string, format: string, variantKey: string, event?: React.MouseEvent) => Promise<void>
+	handleDownload: (event: MouseEvent, url: string, filename: string) => Promise<void>
+	handleCopyImage: (imageUrl: string, format: string, variantKey: string, event?: MouseEvent) => Promise<void>
 }
 
 export function IconActions({
@@ -23,14 +89,11 @@ export function IconActions({
 	iconName,
 	format,
 	variantKey,
-	copiedUrlKey,
 	copiedImageKey,
 	handleDownload,
-	handleCopyUrl,
 	handleCopyImage,
 }: IconActionsProps) {
 	const downloadFilename = `${iconName}.${format}`
-	const isUrlCopied = copiedUrlKey === variantKey
 	const isImageCopied = copiedImageKey === variantKey
 
 	return (
@@ -69,24 +132,6 @@ export function IconActions({
 					</TooltipTrigger>
 					<TooltipContent>
 						<p>Copy image to clipboard</p>
-					</TooltipContent>
-				</Tooltip>
-
-				{/* Copy URL Button */}
-				<Tooltip>
-					<TooltipTrigger asChild>
-						<Button
-							variant="outline"
-							size="icon"
-							className="h-8 w-8 rounded-lg cursor-pointer"
-							onClick={(e) => handleCopyUrl(imageUrl, variantKey, e)}
-							aria-label={`Copy direct URL for ${iconName} ${format.toUpperCase()}`}
-						>
-							{isUrlCopied ? <Check className="w-4 h-4 text-green-500" /> : <LinkIcon className="w-4 h-4" />}
-						</Button>
-					</TooltipTrigger>
-					<TooltipContent>
-						<p>Copy direct URL</p>
 					</TooltipContent>
 				</Tooltip>
 
