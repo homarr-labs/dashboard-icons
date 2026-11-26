@@ -57,10 +57,7 @@ const TONE_ICON: Record<IconTone, React.ReactNode> = {
 	dark: <Moon className="w-4 h-4 text-indigo-500" />,
 }
 
-const TONE_TILE_CLASS: Record<IconTone, string> = {
-	light: "bg-zinc-950 ring-zinc-800",
-	dark: "bg-white ring-zinc-200",
-}
+const tileBackground = "bg-primary/15 dark:bg-secondary/10"
 
 function hasNativeFile(nativeFiles: NativeIconVariant[] | undefined, stem: string, format: string) {
 	if (!nativeFiles) return true
@@ -551,7 +548,6 @@ export function IconDetails({
 		if (variant.kind === "wordmark") variantKey = `${format}-wordmark-${variant.tone}`
 		if (variant.kind === "custom") variantKey = `${format}-custom-${variant.name}`
 		const altText = buildIconAltText(formatedIconName, variant, format)
-		const tileBackground = theme ? TONE_TILE_CLASS[theme] : "bg-primary/15 dark:bg-secondary/10"
 
 		return (
 			<TooltipProvider key={variantKey} delayDuration={500}>
