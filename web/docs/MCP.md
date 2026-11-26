@@ -20,6 +20,10 @@ Open the [Dashboard Icons plugin in ChatGPT](https://chatgpt.com/plugins/plugin_
 
 The ChatGPT plugin uses `https://dashboardicons.com/api/mcp/public` without authentication. It exposes six read-only icon tools; account and submission tools remain on `/api/mcp`. See [OpenAI release and qualification](OPENAI-MARKETPLACE.md) for release details.
 
+## Raycast
+
+The community [Dashboard Icons extension for Raycast](https://github.com/macx/raycast-dashboard-icons) searches the public MCP endpoint without an account or API key. Its planned website button links to the [Raycast Store listing](https://www.raycast.com/macx/dashboard-icons). The button remains in a separate draft PR until that listing is published.
+
 ## Claude Code
 
 ```bash
