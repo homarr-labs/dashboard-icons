@@ -116,22 +116,24 @@ async function fetchAllExternalIcons(): Promise<ExternalIconRecord[]> {
 	return results.flat()
 }
 
-let pendingExternalIcons: Promise<ExternalIconRecord[]> | null = null
+type ExternalIconsSnapshot = { data: ExternalIconRecord[]; fresh: boolean }
 
-async function fetchExternalIconsWithTTL(): Promise<ExternalIconRecord[]> {
+let pendingExternalIcons: Promise<ExternalIconsSnapshot> | null = null
+
+export async function getExternalIconsSnapshot(): Promise<ExternalIconsSnapshot> {
 	if (_memCache && Date.now() - _memCache.ts < EXTERNAL_TTL_MS) {
-		return _memCache.data
+		return { data: _memCache.data, fresh: true }
 	}
 	// External catalogues also exceed Next's per-entry data-cache limit.
 	if (!pendingExternalIcons) {
 		pendingExternalIcons = fetchAllExternalIcons()
 			.then((data) => {
 				_memCache = { data, ts: Date.now() }
-				return data
+				return { data, fresh: true }
 			})
 			.catch((error) => {
 				logExternalIconsFailure(error)
-				return _memCache?.data ?? []
+				return { data: _memCache?.data ?? [], fresh: false }
 			})
 			.finally(() => {
 				pendingExternalIcons = null
@@ -141,7 +143,7 @@ async function fetchExternalIconsWithTTL(): Promise<ExternalIconRecord[]> {
 }
 
 export const getExternalIcons = cache(async (): Promise<ExternalIconRecord[]> => {
-	return fetchExternalIconsWithTTL()
+	return (await getExternalIconsSnapshot()).data
 })
 
 export async function getExternalIconBySourceAndSlug(source: ExternalSourceId, slug: string): Promise<ExternalIconRecord | null> {

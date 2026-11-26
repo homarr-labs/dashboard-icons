@@ -22,7 +22,7 @@ type MetadataFetchResult = Omit<MetadataCacheState, "loadedAt" | "retryAfter">
 declare global {
 	// eslint-disable-next-line no-var
 	var __dashboardIconsMetadata: MetadataCacheState | undefined
-	var __dashboardIconsMetadataPending: Promise<IconFile> | undefined
+	var __dashboardIconsMetadataPending: Promise<MetadataCacheState> | undefined
 }
 
 async function requestRemoteMetadata(etag?: string): Promise<Response> {
@@ -74,10 +74,14 @@ export async function warmMetadataCache(): Promise<void> {
 }
 
 export async function getAllIcons(): Promise<IconFile> {
+	return (await getMetadataSnapshot()).data
+}
+
+export async function getMetadataSnapshot(): Promise<MetadataCacheState> {
 	const cached = globalThis.__dashboardIconsMetadata
 	const now = Date.now()
 	if (cached && (now - cached.loadedAt < CACHE_TTL_MS || (cached.retryAfter ?? 0) > now)) {
-		return cached.data
+		return cached
 	}
 
 	// Whole catalogues exceed Next's 2 MB data-cache limit. Share one refresh
@@ -86,13 +90,13 @@ export async function getAllIcons(): Promise<IconFile> {
 		globalThis.__dashboardIconsMetadataPending = loadMetadataUncached()
 			.then((fresh) => {
 				globalThis.__dashboardIconsMetadata = { ...fresh, loadedAt: Date.now() }
-				return fresh.data
+				return globalThis.__dashboardIconsMetadata
 			})
 			.catch((error) => {
 				unstable_rethrow(error)
 				if (cached) {
 					cached.retryAfter = Date.now() + CACHE_RETRY_DELAY_MS
-					return cached.data
+					return cached
 				}
 				throw error
 			})
