@@ -2,6 +2,7 @@ import fs from "node:fs"
 import path from "node:path"
 import { pathToFileURL } from "node:url"
 import PocketBase from "pocketbase"
+import { type CollectionField, executeExternalIconImport, type ImportIcon, planExternalIconImport } from "./external-icon-import"
 import { BLACKLISTED_ICONS } from "./icon-blacklist"
 
 const SOURCE = "simpleicons"
@@ -37,14 +38,16 @@ type BuildOptions = {
 	publishedAt?: string | null
 }
 
-type CollectionField = Record<string, unknown> & {
-	name?: string
-	values?: unknown
-}
-
-type CollectionSchema = {
+type StoredSimpleIcon = {
 	id: string
-	fields: CollectionField[]
+	slug: string
+	brand_color?: string
+	guidelines_url?: string
+	license_url?: string
+	stable_svg_url?: string
+	upstream_version?: string
+	upstream_data?: { import_schema_version?: number }
+	updated_at_source?: string
 }
 
 const SIMPLE_ICONS_FIELDS: CollectionField[] = [
@@ -72,14 +75,6 @@ export function mergeSimpleIconsSchemaFields(fields: CollectionField[]): Collect
 		if (!existingNames.has(field.name)) merged.push(field)
 	}
 	return merged
-}
-
-async function ensureSimpleIconsSchema(pb: PocketBase): Promise<void> {
-	const collection = await pb.collections.getOne<CollectionSchema>("external_icons")
-	const fields = mergeSimpleIconsSchemaFields(collection.fields)
-	if (JSON.stringify(fields) !== JSON.stringify(collection.fields)) {
-		await pb.collections.update(collection.id, { fields })
-	}
 }
 
 function normalizeAlias(value: string): string {
@@ -172,7 +167,7 @@ export function buildSimpleIconRecords(
 				disclaimer_url: DISCLAIMER_URL,
 			},
 			updated_at_source: options.publishedAt ?? null,
-		}]
+		} satisfies ImportIcon]
 	})
 }
 
@@ -218,66 +213,58 @@ async function main() {
 	const pbUrl = process.env.NEXT_PUBLIC_POCKETBASE_URL || process.env.PB_URL || "http://127.0.0.1:8090"
 	const pb = new PocketBase(pbUrl)
 	await pb.collection("_superusers").authWithPassword(adminEmail, adminPassword)
-	await ensureSimpleIconsSchema(pb)
-
-	const currentSimpleIcons = await pb.collection("external_icons").getFullList({
-		filter: pb.filter("source = {:source}", { source: SOURCE }),
-		fields: "id,source,slug,upstream_version,upstream_data,updated_at_source",
-		requestKey: null,
-	})
 
 	if (flags.purge) {
-		for (const record of currentSimpleIcons) {
-			if (!flags.dryRun) await pb.collection("external_icons").delete(record.id)
-		}
-		console.log(`${flags.dryRun ? "Would remove" : "Removed"} ${currentSimpleIcons.length} Simple Icons records`)
+		const plan = await planExternalIconImport(pb, {
+			source: SOURCE,
+			intent: "purge",
+			mergeFields: mergeSimpleIconsSchemaFields,
+		})
+		await executeExternalIconImport(pb, plan, flags.dryRun)
+		console.log(`${flags.dryRun ? "Would remove" : "Removed"} ${plan.counts.delete} Simple Icons records`)
 		return
 	}
 
 	const excludedSlugs = new Set([...readNativeSlugs(), ...BLACKLISTED_ICONS])
-
 	const upstream = readManifest(flags.manifest)
 	const records = buildSimpleIconRecords(upstream, excludedSlugs, { version: flags.version, publishedAt: flags.publishedAt })
-	const existingBySlug = new Map(currentSimpleIcons.map((record) => [String(record.slug), String(record.id)]))
-	const targetSlugs = new Set(records.map((record) => record.slug))
+	const recordsBySlug = new Map(records.map((record) => [record.slug, record]))
 	const expectedPublishedAt = flags.publishedAt ? new Date(flags.publishedAt).getTime() : null
-	const isAlreadyCurrent =
-		currentSimpleIcons.length === records.length &&
-		currentSimpleIcons.every(
-			(record) =>
-				record.upstream_version === flags.version &&
-				record.upstream_data?.import_schema_version === IMPORT_SCHEMA_VERSION &&
-				targetSlugs.has(String(record.slug)) &&
-				(expectedPublishedAt === null || new Date(String(record.updated_at_source)).getTime() === expectedPublishedAt),
-		)
-	if (isAlreadyCurrent) {
-		console.log(`Simple Icons ${flags.version} is already current: ${records.length} records, ${upstream.length - records.length} duplicates skipped`)
-		return
-	}
-	const importedSlugs = new Set<string>()
-	let created = 0
-	let updated = 0
-	let removed = 0
+	const plan = await planExternalIconImport<StoredSimpleIcon>(pb, {
+		source: SOURCE,
+		intent: "sync",
+		fields: ["brand_color", "guidelines_url", "license_url", "stable_svg_url", "upstream_version", "upstream_data", "updated_at_source"],
+		mergeFields: mergeSimpleIconsSchemaFields,
+		buildRecords(existing, needsSchemaRepair) {
+			if (needsSchemaRepair || existing.length !== records.length) return records
 
-	for (const record of records) {
-		importedSlugs.add(record.slug)
-		const existingId = existingBySlug.get(record.slug)
-		if (!flags.dryRun) {
-			if (existingId) await pb.collection("external_icons").update(existingId, record)
-			else await pb.collection("external_icons").create(record)
-		}
-		existingId ? updated++ : created++
-	}
-
-	for (const [slug, id] of existingBySlug) {
-		if (importedSlugs.has(slug)) continue
-		if (!flags.dryRun) await pb.collection("external_icons").delete(id)
-		removed++
-	}
+			const isAlreadyCurrent = existing.every((record) => {
+				const imported = recordsBySlug.get(record.slug)
+				if (!imported) return false
+				return (
+					record.brand_color === imported.brand_color &&
+					record.guidelines_url === imported.guidelines_url &&
+					record.license_url === imported.license_url &&
+					record.stable_svg_url === imported.stable_svg_url &&
+					record.upstream_version === flags.version &&
+					record.upstream_data?.import_schema_version === IMPORT_SCHEMA_VERSION &&
+					(expectedPublishedAt === null || new Date(record.updated_at_source ?? "").getTime() === expectedPublishedAt)
+				)
+			})
+			if (isAlreadyCurrent) return null
+			return records
+		},
+	})
+	await executeExternalIconImport(pb, plan, flags.dryRun)
 
 	const skippedDuplicates = upstream.length - records.length
+	if (plan.alreadyCurrent) {
+		console.log(`Simple Icons ${flags.version} is already current: ${records.length} records, ${skippedDuplicates} duplicates skipped`)
+		return
+	}
+	const { create, update, delete: remove } = plan.counts
 	console.log(
-		`Simple Icons ${flags.version} sync: ${created} created, ${updated} updated, ${removed} removed, ${skippedDuplicates} duplicates skipped${flags.dryRun ? " (dry run)" : ""}`,
+		`Simple Icons ${flags.version} sync: ${create} created, ${update} updated, ${remove} removed, ${skippedDuplicates} duplicates skipped${flags.dryRun ? " (dry run)" : ""}`,
 	)
 }
 

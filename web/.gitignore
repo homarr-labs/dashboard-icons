@@ -54,6 +54,7 @@ scripts/*
 !scripts/deploy-pocketbase.mjs
 !scripts/verify-pocketbase-schema.mjs
 !scripts/icon-blacklist.ts
+!scripts/external-icon-import.ts
 !scripts/import-selfhst.ts
 !scripts/import-lobehub.ts
 !scripts/import-simple-icons.ts

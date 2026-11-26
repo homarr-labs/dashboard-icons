@@ -2,6 +2,7 @@ import fs from "node:fs"
 import path from "node:path"
 import PocketBase from "pocketbase"
 import { getLobehubBaseSlug } from "../src/lib/lobehub-variants"
+import { executeExternalIconImport, type ImportIcon, planExternalIconImport } from "./external-icon-import"
 
 type GitHubTreeEntry = {
 	path: string
@@ -253,7 +254,7 @@ function toRecord(group: BrandGroup, index: AssetIndex, slugBrandMap: Map<string
 		attribution: ATTRIBUTION,
 		source_url: `${SOURCE_URL}/${slug}`,
 		updated_at_source: null,
-	}
+	} satisfies ImportIcon
 }
 
 async function fetchTree(): Promise<GitHubTreeResponse> {
@@ -324,18 +325,10 @@ async function main() {
 	await pb.collection("_superusers").authWithPassword(adminEmail, adminPassword)
 
 	if (flags.purge) {
-		const all = await pb.collection("external_icons").getFullList({
-			filter: pb.filter("source = {:source}", { source: SOURCE }),
-			fields: "id,slug",
-			requestKey: null,
-		})
-		console.log(`Purging all ${all.length} lobehub records...`)
-		if (!flags.dryRun) {
-			for (const r of all) {
-				await pb.collection("external_icons").delete(r.id)
-			}
-		}
-		console.log(flags.dryRun ? "(dry run, nothing deleted)" : `Deleted ${all.length} records`)
+		const plan = await planExternalIconImport(pb, { source: SOURCE, intent: "purge" })
+		console.log(`Purging all ${plan.counts.delete} lobehub records...`)
+		await executeExternalIconImport(pb, plan, flags.dryRun)
+		console.log(flags.dryRun ? "(dry run, nothing deleted)" : `Deleted ${plan.counts.delete} records`)
 		return
 	}
 
@@ -347,7 +340,9 @@ async function main() {
 	}
 
 	const index = indexTree(tree)
-	if (index.svgSlugs.size === 0) throw new Error("No SVG assets found; refusing to synchronize an empty catalogue")
+	if (index.svgSlugs.size === 0) {
+		throw new Error("No LobeHub SVG assets found. Use --purge to remove all records for this source.")
+	}
 	console.log(
 		`Found: ${index.svgSlugs.size} SVGs, ${index.pngLightSlugs.size} PNG light, ${index.pngDarkSlugs.size} PNG dark, ${index.webpLightSlugs.size} WebP light, ${index.webpDarkSlugs.size} WebP dark`,
 	)
@@ -365,57 +360,33 @@ async function main() {
 	const groups = groupSlugs(index.svgSlugs)
 	console.log(`Grouped into ${groups.length} brands (from ${index.svgSlugs.size} slugs)`)
 
-	const existingRecords = await pb.collection("external_icons").getFullList<{ id: string; slug: string; aliases?: string[] }>({
-		filter: pb.filter("source = {:source}", { source: SOURCE }),
-		fields: "id,slug,aliases",
-		requestKey: null,
+	const plan = await planExternalIconImport<{ id: string; slug: string; aliases?: string[] }>(pb, {
+		source: SOURCE,
+		intent: "sync",
+		fields: ["aliases"],
+		buildRecords(existing) {
+			const historicalAliases = new Map<string, Set<string>>()
+			for (const record of existing) {
+				const baseSlug = getLobehubBaseSlug(record.slug)
+				const aliases = historicalAliases.get(baseSlug) ?? new Set<string>()
+				for (const alias of [record.slug, ...(record.aliases ?? [])]) {
+					if (alias !== baseSlug && getLobehubBaseSlug(alias) === baseSlug) aliases.add(alias)
+				}
+				historicalAliases.set(baseSlug, aliases)
+			}
+
+			return groups.map((group) => {
+				const record = toRecord(group, index, slugBrandMap)
+				record.aliases = [...new Set([...record.aliases, ...(historicalAliases.get(group.slug) ?? [])])].sort()
+				return record
+			})
+		},
 	})
-	const existingBySlug = new Map(existingRecords.map((record) => [record.slug, record.id]))
-	const historicalAliases = new Map<string, Set<string>>()
-	for (const record of existingRecords) {
-		const baseSlug = getLobehubBaseSlug(record.slug)
-		const aliases = historicalAliases.get(baseSlug) ?? new Set<string>()
-		for (const alias of [record.slug, ...(record.aliases ?? [])]) {
-			if (alias !== baseSlug && getLobehubBaseSlug(alias) === baseSlug) aliases.add(alias)
-		}
-		historicalAliases.set(baseSlug, aliases)
-	}
+	await executeExternalIconImport(pb, plan, flags.dryRun)
 
-	let created = 0
-	let updated = 0
-	let deleted = 0
-	const importedSlugs = new Set<string>()
-
-	for (const group of groups) {
-		const record = toRecord(group, index, slugBrandMap)
-		record.aliases = [...new Set([...record.aliases, ...(historicalAliases.get(group.slug) ?? [])])].sort()
-		importedSlugs.add(group.slug)
-		const existingId = existingBySlug.get(group.slug)
-
-		if (flags.dryRun) {
-			console.log(`[dry-run] ${existingId ? "update" : "create"}: ${group.slug} (aliases: ${record.aliases.join(", ") || "none"})`)
-			existingId ? updated++ : created++
-			continue
-		}
-
-		if (existingId) {
-			await pb.collection("external_icons").update(existingId, record)
-			updated++
-		} else {
-			await pb.collection("external_icons").create(record)
-			created++
-		}
-	}
-
-	for (const [slug, id] of existingBySlug) {
-		if (!importedSlugs.has(slug)) {
-			if (!flags.dryRun) await pb.collection("external_icons").delete(id)
-			deleted++
-		}
-	}
-
+	const { create, update, delete: remove } = plan.counts
 	console.log(
-		`LobeHub import complete: ${created} created, ${updated} updated, ${deleted} removed (non-primary variants)${flags.dryRun ? " (dry run)" : ""}`,
+		`LobeHub import complete: ${create} created, ${update} updated, ${remove} removed (non-primary variants)${flags.dryRun ? " (dry run)" : ""}`,
 	)
 }
 
