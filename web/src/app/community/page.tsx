@@ -11,7 +11,7 @@ export const revalidate = 900
 
 export async function generateMetadata(): Promise<Metadata> {
 	const submissions = await getCommunityGallery()
-	const description = `Browse ${submissions.length} community submissions, including new icons, logos, and update proposals.`
+	const description = `Browse ${submissions.length} community submissions, including new icons and update proposals.`
 
 	return {
 		title: "Browse Community Icons & Logos",

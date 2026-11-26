@@ -4,11 +4,12 @@ import { ArrowDownAZ, ArrowRight, ArrowUpZA, Calendar, Filter, Search, SortAsc, 
 import Link from "next/link"
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import { useCallback, useEffect, useMemo, useRef, useState } from "react"
-import { IconsGrid } from "@/components/icon-grid"
+import { IconCard } from "@/components/icon-card"
+import { GRID_CLASSES, ICONS_GRID_LIMIT } from "@/components/icon-grid"
+import { MagicCardPointerProvider } from "@/components/magicui/magic-card-pointer"
 import { StatusBadge } from "@/components/status-badge"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
 import {
 	DropdownMenu,
 	DropdownMenuCheckboxItem,
@@ -22,11 +23,16 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Input } from "@/components/ui/input"
 import { Separator } from "@/components/ui/separator"
-import type { CommunityGalleryEntry, CommunityIcon, CommunityUpdate } from "@/lib/community"
+import type { CommunityGalleryEntry, CommunityUpdate } from "@/lib/community"
 import { filterAndSortIcons, type SortOption } from "@/lib/utils"
 
 interface CommunityIconSearchProps {
 	submissions: CommunityGalleryEntry[]
+}
+
+function formatSubmissionCount(count: number): string {
+	if (count === 1) return "1 submission"
+	return `${count} submissions`
 }
 
 export function CommunityIconSearch({ submissions }: CommunityIconSearchProps) {
@@ -53,11 +59,10 @@ export function CommunityIconSearch({ submissions }: CommunityIconSearchProps) {
 	const searchEntries = useMemo(
 		() =>
 			submissions.map((entry) => {
-				if (entry.kind === "icon") return { name: entry.name, data: entry.data, entry }
-
-				const aliases = [...entry.data.aliases, entry.slug]
-				if (entry.targetId) aliases.push(entry.targetId)
-				return { name: entry.name, data: { ...entry.data, aliases, base: "" }, entry }
+				const aliases = [...entry.data.aliases, entry.submissionId]
+				if (entry.kind === "icon") return { name: entry.iconSlug, data: { ...entry.data, aliases }, entry }
+				if (entry.targetSubmissionId) aliases.push(entry.targetSubmissionId)
+				return { name: entry.iconSlug, data: { ...entry.data, aliases, base: "" }, entry }
 			}),
 		[submissions],
 	)
@@ -78,11 +83,11 @@ export function CommunityIconSearch({ submissions }: CommunityIconSearchProps) {
 		const q = searchQuery.toLowerCase()
 		const matches: Record<string, string> = {}
 
-		for (const { kind, name, data } of submissions) {
-			if (kind === "icon" && !name.toLowerCase().includes(q)) {
+		for (const { kind, iconSlug, submissionId, data } of submissions) {
+			if (kind === "icon" && !iconSlug.toLowerCase().includes(q)) {
 				const matchingAlias = data.aliases.find((alias) => alias.toLowerCase().includes(q))
 				if (matchingAlias) {
-					matches[name] = matchingAlias
+					matches[submissionId] = matchingAlias
 				}
 			}
 		}
@@ -103,14 +108,12 @@ export function CommunityIconSearch({ submissions }: CommunityIconSearchProps) {
 
 	const groupedEntries = useMemo(() => {
 		const statusPriority = { pending: 0, approved: 2, rejected: 3, added_to_collection: 1 }
-		const groups: Record<string, { icons: CommunityIcon[]; updates: CommunityUpdate[] }> = {}
+		const groups: Partial<Record<CommunityGalleryEntry["status"], CommunityGalleryEntry[]>> = {}
 
 		for (const entry of filteredEntries) {
 			const status = entry.status || "pending"
-			groups[status] ??= { icons: [], updates: [] }
-			const group = groups[status]
-			if (entry.kind === "icon") group.icons.push(entry)
-			else group.updates.push(entry)
+			groups[status] ??= []
+			groups[status].push(entry)
 		}
 
 		return Object.entries(groups).sort(([a], [b]) => {
@@ -371,41 +374,43 @@ export function CommunityIconSearch({ submissions }: CommunityIconSearchProps) {
 			) : (
 				<div className="space-y-8">
 					<div className="flex justify-between items-center">
-						<p className="text-sm text-muted-foreground">
-							Found {filteredEntries.length} {filteredEntries.length === 1 ? "submission" : "submissions"}.
-						</p>
+						<p className="text-sm text-muted-foreground">Found {formatSubmissionCount(filteredEntries.length)}.</p>
 						<div className="flex items-center gap-1 text-xs text-muted-foreground">
 							{getSortIcon(sortOption)}
 							<span>{getSortLabel(sortOption)}</span>
 						</div>
 					</div>
 
-					{groupedEntries.map(([status, { icons, updates }]) => {
-						const count = icons.length + updates.length
+					{groupedEntries.map(([status, entries]) => {
+						let iconsShown = 0
 						return (
 							<section key={status} className="space-y-4">
 								<div className="flex items-center gap-3">
 									<h2>
 										<StatusBadge status={status} showCollectionStatus />
 									</h2>
-									<span className="text-sm text-muted-foreground">
-										{count} {count === 1 ? "submission" : "submissions"}
-									</span>
+									<span className="text-sm text-muted-foreground">{formatSubmissionCount(entries.length)}</span>
 								</div>
-								{icons.length > 0 && (
-									<Card className="bg-background/50 border shadow-lg">
-										<CardContent>
-											<IconsGrid filteredIcons={icons} matchedAliases={matchedAliases} />
-										</CardContent>
-									</Card>
-								)}
-								{updates.length > 0 && (
-									<ul className="grid gap-2">
-										{updates.map((entry) => (
-											<CommunityUpdateRow key={entry.slug} entry={entry} onNavigate={cancelSearchNavigation} />
-										))}
+								<MagicCardPointerProvider>
+									<ul className={GRID_CLASSES}>
+										{entries.map((entry) => {
+											if (entry.kind === "update") {
+												return <CommunityUpdateRow key={entry.submissionId} entry={entry} onNavigate={cancelSearchNavigation} />
+											}
+											if (iconsShown >= ICONS_GRID_LIMIT) return null
+											iconsShown++
+											return (
+												<li key={entry.submissionId}>
+													<IconCard
+														icon={{ name: entry.iconSlug, data: entry.data, slug: entry.submissionId }}
+														matchedAlias={matchedAliases[entry.submissionId]}
+														onNavigate={cancelSearchNavigation}
+													/>
+												</li>
+											)
+										})}
 									</ul>
-								)}
+								</MagicCardPointerProvider>
 							</section>
 						)
 					})}
@@ -416,15 +421,17 @@ export function CommunityIconSearch({ submissions }: CommunityIconSearchProps) {
 }
 
 function CommunityUpdateRow({ entry, onNavigate }: { entry: CommunityUpdate; onNavigate: () => void }) {
-	const titleId = `community-target-${entry.slug}`
-	const actionId = `community-comparison-${entry.slug}`
-	const summaryId = `community-summary-${entry.slug}`
-	const authorId = `community-author-${entry.slug}`
+	const titleId = `community-target-${entry.submissionId}`
+	const actionId = `community-action-${entry.submissionId}`
+	const summaryId = `community-summary-${entry.submissionId}`
+	const authorId = `community-author-${entry.submissionId}`
+	let action = "View submission"
+	if (entry.hasComparison) action = "View comparison"
 
 	return (
-		<li>
+		<li className="col-span-full">
 			<Link
-				href={`/community/submissions/${entry.slug}`}
+				href={`/community/submissions/${entry.submissionId}`}
 				aria-labelledby={`${actionId} ${titleId} ${authorId}`}
 				aria-describedby={summaryId}
 				onNavigate={onNavigate}
@@ -435,7 +442,7 @@ function CommunityUpdateRow({ entry, onNavigate }: { entry: CommunityUpdate; onN
 					<header className="min-w-0 space-y-1.5">
 						<div className="flex flex-wrap items-center gap-2">
 							<h3 id={titleId} className="break-all font-medium">
-								{entry.name}
+								{entry.iconSlug}
 							</h3>
 							<Badge variant="outline">Update proposal</Badge>
 							<StatusBadge status={entry.status} showCollectionStatus />
@@ -448,7 +455,7 @@ function CommunityUpdateRow({ entry, onNavigate }: { entry: CommunityUpdate; onN
 						</p>
 					</header>
 					<span id={actionId} className="flex items-center gap-1.5 text-sm font-medium group-hover:text-primary">
-						View comparison <ArrowRight className="size-4" aria-hidden />
+						{action} <ArrowRight className="size-4" aria-hidden />
 					</span>
 				</article>
 			</Link>

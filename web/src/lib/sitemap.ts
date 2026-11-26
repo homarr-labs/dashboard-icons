@@ -82,10 +82,10 @@ async function externalSitemap(source: ExternalSourceId): Promise<MetadataRoute.
 }
 
 async function communitySitemap(): Promise<MetadataRoute.Sitemap> {
-	const communityIcons = await getCommunitySubmissions()
-	return communityIcons.map((icon) => ({
-		url: `${WEB_URL}/community/submissions/${icon.slug}`,
-		lastModified: toLastModified(icon.data.update.timestamp),
+	const submissions = await getCommunitySubmissions()
+	return submissions.map(({ submissionId, updated }) => ({
+		url: `${WEB_URL}/community/submissions/${submissionId}`,
+		lastModified: toLastModified(updated),
 		changeFrequency: "weekly",
 		priority: 0.5,
 	}))

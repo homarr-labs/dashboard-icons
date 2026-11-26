@@ -16,6 +16,7 @@ interface IconsGridProps {
  * Displays icons in a responsive grid with different column counts per breakpoint
  */
 export const GRID_CLASSES = "grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-4"
+export const ICONS_GRID_LIMIT = 120
 
 /**
  * Simple non-virtualized grid for displaying icons
@@ -24,7 +25,7 @@ export const GRID_CLASSES = "grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:g
 export function IconsGrid({ filteredIcons, matchedAliases, matchedVariants }: IconsGridProps) {
 	return (
 		<MagicCardPointerProvider className={`${GRID_CLASSES} mt-2`}>
-			{filteredIcons.slice(0, 120).map((icon) => (
+			{filteredIcons.slice(0, ICONS_GRID_LIMIT).map((icon) => (
 				<IconCard
 					key={`${icon.source || "native"}-${icon.slug || icon.name}`}
 					icon={icon}

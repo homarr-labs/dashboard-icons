@@ -3,12 +3,12 @@ import { unstable_rethrow } from "next/navigation"
 import { ClientResponseError } from "pocketbase"
 import type { IconUpdate, ListDelta } from "@/lib/icon-update"
 import { type CommunityGallery, createServerPB, getPocketBaseUrl } from "@/lib/pb"
-import { resolveSubmissionAssets, variantExtras, variantKind } from "@/lib/submission-variants"
+import { resolveSubmissionAssets, SUBMISSION_VARIANTS, variantExtras, variantKind } from "@/lib/submission-variants"
 import type { Icon } from "@/types/icons"
 
 type CommunitySubmission = {
-	name: string
-	slug: string
+	iconSlug: string
+	submissionId: string
 	status: CommunityGallery["status"]
 }
 
@@ -23,13 +23,20 @@ export type CommunityIcon = CommunitySubmission & {
 
 export type CommunityUpdate = CommunitySubmission & {
 	kind: "update"
-	targetId: string
-	hasAssets: boolean
+	targetSubmissionId?: string
+	hasComparison: boolean
 	summary: string
 	data: Pick<Icon, "aliases" | "categories" | "update">
 }
 
 export type CommunityGalleryEntry = CommunityIcon | CommunityUpdate
+
+type CommunitySubmissionIndexEntry = { submissionId: string; updated: string }
+
+type CommunityListings = {
+	gallery: CommunityGalleryEntry[]
+	assetBearing: CommunitySubmissionIndexEntry[]
+}
 
 function submissionActivity(item: CommunityGallery): Icon["update"] {
 	return {
@@ -58,16 +65,16 @@ export function transformGalleryToIcon(item: CommunityGallery): CommunityIcon {
 
 	return {
 		kind: "icon",
-		name: item.name,
-		slug: item.id,
+		iconSlug: item.name,
+		submissionId: item.id,
 		status: item.status,
 		data: {
 			base: mainIconUrl || "svg",
 			baseFormat,
 			mainIconUrl,
 			assetUrls,
-			aliases: item.extras?.aliases || [],
-			categories: item.extras?.categories || [],
+			aliases: stringListOrEmpty(item.extras?.aliases),
+			categories: stringListOrEmpty(item.extras?.categories),
 			update: submissionActivity(item),
 			colors,
 			wordmark,
@@ -88,7 +95,7 @@ function listChangeSummary(delta: ListDelta, singular: string, plural: string): 
 	return changes
 }
 
-export function summarizeCommunityUpdate(update: IconUpdate): string {
+function summarizeCommunityUpdate(update: IconUpdate): string {
 	const changes: string[] = []
 	for (const [action, verb] of [
 		["add", "Add"],
@@ -107,19 +114,83 @@ export function summarizeCommunityUpdate(update: IconUpdate): string {
 	return changes.join(" · ")
 }
 
-function transformGalleryToUpdate(item: CommunityGallery, update: IconUpdate): CommunityUpdate {
-	const { target } = update
+function isStringList(value: unknown): value is string[] {
+	return Array.isArray(value) && value.every((item) => typeof item === "string")
+}
+
+function stringListOrEmpty(value: unknown): string[] {
+	if (isStringList(value)) return value
+	return []
+}
+
+function isListDelta(value?: ListDelta): boolean {
+	return isStringList(value?.add) && isStringList(value?.remove)
+}
+
+function isStringRecord(value: unknown): boolean {
+	return Boolean(
+		value && typeof value === "object" && !Array.isArray(value) && Object.values(value).every((item) => typeof item === "string"),
+	)
+}
+
+// Stored JSON may predate the current comparison format.
+function hasComparisonData(update?: IconUpdate | null): update is IconUpdate {
+	if (update?.version !== 1 || !Array.isArray(update.variants) || !isListDelta(update.aliases) || !isListDelta(update.categories))
+		return false
+	const target = update.target
+	if (!target || typeof target.name !== "string" || typeof target.id !== "string" || !isStringRecord(target.files)) return false
+	if (target.kind !== "published" && target.kind !== "submission") return false
+	if (!isStringList(target.metadata?.aliases) || !isStringList(target.metadata?.categories)) return false
+	if (target.source && !isStringRecord(target.source.blobs)) return false
+	return update.variants.every((change) => {
+		if (typeof change?.key !== "string") return false
+		if (!SUBMISSION_VARIANTS.some((key) => key === change.key) && !change.key.startsWith("custom:")) return false
+		if (change.action === "remove") return change.note === undefined || typeof change.note === "string"
+		return (change.action === "add" || change.action === "replace") && typeof change.file === "string"
+	})
+}
+
+export function getCommunityUpdateDetails(item: CommunityGallery) {
+	if (!item.icon_update && !item.target_submission) return null
+	if (hasComparisonData(item.icon_update)) {
+		const update = item.icon_update
+		return {
+			iconSlug: update.target.name,
+			targetSubmissionId: update.target.id || undefined,
+			summary: summarizeCommunityUpdate(update),
+			update,
+		}
+	}
+	return {
+		iconSlug: item.name,
+		targetSubmissionId: item.target_submission,
+		summary: "The changes in this proposal are unavailable.",
+		update: null,
+	}
+}
+
+function transformGalleryToUpdate(
+	item: CommunityGallery,
+	details: NonNullable<ReturnType<typeof getCommunityUpdateDetails>>,
+): CommunityUpdate {
+	const { update } = details
+	let aliases = item.extras?.aliases
+	let categories = item.extras?.categories
+	if (update) {
+		aliases = [...new Set([...update.target.metadata.aliases, ...update.aliases.add])]
+		categories = [...new Set([...update.target.metadata.categories, ...update.categories.add])]
+	}
 	return {
 		kind: "update",
-		name: target.name,
-		slug: item.id,
+		iconSlug: details.iconSlug,
+		submissionId: item.id,
 		status: item.status,
-		targetId: target.id,
-		hasAssets: Boolean(item.assets?.length),
-		summary: summarizeCommunityUpdate(update),
+		targetSubmissionId: details.targetSubmissionId,
+		hasComparison: Boolean(update),
+		summary: details.summary,
 		data: {
-			aliases: [...new Set([...(target.metadata.aliases ?? []), ...update.aliases.add])],
-			categories: [...new Set([...(target.metadata.categories ?? []), ...update.categories.add])],
+			aliases: stringListOrEmpty(aliases),
+			categories: stringListOrEmpty(categories),
 			update: submissionActivity(item),
 		},
 	}
@@ -138,33 +209,33 @@ function logCommunityFetchFailure(error: unknown): void {
 	console.warn(`Community submissions unavailable (${message}); continuing without community icons.`)
 }
 
-async function loadCommunityGallery(): Promise<CommunityGalleryEntry[]> {
+async function loadCommunityListings(): Promise<CommunityListings> {
 	const records = await createServerPB().collection("community_gallery").getFullList<CommunityGallery>({
 		sort: "-updated",
 	})
-	const entries: CommunityGalleryEntry[] = []
+	const gallery: CommunityGalleryEntry[] = []
+	const assetBearing: CommunitySubmissionIndexEntry[] = []
 	for (const record of records) {
-		if (record.icon_update) entries.push(transformGalleryToUpdate(record, record.icon_update))
-		else if (record.assets?.length) entries.push(transformGalleryToIcon(record))
-	}
-	return entries
-}
+		if (record.assets?.length) assetBearing.push({ submissionId: record.id, updated: record.updated })
 
-function hasAssets(entry: CommunityGalleryEntry): boolean {
-	return entry.kind === "icon" || entry.hasAssets
+		const update = getCommunityUpdateDetails(record)
+		if (update) gallery.push(transformGalleryToUpdate(record, update))
+		else if (record.assets?.length) gallery.push(transformGalleryToIcon(record))
+	}
+	return { gallery, assetBearing }
 }
 
 /** Fetch asset-bearing community submissions without caching. */
-export async function fetchCommunitySubmissions(): Promise<CommunityGalleryEntry[]> {
+export async function fetchCommunitySubmissions(): Promise<CommunitySubmissionIndexEntry[]> {
 	try {
-		return (await loadCommunityGallery()).filter(hasAssets)
+		return (await loadCommunityListings()).assetBearing
 	} catch (error) {
 		logCommunityFetchFailure(error)
 		return []
 	}
 }
 
-const getCachedCommunityGallery = unstable_cache(loadCommunityGallery, ["community-submissions-list-v4"], {
+const getCachedCommunityListings = unstable_cache(loadCommunityListings, ["community-submissions-list-v5"], {
 	revalidate: 900,
 	tags: ["community-gallery"],
 })
@@ -173,19 +244,23 @@ const getCachedCommunityGallery = unstable_cache(loadCommunityGallery, ["communi
  * Cached public gallery, revalidated every 15 minutes or on demand with the community-gallery tag.
  * Failures are never cached: the previous list keeps being served, or an empty list is returned for this request only.
  */
-export async function getCommunityGallery(): Promise<CommunityGalleryEntry[]> {
+async function getCommunityListings(): Promise<CommunityListings> {
 	try {
-		return await getCachedCommunityGallery()
+		return await getCachedCommunityListings()
 	} catch (error) {
 		unstable_rethrow(error)
 		logCommunityFetchFailure(error)
-		return []
+		return { gallery: [], assetBearing: [] }
 	}
 }
 
+export async function getCommunityGallery(): Promise<CommunityGalleryEntry[]> {
+	return (await getCommunityListings()).gallery
+}
+
 /** Preserve asset-based membership for the community sitemap and detail prerendering. */
-export async function getCommunitySubmissions(): Promise<CommunityGalleryEntry[]> {
-	return (await getCommunityGallery()).filter(hasAssets)
+export async function getCommunitySubmissions(): Promise<CommunitySubmissionIndexEntry[]> {
+	return (await getCommunityListings()).assetBearing
 }
 
 /** Keep historical name-based URLs pointing to the original submission. */

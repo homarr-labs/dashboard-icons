@@ -6,7 +6,13 @@ import { StatusBadge } from "@/components/status-badge"
 import { RejectionNotice } from "@/components/submission/rejection-notice"
 import { APACHE_LICENSE_URL, BASE_URL, WEB_URL } from "@/constants"
 import { computeRelatedIcons, getAllIcons } from "@/lib/api"
-import { getCommunityGalleryRecord, getCommunitySubmissions, summarizeCommunityUpdate, transformGalleryToIcon } from "@/lib/community"
+import {
+	getCommunityGallery,
+	getCommunityGalleryRecord,
+	getCommunitySubmissions,
+	getCommunityUpdateDetails,
+	transformGalleryToIcon,
+} from "@/lib/community"
 import { iconUpdatePreviews } from "@/lib/icon-update-previews"
 import type { AuthorData } from "@/types/icons"
 
@@ -16,9 +22,9 @@ export const dynamic = "force-static"
 
 export async function generateStaticParams() {
 	if (process.env.PRERENDER_ICON_PAGES === "false") return []
-	const icons = await getCommunitySubmissions()
-	return icons.map((icon) => ({
-		id: icon.slug,
+	const submissions = await getCommunitySubmissions()
+	return submissions.map(({ submissionId }) => ({
+		id: submissionId,
 	}))
 }
 
@@ -41,9 +47,10 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
 	if (!record) notFound()
 
 	const pageUrl = `${WEB_URL}/community/submissions/${id}`
-	if (record.icon_update) {
-		const title = `${record.icon_update.target.name} Update Proposal`
-		const description = summarizeCommunityUpdate(record.icon_update)
+	const proposal = getCommunityUpdateDetails(record)
+	if (proposal) {
+		const title = `${proposal.iconSlug} Update Proposal`
+		const description = proposal.summary
 		return {
 			title,
 			description,
@@ -55,8 +62,8 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
 	}
 
 	const iconData = transformGalleryToIcon(record)
-	const icon = iconData.name
-	const allIcons = await getCommunitySubmissions()
+	const icon = iconData.iconSlug
+	const allIcons = await getCommunityGallery()
 	const totalIcons = allIcons.filter((entry) => entry.kind === "icon").length
 
 	const formattedIconName = icon
@@ -120,14 +127,15 @@ export default async function CommunityIconPage({ params }: { params: Promise<{ 
 	const record = await getCommunityGalleryRecord(id)
 	if (!record) notFound()
 
-	if (record.icon_update)
+	const proposal = getCommunityUpdateDetails(record)
+	if (proposal)
 		return (
 			<section className="container mx-auto max-w-3xl space-y-6 px-4 py-8">
 				<header className="space-y-2">
-					<h1 className="break-words text-2xl font-semibold">Update proposal for {record.icon_update.target.name}</h1>
+					<h1 className="break-words text-2xl font-semibold">Update proposal for {proposal.iconSlug}</h1>
 					<div className="flex flex-wrap items-center gap-2">
 						<StatusBadge status={record.status} showCollectionStatus />
-						<p className="text-sm text-muted-foreground">Submitted by {record.created_by}</p>
+						<p className="text-sm text-muted-foreground">Submitted by {record.created_by || "Community"}</p>
 					</div>
 				</header>
 				{record.status === "rejected" && <RejectionNotice id={id} feedback={record.admin_comment} />}
@@ -136,13 +144,18 @@ export default async function CommunityIconPage({ params }: { params: Promise<{ 
 						<strong>Reviewer feedback:</strong> {record.admin_comment}
 					</p>
 				)}
-				<h2 className="sr-only">Proposal comparison</h2>
-				<IconUpdateDiff record={record} update={record.icon_update} snapshot={iconUpdatePreviews(record.icon_update.target)} />
+				{proposal.update && (
+					<>
+						<h2 className="sr-only">Proposal comparison</h2>
+						<IconUpdateDiff record={record} update={proposal.update} snapshot={iconUpdatePreviews(proposal.update.target)} />
+					</>
+				)}
+				{!proposal.update && <p className="text-sm text-muted-foreground">{proposal.summary}</p>}
 				{record.description && <p className="whitespace-pre-wrap break-words text-sm">{record.description}</p>}
 			</section>
 		)
 	const iconData = transformGalleryToIcon(record)
-	const icon = iconData.name
+	const icon = iconData.iconSlug
 	const allIconsData = await getAllIcons()
 	const categories = iconData.data.categories || []
 	const relatedIcons = computeRelatedIcons(icon, categories, allIconsData)
