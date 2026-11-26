@@ -4,7 +4,14 @@ import { useQueryClient } from "@tanstack/react-query"
 import { type SetStateAction, useMemo, useRef, useState } from "react"
 import { revalidateAllSubmissions } from "@/app/actions/submissions"
 import { useSubmissionCatalog, useSubmissionHints } from "@/hooks/use-submission-catalog"
-import { addDraftFiles, draftInput, isEmptyDraft, newSubmissionDraft, type SubmissionDraft } from "@/lib/submission-drafts"
+import {
+	addDraftFiles,
+	draftInput,
+	duplicateDraftSlotError,
+	isEmptyDraft,
+	newSubmissionDraft,
+	type SubmissionDraft,
+} from "@/lib/submission-drafts"
 import { MAX_SEND_ASSET_BYTES, MAX_SUBMISSIONS_PER_SEND } from "@/lib/submission-limits"
 import { prepareSubmission } from "@/lib/submission-service"
 import { customVariantNameError } from "@/lib/submission-variants"
@@ -33,12 +40,10 @@ export function useSubmissionDrafts() {
 	const current = drafts.find((draft) => draft.id === selected) ?? drafts[0]
 	const cardErrors: Record<string, string> = {}
 	for (const draft of filled) {
-		const duplicate = draft.assets.find((asset, index) =>
-			draft.assets.some((other, otherIndex) => otherIndex !== index && other.variant === asset.variant),
-		)
+		const duplicate = duplicateDraftSlotError(draft)
 		const validation = prepareSubmission("", draftInput(draft))
 		if (!validation.ok) cardErrors[draft.id] = validation.error
-		if (duplicate) cardErrors[draft.id] = "Two files occupy the same Variant slot. Choose which file to keep."
+		if (duplicate) cardErrors[draft.id] = duplicate
 		if (filled.some((other) => other.id !== draft.id && other.name === draft.name))
 			cardErrors[draft.id] = "Two cards use the same slug. Put this product’s files on one card."
 		if (draft.customVariantName)

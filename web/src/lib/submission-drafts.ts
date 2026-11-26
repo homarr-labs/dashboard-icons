@@ -1,5 +1,5 @@
-import type { SubmissionInput } from "@/lib/submission-service"
-import { SUBMISSION_VARIANTS, type SubmissionVariant, variantKind } from "@/lib/submission-variants"
+import { type SubmissionInput, updateAssetFileError } from "@/lib/submission-service"
+import { customVariantNameError, SUBMISSION_VARIANTS, type SubmissionVariant, variantKind } from "@/lib/submission-variants"
 
 export interface DraftAsset {
 	id: string
@@ -43,6 +43,27 @@ export function draftInput(draft: SubmissionDraft): SubmissionInput {
 		categories: draft.categories,
 		targetSubmission: "",
 		assets: Object.fromEntries(draft.assets.map((asset) => [asset.variant, asset.file])),
+	}
+}
+
+export function duplicateDraftSlotError(draft: SubmissionDraft): string | undefined {
+	if (new Set(draft.assets.map(({ variant }) => variant)).size !== draft.assets.length)
+		return "Two files occupy the same Variant slot. Choose which file to keep."
+}
+
+export function draftUpdateAssetError(draft: SubmissionDraft, knownSlugs: Set<string>): string | undefined {
+	if (draft.customVariantName) return "Choose a file for the Custom variant, or clear its name."
+	const duplicate = duplicateDraftSlotError(draft)
+	if (duplicate) return duplicate
+	for (const { variant, file } of draft.assets) {
+		if (variant.startsWith("custom:")) {
+			const error = customVariantNameError(variant.slice(7))
+			if (error) return error
+			const stem = draft.name + variantKind(variant).suffix
+			if (knownSlugs.has(stem)) return `${stem} is a separate published Icon. Choose a different Custom variant name.`
+		}
+		const error = updateAssetFileError(file)
+		if (error) return `Replace or remove ${file.name}. ${error}`
 	}
 }
 

@@ -16,7 +16,7 @@ import { Button } from "@/components/ui/button"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Skeleton } from "@/components/ui/skeleton"
 import { pb, type Submission } from "@/lib/pb"
-import { addDraftFiles, type DraftAsset, draftInput, type SubmissionDraft } from "@/lib/submission-drafts"
+import { addDraftFiles, type DraftAsset, draftInput, duplicateDraftSlotError, type SubmissionDraft } from "@/lib/submission-drafts"
 import { prepareSubmission } from "@/lib/submission-service"
 import { resolveSubmissionAssets } from "@/lib/submission-variants"
 import { cn } from "@/lib/utils"
@@ -152,8 +152,8 @@ export function OwnSubmissionEditor({ id, customNames, onBack }: { id: string; c
 	let validation = ""
 	if (!prepared.ok) validation = prepared.error
 	if (draft.customVariantName) validation = "Choose a file for the Custom variant, or clear its name."
-	if (new Set(draft.assets.map((asset) => asset.variant)).size !== draft.assets.length)
-		validation = "Two files occupy the same Variant slot. Choose which file to keep."
+	const duplicate = duplicateDraftSlotError(draft)
+	if (duplicate) validation = duplicate
 	if (unassigned.length)
 		validation = `Assign a Variant to ${unassigned.length} unlabelled ${unassigned.length === 1 ? "file" : "files"} before saving. No files have been removed.`
 	const update = (patch: Partial<SubmissionDraft>) => {
