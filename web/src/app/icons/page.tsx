@@ -1,4 +1,5 @@
 import type { Metadata } from "next"
+import Link from "next/link"
 import { Suspense } from "react"
 import { IconDirectory } from "@/components/icon-directory"
 import { IconsBrowser } from "@/components/icons-browser"
@@ -66,16 +67,36 @@ async function IconDirectorySection() {
 	}
 }
 
-export default function IconsPage() {
+export default async function IconsPage({ searchParams }: PageProps<"/icons">) {
+	const { variant } = await searchParams
+	if (variant === "tiles" || variant === "list" || variant === "focus") {
+		return (
+			<div className="mx-auto w-full max-w-7xl space-y-6 px-4 pb-24">
+				<Link className="inline-flex min-h-11 items-center text-sm font-medium underline underline-offset-4" href="/icons">
+					Back to icon browser
+				</Link>
+				<h1 className="text-3xl font-bold">Review dashboard icons</h1>
+				<Suspense>
+					<IconsBrowser prototypeLayout={variant} />
+				</Suspense>
+			</div>
+		)
+	}
+
 	return (
 		<div className="isolate overflow-hidden p-2 mx-auto max-w-7xl">
 			<div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
 				<div>
 					<h1 className="text-3xl font-bold">Browse icons & logos</h1>
 				</div>
-				<Button asChild variant="ghost" className="h-11 self-start sm:self-auto">
-					<a href="#icon-directory">Browse icon directory</a>
-				</Button>
+				<div className="flex flex-wrap gap-2">
+					<Button asChild variant="outline" className="h-11">
+						<Link href="/icons?variant=tiles">Review a service list</Link>
+					</Button>
+					<Button asChild variant="ghost" className="h-11">
+						<a href="#icon-directory">Browse icon directory</a>
+					</Button>
+				</div>
 			</div>
 			<div className="min-h-screen">
 				<Suspense>
