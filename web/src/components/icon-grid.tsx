@@ -40,7 +40,12 @@ export function IconsGrid({ filteredIcons, matchedAliases, matchedVariants }: Ic
  * Virtualized grid for displaying large lists of icons efficiently
  * Only renders visible rows for better performance with thousands of icons
  */
-export function VirtualizedIconsGrid({ filteredIcons, matchedAliases, matchedVariants }: IconsGridProps) {
+export function VirtualizedIconsGrid({
+	filteredIcons,
+	matchedAliases,
+	matchedVariants,
+	onNavigate,
+}: IconsGridProps & { onNavigate: () => void }) {
 	const [windowWidth, setWindowWidth] = useState(0)
 
 	useEffect(() => {
@@ -101,6 +106,7 @@ export function VirtualizedIconsGrid({ filteredIcons, matchedAliases, matchedVar
 									icon={icon}
 									matchedAlias={matchedAliases[icon.name]}
 									matchedVariant={matchedVariants?.get(icon)}
+									onNavigate={onNavigate}
 								/>
 							))}
 						</div>
